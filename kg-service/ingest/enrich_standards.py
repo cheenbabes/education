@@ -109,12 +109,13 @@ def enrich_state(state_abbr: str, batch_size: int = 40) -> int:
             for r in results:
                 code = r.get("code", "")
                 plain = r.get("description_plain", "")
-                # Find matching standard(s) and update
+                if not plain:
+                    continue
+                # Apply to ALL matching standards in batch (same code, different grades)
                 for s in batch:
-                    if s["code"] == code and plain:
+                    if s["code"] == code and not s.get("description_plain"):
                         s["description_plain"] = plain
                         enriched += 1
-                        break
         except Exception as e:
             print(f"    WARNING: Batch {i//batch_size + 1} failed: {e}")
             continue
