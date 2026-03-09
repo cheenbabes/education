@@ -86,6 +86,7 @@ class LessonPlan(BaseModel):
     assessment_suggestions: list[str] = Field(default_factory=list)
     cleanup_notes: str = ""
     next_lesson_seeds: list[str] = Field(default_factory=list)
+    philosophy_summary: str = ""
     content_hash: Optional[str] = None
 
 
@@ -111,14 +112,16 @@ class GenerateLessonResponse(BaseModel):
 def _call_openai(model: str, system: str, user: str, max_tokens: int = 4096) -> str:
     from openai import OpenAI
     client = OpenAI(api_key=settings.openai_api_key)
+    # GPT-5+ uses max_completion_tokens instead of max_tokens
+    token_param = "max_completion_tokens" if model.startswith("gpt-5") or model.startswith("o") else "max_tokens"
     response = client.chat.completions.create(
         model=model,
         messages=[
             {"role": "system", "content": system},
             {"role": "user", "content": user},
         ],
-        max_tokens=max_tokens,
         temperature=0.7,
+        **{token_param: max_tokens},
     )
     raw = response.choices[0].message.content.strip()
     if raw.startswith("```"):

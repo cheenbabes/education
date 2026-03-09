@@ -17,7 +17,7 @@ class Settings(BaseSettings):
     haiku_model: str = "claude-haiku-4-20250414"
     openai_extraction_model: str = "gpt-4.1"  # used for philosophy PDF extraction (one-time, quality matters)
     openai_enrichment_model: str = "gpt-4.1-mini"  # used for standards plain-language rewriting (bulk, simpler task)
-    openai_generation_model: str = "gpt-4.1-mini"
+    openai_generation_model: str = "gpt-5.2"
     openai_validation_model: str = "gpt-4.1-mini"
 
     # Paths
