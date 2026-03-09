@@ -1,4 +1,7 @@
-"""PDF -> Claude -> structured JSON extraction pipeline.
+"""PDF -> LLM -> structured JSON extraction pipeline.
+
+Supports both OpenAI and Anthropic as the LLM provider.
+Set EXTRACTION_PROVIDER=openai (default) or EXTRACTION_PROVIDER=anthropic in .env.
 
 Usage:
     python -m ingest.extract --philosophy nature-based
@@ -12,15 +15,12 @@ import json
 import sys
 from pathlib import Path
 
-import anthropic
-
 from config import settings
 from ingest.pdf_reader import extract_text, file_hash
 from prompts.extract_philosophy import SYSTEM_PROMPT, USER_PROMPT_TEMPLATE
 
 
 def _cache_path(philosophy: str, pdf_name: str) -> Path:
-    """Return the path where we cache extraction JSON for a given PDF."""
     out_dir = settings.extracted_path / philosophy
     out_dir.mkdir(parents=True, exist_ok=True)
     return out_dir / f"{Path(pdf_name).stem}.json"
@@ -31,7 +31,6 @@ def _meta_path(philosophy: str, pdf_name: str) -> Path:
 
 
 def _should_extract(philosophy: str, pdf_path: Path) -> bool:
-    """Return True if we need to (re-)extract this PDF."""
     cache = _cache_path(philosophy, pdf_path.name)
     meta = _meta_path(philosophy, pdf_path.name)
     if not cache.exists() or not meta.exists():
@@ -40,8 +39,44 @@ def _should_extract(philosophy: str, pdf_path: Path) -> bool:
     return stored.get("sha256") != file_hash(pdf_path)
 
 
+def _call_openai(system: str, user: str) -> str:
+    from openai import OpenAI
+
+    client = OpenAI(api_key=settings.openai_api_key)
+    response = client.chat.completions.create(
+        model=settings.openai_extraction_model,
+        messages=[
+            {"role": "system", "content": system},
+            {"role": "user", "content": user},
+        ],
+        max_tokens=4096,
+        temperature=0.2,
+    )
+    return response.choices[0].message.content.strip()
+
+
+def _call_anthropic(system: str, user: str) -> str:
+    import anthropic
+
+    client = anthropic.Anthropic(api_key=settings.anthropic_api_key)
+    message = client.messages.create(
+        model=settings.sonnet_model,
+        max_tokens=4096,
+        system=system,
+        messages=[{"role": "user", "content": user}],
+    )
+    return message.content[0].text.strip()
+
+
+def _call_llm(system: str, user: str) -> str:
+    if settings.extraction_provider == "openai":
+        return _call_openai(system, user)
+    else:
+        return _call_anthropic(system, user)
+
+
 def extract_pdf(philosophy: str, pdf_path: Path) -> dict:
-    """Extract structured data from a single PDF using Claude."""
+    """Extract structured data from a single PDF."""
     print(f"  Extracting: {pdf_path.name}")
     text = extract_text(pdf_path)
 
@@ -54,24 +89,14 @@ def extract_pdf(philosophy: str, pdf_path: Path) -> dict:
     if len(text) > max_chars:
         text = text[:max_chars] + "\n\n[... TRUNCATED ...]"
 
-    client = anthropic.Anthropic(api_key=settings.anthropic_api_key)
-    message = client.messages.create(
-        model=settings.sonnet_model,
-        max_tokens=4096,
-        system=SYSTEM_PROMPT,
-        messages=[
-            {
-                "role": "user",
-                "content": USER_PROMPT_TEMPLATE.format(
-                    philosophy=philosophy,
-                    filename=pdf_path.name,
-                    text=text,
-                ),
-            }
-        ],
+    user_msg = USER_PROMPT_TEMPLATE.format(
+        philosophy=philosophy,
+        filename=pdf_path.name,
+        text=text,
     )
 
-    raw = message.content[0].text.strip()
+    raw = _call_llm(SYSTEM_PROMPT, user_msg)
+
     # Handle possible markdown fences from the model
     if raw.startswith("```"):
         raw = raw.split("\n", 1)[1]
@@ -81,7 +106,7 @@ def extract_pdf(philosophy: str, pdf_path: Path) -> dict:
     try:
         data = json.loads(raw)
     except json.JSONDecodeError as exc:
-        print(f"  ERROR: Could not parse JSON from Claude for {pdf_path.name}: {exc}")
+        print(f"  ERROR: Could not parse JSON for {pdf_path.name}: {exc}")
         print(f"  Raw response (first 500 chars): {raw[:500]}")
         return {}
 
@@ -141,6 +166,10 @@ def main():
     group.add_argument("--philosophy", type=str, help="Philosophy name (directory name)")
     group.add_argument("--all", action="store_true", help="Extract from all philosophies")
     args = parser.parse_args()
+
+    provider = settings.extraction_provider
+    model = settings.openai_extraction_model if provider == "openai" else settings.sonnet_model
+    print(f"Using {provider} ({model}) for extraction\n")
 
     if args.all:
         extract_all()

@@ -3,6 +3,7 @@ db.lock
 db.wal
 .kg_build_hash
 extracted/
+# NOTE: data/standards/*.json is NOT ignored — we keep the cached API data in git
 __pycache__/
 *.pyc
 .env
