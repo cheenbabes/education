@@ -73,7 +73,7 @@ STATES = [
 
 PHILOSOPHIES = [
     {
-        "name": "nature-based",
+        "name": "place-nature-based",
         "description": (
             "Education rooted in outdoor exploration, ecological awareness, and "
             "hands-on interaction with the natural world. Emphasizes place-based "

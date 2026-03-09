@@ -84,8 +84,8 @@ def extract_pdf(philosophy: str, pdf_path: Path) -> dict:
         print(f"  WARNING: No text extracted from {pdf_path.name}, skipping.")
         return {}
 
-    # Truncate very long documents to stay within context limits
-    max_chars = 180_000
+    # Truncate to stay within token limits (~4 chars per token, target ~20K tokens of content)
+    max_chars = 80_000
     if len(text) > max_chars:
         text = text[:max_chars] + "\n\n[... TRUNCATED ...]"
 
@@ -95,7 +95,14 @@ def extract_pdf(philosophy: str, pdf_path: Path) -> dict:
         text=text,
     )
 
-    raw = _call_llm(SYSTEM_PROMPT, user_msg)
+    import time
+    time.sleep(2)  # rate limit: stay under TPM limits
+
+    try:
+        raw = _call_llm(SYSTEM_PROMPT, user_msg)
+    except Exception as e:
+        print(f"  ERROR: LLM call failed for {pdf_path.name}: {e}")
+        return {}
 
     # Handle possible markdown fences from the model
     if raw.startswith("```"):
