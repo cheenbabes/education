@@ -1,0 +1,9 @@
+db
+db.lock
+db.wal
+.kg_build_hash
+extracted/
+__pycache__/
+*.pyc
+.env
+.venv/
