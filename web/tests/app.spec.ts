@@ -69,7 +69,7 @@ test.describe("Children", () => {
     await page.goto("/children");
     await page.waitForSelector("text=Emma", { timeout: 10000 });
     await page.getByText("+ Add Child").click();
-    await expect(page.getByText("Add Child")).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Add Child" })).toBeVisible();
     await expect(page.getByPlaceholder(/name/i)).toBeVisible();
   });
 
@@ -80,7 +80,7 @@ test.describe("Children", () => {
     // Name, DOB, Grade, Standards toggle should be present
     await expect(page.getByPlaceholder(/name/i)).toBeVisible();
     await expect(page.locator('input[type="date"]')).toBeVisible();
-    await expect(page.locator("select")).toBeVisible();
+    await expect(page.locator("select").first()).toBeVisible();
   });
 });
 
@@ -209,13 +209,13 @@ test.describe("Calendar", () => {
   test("can switch between week and month view", async ({ page }) => {
     await page.goto("/calendar");
     await page.getByRole("button", { name: "Month" }).click();
-    // Month view should show day names
-    await expect(page.getByText("Sun")).toBeVisible();
-    await expect(page.getByText("Mon")).toBeVisible();
+    // Month view should show day name headers
+    await expect(page.getByText("Sun", { exact: true })).toBeVisible();
+    await expect(page.getByText("Tue", { exact: true })).toBeVisible();
 
     await page.getByRole("button", { name: "Week" }).click();
     // Week view also shows day names
-    await expect(page.getByText("Sun")).toBeVisible();
+    await expect(page.getByText("Sun", { exact: true })).toBeVisible();
   });
 
   test("has navigation buttons", async ({ page }) => {
