@@ -6,7 +6,6 @@ import hashlib
 import json
 from typing import Optional
 
-import anthropic
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel, Field
 
@@ -38,7 +37,7 @@ class GenerateLessonRequest(BaseModel):
     children: list[ChildInput]
     interest: str
     subjects: list[str]
-    philosophy: str = "nature-based"
+    philosophy: str = "place-nature-based"
     state: str = "OR"
     multi_subject_optimize: bool = False
     past_lesson_hashes: list[str] = Field(default_factory=list)
@@ -107,9 +106,30 @@ class GenerateLessonResponse(BaseModel):
     validation: ValidationResult
 
 
-# ---------- Helpers ----------
+# ---------- LLM Helpers ----------
 
-def _call_claude(model: str, system: str, user: str, max_tokens: int = 4096) -> str:
+def _call_openai(model: str, system: str, user: str, max_tokens: int = 4096) -> str:
+    from openai import OpenAI
+    client = OpenAI(api_key=settings.openai_api_key)
+    response = client.chat.completions.create(
+        model=model,
+        messages=[
+            {"role": "system", "content": system},
+            {"role": "user", "content": user},
+        ],
+        max_tokens=max_tokens,
+        temperature=0.7,
+    )
+    raw = response.choices[0].message.content.strip()
+    if raw.startswith("```"):
+        raw = raw.split("\n", 1)[1]
+    if raw.endswith("```"):
+        raw = raw.rsplit("```", 1)[0]
+    return raw
+
+
+def _call_anthropic(model: str, system: str, user: str, max_tokens: int = 4096) -> str:
+    import anthropic
     client = anthropic.Anthropic(api_key=settings.anthropic_api_key)
     message = client.messages.create(
         model=model,
@@ -118,12 +138,29 @@ def _call_claude(model: str, system: str, user: str, max_tokens: int = 4096) -> 
         messages=[{"role": "user", "content": user}],
     )
     raw = message.content[0].text.strip()
-    # Strip markdown fences if present
     if raw.startswith("```"):
         raw = raw.split("\n", 1)[1]
     if raw.endswith("```"):
         raw = raw.rsplit("```", 1)[0]
     return raw
+
+
+def _call_llm(model: str, system: str, user: str, max_tokens: int = 4096) -> str:
+    if settings.generation_provider == "openai":
+        return _call_openai(model, system, user, max_tokens)
+    return _call_anthropic(model, system, user, max_tokens)
+
+
+def _get_generation_model() -> str:
+    if settings.generation_provider == "openai":
+        return settings.openai_generation_model
+    return settings.sonnet_model
+
+
+def _get_validation_model() -> str:
+    if settings.generation_provider == "openai":
+        return settings.openai_validation_model
+    return settings.haiku_model
 
 
 def _content_hash(lesson_json: str) -> str:
@@ -134,22 +171,19 @@ def _content_hash(lesson_json: str) -> str:
 
 @router.post("/generate-lesson", response_model=GenerateLessonResponse)
 async def generate_lesson(req: GenerateLessonRequest):
-    """Generate a lesson plan using the knowledge graph and Claude."""
-
-    if not settings.anthropic_api_key:
-        raise HTTPException(status_code=500, detail="ANTHROPIC_API_KEY not configured")
+    """Generate a lesson plan using the knowledge graph + LLM."""
 
     # 1. Gather graph context
-    # Use the first child's grade for standards / milestones (primary target)
     primary = req.children[0]
     grade = str(primary.grade)
 
     # Standards
     all_standards: list[dict] = []
-    if primary.standards_opt_in:
-        for subj in req.subjects:
-            stds = get_standards(req.state, grade, subj)
-            all_standards.extend(stds)
+    for child in req.children:
+        if child.standards_opt_in:
+            for subj in req.subjects:
+                stds = get_standards(req.state, str(child.grade), subj)
+                all_standards.extend(stds)
 
     # Philosophy context
     phil_ctx = get_philosophy_context(req.philosophy)
@@ -173,22 +207,24 @@ async def generate_lesson(req: GenerateLessonRequest):
         past_hashes=", ".join(req.past_lesson_hashes) if req.past_lesson_hashes else "None",
     )
 
-    # 3. Generate lesson with Sonnet
+    # 3. Generate lesson
+    gen_model = _get_generation_model()
     try:
-        lesson_raw = _call_claude(settings.sonnet_model, GEN_SYSTEM, user_prompt)
+        lesson_raw = _call_llm(gen_model, GEN_SYSTEM, user_prompt)
         lesson_data = json.loads(lesson_raw)
     except json.JSONDecodeError as exc:
         raise HTTPException(
             status_code=502,
-            detail=f"Failed to parse lesson JSON from Claude: {exc}",
+            detail=f"Failed to parse lesson JSON from LLM: {exc}\n\nRaw: {lesson_raw[:500]}",
         )
-    except anthropic.APIError as exc:
-        raise HTTPException(status_code=502, detail=f"Claude API error: {exc}")
+    except Exception as exc:
+        raise HTTPException(status_code=502, detail=f"LLM API error: {exc}")
 
     # Add content hash
     lesson_data["content_hash"] = _content_hash(lesson_raw)
 
-    # 4. Validate with Haiku
+    # 4. Validate
+    val_model = _get_validation_model()
     val_prompt = VAL_USER.format(
         lesson_json=json.dumps(lesson_data, indent=2),
         standards_json=json.dumps(all_standards, indent=2) if all_standards else "[]",
@@ -196,10 +232,9 @@ async def generate_lesson(req: GenerateLessonRequest):
     )
 
     try:
-        val_raw = _call_claude(settings.haiku_model, VAL_SYSTEM, val_prompt, max_tokens=2048)
+        val_raw = _call_llm(val_model, VAL_SYSTEM, val_prompt, max_tokens=2048)
         val_data = json.loads(val_raw)
-    except (json.JSONDecodeError, anthropic.APIError):
-        # Validation is best-effort — if it fails, still return the lesson
+    except Exception:
         val_data = {"valid": True, "issues": [], "suggestions": ["Validation skipped due to error."]}
 
     return GenerateLessonResponse(
