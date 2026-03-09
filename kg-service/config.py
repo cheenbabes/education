@@ -15,7 +15,8 @@ class Settings(BaseSettings):
     # Model names per provider
     sonnet_model: str = "claude-sonnet-4-20250514"
     haiku_model: str = "claude-haiku-4-20250414"
-    openai_extraction_model: str = "gpt-4.1"
+    openai_extraction_model: str = "gpt-4.1"  # used for philosophy PDF extraction (one-time, quality matters)
+    openai_enrichment_model: str = "gpt-4.1-mini"  # used for standards plain-language rewriting (bulk, simpler task)
     openai_generation_model: str = "gpt-4.1-mini"
     openai_validation_model: str = "gpt-4.1-mini"
 

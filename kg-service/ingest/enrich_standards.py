@@ -1,10 +1,12 @@
 """Enrich raw standards with parent-friendly plain-language descriptions.
 
-Reads cached standards JSON from data/standards/<STATE>.json, sends batches
-to an LLM to generate description_plain, and saves back.
+Optimized to minimize API calls:
+1. Skip headers/labels (descriptions < 30 chars — not teachable standards)
+2. Deduplicate across states (same code+description enriched once, applied everywhere)
+3. Uses GPT-4.1-mini by default (simpler task, bulk volume)
 
 Usage:
-    python -m ingest.enrich_standards --states OR
+    python -m ingest.enrich_standards --states OR MI
     python -m ingest.enrich_standards  # all cached states
 """
 
@@ -12,11 +14,15 @@ from __future__ import annotations
 
 import argparse
 import json
+import time
 from pathlib import Path
 
 from config import settings
 
 CACHE_DIR = Path(__file__).parent.parent / "data" / "standards"
+ENRICHMENT_CACHE = CACHE_DIR / "_enrichment_cache.json"
+
+MIN_DESCRIPTION_LENGTH = 30  # skip headers/labels shorter than this
 
 SYSTEM_PROMPT = """\
 You are helping homeschooling parents understand educational standards.
@@ -37,7 +43,7 @@ def _call_openai(system: str, user: str) -> str:
     from openai import OpenAI
     client = OpenAI(api_key=settings.openai_api_key)
     response = client.chat.completions.create(
-        model=settings.openai_extraction_model,
+        model=settings.openai_enrichment_model,
         messages=[
             {"role": "system", "content": system},
             {"role": "user", "content": user},
@@ -74,34 +80,82 @@ def _parse_json_response(raw: str) -> list[dict]:
     return json.loads(raw)
 
 
-def enrich_state(state_abbr: str, batch_size: int = 40) -> int:
-    """Add plain-language descriptions to cached standards for a state."""
-    cache_file = CACHE_DIR / f"{state_abbr}.json"
-    if not cache_file.exists():
-        print(f"  No cached data for {state_abbr}")
-        return 0
+def _load_enrichment_cache() -> dict[str, str]:
+    """Load cross-state enrichment cache: {code+description_key: description_plain}."""
+    if ENRICHMENT_CACHE.exists():
+        return json.loads(ENRICHMENT_CACHE.read_text())
+    return {}
 
-    standards = json.loads(cache_file.read_text())
 
-    # Find standards that need enrichment
-    needs_enrichment = [s for s in standards if not s.get("description_plain")]
-    if not needs_enrichment:
-        print(f"  {state_abbr}: all {len(standards)} standards already enriched")
-        return 0
+def _save_enrichment_cache(cache: dict[str, str]) -> None:
+    ENRICHMENT_CACHE.write_text(json.dumps(cache, indent=2))
 
-    print(f"  {state_abbr}: enriching {len(needs_enrichment)} of {len(standards)} standards")
 
-    # Build a lookup for quick update
-    by_code_grade = {}
-    for s in standards:
-        by_code_grade[(s["code"], s["grade"])] = s
+def _cache_key(code: str, description: str) -> str:
+    """Unique key for a standard: code + first 100 chars of description."""
+    return f"{code}||{description[:100]}"
 
-    enriched = 0
-    for i in range(0, len(needs_enrichment), batch_size):
-        batch = needs_enrichment[i:i + batch_size]
+
+def enrich_all_states(states: list[str], batch_size: int = 40) -> int:
+    """Enrich standards across multiple states with cross-state dedup.
+
+    Phase 1: Apply cached enrichments (free — no API calls)
+    Phase 2: Batch-enrich remaining unique (code, description) pairs
+    Phase 3: Apply new enrichments back to all states
+    """
+    enrichment_cache = _load_enrichment_cache()
+    print(f"Enrichment cache: {len(enrichment_cache):,} entries loaded")
+
+    # Load all state data
+    state_data: dict[str, list[dict]] = {}
+    for state in states:
+        cache_file = CACHE_DIR / f"{state}.json"
+        if not cache_file.exists():
+            print(f"  No cached data for {state}, skipping")
+            continue
+        state_data[state] = json.loads(cache_file.read_text())
+
+    # Phase 1: Apply cached enrichments
+    applied = 0
+    needs_enrichment: dict[str, dict] = {}  # cache_key -> {code, description, subject}
+
+    for state, standards in state_data.items():
+        for s in standards:
+            if s.get("description_plain"):
+                continue
+            if len(s["description"]) < MIN_DESCRIPTION_LENGTH:
+                # Auto-fill headers with a cleaned-up version
+                s["description_plain"] = s["description"]
+                applied += 1
+                continue
+
+            key = _cache_key(s["code"], s["description"])
+            if key in enrichment_cache:
+                s["description_plain"] = enrichment_cache[key]
+                applied += 1
+            else:
+                needs_enrichment[key] = {
+                    "code": s["code"],
+                    "description": s["description"],
+                    "subject": s["subject"],
+                    "grade": s["grade"],
+                }
+
+    print(f"Phase 1 — Applied from cache: {applied:,}")
+    print(f"Phase 2 — Unique standards to enrich via API: {len(needs_enrichment):,}")
+    print(f"  Batches needed: {len(needs_enrichment) // batch_size + 1}")
+
+    # Phase 2: Enrich unique standards via API
+    items = list(needs_enrichment.items())
+    api_enriched = 0
+
+    for i in range(0, len(items), batch_size):
+        batch = items[i:i + batch_size]
         user_msg = "Rewrite these standards in parent-friendly language:\n\n"
-        for s in batch:
+        for key, s in batch:
             user_msg += f'- Code: {s["code"]} | Grade: {s["grade"]} | Subject: {s["subject"]} | Description: {s["description"]}\n'
+
+        time.sleep(1)  # rate limiting
 
         try:
             raw = _call_llm(SYSTEM_PROMPT, user_msg)
@@ -111,22 +165,44 @@ def enrich_state(state_abbr: str, batch_size: int = 40) -> int:
                 plain = r.get("description_plain", "")
                 if not plain:
                     continue
-                # Apply to ALL matching standards in batch (same code, different grades)
-                for s in batch:
-                    if s["code"] == code and not s.get("description_plain"):
-                        s["description_plain"] = plain
-                        enriched += 1
+                # Find matching entries in batch by code
+                for key, s in batch:
+                    if s["code"] == code:
+                        enrichment_cache[key] = plain
+                        api_enriched += 1
         except Exception as e:
-            print(f"    WARNING: Batch {i//batch_size + 1} failed: {e}")
+            print(f"    WARNING: Batch {i // batch_size + 1} failed: {e}")
             continue
 
-        done = min(i + batch_size, len(needs_enrichment))
-        print(f"    Batch {i//batch_size + 1}: {done}/{len(needs_enrichment)}")
+        done = min(i + batch_size, len(items))
+        if (i // batch_size + 1) % 25 == 0 or done == len(items):
+            print(f"    Progress: {done:,}/{len(items):,} ({api_enriched:,} enriched)")
+            # Periodic cache save
+            _save_enrichment_cache(enrichment_cache)
 
-    # Save back
-    cache_file.write_text(json.dumps(standards, indent=2))
-    print(f"  {state_abbr}: enriched {enriched} standards")
-    return enriched
+    # Final cache save
+    _save_enrichment_cache(enrichment_cache)
+    print(f"Phase 2 — Enriched via API: {api_enriched:,}")
+
+    # Phase 3: Apply new enrichments back to all state data
+    phase3_applied = 0
+    for state, standards in state_data.items():
+        for s in standards:
+            if s.get("description_plain"):
+                continue
+            key = _cache_key(s["code"], s["description"])
+            if key in enrichment_cache:
+                s["description_plain"] = enrichment_cache[key]
+                phase3_applied += 1
+
+        # Save state file
+        cache_file = CACHE_DIR / f"{state}.json"
+        cache_file.write_text(json.dumps(standards, indent=2))
+
+    print(f"Phase 3 — Applied new enrichments: {phase3_applied:,}")
+    total = applied + api_enriched + phase3_applied
+    print(f"\nTotal enriched: {total:,}")
+    return total
 
 
 def main():
@@ -138,17 +214,13 @@ def main():
     if args.states:
         states = args.states
     else:
-        states = sorted(f.stem for f in CACHE_DIR.glob("*.json") if f.stem != "_jurisdictions")
+        states = sorted(f.stem for f in CACHE_DIR.glob("*.json") if f.stem.startswith(tuple("ABCDEFGHIJKLMNOPQRSTUVWXYZ")))
 
     provider = settings.extraction_provider
-    model = settings.openai_extraction_model if provider == "openai" else settings.sonnet_model
+    model = settings.openai_enrichment_model if provider == "openai" else settings.sonnet_model
     print(f"Using {provider} ({model}) for enrichment\n")
 
-    total = 0
-    for state in states:
-        total += enrich_state(state, batch_size=args.batch_size)
-
-    print(f"\nTotal enriched: {total} standards")
+    enrich_all_states(states, batch_size=args.batch_size)
 
 
 if __name__ == "__main__":
