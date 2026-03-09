@@ -213,7 +213,7 @@ def _remove_db_if_exists() -> None:
             p.unlink()
 
 
-def rebuild(force: bool = False) -> None:
+def rebuild(force: bool = False, states: list[str] | None = None) -> None:
     """Main rebuild entry point."""
     if not _should_rebuild(force):
         print("Graph is up to date (extracted data hash unchanged). Use --force to rebuild anyway.")
@@ -240,7 +240,7 @@ def rebuild(force: bool = False) -> None:
 
     # 4. Load standards
     print("  Loading standards...")
-    n = load_standards(conn)
+    n = load_standards(conn, states=states)
     print(f"  Loaded {n} standards")
 
     # 5. Load extracted philosophy data
@@ -257,8 +257,9 @@ def rebuild(force: bool = False) -> None:
 def main():
     parser = argparse.ArgumentParser(description="Build/rebuild the Kuzu knowledge graph")
     parser.add_argument("--force", action="store_true", help="Force rebuild even if data hasn't changed")
+    parser.add_argument("--states", nargs="*", help="State abbreviations to load (default: all)")
     args = parser.parse_args()
-    rebuild(force=args.force)
+    rebuild(force=args.force, states=args.states)
 
 
 if __name__ == "__main__":
