@@ -27,7 +27,7 @@ CACHE_DIR = Path(__file__).parent.parent / "data" / "standards"
 SUBJECT_MAP = {
     "Math": ["math"],
     "Science": ["science", "ngss"],
-    "Language Arts": ["english language arts", "ela", "literacy"],
+    "Language Arts": ["english language arts", "language arts", "ela", "literacy", "english/language", "reading, writing", "reading and writing", "english ("],
     "Social Studies": ["social science", "social studies", "history"],
 }
 
