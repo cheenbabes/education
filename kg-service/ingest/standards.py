@@ -178,9 +178,11 @@ def _fetch_state_standards(state_abbr: str) -> list[dict]:
             # Normalize whitespace (some descriptions have embedded newlines)
             description = re.sub(r"\s+", " ", description).strip()
 
-            # Skip domain/cluster headers (no code)
+            # Skip domain/cluster headers (no code or very short descriptions)
             if not code:
                 continue
+            if len(description) < 30:
+                continue  # headers like "Represent and interpret data."
 
             # Determine which grade(s) this standard applies to
             std_grades = _parse_grades(std.get("educationLevels", []))

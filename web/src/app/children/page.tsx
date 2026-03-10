@@ -18,6 +18,7 @@ export default function ChildrenPage() {
   const [editing, setEditing] = useState<string | null>(null);
   const [showAdd, setShowAdd] = useState(false);
   const [state, setState] = useState("MI");
+  const [, setSavingState] = useState(false);
   const [saving, setSaving] = useState(false);
   const [form, setForm] = useState<Omit<ChildProfile, "id">>({
     name: "",
@@ -27,17 +28,19 @@ export default function ChildrenPage() {
   });
 
   useEffect(() => {
-    fetch("/api/children?userId=demo-user")
-      .then((r) => r.json())
-      .then((data) => {
-        setChildren(
-          data.map((c: { id: string; name: string; dateOfBirth: string; gradeLevel: string; standardsOptIn: boolean }) => ({
-            ...c,
-            dateOfBirth: c.dateOfBirth.split("T")[0],
-          }))
-        );
-        setLoading(false);
-      });
+    Promise.all([
+      fetch("/api/children?userId=demo-user").then((r) => r.json()),
+      fetch("/api/user?userId=demo-user").then((r) => r.json()),
+    ]).then(([childrenData, userData]) => {
+      setChildren(
+        childrenData.map((c: { id: string; name: string; dateOfBirth: string; gradeLevel: string; standardsOptIn: boolean }) => ({
+          ...c,
+          dateOfBirth: c.dateOfBirth.split("T")[0],
+        }))
+      );
+      if (userData.state) setState(userData.state);
+      setLoading(false);
+    });
   }, []);
 
   const resetForm = () => {
@@ -122,7 +125,16 @@ export default function ChildrenPage() {
           </p>
           <select
             value={state}
-            onChange={(e) => setState(e.target.value)}
+            onChange={(e) => {
+              const newState = e.target.value;
+              setState(newState);
+              setSavingState(true);
+              fetch("/api/user?userId=demo-user", {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ state: newState }),
+              }).finally(() => setSavingState(false));
+            }}
             className="border border-gray-300 rounded px-3 py-2 text-sm w-full max-w-xs text-gray-900"
           >
             {US_STATES.map((s) => (

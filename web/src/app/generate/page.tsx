@@ -46,14 +46,17 @@ export default function GeneratePage() {
   const [scheduledDate, setScheduledDate] = useState("");
   const [saveStatus, setSaveStatus] = useState<"idle" | "saving" | "saved">("idle");
   const [savedLessonId, setSavedLessonId] = useState<string | null>(null);
+  const [userState, setUserState] = useState("MI");
 
   useEffect(() => {
-    fetch("/api/children?userId=demo-user")
-      .then((r) => r.json())
-      .then((data) => {
-        setChildren(data);
-        setLoadingChildren(false);
-      });
+    Promise.all([
+      fetch("/api/children?userId=demo-user").then((r) => r.json()),
+      fetch("/api/user?userId=demo-user").then((r) => r.json()),
+    ]).then(([childrenData, userData]) => {
+      setChildren(childrenData);
+      if (userData.state) setUserState(userData.state);
+      setLoadingChildren(false);
+    });
   }, []);
 
   const getAge = (dob: string) => {
@@ -130,7 +133,7 @@ export default function GeneratePage() {
           interest,
           subjects: selectedSubjects,
           philosophy,
-          state: "MI",
+          state: userState,
           multi_subject_optimize: multiSubject,
           past_lesson_hashes: [],
         }),

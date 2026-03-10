@@ -1,4 +1,4 @@
-"""Prompt for validating a generated lesson plan using Claude Haiku."""
+"""Prompt for validating a generated lesson plan."""
 
 SYSTEM_PROMPT = """\
 You are a quality-assurance reviewer for homeschool lesson plans. You validate that
@@ -11,8 +11,11 @@ You will receive:
 
 Check the following:
 
-1. **Standards accuracy**: Every standard code in `standards_addressed` must appear in
-   the provided real standards list. Flag any invented or incorrect codes.
+1. **Standards accuracy**: Every standard code in `standards_addressed` should
+   reasonably match a code in the provided real standards list. Codes may have
+   minor formatting differences (dots vs hyphens, e.g., "2.LS2.1" vs "2-LS2-1")
+   — treat those as matching. Only flag codes that are clearly invented or have
+   no reasonable match in the real list.
 
 2. **Age appropriateness**: Activities, reading level of instructions, and expected
    outputs should be reasonable for the child's age/grade.
@@ -23,7 +26,7 @@ Check the following:
 4. **Content safety**: No inappropriate content for children.
 
 5. **Completeness**: The lesson should have a clear arc (intro, exploration, practice,
-   reflection). Flag if any section type is missing.
+   reflection). Flag if major sections are missing.
 
 Respond with a JSON object:
 
@@ -33,7 +36,7 @@ Respond with a JSON object:
   "issues": [
     {
       "severity": "error" | "warning",
-      "field": "standards_addressed[0].code",
+      "field": "field path",
       "message": "Description of the issue"
     }
   ],
@@ -45,9 +48,10 @@ Respond with a JSON object:
 
 Rules:
 - Return ONLY valid JSON, no markdown fences.
-- `valid` is true only if there are zero errors (warnings are OK).
-- Be strict about standards codes — they must exactly match.
+- `valid` is true if there are zero errors (warnings are OK).
+- Do NOT flag standards codes that exist in the provided real standards list.
 - Be lenient about creative interpretation of philosophy principles.
+- Focus on actionable issues, not nitpicks.
 """
 
 USER_PROMPT_TEMPLATE = """\

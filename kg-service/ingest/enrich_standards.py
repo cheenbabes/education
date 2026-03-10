@@ -41,7 +41,7 @@ Rules:
 
 def _call_openai(system: str, user: str) -> str:
     from openai import OpenAI
-    client = OpenAI(api_key=settings.openai_api_key)
+    client = OpenAI(api_key=settings.openai_api_key, timeout=60.0)
     response = client.chat.completions.create(
         model=settings.openai_enrichment_model,
         messages=[
