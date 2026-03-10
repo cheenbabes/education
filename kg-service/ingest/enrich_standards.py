@@ -41,17 +41,24 @@ Rules:
 
 def _call_openai(system: str, user: str) -> str:
     from openai import OpenAI
-    client = OpenAI(api_key=settings.openai_api_key, timeout=60.0)
-    response = client.chat.completions.create(
-        model=settings.openai_enrichment_model,
-        messages=[
-            {"role": "system", "content": system},
-            {"role": "user", "content": user},
-        ],
-        max_tokens=8192,
-        temperature=0.2,
-    )
-    return response.choices[0].message.content.strip()
+    import concurrent.futures
+
+    def _do_call():
+        client = OpenAI(api_key=settings.openai_api_key, timeout=30.0)
+        response = client.chat.completions.create(
+            model=settings.openai_enrichment_model,
+            messages=[
+                {"role": "system", "content": system},
+                {"role": "user", "content": user},
+            ],
+            max_tokens=8192,
+            temperature=0.2,
+        )
+        return response.choices[0].message.content.strip()
+
+    with concurrent.futures.ThreadPoolExecutor(max_workers=1) as executor:
+        future = executor.submit(_do_call)
+        return future.result(timeout=120)  # hard 120-second deadline
 
 
 def _call_anthropic(system: str, user: str) -> str:
@@ -175,8 +182,9 @@ def enrich_all_states(states: list[str], batch_size: int = 40) -> int:
             continue
 
         done = min(i + batch_size, len(items))
-        if (i // batch_size + 1) % 25 == 0 or done == len(items):
-            print(f"    Progress: {done:,}/{len(items):,} ({api_enriched:,} enriched)")
+        batch_num = i // batch_size + 1
+        if batch_num % 10 == 0 or done == len(items):
+            print(f"    Progress: {done:,}/{len(items):,} ({api_enriched:,} enriched) [batch {batch_num}]")
             # Periodic cache save
             _save_enrichment_cache(enrichment_cache)
 
