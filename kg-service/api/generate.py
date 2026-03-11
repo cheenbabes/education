@@ -109,7 +109,7 @@ class GenerateLessonResponse(BaseModel):
 
 # ---------- LLM Helpers ----------
 
-def _call_openai(model: str, system: str, user: str, max_tokens: int = 4096) -> str:
+def _call_openai(model: str, system: str, user: str, max_tokens: int = 4096, call_type: str = "unknown") -> str:
     from openai import OpenAI
     client = OpenAI(api_key=settings.openai_api_key)
     # GPT-5+ uses max_completion_tokens instead of max_tokens
@@ -121,6 +121,9 @@ def _call_openai(model: str, system: str, user: str, max_tokens: int = 4096) -> 
             {"role": "user", "content": user},
         ],
         temperature=0.7,
+        user="edu-app",
+        metadata={"app": "edu-app", "call_type": call_type},
+        store=True,
         **{token_param: max_tokens},
     )
     raw = response.choices[0].message.content.strip()
@@ -148,9 +151,9 @@ def _call_anthropic(model: str, system: str, user: str, max_tokens: int = 4096) 
     return raw
 
 
-def _call_llm(model: str, system: str, user: str, max_tokens: int = 4096) -> str:
+def _call_llm(model: str, system: str, user: str, max_tokens: int = 4096, call_type: str = "unknown") -> str:
     if settings.generation_provider == "openai":
-        return _call_openai(model, system, user, max_tokens)
+        return _call_openai(model, system, user, max_tokens, call_type=call_type)
     return _call_anthropic(model, system, user, max_tokens)
 
 
@@ -213,7 +216,7 @@ async def generate_lesson(req: GenerateLessonRequest):
     # 3. Generate lesson
     gen_model = _get_generation_model()
     try:
-        lesson_raw = _call_llm(gen_model, GEN_SYSTEM, user_prompt)
+        lesson_raw = _call_llm(gen_model, GEN_SYSTEM, user_prompt, call_type="lesson_generation")
         lesson_data = json.loads(lesson_raw)
     except json.JSONDecodeError as exc:
         raise HTTPException(
@@ -235,7 +238,7 @@ async def generate_lesson(req: GenerateLessonRequest):
     )
 
     try:
-        val_raw = _call_llm(val_model, VAL_SYSTEM, val_prompt, max_tokens=2048)
+        val_raw = _call_llm(val_model, VAL_SYSTEM, val_prompt, max_tokens=2048, call_type="lesson_validation")
         val_data = json.loads(val_raw)
     except Exception:
         val_data = {"valid": True, "issues": [], "suggestions": ["Validation skipped due to error."]}
