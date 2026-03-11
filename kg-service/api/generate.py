@@ -75,11 +75,12 @@ class LessonChild(BaseModel):
 
 
 class LessonPlan(BaseModel):
+    model_config = {"extra": "ignore"}  # ignore unexpected fields from LLM
     title: str
-    theme: str
-    estimated_duration_minutes: int
-    philosophy: str
-    children: list[LessonChild]
+    theme: str = ""
+    estimated_duration_minutes: int = 60
+    philosophy: str = ""
+    children: list[LessonChild] = Field(default_factory=list)
     standards_addressed: list[StandardAddressed] = Field(default_factory=list)
     materials_needed: list[MaterialNeeded] = Field(default_factory=list)
     lesson_sections: list[LessonSection] = Field(default_factory=list)
@@ -114,18 +115,26 @@ def _call_openai(model: str, system: str, user: str, max_tokens: int = 4096, cal
     client = OpenAI(api_key=settings.openai_api_key)
     # GPT-5+ uses max_completion_tokens instead of max_tokens
     token_param = "max_completion_tokens" if model.startswith("gpt-5") or model.startswith("o") else "max_tokens"
-    response = client.chat.completions.create(
-        model=model,
-        messages=[
+    kwargs = {
+        "model": model,
+        "messages": [
             {"role": "system", "content": system},
             {"role": "user", "content": user},
         ],
-        temperature=0.7,
-        user="edu-app",
-        metadata={"app": "edu-app", "call_type": call_type},
-        store=True,
-        **{token_param: max_tokens},
-    )
+        "temperature": 0.7,
+        "user": "edu-app",
+        token_param: max_tokens,
+    }
+    # store + metadata for logging (may not be supported on all models)
+    try:
+        kwargs["store"] = True
+        kwargs["metadata"] = {"app": "edu-app", "call_type": call_type}
+        response = client.chat.completions.create(**kwargs)
+    except Exception:
+        # Fallback without store/metadata if unsupported
+        kwargs.pop("store", None)
+        kwargs.pop("metadata", None)
+        response = client.chat.completions.create(**kwargs)
     raw = response.choices[0].message.content.strip()
     if raw.startswith("```"):
         raw = raw.split("\n", 1)[1]
