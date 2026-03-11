@@ -1,9 +1,8 @@
-db
 db.lock
 db.wal
 .kg_build_hash
 extracted/
-# NOTE: data/standards/*.json is NOT ignored — we keep the cached API data in git
+# NOTE: db and data/standards/*.json are committed — pre-built data for deploy
 __pycache__/
 *.pyc
 .env
