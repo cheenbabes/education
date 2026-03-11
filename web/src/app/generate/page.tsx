@@ -183,17 +183,17 @@ export default function GeneratePage() {
   return (
     <Shell>
       <div className="max-w-3xl space-y-6">
-        <h1 className="text-2xl font-bold text-gray-900">Generate a Lesson</h1>
+        <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">Generate a Lesson</h1>
 
         {!result ? (
           <div className="space-y-6">
             {/* Step 1: Select children */}
-            <div className="bg-white rounded border border-gray-200 p-4 space-y-3">
-              <h2 className="font-medium text-gray-900">Who is this lesson for?</h2>
+            <div className="bg-white dark:bg-gray-900 rounded border border-gray-200 dark:border-gray-800 p-4 space-y-3">
+              <h2 className="font-medium text-gray-900 dark:text-gray-100">Who is this lesson for?</h2>
               {loadingChildren ? (
-                <p className="text-sm text-gray-500">Loading children...</p>
+                <p className="text-sm text-gray-500 dark:text-gray-400">Loading children...</p>
               ) : children.length === 0 ? (
-                <p className="text-sm text-gray-500">
+                <p className="text-sm text-gray-500 dark:text-gray-400">
                   No children added yet. <a href="/children" className="text-blue-600 hover:underline">Add a child</a> first.
                 </p>
               ) : (
@@ -204,8 +204,8 @@ export default function GeneratePage() {
                       onClick={() => toggleChild(child.id)}
                       className={`px-3 py-2 rounded border text-sm ${
                         selectedChildren.includes(child.id)
-                          ? "border-gray-900 bg-gray-900 text-white"
-                          : "border-gray-200 bg-white text-gray-700 hover:border-gray-300"
+                          ? "border-gray-900 bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900"
+                          : "border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-700 dark:text-gray-300 hover:border-gray-300"
                       }`}
                     >
                       {child.name} (Grade {child.gradeLevel})
@@ -221,23 +221,23 @@ export default function GeneratePage() {
             </div>
 
             {/* Step 2: Interest */}
-            <div className="bg-white rounded border border-gray-200 p-4 space-y-3">
-              <h2 className="font-medium text-gray-900">What is your child interested in right now?</h2>
+            <div className="bg-white dark:bg-gray-900 rounded border border-gray-200 dark:border-gray-800 p-4 space-y-3">
+              <h2 className="font-medium text-gray-900 dark:text-gray-100">What is your child interested in right now?</h2>
               <input
                 type="text"
                 value={interest}
                 onChange={(e) => setInterest(e.target.value)}
-                className="border border-gray-300 rounded px-3 py-2 text-sm w-full text-gray-900"
+                className="border border-gray-300 dark:border-gray-700 rounded px-3 py-2 text-sm w-full text-gray-900 dark:text-gray-100"
                 placeholder="e.g., dinosaurs, fire trucks, trees, outer space, cooking..."
               />
-              <p className="text-xs text-gray-500">
+              <p className="text-xs text-gray-500 dark:text-gray-400">
                 This will be the theme of the lesson. It can be anything your child is curious about.
               </p>
             </div>
 
             {/* Step 3: Subjects */}
-            <div className="bg-white rounded border border-gray-200 p-4 space-y-3">
-              <h2 className="font-medium text-gray-900">Which subject(s)?</h2>
+            <div className="bg-white dark:bg-gray-900 rounded border border-gray-200 dark:border-gray-800 p-4 space-y-3">
+              <h2 className="font-medium text-gray-900 dark:text-gray-100">Which subject(s)?</h2>
               <div className="flex gap-2 flex-wrap">
                 {SUBJECTS.map((subject) => (
                   <button
@@ -246,7 +246,7 @@ export default function GeneratePage() {
                     className={`px-3 py-2 rounded border text-sm ${
                       selectedSubjects.includes(subject)
                         ? "border-blue-600 bg-blue-50 text-blue-700"
-                        : "border-gray-200 bg-white text-gray-700 hover:border-gray-300"
+                        : "border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-700 dark:text-gray-300 hover:border-gray-300"
                     }`}
                   >
                     {subject}
@@ -261,7 +261,7 @@ export default function GeneratePage() {
                     onChange={(e) => setMultiSubject(e.target.checked)}
                     className="rounded"
                   />
-                  <span className="text-gray-700">
+                  <span className="text-gray-700 dark:text-gray-300">
                     Optimize for covering multiple subjects in one lesson
                   </span>
                 </label>
@@ -269,16 +269,16 @@ export default function GeneratePage() {
             </div>
 
             {/* Step 4: Philosophy */}
-            <div className="bg-white rounded border border-gray-200 p-4 space-y-3">
-              <h2 className="font-medium text-gray-900">Educational approach</h2>
+            <div className="bg-white dark:bg-gray-900 rounded border border-gray-200 dark:border-gray-800 p-4 space-y-3">
+              <h2 className="font-medium text-gray-900 dark:text-gray-100">Educational approach</h2>
               <div className="space-y-2">
                 {PHILOSOPHIES.map((p) => (
                   <label
                     key={p.id}
                     className={`flex items-start gap-3 p-3 rounded border cursor-pointer ${
                       philosophy === p.id
-                        ? "border-gray-900 bg-gray-50"
-                        : "border-gray-200 hover:border-gray-300"
+                        ? "border-gray-900 bg-gray-50 dark:bg-gray-900"
+                        : "border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600"
                     }`}
                   >
                     <input
@@ -290,8 +290,8 @@ export default function GeneratePage() {
                       className="mt-0.5"
                     />
                     <div>
-                      <p className="text-sm font-medium text-gray-900">{p.label}</p>
-                      <p className="text-xs text-gray-500">{p.description}</p>
+                      <p className="text-sm font-medium text-gray-900 dark:text-gray-100">{p.label}</p>
+                      <p className="text-xs text-gray-500 dark:text-gray-400">{p.description}</p>
                     </div>
                   </label>
                 ))}
@@ -305,13 +305,13 @@ export default function GeneratePage() {
 
             {/* Generate button / progress */}
             {generating ? (
-              <div className="bg-white rounded border border-gray-200 p-5 space-y-4">
+              <div className="bg-white dark:bg-gray-900 rounded border border-gray-200 dark:border-gray-800 p-5 space-y-4">
                 <div className="flex items-center justify-between">
-                  <p className="text-sm font-medium text-gray-900">Generating your lesson...</p>
-                  <span className="text-xs text-gray-400">{elapsedSeconds}s</span>
+                  <p className="text-sm font-medium text-gray-900 dark:text-gray-100">Generating your lesson...</p>
+                  <span className="text-xs text-gray-400 dark:text-gray-500">{elapsedSeconds}s</span>
                 </div>
 
-                <div className="bg-gray-100 rounded-full h-2 overflow-hidden">
+                <div className="bg-gray-100 dark:bg-gray-800 rounded-full h-2 overflow-hidden">
                   <div
                     className="bg-gray-900 h-2 rounded-full transition-all duration-1000 ease-out"
                     style={{ width: `${Math.min(((generatingStep + 1) / GENERATION_STEPS.length) * 100, 95)}%` }}
@@ -341,7 +341,7 @@ export default function GeneratePage() {
               <button
                 onClick={handleGenerate}
                 disabled={!canGenerate}
-                className="w-full py-3 bg-gray-900 text-white rounded font-medium hover:bg-gray-800 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full py-3 bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900 rounded font-medium hover:bg-gray-800 dark:hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 Generate Lesson
               </button>
@@ -378,12 +378,12 @@ export default function GeneratePage() {
                       type="date"
                       value={scheduledDate}
                       onChange={(e) => setScheduledDate(e.target.value)}
-                      className="border border-gray-300 rounded px-3 py-1.5 text-sm text-gray-900"
+                      className="border border-gray-300 dark:border-gray-700 rounded px-3 py-1.5 text-sm text-gray-900 dark:text-gray-100"
                     />
                     <button
                       onClick={handleSaveToCalendar}
                       disabled={saveStatus === "saving"}
-                      className="px-4 py-1.5 bg-gray-900 text-white rounded text-sm hover:bg-gray-800 disabled:opacity-50"
+                      className="px-4 py-1.5 bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900 rounded text-sm hover:bg-gray-800 dark:hover:bg-gray-200 disabled:opacity-50"
                     >
                       {saveStatus === "saving" ? "Saving..." : "Save to Calendar"}
                     </button>
@@ -392,16 +392,16 @@ export default function GeneratePage() {
               </div>
             </div>
 
-            <div className="bg-white rounded border border-gray-200 p-6 space-y-5">
+            <div className="bg-white dark:bg-gray-900 rounded border border-gray-200 dark:border-gray-800 p-6 space-y-5">
               {/* Header */}
               <div>
-                <h2 className="text-xl font-bold text-gray-900">{result.title}</h2>
+                <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100">{result.title}</h2>
                 <p className="text-sm text-gray-500 mt-1">
                   {result.estimated_duration_minutes} minutes — {result.philosophy.replace(/-/g, " ")}
                 </p>
                 <div className="flex gap-2 mt-2 flex-wrap">
                   {result.children.map((c) => (
-                    <span key={c.child_id} className="text-xs bg-gray-100 text-gray-600 px-2 py-0.5 rounded">
+                    <span key={c.child_id} className="text-xs bg-gray-100 dark:bg-gray-800 text-gray-600 px-2 py-0.5 rounded">
                       {c.name} (Grade {c.grade}, Age {c.age})
                     </span>
                   ))}
@@ -424,7 +424,7 @@ export default function GeneratePage() {
                   <h3 className="text-sm font-medium text-gray-900 mb-2">Differentiation</h3>
                   {result.children.map((c) => (
                     c.differentiation_notes && (
-                      <p key={c.child_id} className="text-sm text-gray-600">
+                      <p key={c.child_id} className="text-sm text-gray-600 dark:text-gray-400">
                         <span className="font-medium">{c.name}:</span> {c.differentiation_notes}
                       </p>
                     )
@@ -443,7 +443,7 @@ export default function GeneratePage() {
                       <div key={i} className="text-sm border-l-2 border-green-300 pl-3">
                         <div className="flex items-center gap-2">
                           <span className="text-xs bg-green-50 text-green-700 px-1.5 py-0.5 rounded font-mono">{s.code}</span>
-                          <span className="text-gray-600">{s.description_plain}</span>
+                          <span className="text-gray-600 dark:text-gray-400">{s.description_plain}</span>
                         </div>
                         <p className="text-xs text-gray-400 mt-0.5">{s.how_addressed}</p>
                       </div>
@@ -457,11 +457,11 @@ export default function GeneratePage() {
                 <h3 className="text-sm font-medium text-gray-900 mb-2">Materials Needed</h3>
                 <div className="space-y-1">
                   {result.materials_needed.map((m, i) => (
-                    <div key={i} className="text-sm text-gray-600">
+                    <div key={i} className="text-sm text-gray-600 dark:text-gray-400">
                       <span className="font-medium">{m.name}</span>
                       {m.optional && <span className="text-xs text-gray-400 ml-1">(optional)</span>}
                       {m.household_alternative && (
-                        <span className="text-gray-400"> — or: {m.household_alternative}</span>
+                        <span className="text-gray-400 dark:text-gray-500"> — or: {m.household_alternative}</span>
                       )}
                     </div>
                   ))}
@@ -473,11 +473,11 @@ export default function GeneratePage() {
                 <h3 className="text-sm font-medium text-gray-900 mb-3">Lesson Plan</h3>
                 <div className="space-y-4">
                   {result.lesson_sections.map((section, i) => (
-                    <div key={i} className="border border-gray-100 rounded p-4">
+                    <div key={i} className="border border-gray-100 dark:border-gray-800 rounded p-4">
                       <div className="flex items-center justify-between mb-2">
-                        <h4 className="font-medium text-gray-900">{section.title}</h4>
+                        <h4 className="font-medium text-gray-900 dark:text-gray-100">{section.title}</h4>
                         <div className="flex gap-2">
-                          <span className="text-xs bg-gray-100 text-gray-500 px-2 py-0.5 rounded">
+                          <span className="text-xs bg-gray-100 dark:bg-gray-800 text-gray-500 px-2 py-0.5 rounded">
                             {section.duration_minutes} min
                           </span>
                           <span className={`text-xs px-2 py-0.5 rounded ${
@@ -501,20 +501,20 @@ export default function GeneratePage() {
                       )}
                       {section.tips.length > 0 && (
                         <div className="mt-2">
-                          <p className="text-xs font-medium text-gray-500">Tips:</p>
+                          <p className="text-xs font-medium text-gray-500 dark:text-gray-400">Tips:</p>
                           <ul className="list-disc list-inside">
                             {section.tips.map((tip, j) => (
-                              <li key={j} className="text-xs text-gray-500">{tip}</li>
+                              <li key={j} className="text-xs text-gray-500 dark:text-gray-400">{tip}</li>
                             ))}
                           </ul>
                         </div>
                       )}
                       {section.extensions.length > 0 && (
                         <div className="mt-2">
-                          <p className="text-xs font-medium text-gray-500">Extensions:</p>
+                          <p className="text-xs font-medium text-gray-500 dark:text-gray-400">Extensions:</p>
                           <ul className="list-disc list-inside">
                             {section.extensions.map((ext, j) => (
-                              <li key={j} className="text-xs text-gray-500">{ext}</li>
+                              <li key={j} className="text-xs text-gray-500 dark:text-gray-400">{ext}</li>
                             ))}
                           </ul>
                         </div>
@@ -530,7 +530,7 @@ export default function GeneratePage() {
                   <h3 className="text-sm font-medium text-gray-900 mb-2">Assessment</h3>
                   <ul className="list-disc list-inside space-y-1">
                     {result.assessment_suggestions.map((a, i) => (
-                      <li key={i} className="text-sm text-gray-600">{a}</li>
+                      <li key={i} className="text-sm text-gray-600 dark:text-gray-400">{a}</li>
                     ))}
                   </ul>
                 </div>
@@ -538,11 +538,11 @@ export default function GeneratePage() {
 
               {/* Next lesson ideas */}
               {result.next_lesson_seeds.length > 0 && (
-                <div className="bg-gray-50 rounded p-4">
+                <div className="bg-gray-50 dark:bg-gray-900 rounded p-4">
                   <h3 className="text-sm font-medium text-gray-900 mb-2">Ideas for Next Lesson</h3>
                   <ul className="list-disc list-inside space-y-1">
                     {result.next_lesson_seeds.map((seed, i) => (
-                      <li key={i} className="text-sm text-gray-600">{seed}</li>
+                      <li key={i} className="text-sm text-gray-600 dark:text-gray-400">{seed}</li>
                     ))}
                   </ul>
                 </div>

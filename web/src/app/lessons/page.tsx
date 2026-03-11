@@ -53,7 +53,7 @@ export default function LessonsPage() {
     return (
       <Shell>
         <div className="flex items-center justify-center py-12">
-          <p className="text-gray-500">Loading...</p>
+          <p className="text-gray-500 dark:text-gray-400">Loading...</p>
         </div>
       </Shell>
     );
@@ -62,7 +62,7 @@ export default function LessonsPage() {
   return (
     <Shell>
       <div className="space-y-4">
-        <h1 className="text-2xl font-bold text-gray-900">All Lessons</h1>
+        <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">All Lessons</h1>
 
         <div className="flex gap-4">
           <div className="flex gap-1">
@@ -71,7 +71,7 @@ export default function LessonsPage() {
                 key={f}
                 onClick={() => setFilter(f)}
                 className={`px-3 py-1.5 text-sm rounded ${
-                  filter === f ? "bg-gray-900 text-white" : "bg-white border border-gray-200 text-gray-600"
+                  filter === f ? "bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900" : "bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400"
                 }`}
               >
                 {f.charAt(0).toUpperCase() + f.slice(1)}
@@ -81,7 +81,7 @@ export default function LessonsPage() {
           <select
             value={childFilter}
             onChange={(e) => setChildFilter(e.target.value)}
-            className="border border-gray-200 rounded px-3 py-1.5 text-sm text-gray-900"
+            className="border border-gray-200 dark:border-gray-700 rounded px-3 py-1.5 text-sm text-gray-900 dark:text-gray-100"
           >
             <option value="all">All children</option>
             {children.map((c) => (
@@ -90,7 +90,7 @@ export default function LessonsPage() {
           </select>
         </div>
 
-        <div className="bg-white rounded border border-gray-200 divide-y divide-gray-100">
+        <div className="bg-white dark:bg-gray-900 rounded border border-gray-200 dark:border-gray-800 divide-y divide-gray-100 dark:divide-gray-800">
           {filtered.map((lesson) => {
             const isCompleted = lesson.completions.length > 0;
             const rating = lesson.completions[0]?.starRating;
@@ -98,12 +98,12 @@ export default function LessonsPage() {
               <Link
                 key={lesson.id}
                 href={`/lessons/${lesson.id}`}
-                className="block p-4 hover:bg-gray-50"
+                className="block p-4 hover:bg-gray-50 dark:hover:bg-gray-800 dark:bg-gray-900"
               >
                 <div className="flex items-center justify-between">
                   <div>
                     <div className="flex items-center gap-2">
-                      <p className="font-medium text-gray-900">{lesson.title}</p>
+                      <p className="font-medium text-gray-900 dark:text-gray-100">{lesson.title}</p>
                       {isCompleted && (
                         <span className="text-xs bg-green-100 text-green-700 px-1.5 py-0.5 rounded">Done</span>
                       )}
@@ -114,12 +114,12 @@ export default function LessonsPage() {
                       ))}
                       <span className="text-xs bg-purple-50 text-purple-700 px-2 py-0.5 rounded">{lesson.interest}</span>
                       {lesson.lessonChildren.map((lc) => (
-                        <span key={lc.child.id} className="text-xs bg-gray-100 text-gray-600 px-2 py-0.5 rounded">{lc.child.name}</span>
+                        <span key={lc.child.id} className="text-xs bg-gray-100 dark:bg-gray-800 text-gray-600 px-2 py-0.5 rounded">{lc.child.name}</span>
                       ))}
                     </div>
                   </div>
                   <div className="text-right">
-                    <p className="text-sm text-gray-500">{lesson.createdAt.split("T")[0]}</p>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">{lesson.createdAt.split("T")[0]}</p>
                     {rating && (
                       <div className="flex gap-0.5 justify-end mt-1">
                         {[1, 2, 3, 4, 5].map((s) => (
@@ -133,7 +133,7 @@ export default function LessonsPage() {
             );
           })}
           {filtered.length === 0 && (
-            <div className="p-8 text-center text-gray-500">
+            <div className="p-8 text-center text-gray-500 dark:text-gray-400">
               No lessons match your filters.
             </div>
           )}

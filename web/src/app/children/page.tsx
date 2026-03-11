@@ -104,7 +104,7 @@ export default function ChildrenPage() {
     return (
       <Shell>
         <div className="flex items-center justify-center py-12">
-          <p className="text-gray-500">Loading...</p>
+          <p className="text-gray-500 dark:text-gray-400">Loading...</p>
         </div>
       </Shell>
     );
@@ -113,10 +113,10 @@ export default function ChildrenPage() {
   return (
     <Shell>
       <div className="space-y-6">
-        <h1 className="text-2xl font-bold text-gray-900">Children & Settings</h1>
+        <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">Children & Settings</h1>
 
         {/* State selection (account-level) */}
-        <div className="bg-white rounded border border-gray-200 p-4">
+        <div className="bg-white dark:bg-gray-900 rounded border border-gray-200 dark:border-gray-800 p-4">
           <label className="block text-sm font-medium text-gray-700 mb-1">
             Your State
           </label>
@@ -135,7 +135,7 @@ export default function ChildrenPage() {
                 body: JSON.stringify({ state: newState }),
               }).finally(() => setSavingState(false));
             }}
-            className="border border-gray-300 rounded px-3 py-2 text-sm w-full max-w-xs text-gray-900"
+            className="border border-gray-300 dark:border-gray-700 rounded px-3 py-2 text-sm w-full max-w-xs text-gray-900 dark:text-gray-100"
           >
             {US_STATES.map((s) => (
               <option key={s.abbr} value={s.abbr}>
@@ -148,13 +148,13 @@ export default function ChildrenPage() {
         {/* Children list */}
         <div className="space-y-3">
           {children.map((child) => (
-            <div key={child.id} className="bg-white rounded border border-gray-200 p-4 flex items-center justify-between">
+            <div key={child.id} className="bg-white dark:bg-gray-900 rounded border border-gray-200 dark:border-gray-800 p-4 flex items-center justify-between">
               <div>
-                <h3 className="font-medium text-gray-900">{child.name}</h3>
-                <p className="text-sm text-gray-500">
+                <h3 className="font-medium text-gray-900 dark:text-gray-100">{child.name}</h3>
+                <p className="text-sm text-gray-500 dark:text-gray-400">
                   Born {child.dateOfBirth} — Grade {child.gradeLevel}
                 </p>
-                <p className="text-sm text-gray-500">
+                <p className="text-sm text-gray-500 dark:text-gray-400">
                   State standards: {child.standardsOptIn ? "Opted in" : "Opted out"}
                 </p>
               </div>
@@ -178,8 +178,8 @@ export default function ChildrenPage() {
 
         {/* Add/Edit form */}
         {showAdd ? (
-          <div className="bg-white rounded border border-gray-200 p-4 space-y-4">
-            <h2 className="font-medium text-gray-900">
+          <div className="bg-white dark:bg-gray-900 rounded border border-gray-200 dark:border-gray-800 p-4 space-y-4">
+            <h2 className="font-medium text-gray-900 dark:text-gray-100">
               {editing ? "Edit Child" : "Add Child"}
             </h2>
 
@@ -189,7 +189,7 @@ export default function ChildrenPage() {
                 type="text"
                 value={form.name}
                 onChange={(e) => setForm({ ...form, name: e.target.value })}
-                className="border border-gray-300 rounded px-3 py-2 text-sm w-full max-w-xs text-gray-900"
+                className="border border-gray-300 dark:border-gray-700 rounded px-3 py-2 text-sm w-full max-w-xs text-gray-900 dark:text-gray-100"
                 placeholder="Child's name or nickname"
               />
             </div>
@@ -200,7 +200,7 @@ export default function ChildrenPage() {
                 type="date"
                 value={form.dateOfBirth}
                 onChange={(e) => setForm({ ...form, dateOfBirth: e.target.value })}
-                className="border border-gray-300 rounded px-3 py-2 text-sm w-full max-w-xs text-gray-900"
+                className="border border-gray-300 dark:border-gray-700 rounded px-3 py-2 text-sm w-full max-w-xs text-gray-900 dark:text-gray-100"
               />
             </div>
 
@@ -212,7 +212,7 @@ export default function ChildrenPage() {
               <select
                 value={form.gradeLevel}
                 onChange={(e) => setForm({ ...form, gradeLevel: e.target.value })}
-                className="border border-gray-300 rounded px-3 py-2 text-sm w-full max-w-xs text-gray-900"
+                className="border border-gray-300 dark:border-gray-700 rounded px-3 py-2 text-sm w-full max-w-xs text-gray-900 dark:text-gray-100"
               >
                 {GRADES.map((g) => (
                   <option key={g} value={g}>
@@ -230,7 +230,7 @@ export default function ChildrenPage() {
                   onChange={(e) => setForm({ ...form, standardsOptIn: e.target.checked })}
                   className="rounded"
                 />
-                <span className="text-gray-700">Track state standards</span>
+                <span className="text-gray-700 dark:text-gray-300">Track state standards</span>
               </label>
               <p className="text-xs text-gray-500 mt-1 ml-6">
                 When enabled, lessons will align with your state&apos;s learning objectives
@@ -242,13 +242,13 @@ export default function ChildrenPage() {
               <button
                 onClick={handleSave}
                 disabled={!form.name || !form.dateOfBirth || saving}
-                className="px-4 py-2 bg-gray-900 text-white rounded text-sm hover:bg-gray-800 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="px-4 py-2 bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900 rounded text-sm hover:bg-gray-800 dark:hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {saving ? "Saving..." : editing ? "Save Changes" : "Add Child"}
               </button>
               <button
                 onClick={() => { setShowAdd(false); setEditing(null); resetForm(); }}
-                className="px-4 py-2 bg-white border border-gray-300 text-gray-700 rounded text-sm hover:bg-gray-50"
+                className="px-4 py-2 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-300 rounded text-sm hover:bg-gray-50 dark:hover:bg-gray-800 dark:bg-gray-900"
               >
                 Cancel
               </button>
@@ -257,7 +257,7 @@ export default function ChildrenPage() {
         ) : (
           <button
             onClick={() => { resetForm(); setShowAdd(true); }}
-            className="px-4 py-2 bg-white border border-dashed border-gray-300 text-gray-600 rounded text-sm hover:border-gray-400 w-full"
+            className="px-4 py-2 bg-white dark:bg-gray-900 border border-dashed border-gray-300 dark:border-gray-700 text-gray-600 rounded text-sm hover:border-gray-400 w-full"
           >
             + Add Child
           </button>

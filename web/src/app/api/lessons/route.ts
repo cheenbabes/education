@@ -41,7 +41,8 @@ export async function POST(req: NextRequest) {
       },
       ...(scheduledDate && {
         calendarEntries: {
-          create: { userId, scheduledDate: new Date(scheduledDate) },
+          // Append T12:00:00 to avoid timezone shifting the date by a day
+          create: { userId, scheduledDate: new Date(scheduledDate + "T12:00:00") },
         },
       }),
     },

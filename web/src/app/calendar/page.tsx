@@ -109,7 +109,7 @@ export default function CalendarPage() {
     return (
       <Shell>
         <div className="flex items-center justify-center py-12">
-          <p className="text-gray-500">Loading...</p>
+          <p className="text-gray-500 dark:text-gray-400">Loading...</p>
         </div>
       </Shell>
     );
@@ -119,17 +119,17 @@ export default function CalendarPage() {
     <Shell>
       <div className="space-y-4">
         <div className="flex items-center justify-between">
-          <h1 className="text-2xl font-bold text-gray-900">Calendar</h1>
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">Calendar</h1>
           <div className="flex gap-2">
             <button
               onClick={() => setView("week")}
-              className={`px-3 py-1.5 text-sm rounded ${view === "week" ? "bg-gray-900 text-white" : "bg-white border border-gray-200 text-gray-600"}`}
+              className={`px-3 py-1.5 text-sm rounded ${view === "week" ? "bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900" : "bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400"}`}
             >
               Week
             </button>
             <button
               onClick={() => setView("month")}
-              className={`px-3 py-1.5 text-sm rounded ${view === "month" ? "bg-gray-900 text-white" : "bg-white border border-gray-200 text-gray-600"}`}
+              className={`px-3 py-1.5 text-sm rounded ${view === "month" ? "bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900" : "bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400"}`}
             >
               Month
             </button>
@@ -140,18 +140,18 @@ export default function CalendarPage() {
         <div className="flex items-center justify-between">
           <button
             onClick={() => (view === "week" ? navigateWeek(-1) : navigateMonth(-1))}
-            className="px-3 py-1.5 text-sm bg-white border border-gray-200 rounded hover:bg-gray-50"
+            className="px-3 py-1.5 text-sm bg-white border border-gray-200 dark:border-gray-700 rounded hover:bg-gray-50 dark:hover:bg-gray-800 dark:bg-gray-900"
           >
             &larr; Previous
           </button>
-          <h2 className="font-medium text-gray-900">
+          <h2 className="font-medium text-gray-900 dark:text-gray-100">
             {view === "week"
               ? `${weekDates[0].toLocaleDateString("en-US", { month: "short", day: "numeric" })} — ${weekDates[6].toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}`
               : currentDate.toLocaleDateString("en-US", { month: "long", year: "numeric" })}
           </h2>
           <button
             onClick={() => (view === "week" ? navigateWeek(1) : navigateMonth(1))}
-            className="px-3 py-1.5 text-sm bg-white border border-gray-200 rounded hover:bg-gray-50"
+            className="px-3 py-1.5 text-sm bg-white border border-gray-200 dark:border-gray-700 rounded hover:bg-gray-50 dark:hover:bg-gray-800 dark:bg-gray-900"
           >
             Next &rarr;
           </button>
@@ -168,13 +168,13 @@ export default function CalendarPage() {
               return (
                 <div
                   key={dateStr}
-                  className={`bg-white rounded border p-3 min-h-[160px] ${
-                    isToday ? "border-blue-300 bg-blue-50/30" : "border-gray-200"
+                  className={`bg-white dark:bg-gray-900 rounded border p-3 min-h-[160px] ${
+                    isToday ? "border-blue-300 bg-blue-50/30" : "border-gray-200 dark:border-gray-700"
                   }`}
                 >
                   <div className="text-center mb-2">
-                    <p className="text-xs text-gray-500">{DAY_NAMES[date.getDay()]}</p>
-                    <p className={`text-sm font-medium ${isToday ? "text-blue-600" : "text-gray-900"}`}>
+                    <p className="text-xs text-gray-500 dark:text-gray-400">{DAY_NAMES[date.getDay()]}</p>
+                    <p className={`text-sm font-medium ${isToday ? "text-blue-600" : "text-gray-900 dark:text-gray-100"}`}>
                       {date.getDate()}
                     </p>
                   </div>
@@ -186,13 +186,13 @@ export default function CalendarPage() {
                         className={`block p-1.5 rounded text-xs ${
                           lesson.completed
                             ? "bg-green-50 border border-green-200"
-                            : "bg-gray-50 border border-gray-150 hover:bg-gray-100"
+                            : "bg-gray-50 dark:bg-gray-900 border border-gray-150 hover:bg-gray-100 dark:bg-gray-800"
                         }`}
                       >
                         <p className="font-medium text-gray-900 truncate">{lesson.title}</p>
                         <div className="flex gap-1 mt-0.5 flex-wrap">
                           {lesson.children.map((c) => (
-                            <span key={c} className="text-gray-400">{c}</span>
+                            <span key={c} className="text-gray-400 dark:text-gray-500">{c}</span>
                           ))}
                         </div>
                         {lesson.completed && lesson.rating && (
@@ -214,14 +214,14 @@ export default function CalendarPage() {
         {/* Month View */}
         {view === "month" && (
           <div>
-            <div className="grid grid-cols-7 gap-px bg-gray-200 rounded-t border border-gray-200">
+            <div className="grid grid-cols-7 gap-px bg-gray-200 dark:bg-gray-800 rounded-t border border-gray-200">
               {DAY_NAMES.map((day) => (
-                <div key={day} className="bg-gray-50 text-center py-2 text-xs font-medium text-gray-500">
+                <div key={day} className="bg-gray-50 dark:bg-gray-900 text-center py-2 text-xs font-medium text-gray-500 dark:text-gray-400">
                   {day}
                 </div>
               ))}
             </div>
-            <div className="grid grid-cols-7 gap-px bg-gray-200 rounded-b border-x border-b border-gray-200">
+            <div className="grid grid-cols-7 gap-px bg-gray-200 dark:bg-gray-800 rounded-b border-x border-b border-gray-200">
               {monthDates.map((date) => {
                 const dateStr = formatDate(date);
                 const lessons = lessonsByDate[dateStr] || [];
@@ -231,11 +231,11 @@ export default function CalendarPage() {
                 return (
                   <div
                     key={dateStr}
-                    className={`bg-white p-2 min-h-[80px] ${
+                    className={`bg-white dark:bg-gray-900 p-2 min-h-[80px] ${
                       !isCurrentMonth ? "opacity-40" : ""
                     } ${isToday ? "bg-blue-50/50" : ""}`}
                   >
-                    <p className={`text-xs mb-1 ${isToday ? "text-blue-600 font-medium" : "text-gray-500"}`}>
+                    <p className={`text-xs mb-1 ${isToday ? "text-blue-600 font-medium" : "text-gray-500 dark:text-gray-400"}`}>
                       {date.getDate()}
                     </p>
                     {lessons.map((lesson) => (
@@ -261,7 +261,7 @@ export default function CalendarPage() {
         <div className="flex justify-center">
           <Link
             href="/generate"
-            className="px-4 py-2 bg-gray-900 text-white rounded text-sm hover:bg-gray-800"
+            className="px-4 py-2 bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900 rounded text-sm hover:bg-gray-800 dark:hover:bg-gray-200"
           >
             + Generate New Lesson
           </Link>

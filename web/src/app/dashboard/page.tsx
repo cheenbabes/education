@@ -83,7 +83,7 @@ export default function DashboardPage() {
     return (
       <Shell>
         <div className="flex items-center justify-center py-12">
-          <p className="text-gray-500">Loading...</p>
+          <p className="text-gray-500 dark:text-gray-400">Loading...</p>
         </div>
       </Shell>
     );
@@ -93,10 +93,10 @@ export default function DashboardPage() {
     <Shell>
       <div className="space-y-6">
         <div className="flex items-center justify-between">
-          <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">Dashboard</h1>
           <Link
             href="/generate"
-            className="px-4 py-2 bg-gray-900 text-white rounded hover:bg-gray-800 text-sm"
+            className="px-4 py-2 bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900 rounded hover:bg-gray-800 dark:hover:bg-gray-200 text-sm"
           >
             Generate Lesson
           </Link>
@@ -105,14 +105,14 @@ export default function DashboardPage() {
         {/* Children summary */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {children.map((child) => (
-            <div key={child.id} className="bg-white rounded border border-gray-200 p-4">
+            <div key={child.id} className="bg-white dark:bg-gray-900 rounded border border-gray-200 dark:border-gray-800 p-4">
               <div className="flex items-center justify-between mb-2">
-                <h3 className="font-medium text-gray-900">{child.name}</h3>
-                <span className="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded">
+                <h3 className="font-medium text-gray-900 dark:text-gray-100">{child.name}</h3>
+                <span className="text-xs text-gray-500 bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded">
                   Grade {child.gradeLevel}
                 </span>
               </div>
-              <p className="text-sm text-gray-600">Age {getAge(child.dateOfBirth)}</p>
+              <p className="text-sm text-gray-600 dark:text-gray-400">Age {getAge(child.dateOfBirth)}</p>
               <p className="text-sm text-gray-500 mt-1">
                 Standards: {child.standardsOptIn ? "Tracking" : "Not tracking"}
               </p>
@@ -125,7 +125,7 @@ export default function DashboardPage() {
           ))}
           <Link
             href="/children"
-            className="bg-white rounded border border-dashed border-gray-300 p-4 flex items-center justify-center text-gray-500 hover:border-gray-400 hover:text-gray-600"
+            className="bg-white rounded border border-dashed border-gray-300 dark:border-gray-700 p-4 flex items-center justify-center text-gray-500 hover:border-gray-400 hover:text-gray-600 dark:text-gray-400"
           >
             + Add child
           </Link>
@@ -134,12 +134,12 @@ export default function DashboardPage() {
         {/* Upcoming lessons */}
         <div>
           <div className="flex items-center justify-between mb-3">
-            <h2 className="text-lg font-semibold text-gray-900">Upcoming Lessons</h2>
+            <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">Upcoming Lessons</h2>
             <Link href="/calendar" className="text-sm text-blue-600 hover:underline">
               View calendar
             </Link>
           </div>
-          <div className="bg-white rounded border border-gray-200 divide-y divide-gray-100">
+          <div className="bg-white dark:bg-gray-900 rounded border border-gray-200 dark:border-gray-800 divide-y divide-gray-100 dark:divide-gray-800">
             {upcoming.length === 0 && (
               <div className="p-4 text-center text-gray-500 text-sm">
                 No upcoming lessons scheduled. <Link href="/generate" className="text-blue-600 hover:underline">Generate one</Link>
@@ -149,11 +149,11 @@ export default function DashboardPage() {
               <Link
                 key={lesson.id}
                 href={`/lessons/${lesson.id}`}
-                className="block p-4 hover:bg-gray-50"
+                className="block p-4 hover:bg-gray-50 dark:hover:bg-gray-800 dark:bg-gray-900"
               >
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="font-medium text-gray-900">{lesson.title}</p>
+                    <p className="font-medium text-gray-900 dark:text-gray-100">{lesson.title}</p>
                     <div className="flex gap-2 mt-1">
                       {lesson.subjects.map((s) => (
                         <span key={s} className="text-xs bg-blue-50 text-blue-700 px-2 py-0.5 rounded">
@@ -161,13 +161,13 @@ export default function DashboardPage() {
                         </span>
                       ))}
                       {lesson.lessonChildren.map((lc) => (
-                        <span key={lc.child.name} className="text-xs bg-gray-100 text-gray-600 px-2 py-0.5 rounded">
+                        <span key={lc.child.name} className="text-xs bg-gray-100 dark:bg-gray-800 text-gray-600 px-2 py-0.5 rounded">
                           {lc.child.name}
                         </span>
                       ))}
                     </div>
                   </div>
-                  <span className="text-sm text-gray-500">
+                  <span className="text-sm text-gray-500 dark:text-gray-400">
                     {lesson.calendarEntries[0]?.scheduledDate.split("T")[0]}
                   </span>
                 </div>
@@ -179,7 +179,7 @@ export default function DashboardPage() {
         {/* Recent completions */}
         <div>
           <h2 className="text-lg font-semibold text-gray-900 mb-3">Recent Completions</h2>
-          <div className="bg-white rounded border border-gray-200 divide-y divide-gray-100">
+          <div className="bg-white dark:bg-gray-900 rounded border border-gray-200 dark:border-gray-800 divide-y divide-gray-100 dark:divide-gray-800">
             {recentCompletions.length === 0 && (
               <div className="p-4 text-center text-gray-500 text-sm">
                 No completed lessons yet.
@@ -188,8 +188,8 @@ export default function DashboardPage() {
             {recentCompletions.map((completion, idx) => (
               <div key={`${completion.id}-${idx}`} className="p-4 flex items-center justify-between">
                 <div>
-                  <p className="font-medium text-gray-900">{completion.title}</p>
-                  <p className="text-sm text-gray-500">{completion.childName} — {completion.completedAt}</p>
+                  <p className="font-medium text-gray-900 dark:text-gray-100">{completion.title}</p>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">{completion.childName} — {completion.completedAt}</p>
                 </div>
                 <div className="flex gap-0.5">
                   {[1, 2, 3, 4, 5].map((star) => (

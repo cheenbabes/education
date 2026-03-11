@@ -129,7 +129,7 @@ export function PrintLesson({ lesson }: { lesson: LessonPlan }) {
     <div className="flex gap-2">
       <button
         onClick={handlePrint}
-        className="px-3 py-1.5 bg-white border border-gray-300 text-gray-700 rounded text-sm hover:bg-gray-50"
+        className="px-3 py-1.5 bg-white border border-gray-300 text-gray-700 rounded text-sm hover:bg-gray-50 dark:hover:bg-gray-800 dark:bg-gray-900"
       >
         Print / PDF
       </button>
@@ -146,7 +146,7 @@ export function PrintLesson({ lesson }: { lesson: LessonPlan }) {
           a.click();
           URL.revokeObjectURL(url);
         }}
-        className="px-3 py-1.5 bg-white border border-gray-300 text-gray-700 rounded text-sm hover:bg-gray-50"
+        className="px-3 py-1.5 bg-white border border-gray-300 text-gray-700 rounded text-sm hover:bg-gray-50 dark:hover:bg-gray-800 dark:bg-gray-900"
       >
         Download JSON
       </button>

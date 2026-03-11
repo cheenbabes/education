@@ -82,7 +82,7 @@ export default function LessonDetailPage() {
     return (
       <Shell>
         <div className="flex items-center justify-center py-12">
-          <p className="text-gray-500">Loading...</p>
+          <p className="text-gray-500 dark:text-gray-400">Loading...</p>
         </div>
       </Shell>
     );
@@ -92,7 +92,7 @@ export default function LessonDetailPage() {
     return (
       <Shell>
         <div className="text-center py-12">
-          <p className="text-gray-500">{error || "Lesson not found"}</p>
+          <p className="text-gray-500 dark:text-gray-400">{error || "Lesson not found"}</p>
           <Link href="/lessons" className="text-sm text-blue-600 hover:underline mt-2 block">
             Back to lessons
           </Link>
@@ -146,16 +146,16 @@ export default function LessonDetailPage() {
           {lessonSections.length > 0 && <PrintLesson lesson={printableLesson} />}
         </div>
 
-        <div className="bg-white rounded border border-gray-200 p-6 space-y-5">
+        <div className="bg-white dark:bg-gray-900 rounded border border-gray-200 dark:border-gray-800 p-6 space-y-5">
           <div>
-            <h1 className="text-xl font-bold text-gray-900">{lesson.title}</h1>
+            <h1 className="text-xl font-bold text-gray-900 dark:text-gray-100">{lesson.title}</h1>
             {scheduledDate && (
               <p className="text-sm text-gray-500 mt-1">
                 Scheduled: {scheduledDate}
               </p>
             )}
             {estimatedDuration && (
-              <p className="text-sm text-gray-500">
+              <p className="text-sm text-gray-500 dark:text-gray-400">
                 {estimatedDuration} minutes — {lesson.philosophy.replace(/-/g, " ")}
               </p>
             )}
@@ -165,7 +165,7 @@ export default function LessonDetailPage() {
               ))}
               <span className="text-xs bg-purple-50 text-purple-700 px-2 py-0.5 rounded">{lesson.interest}</span>
               {children.map((c) => (
-                <span key={c.id} className="text-xs bg-gray-100 text-gray-600 px-2 py-0.5 rounded">
+                <span key={c.id} className="text-xs bg-gray-100 dark:bg-gray-800 text-gray-600 px-2 py-0.5 rounded">
                   {c.name} (Grade {c.gradeLevel})
                 </span>
               ))}
@@ -188,7 +188,7 @@ export default function LessonDetailPage() {
               <h3 className="text-sm font-medium text-gray-900 mb-2">Differentiation</h3>
               {lessonChildren.map((c) =>
                 c.differentiation_notes ? (
-                  <p key={c.child_id} className="text-sm text-gray-600">
+                  <p key={c.child_id} className="text-sm text-gray-600 dark:text-gray-400">
                     <span className="font-medium">{c.name}:</span> {c.differentiation_notes}
                   </p>
                 ) : null
@@ -197,8 +197,8 @@ export default function LessonDetailPage() {
           )}
 
           {/* Completion / Rating section */}
-          <div className="border border-gray-200 rounded p-4 space-y-3">
-            <h3 className="text-sm font-medium text-gray-900">Completion</h3>
+          <div className="border border-gray-200 dark:border-gray-700 rounded p-4 space-y-3">
+            <h3 className="text-sm font-medium text-gray-900 dark:text-gray-100">Completion</h3>
             {children.map((child) => {
               const completion = lesson.completions.find((c) => c.childId === child.id);
               if (completion) {
@@ -221,8 +221,8 @@ export default function LessonDetailPage() {
 
               if (showRating === child.id) {
                 return (
-                  <div key={child.id} className="border border-gray-200 rounded p-3 space-y-3">
-                    <p className="text-sm font-medium text-gray-900">Rate this lesson for {child.name}</p>
+                  <div key={child.id} className="border border-gray-200 dark:border-gray-700 rounded p-3 space-y-3">
+                    <p className="text-sm font-medium text-gray-900 dark:text-gray-100">Rate this lesson for {child.name}</p>
                     <div className="flex gap-1">
                       {[1, 2, 3, 4, 5].map((star) => (
                         <button
@@ -244,19 +244,19 @@ export default function LessonDetailPage() {
                       value={notes}
                       onChange={(e) => setNotes(e.target.value)}
                       placeholder="Optional notes — how did it go? (e.g., 'she loved sketching the bark')"
-                      className="border border-gray-300 rounded px-3 py-2 text-sm w-full h-20 resize-none text-gray-900"
+                      className="border border-gray-300 dark:border-gray-700 rounded px-3 py-2 text-sm w-full h-20 resize-none text-gray-900 dark:text-gray-100"
                     />
                     <div className="flex gap-2">
                       <button
                         onClick={() => handleRate(child.id)}
                         disabled={selectedStar === 0 || submitting}
-                        className="px-4 py-1.5 bg-gray-900 text-white rounded text-sm disabled:opacity-50"
+                        className="px-4 py-1.5 bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900 rounded text-sm disabled:opacity-50"
                       >
                         {submitting ? "Saving..." : "Complete"}
                       </button>
                       <button
                         onClick={() => { setShowRating(null); setSelectedStar(0); setNotes(""); }}
-                        className="px-4 py-1.5 bg-white border border-gray-300 text-gray-700 rounded text-sm"
+                        className="px-4 py-1.5 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-300 rounded text-sm"
                       >
                         Cancel
                       </button>
@@ -269,7 +269,7 @@ export default function LessonDetailPage() {
                 <button
                   key={child.id}
                   onClick={() => setShowRating(child.id)}
-                  className="w-full text-left p-3 rounded border border-gray-200 hover:bg-gray-50 text-sm text-gray-700"
+                  className="w-full text-left p-3 rounded border border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 dark:bg-gray-900 text-sm text-gray-700 dark:text-gray-300"
                 >
                   Rate &amp; complete for <span className="font-medium">{child.name}</span>
                 </button>
@@ -288,7 +288,7 @@ export default function LessonDetailPage() {
                   <div key={i} className="text-sm border-l-2 border-green-300 pl-3">
                     <div className="flex items-center gap-2">
                       <span className="text-xs bg-green-50 text-green-700 px-1.5 py-0.5 rounded font-mono">{s.code}</span>
-                      <span className="text-gray-600">{s.description_plain}</span>
+                      <span className="text-gray-600 dark:text-gray-400">{s.description_plain}</span>
                     </div>
                     <p className="text-xs text-gray-400 mt-0.5">{s.how_addressed}</p>
                   </div>
@@ -303,11 +303,11 @@ export default function LessonDetailPage() {
               <h3 className="text-sm font-medium text-gray-900 mb-2">Materials Needed</h3>
               <div className="space-y-1">
                 {materialsNeeded.map((m, i) => (
-                  <div key={i} className="text-sm text-gray-600">
+                  <div key={i} className="text-sm text-gray-600 dark:text-gray-400">
                     <span className="font-medium">{m.name}</span>
                     {m.optional && <span className="text-xs text-gray-400 ml-1">(optional)</span>}
                     {m.household_alternative && (
-                      <span className="text-gray-400"> — or: {m.household_alternative}</span>
+                      <span className="text-gray-400 dark:text-gray-500"> — or: {m.household_alternative}</span>
                     )}
                   </div>
                 ))}
@@ -321,11 +321,11 @@ export default function LessonDetailPage() {
               <h3 className="text-sm font-medium text-gray-900 mb-3">Lesson Plan</h3>
               <div className="space-y-4">
                 {lessonSections.map((section, i) => (
-                  <div key={i} className="border border-gray-100 rounded p-4">
+                  <div key={i} className="border border-gray-100 dark:border-gray-800 rounded p-4">
                     <div className="flex items-center justify-between mb-2">
-                      <h4 className="font-medium text-gray-900">{section.title}</h4>
+                      <h4 className="font-medium text-gray-900 dark:text-gray-100">{section.title}</h4>
                       <div className="flex gap-2">
-                        <span className="text-xs bg-gray-100 text-gray-500 px-2 py-0.5 rounded">
+                        <span className="text-xs bg-gray-100 dark:bg-gray-800 text-gray-500 px-2 py-0.5 rounded">
                           {section.duration_minutes} min
                         </span>
                         <span className={`text-xs px-2 py-0.5 rounded ${
@@ -349,20 +349,20 @@ export default function LessonDetailPage() {
                     )}
                     {section.tips?.length > 0 && (
                       <div className="mt-2">
-                        <p className="text-xs font-medium text-gray-500">Tips:</p>
+                        <p className="text-xs font-medium text-gray-500 dark:text-gray-400">Tips:</p>
                         <ul className="list-disc list-inside">
                           {section.tips.map((tip, j) => (
-                            <li key={j} className="text-xs text-gray-500">{tip}</li>
+                            <li key={j} className="text-xs text-gray-500 dark:text-gray-400">{tip}</li>
                           ))}
                         </ul>
                       </div>
                     )}
                     {section.extensions?.length > 0 && (
                       <div className="mt-2">
-                        <p className="text-xs font-medium text-gray-500">Extensions:</p>
+                        <p className="text-xs font-medium text-gray-500 dark:text-gray-400">Extensions:</p>
                         <ul className="list-disc list-inside">
                           {section.extensions.map((ext, j) => (
-                            <li key={j} className="text-xs text-gray-500">{ext}</li>
+                            <li key={j} className="text-xs text-gray-500 dark:text-gray-400">{ext}</li>
                           ))}
                         </ul>
                       </div>
@@ -379,7 +379,7 @@ export default function LessonDetailPage() {
               <h3 className="text-sm font-medium text-gray-900 mb-2">Assessment</h3>
               <ul className="list-disc list-inside space-y-1">
                 {assessmentSuggestions.map((a, i) => (
-                  <li key={i} className="text-sm text-gray-600">{a}</li>
+                  <li key={i} className="text-sm text-gray-600 dark:text-gray-400">{a}</li>
                 ))}
               </ul>
             </div>
@@ -387,11 +387,11 @@ export default function LessonDetailPage() {
 
           {/* Next lesson ideas */}
           {nextLessonSeeds.length > 0 && (
-            <div className="bg-gray-50 rounded p-4">
+            <div className="bg-gray-50 dark:bg-gray-900 rounded p-4">
               <h3 className="text-sm font-medium text-gray-900 mb-2">Ideas for Next Lesson</h3>
               <ul className="list-disc list-inside space-y-1">
                 {nextLessonSeeds.map((seed, i) => (
-                  <li key={i} className="text-sm text-gray-600">{seed}</li>
+                  <li key={i} className="text-sm text-gray-600 dark:text-gray-400">{seed}</li>
                 ))}
               </ul>
             </div>

@@ -2,22 +2,21 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  /* Dark mode form elements */
+  .dark select,
+  .dark input[type="text"],
+  .dark input[type="date"],
+  .dark textarea {
+    background-color: rgb(17 24 39); /* gray-900 */
+    color: rgb(243 244 246); /* gray-100 */
+    color-scheme: dark;
   }
-}
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  .dark option {
+    background-color: rgb(17 24 39);
+    color: rgb(243 244 246);
+  }
 }
 
 @layer utilities {
