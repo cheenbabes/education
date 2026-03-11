@@ -1,11 +1,11 @@
-"""GET /standards/{state}/{grade}/{subject} endpoint."""
+"""Standards query endpoints."""
 
 from __future__ import annotations
 
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel, Field
 
-from kg.query import get_standards
+from kg.query import get_standards, get_all_standards_for_grade
 
 router = APIRouter()
 
@@ -26,16 +26,28 @@ class StandardsResponse(BaseModel):
     count: int
 
 
+class SubjectStandards(BaseModel):
+    subject: str
+    standards: list[StandardOut]
+    count: int
+
+
+class AllStandardsResponse(BaseModel):
+    state: str
+    grade: str
+    subjects: list[SubjectStandards]
+    total: int
+
+
 @router.get("/standards/{state}/{grade}/{subject}", response_model=StandardsResponse)
 async def list_standards(state: str, grade: str, subject: str):
-    """Return all standards for a given state / grade / subject in plain language."""
+    """Return all standards for a given state / grade / subject."""
     rows = get_standards(state.upper(), grade, subject)
 
     if not rows:
         raise HTTPException(
             status_code=404,
-            detail=f"No standards found for state={state}, grade={grade}, subject={subject}. "
-                   "Standards data may not be loaded yet — run `python -m ingest.rebuild`.",
+            detail=f"No standards found for state={state}, grade={grade}, subject={subject}.",
         )
 
     return StandardsResponse(
@@ -44,4 +56,24 @@ async def list_standards(state: str, grade: str, subject: str):
         subject=subject,
         standards=[StandardOut(**r) for r in rows],
         count=len(rows),
+    )
+
+
+@router.get("/standards/{state}/{grade}", response_model=AllStandardsResponse)
+async def list_all_standards(state: str, grade: str):
+    """Return all standards for a state/grade grouped by subject. Single query."""
+    by_subject = get_all_standards_for_grade(state.upper(), grade)
+
+    subjects = []
+    total = 0
+    for subject_name, rows in sorted(by_subject.items()):
+        stds = [StandardOut(**r) for r in rows]
+        subjects.append(SubjectStandards(subject=subject_name, standards=stds, count=len(stds)))
+        total += len(stds)
+
+    return AllStandardsResponse(
+        state=state.upper(),
+        grade=grade,
+        subjects=subjects,
+        total=total,
     )

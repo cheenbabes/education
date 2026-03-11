@@ -7,9 +7,22 @@ import kuzu
 from config import settings
 
 
+import functools
+import threading
+
+_db_lock = threading.Lock()
+_db_instance = None
+
+def _get_db() -> kuzu.Database:
+    global _db_instance
+    if _db_instance is None:
+        with _db_lock:
+            if _db_instance is None:
+                _db_instance = kuzu.Database(str(settings.kuzu_db_path))
+    return _db_instance
+
 def _get_connection() -> kuzu.Connection:
-    db = kuzu.Database(str(settings.kuzu_db_path))
-    return kuzu.Connection(db)
+    return kuzu.Connection(_get_db())
 
 
 def get_standards(
@@ -45,6 +58,44 @@ def get_standards(
             }
         )
     return rows
+
+
+def get_all_standards_for_grade(
+    state: str, grade: str, conn: kuzu.Connection | None = None
+) -> dict[str, list[dict]]:
+    """Return all standards for a state/grade, grouped by subject. Single query."""
+    conn = conn or _get_connection()
+    result = conn.execute(
+        """
+        MATCH (st:State)-[:HAS_STANDARD]->(s:Standard)-[:FOR_GRADE]->(g:Grade),
+              (s)-[:FOR_SUBJECT]->(sub:Subject)
+        WHERE st.abbreviation = $state
+          AND g.level = $grade
+        RETURN sub.name AS subject,
+               s.code AS code,
+               s.description AS description,
+               s.description_plain AS description_plain,
+               s.domain AS domain,
+               s.cluster AS cluster
+        """,
+        parameters={"state": state, "grade": grade},
+    )
+    by_subject: dict[str, list[dict]] = {}
+    while result.has_next():
+        row = result.get_next()
+        subject = row[0]
+        if subject not in by_subject:
+            by_subject[subject] = []
+        by_subject[subject].append(
+            {
+                "code": row[1],
+                "description": row[2],
+                "description_plain": row[3],
+                "domain": row[4],
+                "cluster": row[5],
+            }
+        )
+    return by_subject
 
 
 def get_philosophy_context(philosophy: str, conn: kuzu.Connection | None = None) -> dict:

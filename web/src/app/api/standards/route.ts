@@ -2,7 +2,6 @@ import { prisma } from "@/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
 
 const KG_SERVICE_URL = process.env.KG_SERVICE_URL || process.env.NEXT_PUBLIC_KG_SERVICE_URL || "http://localhost:8000";
-const SUBJECTS = ["Math", "Science", "Language Arts", "Social Studies"];
 
 // GET /api/standards?childId=xxx
 // Returns standards per subject with coverage from completed lessons
@@ -25,20 +24,20 @@ export async function GET(req: NextRequest) {
 
   const state = child.user?.state || "MI";
 
-  // Get covered standards from completed lessons
-  const coveredObjectives = await prisma.lessonObjective.findMany({
-    where: {
-      childId,
-      lesson: {
-        completions: {
-          some: { childId },
-        },
+  // Fetch covered standards and all standards in parallel
+  const [coveredObjectives, kgResponse] = await Promise.all([
+    prisma.lessonObjective.findMany({
+      where: {
+        childId,
+        lesson: { completions: { some: { childId } } },
       },
-    },
-    include: {
-      lesson: { select: { title: true } },
-    },
-  });
+      include: { lesson: { select: { title: true } } },
+    }),
+    fetch(
+      `${KG_SERVICE_URL}/standards/${state}/${child.gradeLevel}`,
+      { cache: "no-store" }
+    ).then((r) => (r.ok ? r.json() : null)).catch(() => null),
+  ]);
 
   const coveredMap = new Map<string, string>();
   for (const obj of coveredObjectives) {
@@ -47,19 +46,12 @@ export async function GET(req: NextRequest) {
     }
   }
 
-  // Fetch standards from KG service per subject
+  // Process KG response (single call returns all subjects)
   const results = [];
-  for (const subject of SUBJECTS) {
-    try {
-      const res = await fetch(
-        `${KG_SERVICE_URL}/standards/${state}/${child.gradeLevel}/${encodeURIComponent(subject)}`,
-        { cache: "no-store" }
-      );
-      if (!res.ok) continue;
-
-      const data = await res.json();
-      const standards = (data.standards || [])
-        .filter((s: { description: string }) => s.description.length >= 30) // skip headers
+  if (kgResponse?.subjects) {
+    for (const subjectData of kgResponse.subjects) {
+      const standards = (subjectData.standards || [])
+        .filter((s: { description: string }) => s.description.length >= 30)
         .map((s: { code: string; description: string; description_plain: string }) => ({
           code: s.code,
           description: s.description_plain || s.description,
@@ -70,14 +62,11 @@ export async function GET(req: NextRequest) {
       const covered = standards.filter((s: { covered: boolean }) => s.covered).length;
 
       results.push({
-        subject,
+        subject: subjectData.subject,
         total: standards.length,
         covered,
         standards,
       });
-    } catch {
-      // KG service might not have standards for this subject/grade
-      continue;
     }
   }
 
