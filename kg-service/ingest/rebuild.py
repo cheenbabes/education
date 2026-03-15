@@ -1,5 +1,7 @@
 """Build or rebuild the Kuzu knowledge graph from extracted data and standards.
 
+Uses COPY FROM CSV for bulk loading (~100x faster than individual queries).
+
 Usage:
     python -m ingest.rebuild
     python -m ingest.rebuild --force   # skip hash check, always rebuild
@@ -8,10 +10,12 @@ Usage:
 from __future__ import annotations
 
 import argparse
+import csv
 import hashlib
 import json
 import os
-import sys
+import tempfile
+import time
 from pathlib import Path
 
 import kuzu
@@ -19,7 +23,6 @@ import kuzu
 from config import settings
 from kg.schema import create_schema
 from kg.static_data import GRADES, MILESTONES, PHILOSOPHIES, STATES, SUBJECTS
-from ingest.standards import load_standards
 
 
 BUILD_HASH_FILE = Path(settings.kuzu_db_path).parent / ".kg_build_hash"
@@ -47,68 +50,73 @@ def _should_rebuild(force: bool = False) -> bool:
     return stored != _compute_extracted_hash()
 
 
-def _load_static(conn) -> None:
-    """Insert static reference data: states, grades, subjects, philosophies."""
-    for s in STATES:
-        conn.execute(
-            "CREATE (n:State {abbreviation: $abbr, name: $name})",
-            parameters={"abbr": s["abbreviation"], "name": s["name"]},
-        )
-
-    for g in GRADES:
-        conn.execute(
-            "CREATE (n:Grade {level: $level, age_range_low: $lo, age_range_high: $hi})",
-            parameters={"level": g["level"], "lo": g["age_range_low"], "hi": g["age_range_high"]},
-        )
-
-    for name in SUBJECTS:
-        conn.execute(
-            "CREATE (n:Subject {name: $name})",
-            parameters={"name": name},
-        )
-
-    for p in PHILOSOPHIES:
-        conn.execute(
-            "CREATE (n:Philosophy {name: $name, description: $description, disclaimer: $disclaimer})",
-            parameters={
-                "name": p["name"],
-                "description": p["description"],
-                "disclaimer": p["disclaimer"] or "",
-            },
-        )
+def _sanitize(val) -> str:
+    """Sanitize a value for CSV: replace newlines and tabs with spaces."""
+    if isinstance(val, str):
+        return val.replace("\n", " ").replace("\r", " ").replace("\t", " ").strip()
+    return val
 
 
-def _load_milestones(conn) -> None:
-    """Insert developmental milestones and link to grades."""
-    for m in MILESTONES:
-        conn.execute(
-            "CREATE (n:DevelopmentalMilestone {id: $id, description: $description, "
-            "domain: $domain, age_range_low: $lo, age_range_high: $hi})",
-            parameters={
-                "id": m["id"],
-                "description": m["description"],
-                "domain": m["domain"],
-                "lo": m["age_range_low"],
-                "hi": m["age_range_high"],
-            },
-        )
-        conn.execute(
-            "MATCH (g:Grade {level: $grade}), (m:DevelopmentalMilestone {id: $id}) "
-            "CREATE (g)-[:HAS_MILESTONE]->(m)",
-            parameters={"grade": m["grade"], "id": m["id"]},
-        )
+def _write_csv(path: str, headers: list[str], rows: list[list]) -> int:
+    """Write rows to a CSV file. Returns row count."""
+    with open(path, "w", newline="", encoding="utf-8") as f:
+        writer = csv.writer(f, quoting=csv.QUOTE_ALL)
+        writer.writerow(headers)
+        for row in rows:
+            writer.writerow([_sanitize(v) for v in row])
+    return len(rows)
 
 
-def _load_extracted(conn) -> int:
-    """Load all extracted philosophy JSON into the graph. Returns count of items loaded."""
+def _remove_db_if_exists() -> None:
+    """Remove existing Kuzu database for clean rebuild."""
+    db_path = settings.kuzu_db_path
+    if db_path.is_file():
+        db_path.unlink()
+    elif db_path.is_dir():
+        import shutil
+        shutil.rmtree(db_path)
+    for suffix in [".lock", ".wal"]:
+        p = db_path.parent / (db_path.name + suffix)
+        if p.exists():
+            p.unlink()
+
+
+def _prepare_standards_data(states: list[str] | None) -> tuple[list, list, list, list]:
+    """Load standards from cached JSON. Returns (nodes, state_links, grade_links, subject_links)."""
+    from ingest.standards import fetch_all_states
+
+    all_standards = fetch_all_states(states)
+
+    unique: dict[str, dict] = {}
+    state_links: set[tuple[str, str]] = set()
+    grade_links: set[tuple[str, str]] = set()
+    subject_links: set[tuple[str, str]] = set()
+
+    for state_abbr, standards in all_standards.items():
+        for s in standards:
+            code = s["code"]
+            if code not in unique:
+                unique[code] = s
+            state_links.add((state_abbr, code))
+            grade_links.add((code, s["grade"]))
+            subject_links.add((code, s["subject"]))
+
+    nodes = list(unique.values())
+    return nodes, list(state_links), list(grade_links), list(subject_links)
+
+
+def _prepare_philosophy_data() -> tuple[list, list, list, list, list, list]:
+    """Load extracted philosophy data. Returns (principles, activities, materials, val_edges, sug_edges, use_edges)."""
     extracted = settings.extracted_path
     if not extracted.exists():
-        print("  No extracted data found — run `python -m ingest.extract --all` first.")
-        return 0
+        return [], [], [], [], [], []
 
-    total_principles = 0
-    total_activities = 0
-    total_materials = 0
+    principles = []
+    activities = []
+    materials = []
+    val_edges = []  # Philosophy -> Principle
+    sug_edges = []  # Principle -> ActivityType
+    use_edges = []  # ActivityType -> MaterialType
 
     for phil_dir in sorted(extracted.iterdir()):
         if not phil_dir.is_dir():
@@ -122,103 +130,62 @@ def _load_extracted(conn) -> int:
             data = json.loads(json_file.read_text())
             source = json_file.stem
 
-            # Principles
+            pr_ids = []
+            act_ids = []
+            mat_ids = []
+
             for i, pr in enumerate(data.get("principles", [])):
                 pr_id = f"{philosophy}:{source}:pr:{i}"
-                conn.execute(
-                    "MERGE (n:Principle {id: $id}) "
-                    "SET n.name = $name, n.description = $description, n.philosophy_name = $phil",
-                    parameters={
-                        "id": pr_id,
-                        "name": pr["name"],
-                        "description": pr["description"],
-                        "phil": philosophy,
-                    },
-                )
-                conn.execute(
-                    "MATCH (p:Philosophy {name: $phil}), (pr:Principle {id: $id}) "
-                    "MERGE (p)-[:VALUES]->(pr)",
-                    parameters={"phil": philosophy, "id": pr_id},
-                )
-                total_principles += 1
+                principles.append({
+                    "id": pr_id,
+                    "name": pr["name"],
+                    "description": pr["description"],
+                    "philosophy_name": philosophy,
+                })
+                val_edges.append((philosophy, pr_id))
+                pr_ids.append(pr_id)
 
-            # Activity types — create all first, then link
             for j, act in enumerate(data.get("activity_types", [])):
                 act_id = f"{philosophy}:{source}:act:{j}"
-                conn.execute(
-                    "MERGE (n:ActivityType {id: $id}) "
-                    "SET n.name = $name, n.description = $description, "
-                    "    n.indoor_outdoor = $io, n.age_range_low = $lo, n.age_range_high = $hi",
-                    parameters={
-                        "id": act_id,
-                        "name": act["name"],
-                        "description": act["description"],
-                        "io": act.get("indoor_outdoor", "both"),
-                        "lo": act.get("age_range_low", 4),
-                        "hi": act.get("age_range_high", 12),
-                    },
-                )
-                total_activities += 1
+                activities.append({
+                    "id": act_id,
+                    "name": act["name"],
+                    "description": act["description"],
+                    "indoor_outdoor": act.get("indoor_outdoor", "both"),
+                    "age_range_low": act.get("age_range_low", 4),
+                    "age_range_high": act.get("age_range_high", 12),
+                })
+                act_ids.append(act_id)
 
-            # Create SUGGESTS edges from each principle to each activity (same source doc)
-            for i, pr in enumerate(data.get("principles", [])):
-                pr_id = f"{philosophy}:{source}:pr:{i}"
-                for j, act in enumerate(data.get("activity_types", [])):
-                    act_id = f"{philosophy}:{source}:act:{j}"
-                    conn.execute(
-                        "MATCH (pr:Principle {id: $pr_id}), (a:ActivityType {id: $act_id}) "
-                        "MERGE (pr)-[:SUGGESTS]->(a)",
-                        parameters={"pr_id": pr_id, "act_id": act_id},
-                    )
-
-            # Material types
             for k, mat in enumerate(data.get("material_types", [])):
                 mat_id = f"{philosophy}:{source}:mat:{k}"
-                conn.execute(
-                    "MERGE (n:MaterialType {id: $id}) "
-                    "SET n.name = $name, n.category = $cat, n.household_alternative = $alt",
-                    parameters={
-                        "id": mat_id,
-                        "name": mat["name"],
-                        "cat": mat.get("category", "other"),
-                        "alt": mat.get("household_alternative", ""),
-                    },
-                )
-                # Link each activity to each material from the same source
-                for j, _act in enumerate(data.get("activity_types", [])):
-                    act_id = f"{philosophy}:{source}:act:{j}"
-                    conn.execute(
-                        "MATCH (a:ActivityType {id: $act_id}), (m:MaterialType {id: $mat_id}) "
-                        "MERGE (a)-[:USES]->(m)",
-                        parameters={"act_id": act_id, "mat_id": mat_id},
-                    )
-                total_materials += 1
+                materials.append({
+                    "id": mat_id,
+                    "name": mat["name"],
+                    "category": mat.get("category", "other"),
+                    "household_alternative": mat.get("household_alternative", ""),
+                })
+                mat_ids.append(mat_id)
 
-    print(f"  Loaded: {total_principles} principles, {total_activities} activities, {total_materials} materials")
-    return total_principles + total_activities + total_materials
+            # Cross-product edges per source document
+            for pr_id in pr_ids:
+                for act_id in act_ids:
+                    sug_edges.append((pr_id, act_id))
 
+            for act_id in act_ids:
+                for mat_id in mat_ids:
+                    use_edges.append((act_id, mat_id))
 
-def _remove_db_if_exists() -> None:
-    """Remove existing Kuzu database (file or directory) for clean rebuild."""
-    db_path = settings.kuzu_db_path
-    if db_path.is_file():
-        db_path.unlink()
-    elif db_path.is_dir():
-        import shutil
-        shutil.rmtree(db_path)
-    # Also remove lock files and WAL files that Kuzu may leave behind
-    for suffix in [".lock", ".wal"]:
-        p = db_path.parent / (db_path.name + suffix)
-        if p.exists():
-            p.unlink()
+    return principles, activities, materials, val_edges, sug_edges, use_edges
 
 
 def rebuild(force: bool = False, states: list[str] | None = None) -> None:
-    """Main rebuild entry point."""
+    """Main rebuild entry point. Uses COPY FROM CSV for bulk loading."""
     if not _should_rebuild(force):
         print("Graph is up to date (extracted data hash unchanged). Use --force to rebuild anyway.")
         return
 
+    start_time = time.time()
     print("Rebuilding knowledge graph...")
 
     _remove_db_if_exists()
@@ -226,32 +193,141 @@ def rebuild(force: bool = False, states: list[str] | None = None) -> None:
     db = kuzu.Database(str(settings.kuzu_db_path))
     conn = kuzu.Connection(db)
 
-    # 1. Create fresh schema
+    # 1. Create schema
     print("  Creating schema...")
     create_schema(conn)
 
-    # 2. Load static data
-    print("  Loading static data (states, grades, subjects, philosophies)...")
-    _load_static(conn)
+    # Use a temp directory for all CSV files
+    tmp_dir = tempfile.mkdtemp(prefix="kuzu_rebuild_")
 
-    # 3. Load milestones
-    print("  Loading developmental milestones...")
-    _load_milestones(conn)
+    try:
+        # 2. Load static node tables via COPY FROM CSV
+        print("  Loading static data...")
 
-    # 4. Load standards
-    print("  Loading standards...")
-    n = load_standards(conn, states=states)
-    print(f"  Loaded {n} standards")
+        # States
+        path = os.path.join(tmp_dir, "states.csv")
+        _write_csv(path, ["abbreviation", "name"],
+                   [[s["abbreviation"], s["name"]] for s in STATES])
+        conn.execute(f"COPY State FROM '{path}' (header=true)")
 
-    # 5. Load extracted philosophy data
-    print("  Loading extracted philosophy data...")
-    _load_extracted(conn)
+        # Grades
+        path = os.path.join(tmp_dir, "grades.csv")
+        _write_csv(path, ["level", "age_range_low", "age_range_high"],
+                   [[g["level"], g["age_range_low"], g["age_range_high"]] for g in GRADES])
+        conn.execute(f"COPY Grade FROM '{path}' (header=true)")
 
-    # 6. Save build hash
+        # Subjects
+        path = os.path.join(tmp_dir, "subjects.csv")
+        _write_csv(path, ["name"], [[s] for s in SUBJECTS])
+        conn.execute(f"COPY Subject FROM '{path}' (header=true)")
+
+        # Philosophies
+        path = os.path.join(tmp_dir, "philosophies.csv")
+        _write_csv(path, ["name", "description", "disclaimer"],
+                   [[p["name"], p["description"], p["disclaimer"] or ""] for p in PHILOSOPHIES])
+        conn.execute(f"COPY Philosophy FROM '{path}' (header=true)")
+
+        # Milestones
+        path = os.path.join(tmp_dir, "milestones.csv")
+        _write_csv(path, ["id", "description", "domain", "age_range_low", "age_range_high"],
+                   [[m["id"], m["description"], m["domain"], m["age_range_low"], m["age_range_high"]] for m in MILESTONES])
+        conn.execute(f"COPY DevelopmentalMilestone FROM '{path}' (header=true)")
+
+        # HAS_MILESTONE edges
+        path = os.path.join(tmp_dir, "has_milestone.csv")
+        _write_csv(path, ["from", "to"],
+                   [[m["grade"], m["id"]] for m in MILESTONES])
+        conn.execute(f"COPY HAS_MILESTONE FROM '{path}' (header=true)")
+
+        print("  Static data loaded.")
+
+        # 3. Prepare and load standards
+        print("  Preparing standards data...")
+        std_nodes, state_links, grade_links, subject_links = _prepare_standards_data(states)
+
+        print(f"    {len(std_nodes):,} standards, {len(state_links):,} state links, "
+              f"{len(grade_links):,} grade links, {len(subject_links):,} subject links")
+
+        # Standard nodes
+        path = os.path.join(tmp_dir, "standards.csv")
+        n = _write_csv(path, ["code", "description", "description_plain", "domain", "cluster"],
+                       [[s["code"], s["description"], s.get("description_plain", ""),
+                         s.get("domain", ""), s.get("cluster", "")] for s in std_nodes])
+        conn.execute(f"COPY Standard FROM '{path}' (header=true)")
+        print(f"    Standards nodes loaded: {n:,}")
+
+        # HAS_STANDARD edges
+        path = os.path.join(tmp_dir, "has_standard.csv")
+        _write_csv(path, ["from", "to"], state_links)
+        conn.execute(f"COPY HAS_STANDARD FROM '{path}' (header=true)")
+        print(f"    HAS_STANDARD edges loaded: {len(state_links):,}")
+
+        # FOR_GRADE edges
+        path = os.path.join(tmp_dir, "for_grade.csv")
+        _write_csv(path, ["from", "to"], grade_links)
+        conn.execute(f"COPY FOR_GRADE FROM '{path}' (header=true)")
+        print(f"    FOR_GRADE edges loaded: {len(grade_links):,}")
+
+        # FOR_SUBJECT edges
+        path = os.path.join(tmp_dir, "for_subject.csv")
+        _write_csv(path, ["from", "to"], subject_links)
+        conn.execute(f"COPY FOR_SUBJECT FROM '{path}' (header=true)")
+        print(f"    FOR_SUBJECT edges loaded: {len(subject_links):,}")
+
+        # 4. Prepare and load philosophy data
+        print("  Preparing philosophy data...")
+        principles, activities, materials, val_edges, sug_edges, use_edges = _prepare_philosophy_data()
+
+        print(f"    {len(principles)} principles, {len(activities)} activities, "
+              f"{len(materials)} materials, {len(val_edges) + len(sug_edges) + len(use_edges)} edges")
+
+        if principles:
+            path = os.path.join(tmp_dir, "principles.csv")
+            _write_csv(path, ["id", "name", "description", "philosophy_name"],
+                       [[p["id"], p["name"], p["description"], p["philosophy_name"]] for p in principles])
+            conn.execute(f"COPY Principle FROM '{path}' (header=true)")
+
+        if activities:
+            path = os.path.join(tmp_dir, "activities.csv")
+            _write_csv(path, ["id", "name", "description", "indoor_outdoor", "age_range_low", "age_range_high"],
+                       [[a["id"], a["name"], a["description"], a["indoor_outdoor"],
+                         a["age_range_low"], a["age_range_high"]] for a in activities])
+            conn.execute(f"COPY ActivityType FROM '{path}' (header=true)")
+
+        if materials:
+            path = os.path.join(tmp_dir, "materials.csv")
+            _write_csv(path, ["id", "name", "category", "household_alternative"],
+                       [[m["id"], m["name"], m["category"], m["household_alternative"]] for m in materials])
+            conn.execute(f"COPY MaterialType FROM '{path}' (header=true)")
+
+        if val_edges:
+            path = os.path.join(tmp_dir, "values.csv")
+            _write_csv(path, ["from", "to"], val_edges)
+            conn.execute(f"COPY VALUES FROM '{path}' (header=true)")
+
+        if sug_edges:
+            path = os.path.join(tmp_dir, "suggests.csv")
+            _write_csv(path, ["from", "to"], sug_edges)
+            conn.execute(f"COPY SUGGESTS FROM '{path}' (header=true)")
+
+        if use_edges:
+            path = os.path.join(tmp_dir, "uses.csv")
+            _write_csv(path, ["from", "to"], use_edges)
+            conn.execute(f"COPY USES FROM '{path}' (header=true)")
+
+        print(f"  Philosophy data loaded.")
+
+    finally:
+        # Clean up temp CSV files
+        import shutil
+        shutil.rmtree(tmp_dir, ignore_errors=True)
+
+    # 5. Save build hash
     BUILD_HASH_FILE.parent.mkdir(parents=True, exist_ok=True)
     BUILD_HASH_FILE.write_text(_compute_extracted_hash())
 
-    print("Done. Knowledge graph rebuilt successfully.")
+    elapsed = time.time() - start_time
+    print(f"Done. Knowledge graph rebuilt in {elapsed:.1f}s.")
 
 
 def main():
