@@ -124,6 +124,16 @@ PHILOSOPHIES = [
         ),
         "disclaimer": None,
     },
+    {
+        "name": "unschooling",
+        "description": (
+            "Child-led, interest-driven learning through everyday life and play. "
+            "Trusts children's natural curiosity and intrinsic motivation. "
+            "Emphasizes autonomy, real-world experiences, and learning without "
+            "formal curriculum or imposed structure."
+        ),
+        "disclaimer": None,
+    },
 ]
 
 # Developmental milestones by age range and domain

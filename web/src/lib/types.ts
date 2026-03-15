@@ -8,11 +8,12 @@ export const SUBJECTS = [
 export type Subject = (typeof SUBJECTS)[number];
 
 export const PHILOSOPHIES = [
-  { id: "flexible", label: "Flexible", description: "No specific philosophy — AI picks the best approach for the topic" },
-  { id: "waldorf-adjacent", label: "Waldorf-Adjacent", description: "Follows Waldorf principles and methods", disclaimer: "This lesson draws from Waldorf educational principles but may not align exactly with traditional Waldorf curriculum sequencing, which prescribes specific content for specific ages." },
+  { id: "flexible", label: "Flexible", description: "Blends approaches based on the subject, age, and your child's needs" },
+  { id: "waldorf-adjacent", label: "Waldorf-Inspired", description: "Follows Waldorf principles and methods", disclaimer: "This lesson draws from Waldorf educational principles but may not align exactly with traditional Waldorf curriculum sequencing, which prescribes specific content for specific ages." },
   { id: "montessori-inspired", label: "Montessori-Inspired", description: "Hands-on, child-led, concrete-to-abstract learning" },
   { id: "project-based-learning", label: "Project-Based Learning", description: "Extended projects, inquiry-driven, real-world problems" },
   { id: "place-nature-based", label: "Place/Nature-Based", description: "Outdoor learning, local environment, natural materials" },
+  { id: "unschooling", label: "Unschooling", description: "Child-led, interest-driven learning through everyday life and play" },
 ] as const;
 
 export type PhilosophyId = (typeof PHILOSOPHIES)[number]["id"];

@@ -222,7 +222,7 @@ export default function GeneratePage() {
 
             {/* Step 2: Interest */}
             <div className="bg-white dark:bg-gray-900 rounded border border-gray-200 dark:border-gray-800 p-4 space-y-3">
-              <h2 className="font-medium text-gray-900 dark:text-gray-100">What is your child interested in right now?</h2>
+              <h2 className="font-medium text-gray-900 dark:text-gray-100">What is your child curious about?</h2>
               <input
                 type="text"
                 value={interest}
@@ -231,7 +231,7 @@ export default function GeneratePage() {
                 placeholder="e.g., dinosaurs, fire trucks, trees, outer space, cooking..."
               />
               <p className="text-xs text-gray-500 dark:text-gray-400">
-                This will be the theme of the lesson. It can be anything your child is curious about.
+                This will be the theme of the lesson. Follow your child&apos;s curiosity!
               </p>
             </div>
 
