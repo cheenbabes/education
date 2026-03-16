@@ -4,20 +4,21 @@ import { resolve } from "path";
 
 const prisma = new PrismaClient();
 
-interface CurriculumEntry {
+// JSON uses snake_case, Prisma uses camelCase
+interface RawCurriculum {
   name: string;
   publisher: string;
   description: string;
   subjects: string[];
-  gradeRange: string;
-  philosophyScores: Record<string, number>;
-  prepLevel: string;
-  religiousType: string;
-  faithDepth: string;
-  priceRange: string;
-  qualityScore: number;
-  affiliateUrl?: string;
-  settingFit: string[];
+  grade_range: string;
+  philosophy_scores: Record<string, number>;
+  prep_level: string;
+  religious_type: string;
+  faith_depth: string;
+  price_range: string;
+  quality_score: number;
+  affiliate_url?: string;
+  setting_fit: string[];
   notes?: string;
   active?: boolean;
 }
@@ -31,7 +32,7 @@ async function main() {
   }
 
   const raw = readFileSync(JSON_PATH, "utf-8");
-  const curricula: CurriculumEntry[] = JSON.parse(raw);
+  const curricula: RawCurriculum[] = JSON.parse(raw);
 
   console.log(`Found ${curricula.length} curricula to upsert...`);
 
@@ -39,6 +40,24 @@ async function main() {
   let updated = 0;
 
   for (const c of curricula) {
+    const data = {
+      name: c.name,
+      publisher: c.publisher,
+      description: c.description,
+      subjects: c.subjects,
+      gradeRange: c.grade_range,
+      philosophyScores: c.philosophy_scores as any,
+      prepLevel: c.prep_level,
+      religiousType: c.religious_type,
+      faithDepth: c.faith_depth,
+      priceRange: c.price_range,
+      qualityScore: c.quality_score,
+      affiliateUrl: c.affiliate_url || null,
+      settingFit: c.setting_fit,
+      notes: c.notes || null,
+      active: c.active ?? true,
+    };
+
     const existing = await prisma.curriculum.findFirst({
       where: { name: c.name, publisher: c.publisher },
     });
@@ -46,43 +65,11 @@ async function main() {
     if (existing) {
       await prisma.curriculum.update({
         where: { id: existing.id },
-        data: {
-          description: c.description,
-          subjects: c.subjects,
-          gradeRange: c.gradeRange,
-          philosophyScores: c.philosophyScores,
-          prepLevel: c.prepLevel,
-          religiousType: c.religiousType,
-          faithDepth: c.faithDepth,
-          priceRange: c.priceRange,
-          qualityScore: c.qualityScore,
-          affiliateUrl: c.affiliateUrl ?? null,
-          settingFit: c.settingFit,
-          notes: c.notes ?? null,
-          active: c.active ?? true,
-        },
+        data,
       });
       updated++;
     } else {
-      await prisma.curriculum.create({
-        data: {
-          name: c.name,
-          publisher: c.publisher,
-          description: c.description,
-          subjects: c.subjects,
-          gradeRange: c.gradeRange,
-          philosophyScores: c.philosophyScores,
-          prepLevel: c.prepLevel,
-          religiousType: c.religiousType,
-          faithDepth: c.faithDepth,
-          priceRange: c.priceRange,
-          qualityScore: c.qualityScore,
-          affiliateUrl: c.affiliateUrl ?? null,
-          settingFit: c.settingFit,
-          notes: c.notes ?? null,
-          active: c.active ?? true,
-        },
-      });
+      await prisma.curriculum.create({ data });
       created++;
     }
   }

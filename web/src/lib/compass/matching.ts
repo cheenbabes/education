@@ -10,12 +10,12 @@
 export interface PhilosophyBlend {
   montessori?: number;
   waldorf?: number;
-  "project-based"?: number;
-  "place-nature"?: number;
+  project_based?: number;
+  place_nature?: number;
   classical?: number;
-  "charlotte-mason"?: number;
+  charlotte_mason?: number;
   unschooling?: number;
-  eclectic?: number;
+  eclectic_flexible?: number;
   [key: string]: number | undefined;
 }
 
@@ -129,10 +129,14 @@ function prepLevelIndex(level: string): number {
 
 function userPrepMaxIndex(prepLevel: string | undefined): number {
   switch (prepLevel) {
-    case "open-and-go": return 0;  // only open-and-go
-    case "15-30-min": return 1;    // open-and-go or light
-    case "1-2-hours": return 2;    // up to moderate
-    case "3-plus-hours": return 3; // any
+    case "open-and-go":
+    case "none": return 0;         // only open-and-go
+    case "15-30-min":
+    case "light": return 1;        // open-and-go or light
+    case "1-2-hours":
+    case "moderate": return 2;     // up to moderate
+    case "3-plus-hours":
+    case "heavy": return 3;        // any
     default: return 3;
   }
 }
@@ -169,7 +173,7 @@ export function matchCurricula(
   }
 
   // Detect prep mismatch potential
-  const highPrepPhilosophies = ["waldorf", "montessori", "charlotte-mason"];
+  const highPrepPhilosophies = ["waldorf", "montessori", "charlotte_mason"];
   const highPrepWeight = highPrepPhilosophies.reduce(
     (sum, p) => sum + (philosophyBlend[p] ?? 0),
     0,
