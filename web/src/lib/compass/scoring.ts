@@ -220,10 +220,8 @@ export function determineArchetype(
 
   // Normalize philosophy blend to 0-1 (from 0-100 percentages)
   const blendNorm: Record<string, number> = {};
-  let blendSum = 0;
   for (const [key, value] of Object.entries(blend)) {
     blendNorm[key] = (value as number) / 100;
-    blendSum += (value as number) / 100;
   }
 
   // Check if user has a dominant philosophy or is truly eclectic
