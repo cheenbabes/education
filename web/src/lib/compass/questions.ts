@@ -90,7 +90,7 @@ export const PART1_QUESTIONS: Part1Question[] = [
       {
         text: "Pull out the field guide and go outside together to look for more birds — let the backyard become the classroom",
         dimensions: { modality: -2, direction: 1, social: -1 },
-        philosophies: { place_nature: 3, charlotte_mason: 1, unschooling: 1 },
+        philosophies: { place_nature: 3, unschooling: 1 },
       },
     ],
   },
@@ -181,9 +181,9 @@ export const PART1_QUESTIONS: Part1Question[] = [
         subjectContext: "foundational",
       },
       {
-        text: "Try a different curriculum or approach — maybe they need a different sequence or method",
-        dimensions: { structure: -1, direction: -1 },
-        philosophies: { eclectic_flexible: 3, classical: 1 },
+        text: "Try contextualizing math into their environment — how many tiles on the floor? How far is it to the park? Let them see how the problem applies to life around them",
+        dimensions: { modality: -2, direction: 0, subjectApproach: -1 },
+        philosophies: { place_nature: 3, project_based: 1 },
         subjectContext: "foundational",
       },
       {
@@ -226,9 +226,9 @@ export const PART1_QUESTIONS: Part1Question[] = [
         philosophies: { project_based: 3, place_nature: 1 },
       },
       {
-        text: "Outdoor time is woven throughout — we take lessons outside, walk and discuss, and use the environment as a teaching tool",
-        dimensions: { modality: -1, structure: 0, subjectApproach: -1 },
-        philosophies: { charlotte_mason: 2, place_nature: 2, eclectic_flexible: 1 },
+        text: "The outdoor environment is a prepared space — sensory bins with natural materials, a garden to tend, practical life skills like composting",
+        dimensions: { modality: -2, direction: 1, structure: -1 },
+        philosophies: { montessori: 3, place_nature: 1 },
       },
     ],
   },
@@ -259,10 +259,9 @@ export const PART1_QUESTIONS: Part1Question[] = [
         philosophies: { project_based: 3 },
       },
       {
-        text: "Math and reading stay on track with their own curriculum, but I'd weave Egypt into science, art, and geography where it fits naturally",
-        dimensions: { subjectApproach: 1, structure: -1 },
-        philosophies: { eclectic_flexible: 3, charlotte_mason: 1 },
-        subjectContext: "foundational",
+        text: "Connect it to our place — what ancient civilizations lived near us? What can we learn from local archaeology, geography, and the land we're standing on?",
+        dimensions: { subjectApproach: -2, modality: -1, social: -1 },
+        philosophies: { place_nature: 3, project_based: 1 },
       },
     ],
   },
