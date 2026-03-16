@@ -28,6 +28,7 @@ export interface CompassResult {
   dimensions: DimensionScores;
   philosophies: PhilosophyBlend;
   archetype: Archetype;
+  secondaryArchetype: Archetype | null;
   structureFlowSplit: StructureFlowSplit;
 }
 
@@ -209,10 +210,7 @@ export function detectStructureFlowSplit(
 export function determineArchetype(
   dimensions: DimensionScores,
   philosophies?: PhilosophyBlend,
-): Archetype {
-  let bestMatch: Archetype = ARCHETYPES[0];
-  let bestScore = -Infinity;
-
+): { primary: Archetype; secondary: Archetype | null } {
   // If no philosophies provided, use a flat blend (will match Weaver)
   const blend: Record<string, number> = philosophies
     ? { ...philosophies }
@@ -228,6 +226,8 @@ export function determineArchetype(
   const sortedPhils = Object.entries(blendNorm).sort((a, b) => b[1] - a[1]);
   const topPhilPct = sortedPhils.length > 0 ? sortedPhils[0][1] : 0;
   const isTrulyEclectic = topPhilPct < 0.17; // No single philosophy > 17%
+
+  const scored: Array<{ archetype: Archetype; score: number }> = [];
 
   for (const archetype of ARCHETYPES) {
     // --- Philosophy similarity (primary, weight = 0.8) ---
@@ -254,7 +254,6 @@ export function determineArchetype(
     for (const [dim, targetVal] of Object.entries(archetype.dimensionTendencies)) {
       if (targetVal === undefined) continue;
       const userVal = dimensions[dim as DimensionKey];
-      // Score is 1 when exact match, 0 when 100 points away
       dimScore += 1 - Math.abs(userVal - (targetVal as number)) / 100;
       dimCount++;
     }
@@ -268,13 +267,16 @@ export function determineArchetype(
       finalScore -= 0.15;
     }
 
-    if (finalScore > bestScore) {
-      bestScore = finalScore;
-      bestMatch = archetype;
-    }
+    scored.push({ archetype, score: finalScore });
   }
 
-  return bestMatch;
+  // Sort by score descending
+  scored.sort((a, b) => b.score - a.score);
+
+  return {
+    primary: scored[0].archetype,
+    secondary: scored.length > 1 ? scored[1].archetype : null,
+  };
 }
 
 /**
@@ -283,10 +285,10 @@ export function determineArchetype(
 export function scoreCompass(answers: Record<string, number>): CompassResult {
   const dimensions = calculateDimensions(answers);
   const philosophies = calculatePhilosophies(answers);
-  const archetype = determineArchetype(dimensions, philosophies);
+  const { primary, secondary } = determineArchetype(dimensions, philosophies);
   const structureFlowSplit = detectStructureFlowSplit(answers);
 
-  return { dimensions, philosophies, archetype, structureFlowSplit };
+  return { dimensions, philosophies, archetype: primary, secondaryArchetype: secondary, structureFlowSplit };
 }
 
 /** Human-readable labels for dimensions */

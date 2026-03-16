@@ -95,6 +95,9 @@ export default function ResultsPage() {
 
   const archetype =
     ARCHETYPES.find((a) => a.id === data.archetype) || ARCHETYPES[0];
+  const secondaryArchetype = data.secondaryArchetype
+    ? ARCHETYPES.find((a) => a.id === data.secondaryArchetype) || null
+    : null;
   const dimensions: DimensionScores = data.dimensions || data.dimensionScores;
   const philosophies: Record<PhilosophyKey, number> =
     data.philosophies || data.philosophyBlend;
@@ -174,9 +177,19 @@ export default function ResultsPage() {
           <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
             {archetype.name}
           </h2>
+          {secondaryArchetype && (
+            <p className="text-sm text-gray-500 dark:text-gray-400">
+              with {secondaryArchetype.name} tendencies
+            </p>
+          )}
           <p className="text-sm text-gray-600 dark:text-gray-400 max-w-lg mx-auto">
             {archetype.description}
           </p>
+          {secondaryArchetype && (
+            <p className="text-xs text-gray-400 dark:text-gray-500 max-w-md mx-auto italic">
+              Your secondary influence: {secondaryArchetype.description.split(".")[0]}.
+            </p>
+          )}
         </div>
 
         {/* Dimension bars */}
@@ -452,6 +465,7 @@ export default function ResultsPage() {
 
 const DEMO_RESULT = {
   archetype: "the-explorer",
+  secondaryArchetype: "the-naturalist",
   dimensions: {
     structure: 65,
     modality: 35,

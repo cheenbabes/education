@@ -119,6 +119,7 @@ export default function QuizPage() {
       "compass_result",
       JSON.stringify({
         archetype: compassResult.archetype.id,
+        secondaryArchetype: compassResult.secondaryArchetype?.id || null,
         dimensions: compassResult.dimensions,
         philosophies: compassResult.philosophies,
         structureFlowSplit: compassResult.structureFlowSplit,
@@ -234,6 +235,11 @@ export default function QuizPage() {
               <h2 className="text-3xl font-bold text-gray-900 dark:text-gray-100">
                 {compassResult.archetype.name}
               </h2>
+              {compassResult.secondaryArchetype && (
+                <p className="text-sm text-gray-500 dark:text-gray-400">
+                  with {compassResult.secondaryArchetype.name} tendencies
+                </p>
+              )}
               <p className="text-gray-600 dark:text-gray-400 max-w-md mx-auto">
                 {compassResult.archetype.description}
               </p>
@@ -317,6 +323,11 @@ export default function QuizPage() {
               <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
                 You&apos;re {compassResult.archetype.name}
               </h2>
+              {compassResult.secondaryArchetype && (
+                <p className="text-sm text-gray-500 dark:text-gray-400">
+                  with {compassResult.secondaryArchetype.name} tendencies
+                </p>
+              )}
               <p className="text-gray-600 dark:text-gray-400">
                 {compassResult.archetype.description.split(".")[0]}.
               </p>
