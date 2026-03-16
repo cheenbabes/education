@@ -507,7 +507,7 @@ export const PART1_QUESTIONS: Part1Question[] = [
       },
       {
         text: "I like having a general guide but adapt the pace and order to my child",
-        dimensions: { structure: -1, direction: 0 },
+        dimensions: { structure: 2, direction: 0 },
         philosophies: { eclectic_flexible: 3, charlotte_mason: 1 },
       },
       {
