@@ -63,38 +63,6 @@ export interface Part2Question {
 
 export const PART1_QUESTIONS: Part1Question[] = [
   {
-    id: "q1",
-    theme: "Responding to a child's spontaneous interest",
-    scenario: "Your child becomes fascinated with birds after seeing a hawk in the yard. How would you ideally respond?",
-    choices: [
-      {
-        text: "Set up a bird observation journal and field guide, letting them classify and sketch what they find",
-        dimensions: { structure: 1, direction: 2, modality: -2 },
-        philosophies: { montessori: 3, place_nature: 2 },
-      },
-      {
-        text: "Read living books about birds together, then go on a nature walk to observe",
-        dimensions: { structure: 0, direction: 0, modality: 1 },
-        philosophies: { charlotte_mason: 3, place_nature: 2 },
-      },
-      {
-        text: "Help them research hawks and build a bird feeder, turning it into a week-long project",
-        dimensions: { structure: 1, direction: 1, modality: -2 },
-        philosophies: { project_based: 3, unschooling: 1 },
-      },
-      {
-        text: "Head outside and explore — look for nests, listen for calls, track where different birds live in our neighborhood",
-        dimensions: { modality: -2, direction: 1, social: -1 },
-        philosophies: { place_nature: 3, unschooling: 1 },
-      },
-      {
-        text: "A little of everything — read a book about birds, go outside to observe, sketch what we see, or build a feeder. What I choose would depend on my child's needs and interests. I want to have options",
-        dimensions: { structure: 0, direction: 0, modality: -1 },
-        philosophies: { eclectic_flexible: 5 },
-      },
-    ],
-  },
-  {
     id: "q2",
     theme: "What a typical morning looks like",
     scenario: "Imagine your ideal teaching morning. Which sounds closest to what you'd want?",
@@ -688,6 +656,38 @@ export const PART1_QUESTIONS: Part1Question[] = [
         text: "They're fine occasionally but shouldn't be the main method — variety keeps things engaging",
         dimensions: { structure: 0, modality: 0 },
         philosophies: { eclectic_flexible: 2, waldorf: 1 },
+      },
+    ],
+  },
+  {
+    id: "q1",
+    theme: "Responding to a child's spontaneous interest",
+    scenario: "Your child becomes fascinated with birds after seeing a hawk in the yard. How would you ideally respond?",
+    choices: [
+      {
+        text: "Set up a bird observation journal and field guide, letting them classify and sketch what they find",
+        dimensions: { structure: 1, direction: 2, modality: -2 },
+        philosophies: { montessori: 3, place_nature: 2 },
+      },
+      {
+        text: "Read living books about birds together, then go on a nature walk to observe",
+        dimensions: { structure: 0, direction: 0, modality: 1 },
+        philosophies: { charlotte_mason: 3, place_nature: 2 },
+      },
+      {
+        text: "Help them research hawks and build a bird feeder, turning it into a week-long project",
+        dimensions: { structure: 1, direction: 1, modality: -2 },
+        philosophies: { project_based: 3, unschooling: 1 },
+      },
+      {
+        text: "Head outside and explore — look for nests, listen for calls, track where different birds live in our neighborhood",
+        dimensions: { modality: -2, direction: 1, social: -1 },
+        philosophies: { place_nature: 3, unschooling: 1 },
+      },
+      {
+        text: "A little of everything — read a book about birds, go outside to observe, sketch what we see, or build a feeder. What I choose would depend on my child's needs and interests. I want to have options",
+        dimensions: { structure: 0, direction: 0, modality: -1 },
+        philosophies: { eclectic_flexible: 5 },
       },
     ],
   },
