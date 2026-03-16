@@ -31,7 +31,7 @@ export default function QuizPage() {
 function QuizPageInner() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const debug = searchParams.get("debug") === "true";
+  const debug = searchParams.get("debug") !== "false"; // debug on by default
 
   // Part 1 state
   const [part1Answers, setPart1Answers] = useState<Record<string, number>>({});

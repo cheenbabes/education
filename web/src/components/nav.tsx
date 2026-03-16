@@ -12,6 +12,7 @@ const navItems = [
   { href: "/compass", label: "Compass" },
   { href: "/archetypes", label: "Archetypes" },
   { href: "/curriculum-review", label: "Curriculum Review" },
+  { href: "/personas", label: "Personas" },
   { href: "/calendar", label: "Calendar" },
   { href: "/lessons", label: "Lessons" },
   { href: "/standards", label: "Standards" },
