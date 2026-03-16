@@ -2,6 +2,7 @@
 
 import { Shell } from "@/components/shell";
 import Link from "next/link";
+import { PART1_QUESTIONS } from "@/lib/compass/questions";
 
 export default function CompassPage() {
   return (
@@ -22,7 +23,7 @@ export default function CompassPage() {
               </span>
               <div>
                 <p className="text-sm font-medium text-gray-900 dark:text-gray-100">
-                  Answer 10 scenario questions
+                  Answer {PART1_QUESTIONS.length} scenario questions
                 </p>
                 <p className="text-sm text-gray-500 dark:text-gray-400">
                   No right or wrong answers — just how you&apos;d naturally approach
