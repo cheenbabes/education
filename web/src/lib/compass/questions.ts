@@ -88,7 +88,7 @@ export const PART1_QUESTIONS: Part1Question[] = [
         philosophies: { place_nature: 3, unschooling: 1 },
       },
       {
-        text: "A little of everything — read a book about birds, go outside to observe, sketch what we see, maybe build a feeder. I like to pull the best from different approaches",
+        text: "A little of everything — read a book about birds, go outside to observe, sketch what we see, or build a feeder. What I choose would depend on my child's needs and interests. I want to have options",
         dimensions: { structure: 0, direction: 0, modality: -1 },
         philosophies: { eclectic_flexible: 5 },
       },
