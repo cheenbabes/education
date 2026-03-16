@@ -273,20 +273,26 @@ export default function ResultsPage() {
           </p>
         </div>
 
-        {/* Curriculum disclaimer */}
-        <div className="bg-amber-50 dark:bg-amber-950 border border-amber-200 dark:border-amber-800 rounded p-4">
-          <p className="text-sm text-amber-800 dark:text-amber-200">
-            <span className="font-medium">A note about curriculum and philosophy:</span>{" "}
-            By design, many published curricula lean toward classical structure.
-            We&apos;ll find the curricula that best match your philosophy — but if
-            your compass points toward flexible, adaptive, or child-led approaches,
-            a boxed curriculum may not fully capture your style.{" "}
-            <Link href="/generate" className="font-medium underline">
-              Explore our emergent and adaptive lesson planner
-            </Link>{" "}
-            for responsive, interest-driven lessons built around your child&apos;s curiosity.
+        {/* Archetype-specific app pitch — elevated above curriculum */}
+        <div className="bg-gray-900 dark:bg-gray-100 rounded p-6 space-y-3">
+          <h3 className="text-lg font-bold text-white dark:text-gray-900">
+            {archetype.appPitch.headline}
+          </h3>
+          <p className="text-sm text-gray-300 dark:text-gray-600 leading-relaxed">
+            {archetype.appPitch.body}
           </p>
+          <Link
+            href="/generate"
+            className="inline-block px-5 py-2 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 rounded font-medium text-sm hover:bg-gray-100 dark:hover:bg-gray-800"
+          >
+            {archetype.appPitch.cta} &rarr;
+          </Link>
         </div>
+
+        {/* Curriculum note */}
+        <p className="text-xs text-gray-400 dark:text-gray-500 italic">
+          Below are curriculum recommendations for your foundational subjects. Many published curricula lean toward classical structure — we&apos;ve found the best matches for your philosophy.
+        </p>
 
         {/* Warnings */}
         {matchOutput?.warnings && matchOutput.warnings.length > 0 && (
@@ -427,21 +433,16 @@ export default function ResultsPage() {
             ))}
         </div>
 
-        {/* EduApp pitch */}
-        <div className="bg-gray-900 dark:bg-gray-100 rounded p-6 text-center space-y-3">
-          <h3 className="text-lg font-bold text-white dark:text-gray-900">
-            Build Interest-Driven Lessons
-          </h3>
-          <p className="text-sm text-gray-300 dark:text-gray-600 max-w-lg mx-auto">
-            Have your foundational curriculum for literacy and math? Use EduApp
-            to create interest-driven lessons for everything else — science,
-            social studies, art, and whatever your child is curious about today.
+        {/* Bottom CTA — reinforces the archetype pitch */}
+        <div className="bg-white dark:bg-gray-900 rounded border border-gray-200 dark:border-gray-800 p-4 text-center space-y-2">
+          <p className="text-sm text-gray-600 dark:text-gray-400">
+            Ready to start building lessons that match your {archetype.name} style?
           </p>
           <Link
-            href="/dashboard"
-            className="inline-block px-6 py-2 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 rounded font-medium text-sm hover:bg-gray-100 dark:hover:bg-gray-800"
+            href="/generate"
+            className="inline-block px-6 py-2 bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900 rounded font-medium text-sm hover:bg-gray-800 dark:hover:bg-gray-200"
           >
-            Try EduApp Free
+            {archetype.appPitch.cta} &rarr;
           </Link>
         </div>
       </div>
