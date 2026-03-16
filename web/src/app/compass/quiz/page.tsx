@@ -241,14 +241,33 @@ function QuizPageInner() {
                           ))}
                         {Object.entries(choice.dimensions)
                           .filter(([, v]) => (v as number) !== 0)
-                          .map(([dim, v]) => (
-                            <span
-                              key={dim}
-                              className="text-[10px] px-1.5 py-0.5 rounded bg-gray-100 dark:bg-gray-800 text-gray-500"
-                            >
-                              {dim.slice(0, 4)}:{v as number > 0 ? "+" : ""}{v as number}
-                            </span>
-                          ))}
+                          .map(([dim, v]) => {
+                            const dimLabel: Record<string, string> = {
+                              structure: "Structure",
+                              modality: "Modality",
+                              subjectApproach: "Subjects",
+                              direction: "Direction",
+                              social: "Social",
+                            };
+                            const val = v as number;
+                            const pole: Record<string, [string, string]> = {
+                              structure: ["Prescriptive", "Adaptive"],
+                              modality: ["Hands-on", "Books"],
+                              subjectApproach: ["Integrated", "Separate"],
+                              direction: ["Teacher-led", "Child-led"],
+                              social: ["Community", "Individual"],
+                            };
+                            const [left, right] = pole[dim] || ["−", "+"];
+                            const arrow = val < 0 ? `← ${left}` : `→ ${right}`;
+                            return (
+                              <span
+                                key={dim}
+                                className="text-[10px] px-1.5 py-0.5 rounded bg-gray-100 dark:bg-gray-800 text-gray-500"
+                              >
+                                {dimLabel[dim] || dim} {arrow} {Math.abs(val)}
+                              </span>
+                            );
+                          })}
                       </div>
                     )}
                   </button>

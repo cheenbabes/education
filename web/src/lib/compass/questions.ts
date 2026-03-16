@@ -176,22 +176,22 @@ export const PART1_QUESTIONS: Part1Question[] = [
       {
         text: "It's the foundation — most real learning happens through direct experience with nature and place",
         dimensions: { modality: -3, social: -1, subjectApproach: -2 },
-        philosophies: { place_nature: 3, unschooling: 1 },
+        philosophies: { place_nature: 3, unschooling: 1, waldorf: 1 },
       },
       {
         text: "Nature study is a regular subject — we do nature journaling, identify plants, and observe seasons",
         dimensions: { modality: -1, structure: -1 },
-        philosophies: { charlotte_mason: 3, place_nature: 2 },
+        philosophies: { charlotte_mason: 3, place_nature: 2, waldorf: 1 },
       },
       {
         text: "Outdoor time is for play and free exploration — separate from academic learning",
         dimensions: { modality: 2, structure: -1, social: 1 },
-        philosophies: { classical: 2, eclectic_flexible: 2 },
+        philosophies: { classical: 2, eclectic_flexible: 1 },
       },
       {
         text: "We do projects outdoors when relevant — building a garden, measuring trees, mapping the neighborhood",
         dimensions: { modality: -2, subjectApproach: -1 },
-        philosophies: { project_based: 3, place_nature: 1 },
+        philosophies: { project_based: 3, place_nature: 1, eclectic_flexible: 2 },
       },
       {
         text: "The outdoor environment is a prepared space — sensory bins with natural materials, a garden to tend, practical life skills like composting",
@@ -390,12 +390,12 @@ export const PART1_QUESTIONS: Part1Question[] = [
       {
         text: "Honestly, the whole house is the classroom — the kitchen, the yard, wherever we happen to be",
         dimensions: { structure: 2, direction: 2 },
-        philosophies: { unschooling: 3, place_nature: 1 },
+        philosophies: { unschooling: 3, place_nature: 2 },
       },
       {
         text: "A proper desk and bookshelf area — quiet, organized, with a schedule posted on the wall",
         dimensions: { structure: -3, modality: 2, direction: -2 },
-        philosophies: { classical: 3, eclectic_flexible: 1 },
+        philosophies: { classical: 3 },
       },
     ],
   },
@@ -444,12 +444,12 @@ export const PART1_QUESTIONS: Part1Question[] = [
       {
         text: "Mixed-age interaction is valuable — older children mentoring younger ones is how real communities work",
         dimensions: { social: -2, direction: 1 },
-        philosophies: { montessori: 2, waldorf: 1, place_nature: 1 },
+        philosophies: { montessori: 2, eclectic_flexible: 1, place_nature: 1 },
       },
       {
         text: "Social learning happens through real life — errands, community service, play dates — not structured academics",
         dimensions: { social: 1, direction: 2, structure: 1 },
-        philosophies: { unschooling: 3, eclectic_flexible: 1 },
+        philosophies: { unschooling: 3, eclectic_flexible: 1, waldorf: 1 },
       },
       {
         text: "Socratic discussion and narration — the child tells back what they've learned, and we discuss ideas together",
