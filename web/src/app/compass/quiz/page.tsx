@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo, useCallback } from "react";
+import { useState, useMemo, useCallback, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { PART1_QUESTIONS, PART2_QUESTIONS, Part2Question } from "@/lib/compass/questions";
 import {
@@ -21,6 +21,14 @@ type QuizPhase =
   | "email-gate";
 
 export default function QuizPage() {
+  return (
+    <Suspense>
+      <QuizPageInner />
+    </Suspense>
+  );
+}
+
+function QuizPageInner() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const debug = searchParams.get("debug") === "true";
