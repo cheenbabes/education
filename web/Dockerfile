@@ -30,13 +30,18 @@ COPY --from=builder /app/.next/standalone ./
 COPY --from=builder /app/.next/static ./.next/static
 COPY --from=builder /app/public ./public
 
-# Copy Prisma for runtime migrations (pinned to v5 from builder)
+# Copy Prisma for runtime migrations
 COPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma
 COPY --from=builder /app/node_modules/@prisma ./node_modules/@prisma
 COPY --from=builder /app/node_modules/prisma ./node_modules/prisma
 COPY --from=builder /app/prisma ./prisma
 
+# Copy curriculum data for runtime seeding
+COPY --from=builder /app/docs/curriculum-research/all-curricula.json ./docs/curriculum-research/all-curricula.json
+
 EXPOSE 3000
 ENV PORT=3000
 ENV HOSTNAME="0.0.0.0"
-CMD ["node", "server.js"]
+
+# At startup: run migrations, seed data, then start server
+CMD ["sh", "-c", "npx prisma migrate deploy && node prisma/seed-curricula.js; exec node server.js"]
