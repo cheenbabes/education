@@ -83,14 +83,14 @@ export const PART1_QUESTIONS: Part1Question[] = [
         philosophies: { project_based: 3, unschooling: 1 },
       },
       {
-        text: "Use it as a jumping-off point for a zoology block with stories, watercolor painting, and songs",
-        dimensions: { structure: -1, modality: -1, subjectApproach: -2 },
-        philosophies: { waldorf: 3 },
-      },
-      {
-        text: "Pull out the field guide and go outside together to look for more birds — let the backyard become the classroom",
+        text: "Head outside and explore — look for nests, listen for calls, track where different birds live in our neighborhood",
         dimensions: { modality: -2, direction: 1, social: -1 },
         philosophies: { place_nature: 3, unschooling: 1 },
+      },
+      {
+        text: "A little of everything — read a book about birds, go outside to observe, sketch what we see, maybe build a feeder. I like to pull the best from different approaches",
+        dimensions: { structure: 0, direction: 0, modality: -1 },
+        philosophies: { eclectic_flexible: 5 },
       },
     ],
   },
