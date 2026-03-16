@@ -11,6 +11,7 @@ const navItems = [
   { href: "/generate", label: "Generate Lesson" },
   { href: "/compass", label: "Compass" },
   { href: "/archetypes", label: "Archetypes" },
+  { href: "/archetype-debug", label: "Combo Debug" },
   { href: "/curriculum-review", label: "Curriculum Review" },
   { href: "/personas", label: "Personas" },
   { href: "/calendar", label: "Calendar" },
