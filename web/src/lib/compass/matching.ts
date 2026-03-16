@@ -91,7 +91,7 @@ const PREP_BONUS = 0.10;
 const SETTING_BONUS = 0.05;
 const INTEGRATED_BONUS = 0.08;
 
-const TOP_N = 5;
+const TOP_N = 3;
 
 // --- Helpers ---
 

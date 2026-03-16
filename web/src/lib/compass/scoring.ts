@@ -197,45 +197,82 @@ export function detectStructureFlowSplit(
 }
 
 /**
- * Determine archetype from dimension scores.
- * Scores each archetype by how well the user's dimensions fit within its thresholds.
+ * Determine archetype from philosophy blend and dimension scores.
+ *
+ * Primary signal: cosine similarity between user's philosophy blend and
+ * each archetype's ideal philosophy profile.
+ * Secondary signal: dimension proximity (small tiebreaker).
+ *
+ * The Weaver archetype (eclectic) only wins when no single philosophy
+ * dominates — i.e., the user's top philosophy is less than 20% of the blend.
  */
-export function determineArchetype(dimensions: DimensionScores): Archetype {
-  let bestMatch: Archetype = ARCHETYPES[ARCHETYPES.length - 1]; // Default to Weaver (most generic)
-  let bestScore = -1;
+export function determineArchetype(
+  dimensions: DimensionScores,
+  philosophies?: PhilosophyBlend,
+): Archetype {
+  let bestMatch: Archetype = ARCHETYPES[0];
+  let bestScore = -Infinity;
+
+  // If no philosophies provided, use a flat blend (will match Weaver)
+  const blend: Record<string, number> = philosophies
+    ? { ...philosophies }
+    : {};
+
+  // Normalize philosophy blend to 0-1 (from 0-100 percentages)
+  const blendNorm: Record<string, number> = {};
+  let blendSum = 0;
+  for (const [key, value] of Object.entries(blend)) {
+    blendNorm[key] = (value as number) / 100;
+    blendSum += (value as number) / 100;
+  }
+
+  // Check if user has a dominant philosophy or is truly eclectic
+  const sortedPhils = Object.entries(blendNorm).sort((a, b) => b[1] - a[1]);
+  const topPhilPct = sortedPhils.length > 0 ? sortedPhils[0][1] : 0;
+  const isTrulyEclectic = topPhilPct < 0.20; // No single philosophy > 20%
 
   for (const archetype of ARCHETYPES) {
-    let matchScore = 0;
-    let totalDimensions = 0;
-    let disqualified = false;
+    // --- Philosophy similarity (primary, weight = 0.8) ---
+    let dotProduct = 0;
+    let magA = 0;
+    let magB = 0;
 
-    for (const [dim, range] of Object.entries(archetype.match)) {
-      const [min, max] = range as [number, number];
-      const value = dimensions[dim as DimensionKey];
-      totalDimensions++;
-
-      if (value >= min && value <= max) {
-        // Score higher for being closer to the center of the range
-        const center = (min + max) / 2;
-        const rangeWidth = max - min;
-        const distFromCenter = Math.abs(value - center);
-        matchScore += 1 - distFromCenter / (rangeWidth / 2 + 1);
-      } else {
-        disqualified = true;
-        break;
-      }
+    for (const phil of ALL_PHILOSOPHIES) {
+      const userVal = blendNorm[phil] || 0;
+      const archVal = archetype.philosophyProfile[phil] || 0;
+      dotProduct += userVal * archVal;
+      magA += userVal * userVal;
+      magB += archVal * archVal;
     }
 
-    if (!disqualified && totalDimensions > 0) {
-      const normalizedScore = matchScore / totalDimensions;
-      // Prefer archetypes with more dimensions specified (more specific matches)
-      const specificityBonus = totalDimensions * 0.1;
-      const finalScore = normalizedScore + specificityBonus;
+    const cosineSim =
+      magA > 0 && magB > 0
+        ? dotProduct / (Math.sqrt(magA) * Math.sqrt(magB))
+        : 0;
 
-      if (finalScore > bestScore) {
-        bestScore = finalScore;
-        bestMatch = archetype;
-      }
+    // --- Dimension proximity (secondary, weight = 0.2) ---
+    let dimScore = 0;
+    let dimCount = 0;
+    for (const [dim, targetVal] of Object.entries(archetype.dimensionTendencies)) {
+      if (targetVal === undefined) continue;
+      const userVal = dimensions[dim as DimensionKey];
+      // Score is 1 when exact match, 0 when 100 points away
+      dimScore += 1 - Math.abs(userVal - (targetVal as number)) / 100;
+      dimCount++;
+    }
+    const dimSim = dimCount > 0 ? dimScore / dimCount : 0.5;
+
+    // --- Combined score ---
+    let finalScore = cosineSim * 0.8 + dimSim * 0.2;
+
+    // Weaver penalty: only let Weaver win if user is truly eclectic
+    if (archetype.id === "the-weaver" && !isTrulyEclectic) {
+      finalScore -= 0.15;
+    }
+
+    if (finalScore > bestScore) {
+      bestScore = finalScore;
+      bestMatch = archetype;
     }
   }
 
@@ -248,7 +285,7 @@ export function determineArchetype(dimensions: DimensionScores): Archetype {
 export function scoreCompass(answers: Record<string, number>): CompassResult {
   const dimensions = calculateDimensions(answers);
   const philosophies = calculatePhilosophies(answers);
-  const archetype = determineArchetype(dimensions);
+  const archetype = determineArchetype(dimensions, philosophies);
   const structureFlowSplit = detectStructureFlowSplit(answers);
 
   return { dimensions, philosophies, archetype, structureFlowSplit };
