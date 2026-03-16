@@ -82,11 +82,13 @@ function QuizPageInner() {
         if (currentQ + 1 < totalPart1) {
           setCurrentQ(currentQ + 1);
           setSelectedChoice(null);
+          window.scrollTo({ top: 0, behavior: "smooth" });
         } else {
           // Score and show compass
           const result = scoreCompass(newAnswers);
           setCompassResult(result);
           setPhase("compass-reveal");
+          window.scrollTo({ top: 0, behavior: "smooth" });
         }
         setAnimating(false);
       }, 400);
@@ -114,8 +116,10 @@ function QuizPageInner() {
   const advancePart2 = useCallback(() => {
     if (currentP2 + 1 < visiblePart2Questions.length) {
       setCurrentP2(currentP2 + 1);
+      window.scrollTo({ top: 0, behavior: "smooth" });
     } else {
       setPhase("teaser");
+      window.scrollTo({ top: 0, behavior: "smooth" });
     }
   }, [currentP2, visiblePart2Questions.length]);
 
