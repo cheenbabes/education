@@ -400,6 +400,134 @@ export const PART1_QUESTIONS: Part1Question[] = [
       },
     ],
   },
+  {
+    id: "q11",
+    theme: "How the learning environment should look",
+    scenario: "If you could design your ideal learning space, what would it look like?",
+    choices: [
+      {
+        text: "Organized shelves with materials at the child's height — everything in its place, ready for the child to choose",
+        dimensions: { structure: -1, direction: 1, modality: -2 },
+        philosophies: { montessori: 3, eclectic_flexible: 1 },
+      },
+      {
+        text: "A cozy reading nook, a nature table with seasonal treasures, and art supplies always within reach",
+        dimensions: { modality: 0, structure: 0 },
+        philosophies: { charlotte_mason: 2, waldorf: 2, place_nature: 1 },
+      },
+      {
+        text: "A workshop — tools, building materials, a whiteboard for planning, and space to spread out big projects",
+        dimensions: { modality: -3, subjectApproach: -1, social: -1 },
+        philosophies: { project_based: 3, place_nature: 1 },
+      },
+      {
+        text: "Honestly, the whole house is the classroom — the kitchen, the yard, wherever we happen to be",
+        dimensions: { structure: 2, direction: 2 },
+        philosophies: { unschooling: 3, place_nature: 1 },
+      },
+      {
+        text: "A proper desk and bookshelf area — quiet, organized, with a schedule posted on the wall",
+        dimensions: { structure: -3, modality: 2, direction: -2 },
+        philosophies: { classical: 3, eclectic_flexible: 1 },
+      },
+    ],
+  },
+  {
+    id: "q12",
+    theme: "Role of art and creativity",
+    scenario: "How important is art and creative expression in your approach to education?",
+    choices: [
+      {
+        text: "Art is woven into everything — watercolor painting, beeswax modeling, handwork, and music are daily practices",
+        dimensions: { modality: -2, subjectApproach: -2 },
+        philosophies: { waldorf: 3, charlotte_mason: 1 },
+      },
+      {
+        text: "Creative expression happens naturally through projects — building, designing, presenting, and problem-solving",
+        dimensions: { modality: -2, direction: 1 },
+        philosophies: { project_based: 3, eclectic_flexible: 1 },
+      },
+      {
+        text: "Art is a separate subject we enjoy, but it doesn't need to be in every lesson",
+        dimensions: { subjectApproach: 2, structure: -1 },
+        philosophies: { classical: 2, eclectic_flexible: 2 },
+      },
+      {
+        text: "I follow the child's lead — if they want to draw for three hours, that IS the lesson",
+        dimensions: { direction: 3, structure: 2 },
+        philosophies: { unschooling: 3, montessori: 1 },
+      },
+      {
+        text: "Nature itself is the art — sketching what we observe, pressing flowers, creating with found materials",
+        dimensions: { modality: -2, direction: 1, social: 0 },
+        philosophies: { place_nature: 3, charlotte_mason: 2 },
+      },
+    ],
+  },
+  {
+    id: "q13",
+    theme: "Approach to social learning and collaboration",
+    scenario: "How do you think about the social side of learning?",
+    choices: [
+      {
+        text: "Group projects and collaborative work are essential — children learn by working together toward shared goals",
+        dimensions: { social: -3, direction: 0 },
+        philosophies: { project_based: 2, place_nature: 1, classical: 1 },
+      },
+      {
+        text: "Mixed-age interaction is valuable — older children mentoring younger ones is how real communities work",
+        dimensions: { social: -2, direction: 1 },
+        philosophies: { montessori: 2, waldorf: 1, place_nature: 1 },
+      },
+      {
+        text: "Social learning happens through real life — errands, community service, play dates — not structured academics",
+        dimensions: { social: 1, direction: 2, structure: 1 },
+        philosophies: { unschooling: 3, eclectic_flexible: 1 },
+      },
+      {
+        text: "Socratic discussion and narration — the child tells back what they've learned, and we discuss ideas together",
+        dimensions: { social: 0, modality: 1, direction: -1 },
+        philosophies: { charlotte_mason: 2, classical: 2 },
+      },
+      {
+        text: "I value one-on-one time — individualized attention is why we chose this path in the first place",
+        dimensions: { social: 3, direction: -1 },
+        philosophies: { montessori: 1, eclectic_flexible: 2, classical: 1 },
+      },
+    ],
+  },
+  {
+    id: "q14",
+    theme: "How you'd teach a unit on weather",
+    scenario: "You want to teach your child about weather and seasons. How do you approach it?",
+    choices: [
+      {
+        text: "We go outside every day and observe — temperature, clouds, wind. We keep a weather journal and track patterns over weeks",
+        dimensions: { modality: -2, direction: 0 },
+        philosophies: { place_nature: 3, charlotte_mason: 2 },
+      },
+      {
+        text: "We build a weather station, make a barometer from a jar, and run experiments with evaporation and condensation",
+        dimensions: { modality: -3, subjectApproach: -1 },
+        philosophies: { project_based: 3, montessori: 1 },
+      },
+      {
+        text: "We read a textbook chapter on weather systems, do the worksheet, and take a quiz at the end of the unit",
+        dimensions: { structure: -3, modality: 2, direction: -2 },
+        philosophies: { classical: 3 },
+      },
+      {
+        text: "We don't plan a weather unit — but when a big storm comes, we follow the curiosity and learn about it then",
+        dimensions: { structure: 3, direction: 3 },
+        philosophies: { unschooling: 3, eclectic_flexible: 1 },
+      },
+      {
+        text: "We learn about weather through stories, songs, and painting — a rainy day watercolor, a poem about autumn, a story about the wind",
+        dimensions: { modality: -1, subjectApproach: -2 },
+        philosophies: { waldorf: 3, charlotte_mason: 1 },
+      },
+    ],
+  },
 ];
 
 export const PART2_QUESTIONS: Part2Question[] = [

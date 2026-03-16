@@ -52,8 +52,8 @@ describe("Archetype reachability (8 archetypes)", () => {
     expect(result.archetype.id).toBe("the-guide");
   });
 
-  test("The Explorer is reachable via montessori + unschooling answers", () => {
-    const answers = buildAnswers(["montessori", "unschooling"]);
+  test("The Explorer is reachable via place/nature + unschooling answers", () => {
+    const answers = buildAnswers(["place_nature", "unschooling"], { direction: 1 });
     const result = scoreCompass(answers);
     expect(result.archetype.id).toBe("the-explorer");
   });
