@@ -79,7 +79,7 @@ export function calculateDimensions(
 
   // Normalize: find the max possible range and map to 0-100
   // Max absolute per dimension across all questions
-  const maxAbsolute = 30; // 10 questions * max 3 per question
+  const maxAbsolute = 45; // 20 questions, calibrated for good spread
   const normalized: DimensionScores = {
     structure: 0,
     modality: 0,
@@ -227,7 +227,7 @@ export function determineArchetype(
   // Check if user has a dominant philosophy or is truly eclectic
   const sortedPhils = Object.entries(blendNorm).sort((a, b) => b[1] - a[1]);
   const topPhilPct = sortedPhils.length > 0 ? sortedPhils[0][1] : 0;
-  const isTrulyEclectic = topPhilPct < 0.20; // No single philosophy > 20%
+  const isTrulyEclectic = topPhilPct < 0.17; // No single philosophy > 17%
 
   for (const archetype of ARCHETYPES) {
     // --- Philosophy similarity (primary, weight = 0.8) ---

@@ -528,6 +528,202 @@ export const PART1_QUESTIONS: Part1Question[] = [
       },
     ],
   },
+  {
+    id: "q15",
+    theme: "Following a scope and sequence",
+    scenario: "How do you feel about following a set scope and sequence for your child's education?",
+    choices: [
+      {
+        text: "A clear scope and sequence keeps us on track — I want to know we're covering everything",
+        dimensions: { structure: -3, direction: -2 },
+        philosophies: { classical: 3 },
+      },
+      {
+        text: "I like having a general guide but adapt the pace and order to my child",
+        dimensions: { structure: -1, direction: 0 },
+        philosophies: { eclectic_flexible: 3, charlotte_mason: 1 },
+      },
+      {
+        text: "The child's developmental stage determines what we study, not a predetermined sequence",
+        dimensions: { structure: 0, direction: 1 },
+        philosophies: { waldorf: 3, montessori: 1 },
+      },
+      {
+        text: "I set up the environment with materials at different levels and let the child progress naturally through them",
+        dimensions: { structure: -1, direction: 2, modality: -1 },
+        philosophies: { montessori: 3 },
+      },
+      {
+        text: "We don't follow a sequence — interests and seasons guide what we explore",
+        dimensions: { structure: 2, direction: 2 },
+        philosophies: { place_nature: 2, unschooling: 2 },
+      },
+    ],
+  },
+  {
+    id: "q16",
+    theme: "Starting a new topic",
+    scenario: "Your child wants to learn about the ocean. How do you start?",
+    choices: [
+      {
+        text: "Visit the beach or aquarium — direct experience with the real thing comes first",
+        dimensions: { modality: -3, direction: 0 },
+        philosophies: { place_nature: 3, charlotte_mason: 1 },
+      },
+      {
+        text: "Gather beautiful ocean books, poems, and artwork — immerse in the wonder through stories",
+        dimensions: { modality: 1, direction: -1 },
+        philosophies: { charlotte_mason: 3, waldorf: 1 },
+      },
+      {
+        text: "Paint an ocean scene, learn sea shanties, and model clay sea creatures before any textbook work",
+        dimensions: { modality: -2, subjectApproach: -2 },
+        philosophies: { waldorf: 3 },
+      },
+      {
+        text: "Research together and plan a project — maybe build a model ecosystem or start a saltwater observation jar",
+        dimensions: { modality: -2, direction: 0, subjectApproach: -1 },
+        philosophies: { project_based: 3, montessori: 1 },
+      },
+      {
+        text: "Let them lead — they might want to draw fish, or read about sharks, or watch a documentary. Follow the thread",
+        dimensions: { direction: 3, structure: 1 },
+        philosophies: { unschooling: 2, eclectic_flexible: 1 },
+      },
+    ],
+  },
+  {
+    id: "q17",
+    theme: "Rhythm and routine",
+    scenario: "What role should rhythm and routine play in your learning day?",
+    choices: [
+      {
+        text: "A strong daily rhythm — morning circle, main lesson block, creative time, outdoor time — gives children security",
+        dimensions: { structure: -2, direction: -1 },
+        philosophies: { waldorf: 3 },
+      },
+      {
+        text: "Short lessons in the morning with defined subjects, then free time for nature study and handicrafts",
+        dimensions: { structure: -1, modality: 0 },
+        philosophies: { charlotte_mason: 3 },
+      },
+      {
+        text: "A consistent work period where the child chooses from prepared activities at their own pace",
+        dimensions: { structure: -1, direction: 2, modality: -1 },
+        philosophies: { montessori: 3 },
+      },
+      {
+        text: "Routine matters for core skills, but the rest of the day should flex based on what comes up",
+        dimensions: { structure: 0, direction: 0 },
+        philosophies: { eclectic_flexible: 2, place_nature: 1 },
+        subjectContext: "foundational",
+      },
+      {
+        text: "We have rhythms but not rigid routines — some days we're at the table, some days we're outside all day",
+        dimensions: { structure: 1, direction: 1 },
+        philosophies: { place_nature: 2, unschooling: 1 },
+      },
+    ],
+  },
+  {
+    id: "q18",
+    theme: "Teaching history or social studies",
+    scenario: "How do you approach teaching history or social studies?",
+    choices: [
+      {
+        text: "Start with our own community — local history, neighborhood walks, interviewing elders",
+        dimensions: { modality: -2, social: -1, subjectApproach: -1 },
+        philosophies: { place_nature: 3, project_based: 1 },
+      },
+      {
+        text: "Living books and biographies — let the child hear the stories of real people and narrate them back",
+        dimensions: { modality: 1, direction: 0 },
+        philosophies: { charlotte_mason: 3 },
+        subjectContext: "exploratory",
+      },
+      {
+        text: "Through story, art, and drama — the child experiences each era, not just reads about it",
+        dimensions: { modality: -1, subjectApproach: -2 },
+        philosophies: { waldorf: 3 },
+      },
+      {
+        text: "Chronological, systematic study — timeline, key events, primary sources, and discussion",
+        dimensions: { structure: -3, modality: 2, subjectApproach: 2 },
+        philosophies: { classical: 3 },
+      },
+      {
+        text: "It comes up naturally — a museum trip, a news event, a question about why things are the way they are",
+        dimensions: { structure: 2, direction: 2 },
+        philosophies: { unschooling: 2, eclectic_flexible: 1 },
+        subjectContext: "exploratory",
+      },
+    ],
+  },
+  {
+    id: "q19",
+    theme: "Workbooks and worksheets",
+    scenario: "How do you feel about workbooks and worksheets?",
+    choices: [
+      {
+        text: "They have their place — good for math practice and spelling reinforcement",
+        dimensions: { structure: -1, modality: 2 },
+        philosophies: { classical: 2, eclectic_flexible: 2 },
+        subjectContext: "foundational",
+      },
+      {
+        text: "I prefer hands-on materials — real objects to manipulate, not paper exercises",
+        dimensions: { modality: -3, direction: 1 },
+        philosophies: { montessori: 3, place_nature: 1 },
+      },
+      {
+        text: "Narration and copywork are better than worksheets — children learn by telling back and writing beautifully",
+        dimensions: { modality: 0, direction: -1 },
+        philosophies: { charlotte_mason: 3 },
+      },
+      {
+        text: "I avoid them entirely — real-world experience teaches more than any worksheet",
+        dimensions: { modality: -2, structure: 2, direction: 1 },
+        philosophies: { place_nature: 2, unschooling: 2 },
+      },
+      {
+        text: "They're fine occasionally but shouldn't be the main method — variety keeps things engaging",
+        dimensions: { structure: 0, modality: 0 },
+        philosophies: { eclectic_flexible: 2, waldorf: 1 },
+      },
+    ],
+  },
+  {
+    id: "q20",
+    theme: "What success looks like",
+    scenario: "What does 'success' look like at the end of a school year?",
+    choices: [
+      {
+        text: "My child can demonstrate mastery of grade-level skills through assessments or portfolio review",
+        dimensions: { structure: -3, direction: -2 },
+        philosophies: { classical: 3 },
+      },
+      {
+        text: "My child has developed a deep connection to the natural world and their community",
+        dimensions: { modality: -1, social: -1 },
+        philosophies: { place_nature: 3 },
+      },
+      {
+        text: "My child is more independent — choosing their own work and pursuing deeper understanding",
+        dimensions: { direction: 3, structure: 0 },
+        philosophies: { montessori: 3 },
+      },
+      {
+        text: "My child has grown as a whole person — artistically, emotionally, physically, not just academically",
+        dimensions: { modality: -1, subjectApproach: -2 },
+        philosophies: { waldorf: 3 },
+      },
+      {
+        text: "My child is still curious and loves learning — that's the only metric that matters",
+        dimensions: { direction: 2, structure: 2 },
+        philosophies: { unschooling: 2, eclectic_flexible: 1 },
+      },
+    ],
+  },
 ];
 
 export const PART2_QUESTIONS: Part2Question[] = [

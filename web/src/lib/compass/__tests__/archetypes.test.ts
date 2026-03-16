@@ -136,6 +136,7 @@ describe("Archetype distribution", () => {
       { phils: ["waldorf", "place_nature"] },
       { phils: ["charlotte_mason", "place_nature"] },
       { phils: ["unschooling", "project_based"] },
+      { phils: ["place_nature", "unschooling"], dimBias: { direction: 1 } },
     ];
 
     for (const { phils, dimBias } of combos) {
