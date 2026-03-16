@@ -44,4 +44,4 @@ ENV PORT=3000
 ENV HOSTNAME="0.0.0.0"
 
 # At startup: run migrations, seed data, then start server
-CMD ["sh", "-c", "npx prisma migrate deploy && node prisma/seed-curricula.js; exec node server.js"]
+CMD ["sh", "-c", "node node_modules/prisma/build/index.js migrate deploy && node prisma/seed-curricula.js; exec node server.js"]
