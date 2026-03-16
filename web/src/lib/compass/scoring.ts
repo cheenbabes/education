@@ -24,11 +24,18 @@ export interface StructureFlowSplit {
   message: string;
 }
 
+export interface ArchetypeScore {
+  id: string;
+  name: string;
+  score: number;
+}
+
 export interface CompassResult {
   dimensions: DimensionScores;
   philosophies: PhilosophyBlend;
   archetype: Archetype;
   secondaryArchetype: Archetype | null;
+  archetypeScores: ArchetypeScore[];
   structureFlowSplit: StructureFlowSplit;
 }
 
@@ -210,7 +217,7 @@ export function detectStructureFlowSplit(
 export function determineArchetype(
   dimensions: DimensionScores,
   philosophies?: PhilosophyBlend,
-): { primary: Archetype; secondary: Archetype | null } {
+): { primary: Archetype; secondary: Archetype | null; allScores: ArchetypeScore[] } {
   // If no philosophies provided, use a flat blend (will match Weaver)
   const blend: Record<string, number> = philosophies
     ? { ...philosophies }
@@ -276,6 +283,11 @@ export function determineArchetype(
   return {
     primary: scored[0].archetype,
     secondary: scored.length > 1 ? scored[1].archetype : null,
+    allScores: scored.map((s) => ({
+      id: s.archetype.id,
+      name: s.archetype.name,
+      score: Math.round(s.score * 1000) / 1000,
+    })),
   };
 }
 
@@ -285,10 +297,10 @@ export function determineArchetype(
 export function scoreCompass(answers: Record<string, number>): CompassResult {
   const dimensions = calculateDimensions(answers);
   const philosophies = calculatePhilosophies(answers);
-  const { primary, secondary } = determineArchetype(dimensions, philosophies);
+  const { primary, secondary, allScores } = determineArchetype(dimensions, philosophies);
   const structureFlowSplit = detectStructureFlowSplit(answers);
 
-  return { dimensions, philosophies, archetype: primary, secondaryArchetype: secondary, structureFlowSplit };
+  return { dimensions, philosophies, archetype: primary, secondaryArchetype: secondary, archetypeScores: allScores, structureFlowSplit };
 }
 
 /** Human-readable labels for dimensions */

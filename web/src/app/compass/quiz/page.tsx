@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useMemo, useCallback } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { PART1_QUESTIONS, PART2_QUESTIONS, Part2Question } from "@/lib/compass/questions";
 import {
   scoreCompass,
@@ -22,6 +22,8 @@ type QuizPhase =
 
 export default function QuizPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const debug = searchParams.get("debug") === "true";
 
   // Part 1 state
   const [part1Answers, setPart1Answers] = useState<Record<string, number>>({});
@@ -208,6 +210,35 @@ export default function QuizPage() {
                     <span className="text-sm leading-relaxed">
                       {choice.text}
                     </span>
+                    {debug && (
+                      <div className="flex flex-wrap gap-1 mt-2">
+                        {Object.entries(choice.philosophies)
+                          .filter(([, v]) => (v as number) > 0)
+                          .sort(([, a], [, b]) => (b as number) - (a as number))
+                          .map(([phil, pts]) => (
+                            <span
+                              key={phil}
+                              className="text-[10px] px-1.5 py-0.5 rounded"
+                              style={{
+                                backgroundColor: `${PHILOSOPHY_COLORS[phil as PhilosophyKey]}20`,
+                                color: PHILOSOPHY_COLORS[phil as PhilosophyKey],
+                              }}
+                            >
+                              {PHILOSOPHY_LABELS[phil as PhilosophyKey]?.split(/[\s/]/)[0]} +{pts as number}
+                            </span>
+                          ))}
+                        {Object.entries(choice.dimensions)
+                          .filter(([, v]) => (v as number) !== 0)
+                          .map(([dim, v]) => (
+                            <span
+                              key={dim}
+                              className="text-[10px] px-1.5 py-0.5 rounded bg-gray-100 dark:bg-gray-800 text-gray-500"
+                            >
+                              {dim.slice(0, 4)}:{v as number > 0 ? "+" : ""}{v as number}
+                            </span>
+                          ))}
+                      </div>
+                    )}
                   </button>
                 ))}
               </div>
@@ -279,6 +310,46 @@ export default function QuizPage() {
                 tendencies, not a rigid category.
               </p>
             </div>
+
+            {/* Debug panel — archetype scoring breakdown */}
+            {debug && compassResult.archetypeScores && (
+              <div className="bg-orange-50 dark:bg-orange-950 border border-orange-200 dark:border-orange-800 rounded p-4 space-y-3">
+                <h3 className="text-sm font-semibold text-orange-800 dark:text-orange-200">
+                  Debug: Archetype Scoring
+                </h3>
+                <div className="space-y-1.5">
+                  {compassResult.archetypeScores.map((s, idx) => {
+                    const maxScore = compassResult.archetypeScores[0].score;
+                    const pct = maxScore > 0 ? (s.score / maxScore) * 100 : 0;
+                    const isPrimary = idx === 0;
+                    const isSecondary = idx === 1;
+                    return (
+                      <div key={s.id} className="flex items-center gap-2">
+                        <span className={`text-xs w-28 text-right ${isPrimary ? "font-bold text-orange-900 dark:text-orange-100" : isSecondary ? "font-medium text-orange-700 dark:text-orange-300" : "text-orange-600 dark:text-orange-400"}`}>
+                          {s.name}
+                        </span>
+                        <div className="flex-1 h-3 bg-orange-100 dark:bg-orange-900 rounded-full overflow-hidden">
+                          <div
+                            className={`h-full rounded-full ${isPrimary ? "bg-orange-600" : isSecondary ? "bg-orange-400" : "bg-orange-200 dark:bg-orange-700"}`}
+                            style={{ width: `${pct}%` }}
+                          />
+                        </div>
+                        <span className="text-xs text-orange-600 dark:text-orange-400 w-12 text-right font-mono">
+                          {s.score.toFixed(3)}
+                        </span>
+                        {isPrimary && <span className="text-[10px] bg-orange-600 text-white px-1.5 py-0.5 rounded">1st</span>}
+                        {isSecondary && <span className="text-[10px] bg-orange-400 text-white px-1.5 py-0.5 rounded">2nd</span>}
+                      </div>
+                    );
+                  })}
+                </div>
+                <div className="text-xs text-orange-600 dark:text-orange-400 space-y-1 pt-2 border-t border-orange-200 dark:border-orange-800">
+                  <p><strong>Result:</strong> {compassResult.archetype.name} with {compassResult.secondaryArchetype?.name || "no"} tendencies</p>
+                  <p><strong>Gap:</strong> {(compassResult.archetypeScores[0].score - compassResult.archetypeScores[1].score).toFixed(3)} between 1st and 2nd</p>
+                  <p><strong>Top philosophies:</strong> {Object.entries(compassResult.philosophies).sort(([,a],[,b]) => b - a).slice(0, 3).map(([k, v]) => `${PHILOSOPHY_LABELS[k as PhilosophyKey]?.split(/[\s/]/)[0]} ${v}%`).join(", ")}</p>
+                </div>
+              </div>
+            )}
 
             <div className="text-center">
               <button
