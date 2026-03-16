@@ -187,6 +187,21 @@ export default function ResultsPage() {
           </p>
         </div>
 
+        {/* Curriculum disclaimer */}
+        <div className="bg-amber-50 dark:bg-amber-950 border border-amber-200 dark:border-amber-800 rounded p-4">
+          <p className="text-sm text-amber-800 dark:text-amber-200">
+            <span className="font-medium">A note about curriculum and philosophy:</span>{" "}
+            By design, many published curricula lean toward classical structure.
+            We&apos;ll find the curricula that best match your philosophy — but if
+            your compass points toward flexible, adaptive, or child-led approaches,
+            a boxed curriculum may not fully capture your style.{" "}
+            <Link href="/generate" className="font-medium underline">
+              Explore our emergent and adaptive lesson planner
+            </Link>{" "}
+            for responsive, interest-driven lessons built around your child&apos;s curiosity.
+          </p>
+        </div>
+
         {/* Curriculum Recommendations placeholder */}
         <div className="bg-white dark:bg-gray-900 rounded border border-gray-200 dark:border-gray-800 p-4 space-y-3">
           <h3 className="font-medium text-gray-900 dark:text-gray-100">
