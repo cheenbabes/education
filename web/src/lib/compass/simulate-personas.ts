@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any */
 /**
  * Persona simulation — run with: npx tsx src/lib/compass/simulate-personas.ts
  *

@@ -2,14 +2,13 @@
 
 import { useState, useMemo } from "react";
 import { Shell } from "@/components/shell";
-import { PART1_QUESTIONS } from "@/lib/compass/questions";
+import { PART1_QUESTIONS, AnswerChoice } from "@/lib/compass/questions";
 import {
   scoreCompass,
   PHILOSOPHY_LABELS,
   PHILOSOPHY_COLORS,
   DIMENSION_LABELS,
   PhilosophyKey,
-  CompassResult,
 } from "@/lib/compass/scoring";
 import { PERSONAS, Persona } from "@/lib/compass/personas";
 import { ARCHETYPES } from "@/lib/compass/archetypes";
@@ -22,7 +21,7 @@ const ALL_DIMS = ["structure", "modality", "subjectApproach", "direction", "soci
 
 function scoreChoice(
   persona: Persona,
-  choice: { philosophies: Record<string, number>; dimensions: Record<string, number> },
+  choice: AnswerChoice,
 ): number {
   let score = 0;
   for (const [phil, weight] of Object.entries(persona.philosophyWeights)) {
@@ -51,7 +50,7 @@ function simulatePersona(persona: Persona) {
     const allScores: number[] = [];
 
     for (let i = 0; i < q.choices.length; i++) {
-      const s = scoreChoice(persona, q.choices[i] as any);
+      const s = scoreChoice(persona, q.choices[i]);
       allScores.push(Math.round(s * 100) / 100);
       if (s > bestScore) { bestScore = s; bestIdx = i; }
     }
