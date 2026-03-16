@@ -1,0 +1,1694 @@
+[
+  {
+    "name": "All About Reading",
+    "publisher": "All About Learning Press",
+    "description": "Multi-sensory, Orton-Gillingham-based phonics and reading program with scripted lessons, letter tiles, and engaging readers",
+    "subjects": [
+      "literacy"
+    ],
+    "grade_range": "Pre-K\u20134",
+    "philosophy_scores": {
+      "montessori": 0.6,
+      "waldorf": 0.1,
+      "project_based": 0.1,
+      "place_nature": 0.0,
+      "classical": 0.3,
+      "charlotte_mason": 0.2,
+      "unschooling": 0.0,
+      "eclectic_flexible": 0.5
+    },
+    "prep_level": "open-and-go",
+    "religious_type": "secular",
+    "faith_depth": "none",
+    "price_range": "$135-180/year",
+    "quality_score": 0.95,
+    "affiliate_url": "https://www.allaboutlearningpress.com/all-about-reading/",
+    "setting_fit": [
+      "individual",
+      "co-op",
+      "micro-school"
+    ],
+    "notes": "Reading Interactive Kit ($22-44) is a one-time purchase used across all levels. Excellent for struggling readers and dyslexia. Mastery-based progression, not grade-locked. One-year money-back guarantee."
+  },
+  {
+    "name": "Logic of English Foundations",
+    "publisher": "Logic of English",
+    "description": "Comprehensive phonics, reading, spelling, and handwriting program that teaches the rules behind English spelling with multi-sensory methods",
+    "subjects": [
+      "literacy"
+    ],
+    "grade_range": "Pre-K\u20132",
+    "philosophy_scores": {
+      "montessori": 0.4,
+      "waldorf": 0.1,
+      "project_based": 0.1,
+      "place_nature": 0.0,
+      "classical": 0.6,
+      "charlotte_mason": 0.2,
+      "unschooling": 0.0,
+      "eclectic_flexible": 0.3
+    },
+    "prep_level": "light",
+    "religious_type": "secular",
+    "faith_depth": "none",
+    "price_range": "$110-228/year",
+    "quality_score": 0.9,
+    "affiliate_url": "https://logicofenglish.com/collections/foundations",
+    "setting_fit": [
+      "individual",
+      "co-op",
+      "micro-school"
+    ],
+    "notes": "Level A costs more ($228) due to Core Materials one-time purchase; subsequent levels $90-125. Online version available at ~$75/year. Orton-Gillingham based. Essentials series extends through grade 7 for older students. Teaches both cursive and print."
+  },
+  {
+    "name": "The Good and the Beautiful Language Arts",
+    "publisher": "The Good and the Beautiful",
+    "description": "Beautifully illustrated, integrated language arts covering reading, grammar, spelling, writing, art, and geography in one program",
+    "subjects": [
+      "literacy"
+    ],
+    "grade_range": "Pre-K\u201312",
+    "philosophy_scores": {
+      "montessori": 0.1,
+      "waldorf": 0.2,
+      "project_based": 0.1,
+      "place_nature": 0.2,
+      "classical": 0.3,
+      "charlotte_mason": 0.7,
+      "unschooling": 0.0,
+      "eclectic_flexible": 0.4
+    },
+    "prep_level": "open-and-go",
+    "religious_type": "christian",
+    "faith_depth": "light",
+    "price_range": "$0-125/year",
+    "quality_score": 0.82,
+    "affiliate_url": "https://www.goodandbeautiful.com/pages/choose-language-arts",
+    "setting_fit": [
+      "individual",
+      "co-op"
+    ],
+    "notes": "Many levels available as FREE PDF downloads. Non-denominational Christian with sporadic mentions of God and KJV references. Author is LDS but content is non-denominationally Christian. Placement test recommended as levels run advanced. Some reviewers note weak explicit phonics instruction and reading comprehension gaps."
+  },
+  {
+    "name": "Sonlight Language Arts",
+    "publisher": "Sonlight Curriculum",
+    "description": "Literature-rich language arts integrated with grammar, mechanics, dictation, and creative writing using high-quality read-alouds and books",
+    "subjects": [
+      "literacy"
+    ],
+    "grade_range": "K\u201312",
+    "philosophy_scores": {
+      "montessori": 0.1,
+      "waldorf": 0.1,
+      "project_based": 0.1,
+      "place_nature": 0.0,
+      "classical": 0.3,
+      "charlotte_mason": 0.8,
+      "unschooling": 0.1,
+      "eclectic_flexible": 0.3
+    },
+    "prep_level": "open-and-go",
+    "religious_type": "christian",
+    "faith_depth": "worldview",
+    "price_range": "$200-400/year",
+    "quality_score": 0.88,
+    "affiliate_url": "https://www.sonlight.com/pages/language-arts",
+    "setting_fit": [
+      "individual"
+    ],
+    "notes": "Expensive but includes a mini-library of high-quality books reusable across siblings. Open-and-teach instructor guides with daily lesson plans. Flexible grade levels. One-year money-back guarantee. Heavy on reading \u2014 best for book-loving families. Returning customer discounts available."
+  },
+  {
+    "name": "Memoria Press Language Arts",
+    "publisher": "Memoria Press",
+    "description": "Structured classical Christian language arts with emphasis on grammar, Latin, literature guides, and traditional spelling",
+    "subjects": [
+      "literacy"
+    ],
+    "grade_range": "Pre-K\u201310",
+    "philosophy_scores": {
+      "montessori": 0.0,
+      "waldorf": 0.0,
+      "project_based": 0.0,
+      "place_nature": 0.0,
+      "classical": 0.95,
+      "charlotte_mason": 0.2,
+      "unschooling": 0.0,
+      "eclectic_flexible": 0.1
+    },
+    "prep_level": "open-and-go",
+    "religious_type": "christian",
+    "faith_depth": "worldview",
+    "price_range": "$150-350/year",
+    "quality_score": 0.87,
+    "affiliate_url": "https://www.memoriapress.com/curriculum/writing-and-english-grammar/core-skills-language-arts/",
+    "setting_fit": [
+      "individual",
+      "co-op",
+      "micro-school"
+    ],
+    "notes": "Complete classical curriculum with strong Latin component. Individual components can be purchased separately to customize. Grade-level packages include literature guides, spelling, grammar, and composition. More affordable than comparable classical programs like Veritas Press. Excellent customer service."
+  },
+  {
+    "name": "IEW Structure and Style",
+    "publisher": "Institute for Excellence in Writing",
+    "description": "Systematic video-based writing curriculum teaching structure and style through incremental, mastery-based instruction",
+    "subjects": [
+      "literacy"
+    ],
+    "grade_range": "3\u201312",
+    "philosophy_scores": {
+      "montessori": 0.1,
+      "waldorf": 0.0,
+      "project_based": 0.2,
+      "place_nature": 0.0,
+      "classical": 0.7,
+      "charlotte_mason": 0.1,
+      "unschooling": 0.0,
+      "eclectic_flexible": 0.3
+    },
+    "prep_level": "moderate",
+    "religious_type": "secular",
+    "faith_depth": "none",
+    "price_range": "$55-200/year",
+    "quality_score": 0.88,
+    "affiliate_url": "https://iew.com/sss-info",
+    "setting_fit": [
+      "individual",
+      "co-op",
+      "micro-school"
+    ],
+    "notes": "Writing-focused \u2014 not a complete language arts program. Needs separate grammar, spelling, and reading programs (Fix It! Grammar available as add-on). Core Structure and Style program is secular-friendly; Christian-themed options also available. Video instruction means minimal parent prep for teaching, but initial learning curve to understand the method. Excellent return policy."
+  },
+  {
+    "name": "BookShark Language Arts",
+    "publisher": "BookShark (secular Sonlight spin-off)",
+    "description": "Secular, literature-based language arts covering reading, writing, grammar, spelling, vocabulary, and copywork using quality books",
+    "subjects": [
+      "literacy"
+    ],
+    "grade_range": "K\u201310",
+    "philosophy_scores": {
+      "montessori": 0.1,
+      "waldorf": 0.1,
+      "project_based": 0.1,
+      "place_nature": 0.0,
+      "classical": 0.2,
+      "charlotte_mason": 0.7,
+      "unschooling": 0.1,
+      "eclectic_flexible": 0.5
+    },
+    "prep_level": "open-and-go",
+    "religious_type": "secular",
+    "faith_depth": "none",
+    "price_range": "$65-80/year",
+    "quality_score": 0.84,
+    "affiliate_url": "https://homeschool.bookshark.com/language-arts/",
+    "setting_fit": [
+      "individual"
+    ],
+    "notes": "Secular spin-off of Sonlight with the same literature-based approach. Four-day-per-week schedule. Uses Explode the Code for early phonics (levels A-C) and Wordly Wise for vocabulary (level C+). All-Subject bundles available at 20% discount. Diverse and modern literature selections."
+  },
+  {
+    "name": "Brave Writer",
+    "publisher": "Brave Writer",
+    "description": "Charlotte Mason-inspired writing lifestyle curriculum using copywork, dictation, freewriting, and living literature to develop confident writers",
+    "subjects": [
+      "literacy"
+    ],
+    "grade_range": "K\u201312",
+    "philosophy_scores": {
+      "montessori": 0.2,
+      "waldorf": 0.3,
+      "project_based": 0.3,
+      "place_nature": 0.1,
+      "classical": 0.1,
+      "charlotte_mason": 0.9,
+      "unschooling": 0.6,
+      "eclectic_flexible": 0.7
+    },
+    "prep_level": "moderate",
+    "religious_type": "secular",
+    "faith_depth": "none",
+    "price_range": "$100-200/year",
+    "quality_score": 0.85,
+    "affiliate_url": "https://bravewriter.com/getting-started/the-brave-writer-program",
+    "setting_fit": [
+      "individual",
+      "co-op"
+    ],
+    "notes": "Not a traditional open-and-go curriculum \u2014 more of a writing lifestyle approach requiring significant parent involvement. Excellent for reluctant writers. Does NOT cover phonics or handwriting. Online classes ($100-200 per 3-week session) available but add to cost. Age-based bundles: Beginning (5-7), Emerging (8-10), Middle School, High School, College Prep."
+  },
+  {
+    "name": "Learning Language Arts Through Literature",
+    "publisher": "Common Sense Press",
+    "description": "Affordable, literature-based all-in-one language arts integrating phonics, grammar, spelling, writing, and reading through classic books",
+    "subjects": [
+      "literacy"
+    ],
+    "grade_range": "1\u201312",
+    "philosophy_scores": {
+      "montessori": 0.1,
+      "waldorf": 0.0,
+      "project_based": 0.1,
+      "place_nature": 0.0,
+      "classical": 0.3,
+      "charlotte_mason": 0.7,
+      "unschooling": 0.0,
+      "eclectic_flexible": 0.5
+    },
+    "prep_level": "open-and-go",
+    "religious_type": "christian",
+    "faith_depth": "light",
+    "price_range": "$34-117/year",
+    "quality_score": 0.8,
+    "affiliate_url": "https://commonsensepress.com/product-category/subject/language-arts/learning-language-arts-through-literature/",
+    "setting_fit": [
+      "individual"
+    ],
+    "notes": "Color-coded books by grade level. Based on Dr. Ruth Beechick's and Charlotte Mason's teaching ideas. Christian content is light and sporadic \u2014 some Bible passages, hymns for dictation. Many secular families use it comfortably. Gray Book (8th grade) is most overtly Christian. Composition coverage is considered light \u2014 advanced writers may need supplements. Literature books purchased separately."
+  },
+  {
+    "name": "Explode the Code",
+    "publisher": "EPS Learning",
+    "description": "Simple, systematic Orton-Gillingham phonics workbook series that builds reading skills through incremental practice",
+    "subjects": [
+      "literacy"
+    ],
+    "grade_range": "Pre-K\u20134",
+    "philosophy_scores": {
+      "montessori": 0.3,
+      "waldorf": 0.0,
+      "project_based": 0.0,
+      "place_nature": 0.0,
+      "classical": 0.4,
+      "charlotte_mason": 0.0,
+      "unschooling": 0.0,
+      "eclectic_flexible": 0.6
+    },
+    "prep_level": "open-and-go",
+    "religious_type": "secular",
+    "faith_depth": "none",
+    "price_range": "$10-40/year",
+    "quality_score": 0.82,
+    "affiliate_url": "https://www.epslearning.com/products/explode-the-code-overview",
+    "setting_fit": [
+      "individual",
+      "co-op",
+      "micro-school"
+    ],
+    "notes": "Budget-friendly phonics supplement, not a complete language arts program. 17 workbooks from primers through Book 8. Students can work mostly independently. Black and white illustrations (some hard to identify). Half-levels available for extra practice. Often used alongside BookShark, Charlotte Mason, or other literature-based programs."
+  },
+  {
+    "name": "All About Spelling",
+    "publisher": "All About Learning Press",
+    "description": "Multi-sensory, Orton-Gillingham-based spelling program with scripted lessons, letter tiles, flashcards, and mastery-based progression through seven levels",
+    "subjects": [
+      "literacy"
+    ],
+    "grade_range": "1\u201312",
+    "philosophy_scores": {
+      "montessori": 0.6,
+      "waldorf": 0.1,
+      "project_based": 0.1,
+      "place_nature": 0.0,
+      "classical": 0.3,
+      "charlotte_mason": 0.2,
+      "unschooling": 0.0,
+      "eclectic_flexible": 0.5
+    },
+    "prep_level": "open-and-go",
+    "religious_type": "secular",
+    "faith_depth": "none",
+    "price_range": "$50-70/level",
+    "quality_score": 0.93,
+    "affiliate_url": "https://www.allaboutlearningpress.com/all-about-spelling/",
+    "setting_fit": [
+      "individual",
+      "co-op",
+      "micro-school"
+    ],
+    "notes": "From the same publisher as All About Reading. Seven mastery-based levels (not grade-locked) \u2014 most students start at Level 1 regardless of grade. Requires one-time purchase of Letter Tiles ($26) and Spelling Review Box ($18) used across all levels. Level 1 costs $65; Levels 2-3 are $70; Levels 4-7 are $50 each. Fully scripted teacher manual requires no advance prep. Spelling sessions are 15-20 minutes, 3-4 days/week. Students spell full sentences from Level 1, not just isolated words. Excellent for struggling spellers and students with dyslexia. Parent involvement required (not independent work). Student packet is partially consumable. One-year money-back guarantee. Placement test available on publisher's website."
+  },
+  {
+    "name": "Spelling Power",
+    "publisher": "Castlemoyle Books",
+    "description": "Comprehensive, all-in-one spelling curriculum covering 5,000 most-frequently-used words across all grade levels in a single book, using research-proven strategies and 15-minute daily sessions",
+    "subjects": [
+      "literacy"
+    ],
+    "grade_range": "3\u201312+",
+    "philosophy_scores": {
+      "montessori": 0.3,
+      "waldorf": 0.0,
+      "project_based": 0.0,
+      "place_nature": 0.0,
+      "classical": 0.4,
+      "charlotte_mason": 0.1,
+      "unschooling": 0.0,
+      "eclectic_flexible": 0.6
+    },
+    "prep_level": "light",
+    "religious_type": "secular",
+    "faith_depth": "none",
+    "price_range": "$65-178/one-time",
+    "quality_score": 0.82,
+    "affiliate_url": "https://spellingpower.com/",
+    "setting_fit": [
+      "individual",
+      "co-op",
+      "micro-school"
+    ],
+    "notes": "One book covers entire family from age 8 through adult \u2014 a one-time purchase that lasts a lifetime. Manual only is $65; Basic Pack (manual + 2 student record books + activity task cards) is $103; Deluxe Pack (everything + magnetic letter tiles + word bank box) is $178. Diagnostic placement test determines starting point across 11 levels and 47 word groups. Requires only 15 minutes daily \u2014 5 minutes direct instruction plus 10 minutes student work. Endorsed by International Dyslexia Association. Over 250,000 families served since 1993. Multiple award winner (Practical Homeschooling, Cathy Duffy Top 100). Initial setup can feel overwhelming due to extensive introductory material, but Quick Start guide and DVD help. Student Record Books are consumable ($8-10 each)."
+  },
+  {
+    "name": "Saxon Math",
+    "publisher": "Houghton Mifflin Harcourt (HMH)",
+    "description": "Decades-proven spiral math curriculum with incremental lessons and daily review for strong retention and high test scores",
+    "subjects": [
+      "math"
+    ],
+    "grade_range": "K-12",
+    "philosophy_scores": {
+      "montessori": 0.1,
+      "waldorf": 0.0,
+      "project_based": 0.05,
+      "place_nature": 0.0,
+      "classical": 0.85,
+      "charlotte_mason": 0.15,
+      "unschooling": 0.0,
+      "eclectic_flexible": 0.2
+    },
+    "prep_level": "moderate",
+    "religious_type": "secular",
+    "faith_depth": "none",
+    "price_range": "$150-250/year",
+    "quality_score": 0.82,
+    "affiliate_url": "https://www.hmhco.com/programs/saxon-math",
+    "setting_fit": [
+      "individual",
+      "co-op"
+    ],
+    "notes": "Gold standard for spiral/procedural math. Constant review builds retention but can feel tedious for quick learners. Dry black-and-white presentation. Lessons are 45-60 min in upper grades. Homeschool kits include textbook, tests, worksheets, and solutions manual. Manipulatives kit ($75-180) required for K-3. Some consider it the reason they love math; others the reason they hate it."
+  },
+  {
+    "name": "Singapore Math (Dimensions)",
+    "publisher": "Singapore Math Inc.",
+    "description": "Rigorous mastery-based curriculum using the Concrete-Pictorial-Abstract approach that produces top global math performers",
+    "subjects": [
+      "math"
+    ],
+    "grade_range": "PK-8",
+    "philosophy_scores": {
+      "montessori": 0.4,
+      "waldorf": 0.05,
+      "project_based": 0.2,
+      "place_nature": 0.05,
+      "classical": 0.6,
+      "charlotte_mason": 0.15,
+      "unschooling": 0.0,
+      "eclectic_flexible": 0.35
+    },
+    "prep_level": "moderate",
+    "religious_type": "secular",
+    "faith_depth": "none",
+    "price_range": "$100-200/year",
+    "quality_score": 0.92,
+    "affiliate_url": "https://www.singaporemath.com/pages/programs-dimensions-math-pk-5-for-homeschool",
+    "setting_fit": [
+      "individual",
+      "co-op",
+      "micro-school"
+    ],
+    "notes": "Based on Singapore's world-leading math methodology. Dimensions Math is the newer flagship series (PK-8); Primary Mathematics is the classic (K-6) with multiple editions (US, Standards, 2022). Strong focus on bar modeling, mental math, and conceptual depth. Best for math-confident parents; less-confident parents may want video supplements. Grades 6-8 have a noticeably different presentation than K-5."
+  },
+  {
+    "name": "Math-U-See",
+    "publisher": "Demme Learning",
+    "description": "Multisensory mastery-based program with manipulative blocks and video instruction covering K through Calculus",
+    "subjects": [
+      "math"
+    ],
+    "grade_range": "K-12",
+    "philosophy_scores": {
+      "montessori": 0.55,
+      "waldorf": 0.15,
+      "project_based": 0.1,
+      "place_nature": 0.0,
+      "classical": 0.35,
+      "charlotte_mason": 0.1,
+      "unschooling": 0.0,
+      "eclectic_flexible": 0.45
+    },
+    "prep_level": "light",
+    "religious_type": "secular",
+    "faith_depth": "none",
+    "price_range": "$120-220/year",
+    "quality_score": 0.8,
+    "affiliate_url": "https://mathusee.com/products/math-u-see-curriculum/",
+    "setting_fit": [
+      "individual",
+      "co-op"
+    ],
+    "notes": "Uses colored manipulative blocks so students visualize math concepts before working abstractly. Video instruction by Steve Demme teaches each lesson. 13 levels (Primer through Calculus) are mastery-based, not grade-based \u2014 students advance when ready. Best for visual/kinesthetic learners and students who struggled with other programs. Some families find the slower mastery pace frustrating; blocks don't help every learner equally."
+  },
+  {
+    "name": "Beast Academy",
+    "publisher": "Art of Problem Solving (AoPS)",
+    "description": "Challenging comic-book-style math curriculum focused on problem-solving and advanced mathematical thinking",
+    "subjects": [
+      "math"
+    ],
+    "grade_range": "1-5",
+    "philosophy_scores": {
+      "montessori": 0.2,
+      "waldorf": 0.1,
+      "project_based": 0.55,
+      "place_nature": 0.0,
+      "classical": 0.45,
+      "charlotte_mason": 0.2,
+      "unschooling": 0.3,
+      "eclectic_flexible": 0.5
+    },
+    "prep_level": "light",
+    "religious_type": "secular",
+    "faith_depth": "none",
+    "price_range": "$96-160/year",
+    "quality_score": 0.9,
+    "affiliate_url": "https://beastacademy.com/about",
+    "setting_fit": [
+      "individual",
+      "co-op",
+      "micro-school"
+    ],
+    "notes": "Created by the Art of Problem Solving team. Comic-book-style guides with monster characters teach advanced concepts through puzzles and logical reasoning. Online platform ($16/mo or $100/yr) or print books ($27 per guide+practice set). The most challenging elementary math program available. NOT for struggling math students \u2014 designed for kids who love math and are easily bored by drills. Levels don't align with traditional grades; start 1-2 levels below current grade. After Beast Academy, students continue with AoPS for middle/high school."
+  },
+  {
+    "name": "RightStart Mathematics",
+    "publisher": "Activities for Learning, Inc.",
+    "description": "Hands-on abacus-based curriculum using games and visualization instead of rote drills, developed by a Montessori educator",
+    "subjects": [
+      "math"
+    ],
+    "grade_range": "K-8",
+    "philosophy_scores": {
+      "montessori": 0.85,
+      "waldorf": 0.25,
+      "project_based": 0.2,
+      "place_nature": 0.1,
+      "classical": 0.2,
+      "charlotte_mason": 0.3,
+      "unschooling": 0.1,
+      "eclectic_flexible": 0.4
+    },
+    "prep_level": "moderate",
+    "religious_type": "secular",
+    "faith_depth": "none",
+    "price_range": "$100-325/year",
+    "quality_score": 0.86,
+    "affiliate_url": "https://rightstartmath.com/our-curriculum/",
+    "setting_fit": [
+      "individual"
+    ],
+    "notes": "Developed by Dr. Joan Cotter, a Montessori educator. Uses the specially designed AL Abacus as its primary tool. 300+ card games replace flash card drills. Scripted lessons are open-and-go but require one-on-one parent instruction (30-45 min daily). Levels A-H (K-8). Initial manipulatives investment ~$218 (Math Set) is a one-time purchase. Excellent for children with learning challenges like dyscalculia. Primarily suited for individual instruction, not group settings."
+  },
+  {
+    "name": "Math Mammoth",
+    "publisher": "Math Mammoth (Maria Miller)",
+    "description": "Affordable mastery-based worktext emphasizing conceptual understanding and self-directed learning with minimal prep",
+    "subjects": [
+      "math"
+    ],
+    "grade_range": "1-7",
+    "philosophy_scores": {
+      "montessori": 0.2,
+      "waldorf": 0.0,
+      "project_based": 0.1,
+      "place_nature": 0.0,
+      "classical": 0.45,
+      "charlotte_mason": 0.15,
+      "unschooling": 0.15,
+      "eclectic_flexible": 0.55
+    },
+    "prep_level": "open-and-go",
+    "religious_type": "secular",
+    "faith_depth": "none",
+    "price_range": "$40-50/year",
+    "quality_score": 0.85,
+    "affiliate_url": "https://www.mathmammoth.com/complete-curriculum",
+    "setting_fit": [
+      "individual",
+      "co-op",
+      "micro-school"
+    ],
+    "notes": "Light Blue Series is the complete curriculum (grades 1-7); Blue Series is topical/supplemental. Written directly to the student for self-teaching. PDF format is printable for siblings at no extra cost \u2014 entire K-7 curriculum for ~$150-275 total. Meets/exceeds Common Core Standards. Author Maria Miller excels at simplifying complex math concepts. No built-in hands-on activities or teacher scripts. Best for independent learners with math-comfortable parents. After grade 7, students move to AoPS or traditional Algebra 1 from another publisher."
+  },
+  {
+    "name": "Life of Fred",
+    "publisher": "Polka Dot Publishing",
+    "description": "Story-based math series following a child prodigy's hilarious adventures, teaching real-world math through narrative",
+    "subjects": [
+      "math"
+    ],
+    "grade_range": "K-12",
+    "philosophy_scores": {
+      "montessori": 0.1,
+      "waldorf": 0.15,
+      "project_based": 0.2,
+      "place_nature": 0.05,
+      "classical": 0.2,
+      "charlotte_mason": 0.75,
+      "unschooling": 0.7,
+      "eclectic_flexible": 0.65
+    },
+    "prep_level": "open-and-go",
+    "religious_type": "secular",
+    "faith_depth": "light",
+    "price_range": "$20-40/year",
+    "quality_score": 0.72,
+    "affiliate_url": "https://lifeoffred.com/the_fred_method.html",
+    "setting_fit": [
+      "individual"
+    ],
+    "notes": "Students follow Fred Gauss, a 5-year-old math professor at KITTENS University. Hardcover, non-consumable, reusable books (~$200 for 10 elementary books). Created by Dr. Stanley Schmidt. Faith-neutral but includes occasional mentions of God/church \u2014 not fully secular. Light on practice problems; supplementing with 'Zillions of Practice Problems' books is recommended. Best as a supplement or for self-motivated readers who hate traditional math. Elementary series has only 38-57 lessons/year, which may not be sufficient as a standalone. Through high school and into college-level topics (linear algebra, statistics)."
+  },
+  {
+    "name": "The Good and the Beautiful Math",
+    "publisher": "The Good and the Beautiful",
+    "description": "Affordable spiral math with beautiful design and a gentle Christian worldview \u2014 much of the digital curriculum is free",
+    "subjects": [
+      "math"
+    ],
+    "grade_range": "K-6",
+    "philosophy_scores": {
+      "montessori": 0.15,
+      "waldorf": 0.2,
+      "project_based": 0.1,
+      "place_nature": 0.15,
+      "classical": 0.3,
+      "charlotte_mason": 0.65,
+      "unschooling": 0.05,
+      "eclectic_flexible": 0.35
+    },
+    "prep_level": "light",
+    "religious_type": "christian",
+    "faith_depth": "light",
+    "price_range": "$0-40/year",
+    "quality_score": 0.77,
+    "affiliate_url": "https://www.goodandbeautiful.com/pages/choose-math",
+    "setting_fit": [
+      "individual",
+      "co-op"
+    ],
+    "notes": "Math K-7 digital downloads are free; printed materials are $10-40. General Christian worldview (gratitude, honesty, prayer) without denominational doctrine \u2014 produced by members of the Church of Jesus Christ of Latter-day Saints. Spiral approach revisits concepts regularly. Beautifully designed, colorful materials. Curriculum runs advanced; take the placement test as many students place below their grade. Some lessons are more hands-on than expected. Not suitable for secular families without significant tweaking."
+  },
+  {
+    "name": "Horizons Math",
+    "publisher": "Alpha Omega Publications",
+    "description": "Colorful, fast-paced spiral curriculum with hands-on activities and teacher-directed lessons from a Christian publisher",
+    "subjects": [
+      "math"
+    ],
+    "grade_range": "K-8",
+    "philosophy_scores": {
+      "montessori": 0.1,
+      "waldorf": 0.05,
+      "project_based": 0.05,
+      "place_nature": 0.0,
+      "classical": 0.7,
+      "charlotte_mason": 0.15,
+      "unschooling": 0.0,
+      "eclectic_flexible": 0.15
+    },
+    "prep_level": "moderate",
+    "religious_type": "christian",
+    "faith_depth": "worldview",
+    "price_range": "$120-150/year",
+    "quality_score": 0.75,
+    "affiliate_url": "https://aop.com/pages/horizons",
+    "setting_fit": [
+      "individual"
+    ],
+    "notes": "Brightly illustrated consumable workbooks with full-color student pages. Scope and sequence is intentionally advanced \u2014 covers concepts earlier than Common Core requires. Teacher handbook outlines every step of each lesson. Heavy use of manipulatives in early grades (dominoes, counters, play money, abacus). Requires one-on-one teacher instruction. Covers K-6 plus a Pre-Algebra course. Complete sets run ~$120/grade. Some parents report concepts being skipped or poorly explained in upper grades."
+  },
+  {
+    "name": "ShillerMath",
+    "publisher": "ShillerLearning",
+    "description": "Montessori-based multisensory math with scripted lessons, physical manipulatives, and zero lesson prep required",
+    "subjects": [
+      "math"
+    ],
+    "grade_range": "PK-8",
+    "philosophy_scores": {
+      "montessori": 0.95,
+      "waldorf": 0.2,
+      "project_based": 0.15,
+      "place_nature": 0.1,
+      "classical": 0.1,
+      "charlotte_mason": 0.15,
+      "unschooling": 0.15,
+      "eclectic_flexible": 0.3
+    },
+    "prep_level": "open-and-go",
+    "religious_type": "secular",
+    "faith_depth": "none",
+    "price_range": "$80-100/year",
+    "quality_score": 0.73,
+    "affiliate_url": "https://explore.shillerlearning.com/pages/what-is-shillerlearning",
+    "setting_fit": [
+      "individual"
+    ],
+    "notes": "Three kits cover PK-3 (Kit I, $300-400), 4th-Pre-Algebra (Kit II, $300), and Fractions ($125). Each kit spans 4-5 years so per-year cost is reasonable. Includes 12+ physical manipulatives (balance, number tiles, wooden shapes, decimal cubes, etc.). Completely scripted \u2014 just read what's in quotes. 15 min/day for age 4, 30-45 min for age 9+. Lifetime downloads for consumable lessons. Virtual-only options available at $80-125/kit. Limited online reviews. Some parents report retention concerns and inconsistencies in teaching guides."
+  },
+  {
+    "name": "Real Science Odyssey",
+    "publisher": "Pandia Press",
+    "description": "Secular, hands-on science curriculum with labs, experiments, and short-story-format lessons covering life science, earth science, chemistry, physics, and astronomy.",
+    "subjects": [
+      "science"
+    ],
+    "grade_range": "K-10",
+    "philosophy_scores": {
+      "montessori": 0.5,
+      "waldorf": 0.1,
+      "project_based": 0.6,
+      "place_nature": 0.4,
+      "classical": 0.5,
+      "charlotte_mason": 0.3,
+      "unschooling": 0.2,
+      "eclectic_flexible": 0.6
+    },
+    "prep_level": "moderate",
+    "religious_type": "secular",
+    "faith_depth": "none",
+    "price_range": "$40-60/year",
+    "quality_score": 0.88,
+    "affiliate_url": "https://pandiapress.com/pages/real-science-odyssey-1",
+    "setting_fit": [
+      "individual",
+      "co-op"
+    ],
+    "notes": "Level 1 (K-6) and Level 2 (6-10). Parents need to prep experiments but lessons are scripted. Teaches evolution and big bang as fact. No built-in videos or multimedia \u2014 pencil-and-paper plus labs. Materials are mostly common household items; optional science kits available."
+  },
+  {
+    "name": "Apologia Science",
+    "publisher": "Apologia Educational Ministries",
+    "description": "Award-winning Christian science curriculum with conversational textbooks, hands-on experiments, and creation-based perspective for K-12.",
+    "subjects": [
+      "science"
+    ],
+    "grade_range": "K-12",
+    "philosophy_scores": {
+      "montessori": 0.2,
+      "waldorf": 0.1,
+      "project_based": 0.3,
+      "place_nature": 0.3,
+      "classical": 0.7,
+      "charlotte_mason": 0.6,
+      "unschooling": 0.1,
+      "eclectic_flexible": 0.4
+    },
+    "prep_level": "light",
+    "religious_type": "christian",
+    "faith_depth": "worldview",
+    "price_range": "$70-100/year",
+    "quality_score": 0.9,
+    "affiliate_url": "https://www.apologia.com/homeschool-science-curriculum/",
+    "setting_fit": [
+      "individual",
+      "co-op",
+      "micro-school"
+    ],
+    "notes": "Most popular Christian homeschool science curriculum for 11+ years running. Young Explorer series (K-6) is multi-age and Charlotte Mason-style. High school courses are college-prep rigorous. Textbooks are conversational and designed for self-teaching. Video lessons available but expensive ($400-600 extra). Creation-based perspective throughout."
+  },
+  {
+    "name": "Building Foundations of Scientific Understanding (BFSU)",
+    "publisher": "Press for Learning",
+    "description": "Inquiry-based, discussion-driven secular science curriculum in 3 volumes that builds deep scientific understanding through critical thinking and hands-on activities.",
+    "subjects": [
+      "science"
+    ],
+    "grade_range": "K-8",
+    "philosophy_scores": {
+      "montessori": 0.6,
+      "waldorf": 0.2,
+      "project_based": 0.7,
+      "place_nature": 0.5,
+      "classical": 0.6,
+      "charlotte_mason": 0.7,
+      "unschooling": 0.4,
+      "eclectic_flexible": 0.7
+    },
+    "prep_level": "heavy",
+    "religious_type": "secular",
+    "faith_depth": "none",
+    "price_range": "$30-40/year",
+    "quality_score": 0.87,
+    "affiliate_url": "https://www.bfsucommunity.com/teaching-science/",
+    "setting_fit": [
+      "individual",
+      "co-op"
+    ],
+    "notes": "Considered the 'gold standard' for secular homeschool science. Three volumes covering K-2, 3-5, and 6-8. Extremely budget-friendly. Requires significant parent preparation and some science background building. Discussion-based and inquiry-driven \u2014 not scripted. Volumes must be used sequentially. Exceeds NGSS standards. Parents who are scientists often choose this one."
+  },
+  {
+    "name": "Mystery Science",
+    "publisher": "Discovery Education",
+    "description": "Video-based, inquiry-driven secular science curriculum with guided experiments and discussion prompts for elementary students.",
+    "subjects": [
+      "science"
+    ],
+    "grade_range": "K-5",
+    "philosophy_scores": {
+      "montessori": 0.3,
+      "waldorf": 0.1,
+      "project_based": 0.7,
+      "place_nature": 0.3,
+      "classical": 0.2,
+      "charlotte_mason": 0.2,
+      "unschooling": 0.3,
+      "eclectic_flexible": 0.6
+    },
+    "prep_level": "open-and-go",
+    "religious_type": "secular",
+    "faith_depth": "none",
+    "price_range": "$199/year",
+    "quality_score": 0.85,
+    "affiliate_url": "https://mysteryscience.com/getting-started",
+    "setting_fit": [
+      "individual",
+      "co-op",
+      "micro-school"
+    ],
+    "notes": "Online streaming video lessons with hands-on activities using common materials. NGSS-aligned. Great for visual/kinesthetic learners and parents without science backgrounds. May only work as complete curriculum through grade 2 \u2014 better as supplement for grades 3-5. Lessons range from 5-minute mini-lessons to 45-60 minute full lessons."
+  },
+  {
+    "name": "Noeo Science",
+    "publisher": "Canon Press / Logos Press",
+    "description": "Literature-based science curriculum combining living books, hands-on experiment kits, and Charlotte Mason methods for grades 1-8.",
+    "subjects": [
+      "science"
+    ],
+    "grade_range": "1-8",
+    "philosophy_scores": {
+      "montessori": 0.3,
+      "waldorf": 0.2,
+      "project_based": 0.4,
+      "place_nature": 0.3,
+      "classical": 0.6,
+      "charlotte_mason": 0.8,
+      "unschooling": 0.2,
+      "eclectic_flexible": 0.5
+    },
+    "prep_level": "open-and-go",
+    "religious_type": "secular",
+    "faith_depth": "none",
+    "price_range": "$200-300/year",
+    "quality_score": 0.84,
+    "affiliate_url": "https://canonpress.com/collections/noeo",
+    "setting_fit": [
+      "individual",
+      "co-op"
+    ],
+    "notes": "Complete box includes Instructor's Guide, Student Lab Manual, living books, and experiment kits. 2-day or 4-day schedule options. Christian company but curriculum is worldview-neutral by design \u2014 used by both secular and Christian families. No quizzes or tests. Three levels: 1-3, 4-6, 7-8. Covers biology, chemistry, and physics. 60-day trial guarantee."
+  },
+  {
+    "name": "Nancy Larson Science",
+    "publisher": "Nancy Larson Publishers",
+    "description": "Fully scripted, open-and-go elementary science with hands-on kits, structured lessons, and spiral review \u2014 by the author of Saxon Math K-3.",
+    "subjects": [
+      "science"
+    ],
+    "grade_range": "K-5",
+    "philosophy_scores": {
+      "montessori": 0.2,
+      "waldorf": 0.1,
+      "project_based": 0.3,
+      "place_nature": 0.2,
+      "classical": 0.6,
+      "charlotte_mason": 0.2,
+      "unschooling": 0.0,
+      "eclectic_flexible": 0.3
+    },
+    "prep_level": "open-and-go",
+    "religious_type": "secular",
+    "faith_depth": "none",
+    "price_range": "$280-350/year",
+    "quality_score": 0.86,
+    "affiliate_url": "https://www.nancylarsonpublishers.com/classroom/main/nancy-larson-science-k-5-an-overview/",
+    "setting_fit": [
+      "individual",
+      "co-op",
+      "micro-school"
+    ],
+    "notes": "Most scripted science curriculum available \u2014 parent reads lesson script aloud while student follows in booklet. Includes complete kit with manipulatives, word wall cards, charts, assessments. Designed 2-3 days/week. Spiral approach revisits topics with increasing depth. Premium price but kids reportedly love it and ask to do science. Best for parents who dread teaching science."
+  },
+  {
+    "name": "Berean Builders",
+    "publisher": "Berean Builders",
+    "description": "Christian creation-based science by Dr. Jay Wile covering K-12 with experiments, multi-level review questions, and science history integration.",
+    "subjects": [
+      "science"
+    ],
+    "grade_range": "K-12",
+    "philosophy_scores": {
+      "montessori": 0.2,
+      "waldorf": 0.1,
+      "project_based": 0.3,
+      "place_nature": 0.2,
+      "classical": 0.7,
+      "charlotte_mason": 0.4,
+      "unschooling": 0.1,
+      "eclectic_flexible": 0.3
+    },
+    "prep_level": "light",
+    "religious_type": "christian",
+    "faith_depth": "worldview",
+    "price_range": "$40-70/year",
+    "quality_score": 0.85,
+    "affiliate_url": "https://bereanbuilders.com/ecomm/homeschool-science-curriculum-all-ages/",
+    "setting_fit": [
+      "individual",
+      "co-op"
+    ],
+    "notes": "By the original Apologia author Dr. Jay Wile. Elementary books cover science through history (5 books, ~3 years each). Three levels of review questions let you use same book across grade ranges. Middle/high school courses are rigorous (Chemistry requires Algebra I). Budget-friendly. Author personally answers student questions via email. Best for grades 3-6+ at elementary level despite K label."
+  },
+  {
+    "name": "Sonlight Science",
+    "publisher": "Sonlight Curriculum",
+    "description": "Literature-based Christian science curriculum with living books, Discover & Do experiment kits, and fully planned daily schedules.",
+    "subjects": [
+      "science"
+    ],
+    "grade_range": "K-12",
+    "philosophy_scores": {
+      "montessori": 0.2,
+      "waldorf": 0.1,
+      "project_based": 0.3,
+      "place_nature": 0.2,
+      "classical": 0.4,
+      "charlotte_mason": 0.7,
+      "unschooling": 0.1,
+      "eclectic_flexible": 0.5
+    },
+    "prep_level": "open-and-go",
+    "religious_type": "christian",
+    "faith_depth": "light",
+    "price_range": "$150-300/year",
+    "quality_score": 0.83,
+    "affiliate_url": "https://www.sonlight.com/pages/science",
+    "setting_fit": [
+      "individual",
+      "co-op"
+    ],
+    "notes": "Christian company but Science E and some other levels use secular books \u2014 parents can share their own viewpoint. Each level spans 3-year age range for multi-age teaching. Discover & Do kits include experiment supplies. 4-day or 5-day schedule options. Presents both creation and evolution perspectives. Reading-heavy \u2014 requires parent read-aloud time."
+  },
+  {
+    "name": "Oak Meadow Science",
+    "publisher": "Oak Meadow",
+    "description": "Waldorf-inspired secular science woven into a holistic K-12 curriculum emphasizing nature connection, artistic integration, and experiential learning.",
+    "subjects": [
+      "science"
+    ],
+    "grade_range": "K-12",
+    "philosophy_scores": {
+      "montessori": 0.4,
+      "waldorf": 0.7,
+      "project_based": 0.5,
+      "place_nature": 0.7,
+      "classical": 0.2,
+      "charlotte_mason": 0.5,
+      "unschooling": 0.4,
+      "eclectic_flexible": 0.5
+    },
+    "prep_level": "moderate",
+    "religious_type": "secular",
+    "faith_depth": "none",
+    "price_range": "$120-500/year",
+    "quality_score": 0.82,
+    "affiliate_url": "https://www.oakmeadow.com/subject/science/",
+    "setting_fit": [
+      "individual"
+    ],
+    "notes": "Founded 1975 by a trained Waldorf teacher. Science separate from grade 5+; integrated K-4. Nature-focused assignments in early grades. Optional accredited distance learning school with teacher support. 36-week lesson plans with assignment checklists. Expensive for full packages. May feel slow for gifted/advanced learners. Best for creative and kinesthetic learners who thrive with artistic integration."
+  },
+  {
+    "name": "BookShark Science",
+    "publisher": "BookShark",
+    "description": "Secular, literature-based science curriculum aligned to NGSS with living books, hands-on activities, and 4-day weekly schedule.",
+    "subjects": [
+      "science"
+    ],
+    "grade_range": "K-10",
+    "philosophy_scores": {
+      "montessori": 0.3,
+      "waldorf": 0.1,
+      "project_based": 0.4,
+      "place_nature": 0.2,
+      "classical": 0.4,
+      "charlotte_mason": 0.6,
+      "unschooling": 0.2,
+      "eclectic_flexible": 0.6
+    },
+    "prep_level": "open-and-go",
+    "religious_type": "secular",
+    "faith_depth": "none",
+    "price_range": "$150-250/year",
+    "quality_score": 0.82,
+    "affiliate_url": "https://www.bookshark.com/homeschool-curriculum/subjects/best-science-curriculum-for-homeschool",
+    "setting_fit": [
+      "individual",
+      "co-op"
+    ],
+    "notes": "Secular spin-off of Sonlight. NGSS-aligned since 2021 revision. Includes science kit, instructor's guide, and assorted topical books. DVD experiment demos for levels A-E. 36-week, 4-day schedule. Religiously neutral \u2014 encourages parent-led worldview discussions. Reusable across siblings (only consumables need replacing). Can be paired with BookShark History for a full secular package."
+  },
+  {
+    "name": "Story of the World",
+    "publisher": "Well-Trained Mind Press",
+    "description": "Engaging narrative world history in 4 chronological volumes with activity books, maps, coloring pages, and audiobook options.",
+    "subjects": [
+      "social_studies"
+    ],
+    "grade_range": "1-8",
+    "philosophy_scores": {
+      "montessori": 0.3,
+      "waldorf": 0.2,
+      "project_based": 0.4,
+      "place_nature": 0.2,
+      "classical": 0.8,
+      "charlotte_mason": 0.7,
+      "unschooling": 0.2,
+      "eclectic_flexible": 0.6
+    },
+    "prep_level": "light",
+    "religious_type": "secular",
+    "faith_depth": "none",
+    "price_range": "$40-75/year",
+    "quality_score": 0.92,
+    "affiliate_url": "https://welltrainedmind.com/c/series/the-story-of-the-world/",
+    "setting_fit": [
+      "individual",
+      "co-op",
+      "micro-school"
+    ],
+    "notes": "The most popular elementary homeschool history curriculum. Four volumes: Ancient Times, Middle Ages, Early Modern Times, Modern Age. Faith-friendly (covers Biblical events as history) but not faith-based \u2014 treats all religions evenhandedly. Activity books are optional and extensive \u2014 choose what fits your schedule. Available in print, digital, and audiobook. Best for grades 1-4 as read-aloud; 5-8 can use independently with activity book. Volume 4 has fewer hands-on activities."
+  },
+  {
+    "name": "The Mystery of History",
+    "publisher": "Bright Ideas Press",
+    "description": "Chronological world history from a biblical worldview in 4 volumes with multi-age activities, timeline, and mapwork for K-12.",
+    "subjects": [
+      "social_studies"
+    ],
+    "grade_range": "K-12",
+    "philosophy_scores": {
+      "montessori": 0.2,
+      "waldorf": 0.1,
+      "project_based": 0.3,
+      "place_nature": 0.1,
+      "classical": 0.8,
+      "charlotte_mason": 0.5,
+      "unschooling": 0.1,
+      "eclectic_flexible": 0.4
+    },
+    "prep_level": "light",
+    "religious_type": "christian",
+    "faith_depth": "worldview",
+    "price_range": "$100-190/year",
+    "quality_score": 0.87,
+    "affiliate_url": "https://brightideaspress.com/product-category/world-history-the-mystery-of-history/",
+    "setting_fit": [
+      "individual",
+      "co-op",
+      "micro-school"
+    ],
+    "notes": "Classical, chronological, Christian approach. Activities divided into younger/middle/older age ranges for multi-age family use. 28-week curriculum, 2-3 lessons per week. Companion Guide includes mapwork, timelines, assessments, and book lists. Vol 1: Creation to Resurrection, Vol 2: Early Church to Middle Ages, Vol 3: Renaissance to Growth of Nations, Vol 4: Wars of Independence to Modern Times. High schoolers need supplemental reading and a separate US History course. Can feel dry/fact-intensive for very young students (K-3)."
+  },
+  {
+    "name": "Beautiful Feet Books",
+    "publisher": "Beautiful Feet Books",
+    "description": "Charlotte Mason-inspired, literature-based history using living books with teacher guides, narration, notebooking, and timeline activities.",
+    "subjects": [
+      "social_studies"
+    ],
+    "grade_range": "K-12",
+    "philosophy_scores": {
+      "montessori": 0.3,
+      "waldorf": 0.2,
+      "project_based": 0.3,
+      "place_nature": 0.2,
+      "classical": 0.5,
+      "charlotte_mason": 0.9,
+      "unschooling": 0.3,
+      "eclectic_flexible": 0.5
+    },
+    "prep_level": "light",
+    "religious_type": "christian",
+    "faith_depth": "light",
+    "price_range": "$100-230/year",
+    "quality_score": 0.86,
+    "affiliate_url": "https://bfbooks.com/collections/history",
+    "setting_fit": [
+      "individual",
+      "co-op"
+    ],
+    "notes": "Founded 1984. Literature packs include teacher guide + 10-20 living books per course. Lessons organized by topic (not 5-day weeks) for flexibility. Heavy on narration (oral and written), notebooking, and map/timeline work. Christian company but curriculum could be adapted for secular use. Can cover history + geography + writing + art in early grades. No worksheets or tests. High school Modern History counts as 2 credits (History + Language Arts). Can use library books to reduce cost."
+  },
+  {
+    "name": "Notgrass History",
+    "publisher": "Notgrass Company",
+    "description": "Visually rich, photo-heavy Christian history curriculum integrating Bible study, language arts, and hands-on projects for grades 1-12.",
+    "subjects": [
+      "social_studies"
+    ],
+    "grade_range": "1-12",
+    "philosophy_scores": {
+      "montessori": 0.2,
+      "waldorf": 0.1,
+      "project_based": 0.3,
+      "place_nature": 0.1,
+      "classical": 0.5,
+      "charlotte_mason": 0.4,
+      "unschooling": 0.1,
+      "eclectic_flexible": 0.4
+    },
+    "prep_level": "open-and-go",
+    "religious_type": "christian",
+    "faith_depth": "fully-integrated",
+    "price_range": "$75-300/year",
+    "quality_score": 0.86,
+    "affiliate_url": "https://shop.notgrass.com/curriculum",
+    "setting_fit": [
+      "individual",
+      "co-op",
+      "micro-school"
+    ],
+    "notes": "Three tiers: Elementary (grades 1-4), Middle School (5-8), High School (9-12). Includes Bible study and language arts assignments within history lessons. Photo-heavy and vibrant \u2014 great for visual learners. No separate teacher's guide needed \u2014 all instructions included. Middle/high school students can work independently. Titles: Our Star-Spangled Story, Our 50 States, From Adam to Us, America the Beautiful, Exploring America, Exploring World History, etc. Covers US history, world history, geography, government, and economics."
+  },
+  {
+    "name": "Tapestry of Grace",
+    "publisher": "Lampstand Press",
+    "description": "Comprehensive classical Christian unit-study curriculum using history as the organizing theme for literature, writing, fine arts, geography, and Bible across K-12.",
+    "subjects": [
+      "social_studies"
+    ],
+    "grade_range": "K-12",
+    "philosophy_scores": {
+      "montessori": 0.2,
+      "waldorf": 0.2,
+      "project_based": 0.4,
+      "place_nature": 0.1,
+      "classical": 0.9,
+      "charlotte_mason": 0.6,
+      "unschooling": 0.1,
+      "eclectic_flexible": 0.3
+    },
+    "prep_level": "heavy",
+    "religious_type": "christian",
+    "faith_depth": "worldview",
+    "price_range": "$200-400/year",
+    "quality_score": 0.85,
+    "affiliate_url": "https://tapestryofgrace.com/explore-tapestry/",
+    "setting_fit": [
+      "individual",
+      "co-op",
+      "micro-school"
+    ],
+    "notes": "Award-winning eclectic curriculum blending Classical, Charlotte Mason, unit studies, and lapbooking. Four classical learning levels: lower grammar (K-3), upper grammar (3-6), dialectic (6-9), rhetoric (9-12). Four-year cycle through world history \u2014 all ages study same period simultaneously. Covers history, writing, literature, fine arts, geography, church history, Bible. Does NOT include math, science, phonics, foreign language. Heavy parent prep (1-2 hours/week pre-reading). Weekly plans ~50 pages. Best value for multi-age families planning to use through high school. Free 3-week sample available."
+  },
+  {
+    "name": "History Quest",
+    "publisher": "Pandia Press",
+    "description": "Secular, story-format world history read-aloud with optional study guides covering ancient through modern times.",
+    "subjects": [
+      "social_studies"
+    ],
+    "grade_range": "1-12",
+    "philosophy_scores": {
+      "montessori": 0.3,
+      "waldorf": 0.2,
+      "project_based": 0.3,
+      "place_nature": 0.2,
+      "classical": 0.5,
+      "charlotte_mason": 0.7,
+      "unschooling": 0.4,
+      "eclectic_flexible": 0.7
+    },
+    "prep_level": "open-and-go",
+    "religious_type": "secular",
+    "faith_depth": "none",
+    "price_range": "$35-60/year",
+    "quality_score": 0.84,
+    "affiliate_url": "https://www.pandiapress.com/history-quest/",
+    "setting_fit": [
+      "individual",
+      "co-op"
+    ],
+    "notes": "From the makers of Real Science Odyssey. Chapter-book format designed as family read-aloud (grades 1-4) or independent read (5+). Volumes: Early Times, Middle Times, Modern Times, plus US History & Civics. Study guides sold separately with activities, maps, and timeline work. History Odyssey bridge series for grades 6-12. Neutral on religion \u2014 presents events based on historical facts. 3 weeks of free 'try before you buy.' Very budget-friendly. Same publisher as RSO \u2014 pairs well for secular families."
+  },
+  {
+    "name": "BookShark History",
+    "publisher": "BookShark",
+    "description": "Secular, literature-based history curriculum using diverse living books, historical fiction, and biographies with fully planned 4-day schedules.",
+    "subjects": [
+      "social_studies"
+    ],
+    "grade_range": "K-10",
+    "philosophy_scores": {
+      "montessori": 0.2,
+      "waldorf": 0.1,
+      "project_based": 0.3,
+      "place_nature": 0.1,
+      "classical": 0.4,
+      "charlotte_mason": 0.7,
+      "unschooling": 0.2,
+      "eclectic_flexible": 0.6
+    },
+    "prep_level": "open-and-go",
+    "religious_type": "secular",
+    "faith_depth": "none",
+    "price_range": "$200-400/year",
+    "quality_score": 0.84,
+    "affiliate_url": "https://www.bookshark.com/homeschool-curriculum",
+    "setting_fit": [
+      "individual",
+      "co-op"
+    ],
+    "notes": "Secular spin-off of Sonlight. Levels A-J (PreK through 10th grade). History & Literature integrated \u2014 students read ~50 books/year. Level F (Eastern history) is especially beloved. Religiously neutral \u2014 covers faith's historical role from multiple perspectives. 36-week, 4-day schedule with detailed instructor's guide. Includes read-alouds, independent readers, timeline and map resources. Reusable across siblings. Can pair with BookShark Science for full secular package. Virtual option available for online tracking."
+  },
+  {
+    "name": "Sonlight History",
+    "publisher": "Sonlight Curriculum",
+    "description": "Christian literature-based history using living books, historical fiction, and read-alouds with fully planned daily schedules and timeline resources.",
+    "subjects": [
+      "social_studies"
+    ],
+    "grade_range": "K-12",
+    "philosophy_scores": {
+      "montessori": 0.2,
+      "waldorf": 0.1,
+      "project_based": 0.2,
+      "place_nature": 0.1,
+      "classical": 0.4,
+      "charlotte_mason": 0.7,
+      "unschooling": 0.1,
+      "eclectic_flexible": 0.5
+    },
+    "prep_level": "open-and-go",
+    "religious_type": "christian",
+    "faith_depth": "light",
+    "price_range": "$200-500/year",
+    "quality_score": 0.85,
+    "affiliate_url": "https://www.sonlight.com/pages/history-curriculum",
+    "setting_fit": [
+      "individual",
+      "co-op"
+    ],
+    "notes": "Originally designed for missionary families overseas. History/Bible/Literature integrated into one package. Christian perspective but explores world religions and cultures. Each level spans 3-year age range for multi-age teaching. 4-day or 5-day schedule options. Extensive reading load \u2014 requires dedicated parent read-aloud time. Expensive but books are reusable. Save 15-20% with All-Subjects Package. Payment plans available."
+  },
+  {
+    "name": "Simply Charlotte Mason History",
+    "publisher": "Simply Charlotte Mason",
+    "description": "Charlotte Mason-method history using a 6-year cycle, living books, narration, and nature study for the whole family grades 1-12.",
+    "subjects": [
+      "social_studies"
+    ],
+    "grade_range": "1-12",
+    "philosophy_scores": {
+      "montessori": 0.4,
+      "waldorf": 0.3,
+      "project_based": 0.3,
+      "place_nature": 0.5,
+      "classical": 0.4,
+      "charlotte_mason": 0.95,
+      "unschooling": 0.3,
+      "eclectic_flexible": 0.5
+    },
+    "prep_level": "light",
+    "religious_type": "christian",
+    "faith_depth": "light",
+    "price_range": "$50-150/year",
+    "quality_score": 0.83,
+    "affiliate_url": "https://simplycharlottemason.com/store/charlotte-mason-history-curriculum/",
+    "setting_fit": [
+      "individual",
+      "co-op"
+    ],
+    "notes": "Pure Charlotte Mason approach \u2014 living books, narration, short lessons, nature study. 6-year history cycle covering ancient through modern. One teacher guide works for whole family grades 1-12 with book suggestions per form/level. Christian perspective but gentle integration. Budget-friendly since many books can be sourced from libraries. Pairs well with SCM's other subjects (geography, nature study, Bible). Best for families specifically seeking Charlotte Mason methodology."
+  },
+  {
+    "name": "Moving Beyond the Page Social Studies",
+    "publisher": "Moving Beyond the Page",
+    "description": "Secular, literature-based social studies integrating language arts through thematic units with hands-on projects and critical thinking activities.",
+    "subjects": [
+      "social_studies"
+    ],
+    "grade_range": "1-8",
+    "philosophy_scores": {
+      "montessori": 0.4,
+      "waldorf": 0.2,
+      "project_based": 0.7,
+      "place_nature": 0.3,
+      "classical": 0.3,
+      "charlotte_mason": 0.5,
+      "unschooling": 0.3,
+      "eclectic_flexible": 0.6
+    },
+    "prep_level": "moderate",
+    "religious_type": "secular",
+    "faith_depth": "none",
+    "price_range": "$100-200/year",
+    "quality_score": 0.82,
+    "affiliate_url": "https://www.movingbeyondthepage.com/purchase/homeschool-unit-studies/social-studies/",
+    "setting_fit": [
+      "individual",
+      "co-op"
+    ],
+    "notes": "Standards-based secular curriculum that goes beyond public school basics. Integrates social studies with language arts through literature. Thematic units with hands-on projects and critical thinking emphasis. Available for ages 7-14 in online or print format. Strong fit for project-based and gifted learners. Less well-known but highly regarded by secular homeschool community."
+  },
+  {
+    "name": "Sonlight",
+    "publisher": "Sonlight Curriculum",
+    "description": "Literature-rich Christian curriculum with comprehensive read-aloud-based lesson plans covering all subjects in one package",
+    "subjects": [
+      "literacy",
+      "math",
+      "science",
+      "social_studies"
+    ],
+    "grade_range": "K-12",
+    "philosophy_scores": {
+      "montessori": 0.1,
+      "waldorf": 0.15,
+      "project_based": 0.1,
+      "place_nature": 0.1,
+      "classical": 0.3,
+      "charlotte_mason": 0.65,
+      "unschooling": 0.05,
+      "eclectic_flexible": 0.35
+    },
+    "prep_level": "open-and-go",
+    "religious_type": "christian",
+    "faith_depth": "worldview",
+    "price_range": "$830-1050/year",
+    "quality_score": 0.88,
+    "affiliate_url": "https://www.sonlight.com/pages/all-subjects-packages",
+    "setting_fit": [
+      "individual"
+    ],
+    "notes": "All-Subjects Packages include history, Bible, geography, read-alouds, readers, language arts, math (Math-U-See default, swappable), and science. 4- or 5-day schedule options. Very reading-intensive \u2014 requires significant daily parent read-aloud time. Books are reusable for younger siblings. Love to Learn guarantee allows 18-week trial with full refund."
+  },
+  {
+    "name": "BookShark",
+    "publisher": "BookShark",
+    "description": "Secular literature-based curriculum (sister company to Sonlight) with comprehensive all-subject packages and a 4-day schedule",
+    "subjects": [
+      "literacy",
+      "math",
+      "science",
+      "social_studies"
+    ],
+    "grade_range": "PreK-10",
+    "philosophy_scores": {
+      "montessori": 0.1,
+      "waldorf": 0.1,
+      "project_based": 0.1,
+      "place_nature": 0.1,
+      "classical": 0.25,
+      "charlotte_mason": 0.6,
+      "unschooling": 0.05,
+      "eclectic_flexible": 0.35
+    },
+    "prep_level": "open-and-go",
+    "religious_type": "secular",
+    "faith_depth": "none",
+    "price_range": "$500-1000/year",
+    "quality_score": 0.84,
+    "affiliate_url": "https://www.bookshark.com/homeschool-curriculum",
+    "setting_fit": [
+      "individual"
+    ],
+    "notes": "Secular alternative to Sonlight. All-Subject Packages cover language arts, science, math, history, and geography. 4-day/36-week schedule. Students read ~50 books per year. Does not cover high school fully (ends around age 16/level J). Heavy reading load requires parent involvement for read-alouds. Books reusable for siblings."
+  },
+  {
+    "name": "Timberdoodle",
+    "publisher": "Timberdoodle Co.",
+    "description": "Hands-on, thinking-skills-focused curriculum kits curated from hundreds of publishers, available in Christian and non-religious editions",
+    "subjects": [
+      "literacy",
+      "math",
+      "science",
+      "social_studies"
+    ],
+    "grade_range": "PreK-12",
+    "philosophy_scores": {
+      "montessori": 0.35,
+      "waldorf": 0.15,
+      "project_based": 0.4,
+      "place_nature": 0.2,
+      "classical": 0.1,
+      "charlotte_mason": 0.35,
+      "unschooling": 0.1,
+      "eclectic_flexible": 0.55
+    },
+    "prep_level": "light",
+    "religious_type": "secular",
+    "faith_depth": "none",
+    "price_range": "$400-990/year",
+    "quality_score": 0.86,
+    "affiliate_url": "https://timberdoodle.com/curriculum-kits",
+    "setting_fit": [
+      "individual",
+      "co-op"
+    ],
+    "notes": "Available in three tiers: Basic ($395-580, core subjects only), Complete ($800-990, all subjects), and Elite (premium extras). Both Classic (Christian) and Non-Religious editions at same price. Strong emphasis on STEM, logic puzzles, and thinking skills. Kit Customizer tool lets you swap items before purchasing. Does not include foreign language or literature book sets. Emphasizes independent learning as early as possible."
+  },
+  {
+    "name": "The Good and the Beautiful",
+    "publisher": "The Good and the Beautiful",
+    "description": "Affordable, beautifully designed Christian curriculum covering all subjects with integrated family-style history and science units",
+    "subjects": [
+      "literacy",
+      "math",
+      "science",
+      "social_studies"
+    ],
+    "grade_range": "PreK-12",
+    "philosophy_scores": {
+      "montessori": 0.1,
+      "waldorf": 0.15,
+      "project_based": 0.15,
+      "place_nature": 0.25,
+      "classical": 0.2,
+      "charlotte_mason": 0.5,
+      "unschooling": 0.05,
+      "eclectic_flexible": 0.3
+    },
+    "prep_level": "open-and-go",
+    "religious_type": "christian",
+    "faith_depth": "worldview",
+    "price_range": "$50-250/year",
+    "quality_score": 0.85,
+    "affiliate_url": "https://www.goodandbeautiful.com/pages/about-us",
+    "setting_fit": [
+      "individual",
+      "co-op"
+    ],
+    "notes": "Exceptionally affordable \u2014 Language Arts levels 1-5 available as FREE PDF downloads. Courses typically $10-125 each. History and science are family-style (teach multiple ages together). Language Arts integrates multiple subjects (reading, spelling, grammar, writing, art, geography). Faith content is general Christian worldview, not denomination-specific. Can feel advanced for listed grade level \u2014 take placement test. Some reviewers note limited depth and US-centric content."
+  },
+  {
+    "name": "My Father's World",
+    "publisher": "My Father's World",
+    "description": "Christian curriculum blending Charlotte Mason, classical education, and unit studies with a global missions perspective",
+    "subjects": [
+      "literacy",
+      "math",
+      "science",
+      "social_studies"
+    ],
+    "grade_range": "PreK-12",
+    "philosophy_scores": {
+      "montessori": 0.1,
+      "waldorf": 0.1,
+      "project_based": 0.25,
+      "place_nature": 0.15,
+      "classical": 0.45,
+      "charlotte_mason": 0.55,
+      "unschooling": 0.05,
+      "eclectic_flexible": 0.3
+    },
+    "prep_level": "open-and-go",
+    "religious_type": "christian",
+    "faith_depth": "fully-integrated",
+    "price_range": "$330-520/year",
+    "quality_score": 0.85,
+    "affiliate_url": "https://www.mfwbooks.com/about",
+    "setting_fit": [
+      "individual",
+      "co-op"
+    ],
+    "notes": "Teaches multiple children together via Family Learning Cycle (grades 2-8 learn same history/science, different depth). History is the backbone with other subjects integrated around it. Math and language arts are separate purchases from other publishers (e.g., Spelling Power, Saxon). Bible and Christian values woven into every subject with a global missions emphasis. 4-day schedule. Lots of reading required. Cathy Duffy Top Pick."
+  },
+  {
+    "name": "Oak Meadow",
+    "publisher": "Oak Meadow, Inc.",
+    "description": "Secular Waldorf-inspired curriculum emphasizing creativity, nature, and experiential learning with optional accredited enrollment",
+    "subjects": [
+      "literacy",
+      "math",
+      "science",
+      "social_studies"
+    ],
+    "grade_range": "K-12",
+    "philosophy_scores": {
+      "montessori": 0.2,
+      "waldorf": 0.7,
+      "project_based": 0.35,
+      "place_nature": 0.55,
+      "classical": 0.05,
+      "charlotte_mason": 0.35,
+      "unschooling": 0.2,
+      "eclectic_flexible": 0.3
+    },
+    "prep_level": "moderate",
+    "religious_type": "secular",
+    "faith_depth": "none",
+    "price_range": "$120-600/year",
+    "quality_score": 0.82,
+    "affiliate_url": "https://www.oakmeadow.com/about-us/",
+    "setting_fit": [
+      "individual"
+    ],
+    "notes": "Founded 1975 by Waldorf-trained teacher. Covers all subjects including art and music. K-3 coursebooks include all subjects; grades 5-8 have separate coursebooks per subject; high school uses Saxon Math and texts from secular publishers. Optional accredited distance learning school ($1500-2500/year) with teacher evaluations and transcripts. Gentle pacing in early years with increasingly rigorous academics later. May frustrate gifted/fast learners. Heavy on written responses and long-form assignments."
+  },
+  {
+    "name": "Gather 'Round Homeschool",
+    "publisher": "Gather 'Round Homeschool",
+    "description": "Charlotte Mason-inspired Christian unit study curriculum designed for teaching all ages together with minimal prep",
+    "subjects": [
+      "literacy",
+      "science",
+      "social_studies"
+    ],
+    "grade_range": "PreK-12",
+    "philosophy_scores": {
+      "montessori": 0.1,
+      "waldorf": 0.15,
+      "project_based": 0.3,
+      "place_nature": 0.2,
+      "classical": 0.15,
+      "charlotte_mason": 0.65,
+      "unschooling": 0.15,
+      "eclectic_flexible": 0.4
+    },
+    "prep_level": "open-and-go",
+    "religious_type": "christian",
+    "faith_depth": "fully-integrated",
+    "price_range": "$200-400/year",
+    "quality_score": 0.83,
+    "affiliate_url": "https://gatherroundhomeschool.com/collections/full-units",
+    "setting_fit": [
+      "individual",
+      "co-op"
+    ],
+    "notes": "Covers all subjects EXCEPT math (separate math program now available). One purchase works for ALL children in the family. Units are 20 lessons (~4-5 weeks each), organized in a 4-year cycle. Covers grammar, spelling, writing, art, reading, comprehension, geography, science, social studies, history, and Bible. Digital or print options. Not accredited. Cost can add up for single-child families but is very economical for large families. High school science coverage may need supplementation."
+  },
+  {
+    "name": "Calvert Homeschool",
+    "publisher": "Calvert Education",
+    "description": "Secular, structured curriculum with 125+ years of history, offering print-based K-2 and online courses for grades 3-12",
+    "subjects": [
+      "literacy",
+      "math",
+      "science",
+      "social_studies"
+    ],
+    "grade_range": "PreK-12",
+    "philosophy_scores": {
+      "montessori": 0.05,
+      "waldorf": 0.0,
+      "project_based": 0.1,
+      "place_nature": 0.0,
+      "classical": 0.4,
+      "charlotte_mason": 0.05,
+      "unschooling": 0.0,
+      "eclectic_flexible": 0.15
+    },
+    "prep_level": "open-and-go",
+    "religious_type": "secular",
+    "faith_depth": "none",
+    "price_range": "$160-380/year",
+    "quality_score": 0.8,
+    "affiliate_url": "https://www.calverthomeschool.com/curriculum",
+    "setting_fit": [
+      "individual"
+    ],
+    "notes": "Founded 1897. Print-based for K-2, online platform for grades 3-12 with 45+ courses, videos, and interactive exercises. 160 lessons + 20 review lessons per course with built-in assessments. Optional Calvert Academy accreditation ($1500-3200/year) with NCAA approval and recognized diplomas. Mastery-based approach with step-by-step lesson plans. Only 5-15 minutes daily parent prep. Subjects are thoughtfully cross-referenced (e.g., Civil War history paired with Whitman poetry in LA)."
+  },
+  {
+    "name": "Master Books",
+    "publisher": "Master Books / New Leaf Publishing",
+    "description": "Affordable, open-and-go Christian curriculum with Charlotte Mason-inspired short lessons and a strong biblical worldview",
+    "subjects": [
+      "literacy",
+      "math",
+      "science",
+      "social_studies"
+    ],
+    "grade_range": "PreK-12",
+    "philosophy_scores": {
+      "montessori": 0.05,
+      "waldorf": 0.05,
+      "project_based": 0.1,
+      "place_nature": 0.15,
+      "classical": 0.2,
+      "charlotte_mason": 0.45,
+      "unschooling": 0.05,
+      "eclectic_flexible": 0.2
+    },
+    "prep_level": "open-and-go",
+    "religious_type": "christian",
+    "faith_depth": "fully-integrated",
+    "price_range": "$150-300/year",
+    "quality_score": 0.81,
+    "affiliate_url": "https://www.masterbooks.com/homeschool-curriculum",
+    "setting_fit": [
+      "individual",
+      "co-op"
+    ],
+    "notes": "Very affordable for a complete curriculum. Four-subject bundles available (math, language arts, history, science). 180 daily lessons per subject, ~1 page per day. Biblical worldview deeply integrated into every subject \u2014 cannot be separated from content. Does not align with Common Core. Some parents find lessons too easy/gentle. Optional Master Books Academy online videos available for self-paced instruction. Good for special needs and reluctant learners due to gentle approach."
+  },
+  {
+    "name": "Moving Beyond the Page",
+    "publisher": "Moving Beyond the Page",
+    "description": "Secular, literature-based integrated curriculum designed for gifted and creative learners with interdisciplinary unit studies",
+    "subjects": [
+      "literacy",
+      "math",
+      "science",
+      "social_studies"
+    ],
+    "grade_range": "K-8",
+    "philosophy_scores": {
+      "montessori": 0.25,
+      "waldorf": 0.15,
+      "project_based": 0.65,
+      "place_nature": 0.15,
+      "classical": 0.15,
+      "charlotte_mason": 0.3,
+      "unschooling": 0.2,
+      "eclectic_flexible": 0.45
+    },
+    "prep_level": "moderate",
+    "religious_type": "secular",
+    "faith_depth": "none",
+    "price_range": "$300-600/year",
+    "quality_score": 0.83,
+    "affiliate_url": "https://www.beyondthepage.com/curriculum/",
+    "setting_fit": [
+      "individual"
+    ],
+    "notes": "Organized by age range rather than grade (ages 4-5 through 12-14). 3-week interdisciplinary units combining language arts, science, and social studies around central themes. Math curriculum available for some levels but not all \u2014 may need to supplement. Hands-on and project-based with dioramas, cooking, experiments, essays. Online version allows multiple siblings at no extra cost. Used by 100+ accredited distance learning schools. Particularly strong for gifted learners. 4-day schedule. Ages 9+ become increasingly independent."
+  },
+  {
+    "name": "Daily Wonder",
+    "publisher": "Daily Wonder Home Learning",
+    "description": "Waldorf-rooted homeschool curriculum created by three experienced Waldorf teachers, integrating all academic subjects through story, hands-on activities, movement, music, and visual/practical arts in daily morning lesson plans",
+    "subjects": [
+      "literacy",
+      "math",
+      "science",
+      "social_studies"
+    ],
+    "grade_range": "K\u20137",
+    "philosophy_scores": {
+      "montessori": 0.15,
+      "waldorf": 0.95,
+      "project_based": 0.25,
+      "place_nature": 0.4,
+      "classical": 0.0,
+      "charlotte_mason": 0.3,
+      "unschooling": 0.05,
+      "eclectic_flexible": 0.2
+    },
+    "prep_level": "open-and-go",
+    "religious_type": "secular",
+    "faith_depth": "none",
+    "price_range": "$399/year",
+    "quality_score": 0.84,
+    "affiliate_url": "https://www.dailywonderhomelearning.com/",
+    "setting_fit": [
+      "individual",
+      "co-op"
+    ],
+    "notes": "Created by Canadian Waldorf teachers who built and ran a Waldorf school. Digital PDF curriculum with 10 units per year (15 lesson days + 5 flex days each). Each day includes opening verse, movement, math, recall/review, new material, bookwork, story, and closing verse. Daily time commitment is 1-2 hours. Includes access to Wonder Hub with resource videos and supportive community. Individual units available at $44 each to trial. Also offers supplementary ukulele, recorder, pentatonic flute, and handwork courses. Aligned to BC Ministry of Education learning standards (translatable to other provinces/states). Block-teaching model typical of Waldorf education."
+  },
+  {
+    "name": "Earthschooling",
+    "publisher": "The BEarth Institute",
+    "description": "Award-winning, secular Waldorf curriculum integrating nature studies, storytelling, painting, handwork, Eurythmy, and academics through hands-on activities and natural rhythms, with over 100 hours of teacher support tutorials",
+    "subjects": [
+      "literacy",
+      "math",
+      "science",
+      "social_studies"
+    ],
+    "grade_range": "PreK\u201312",
+    "philosophy_scores": {
+      "montessori": 0.15,
+      "waldorf": 0.9,
+      "project_based": 0.2,
+      "place_nature": 0.6,
+      "classical": 0.0,
+      "charlotte_mason": 0.25,
+      "unschooling": 0.1,
+      "eclectic_flexible": 0.2
+    },
+    "prep_level": "moderate",
+    "religious_type": "secular",
+    "faith_depth": "none",
+    "price_range": "$200-325/grade",
+    "quality_score": 0.82,
+    "affiliate_url": "https://earthschooling.info/thebearthinstitute/",
+    "setting_fit": [
+      "individual",
+      "co-op",
+      "micro-school"
+    ],
+    "notes": "The first online Waldorf curriculum provider, operating since 1994. Three purchase tiers: Core Curriculum (PDFs/images/MP3s), Curriculum Package (adds teacher video tutorials for crafts, watercolor, chalk drawing), and Living Lessons (adds video of Waldorf teacher teaching your student). Kindergarten package is $200; upper grades run $250-325. Lifetime Family Package (PreK-G8) is $2,225 without Living Lessons or $4,500 with them. High school (G9-12) is a separate $750 add-on converted to Waldorf School Online. Includes Eurythmy (unique among homeschool curricula), French lessons, music, international/multi-cultural content. Provides alternate lesson blocks for cultural sensitivity (e.g., secular alternatives to Saints block). 30% discount for AU/CA/NZ families. Scholarships available (up to 50% off). Lifetime access includes all future updates. Weekly Q&A sessions with Waldorf teacher included. Accepted by universities for transcripts."
+  },
+  {
+    "name": "Torchlight Curriculum",
+    "publisher": "Torchlight Curriculum (Tiffany Petty)",
+    "description": "Literature-based, secular humanist curriculum emphasizing diverse authors, Socratic discussion, critical thinking, and hands-on projects across language arts, social studies, science, art, and music",
+    "subjects": [
+      "literacy",
+      "science",
+      "social_studies"
+    ],
+    "grade_range": "PreK\u20135",
+    "philosophy_scores": {
+      "montessori": 0.15,
+      "waldorf": 0.15,
+      "project_based": 0.35,
+      "place_nature": 0.15,
+      "classical": 0.25,
+      "charlotte_mason": 0.65,
+      "unschooling": 0.3,
+      "eclectic_flexible": 0.7
+    },
+    "prep_level": "moderate",
+    "religious_type": "secular",
+    "faith_depth": "none",
+    "price_range": "$32-76/level",
+    "quality_score": 0.87,
+    "affiliate_url": "https://torchlightcurriculum.com/torchlight/",
+    "setting_fit": [
+      "individual",
+      "co-op"
+    ],
+    "notes": "Covers Pre-K through Level 5 (ages 4-14) plus individual Constellation Studies for older students. Does NOT include math or explicit reading/phonics instruction (after Pre-K) \u2014 families must supplement. PDF-only curriculum; books purchased separately or borrowed from library. Level Pre-K is $32; Levels K-2 are $40-42; Level 3 is $47; Level 4 is $47; Level 5 is $52 ($76 with art and finance bundle). 36 weeks of daily lessons per level. Strong emphasis on diverse literature and multicultural perspectives. Socratic-inspired discussion and inquiry-based learning throughout. Includes art, music, philosophy, game logic, and creative writing (NaNoWriMo novel project in Levels 4-5). Cathy Duffy Top 103 Pick. Explicitly secular humanist \u2014 addresses worldview topics from humanist perspective, not religiously neutral. Heavy reading load; significant parent involvement required for discussions and activities. Very affordable curriculum guide, but book costs can add $100-200 per level if not using library."
+  }
+]

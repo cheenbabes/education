@@ -5,7 +5,10 @@ const { resolve } = require("path");
 
 const prisma = new PrismaClient();
 
-const JSON_PATH = resolve(__dirname, "../../docs/curriculum-research/all-curricula.json");
+// Check both locations: local dev (docs/) and Docker (prisma/)
+const JSON_PATH = existsSync(resolve(__dirname, "all-curricula.json"))
+  ? resolve(__dirname, "all-curricula.json")
+  : resolve(__dirname, "../../docs/curriculum-research/all-curricula.json");
 
 async function main() {
   if (!existsSync(JSON_PATH)) {

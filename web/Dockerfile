@@ -37,7 +37,7 @@ COPY --from=builder /app/node_modules/prisma ./node_modules/prisma
 COPY --from=builder /app/prisma ./prisma
 
 # Copy curriculum data for runtime seeding
-COPY --from=builder /app/docs/curriculum-research/all-curricula.json ./docs/curriculum-research/all-curricula.json
+COPY --from=builder /app/prisma/all-curricula.json ./prisma/all-curricula.json
 
 EXPOSE 3000
 ENV PORT=3000
