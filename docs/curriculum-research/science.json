@@ -58,7 +58,7 @@
     "philosophy_scores": {
       "montessori": 0.6,
       "waldorf": 0.2,
-      "project_based": 0.5,
+      "project_based": 0.7,
       "place_nature": 0.5,
       "classical": 0.6,
       "charlotte_mason": 0.7,
@@ -207,7 +207,7 @@
     "grade_range": "K-12",
     "philosophy_scores": {
       "montessori": 0.4,
-      "waldorf": 0.9,
+      "waldorf": 0.7,
       "project_based": 0.5,
       "place_nature": 0.7,
       "classical": 0.2,

@@ -490,6 +490,28 @@ export const PART2_QUESTIONS: Part2Question[] = [
     ],
   },
   {
+    id: "p2_screen_time",
+    question: "How do you feel about screen-based lessons and video instruction in your curriculum?",
+    type: "single",
+    choices: [
+      { value: "avoid", label: "I want to avoid screens entirely — books, hands-on, and conversation only" },
+      { value: "minimal", label: "Minimal screens — occasional educational videos are fine, but not the core method" },
+      { value: "some", label: "Some screen time is fine — video lessons can be a helpful teaching tool" },
+      { value: "welcome", label: "I welcome it — video instruction and apps help my child learn independently" },
+    ],
+  },
+  {
+    id: "p2_learning_needs",
+    question: "Does your child have any of the following learning needs? (Select all that apply)",
+    type: "multi",
+    choices: [
+      { value: "dyslexia", label: "Dyslexia or reading difficulty" },
+      { value: "adhd", label: "ADHD or attention challenges" },
+      { value: "gifted", label: "Gifted / needs more challenge" },
+      { value: "none", label: "None of the above" },
+    ],
+  },
+  {
     id: "p2_setting",
     question: "What best describes your setting?",
     type: "single",

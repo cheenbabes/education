@@ -125,31 +125,6 @@
     "notes": "Developed by Dr. Joan Cotter, a Montessori educator. Uses the specially designed AL Abacus as its primary tool. 300+ card games replace flash card drills. Scripted lessons are open-and-go but require one-on-one parent instruction (30-45 min daily). Levels A-H (K-8). Initial manipulatives investment ~$218 (Math Set) is a one-time purchase. Excellent for children with learning challenges like dyscalculia. Primarily suited for individual instruction, not group settings."
   },
   {
-    "name": "Teaching Textbooks",
-    "publisher": "Teaching Textbooks",
-    "description": "Self-teaching app-based math program with video lessons and automatic grading — the most hands-off option for parents",
-    "subjects": ["math"],
-    "grade_range": "3-12",
-    "philosophy_scores": {
-      "montessori": 0.05,
-      "waldorf": 0.0,
-      "project_based": 0.05,
-      "place_nature": 0.0,
-      "classical": 0.3,
-      "charlotte_mason": 0.05,
-      "unschooling": 0.15,
-      "eclectic_flexible": 0.6
-    },
-    "prep_level": "open-and-go",
-    "religious_type": "secular",
-    "faith_depth": "none",
-    "price_range": "$43-68/year",
-    "quality_score": 0.78,
-    "affiliate_url": "https://www.teachingtextbooks.com/",
-    "setting_fit": ["individual"],
-    "notes": "The most-recommended 'easy to implement' math curriculum. App-based with video lessons, automatic grading, and hints for wrong answers. Spiral approach. Free trial (first 15 lessons). Family plan capped at $199/year for unlimited kids. Works on any device, even offline (up to 6 lessons). Daily parent email progress updates. Moves at a gentler pace than some programs — may need to go one level above grade. College-prep but not as rigorous as Singapore or Beast Academy. Pre-Calculus is the highest level offered."
-  },
-  {
     "name": "Math Mammoth",
     "publisher": "Math Mammoth (Maria Miller)",
     "description": "Affordable mastery-based worktext emphasizing conceptual understanding and self-directed learning with minimal prep",

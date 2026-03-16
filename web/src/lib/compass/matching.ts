@@ -28,6 +28,8 @@ export interface Part2Preferences {
   budget?: "under-50" | "50-150" | "150-300" | "over-300" | "not-a-factor";
   grades?: string[];
   setting?: "home" | "co-op" | "micro-school" | "private-school" | "other";
+  screenTime?: "avoid" | "minimal" | "some" | "welcome";
+  learningNeeds?: string[]; // "dyslexia", "adhd", "gifted", "none"
 }
 
 export interface CurriculumRecord {
@@ -56,7 +58,7 @@ export interface MatchResult {
 }
 
 export interface MatchWarning {
-  type: "prep-mismatch" | "unschooling-dominant";
+  type: "prep-mismatch" | "unschooling-dominant" | "dyslexia-recommendation" | "adhd-recommendation";
   message: string;
 }
 
@@ -181,6 +183,28 @@ export function matchCurricula(
     });
   }
 
+  // Detect dyslexia — recommend Orton-Gillingham approach
+  const learningNeeds = preferences.learningNeeds ?? [];
+  const hasDyslexia = learningNeeds.includes("dyslexia");
+  const hasADHD = learningNeeds.includes("adhd");
+  const isGifted = learningNeeds.includes("gifted");
+
+  if (hasDyslexia) {
+    warnings.push({
+      type: "dyslexia-recommendation",
+      message:
+        "For children with dyslexia or reading difficulties, research strongly supports the Orton-Gillingham approach — a structured, multisensory, phonics-based method. We've prioritized curricula that use this evidence-based approach, such as All About Reading, Logic of English, and Explode the Code.",
+    });
+  }
+
+  if (hasADHD) {
+    warnings.push({
+      type: "adhd-recommendation",
+      message:
+        "For children with ADHD, research shows shorter lessons, hands-on activities, movement breaks, and open-and-go curricula work best. Highly structured, long-sitting classical programs can be challenging. We've prioritized curricula with shorter lesson times, multisensory approaches, and lower prep requirements.",
+    });
+  }
+
   const budgetMax = BUDGET_MAX[preferences.budget ?? "not-a-factor"] ?? Infinity;
   const userSetting = SETTING_MAP[preferences.setting ?? "home"] ?? "individual";
   const wantsIntegrated = preferences.integrated === "one-program";
@@ -254,6 +278,56 @@ export function matchCurricula(
 
     // Quality score tiebreaker (small weight so it doesn't dominate)
     totalScore += curriculum.qualityScore * 0.05;
+
+    // --- Screen time preference ---
+    // Curricula with "video" or "app" or "online" in notes/description get penalized for screen-avoiders
+    const currText = `${curriculum.description} ${curriculum.notes ?? ""}`.toLowerCase();
+    const isScreenBased = /\bvideo lesson|\bapp-based|\bonline platform|\bvideo instruction|\bdigital/.test(currText);
+    if (preferences.screenTime === "avoid" && isScreenBased) {
+      totalScore -= 0.15; // significant penalty
+    } else if (preferences.screenTime === "minimal" && isScreenBased) {
+      totalScore -= 0.05;
+    } else if (preferences.screenTime === "welcome" && isScreenBased) {
+      totalScore += 0.05; // small bonus
+    }
+
+    // --- Learning needs adjustments ---
+    const isOrtonGillingham = /orton.gillingham|multi.?sensory.*phonics|structured literacy/i.test(currText);
+    const isHandsOn = /hands.on|manipulat|tactile|multi.?sensory/i.test(currText);
+    const isShortLessons = /15 min|short lesson|brief lesson/i.test(currText);
+
+    if (hasDyslexia) {
+      if (isOrtonGillingham) {
+        totalScore += 0.20; // strong bonus for OG-based curricula
+      }
+      if (isHandsOn) {
+        totalScore += 0.05;
+      }
+    }
+
+    if (hasADHD) {
+      // Boost open-and-go, hands-on, shorter lessons
+      if (curriculum.prepLevel === "open-and-go") {
+        totalScore += 0.10;
+      }
+      if (isHandsOn) {
+        totalScore += 0.10;
+      }
+      if (isShortLessons) {
+        totalScore += 0.05;
+      }
+      // Penalize heavy-prep classical programs (long structured lessons)
+      if (curriculum.prepLevel === "heavy" && (curriculum.philosophyScores.classical ?? 0) > 0.5) {
+        totalScore -= 0.15;
+      }
+    }
+
+    if (isGifted) {
+      // Boost challenging, rigorous curricula
+      if (/challenging|advanced|gifted|problem.solving|critical think/i.test(currText)) {
+        totalScore += 0.10;
+      }
+    }
 
     // --- Assign to subjects ---
     const currSubjects = curriculum.subjects.includes("all-in-one")
