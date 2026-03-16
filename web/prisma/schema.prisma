@@ -56,10 +56,11 @@ model User {
   image         String?
   state         String?   // US state abbreviation for standards
 
-  accounts Account[]
-  sessions Session[]
-  children Child[]
-  lessons  Lesson[]
+  accounts       Account[]
+  sessions       Session[]
+  children       Child[]
+  lessons        Lesson[]
+  compassResults CompassResult[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -155,4 +156,61 @@ model CalendarEntry {
   lesson Lesson @relation(fields: [lessonId], references: [id], onDelete: Cascade)
 
   @@index([userId, scheduledDate])
+}
+
+// --- Education Compass ---
+
+model CompassResult {
+  id               String   @id @default(uuid())
+  email            String
+  archetype        String
+  dimensionScores  Json     // {structure: 72, modality: 35, ...}
+  philosophyBlend  Json     // {montessori: 0.45, waldorf: 0.20, ...}
+  part2Preferences Json     // {subjects, prep_level, budget, ...}
+  accountId        String?
+
+  account          User?    @relation(fields: [accountId], references: [id], onDelete: SetNull)
+  curriculumPicks  CompassCurriculumPick[]
+
+  createdAt DateTime @default(now())
+
+  @@index([email])
+  @@index([accountId])
+}
+
+model Curriculum {
+  id               String   @id @default(uuid())
+  name             String
+  publisher        String
+  description      String   @db.Text
+  subjects         String[]
+  gradeRange       String
+  philosophyScores Json     // {montessori: 0.8, waldorf: 0.3, ...}
+  prepLevel        String   // open-and-go / light / moderate / heavy
+  religiousType    String   // secular / christian / other
+  faithDepth       String   // none / light / worldview / fully-integrated
+  priceRange       String
+  qualityScore     Float
+  affiliateUrl     String?
+  settingFit       String[] // individual, co-op, micro-school, private-school
+  notes            String?  @db.Text
+  active           Boolean  @default(true)
+
+  curriculumPicks  CompassCurriculumPick[]
+
+  @@index([active])
+}
+
+model CompassCurriculumPick {
+  id              String @id @default(uuid())
+  compassResultId String
+  curriculumId    String
+  matchScore      Float
+  subject         String
+
+  compassResult CompassResult @relation(fields: [compassResultId], references: [id], onDelete: Cascade)
+  curriculum    Curriculum    @relation(fields: [curriculumId], references: [id], onDelete: Cascade)
+
+  @@index([compassResultId])
+  @@index([curriculumId])
 }
