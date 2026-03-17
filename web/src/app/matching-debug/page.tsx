@@ -45,6 +45,7 @@ interface MatchResultDebug {
     priceRange: string;
     qualityScore: number;
     philosophyScores: Record<string, number>;
+    affiliateUrl: string | null;
   };
   totalScore: number;
   philosophyFitScore: number;
@@ -290,7 +291,11 @@ export default function MatchingDebugPage() {
             {showExcluded && excluded.map((m) => (
               <div key={m.curriculum.id + "excl"} className="bg-red-50 dark:bg-red-950 border border-red-200 dark:border-red-800 rounded p-3">
                 <div className="flex items-center justify-between">
-                  <span className="text-sm font-medium text-red-800 dark:text-red-200">{m.curriculum.name}</span>
+                  <span className="text-sm font-medium text-red-800 dark:text-red-200">
+                    {m.curriculum.affiliateUrl ? (
+                      <a href={m.curriculum.affiliateUrl} target="_blank" rel="noopener noreferrer" className="hover:underline">{m.curriculum.name} ↗</a>
+                    ) : m.curriculum.name}
+                  </span>
                   <span className="text-xs text-red-600 dark:text-red-400">EXCLUDED</span>
                 </div>
                 <p className="text-xs text-red-600 dark:text-red-400 mt-1">{m.excludedReason}</p>
@@ -312,7 +317,14 @@ function CurriculumDebugCard({ match: m, rank, compact }: { match: MatchResultDe
       <div className="flex items-start justify-between">
         <div>
           <h4 className="text-sm font-medium text-gray-900 dark:text-gray-100">
-            #{rank} {m.curriculum.name}
+            #{rank}{" "}
+            {m.curriculum.affiliateUrl ? (
+              <a href={m.curriculum.affiliateUrl} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
+                {m.curriculum.name} ↗
+              </a>
+            ) : (
+              m.curriculum.name
+            )}
             <span className={`ml-2 text-xs px-1.5 py-0.5 rounded ${
               m.fitLabel === "strong" ? "bg-green-50 text-green-700" :
               m.fitLabel === "good" ? "bg-blue-50 text-blue-700" :
