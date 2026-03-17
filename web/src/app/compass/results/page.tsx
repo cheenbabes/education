@@ -11,6 +11,7 @@ import {
   DimensionScores,
 } from "@/lib/compass/scoring";
 import { ARCHETYPES } from "@/lib/compass/archetypes";
+import { getComboText } from "@/lib/compass/combo-text";
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
 
 interface MatchResult {
@@ -172,23 +173,30 @@ export default function ResultsPage() {
         </div>
 
         {/* Archetype */}
-        <div className="bg-white dark:bg-gray-900 rounded border border-gray-200 dark:border-gray-800 p-6 text-center space-y-3">
-          <p className="text-4xl">{archetype.icon}</p>
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
-            {archetype.name}
-          </h2>
-          {secondaryArchetype && (
-            <p className="text-sm text-gray-500 dark:text-gray-400">
-              with {secondaryArchetype.name} tendencies
-            </p>
-          )}
-          <p className="text-sm text-gray-600 dark:text-gray-400 max-w-lg mx-auto">
+        <div className="bg-white dark:bg-gray-900 rounded border border-gray-200 dark:border-gray-800 p-6 space-y-4">
+          <div className="text-center space-y-2">
+            <p className="text-4xl">{archetype.icon}</p>
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
+              You&apos;re {archetype.name}
+            </h2>
+            {secondaryArchetype && (
+              <p className="text-sm text-gray-500 dark:text-gray-400">
+                with {secondaryArchetype.name} tendencies
+              </p>
+            )}
+          </div>
+          <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
             {archetype.description}
           </p>
           {secondaryArchetype && (
-            <p className="text-xs text-gray-400 dark:text-gray-500 max-w-md mx-auto italic">
-              Your secondary influence: {secondaryArchetype.description.split(".")[0]}.
-            </p>
+            <div className="border-t border-gray-100 dark:border-gray-800 pt-3">
+              <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+                <span className="font-medium text-gray-700 dark:text-gray-300">
+                  With {secondaryArchetype.name} tendencies,
+                </span>{" "}
+                {getComboText(archetype.id, secondaryArchetype.id).shareText.charAt(0).toLowerCase() + getComboText(archetype.id, secondaryArchetype.id).shareText.slice(1)}
+              </p>
+            </div>
           )}
         </div>
 
