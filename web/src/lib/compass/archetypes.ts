@@ -54,7 +54,7 @@ export const ARCHETYPES: Archetype[] = [
     name: "The Explorer",
     icon: "\uD83C\uDF0D",
     description:
-      "You follow the child's curiosity into the world around them. Unschooling's trust in the child meets place-based learning's emphasis on real environments. Your classroom is everywhere — the backyard, the creek, the farmer's market. Your strength is turning the world itself into the curriculum.",
+      "You follow your child's curiosity into the world around them. You trust that real learning happens through real experiences in real places. Your classroom is everywhere — the backyard, the creek, the farmer's market. Your strength is turning the world itself into the curriculum.",
     typicalPairings: "Unschooling + Place/Nature, Unschooling + Montessori",
     appPitch: {
       headline: "Your Classroom Is Everywhere",
@@ -78,11 +78,11 @@ export const ARCHETYPES: Archetype[] = [
     name: "The Cultivator",
     icon: "\uD83C\uDF31",
     description:
-      "You blend structure with hands-on learning in a Montessori-inspired way. The teacher carefully prepares the environment and curates the lessons, but the child chooses what to work on and at what pace. Your strength is balancing rigor with autonomy — children learn by doing within a thoughtfully designed space.",
+      "You carefully prepare the learning environment and curate the materials, but your child chooses what to work on and at what pace. Your strength is balancing structure with independence — children learn by doing within a thoughtfully designed space.",
     typicalPairings: "Montessori + Structured, Montessori + Project-Based",
     appPitch: {
       headline: "Prepare the Environment, Follow the Child",
-      body: "Your Montessori-inspired approach means the teacher curates and the child chooses. EduApp works the same way — you select the subject and your child's current interest, and we prepare a complete, hands-on lesson ready for them to explore. Use a structured curriculum for foundational literacy and math, and let EduApp create the prepared environment for everything else.",
+      body: "Your approach means you curate the environment and your child chooses what to explore. EduApp works the same way — you select the subject and your child's current interest, and we prepare a complete, hands-on lesson ready for them to work through. Use a structured curriculum for foundational literacy and math, and let EduApp create the rest.",
       cta: "Prepare Lessons for Your Child",
     },
     philosophyProfile: {
@@ -130,7 +130,7 @@ export const ARCHETYPES: Archetype[] = [
     typicalPairings: "Charlotte Mason + Place/Nature, Charlotte Mason + Waldorf",
     appPitch: {
       headline: "Living Lessons for Living Books Families",
-      body: "Your Charlotte Mason approach values short, rich lessons built around living books and real-world observation. EduApp generates lessons in exactly this spirit — narration-friendly, connected to nature and literature, and designed to be completed in focused, age-appropriate time blocks. Choose your core reading and math curriculum, then use EduApp to create the living lessons for science, history, and nature study.",
+      body: "Your approach values short, rich lessons built around great books and real-world observation. EduApp generates lessons in exactly this spirit — discussion-friendly, connected to nature and literature, and designed to be completed in focused, age-appropriate time blocks. Choose your core reading and math curriculum, then use EduApp to create lessons for science, history, and nature study.",
       cta: "Create Living Lessons",
     },
     philosophyProfile: {
@@ -202,7 +202,7 @@ export const ARCHETYPES: Archetype[] = [
     typicalPairings: "Eclectic + any combination, balanced across philosophies",
     appPitch: {
       headline: "The Perfect Tool for Pick-and-Choose Educators",
-      body: "You pull from every tradition — Montessori manipulatives for math, living books for reading, projects for science, nature study for the afternoon. EduApp matches your flexibility. Select any philosophy, any subject, any interest, and get a tailored lesson that adapts to however you're teaching that day. Use your chosen curricula for the core, and let EduApp fill in the rest — differently every time, just like you.",
+      body: "You pull from everywhere — hands-on materials for math, great books for reading, projects for science, nature in the afternoon. EduApp matches your flexibility. Select any approach, any subject, any interest, and get a tailored lesson that adapts to however you're teaching that day. Use your chosen curricula for the core, and let EduApp fill in the rest — differently every time, just like you.",
       cta: "Create Flexible Lessons",
     },
     philosophyProfile: {
