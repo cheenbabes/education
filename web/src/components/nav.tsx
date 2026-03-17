@@ -14,6 +14,7 @@ const navItems = [
   { href: "/archetype-debug", label: "Combo Debug" },
   { href: "/curriculum-review", label: "Curriculum Review" },
   { href: "/personas", label: "Personas" },
+  { href: "/matching-debug", label: "Matching Debug" },
   { href: "/calendar", label: "Calendar" },
   { href: "/lessons", label: "Lessons" },
   { href: "/standards", label: "Standards" },

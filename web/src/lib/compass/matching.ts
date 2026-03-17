@@ -50,11 +50,25 @@ export interface CurriculumRecord {
   notes: string | null;
 }
 
+export interface ScoreBreakdown {
+  philosophyFit: number;
+  prepBonus: number;
+  settingBonus: number;
+  integratedBonus: number;
+  qualityBonus: number;
+  screenAdjust: number;
+  dyslexiaBonus: number;
+  adhdAdjust: number;
+  giftedBonus: number;
+}
+
 export interface MatchResult {
   curriculum: CurriculumRecord;
   totalScore: number;
   philosophyFitScore: number;
   fitLabel: "strong" | "good" | "partial";
+  breakdown?: ScoreBreakdown;
+  excludedReason?: string;
 }
 
 export interface MatchWarning {
@@ -65,6 +79,8 @@ export interface MatchWarning {
 export interface MatchOutput {
   bySubject: Record<string, MatchResult[]>;
   warnings: MatchWarning[];
+  /** Debug mode: all curricula with scores, including excluded ones */
+  allScored?: MatchResult[];
 }
 
 // --- Constants ---
@@ -153,6 +169,7 @@ export function matchCurricula(
   philosophyBlend: PhilosophyBlend,
   preferences: Part2Preferences,
   curricula: CurriculumRecord[],
+  debug = false,
 ): MatchOutput {
   const warnings: MatchWarning[] = [];
 
@@ -214,9 +231,16 @@ export function matchCurricula(
   const wantsIntegrated = preferences.integrated === "one-program";
 
   const bySubject: Record<string, MatchResult[]> = {};
+  const allScored: MatchResult[] = [];
 
   for (const curriculum of curricula) {
+    const breakdown: ScoreBreakdown = {
+      philosophyFit: 0, prepBonus: 0, settingBonus: 0, integratedBonus: 0,
+      qualityBonus: 0, screenAdjust: 0, dyslexiaBonus: 0, adhdAdjust: 0, giftedBonus: 0,
+    };
+
     // --- Hard filters ---
+    let excludedReason: string | undefined;
 
     // Religious filter
     if (
@@ -224,32 +248,41 @@ export function matchCurricula(
       preferences.religiousPreference !== "no-preference"
     ) {
       if (preferences.religiousPreference === "secular" && curriculum.religiousType !== "secular") {
-        continue;
+        excludedReason = `Religious filter: wanted secular, got ${curriculum.religiousType}`;
       }
       if (
         preferences.religiousPreference === "christian" &&
         curriculum.religiousType !== "christian"
       ) {
-        continue;
+        excludedReason = `Religious filter: wanted christian, got ${curriculum.religiousType}`;
       }
       if (
         preferences.religiousPreference === "other" &&
         curriculum.religiousType !== "other" &&
         curriculum.religiousType !== "secular"
       ) {
-        continue;
+        excludedReason = `Religious filter: wanted other/secular, got ${curriculum.religiousType}`;
       }
     }
 
     // Grade filter
-    if (!gradesOverlap(curriculum.gradeRange, preferences.grades ?? [])) {
-      continue;
+    if (!excludedReason && !gradesOverlap(curriculum.gradeRange, preferences.grades ?? [])) {
+      excludedReason = `Grade filter: ${curriculum.gradeRange} doesn't overlap with [${(preferences.grades ?? []).join(",")}]`;
     }
 
     // Budget filter
-    if (budgetMax < Infinity) {
+    if (!excludedReason && budgetMax < Infinity) {
       const currMax = parsePriceMax(curriculum.priceRange);
-      if (currMax > budgetMax) continue;
+      if (currMax > budgetMax) {
+        excludedReason = `Budget filter: ${curriculum.priceRange} exceeds max $${budgetMax}`;
+      }
+    }
+
+    if (excludedReason) {
+      if (debug) {
+        allScored.push({ curriculum, totalScore: 0, philosophyFitScore: 0, fitLabel: "partial", breakdown, excludedReason });
+      }
+      continue;
     }
 
     // --- Philosophy fit score ---
@@ -259,41 +292,46 @@ export function matchCurricula(
       const currScore = curriculum.philosophyScores[philosophy] ?? 0;
       philosophyFitScore += userWeight * currScore;
     }
+    breakdown.philosophyFit = philosophyFitScore;
 
     let totalScore = philosophyFitScore;
 
     // --- Soft scoring ---
 
-    // Prep level match: bonus if curriculum prep <= user tolerance
+    // Prep level match
     const currPrepIdx = prepLevelIndex(curriculum.prepLevel);
     if (currPrepIdx !== -1 && currPrepIdx <= userPrepMax) {
+      breakdown.prepBonus = PREP_BONUS;
       totalScore += PREP_BONUS;
     }
 
     // Setting fit
     if (curriculum.settingFit.includes(userSetting)) {
+      breakdown.settingBonus = SETTING_BONUS;
       totalScore += SETTING_BONUS;
     }
 
     // Integrated preference
     if (wantsIntegrated && curriculum.subjects.includes("all-in-one")) {
+      breakdown.integratedBonus = INTEGRATED_BONUS;
       totalScore += INTEGRATED_BONUS;
     }
 
-    // Quality score tiebreaker (small weight so it doesn't dominate)
-    totalScore += curriculum.qualityScore * 0.05;
+    // Quality score tiebreaker
+    breakdown.qualityBonus = curriculum.qualityScore * 0.05;
+    totalScore += breakdown.qualityBonus;
 
     // --- Screen time preference ---
-    // Curricula with "video" or "app" or "online" in notes/description get penalized for screen-avoiders
     const currText = `${curriculum.description} ${curriculum.notes ?? ""}`.toLowerCase();
     const isScreenBased = /\bvideo lesson|\bapp-based|\bonline platform|\bvideo instruction|\bdigital/.test(currText);
     if (preferences.screenTime === "avoid" && isScreenBased) {
-      totalScore -= 0.15; // significant penalty
+      breakdown.screenAdjust = -0.15;
     } else if (preferences.screenTime === "minimal" && isScreenBased) {
-      totalScore -= 0.05;
+      breakdown.screenAdjust = -0.05;
     } else if (preferences.screenTime === "welcome" && isScreenBased) {
-      totalScore += 0.05; // small bonus
+      breakdown.screenAdjust = 0.05;
     }
+    totalScore += breakdown.screenAdjust;
 
     // --- Learning needs adjustments ---
     const isOrtonGillingham = /orton.gillingham|multi.?sensory.*phonics|structured literacy/i.test(currText);
@@ -301,37 +339,37 @@ export function matchCurricula(
     const isShortLessons = /15 min|short lesson|brief lesson/i.test(currText);
 
     if (hasDyslexia) {
-      if (isOrtonGillingham) {
-        totalScore += 0.20; // strong bonus for OG-based curricula
-      }
-      if (isHandsOn) {
-        totalScore += 0.05;
-      }
+      if (isOrtonGillingham) breakdown.dyslexiaBonus += 0.20;
+      if (isHandsOn) breakdown.dyslexiaBonus += 0.05;
     }
+    totalScore += breakdown.dyslexiaBonus;
 
     if (hasADHD) {
-      // Boost open-and-go, hands-on, shorter lessons
-      if (curriculum.prepLevel === "open-and-go") {
-        totalScore += 0.10;
-      }
-      if (isHandsOn) {
-        totalScore += 0.10;
-      }
-      if (isShortLessons) {
-        totalScore += 0.05;
-      }
-      // Penalize heavy-prep classical programs (long structured lessons)
+      if (curriculum.prepLevel === "open-and-go") breakdown.adhdAdjust += 0.10;
+      if (isHandsOn) breakdown.adhdAdjust += 0.10;
+      if (isShortLessons) breakdown.adhdAdjust += 0.05;
       if (curriculum.prepLevel === "heavy" && (curriculum.philosophyScores.classical ?? 0) > 0.5) {
-        totalScore -= 0.15;
+        breakdown.adhdAdjust -= 0.15;
       }
     }
+    totalScore += breakdown.adhdAdjust;
 
     if (isGifted) {
-      // Boost challenging, rigorous curricula
       if (/challenging|advanced|gifted|problem.solving|critical think/i.test(currText)) {
-        totalScore += 0.10;
+        breakdown.giftedBonus = 0.10;
       }
     }
+    totalScore += breakdown.giftedBonus;
+
+    const result: MatchResult = {
+      curriculum,
+      totalScore,
+      philosophyFitScore,
+      fitLabel: fitLabel(philosophyFitScore),
+      breakdown: debug ? breakdown : undefined,
+    };
+
+    if (debug) allScored.push(result);
 
     // --- Assign to subjects ---
     const currSubjects = curriculum.subjects.includes("all-in-one")
@@ -341,13 +379,7 @@ export function matchCurricula(
     for (const subj of currSubjects) {
       if (!requestedSubjects.includes(subj)) continue;
       if (!bySubject[subj]) bySubject[subj] = [];
-
-      bySubject[subj].push({
-        curriculum,
-        totalScore,
-        philosophyFitScore,
-        fitLabel: fitLabel(philosophyFitScore),
-      });
+      bySubject[subj].push(result);
     }
   }
 
@@ -357,5 +389,9 @@ export function matchCurricula(
     bySubject[subj] = bySubject[subj].slice(0, TOP_N);
   }
 
-  return { bySubject, warnings };
+  if (debug) {
+    allScored.sort((a, b) => b.totalScore - a.totalScore);
+  }
+
+  return { bySubject, warnings, allScored: debug ? allScored : undefined };
 }

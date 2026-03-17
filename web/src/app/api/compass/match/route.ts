@@ -10,7 +10,7 @@ import {
 // POST /api/compass/match — run curriculum matching algorithm
 export async function POST(req: NextRequest) {
   const body = await req.json();
-  const { compassResultId, philosophyBlend, part2Preferences } = body;
+  const { compassResultId, philosophyBlend, part2Preferences, debug } = body;
 
   let blend: PhilosophyBlend;
   let prefs: Part2Preferences;
@@ -59,7 +59,7 @@ export async function POST(req: NextRequest) {
     notes: c.notes,
   }));
 
-  const matchOutput = matchCurricula(blend, prefs, curricula);
+  const matchOutput = matchCurricula(blend, prefs, curricula, !!debug);
 
   return NextResponse.json(matchOutput);
 }
