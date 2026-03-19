@@ -372,22 +372,22 @@ export function useForceLayout(
     const collideRadius = (d: SimNode) => {
       switch (d.nodeType) {
         case "philosophy":
-          return 1.8;
+          return 1.2;
         case "curriculum":
-          return 1.0;
+          return 0.6;
         default:
-          return 0.5;
+          return 0.3;
       }
     };
 
     const chargeStrength = (d: SimNode) => {
       switch (d.role) {
         case "focused":
-          return -60;
+          return -30;
         case "connected":
-          return -25;
+          return -12;
         default:
-          return -8;
+          return -3;
       }
     };
 
@@ -405,24 +405,23 @@ export function useForceLayout(
               typeof link.target === "object"
                 ? (link.target as SimNode)
                 : simNodes[link.target as number];
-            if (!s || !t) return 6;
-            if (s.role === "focused" || t.role === "focused") return 2.5;
-            return 6;
+            if (!s || !t) return 4;
+            if (s.role === "focused" || t.role === "focused") return 1.8;
+            return 4;
           })
-          .strength(0.6),
+          .strength(0.7),
       )
       .force("charge", forceManyBody<SimNode>().strength(chargeStrength))
-      .force("collide", forceCollide<SimNode>().radius(collideRadius).iterations(2))
+      .force("collide", forceCollide<SimNode>().radius(collideRadius).iterations(3))
       .force(
         "x",
         forceX<SimNode>()
           .x((d) => {
             if (d.role === "focused") return 0;
             if (d.role === "connected") return 0;
-            // Keep "other" nodes near their default spots, not pushed outward
             return d.defaultX;
           })
-          .strength((d) => (d.role === "other" ? 0.4 : 0.03)),
+          .strength((d) => (d.role === "other" ? 0.5 : 0.06)),
       )
       .force(
         "y",
@@ -432,7 +431,7 @@ export function useForceLayout(
             if (d.role === "connected") return 0;
             return d.defaultY;
           })
-          .strength((d) => (d.role === "other" ? 0.4 : 0.03)),
+          .strength((d) => (d.role === "other" ? 0.5 : 0.06)),
       )
       .stop();
 
@@ -494,9 +493,8 @@ export function useForceLayout(
     const spanY = maxY - minY;
     const maxSpan = Math.max(spanX, spanY, 1); // at least 1 to avoid divide-by-zero
 
-    // Zoom so cluster fills ~70% of viewport. Base zoom is 45 for full ±15 range.
-    // Tighter cluster → higher zoom; wider cluster → lower zoom.
-    const focusZoom = Math.min(120, Math.max(35, 45 * (12 / (maxSpan + 3))));
+    // Zoom so cluster fills most of the viewport. Higher zoom = more readable labels.
+    const focusZoom = Math.min(160, Math.max(50, 45 * (16 / (maxSpan + 2))));
 
     return {
       positions: resultPositions,
