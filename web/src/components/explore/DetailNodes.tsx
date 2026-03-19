@@ -96,7 +96,7 @@ function arcPositions(
 }
 
 export default function DetailNodes() {
-  const { focusedNode, graphData } = useExploreState();
+  const { focusedNode, graphData, visibleLayers } = useExploreState();
 
   const details = useMemo(() => {
     if (!focusedNode || focusedNode.type !== "philosophy") return null;
@@ -166,39 +166,42 @@ export default function DetailNodes() {
   return (
     <group>
       {/* Principles - white dots above */}
-      {principles.map((p, i) => (
-        <DetailDot
-          key={`p-${p.id}`}
-          label={p.name}
-          position={principlePositions[i]}
-          color="#ffffff"
-          delay={(i / totalCount) * 0.4}
-        />
-      ))}
+      {visibleLayers.principles &&
+        principles.map((p, i) => (
+          <DetailDot
+            key={`p-${p.id}`}
+            label={p.name}
+            position={principlePositions[i]}
+            color="#ffffff"
+            delay={(i / totalCount) * 0.4}
+          />
+        ))}
 
       {/* Activities - amber dots below */}
-      {activities.map((a, i) => (
-        <DetailDot
-          key={`a-${a.id}`}
-          label={a.name}
-          position={activityPositions[i]}
-          color="#F59E42"
-          delay={((principles.length + i) / totalCount) * 0.4}
-        />
-      ))}
+      {visibleLayers.activities &&
+        activities.map((a, i) => (
+          <DetailDot
+            key={`a-${a.id}`}
+            label={a.name}
+            position={activityPositions[i]}
+            color="#F59E42"
+            delay={((principles.length + i) / totalCount) * 0.4}
+          />
+        ))}
 
       {/* Materials - blue dots to the right */}
-      {materials.map((m, i) => (
-        <DetailDot
-          key={`m-${m.id}`}
-          label={m.name}
-          position={materialPositions[i]}
-          color="#60A5FA"
-          delay={
-            ((principles.length + activities.length + i) / totalCount) * 0.4
-          }
-        />
-      ))}
+      {visibleLayers.materials &&
+        materials.map((m, i) => (
+          <DetailDot
+            key={`m-${m.id}`}
+            label={m.name}
+            position={materialPositions[i]}
+            color="#60A5FA"
+            delay={
+              ((principles.length + activities.length + i) / totalCount) * 0.4
+            }
+          />
+        ))}
     </group>
   );
 }
