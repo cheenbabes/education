@@ -108,8 +108,8 @@ export default function CurriculumMoon({
       const t = clock.elapsedTime;
       const tx = targetPos[0] + Math.sin(t * 0.3 + phaseOffset) * 0.035;
       const ty = targetPos[1] + Math.cos(t * 0.25 + phaseOffset * 1.3) * 0.035;
-      nodeRef.current.position.x += (tx - nodeRef.current.position.x) * 0.04;
-      nodeRef.current.position.y += (ty - nodeRef.current.position.y) * 0.04;
+      nodeRef.current.position.x += (tx - nodeRef.current.position.x) * 0.02;
+      nodeRef.current.position.y += (ty - nodeRef.current.position.y) * 0.02;
     }
     if (glyphRef.current) {
       const target = GLYPH_SIZES.curriculumBase * targetScale;
