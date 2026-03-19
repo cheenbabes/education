@@ -257,6 +257,80 @@ function fitLabel(score: number): "strong" | "good" | "partial" {
   return "partial";
 }
 
+function scoreOneCurriculum(
+  curriculum: CurriculumRecord,
+  philosophyBlend: PhilosophyBlend,
+  preferences: Part2Preferences,
+  userPrepMax: number,
+  userSetting: string,
+  wantsIntegrated: boolean,
+  hasDyslexia: boolean,
+  hasADHD: boolean,
+  isGifted: boolean,
+): { philosophyFitScore: number; totalScore: number } {
+  let philosophyFitScore = 0;
+  for (const [philosophy, userWeight] of Object.entries(philosophyBlend)) {
+    if (userWeight === undefined) continue;
+    const currScore = curriculum.philosophyScores[philosophy] ?? 0;
+    philosophyFitScore += (userWeight as number) * currScore;
+  }
+
+  let totalScore = philosophyFitScore;
+
+  // Prep level
+  const currPrepIdx = prepLevelIndex(curriculum.prepLevel);
+  if (currPrepIdx !== -1 && currPrepIdx <= userPrepMax) {
+    totalScore += PREP_BONUS;
+  }
+
+  // Setting fit
+  if (curriculum.settingFit.includes(userSetting)) {
+    totalScore += SETTING_BONUS;
+  }
+
+  // Integrated preference
+  if (wantsIntegrated && curriculum.subjects.includes("all-in-one")) {
+    totalScore += INTEGRATED_BONUS;
+  }
+
+  // Quality tiebreaker
+  totalScore += curriculum.qualityScore * 0.05;
+
+  // Screen time
+  const currText = `${curriculum.description} ${curriculum.notes ?? ""}`.toLowerCase();
+  const isScreenBased = /\bvideo lesson|\bapp-based|\bonline platform|\bvideo instruction|\bdigital/.test(currText);
+  const screenPref = preferences.screenTime;
+  if (screenPref === "avoid" && isScreenBased) totalScore -= 0.15;
+  else if (screenPref === "minimal" && isScreenBased) totalScore -= 0.05;
+  else if (screenPref === "welcome" && isScreenBased) totalScore += 0.05;
+
+  // Dyslexia
+  if (hasDyslexia) {
+    const isOrtonGillingham = /orton.gillingham|multi.?sensory.*phonics|structured literacy/i.test(currText);
+    const isHandsOn = /hands.on|manipulat|tactile|multi.?sensory/i.test(currText);
+    if (isOrtonGillingham) totalScore += 0.20;
+    if (isHandsOn) totalScore += 0.05;
+  }
+
+  // ADHD
+  if (hasADHD) {
+    const isHandsOn = /hands.on|manipulat|tactile|multi.?sensory/i.test(currText);
+    const isShortLessons = /15 min|short lesson|brief lesson/i.test(currText);
+    if (curriculum.prepLevel === "open-and-go") totalScore += 0.10;
+    if (isHandsOn) totalScore += 0.10;
+    if (isShortLessons) totalScore += 0.05;
+    if (curriculum.prepLevel === "heavy" && (curriculum.philosophyScores.classical ?? 0) > 0.5) totalScore -= 0.15;
+  }
+
+  // Gifted
+  if (isGifted) {
+    const currText2 = `${curriculum.description} ${curriculum.notes ?? ""}`.toLowerCase();
+    if (/challenging|advanced|gifted|problem.solving|critical think/i.test(currText2)) totalScore += 0.10;
+  }
+
+  return { philosophyFitScore, totalScore };
+}
+
 // --- Main Algorithm ---
 
 export function matchCurricula(
@@ -348,81 +422,36 @@ export function matchCurricula(
       continue;
     }
 
-    // --- Philosophy fit score ---
-    let philosophyFitScore = 0;
-    for (const [philosophy, userWeight] of Object.entries(philosophyBlend)) {
-      if (userWeight === undefined) continue;
-      const currScore = curriculum.philosophyScores[philosophy] ?? 0;
-      philosophyFitScore += userWeight * currScore;
-    }
+    // --- Score curriculum ---
+    const { philosophyFitScore, totalScore } = scoreOneCurriculum(
+      curriculum, philosophyBlend, preferences,
+      userPrepMax, userSetting, wantsIntegrated,
+      hasDyslexia, hasADHD, isGifted,
+    );
+
+    // Populate breakdown for debug mode
     breakdown.philosophyFit = philosophyFitScore;
-
-    let totalScore = philosophyFitScore;
-
-    // --- Soft scoring ---
-
-    // Prep level match
     const currPrepIdx = prepLevelIndex(curriculum.prepLevel);
-    if (currPrepIdx !== -1 && currPrepIdx <= userPrepMax) {
-      breakdown.prepBonus = PREP_BONUS;
-      totalScore += PREP_BONUS;
-    }
-
-    // Setting fit
-    if (curriculum.settingFit.includes(userSetting)) {
-      breakdown.settingBonus = SETTING_BONUS;
-      totalScore += SETTING_BONUS;
-    }
-
-    // Integrated preference
-    if (wantsIntegrated && curriculum.subjects.includes("all-in-one")) {
-      breakdown.integratedBonus = INTEGRATED_BONUS;
-      totalScore += INTEGRATED_BONUS;
-    }
-
-    // Quality score tiebreaker
+    if (currPrepIdx !== -1 && currPrepIdx <= userPrepMax) breakdown.prepBonus = PREP_BONUS;
+    if (curriculum.settingFit.includes(userSetting)) breakdown.settingBonus = SETTING_BONUS;
+    if (wantsIntegrated && curriculum.subjects.includes("all-in-one")) breakdown.integratedBonus = INTEGRATED_BONUS;
     breakdown.qualityBonus = curriculum.qualityScore * 0.05;
-    totalScore += breakdown.qualityBonus;
-
-    // --- Screen time preference ---
     const currText = `${curriculum.description} ${curriculum.notes ?? ""}`.toLowerCase();
     const isScreenBased = /\bvideo lesson|\bapp-based|\bonline platform|\bvideo instruction|\bdigital/.test(currText);
-    if (preferences.screenTime === "avoid" && isScreenBased) {
-      breakdown.screenAdjust = -0.15;
-    } else if (preferences.screenTime === "minimal" && isScreenBased) {
-      breakdown.screenAdjust = -0.05;
-    } else if (preferences.screenTime === "welcome" && isScreenBased) {
-      breakdown.screenAdjust = 0.05;
-    }
-    totalScore += breakdown.screenAdjust;
-
-    // --- Learning needs adjustments ---
-    const isOrtonGillingham = /orton.gillingham|multi.?sensory.*phonics|structured literacy/i.test(currText);
-    const isHandsOn = /hands.on|manipulat|tactile|multi.?sensory/i.test(currText);
-    const isShortLessons = /15 min|short lesson|brief lesson/i.test(currText);
-
+    if (preferences.screenTime === "avoid" && isScreenBased) breakdown.screenAdjust = -0.15;
+    else if (preferences.screenTime === "minimal" && isScreenBased) breakdown.screenAdjust = -0.05;
+    else if (preferences.screenTime === "welcome" && isScreenBased) breakdown.screenAdjust = 0.05;
     if (hasDyslexia) {
-      if (isOrtonGillingham) breakdown.dyslexiaBonus += 0.20;
-      if (isHandsOn) breakdown.dyslexiaBonus += 0.05;
+      if (/orton.gillingham|multi.?sensory.*phonics|structured literacy/i.test(currText)) breakdown.dyslexiaBonus += 0.20;
+      if (/hands.on|manipulat|tactile|multi.?sensory/i.test(currText)) breakdown.dyslexiaBonus += 0.05;
     }
-    totalScore += breakdown.dyslexiaBonus;
-
     if (hasADHD) {
       if (curriculum.prepLevel === "open-and-go") breakdown.adhdAdjust += 0.10;
-      if (isHandsOn) breakdown.adhdAdjust += 0.10;
-      if (isShortLessons) breakdown.adhdAdjust += 0.05;
-      if (curriculum.prepLevel === "heavy" && (curriculum.philosophyScores.classical ?? 0) > 0.5) {
-        breakdown.adhdAdjust -= 0.15;
-      }
+      if (/hands.on|manipulat|tactile|multi.?sensory/i.test(currText)) breakdown.adhdAdjust += 0.10;
+      if (/15 min|short lesson|brief lesson/i.test(currText)) breakdown.adhdAdjust += 0.05;
+      if (curriculum.prepLevel === "heavy" && (curriculum.philosophyScores.classical ?? 0) > 0.5) breakdown.adhdAdjust -= 0.15;
     }
-    totalScore += breakdown.adhdAdjust;
-
-    if (isGifted) {
-      if (/challenging|advanced|gifted|problem.solving|critical think/i.test(currText)) {
-        breakdown.giftedBonus = 0.10;
-      }
-    }
-    totalScore += breakdown.giftedBonus;
+    if (isGifted && /challenging|advanced|gifted|problem.solving|critical think/i.test(currText)) breakdown.giftedBonus = 0.10;
 
     const label = fitLabel(philosophyFitScore);
     const result: MatchResult = {
@@ -491,17 +520,18 @@ export function matchCurricula(
       const fallbackBySubject: Record<string, MatchResult[]> = {};
 
       for (const subj of emptySubjects) {
+        // Skip subjects already filled by a previous relaxation level
+        if (bySubject[subj]?.length > 0) continue;
+
         for (const curriculum of curricula) {
           const excluded = passesHardFilters(curriculum, filters);
           if (excluded) continue;
 
-          let philosophyFitScore = 0;
-          for (const [philosophy, userWeight] of Object.entries(philosophyBlend)) {
-            if (userWeight === undefined) continue;
-            const currScore = curriculum.philosophyScores[philosophy] ?? 0;
-            philosophyFitScore += (userWeight as number) * currScore;
-          }
-          const totalScore = philosophyFitScore + curriculum.qualityScore * 0.05;
+          const { philosophyFitScore, totalScore } = scoreOneCurriculum(
+            curriculum, philosophyBlend, preferences,
+            userPrepMax, userSetting, wantsIntegrated,
+            hasDyslexia, hasADHD, isGifted,
+          );
           const label = fitLabel(philosophyFitScore);
 
           const currSubjects = curriculum.subjects.includes("all-in-one")
