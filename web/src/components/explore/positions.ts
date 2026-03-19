@@ -78,13 +78,11 @@ export function getCurriculumPlacement(
   connectedPhilosophies: string[];
   topPhilosophy: string | null;
 } {
-  let weightedX = 0;
-  let weightedY = 0;
-  let totalWeight = 0;
   let topPhilosophy: string | null = null;
-  let topScore = -Infinity;
   const connected: string[] = [];
 
+  // Collect all valid scores
+  const scored: { key: string; score: number; pos: [number, number] }[] = [];
   for (const [rawKey, rawValue] of Object.entries(philosophyScores || {})) {
     const score = Number(rawValue);
     if (!Number.isFinite(score) || score <= 0) continue;
@@ -93,15 +91,24 @@ export function getCurriculumPlacement(
     const pos = PHILOSOPHY_POSITIONS[key];
     if (!pos) continue;
 
+    scored.push({ key, score, pos });
+    connected.push(key);
+  }
+
+  // Sort by score descending
+  scored.sort((a, b) => b.score - a.score);
+  topPhilosophy = scored.length > 0 ? scored[0].key : null;
+
+  // Use only the TOP 2 philosophies for positioning — averaging all scores
+  // drags everything to the center since most curricula score on 4-6 philosophies.
+  const top2 = scored.slice(0, 2);
+  let weightedX = 0;
+  let weightedY = 0;
+  let totalWeight = 0;
+  for (const { score, pos } of top2) {
     weightedX += score * pos[0];
     weightedY += score * pos[1];
     totalWeight += score;
-    connected.push(key);
-
-    if (score > topScore) {
-      topScore = score;
-      topPhilosophy = key;
-    }
   }
 
   if (totalWeight <= 0) {
