@@ -99,19 +99,7 @@ export function getCurriculumPlacement(
   scored.sort((a, b) => b.score - a.score);
   topPhilosophy = scored.length > 0 ? scored[0].key : null;
 
-  // Use only the TOP 2 philosophies for positioning — averaging all scores
-  // drags everything to the center since most curricula score on 4-6 philosophies.
-  const top2 = scored.slice(0, 2);
-  let weightedX = 0;
-  let weightedY = 0;
-  let totalWeight = 0;
-  for (const { score, pos } of top2) {
-    weightedX += score * pos[0];
-    weightedY += score * pos[1];
-    totalWeight += score;
-  }
-
-  if (totalWeight <= 0) {
+  if (scored.length === 0) {
     return {
       position: [0, 0, 0],
       connectedPhilosophies: [],
@@ -119,19 +107,31 @@ export function getCurriculumPlacement(
     };
   }
 
-  const centerX = weightedX / totalWeight;
-  const centerY = weightedY / totalWeight;
+  // ANCHOR to the #1 philosophy, then PULL slightly toward #2.
+  // A 95% Waldorf / 40% Nature curriculum should orbit Waldorf,
+  // not land halfway between them.
+  const primary = scored[0];
+  let centerX = primary.pos[0];
+  let centerY = primary.pos[1];
 
-  // Broader deterministic spread to avoid curriculum clustering.
-  // Small deterministic spread to avoid exact overlap, without drowning out
-  // the philosophy-weighted center position.
+  if (scored.length >= 2) {
+    const secondary = scored[1];
+    // Pull strength: ratio of scores, capped at 0.35 so we never go more
+    // than 35% of the way from primary toward secondary.
+    const ratio = secondary.score / primary.score;
+    const pullStrength = Math.min(ratio * 0.35, 0.35);
+    centerX += (secondary.pos[0] - primary.pos[0]) * pullStrength;
+    centerY += (secondary.pos[1] - primary.pos[1]) * pullStrength;
+  }
+
+  // Small deterministic spread to avoid exact overlap within a philosophy's orbit.
   const goldenAngle = 2.399963229728653;
   const theta = index * goldenAngle;
-  const spiralRadius = 0.6 + Math.sqrt(index + 1) * 0.22;
+  const spiralRadius = 0.5 + Math.sqrt(index + 1) * 0.18;
   const spiralX = Math.cos(theta) * spiralRadius;
   const spiralY = Math.sin(theta) * spiralRadius * 0.82;
-  const jitterX = Math.sin(index * 7.13) * 0.3;
-  const jitterY = Math.cos(index * 5.37) * 0.25;
+  const jitterX = Math.sin(index * 7.13) * 0.25;
+  const jitterY = Math.cos(index * 5.37) * 0.2;
 
   return {
     position: [centerX + spiralX + jitterX, centerY + spiralY + jitterY, 0],
