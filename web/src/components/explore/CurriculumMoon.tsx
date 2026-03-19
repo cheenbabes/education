@@ -126,7 +126,7 @@ export default function CurriculumMoon({
       <group ref={glyphRef} scale={[GLYPH_SIZES.curriculumBase, GLYPH_SIZES.curriculumBase, 1]}>
         {/* Outer glow halo */}
         <mesh position={[0, 0, 0.01]}>
-          <circleGeometry args={[0.36, 40]} />
+          <circleGeometry args={[1.6, 40]} />
           <meshBasicMaterial
             color={color}
             transparent
@@ -159,23 +159,23 @@ export default function CurriculumMoon({
           document.body.style.cursor = "auto";
         }}
       >
-        <circleGeometry args={[0.39, 16]} />
+        <circleGeometry args={[1.8, 16]} />
         <meshBasicMaterial transparent opacity={0} depthWrite={false} />
       </mesh>
 
       {/* Name label on hover or when connected to focused philosophy */}
       {showLabel && (
         <Text
-          position={[0, -0.32, 0]}
-          fontSize={0.28}
+          position={[0, -1.4, 0]}
+          fontSize={1.2}
           color="#f1dfb4"
           anchorX="center"
           anchorY="top"
           fillOpacity={shouldFade ? 0.56 : 0.93}
           letterSpacing={0.03}
-          outlineWidth={0.025}
+          outlineWidth={0.08}
           outlineColor="#1d1710"
-          maxWidth={3}
+          maxWidth={14}
           font="/fonts/CormorantSC-SemiBold.ttf"
         >
           {curriculum.name}
