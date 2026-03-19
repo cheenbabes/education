@@ -53,10 +53,10 @@ const SUBJECT_LABELS: Record<string, string> = {
   social_studies: "Social Studies",
 };
 
-const FIT_STYLES: Record<string, { bg: string; text: string; label: string }> = {
-  strong: { bg: "bg-green-50", text: "text-green-700", label: "Strong Match" },
-  good: { bg: "bg-blue-50", text: "text-blue-700", label: "Good Match" },
-  partial: { bg: "bg-amber-50", text: "text-amber-700", label: "Close Fit" },
+const FIT_STYLES: Record<string, { bg: string; text: string; label: string; darkBg: string; darkText: string }> = {
+  strong: { bg: "bg-green-50", text: "text-green-700", label: "Strong Match", darkBg: "dark:bg-green-950", darkText: "dark:text-green-300" },
+  good: { bg: "bg-blue-50", text: "text-blue-700", label: "Good Match", darkBg: "dark:bg-blue-950", darkText: "dark:text-blue-300" },
+  partial: { bg: "bg-amber-50", text: "text-amber-700", label: "Close Fit", darkBg: "dark:bg-amber-950", darkText: "dark:text-amber-300" },
 };
 
 const PREP_STYLES: Record<string, { color: string }> = {
@@ -389,12 +389,13 @@ export default function ResultsPage() {
                               <h5 className="font-medium text-gray-900 dark:text-gray-100 text-sm">
                                 {idx + 1}. {c.name}
                               </h5>
+                              {/* Best Fit badge: positional — results are pre-sorted by score server-side */}
                               {idx === 0 && (
                                 <span className="text-xs px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300 font-medium">
                                   Best Fit
                                 </span>
                               )}
-                              <span className={`text-xs px-2 py-0.5 rounded ${fit.bg} ${fit.text}`}>
+                              <span className={`text-xs px-2 py-0.5 rounded ${fit.bg} ${fit.text} ${fit.darkBg} ${fit.darkText}`}>
                                 {fit.label}
                               </span>
                             </div>
