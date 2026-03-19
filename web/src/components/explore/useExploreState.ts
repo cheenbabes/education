@@ -8,10 +8,26 @@ export interface FocusedNode {
   id: string;
 }
 
+export interface VisibleLayers {
+  curricula: boolean;
+  principles: boolean;
+  activities: boolean;
+  materials: boolean;
+}
+
+export const DEFAULT_VISIBLE_LAYERS: VisibleLayers = {
+  curricula: true,
+  principles: false,
+  activities: false,
+  materials: false,
+};
+
 export interface ExploreState {
   focusedNode: FocusedNode | null;
   setFocusedNode: (node: FocusedNode | null) => void;
   graphData: GraphData;
+  visibleLayers: VisibleLayers;
+  setVisibleLayers: (layers: VisibleLayers) => void;
 }
 
 export const ExploreContext = createContext<ExploreState | null>(null);

@@ -1,8 +1,15 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import { GraphData } from "@/components/explore/types";
+import {
+  FocusedNode,
+  VisibleLayers,
+  DEFAULT_VISIBLE_LAYERS,
+} from "@/components/explore/useExploreState";
+import InfoPanel from "@/components/explore/InfoPanel";
+import ControlBar from "@/components/explore/ControlBar";
 
 // Dynamic import to avoid SSR issues with Three.js
 const ExploreCanvas = dynamic(
@@ -13,6 +20,10 @@ const ExploreCanvas = dynamic(
 export default function ExplorePage() {
   const [data, setData] = useState<GraphData | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [focusedNode, setFocusedNode] = useState<FocusedNode | null>(null);
+  const [visibleLayers, setVisibleLayers] = useState<VisibleLayers>(
+    DEFAULT_VISIBLE_LAYERS,
+  );
 
   useEffect(() => {
     fetch("/api/explore/graph")
@@ -22,6 +33,17 @@ export default function ExplorePage() {
       })
       .then(setData)
       .catch((err) => setError(err.message));
+  }, []);
+
+  const handleToggleLayer = useCallback(
+    (layer: keyof VisibleLayers) => {
+      setVisibleLayers((prev) => ({ ...prev, [layer]: !prev[layer] }));
+    },
+    [],
+  );
+
+  const handleClosePanel = useCallback(() => {
+    setFocusedNode(null);
   }, []);
 
   if (error) {
@@ -43,8 +65,26 @@ export default function ExplorePage() {
   }
 
   return (
-    <div className="w-screen h-screen bg-[#0a0a0f]">
-      <ExploreCanvas data={data} />
+    <div className="w-screen h-screen bg-[#0a0a0f] overflow-hidden">
+      {/* 3D Canvas — receives state as props and re-provides context inside R3F reconciler */}
+      <ExploreCanvas
+        data={data}
+        focusedNode={focusedNode}
+        setFocusedNode={setFocusedNode}
+        visibleLayers={visibleLayers}
+        setVisibleLayers={setVisibleLayers}
+      />
+
+      {/* DOM overlays */}
+      <InfoPanel
+        focusedNode={focusedNode}
+        data={data}
+        onClose={handleClosePanel}
+      />
+      <ControlBar
+        visibleLayers={visibleLayers}
+        onToggleLayer={handleToggleLayer}
+      />
     </div>
   );
 }

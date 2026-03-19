@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useEffect, useCallback, useState, useMemo } from "react";
+import { useRef, useEffect, useCallback, useMemo } from "react";
 import { Canvas, useThree, useFrame } from "@react-three/fiber";
 import { EffectComposer, Bloom } from "@react-three/postprocessing";
 import * as THREE from "three";
@@ -8,7 +8,13 @@ import { GraphData } from "./types";
 import PhilosophyStar from "./PhilosophyStar";
 import CurriculumMoon from "./CurriculumMoon";
 import DetailNodes from "./DetailNodes";
-import { ExploreContext, FocusedNode } from "./useExploreState";
+import ConnectionLines from "./ConnectionLines";
+import {
+  ExploreContext,
+  ExploreState,
+  FocusedNode,
+  VisibleLayers,
+} from "./useExploreState";
 
 /** Subtle mouse-based parallax on the camera (only when not focused) */
 function CameraRig() {
@@ -108,34 +114,50 @@ function Background() {
   return null;
 }
 
-interface ExploreCanvasProps {
+export interface ExploreCanvasProps {
   data: GraphData;
+  focusedNode: FocusedNode | null;
+  setFocusedNode: (node: FocusedNode | null) => void;
+  visibleLayers: VisibleLayers;
+  setVisibleLayers: (layers: VisibleLayers) => void;
 }
 
-export default function ExploreCanvas({ data }: ExploreCanvasProps) {
-  const [focusedNode, setFocusedNode] = useState<FocusedNode | null>(null);
-
-  const contextValue = useMemo(
-    () => ({ focusedNode, setFocusedNode, graphData: data }),
-    [focusedNode, data],
+export default function ExploreCanvas({
+  data,
+  focusedNode,
+  setFocusedNode,
+  visibleLayers,
+  setVisibleLayers,
+}: ExploreCanvasProps) {
+  // Bridge the context into the R3F Canvas reconciler
+  const contextValue = useMemo<ExploreState>(
+    () => ({
+      focusedNode,
+      setFocusedNode,
+      graphData: data,
+      visibleLayers,
+      setVisibleLayers,
+    }),
+    [focusedNode, setFocusedNode, data, visibleLayers, setVisibleLayers],
   );
 
   return (
-    <ExploreContext.Provider value={contextValue}>
-      <Canvas
-        orthographic
-        camera={{
-          zoom: 1,
-          near: -100,
-          far: 100,
-          left: -8,
-          right: 8,
-          top: 5,
-          bottom: -5,
-        }}
-        style={{ width: "100%", height: "100%" }}
-        gl={{ antialias: true }}
-      >
+    <Canvas
+      orthographic
+      camera={{
+        zoom: 1,
+        near: -100,
+        far: 100,
+        left: -8,
+        right: 8,
+        top: 5,
+        bottom: -5,
+      }}
+      style={{ width: "100%", height: "100%" }}
+      gl={{ antialias: true }}
+    >
+      {/* Re-provide context inside the R3F Canvas reconciler */}
+      <ExploreContext.Provider value={contextValue}>
         <Background />
         <CameraRig />
         <CameraController focusedNode={focusedNode} data={data} />
@@ -154,13 +176,17 @@ export default function ExploreCanvas({ data }: ExploreCanvasProps) {
           <PhilosophyStar key={p.name} philosophy={p} index={i} />
         ))}
 
-        {data.curricula.map((c, i) => (
-          <CurriculumMoon
-            key={c.id}
-            curriculum={c}
-            index={i}
-          />
-        ))}
+        {visibleLayers.curricula &&
+          data.curricula.map((c, i) => (
+            <CurriculumMoon
+              key={c.id}
+              curriculum={c}
+              index={i}
+            />
+          ))}
+
+        {/* Connection lines from focused philosophy to curricula */}
+        {visibleLayers.curricula && <ConnectionLines />}
 
         {/* Detail nodes for focused philosophy */}
         <DetailNodes />
@@ -172,7 +198,7 @@ export default function ExploreCanvas({ data }: ExploreCanvasProps) {
             intensity={1.5}
           />
         </EffectComposer>
-      </Canvas>
-    </ExploreContext.Provider>
+      </ExploreContext.Provider>
+    </Canvas>
   );
 }
