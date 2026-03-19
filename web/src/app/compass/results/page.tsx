@@ -33,6 +33,7 @@ interface MatchResult {
   totalScore: number;
   philosophyFitScore: number;
   fitLabel: "strong" | "good" | "partial";
+  matchReason: string;
 }
 
 interface MatchWarning {
@@ -55,7 +56,7 @@ const SUBJECT_LABELS: Record<string, string> = {
 const FIT_STYLES: Record<string, { bg: string; text: string; label: string }> = {
   strong: { bg: "bg-green-50", text: "text-green-700", label: "Strong Match" },
   good: { bg: "bg-blue-50", text: "text-blue-700", label: "Good Match" },
-  partial: { bg: "bg-gray-100", text: "text-gray-600", label: "Partial Match" },
+  partial: { bg: "bg-amber-50", text: "text-amber-700", label: "Close Fit" },
 };
 
 const PREP_STYLES: Record<string, { color: string }> = {
@@ -388,6 +389,11 @@ export default function ResultsPage() {
                               <h5 className="font-medium text-gray-900 dark:text-gray-100 text-sm">
                                 {idx + 1}. {c.name}
                               </h5>
+                              {idx === 0 && (
+                                <span className="text-xs px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300 font-medium">
+                                  Best Fit
+                                </span>
+                              )}
                               <span className={`text-xs px-2 py-0.5 rounded ${fit.bg} ${fit.text}`}>
                                 {fit.label}
                               </span>
@@ -397,6 +403,9 @@ export default function ResultsPage() {
                             </p>
                             <p className="text-sm text-gray-600 dark:text-gray-400 mt-1 line-clamp-2">
                               {c.description}
+                            </p>
+                            <p className="text-xs text-gray-500 dark:text-gray-400 mt-1 italic">
+                              {match.matchReason}
                             </p>
                           </div>
                         </div>
