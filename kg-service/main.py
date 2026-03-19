@@ -9,6 +9,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from api.generate import router as generate_router
 from api.standards import router as standards_router
 from api.progress import router as progress_router
+from api.graph_export import router as graph_export_router
 from config import settings
 
 
@@ -46,6 +47,7 @@ app.add_middleware(
 app.include_router(generate_router, tags=["Lesson Generation"])
 app.include_router(standards_router, tags=["Standards"])
 app.include_router(progress_router, tags=["Progress"])
+app.include_router(graph_export_router, tags=["Graph Export"])
 
 
 @app.get("/health")
