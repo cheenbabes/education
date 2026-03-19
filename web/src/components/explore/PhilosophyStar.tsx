@@ -12,10 +12,7 @@ import {
   PHILOSOPHY_DISPLAY_NAMES,
   normalizePhilosophyKey,
 } from "./positions";
-import {
-  GLYPH_SIZES,
-  getPhilosophyPlanetSign,
-} from "./glyphs";
+import { GLYPH_SIZES } from "./glyphs";
 import { CONSTELLATION_VECTORS } from "./constellationVectors";
 
 interface PhilosophyStarProps {
@@ -30,9 +27,6 @@ export default function PhilosophyStar({
   const groupRef = useRef<THREE.Group>(null);
   const constellationRef = useRef<THREE.Group>(null);
   const focusRingRef = useRef<THREE.Mesh>(null);
-  const planetGroupRef = useRef<THREE.Group>(null);
-  const planetBadgeRef = useRef<THREE.Mesh>(null);
-  const planetTextRef = useRef<THREE.Mesh>(null);
   const labelShadowRef = useRef<THREE.Mesh>(null);
   const labelMainRef = useRef<THREE.Mesh>(null);
   const hitRef = useRef<THREE.Mesh>(null);
@@ -96,7 +90,6 @@ export default function PhilosophyStar({
       .split("-")
       .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
       .join(" ")).replace(/\s+/g, " ");
-  const planetSign = getPhilosophyPlanetSign(philosophy.name);
 
   const matchesSearch = useMemo(() => {
     if (!searchTerm) return true;
@@ -118,7 +111,6 @@ export default function PhilosophyStar({
       : highlightedByContext
         ? 1
         : 0.9;
-  const planetBaseOpacity = !matchesSearch ? 0.05 : otherFocused ? 0.5 : 0.94;
   const labelShadowBaseOpacity = !matchesSearch ? 0.03 : otherFocused ? 0.2 : 0.34;
   const labelMainBaseOpacity = !matchesSearch ? 0.05 : otherFocused ? 0.55 : 0.9;
   const constellation = CONSTELLATION_VECTORS[philosophy.name] ?? CONSTELLATION_VECTORS.classical;
@@ -168,25 +160,6 @@ export default function PhilosophyStar({
         : 0;
       const resolvedGoal = isFocused ? goal : curriculumGoal;
       mat.opacity += (resolvedGoal - mat.opacity) * 0.12;
-    }
-    if (planetGroupRef.current) {
-      const signScale = THREE.MathUtils.lerp(0.78, 1.08, zoomT) * (isFocused ? 1.08 : 1);
-      const curr = planetGroupRef.current.scale.x;
-      const next = curr + (signScale - curr) * 0.14;
-      planetGroupRef.current.scale.set(next, next, 1);
-    }
-    if (planetBadgeRef.current) {
-      const mat = planetBadgeRef.current.material as THREE.MeshBasicMaterial;
-      const target = THREE.MathUtils.lerp(0.22, 0.36, zoomT) * (isFocused ? 1.15 : 1);
-      mat.opacity += (target - mat.opacity) * 0.12;
-    }
-    if (planetTextRef.current) {
-      const mat = planetTextRef.current.material as THREE.Material & { opacity?: number; transparent?: boolean };
-      const target = planetBaseOpacity * THREE.MathUtils.lerp(0.5, 1, zoomT);
-      if (typeof mat.opacity === "number") {
-        mat.transparent = true;
-        mat.opacity += (target - mat.opacity) * 0.14;
-      }
     }
     if (labelShadowRef.current) {
       const mat = labelShadowRef.current.material as THREE.Material & { opacity?: number; transparent?: boolean };
@@ -280,37 +253,6 @@ export default function PhilosophyStar({
             </mesh>
           );
         })}
-      </group>
-
-      {/* Planetary sign marks each philosophy with a semantic celestial identity. */}
-      <group
-        ref={planetGroupRef}
-        position={[baseScale * 0.46, -(baseScale * 0.43), 0.07]}
-        scale={[1, 1, 1]}
-      >
-        <mesh ref={planetBadgeRef} position={[0, 0, -0.002]}>
-          <circleGeometry args={[0.23, 24]} />
-          <meshBasicMaterial
-            color="#141013"
-            transparent
-            opacity={0.28}
-            depthWrite={false}
-          />
-        </mesh>
-        <Text
-          ref={planetTextRef}
-          position={[0, 0, 0]}
-          fontSize={0.32}
-          color="#f7e7bf"
-          anchorX="center"
-          anchorY="middle"
-          fillOpacity={planetBaseOpacity}
-          outlineWidth={0.014}
-          outlineColor="#241a12"
-          font="/fonts/STIXTwoText.ttf"
-        >
-          {planetSign}
-        </Text>
       </group>
 
       {/* Engraved cartographic label with subtle dark underprint. */}

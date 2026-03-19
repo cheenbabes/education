@@ -116,13 +116,15 @@ export function getCurriculumPlacement(
   const centerY = weightedY / totalWeight;
 
   // Broader deterministic spread to avoid curriculum clustering.
+  // Small deterministic spread to avoid exact overlap, without drowning out
+  // the philosophy-weighted center position.
   const goldenAngle = 2.399963229728653;
   const theta = index * goldenAngle;
-  const spiralRadius = 1.6 + Math.sqrt(index + 1) * 0.42;
+  const spiralRadius = 0.4 + Math.sqrt(index + 1) * 0.12;
   const spiralX = Math.cos(theta) * spiralRadius;
   const spiralY = Math.sin(theta) * spiralRadius * 0.82;
-  const jitterX = Math.sin(index * 7.13) * 0.55;
-  const jitterY = Math.cos(index * 5.37) * 0.42;
+  const jitterX = Math.sin(index * 7.13) * 0.15;
+  const jitterY = Math.cos(index * 5.37) * 0.12;
 
   return {
     position: [centerX + spiralX + jitterX, centerY + spiralY + jitterY, 0],

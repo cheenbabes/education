@@ -273,87 +273,8 @@ export default function DetailNodes() {
     return { x, y, principles, activities, materials, principlePositions, activityPositions, materialPositions };
   }, [activePhilosophyId, graphData, grouped, layoutPositions]);
 
-  const preview = useMemo(() => {
-    if (!showGlobalPreview) return [];
-    const dots: Array<{
-      key: string;
-      id: string;
-      nodeType: "principle" | "activity" | "material";
-      label: string;
-      position: [number, number, number];
-    }> = [];
-
-    for (let index = 0; index < graphData.philosophies.length; index += 1) {
-      const philosophy = graphData.philosophies[index];
-      const center = PHILOSOPHY_POSITIONS[philosophy.name];
-      if (!center) continue;
-      const [x, y] = center;
-      const principles = grouped.principlesByPhil.get(philosophy.name) || [];
-      const activities = grouped.activitiesByPhil.get(philosophy.name) || [];
-      const materials = grouped.materialsByPhil.get(philosophy.name) || [];
-
-      if (visibleLayers.principles && principles.length) {
-        const count = Math.min(12, principles.length);
-        const positions = arcPositions(x, y, count, 2.3, 3.7, Math.PI * 0.22, Math.PI * 0.78, 41 + index);
-        for (let i = 0; i < count; i += 1) {
-          dots.push({
-            key: `gp-${principles[i].id}`,
-            id: principles[i].id,
-            nodeType: "principle",
-            label: principles[i].name,
-            position: positions[i],
-          });
-        }
-      }
-      if (visibleLayers.activities && activities.length) {
-        const count = Math.min(12, activities.length);
-        const positions = arcPositions(x, y, count, 2.3, 3.7, -Math.PI * 0.78, -Math.PI * 0.22, 131 + index);
-        for (let i = 0; i < count; i += 1) {
-          dots.push({
-            key: `ga-${activities[i].id}`,
-            id: activities[i].id,
-            nodeType: "activity",
-            label: activities[i].name,
-            position: positions[i],
-          });
-        }
-      }
-      if (visibleLayers.materials && materials.length) {
-        const count = Math.min(12, materials.length);
-        const positions = arcPositions(x, y, count, 2.3, 3.7, -Math.PI * 0.26, Math.PI * 0.26, 271 + index);
-        for (let i = 0; i < count; i += 1) {
-          dots.push({
-            key: `gm-${materials[i].id}`,
-            id: materials[i].id,
-            nodeType: "material",
-            label: materials[i].name,
-            position: positions[i],
-          });
-        }
-      }
-    }
-    return dots;
-  }, [showGlobalPreview, graphData.philosophies, grouped, visibleLayers]);
-
   if (showGlobalPreview) {
-    return (
-      <group>
-        {preview.map((dot) => (
-          <DetailDot
-            key={dot.key}
-            id={dot.id}
-            nodeType={dot.nodeType}
-            label={dot.label}
-            position={dot.position}
-            origin={[dot.position[0], dot.position[1], dot.position[2]]}
-            delay={0}
-            showLabel={false}
-            previewOnly
-            interactive
-          />
-        ))}
-      </group>
-    );
+    return null;
   }
 
   if (!details) return null;

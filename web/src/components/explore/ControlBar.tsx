@@ -20,6 +20,7 @@ interface TogglePillProps {
   disabled?: boolean;
   activeColor: string;
   onClick: () => void;
+  icon?: React.ReactNode;
 }
 
 function TogglePill({
@@ -28,6 +29,7 @@ function TogglePill({
   disabled,
   activeColor,
   onClick,
+  icon,
 }: TogglePillProps) {
   const testId = `layer-${label.toLowerCase().replace(/\s+/g, "-")}`;
   return (
@@ -46,6 +48,7 @@ function TogglePill({
         ${disabled ? "cursor-default" : "cursor-pointer"}`}
       style={active ? { backgroundColor: activeColor } : undefined}
     >
+      {icon && <span className="mr-1 inline-flex">{icon}</span>}
       {label}
     </button>
   );
@@ -194,30 +197,72 @@ export default function ControlBar({
           disabled={true}
           activeColor="#d4af37"
           onClick={() => {}}
+          icon={
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+              <circle cx="5" cy="5" r="2"/><circle cx="19" cy="8" r="2"/><circle cx="8" cy="19" r="2"/>
+              <line x1="5" y1="5" x2="19" y2="8" stroke="currentColor" strokeWidth="1"/>
+              <line x1="19" y1="8" x2="8" y2="19" stroke="currentColor" strokeWidth="1"/>
+            </svg>
+          }
         />
         <TogglePill
           label="Curricula"
           active={visibleLayers.curricula}
           activeColor="#ead29b"
           onClick={() => onToggleLayer("curricula")}
+          icon={
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+              <circle cx="12" cy="12" r="5"/>
+              <line x1="12" y1="1" x2="12" y2="5" stroke="currentColor" strokeWidth="1.5"/>
+              <line x1="12" y1="19" x2="12" y2="23" stroke="currentColor" strokeWidth="1.5"/>
+              <line x1="1" y1="12" x2="5" y2="12" stroke="currentColor" strokeWidth="1.5"/>
+              <line x1="19" y1="12" x2="23" y2="12" stroke="currentColor" strokeWidth="1.5"/>
+              <line x1="4.2" y1="4.2" x2="7" y2="7" stroke="currentColor" strokeWidth="1.2"/>
+              <line x1="17" y1="17" x2="19.8" y2="19.8" stroke="currentColor" strokeWidth="1.2"/>
+              <line x1="4.2" y1="19.8" x2="7" y2="17" stroke="currentColor" strokeWidth="1.2"/>
+              <line x1="17" y1="7" x2="19.8" y2="4.2" stroke="currentColor" strokeWidth="1.2"/>
+            </svg>
+          }
         />
         <TogglePill
           label="Principles"
           active={visibleLayers.principles}
           activeColor="#efe2c6"
           onClick={() => onToggleLayer("principles")}
+          icon={
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+              <polygon points="12,1 13.5,9 12,11 10.5,9"/>
+              <polygon points="12,23 13.5,15 12,13 10.5,15"/>
+              <polygon points="1,12 9,10.5 11,12 9,13.5"/>
+              <polygon points="23,12 15,10.5 13,12 15,13.5"/>
+              <circle cx="12" cy="12" r="3"/>
+            </svg>
+          }
         />
         <TogglePill
           label="Activities"
           active={visibleLayers.activities}
           activeColor="#e2a24f"
           onClick={() => onToggleLayer("activities")}
+          icon={
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+              <ellipse cx="12" cy="5" rx="2.5" ry="5" transform="rotate(0 12 12)"/>
+              <ellipse cx="12" cy="5" rx="2.5" ry="5" transform="rotate(120 12 12)"/>
+              <ellipse cx="12" cy="5" rx="2.5" ry="5" transform="rotate(240 12 12)"/>
+              <circle cx="12" cy="12" r="2"/>
+            </svg>
+          }
         />
         <TogglePill
           label="Materials"
           active={visibleLayers.materials}
           activeColor="#7cb5f0"
           onClick={() => onToggleLayer("materials")}
+          icon={
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12,1 C12,8 13,10 21,12 C13,14 12,16 12,23 C12,16 11,14 3,12 C11,10 12,8 12,1Z"/>
+            </svg>
+          }
         />
       </div>
     </>
