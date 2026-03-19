@@ -73,24 +73,18 @@ const LITERACY_COMPONENTS: Record<string, LiteracyComponent[]> = {
   "All About Reading": ["reading"],
   "Logic of English Foundations": ["reading", "spelling", "grammar"],
   "The Good and the Beautiful Language Arts": ["complete"],
+  "The Good and the Beautiful": ["complete"],
   "Sonlight Language Arts": ["writing", "grammar"],
-  "Well-Trained Mind Writing & Rhetoric": ["writing"],
-  "Institute for Excellence in Writing": ["writing"],
+  "Sonlight": ["complete"],
+  "IEW Structure and Style": ["writing"],
   "All About Spelling": ["spelling"],
+  "Spelling Power": ["spelling"],
   "Explode the Code": ["reading", "spelling"],
   "Brave Writer": ["writing"],
-  "Simply Charlotte Mason Language Arts": ["complete"],
-  "Memoria Press Grammar": ["grammar"],
-  "Rod and Staff English": ["grammar", "writing"],
-  "Easy Grammar": ["grammar"],
-  "First Language Lessons": ["grammar"],
-  "Growing With Grammar": ["grammar"],
-  "Writing With Ease": ["writing"],
+  "Memoria Press Language Arts": ["grammar"],
   "Learning Language Arts Through Literature": ["complete"],
-  "Handwriting Without Tears": ["writing"],
-  "Cursive Logic": ["writing"],
   "BookShark Language Arts": ["complete"],
-  "Curiosity Chronicles Language Arts": ["complete"],
+  "BookShark": ["complete"],
 };
 
 const LITERACY_COMPONENT_LABELS: Record<LiteracyComponent, string> = {
@@ -520,7 +514,7 @@ export default function ResultsPage() {
                               <span
                                 key={component}
                                 className={`text-xs px-1.5 py-0.5 rounded font-medium ${LITERACY_COMPONENT_COLORS[component]}`}
-                                title={component.charAt(0).toUpperCase() + component.slice(1)}
+                                title={LITERACY_COMPONENT_LABELS[component]}
                               >
                                 {LITERACY_COMPONENT_LABELS[component]}
                               </span>
