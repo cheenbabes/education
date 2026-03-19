@@ -5,6 +5,7 @@ import { Line } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 import { useExploreState } from "./useExploreState";
 import { getCurriculumPlacement, normalizePhilosophyKey, PHILOSOPHY_POSITIONS } from "./positions";
+import { nodeKey } from "./useForceLayout";
 import * as THREE from "three";
 
 type RenderLine = {
@@ -44,23 +45,27 @@ function AnimatedLine({ line }: { line: RenderLine }) {
 }
 
 export default function ConnectionLines() {
-  const { focusedNode, graphData } = useExploreState();
+  const { focusedNode, graphData, layoutPositions } = useExploreState();
 
   const lines = useMemo(() => {
     if (!focusedNode) return [];
     const result: RenderLine[] = [];
 
     const pushCurriculumLinks = (philosophyId: string, color: string, opacity = 0.32) => {
-      const center = PHILOSOPHY_POSITIONS[philosophyId];
-      if (!center) return;
-      const philPos: [number, number, number] = [center[0], center[1], 0];
+      const philLayout = layoutPositions.positions.get(nodeKey("philosophy", philosophyId));
+      const philPos: [number, number, number] = philLayout
+        ? [philLayout.x, philLayout.y, 0]
+        : (() => { const c = PHILOSOPHY_POSITIONS[philosophyId]; return c ? [c[0], c[1], 0] as [number, number, number] : [0, 0, 0] as [number, number, number]; })();
       for (let i = 0; i < graphData.curricula.length; i += 1) {
         const curriculum = graphData.curricula[i];
         const connected = Object.entries(curriculum.philosophyScores).some(
           ([key, score]) => normalizePhilosophyKey(key) === philosophyId && score > 0.08,
         );
         if (!connected) continue;
-        const cPos = getCurriculumPlacement(curriculum.philosophyScores, i).position;
+        const cLayout = layoutPositions.positions.get(nodeKey("curriculum", curriculum.id));
+        const cPos: [number, number, number] = cLayout
+          ? [cLayout.x, cLayout.y, 0]
+          : getCurriculumPlacement(curriculum.philosophyScores, i).position;
         result.push({
           key: `${philosophyId}-${curriculum.id}`,
           points: [philPos, cPos],
@@ -107,18 +112,24 @@ export default function ConnectionLines() {
       const curriculumIndex = graphData.curricula.findIndex((c) => c.id === focusedNode.id);
       if (curriculumIndex < 0) return [];
       const curriculum = graphData.curricula[curriculumIndex];
-      const cPos = getCurriculumPlacement(curriculum.philosophyScores, curriculumIndex).position;
+      const cLayout = layoutPositions.positions.get(nodeKey("curriculum", curriculum.id));
+      const cPos: [number, number, number] = cLayout
+        ? [cLayout.x, cLayout.y, 0]
+        : getCurriculumPlacement(curriculum.philosophyScores, curriculumIndex).position;
       const weighted = Object.entries(curriculum.philosophyScores)
         .map(([key, score]) => ({ key: normalizePhilosophyKey(key), score }))
-        .filter((entry) => entry.score > 0.08 && PHILOSOPHY_POSITIONS[entry.key])
+        .filter((entry) => entry.score > 0.08 && (layoutPositions.positions.get(nodeKey("philosophy", entry.key)) || PHILOSOPHY_POSITIONS[entry.key]))
         .sort((a, b) => b.score - a.score)
         .slice(0, 4);
 
       for (const entry of weighted) {
-        const p = PHILOSOPHY_POSITIONS[entry.key];
+        const philLayout = layoutPositions.positions.get(nodeKey("philosophy", entry.key));
+        const philPos: [number, number, number] = philLayout
+          ? [philLayout.x, philLayout.y, 0]
+          : (() => { const p = PHILOSOPHY_POSITIONS[entry.key]; return p ? [p[0], p[1], 0] as [number, number, number] : [0, 0, 0] as [number, number, number]; })();
         result.push({
           key: `${curriculum.id}-${entry.key}`,
-          points: [[p[0], p[1], 0], cPos],
+          points: [philPos, cPos],
           color: "#f1d79f",
           opacity: THREE.MathUtils.clamp(0.18 + entry.score * 0.24, 0.18, 0.34),
           width: 1.18,
@@ -138,7 +149,10 @@ export default function ConnectionLines() {
           : graphData.materials;
       const detail = details.find((item) => item.id === focusedNode.id);
       if (!detail) return [];
-      const center = PHILOSOPHY_POSITIONS[detail.philosophyId];
+      const philLayout = layoutPositions.positions.get(nodeKey("philosophy", detail.philosophyId));
+      const center = philLayout
+        ? [philLayout.x, philLayout.y] as [number, number]
+        : PHILOSOPHY_POSITIONS[detail.philosophyId];
       if (!center) return [];
       const [x, y] = center;
       const siblingList = focusedNode.type === "principle"
@@ -169,7 +183,7 @@ export default function ConnectionLines() {
     }
 
     return [];
-  }, [focusedNode, graphData]);
+  }, [focusedNode, graphData, layoutPositions]);
 
   if (lines.length === 0) return null;
 

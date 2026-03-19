@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useEffect, useMemo, MutableRefObject } from "react";
-import { Canvas, useThree } from "@react-three/fiber";
+import { Canvas, useThree, useFrame } from "@react-three/fiber";
 import { OrbitControls, Line } from "@react-three/drei";
 import { AdditiveBlending } from "three";
 import * as THREE from "three";
@@ -17,7 +17,7 @@ import {
   FocusedNode,
   VisibleLayers,
 } from "./useExploreState";
-import { LayoutPositions } from "./useForceLayout";
+import { LayoutPositions, nodeKey } from "./useForceLayout";
 import {
   PHILOSOPHY_POSITIONS,
   CONSTELLATION_EDGES,
@@ -27,15 +27,19 @@ import {
 function ConstellationLines({
   philosophyNames,
   focusActive,
+  layoutPositions,
 }: {
   philosophyNames: Set<string>;
   focusActive: boolean;
+  layoutPositions: LayoutPositions;
 }) {
   const lines = useMemo(() => {
     return CONSTELLATION_EDGES.map(([a, b]) => {
       if (!philosophyNames.has(a) || !philosophyNames.has(b)) return null;
-      const posA = PHILOSOPHY_POSITIONS[a];
-      const posB = PHILOSOPHY_POSITIONS[b];
+      const posALayout = layoutPositions.positions.get(nodeKey("philosophy", a));
+      const posBLayout = layoutPositions.positions.get(nodeKey("philosophy", b));
+      const posA = posALayout ? [posALayout.x, posALayout.y] : PHILOSOPHY_POSITIONS[a];
+      const posB = posBLayout ? [posBLayout.x, posBLayout.y] : PHILOSOPHY_POSITIONS[b];
       if (!posA || !posB) return null;
 
       // Create quadratic bezier curve with control point offset perpendicular to the line
@@ -59,7 +63,7 @@ function ConstellationLines({
 
       return { points, key: `${a}-${b}` };
     }).filter(Boolean) as { points: THREE.Vector3[]; key: string }[];
-  }, [philosophyNames]);
+  }, [philosophyNames, layoutPositions.positions]);
 
   return (
     <group>
@@ -277,6 +281,46 @@ function ZoomController({
   return null;
 }
 
+function CameraAnimator({
+  layoutPositions,
+  controlsRef,
+}: {
+  layoutPositions: LayoutPositions;
+  controlsRef: MutableRefObject<OrbitControlsImpl | null>;
+}) {
+  const { camera } = useThree();
+  const targetPos = useRef(new THREE.Vector3(0, 0, 10));
+  const targetZoom = useRef(45);
+
+  useEffect(() => {
+    if (layoutPositions.focusCenter) {
+      targetPos.current.set(layoutPositions.focusCenter.x, layoutPositions.focusCenter.y, 10);
+      targetZoom.current = layoutPositions.focusZoom ?? 70;
+    } else {
+      targetPos.current.set(0, 0, 10);
+      // Don't reset zoom on unfocus — let user keep their current zoom
+    }
+  }, [layoutPositions.focusCenter, layoutPositions.focusZoom]);
+
+  useFrame(() => {
+    if (!layoutPositions.focusCenter && Math.abs(camera.position.x) < 0.05 && Math.abs(camera.position.y) < 0.05) return;
+    const ortho = camera as THREE.OrthographicCamera;
+    camera.position.x += (targetPos.current.x - camera.position.x) * 0.06;
+    camera.position.y += (targetPos.current.y - camera.position.y) * 0.06;
+    if (layoutPositions.focusCenter) {
+      ortho.zoom += (targetZoom.current - ortho.zoom) * 0.06;
+      ortho.updateProjectionMatrix();
+    }
+    const controls = controlsRef.current;
+    if (controls) {
+      controls.target.set(camera.position.x, camera.position.y, 0);
+      controls.update();
+    }
+  });
+
+  return null;
+}
+
 export interface ExploreCanvasProps {
   data: GraphData;
   focusedNode: FocusedNode | null;
@@ -352,6 +396,7 @@ export default function ExploreCanvas({
           mouseButtons={{ LEFT: THREE.MOUSE.PAN, MIDDLE: THREE.MOUSE.DOLLY, RIGHT: THREE.MOUSE.PAN }}
         />
         <ZoomController zoomRef={resolvedZoomRef} controlsRef={controlsRef} />
+        <CameraAnimator layoutPositions={layoutPositions} controlsRef={controlsRef} />
         <EscapeListener setFocusedNode={setFocusedNode} />
 
         {/* Click empty background to clear focus (without breaking drag-pan). */}
@@ -364,6 +409,7 @@ export default function ExploreCanvas({
         <ConstellationLines
           philosophyNames={presentPhilosophyNames}
           focusActive={focusedNode !== null}
+          layoutPositions={layoutPositions}
         />
 
         {/* Philosophy stars */}

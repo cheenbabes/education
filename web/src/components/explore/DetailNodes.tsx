@@ -5,6 +5,7 @@ import { useFrame } from "@react-three/fiber";
 import { Text, Line } from "@react-three/drei";
 import * as THREE from "three";
 import { useExploreState } from "./useExploreState";
+import { nodeKey } from "./useForceLayout";
 import {
   PHILOSOPHY_POSITIONS,
   getCurriculumPlacement,
@@ -108,93 +109,60 @@ function DetailDot({
       )}
 
       <group ref={glyphRef} position={position} scale={[GLYPH_SIZES.detailBase, GLYPH_SIZES.detailBase, 1]}>
-        <mesh position={[0, 0, 0.01]}>
-          <circleGeometry args={[0.28, 18]} />
-          <meshBasicMaterial
-            color="#0f0b08"
-            transparent
-            opacity={targetOpacity * 0.2}
-            depthWrite={false}
-            toneMapped={false}
-          />
-        </mesh>
         {nodeType === "principle" && (
           <>
+            {/* Sun circle */}
             <mesh position={[0, 0, 0.02]}>
-              <ringGeometry args={[0.1, 0.17, 24]} />
-              <meshBasicMaterial
-                color={color}
-                transparent
-                opacity={targetOpacity * 0.95}
-                depthWrite={false}
-                toneMapped={false}
-              />
+              <circleGeometry args={[0.1, 24]} />
+              <meshBasicMaterial color={color} transparent opacity={targetOpacity} depthWrite={false} toneMapped={false} />
             </mesh>
-            <mesh position={[0, 0, 0.03]}>
-              <circleGeometry args={[0.055, 16]} />
-              <meshBasicMaterial
-                color="#fff4da"
-                transparent
-                opacity={targetOpacity}
-                depthWrite={false}
-                toneMapped={false}
-              />
-            </mesh>
+            {/* 8 rays */}
+            {Array.from({ length: 8 }, (_, i) => {
+              const angle = (i / 8) * Math.PI * 2;
+              const inner: [number, number, number] = [Math.cos(angle) * 0.13, Math.sin(angle) * 0.13, 0.03];
+              const outer: [number, number, number] = [Math.cos(angle) * 0.22, Math.sin(angle) * 0.22, 0.03];
+              return (
+                <Line key={`ray-${i}`} points={[inner, outer]} color={color} lineWidth={0.8}
+                  transparent opacity={targetOpacity * 0.85} depthWrite={false} toneMapped={false} />
+              );
+            })}
           </>
         )}
         {nodeType === "activity" && (
           <>
-            <Line
-              points={[[0, 0.19, 0.03], [0.19, 0, 0.03], [0, -0.19, 0.03], [-0.19, 0, 0.03], [0, 0.19, 0.03]]}
-              color={color}
-              lineWidth={0.85}
-              transparent
-              opacity={targetOpacity}
-              depthWrite={false}
-              toneMapped={false}
-            />
-            <mesh position={[0, 0, 0.04]}>
-              <circleGeometry args={[0.05, 14]} />
-              <meshBasicMaterial
-                color="#ffe7b6"
-                transparent
-                opacity={targetOpacity * 0.9}
-                depthWrite={false}
-                toneMapped={false}
-              />
-            </mesh>
+            {/* Vertical line */}
+            <Line points={[[0, -0.2, 0.03], [0, 0.2, 0.03]]} color={color} lineWidth={0.9}
+              transparent opacity={targetOpacity} depthWrite={false} toneMapped={false} />
+            {/* Horizontal line */}
+            <Line points={[[-0.2, 0, 0.03], [0.2, 0, 0.03]]} color={color} lineWidth={0.9}
+              transparent opacity={targetOpacity} depthWrite={false} toneMapped={false} />
+            {/* Arrow tips */}
+            <Line points={[[-0.06, 0.16, 0.03], [0, 0.22, 0.03], [0.06, 0.16, 0.03]]} color={color} lineWidth={0.7}
+              transparent opacity={targetOpacity * 0.8} depthWrite={false} toneMapped={false} />
+            <Line points={[[-0.06, -0.16, 0.03], [0, -0.22, 0.03], [0.06, -0.16, 0.03]]} color={color} lineWidth={0.7}
+              transparent opacity={targetOpacity * 0.8} depthWrite={false} toneMapped={false} />
+            <Line points={[[0.16, -0.06, 0.03], [0.22, 0, 0.03], [0.16, 0.06, 0.03]]} color={color} lineWidth={0.7}
+              transparent opacity={targetOpacity * 0.8} depthWrite={false} toneMapped={false} />
+            <Line points={[[-0.16, -0.06, 0.03], [-0.22, 0, 0.03], [-0.16, 0.06, 0.03]]} color={color} lineWidth={0.7}
+              transparent opacity={targetOpacity * 0.8} depthWrite={false} toneMapped={false} />
           </>
         )}
         {nodeType === "material" && (
           <>
+            {/* Circle */}
             <Line
-              points={[[-0.17, 0.17, 0.03], [0.17, 0.17, 0.03], [0.17, -0.17, 0.03], [-0.17, -0.17, 0.03], [-0.17, 0.17, 0.03]]}
-              color={color}
-              lineWidth={0.8}
-              transparent
-              opacity={targetOpacity}
-              depthWrite={false}
-              toneMapped={false}
+              points={Array.from({ length: 33 }, (_, i) => {
+                const t = (i / 32) * Math.PI * 2;
+                return [Math.cos(t) * 0.18, Math.sin(t) * 0.18, 0.03] as [number, number, number];
+              })}
+              color={color} lineWidth={0.9} transparent opacity={targetOpacity} depthWrite={false} toneMapped={false}
             />
-            <Line
-              points={[[-0.17, 0, 0.03], [0.17, 0, 0.03], [0, 0.17, 0.03], [0, -0.17, 0.03]]}
-              color={color}
-              lineWidth={0.6}
-              transparent
-              opacity={targetOpacity * 0.72}
-              depthWrite={false}
-              toneMapped={false}
-            />
-            <mesh position={[0, 0, 0.04]}>
-              <circleGeometry args={[0.042, 14]} />
-              <meshBasicMaterial
-                color="#dff0ff"
-                transparent
-                opacity={targetOpacity * 0.88}
-                depthWrite={false}
-                toneMapped={false}
-              />
-            </mesh>
+            {/* Vertical cross line */}
+            <Line points={[[0, -0.18, 0.03], [0, 0.18, 0.03]]} color={color} lineWidth={0.7}
+              transparent opacity={targetOpacity * 0.8} depthWrite={false} toneMapped={false} />
+            {/* Horizontal cross line */}
+            <Line points={[[-0.18, 0, 0.03], [0.18, 0, 0.03]]} color={color} lineWidth={0.7}
+              transparent opacity={targetOpacity * 0.8} depthWrite={false} toneMapped={false} />
           </>
         )}
       </group>
@@ -246,7 +214,7 @@ function arcPositions(
 }
 
 export default function DetailNodes() {
-  const { focusedNode, graphData, visibleLayers } = useExploreState();
+  const { focusedNode, graphData, visibleLayers, layoutPositions } = useExploreState();
   const grouped = useMemo(() => {
     const principlesByPhil = new Map<string, typeof graphData.principles>();
     const activitiesByPhil = new Map<string, typeof graphData.activities>();
@@ -310,44 +278,29 @@ export default function DetailNodes() {
     const activities = grouped.activitiesByPhil.get(philName) || [];
     const materials = grouped.materialsByPhil.get(philName) || [];
 
-    // Principles: arc ABOVE the star
-    const principlePositions = arcPositions(
-      x,
-      y,
-      principles.length,
-      0.5,
-      2.0,
-      Math.PI * 0.2,  // roughly upper arc
-      Math.PI * 0.8,
-      42,
-    );
+    // Principles: use force-layout positions with arc fallback
+    const principlePositions = principles.map((p, i) => {
+      const lt = layoutPositions.positions.get(nodeKey("principle", p.id));
+      if (lt) return [lt.x, lt.y, 0] as [number, number, number];
+      return arcPositions(x, y, principles.length, 0.5, 2.0, Math.PI * 0.2, Math.PI * 0.8, 42)[i];
+    });
 
-    // Activities: arc BELOW the star
-    const activityPositions = arcPositions(
-      x,
-      y,
-      activities.length,
-      0.5,
-      2.0,
-      -Math.PI * 0.8, // lower arc
-      -Math.PI * 0.2,
-      137,
-    );
+    // Activities: use force-layout positions with arc fallback
+    const activityPositions = activities.map((a, i) => {
+      const lt = layoutPositions.positions.get(nodeKey("activity", a.id));
+      if (lt) return [lt.x, lt.y, 0] as [number, number, number];
+      return arcPositions(x, y, activities.length, 0.5, 2.0, -Math.PI * 0.8, -Math.PI * 0.2, 137)[i];
+    });
 
-    // Materials: arc to the RIGHT
-    const materialPositions = arcPositions(
-      x,
-      y,
-      materials.length,
-      0.5,
-      2.0,
-      -Math.PI * 0.3, // right side arc
-      Math.PI * 0.3,
-      271,
-    );
+    // Materials: use force-layout positions with arc fallback
+    const materialPositions = materials.map((m, i) => {
+      const lt = layoutPositions.positions.get(nodeKey("material", m.id));
+      if (lt) return [lt.x, lt.y, 0] as [number, number, number];
+      return arcPositions(x, y, materials.length, 0.5, 2.0, -Math.PI * 0.3, Math.PI * 0.3, 271)[i];
+    });
 
     return { x, y, principles, activities, materials, principlePositions, activityPositions, materialPositions };
-  }, [activePhilosophyId, graphData, grouped]);
+  }, [activePhilosophyId, graphData, grouped, layoutPositions]);
 
   const preview = useMemo(() => {
     if (!showGlobalPreview) return [];
@@ -462,7 +415,7 @@ export default function DetailNodes() {
             position={principlePositions[i]}
             origin={[x, y, 0]}
             delay={(i / totalCount) * 0.4}
-            showLabel={i < 7}
+            showLabel={true}
             emphasized={focusedNode?.type === "curriculum" || i < 5}
             dimmed={dimmed}
           />
@@ -484,7 +437,7 @@ export default function DetailNodes() {
             position={activityPositions[i]}
             origin={[x, y, 0]}
             delay={((principles.length + i) / totalCount) * 0.4}
-            showLabel={i < 6}
+            showLabel={true}
             emphasized={focusedNode?.type === "curriculum" || i < 4}
             dimmed={dimmed}
           />
@@ -508,7 +461,7 @@ export default function DetailNodes() {
             delay={
               ((principles.length + activities.length + i) / totalCount) * 0.4
             }
-            showLabel={i < 6}
+            showLabel={true}
             emphasized={focusedNode?.type === "curriculum" || i < 4}
             dimmed={dimmed}
           />

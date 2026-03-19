@@ -8,6 +8,7 @@ import { CurriculumNode } from "./types";
 import { useExploreState } from "./useExploreState";
 import { getCurriculumPlacement } from "./positions";
 import { GLYPH_SIZES } from "./glyphs";
+import { nodeKey } from "./useForceLayout";
 
 const PHILOSOPHY_COLORS: Record<string, string> = {
   "montessori-inspired": "#8B5CF6",
@@ -32,33 +33,30 @@ export default function CurriculumMoon({
   const nodeRef = useRef<THREE.Group>(null);
   const glyphRef = useRef<THREE.Group>(null);
   const [hovered, setHovered] = useState(false);
-  const { focusedNode, setFocusedNode, searchTerm, graphData } = useExploreState();
+  const { focusedNode, setFocusedNode, searchTerm, graphData, layoutPositions } = useExploreState();
   const placement = useMemo(
     () => getCurriculumPlacement(curriculum.philosophyScores, index),
     [curriculum.philosophyScores, index],
   );
 
-  const { position, color, connectedPhilosophies, rayCount, innerRadius, outerRadius } = useMemo(() => {
+  const layoutTarget = layoutPositions.positions.get(nodeKey("curriculum", curriculum.id));
+  const targetPos: [number, number, number] = layoutTarget
+    ? [layoutTarget.x, layoutTarget.y, 0]
+    : placement.position;
+
+  const { color, connectedPhilosophies } = useMemo(() => {
     // Color: warm ivory blended slightly with top philosophy accent.
     const base = new THREE.Color("#e7d8b5");
     const philColor = new THREE.Color(
       PHILOSOPHY_COLORS[placement.topPhilosophy || ""] || "#c0c0d0",
     );
     base.lerp(philColor, 0.16);
-    const hashSeed = curriculum.id
-      .split("")
-      .reduce((acc, ch) => acc + ch.charCodeAt(0), 0);
-    const rays = 6 + (hashSeed % 3); // 6-8 rays for subtle categorical variety
 
     return {
-      position: placement.position,
       color: base,
       connectedPhilosophies: placement.connectedPhilosophies,
-      rayCount: rays,
-      innerRadius: 0.1 + (hashSeed % 2) * 0.015,
-      outerRadius: 0.28 + (hashSeed % 3) * 0.014,
     };
-  }, [placement, curriculum.id]);
+  }, [placement]);
 
   const isCurriculumFocused = focusedNode?.type === "curriculum" && focusedNode.id === curriculum.id;
   const detailFocusPhilosophy = useMemo(() => {
@@ -91,8 +89,9 @@ export default function CurriculumMoon({
     );
   }, [searchTerm, curriculum.name, curriculum.publisher]);
 
-  // Show label when: hovered, OR connected to focused philosophy, OR search match
-  const showLabel = hovered || shouldHighlight || (!!searchTerm && matchesSearch);
+  // Show label when: hovered, OR connected to focused philosophy, OR search match, OR in focused cluster
+  const isInFocusedCluster = focusedNode !== null && (isCurriculumFocused || isConnectedToFocused);
+  const showLabel = hovered || shouldHighlight || (!!searchTerm && matchesSearch) || isInFocusedCluster;
 
   // Target opacity
   const targetOpacity = !matchesSearch ? 0.1 : shouldFade ? 0.26 : isCurriculumFocused ? 0.98 : 0.9;
@@ -106,10 +105,11 @@ export default function CurriculumMoon({
 
   useFrame(({ clock }) => {
     if (nodeRef.current) {
-      // Subtle slow orbit drift.
       const t = clock.elapsedTime;
-      nodeRef.current.position.x = position[0] + Math.sin(t * 0.3 + phaseOffset) * 0.035;
-      nodeRef.current.position.y = position[1] + Math.cos(t * 0.25 + phaseOffset * 1.3) * 0.035;
+      const tx = targetPos[0] + Math.sin(t * 0.3 + phaseOffset) * 0.035;
+      const ty = targetPos[1] + Math.cos(t * 0.25 + phaseOffset * 1.3) * 0.035;
+      nodeRef.current.position.x += (tx - nodeRef.current.position.x) * 0.08;
+      nodeRef.current.position.y += (ty - nodeRef.current.position.y) * 0.08;
     }
     if (glyphRef.current) {
       const target = GLYPH_SIZES.curriculumBase * targetScale;
@@ -120,10 +120,11 @@ export default function CurriculumMoon({
   });
 
   return (
-    <group ref={nodeRef} position={position}>
+    <group ref={nodeRef} position={targetPos}>
       <group ref={glyphRef} scale={[GLYPH_SIZES.curriculumBase, GLYPH_SIZES.curriculumBase, 1]}>
+        {/* Outer glow halo */}
         <mesh position={[0, 0, 0.01]}>
-          <circleGeometry args={[outerRadius * 1.2, 40]} />
+          <circleGeometry args={[0.36, 40]} />
           <meshBasicMaterial
             color={color}
             transparent
@@ -132,42 +133,30 @@ export default function CurriculumMoon({
             toneMapped={false}
           />
         </mesh>
-        {Array.from({ length: rayCount }).map((_, i) => {
-          const angle = (i / rayCount) * Math.PI * 2;
-          const jitter = Math.sin(phaseOffset + i * 0.77) * 0.015;
-          const start: [number, number, number] = [
-            Math.cos(angle) * (innerRadius + jitter),
-            Math.sin(angle) * (innerRadius + jitter),
-            0.03,
-          ];
-          const end: [number, number, number] = [
-            Math.cos(angle) * (outerRadius + jitter),
-            Math.sin(angle) * (outerRadius + jitter),
-            0.03,
-          ];
-          return (
-            <Line
-              key={`ray-${i}`}
-              points={[start, end]}
-              color={color}
-              lineWidth={1.15}
-              transparent
-              opacity={lineOpacity}
-              depthWrite={false}
-              toneMapped={false}
-            />
-          );
-        })}
-        <mesh position={[0, 0, 0.04]}>
-          <circleGeometry args={[innerRadius * 0.62, 24]} />
+        {/* Planet body */}
+        <mesh position={[0, 0, 0.02]}>
+          <circleGeometry args={[0.16, 32]} />
           <meshBasicMaterial
-            color="#f2e4c2"
+            color={color}
             transparent
             opacity={targetOpacity}
             depthWrite={false}
             toneMapped={false}
           />
         </mesh>
+        {/* Orbital ring — tilted ellipse */}
+        <Line
+          points={Array.from({ length: 49 }, (_, i) => {
+            const t = (i / 48) * Math.PI * 2;
+            return [Math.cos(t) * 0.32, Math.sin(t) * 0.09, 0.03] as [number, number, number];
+          })}
+          color={color}
+          lineWidth={1.1}
+          transparent
+          opacity={lineOpacity}
+          depthWrite={false}
+          toneMapped={false}
+        />
       </group>
 
       <mesh

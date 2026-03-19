@@ -6,6 +6,7 @@ import { Line, Text } from "@react-three/drei";
 import * as THREE from "three";
 import { PhilosophyNode } from "./types";
 import { useExploreState } from "./useExploreState";
+import { nodeKey } from "./useForceLayout";
 import {
   PHILOSOPHY_POSITIONS,
   PHILOSOPHY_DISPLAY_NAMES,
@@ -35,7 +36,7 @@ export default function PhilosophyStar({
   const labelShadowRef = useRef<THREE.Mesh>(null);
   const labelMainRef = useRef<THREE.Mesh>(null);
   const hitRef = useRef<THREE.Mesh>(null);
-  const { focusedNode, setFocusedNode, searchTerm, graphData } = useExploreState();
+  const { focusedNode, setFocusedNode, searchTerm, graphData, layoutPositions } = useExploreState();
 
   const isFocused =
     focusedNode?.type === "philosophy" && focusedNode.id === philosophy.name;
@@ -86,6 +87,10 @@ export default function PhilosophyStar({
     };
   }, [philosophy, index]);
 
+  const layoutTarget = layoutPositions.positions.get(nodeKey("philosophy", philosophy.name));
+  const targetX = layoutTarget?.x ?? position[0];
+  const targetY = layoutTarget?.y ?? position[1];
+
   const displayName = (PHILOSOPHY_DISPLAY_NAMES[philosophy.name] ||
     philosophy.name
       .split("-")
@@ -127,6 +132,11 @@ export default function PhilosophyStar({
   }, [constellation]);
 
   useFrame(({ clock, camera }) => {
+    if (groupRef.current) {
+      groupRef.current.position.x += (targetX - groupRef.current.position.x) * 0.08;
+      groupRef.current.position.y += (targetY - groupRef.current.position.y) * 0.08;
+    }
+
     const t = clock.elapsedTime;
     const hasCurriculumFocus = focusedNode?.type === "curriculum";
     const pulseStrength = hasCurriculumFocus
@@ -202,7 +212,7 @@ export default function PhilosophyStar({
   };
 
   return (
-    <group ref={groupRef} position={position}>
+    <group ref={groupRef} position={[targetX, targetY, 0]}>
       {/* Invisible hit target for reliable hover/click without giant visual node. */}
       <mesh
         ref={hitRef}
