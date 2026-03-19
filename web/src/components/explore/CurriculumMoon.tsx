@@ -120,7 +120,7 @@ export default function CurriculumMoon({
   });
 
   return (
-    <group ref={nodeRef} position={targetPos}>
+    <group ref={nodeRef}>
       <group ref={glyphRef} scale={[GLYPH_SIZES.curriculumBase, GLYPH_SIZES.curriculumBase, 1]}>
         {/* Outer glow halo */}
         <mesh position={[0, 0, 0.01]}>

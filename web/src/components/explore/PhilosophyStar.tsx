@@ -212,7 +212,7 @@ export default function PhilosophyStar({
   };
 
   return (
-    <group ref={groupRef} position={[targetX, targetY, 0]}>
+    <group ref={groupRef}>
       {/* Invisible hit target for reliable hover/click without giant visual node. */}
       <mesh
         ref={hitRef}
