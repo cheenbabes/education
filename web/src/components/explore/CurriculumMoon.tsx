@@ -4,7 +4,8 @@ import { useRef, useMemo, useState } from "react";
 import { useFrame } from "@react-three/fiber";
 import { Text } from "@react-three/drei";
 import * as THREE from "three";
-import { CurriculumNode, PhilosophyNode } from "./types";
+import { CurriculumNode } from "./types";
+import { useExploreState } from "./useExploreState";
 
 const PHILOSOPHY_DIMENSIONS: Record<
   string,
@@ -43,27 +44,40 @@ const PHILOSOPHY_COLORS: Record<string, string> = {
   eclectic_flexible: "#6B7280",
 };
 
+/** Normalize philosophy key variants to canonical form */
+function normalizePhilKey(key: string): string {
+  const map: Record<string, string> = {
+    charlotte_mason: "charlotte-mason",
+    waldorf: "waldorf-adjacent",
+    montessori: "montessori-inspired",
+    project_based: "project-based-learning",
+    place_nature: "place-nature-based",
+    eclectic_flexible: "flexible",
+  };
+  return map[key] || key;
+}
+
 interface CurriculumMoonProps {
   curriculum: CurriculumNode;
-  philosophies: PhilosophyNode[];
   index: number;
 }
 
 export default function CurriculumMoon({
   curriculum,
-  philosophies,
   index,
 }: CurriculumMoonProps) {
   const meshRef = useRef<THREE.Mesh>(null);
   const [hovered, setHovered] = useState(false);
+  const { focusedNode, setFocusedNode } = useExploreState();
 
-  const { position, color, topPhilosophy } = useMemo(() => {
+  const { position, color, connectedPhilosophies } = useMemo(() => {
     const scores = curriculum.philosophyScores;
     let weightedStructure = 0;
     let weightedModality = 0;
     let totalWeight = 0;
     let maxScore = 0;
     let topPhil = "";
+    const connected: string[] = [];
 
     for (const [phil, score] of Object.entries(scores)) {
       const dims = PHILOSOPHY_DIMENSIONS[phil];
@@ -71,6 +85,7 @@ export default function CurriculumMoon({
       weightedStructure += score * dims.structure;
       weightedModality += score * dims.modality;
       totalWeight += score;
+      connected.push(normalizePhilKey(phil));
       if (score > maxScore) {
         maxScore = score;
         topPhil = phil;
@@ -81,7 +96,7 @@ export default function CurriculumMoon({
       return {
         position: [0, 0, 0] as [number, number, number],
         color: new THREE.Color("#c0c0d0"),
-        topPhilosophy: "",
+        connectedPhilosophies: [] as string[],
       };
     }
 
@@ -101,9 +116,25 @@ export default function CurriculumMoon({
     return {
       position: [x, y, 0] as [number, number, number],
       color: base,
-      topPhilosophy: topPhil,
+      connectedPhilosophies: Array.from(new Set(connected)),
     };
   }, [curriculum]);
+
+  // Determine focus-related state
+  const isConnectedToFocused =
+    focusedNode?.type === "philosophy" &&
+    connectedPhilosophies.includes(focusedNode.id);
+  const someNodeFocused = focusedNode !== null;
+  const shouldFade = someNodeFocused && !isConnectedToFocused;
+  const shouldHighlight = isConnectedToFocused;
+
+  // Show label when: hovered, OR connected to focused philosophy
+  const showLabel = hovered || shouldHighlight;
+
+  // Target opacity
+  const targetOpacity = shouldFade ? 0.1 : 0.8;
+  // Target scale: grow slightly when connected to focused
+  const targetScale = shouldHighlight ? 1.4 : 1;
 
   // Phase offset for orbit drift
   const phaseOffset = useMemo(() => index * 2.17, [index]);
@@ -116,6 +147,15 @@ export default function CurriculumMoon({
         position[0] + Math.sin(t * 0.3 + phaseOffset) * 0.05;
       meshRef.current.position.y =
         position[1] + Math.cos(t * 0.25 + phaseOffset * 1.3) * 0.05;
+
+      // Lerp opacity
+      const mat = meshRef.current.material as THREE.MeshBasicMaterial;
+      mat.opacity += (targetOpacity - mat.opacity) * 0.08;
+
+      // Lerp scale
+      const s = meshRef.current.scale.x;
+      const newScale = s + (targetScale - s) * 0.08;
+      meshRef.current.scale.setScalar(newScale);
     }
   });
 
@@ -124,6 +164,10 @@ export default function CurriculumMoon({
       <mesh
         ref={meshRef}
         position={position}
+        onClick={(e) => {
+          e.stopPropagation();
+          setFocusedNode({ type: "curriculum", id: curriculum.id });
+        }}
         onPointerOver={(e) => {
           e.stopPropagation();
           setHovered(true);
@@ -138,8 +182,8 @@ export default function CurriculumMoon({
         <meshBasicMaterial color={color} transparent opacity={0.8} />
       </mesh>
 
-      {/* Name label on hover */}
-      {hovered && (
+      {/* Name label on hover or when connected to focused philosophy */}
+      {showLabel && (
         <Text
           position={[position[0], position[1] - 0.12, 0]}
           fontSize={0.08}

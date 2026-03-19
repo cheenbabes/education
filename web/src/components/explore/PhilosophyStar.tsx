@@ -5,6 +5,7 @@ import { useFrame } from "@react-three/fiber";
 import { Text } from "@react-three/drei";
 import * as THREE from "three";
 import { PhilosophyNode } from "./types";
+import { useExploreState } from "./useExploreState";
 
 interface PhilosophyStarProps {
   philosophy: PhilosophyNode;
@@ -17,6 +18,12 @@ export default function PhilosophyStar({
 }: PhilosophyStarProps) {
   const meshRef = useRef<THREE.Mesh>(null);
   const ringsRef = useRef<THREE.Group>(null);
+  const groupRef = useRef<THREE.Group>(null);
+  const { focusedNode, setFocusedNode } = useExploreState();
+
+  const isFocused =
+    focusedNode?.type === "philosophy" && focusedNode.id === philosophy.name;
+  const otherFocused = focusedNode !== null && !isFocused;
 
   const { position, radius, phaseOffset, color, ringRadii } = useMemo(() => {
     const x = (philosophy.dimensions.structure / 100) * 12 - 6;
@@ -52,24 +59,60 @@ export default function PhilosophyStar({
     [philosophy.name],
   );
 
+  // Target opacity: fade when another node is focused
+  const targetOpacity = otherFocused ? 0.2 : 1;
+
   useFrame(({ clock }) => {
     if (meshRef.current) {
       const pulse =
         1 + 0.05 * Math.sin(clock.elapsedTime * 0.5 + phaseOffset);
       meshRef.current.scale.setScalar(pulse);
+
+      // Lerp opacity
+      const mat = meshRef.current.material as THREE.MeshBasicMaterial;
+      if (!mat.transparent) mat.transparent = true;
+      mat.opacity += (targetOpacity - mat.opacity) * 0.08;
     }
     if (ringsRef.current) {
       ringsRef.current.rotation.z =
         clock.elapsedTime * 0.05 + phaseOffset * 0.3;
+
+      // Fade rings too
+      ringsRef.current.children.forEach((child, idx) => {
+        const mesh = child as THREE.Mesh;
+        const mat = mesh.material as THREE.MeshBasicMaterial;
+        if (mat.transparent) {
+          const baseOpacity = 0.1 - idx * 0.025;
+          mat.opacity += (baseOpacity * targetOpacity - mat.opacity) * 0.08;
+        }
+      });
     }
   });
 
+  const handleClick = (e: { stopPropagation: () => void }) => {
+    e.stopPropagation();
+    if (isFocused) {
+      setFocusedNode(null);
+    } else {
+      setFocusedNode({ type: "philosophy", id: philosophy.name });
+    }
+  };
+
   return (
-    <group position={position}>
+    <group ref={groupRef} position={position}>
       {/* Core orb */}
-      <mesh ref={meshRef}>
+      <mesh
+        ref={meshRef}
+        onClick={handleClick}
+        onPointerOver={() => {
+          document.body.style.cursor = "pointer";
+        }}
+        onPointerOut={() => {
+          document.body.style.cursor = "auto";
+        }}
+      >
         <sphereGeometry args={[radius, 32, 32]} />
-        <meshBasicMaterial color={color} />
+        <meshBasicMaterial color={color} transparent opacity={1} />
       </mesh>
 
       {/* Ripple rings */}
@@ -93,7 +136,7 @@ export default function PhilosophyStar({
         color="white"
         anchorX="center"
         anchorY="top"
-        fillOpacity={0.6}
+        fillOpacity={otherFocused ? 0.15 : 0.6}
       >
         {displayName}
       </Text>
