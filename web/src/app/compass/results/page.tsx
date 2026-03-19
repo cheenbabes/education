@@ -67,6 +67,54 @@ const PREP_STYLES: Record<string, { color: string }> = {
   heavy: { color: "#dc2626" },
 };
 
+type LiteracyComponent = "reading" | "writing" | "spelling" | "grammar" | "complete";
+
+const LITERACY_COMPONENTS: Record<string, LiteracyComponent[]> = {
+  "All About Reading": ["reading"],
+  "Logic of English Foundations": ["reading", "spelling", "grammar"],
+  "The Good and the Beautiful Language Arts": ["complete"],
+  "Sonlight Language Arts": ["writing", "grammar"],
+  "Well-Trained Mind Writing & Rhetoric": ["writing"],
+  "Institute for Excellence in Writing": ["writing"],
+  "All About Spelling": ["spelling"],
+  "Explode the Code": ["reading", "spelling"],
+  "Brave Writer": ["writing"],
+  "Simply Charlotte Mason Language Arts": ["complete"],
+  "Memoria Press Grammar": ["grammar"],
+  "Rod and Staff English": ["grammar", "writing"],
+  "Easy Grammar": ["grammar"],
+  "First Language Lessons": ["grammar"],
+  "Growing With Grammar": ["grammar"],
+  "Writing With Ease": ["writing"],
+  "Learning Language Arts Through Literature": ["complete"],
+  "Handwriting Without Tears": ["writing"],
+  "Cursive Logic": ["writing"],
+  "BookShark Language Arts": ["complete"],
+  "Curiosity Chronicles Language Arts": ["complete"],
+};
+
+const LITERACY_COMPONENT_LABELS: Record<LiteracyComponent, string> = {
+  reading: "R",
+  writing: "W",
+  spelling: "S",
+  grammar: "G",
+  complete: "Complete LA",
+};
+
+const LITERACY_COMPONENT_COLORS: Record<LiteracyComponent, string> = {
+  reading: "bg-sky-100 text-sky-700 dark:bg-sky-950 dark:text-sky-300",
+  writing: "bg-violet-100 text-violet-700 dark:bg-violet-950 dark:text-violet-300",
+  spelling: "bg-rose-100 text-rose-700 dark:bg-rose-950 dark:text-rose-300",
+  grammar: "bg-orange-100 text-orange-700 dark:bg-orange-950 dark:text-orange-300",
+  complete: "bg-teal-100 text-teal-700 dark:bg-teal-950 dark:text-teal-300",
+};
+
+function formatSubjectList(subjects: string[]): string {
+  const labels = subjects.map((s) => SUBJECT_LABELS[s] ?? s);
+  if (labels.length <= 2) return labels.join(" & ");
+  return labels.slice(0, -1).join(", ") + " & " + labels[labels.length - 1];
+}
+
 function mapPart2Preferences(raw: Record<string, string | string[]>) {
   return {
     subjects: raw.p2_subjects as string[] | undefined,
@@ -420,13 +468,19 @@ export default function ResultsPage() {
                         </div>
 
                         <div className="flex flex-wrap gap-2 mt-3">
+                          {c.subjects.length > 1 && (
+                            <span className="text-xs px-2 py-0.5 rounded bg-indigo-100 dark:bg-indigo-950 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800 font-medium">
+                              All-in-One Bundle
+                            </span>
+                          )}
                           <span
-                            className="text-xs px-2 py-0.5 rounded"
+                            className="text-xs px-2 py-0.5 rounded cursor-help"
                             style={{
                               backgroundColor: `${prepStyle.color}15`,
                               color: prepStyle.color,
                               border: `1px solid ${prepStyle.color}30`,
                             }}
+                            title="Prep level is based on community reviews and publisher descriptions."
                           >
                             {c.prepLevel}
                           </span>
@@ -443,6 +497,12 @@ export default function ResultsPage() {
                           </span>
                         </div>
 
+                        {c.subjects.length > 1 && (
+                          <p className="text-xs text-indigo-600 dark:text-indigo-400 mt-1.5">
+                            Covers {formatSubjectList(c.subjects)} — may need to be purchased as a complete package. Check the publisher&apos;s site.
+                          </p>
+                        )}
+
                         {c.notes && (
                           <details className="mt-2">
                             <summary className="text-xs text-gray-400 dark:text-gray-500 cursor-pointer">
@@ -452,6 +512,20 @@ export default function ResultsPage() {
                               {c.notes}
                             </p>
                           </details>
+                        )}
+
+                        {subject === "literacy" && LITERACY_COMPONENTS[c.name] && (
+                          <div className="flex flex-wrap gap-1 mt-2">
+                            {LITERACY_COMPONENTS[c.name].map((component) => (
+                              <span
+                                key={component}
+                                className={`text-xs px-1.5 py-0.5 rounded font-medium ${LITERACY_COMPONENT_COLORS[component]}`}
+                                title={component.charAt(0).toUpperCase() + component.slice(1)}
+                              >
+                                {LITERACY_COMPONENT_LABELS[component]}
+                              </span>
+                            ))}
+                          </div>
                         )}
 
                         {c.affiliateUrl && (
