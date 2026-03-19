@@ -383,11 +383,11 @@ export function useForceLayout(
     const chargeStrength = (d: SimNode) => {
       switch (d.role) {
         case "focused":
-          return -30;
+          return -15;
         case "connected":
-          return -12;
+          return -6;
         default:
-          return -3;
+          return -1;
       }
     };
 
@@ -405,11 +405,11 @@ export function useForceLayout(
               typeof link.target === "object"
                 ? (link.target as SimNode)
                 : simNodes[link.target as number];
-            if (!s || !t) return 4;
-            if (s.role === "focused" || t.role === "focused") return 1.8;
-            return 4;
+            if (!s || !t) return 3;
+            if (s.role === "focused" || t.role === "focused") return 1.2;
+            return 3;
           })
-          .strength(0.7),
+          .strength(0.8),
       )
       .force("charge", forceManyBody<SimNode>().strength(chargeStrength))
       .force("collide", forceCollide<SimNode>().radius(collideRadius).iterations(3))
@@ -419,9 +419,10 @@ export function useForceLayout(
           .x((d) => {
             if (d.role === "focused") return 0;
             if (d.role === "connected") return 0;
-            return d.defaultX;
+            // Scale "other" nodes toward center too — don't leave them far out
+            return d.defaultX * 0.7;
           })
-          .strength((d) => (d.role === "other" ? 0.5 : 0.06)),
+          .strength((d) => (d.role === "other" ? 0.6 : 0.1)),
       )
       .force(
         "y",
@@ -429,9 +430,9 @@ export function useForceLayout(
           .y((d) => {
             if (d.role === "focused") return 0;
             if (d.role === "connected") return 0;
-            return d.defaultY;
+            return d.defaultY * 0.7;
           })
-          .strength((d) => (d.role === "other" ? 0.5 : 0.06)),
+          .strength((d) => (d.role === "other" ? 0.6 : 0.1)),
       )
       .stop();
 

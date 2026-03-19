@@ -94,7 +94,7 @@ export default function CurriculumMoon({
   const showLabel = hovered || shouldHighlight || (!!searchTerm && matchesSearch) || isInFocusedCluster;
 
   // Target opacity
-  const targetOpacity = !matchesSearch ? 0.1 : shouldFade ? 0.26 : isCurriculumFocused ? 0.98 : 0.9;
+  const targetOpacity = !matchesSearch ? 0.1 : shouldFade ? 0.55 : isCurriculumFocused ? 0.98 : 0.9;
   // Target scale: grow slightly when connected to focused
   const targetScale = isCurriculumFocused ? 1.55 : shouldHighlight ? 1.35 : 1;
   const lineOpacity = !matchesSearch ? 0.12 : shouldFade ? 0.28 : isCurriculumFocused ? 0.98 : 0.86;
@@ -108,8 +108,8 @@ export default function CurriculumMoon({
       const t = clock.elapsedTime;
       const tx = targetPos[0] + Math.sin(t * 0.3 + phaseOffset) * 0.035;
       const ty = targetPos[1] + Math.cos(t * 0.25 + phaseOffset * 1.3) * 0.035;
-      nodeRef.current.position.x += (tx - nodeRef.current.position.x) * 0.08;
-      nodeRef.current.position.y += (ty - nodeRef.current.position.y) * 0.08;
+      nodeRef.current.position.x += (tx - nodeRef.current.position.x) * 0.04;
+      nodeRef.current.position.y += (ty - nodeRef.current.position.y) * 0.04;
     }
     if (glyphRef.current) {
       const target = GLYPH_SIZES.curriculumBase * targetScale;
@@ -181,15 +181,16 @@ export default function CurriculumMoon({
       {/* Name label on hover or when connected to focused philosophy */}
       {showLabel && (
         <Text
-          position={[0, -0.21, 0]}
-          fontSize={0.104}
+          position={[0, -0.32, 0]}
+          fontSize={0.22}
           color="#f1dfb4"
           anchorX="center"
           anchorY="top"
           fillOpacity={shouldFade ? 0.56 : 0.93}
-          letterSpacing={0.042}
-          outlineWidth={0.018}
+          letterSpacing={0.03}
+          outlineWidth={0.025}
           outlineColor="#1d1710"
+          maxWidth={3}
           font="/fonts/CormorantSC-SemiBold.ttf"
         >
           {curriculum.name}

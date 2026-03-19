@@ -289,41 +289,39 @@ function CameraAnimator({
   controlsRef: MutableRefObject<OrbitControlsImpl | null>;
 }) {
   const { camera } = useThree();
-  const targetPos = useRef(new THREE.Vector3(0, 0, 10));
+  const targetCenter = useRef(new THREE.Vector3(0, 0, 0));
   const targetZoom = useRef(45);
-  const animating = useRef(false);
-  const framesRemaining = useRef(0);
+  const blend = useRef(0); // 0 = at target, >0 = animating
 
   useEffect(() => {
     if (layoutPositions.focusCenter) {
-      targetPos.current.set(layoutPositions.focusCenter.x, layoutPositions.focusCenter.y, 10);
+      targetCenter.current.set(layoutPositions.focusCenter.x, layoutPositions.focusCenter.y, 0);
       targetZoom.current = layoutPositions.focusZoom ?? 70;
     } else {
-      targetPos.current.set(0, 0, 10);
+      targetCenter.current.set(0, 0, 0);
       targetZoom.current = 45;
     }
-    // Animate for ~2 seconds (120 frames at 60fps), then stop and hand control back
-    animating.current = true;
-    framesRemaining.current = 120;
+    blend.current = 1; // start animating
   }, [layoutPositions.focusCenter, layoutPositions.focusZoom]);
 
   useFrame(() => {
-    if (!animating.current) return;
-    framesRemaining.current -= 1;
-    if (framesRemaining.current <= 0) {
-      animating.current = false;
-      return;
-    }
-    const ortho = camera as THREE.OrthographicCamera;
-    camera.position.x += (targetPos.current.x - camera.position.x) * 0.08;
-    camera.position.y += (targetPos.current.y - camera.position.y) * 0.08;
-    ortho.zoom += (targetZoom.current - ortho.zoom) * 0.08;
-    ortho.updateProjectionMatrix();
+    if (blend.current <= 0.001) return;
+    // Ease toward target — gentle enough that user scroll/pan still works
+    const speed = 0.04;
+    blend.current *= (1 - speed);
+
     const controls = controlsRef.current;
     if (controls) {
-      controls.target.set(camera.position.x, camera.position.y, 0);
+      controls.target.x += (targetCenter.current.x - controls.target.x) * speed;
+      controls.target.y += (targetCenter.current.y - controls.target.y) * speed;
       controls.update();
     }
+
+    const ortho = camera as THREE.OrthographicCamera;
+    camera.position.x += (targetCenter.current.x - camera.position.x) * speed;
+    camera.position.y += (targetCenter.current.y - camera.position.y) * speed;
+    ortho.zoom += (targetZoom.current - ortho.zoom) * speed;
+    ortho.updateProjectionMatrix();
   });
 
   return null;

@@ -103,24 +103,24 @@ export default function PhilosophyStar({
     return displayName.toLowerCase().includes(searchTerm.toLowerCase());
   }, [searchTerm, displayName]);
 
-  const targetOpacity = !matchesSearch ? 0.12 : otherFocused ? 0.28 : highlightedByContext ? 0.95 : 1;
+  const targetOpacity = !matchesSearch ? 0.12 : otherFocused ? 0.6 : highlightedByContext ? 0.95 : 1;
   const constellationLineOpacity = !matchesSearch
     ? 0.08
     : otherFocused
-      ? 0.2
+      ? 0.45
       : highlightedByContext
         ? 0.96
         : 0.78;
   const constellationPointOpacity = !matchesSearch
     ? 0.12
     : otherFocused
-      ? 0.26
+      ? 0.5
       : highlightedByContext
         ? 1
         : 0.9;
-  const planetBaseOpacity = !matchesSearch ? 0.05 : otherFocused ? 0.22 : 0.94;
-  const labelShadowBaseOpacity = !matchesSearch ? 0.03 : otherFocused ? 0.1 : 0.34;
-  const labelMainBaseOpacity = !matchesSearch ? 0.05 : otherFocused ? 0.2 : 0.9;
+  const planetBaseOpacity = !matchesSearch ? 0.05 : otherFocused ? 0.5 : 0.94;
+  const labelShadowBaseOpacity = !matchesSearch ? 0.03 : otherFocused ? 0.2 : 0.34;
+  const labelMainBaseOpacity = !matchesSearch ? 0.05 : otherFocused ? 0.55 : 0.9;
   const constellation = CONSTELLATION_VECTORS[philosophy.name] ?? CONSTELLATION_VECTORS.classical;
   const pointDegrees = useMemo(() => {
     const degrees = Array(constellation.points.length).fill(0) as number[];
@@ -133,8 +133,8 @@ export default function PhilosophyStar({
 
   useFrame(({ clock, camera }) => {
     if (groupRef.current) {
-      groupRef.current.position.x += (targetX - groupRef.current.position.x) * 0.08;
-      groupRef.current.position.y += (targetY - groupRef.current.position.y) * 0.08;
+      groupRef.current.position.x += (targetX - groupRef.current.position.x) * 0.04;
+      groupRef.current.position.y += (targetY - groupRef.current.position.y) * 0.04;
     }
 
     const t = clock.elapsedTime;
