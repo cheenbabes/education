@@ -19,9 +19,9 @@ export interface VisibleLayers {
 
 export const DEFAULT_VISIBLE_LAYERS: VisibleLayers = {
   curricula: true,
-  principles: false,
-  activities: false,
-  materials: false,
+  principles: true,
+  activities: true,
+  materials: true,
 };
 
 export interface ExploreState {

@@ -18,7 +18,7 @@ export const GLYPH_PATHS: Record<ExploreGlyphKind, string> = {
 export const GLYPH_SIZES = {
   philosophyBase: 1.65,
   curriculumBase: 0.18,
-  detailBase: 0.07,
+  detailBase: 0.14,
 };
 
 export const PHILOSOPHY_SEMANTIC_GLYPHS: Record<string, string> = {
