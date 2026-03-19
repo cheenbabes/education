@@ -291,6 +291,8 @@ function CameraAnimator({
   const { camera } = useThree();
   const targetPos = useRef(new THREE.Vector3(0, 0, 10));
   const targetZoom = useRef(45);
+  const animating = useRef(false);
+  const framesRemaining = useRef(0);
 
   useEffect(() => {
     if (layoutPositions.focusCenter) {
@@ -298,19 +300,25 @@ function CameraAnimator({
       targetZoom.current = layoutPositions.focusZoom ?? 70;
     } else {
       targetPos.current.set(0, 0, 10);
-      // Don't reset zoom on unfocus — let user keep their current zoom
+      targetZoom.current = 45;
     }
+    // Animate for ~2 seconds (120 frames at 60fps), then stop and hand control back
+    animating.current = true;
+    framesRemaining.current = 120;
   }, [layoutPositions.focusCenter, layoutPositions.focusZoom]);
 
   useFrame(() => {
-    if (!layoutPositions.focusCenter && Math.abs(camera.position.x) < 0.05 && Math.abs(camera.position.y) < 0.05) return;
-    const ortho = camera as THREE.OrthographicCamera;
-    camera.position.x += (targetPos.current.x - camera.position.x) * 0.06;
-    camera.position.y += (targetPos.current.y - camera.position.y) * 0.06;
-    if (layoutPositions.focusCenter) {
-      ortho.zoom += (targetZoom.current - ortho.zoom) * 0.06;
-      ortho.updateProjectionMatrix();
+    if (!animating.current) return;
+    framesRemaining.current -= 1;
+    if (framesRemaining.current <= 0) {
+      animating.current = false;
+      return;
     }
+    const ortho = camera as THREE.OrthographicCamera;
+    camera.position.x += (targetPos.current.x - camera.position.x) * 0.08;
+    camera.position.y += (targetPos.current.y - camera.position.y) * 0.08;
+    ortho.zoom += (targetZoom.current - ortho.zoom) * 0.08;
+    ortho.updateProjectionMatrix();
     const controls = controlsRef.current;
     if (controls) {
       controls.target.set(camera.position.x, camera.position.y, 0);

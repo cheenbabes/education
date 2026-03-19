@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 
 export const dynamic = "force-dynamic";
 
-const KG_URL = process.env.NEXT_PUBLIC_KG_SERVICE_URL || "http://localhost:8000";
+const KG_URL = process.env.NEXT_PUBLIC_KG_SERVICE_URL || "http://127.0.0.1:8000";
 
 // Philosophy positions on dimension axes (0-100 scale)
 // structure: 0=child-led, 100=teacher-directed
@@ -77,9 +77,11 @@ export async function GET() {
     });
     if (kgRes.ok) {
       kgData = await kgRes.json();
+    } else {
+      console.error(`[explore/graph] KG fetch failed: ${kgRes.status} ${kgRes.statusText}`);
     }
-  } catch {
-    // KG service not running — serve what we can from Postgres
+  } catch (err) {
+    console.error("[explore/graph] KG fetch error:", err);
   }
 
   // Fetch curricula from Postgres
