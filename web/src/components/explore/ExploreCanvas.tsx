@@ -6,6 +6,7 @@ import { EffectComposer, Bloom } from "@react-three/postprocessing";
 import * as THREE from "three";
 import { GraphData } from "./types";
 import PhilosophyStar from "./PhilosophyStar";
+import CurriculumMoon from "./CurriculumMoon";
 
 /** Subtle mouse-based parallax on the camera */
 function CameraRig() {
@@ -65,6 +66,15 @@ export default function ExploreCanvas({ data }: ExploreCanvasProps) {
 
       {data.philosophies.map((p, i) => (
         <PhilosophyStar key={p.name} philosophy={p} index={i} />
+      ))}
+
+      {data.curricula.map((c, i) => (
+        <CurriculumMoon
+          key={c.id}
+          curriculum={c}
+          philosophies={data.philosophies}
+          index={i}
+        />
       ))}
 
       <EffectComposer>
