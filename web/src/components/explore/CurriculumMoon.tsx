@@ -2,8 +2,9 @@
 
 import { useRef, useMemo, useState } from "react";
 import { useFrame } from "@react-three/fiber";
-import { Line, Text } from "@react-three/drei";
+import { Text } from "@react-three/drei";
 import * as THREE from "three";
+import { createCurriculumSun } from "./glyphShapes";
 import { CurriculumNode } from "./types";
 import { useExploreState } from "./useExploreState";
 import { getCurriculumPlacement } from "./positions";
@@ -97,8 +98,9 @@ export default function CurriculumMoon({
   const targetOpacity = !matchesSearch ? 0.1 : shouldFade ? 0.55 : isCurriculumFocused ? 0.98 : 0.9;
   // Target scale: grow slightly when connected to focused
   const targetScale = isCurriculumFocused ? 1.55 : shouldHighlight ? 1.35 : 1;
-  const lineOpacity = !matchesSearch ? 0.12 : shouldFade ? 0.28 : isCurriculumFocused ? 0.98 : 0.86;
   const haloOpacity = !matchesSearch ? 0.06 : shouldFade ? 0.16 : isCurriculumFocused ? 0.3 : 0.2;
+
+  const sunShapes = useMemo(() => createCurriculumSun(), []);
 
   // Phase offset for orbit drift
   const phaseOffset = useMemo(() => index * 2.17, [index]);
@@ -133,30 +135,13 @@ export default function CurriculumMoon({
             toneMapped={false}
           />
         </mesh>
-        {/* Planet body */}
-        <mesh position={[0, 0, 0.02]}>
-          <circleGeometry args={[0.16, 32]} />
-          <meshBasicMaterial
-            color={color}
-            transparent
-            opacity={targetOpacity}
-            depthWrite={false}
-            toneMapped={false}
-          />
-        </mesh>
-        {/* Orbital ring — tilted ellipse */}
-        <Line
-          points={Array.from({ length: 49 }, (_, i) => {
-            const t = (i / 48) * Math.PI * 2;
-            return [Math.cos(t) * 0.32, Math.sin(t) * 0.09, 0.03] as [number, number, number];
-          })}
-          color={color}
-          lineWidth={1.1}
-          transparent
-          opacity={lineOpacity}
-          depthWrite={false}
-          toneMapped={false}
-        />
+        {/* Sun glyph - vector shapes */}
+        {sunShapes.map((shape, i) => (
+          <mesh key={i} position={[0, 0, 0.02]}>
+            <shapeGeometry args={[shape]} />
+            <meshBasicMaterial color={color} transparent opacity={targetOpacity} depthWrite={false} toneMapped={false} />
+          </mesh>
+        ))}
       </group>
 
       <mesh

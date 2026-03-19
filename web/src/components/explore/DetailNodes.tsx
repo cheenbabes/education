@@ -11,6 +11,11 @@ import {
   getCurriculumPlacement,
 } from "./positions";
 import { GLYPH_SIZES } from "./glyphs";
+import {
+  createMaterialStar,
+  createActivityStar,
+  createPrincipleStar,
+} from "./glyphShapes";
 
 interface DetailDotProps {
   id: string;
@@ -44,6 +49,10 @@ function DetailDot({
   const [hovered, setHovered] = useState(false);
   const startTime = useRef<number | null>(null);
   const { focusedNode, setFocusedNode } = useExploreState();
+  const materialShape = useMemo(() => createMaterialStar(), []);
+  const activityShapes = useMemo(() => createActivityStar(), []);
+  const principleShapes = useMemo(() => createPrincipleStar(), []);
+
   const color = nodeType === "principle"
     ? "#f6e9c8"
     : nodeType === "activity"
@@ -109,61 +118,23 @@ function DetailDot({
       )}
 
       <group ref={glyphRef} position={position} scale={[GLYPH_SIZES.detailBase, GLYPH_SIZES.detailBase, 1]}>
-        {nodeType === "principle" && (
-          <>
-            {/* Sun circle */}
-            <mesh position={[0, 0, 0.02]}>
-              <circleGeometry args={[0.1, 24]} />
-              <meshBasicMaterial color={color} transparent opacity={targetOpacity} depthWrite={false} toneMapped={false} />
-            </mesh>
-            {/* 8 rays */}
-            {Array.from({ length: 8 }, (_, i) => {
-              const angle = (i / 8) * Math.PI * 2;
-              const inner: [number, number, number] = [Math.cos(angle) * 0.13, Math.sin(angle) * 0.13, 0.03];
-              const outer: [number, number, number] = [Math.cos(angle) * 0.22, Math.sin(angle) * 0.22, 0.03];
-              return (
-                <Line key={`ray-${i}`} points={[inner, outer]} color={color} lineWidth={0.8}
-                  transparent opacity={targetOpacity * 0.85} depthWrite={false} toneMapped={false} />
-              );
-            })}
-          </>
-        )}
-        {nodeType === "activity" && (
-          <>
-            {/* Vertical line */}
-            <Line points={[[0, -0.2, 0.03], [0, 0.2, 0.03]]} color={color} lineWidth={0.9}
-              transparent opacity={targetOpacity} depthWrite={false} toneMapped={false} />
-            {/* Horizontal line */}
-            <Line points={[[-0.2, 0, 0.03], [0.2, 0, 0.03]]} color={color} lineWidth={0.9}
-              transparent opacity={targetOpacity} depthWrite={false} toneMapped={false} />
-            {/* Arrow tips */}
-            <Line points={[[-0.06, 0.16, 0.03], [0, 0.22, 0.03], [0.06, 0.16, 0.03]]} color={color} lineWidth={0.7}
-              transparent opacity={targetOpacity * 0.8} depthWrite={false} toneMapped={false} />
-            <Line points={[[-0.06, -0.16, 0.03], [0, -0.22, 0.03], [0.06, -0.16, 0.03]]} color={color} lineWidth={0.7}
-              transparent opacity={targetOpacity * 0.8} depthWrite={false} toneMapped={false} />
-            <Line points={[[0.16, -0.06, 0.03], [0.22, 0, 0.03], [0.16, 0.06, 0.03]]} color={color} lineWidth={0.7}
-              transparent opacity={targetOpacity * 0.8} depthWrite={false} toneMapped={false} />
-            <Line points={[[-0.16, -0.06, 0.03], [-0.22, 0, 0.03], [-0.16, 0.06, 0.03]]} color={color} lineWidth={0.7}
-              transparent opacity={targetOpacity * 0.8} depthWrite={false} toneMapped={false} />
-          </>
-        )}
+        {nodeType === "principle" && principleShapes.map((shape, i) => (
+          <mesh key={i} position={[0, 0, 0.02]}>
+            <shapeGeometry args={[shape]} />
+            <meshBasicMaterial color={color} transparent opacity={targetOpacity} depthWrite={false} toneMapped={false} />
+          </mesh>
+        ))}
+        {nodeType === "activity" && activityShapes.map((shape, i) => (
+          <mesh key={i} position={[0, 0, 0.02]}>
+            <shapeGeometry args={[shape]} />
+            <meshBasicMaterial color={color} transparent opacity={targetOpacity} depthWrite={false} toneMapped={false} />
+          </mesh>
+        ))}
         {nodeType === "material" && (
-          <>
-            {/* Circle */}
-            <Line
-              points={Array.from({ length: 33 }, (_, i) => {
-                const t = (i / 32) * Math.PI * 2;
-                return [Math.cos(t) * 0.18, Math.sin(t) * 0.18, 0.03] as [number, number, number];
-              })}
-              color={color} lineWidth={0.9} transparent opacity={targetOpacity} depthWrite={false} toneMapped={false}
-            />
-            {/* Vertical cross line */}
-            <Line points={[[0, -0.18, 0.03], [0, 0.18, 0.03]]} color={color} lineWidth={0.7}
-              transparent opacity={targetOpacity * 0.8} depthWrite={false} toneMapped={false} />
-            {/* Horizontal cross line */}
-            <Line points={[[-0.18, 0, 0.03], [0.18, 0, 0.03]]} color={color} lineWidth={0.7}
-              transparent opacity={targetOpacity * 0.8} depthWrite={false} toneMapped={false} />
-          </>
+          <mesh position={[0, 0, 0.02]}>
+            <shapeGeometry args={[materialShape]} />
+            <meshBasicMaterial color={color} transparent opacity={targetOpacity} depthWrite={false} toneMapped={false} />
+          </mesh>
         )}
       </group>
 
