@@ -19,7 +19,7 @@ export default function PhilosophyStar({
   const meshRef = useRef<THREE.Mesh>(null);
   const ringsRef = useRef<THREE.Group>(null);
   const groupRef = useRef<THREE.Group>(null);
-  const { focusedNode, setFocusedNode } = useExploreState();
+  const { focusedNode, setFocusedNode, searchTerm } = useExploreState();
 
   const isFocused =
     focusedNode?.type === "philosophy" && focusedNode.id === philosophy.name;
@@ -59,8 +59,14 @@ export default function PhilosophyStar({
     [philosophy.name],
   );
 
-  // Target opacity: fade when another node is focused
-  const targetOpacity = otherFocused ? 0.2 : 1;
+  // Does this node match the current search?
+  const matchesSearch = useMemo(() => {
+    if (!searchTerm) return true;
+    return displayName.toLowerCase().includes(searchTerm.toLowerCase());
+  }, [searchTerm, displayName]);
+
+  // Target opacity: fade when another node is focused or search doesn't match
+  const targetOpacity = !matchesSearch ? 0.15 : otherFocused ? 0.2 : 1;
 
   useFrame(({ clock }) => {
     if (meshRef.current) {
@@ -136,7 +142,7 @@ export default function PhilosophyStar({
         color="white"
         anchorX="center"
         anchorY="top"
-        fillOpacity={otherFocused ? 0.15 : 0.6}
+        fillOpacity={!matchesSearch ? 0.08 : otherFocused ? 0.15 : 0.6}
       >
         {displayName}
       </Text>

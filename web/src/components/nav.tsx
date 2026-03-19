@@ -18,6 +18,7 @@ const navItems = [
   { href: "/calendar", label: "Calendar" },
   { href: "/lessons", label: "Lessons" },
   { href: "/standards", label: "Standards" },
+  { href: "/explore", label: "Explore" },
 ];
 
 export function Nav() {

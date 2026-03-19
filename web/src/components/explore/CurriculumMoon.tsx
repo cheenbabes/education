@@ -68,7 +68,7 @@ export default function CurriculumMoon({
 }: CurriculumMoonProps) {
   const meshRef = useRef<THREE.Mesh>(null);
   const [hovered, setHovered] = useState(false);
-  const { focusedNode, setFocusedNode } = useExploreState();
+  const { focusedNode, setFocusedNode, searchTerm } = useExploreState();
 
   const { position, color, connectedPhilosophies } = useMemo(() => {
     const scores = curriculum.philosophyScores;
@@ -128,11 +128,21 @@ export default function CurriculumMoon({
   const shouldFade = someNodeFocused && !isConnectedToFocused;
   const shouldHighlight = isConnectedToFocused;
 
-  // Show label when: hovered, OR connected to focused philosophy
-  const showLabel = hovered || shouldHighlight;
+  // Search match
+  const matchesSearch = useMemo(() => {
+    if (!searchTerm) return true;
+    const term = searchTerm.toLowerCase();
+    return (
+      curriculum.name.toLowerCase().includes(term) ||
+      curriculum.publisher.toLowerCase().includes(term)
+    );
+  }, [searchTerm, curriculum.name, curriculum.publisher]);
+
+  // Show label when: hovered, OR connected to focused philosophy, OR search match
+  const showLabel = hovered || shouldHighlight || (!!searchTerm && matchesSearch);
 
   // Target opacity
-  const targetOpacity = shouldFade ? 0.1 : 0.8;
+  const targetOpacity = !matchesSearch ? 0.08 : shouldFade ? 0.1 : 0.8;
   // Target scale: grow slightly when connected to focused
   const targetScale = shouldHighlight ? 1.4 : 1;
 

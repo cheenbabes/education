@@ -28,6 +28,8 @@ export interface ExploreState {
   graphData: GraphData;
   visibleLayers: VisibleLayers;
   setVisibleLayers: (layers: VisibleLayers) => void;
+  searchTerm: string;
+  setSearchTerm: (term: string) => void;
 }
 
 export const ExploreContext = createContext<ExploreState | null>(null);

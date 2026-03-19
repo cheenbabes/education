@@ -120,6 +120,8 @@ export interface ExploreCanvasProps {
   setFocusedNode: (node: FocusedNode | null) => void;
   visibleLayers: VisibleLayers;
   setVisibleLayers: (layers: VisibleLayers) => void;
+  searchTerm: string;
+  setSearchTerm: (term: string) => void;
 }
 
 export default function ExploreCanvas({
@@ -128,6 +130,8 @@ export default function ExploreCanvas({
   setFocusedNode,
   visibleLayers,
   setVisibleLayers,
+  searchTerm,
+  setSearchTerm,
 }: ExploreCanvasProps) {
   // Bridge the context into the R3F Canvas reconciler
   const contextValue = useMemo<ExploreState>(
@@ -137,8 +141,10 @@ export default function ExploreCanvas({
       graphData: data,
       visibleLayers,
       setVisibleLayers,
+      searchTerm,
+      setSearchTerm,
     }),
-    [focusedNode, setFocusedNode, data, visibleLayers, setVisibleLayers],
+    [focusedNode, setFocusedNode, data, visibleLayers, setVisibleLayers, searchTerm, setSearchTerm],
   );
 
   return (

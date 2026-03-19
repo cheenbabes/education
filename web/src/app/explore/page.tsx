@@ -24,6 +24,7 @@ export default function ExplorePage() {
   const [visibleLayers, setVisibleLayers] = useState<VisibleLayers>(
     DEFAULT_VISIBLE_LAYERS,
   );
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     fetch("/api/explore/graph")
@@ -46,19 +47,69 @@ export default function ExplorePage() {
     setFocusedNode(null);
   }, []);
 
+  // On Enter in search, auto-focus the first matching node
+  const handleSearchSubmit = useCallback(() => {
+    if (!searchTerm || !data) return;
+    const term = searchTerm.toLowerCase();
+
+    // Check philosophies first
+    const matchedPhil = data.philosophies.find((p) => {
+      const display = p.name.split("-").map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join(" ");
+      return display.toLowerCase().includes(term);
+    });
+    if (matchedPhil) {
+      setFocusedNode({ type: "philosophy", id: matchedPhil.name });
+      return;
+    }
+
+    // Then check curricula
+    const matchedCurr = data.curricula.find(
+      (c) =>
+        c.name.toLowerCase().includes(term) ||
+        c.publisher.toLowerCase().includes(term),
+    );
+    if (matchedCurr) {
+      setFocusedNode({ type: "curriculum", id: matchedCurr.id });
+    }
+  }, [searchTerm, data]);
+
+  // Empty state: KG service not running or API returned empty data
   if (error) {
     return (
-      <div className="w-screen h-screen bg-[#0a0a0f] flex items-center justify-center">
-        <p className="text-red-400 text-sm">Failed to load graph: {error}</p>
+      <div className="w-screen h-screen bg-[#0a0a0f] flex flex-col items-center justify-center gap-4">
+        <div className="flex gap-2">
+          {[0, 1, 2, 3].map((i) => (
+            <div
+              key={i}
+              className="w-2 h-2 rounded-full bg-white/30 animate-pulse"
+              style={{ animationDelay: `${i * 150}ms` }}
+            />
+          ))}
+        </div>
+        <p className="text-white/50 text-sm max-w-md text-center leading-relaxed">
+          Start the Knowledge Graph service to explore your constellation
+        </p>
+        <p className="text-white/25 text-xs max-w-sm text-center font-mono">
+          cd kg-service && source .venv/bin/activate && uvicorn main:app --port 8000
+        </p>
       </div>
     );
   }
 
   if (!data) {
     return (
-      <div className="w-screen h-screen bg-[#0a0a0f] flex items-center justify-center">
-        <p className="text-gray-500 text-sm animate-pulse">
-          Loading constellation...
+      <div className="w-screen h-screen bg-[#0a0a0f] flex flex-col items-center justify-center gap-4">
+        <div className="flex gap-2">
+          {[0, 1, 2, 3].map((i) => (
+            <div
+              key={i}
+              className="w-2 h-2 rounded-full bg-white/40 animate-pulse"
+              style={{ animationDelay: `${i * 150}ms` }}
+            />
+          ))}
+        </div>
+        <p className="text-white/40 text-sm">
+          Mapping your constellation...
         </p>
       </div>
     );
@@ -73,6 +124,8 @@ export default function ExplorePage() {
         setFocusedNode={setFocusedNode}
         visibleLayers={visibleLayers}
         setVisibleLayers={setVisibleLayers}
+        searchTerm={searchTerm}
+        setSearchTerm={setSearchTerm}
       />
 
       {/* DOM overlays */}
@@ -84,6 +137,9 @@ export default function ExplorePage() {
       <ControlBar
         visibleLayers={visibleLayers}
         onToggleLayer={handleToggleLayer}
+        searchTerm={searchTerm}
+        onSearchChange={setSearchTerm}
+        onSearchSubmit={handleSearchSubmit}
       />
     </div>
   );
