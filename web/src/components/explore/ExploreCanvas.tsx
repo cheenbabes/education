@@ -291,7 +291,16 @@ function CameraAnimator({
   const { camera } = useThree();
   const targetCenter = useRef(new THREE.Vector3(0, 0, 0));
   const targetZoom = useRef(45);
-  const blend = useRef(0); // 0 = at target, >0 = animating
+  const blend = useRef(0); // 1 = full pull, decays toward 0
+
+  // Kill animation immediately when user starts interacting
+  useEffect(() => {
+    const controls = controlsRef.current;
+    if (!controls) return;
+    const onStart = () => { blend.current = 0; };
+    controls.addEventListener("start", onStart);
+    return () => { controls.removeEventListener("start", onStart); };
+  }, [controlsRef]);
 
   useEffect(() => {
     if (layoutPositions.focusCenter) {
@@ -301,14 +310,14 @@ function CameraAnimator({
       targetCenter.current.set(0, 0, 0);
       targetZoom.current = 45;
     }
-    blend.current = 1; // start animating
+    blend.current = 1;
   }, [layoutPositions.focusCenter, layoutPositions.focusZoom]);
 
   useFrame(() => {
-    if (blend.current <= 0.001) return;
-    // Ease toward target — gentle enough that user scroll/pan still works
-    const speed = 0.04;
-    blend.current *= (1 - speed);
+    if (blend.current <= 0.005) return;
+    // Pull strength decays with blend — starts strong, fades out
+    const speed = 0.06 * blend.current;
+    blend.current *= 0.97; // decay ~50% per second at 60fps
 
     const controls = controlsRef.current;
     if (controls) {

@@ -182,7 +182,7 @@ export default function CurriculumMoon({
       {showLabel && (
         <Text
           position={[0, -0.32, 0]}
-          fontSize={0.22}
+          fontSize={0.28}
           color="#f1dfb4"
           anchorX="center"
           anchorY="top"
