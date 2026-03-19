@@ -1,6 +1,9 @@
 FROM node:22-slim AS builder
 WORKDIR /app
 
+# Install openssl so Prisma can detect the correct engine (3.0.x on Bookworm)
+RUN apt-get update && apt-get install -y openssl && rm -rf /var/lib/apt/lists/*
+
 # Use public npm registry explicitly
 RUN echo "registry=https://registry.npmjs.org/" > .npmrc
 
