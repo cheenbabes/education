@@ -42,13 +42,13 @@ function TogglePill({
       className={`px-3 py-1 rounded-full text-[11px] tracking-[0.14em] uppercase font-medium transition-all
         ${
           active
-            ? "text-[#17151b] shadow-sm"
+            ? "shadow-sm"
             : "bg-white/5 text-[#d4af37]/45 hover:bg-white/10 hover:text-[#d4af37]/80"
         }
         ${disabled ? "cursor-default" : "cursor-pointer"}`}
-      style={active ? { backgroundColor: activeColor } : undefined}
+      style={active ? { backgroundColor: "#F9F6EF", color: "#0B1426" } : undefined}
     >
-      {icon && <span className="mr-1 inline-flex">{icon}</span>}
+      {icon && <span className="mr-1 inline-flex" style={active ? { color: activeColor } : undefined}>{icon}</span>}
       {label}
     </button>
   );
@@ -195,7 +195,7 @@ export default function ControlBar({
           label="Philosophies"
           active={true}
           disabled={true}
-          activeColor="#d4af37"
+          activeColor="#0B1426"
           onClick={() => {}}
           icon={
             <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
@@ -208,7 +208,7 @@ export default function ControlBar({
         <TogglePill
           label="Curricula"
           active={visibleLayers.curricula}
-          activeColor="#ead29b"
+          activeColor="#FFB400"
           onClick={() => onToggleLayer("curricula")}
           icon={
             <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
@@ -227,7 +227,7 @@ export default function ControlBar({
         <TogglePill
           label="Principles"
           active={visibleLayers.principles}
-          activeColor="#efe2c6"
+          activeColor="#FF7C15"
           onClick={() => onToggleLayer("principles")}
           icon={
             <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
@@ -242,7 +242,7 @@ export default function ControlBar({
         <TogglePill
           label="Activities"
           active={visibleLayers.activities}
-          activeColor="#e2a24f"
+          activeColor="#ED4672"
           onClick={() => onToggleLayer("activities")}
           icon={
             <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
@@ -256,7 +256,7 @@ export default function ControlBar({
         <TogglePill
           label="Materials"
           active={visibleLayers.materials}
-          activeColor="#7cb5f0"
+          activeColor="#B44AFF"
           onClick={() => onToggleLayer("materials")}
           icon={
             <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">

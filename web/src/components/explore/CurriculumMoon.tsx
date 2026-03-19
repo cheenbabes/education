@@ -11,17 +11,6 @@ import { getCurriculumPlacement } from "./positions";
 import { GLYPH_SIZES } from "./glyphs";
 import { nodeKey } from "./useForceLayout";
 
-const PHILOSOPHY_COLORS: Record<string, string> = {
-  "montessori-inspired": "#8B5CF6",
-  "waldorf-adjacent": "#F59E0B",
-  "project-based-learning": "#3B82F6",
-  "place-nature-based": "#10B981",
-  classical: "#6366F1",
-  "charlotte-mason": "#EC4899",
-  unschooling: "#F97316",
-  flexible: "#6B7280",
-};
-
 interface CurriculumMoonProps {
   curriculum: CurriculumNode;
   index: number;
@@ -46,12 +35,8 @@ export default function CurriculumMoon({
     : placement.position;
 
   const { color, connectedPhilosophies } = useMemo(() => {
-    // Color: warm ivory blended slightly with top philosophy accent.
-    const base = new THREE.Color("#e7d8b5");
-    const philColor = new THREE.Color(
-      PHILOSOPHY_COLORS[placement.topPhilosophy || ""] || "#c0c0d0",
-    );
-    base.lerp(philColor, 0.16);
+    // Flat gold color for all curricula.
+    const base = new THREE.Color("#FFB400");
 
     return {
       color: base,
@@ -168,7 +153,7 @@ export default function CurriculumMoon({
         <Text
           position={[0, -0.28, 0]}
           fontSize={0.16}
-          color="#f1dfb4"
+          color="#FFB400"
           anchorX="center"
           anchorY="top"
           fillOpacity={shouldFade ? 0.56 : 0.93}

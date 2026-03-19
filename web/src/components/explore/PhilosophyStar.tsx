@@ -201,7 +201,7 @@ export default function PhilosophyStar({
       <mesh position={[0, 0, 0.028]}>
         <circleGeometry args={[baseScale * 0.57, 48]} />
         <meshBasicMaterial
-          color={highlightedByContext || isFocused ? "#bea263" : "#b08d57"}
+          color={highlightedByContext || isFocused ? "#F9F6EF" : "#F9F6EF"}
           transparent
           opacity={targetOpacity * (highlightedByContext ? 0.26 : 0.14)}
           depthWrite={false}
@@ -212,7 +212,7 @@ export default function PhilosophyStar({
       <mesh ref={focusRingRef} position={[0, 0, 0.032]}>
         <ringGeometry args={[baseScale * 0.52, baseScale * 0.58, 64]} />
         <meshBasicMaterial
-          color="#efd9a4"
+          color="#F9F6EF"
           transparent
           opacity={0}
           depthWrite={false}
@@ -228,7 +228,7 @@ export default function PhilosophyStar({
             <Line
               key={`segment-${segmentIndex}`}
               points={[[p1[0], p1[1], 0], [p2[0], p2[1], 0]]}
-              color={highlightedByContext || isFocused ? "#f5deaa" : "#e5c88d"}
+              color={highlightedByContext || isFocused ? "#F9F6EF" : "#F9F6EF"}
               lineWidth={1.3}
               transparent
               opacity={constellationLineOpacity}
@@ -244,7 +244,7 @@ export default function PhilosophyStar({
             <mesh key={`star-${pointIndex}`} position={[point[0], point[1], 0.01]}>
               <circleGeometry args={[radius, 20]} />
               <meshBasicMaterial
-                color={highlightedByContext || isFocused ? "#fff0ca" : "#f3d9a0"}
+                color={highlightedByContext || isFocused ? "#F9F6EF" : "#F9F6EF"}
                 transparent
                 opacity={constellationPointOpacity}
                 depthWrite={false}

@@ -120,11 +120,11 @@ export function getCurriculumPlacement(
   // the philosophy-weighted center position.
   const goldenAngle = 2.399963229728653;
   const theta = index * goldenAngle;
-  const spiralRadius = 0.4 + Math.sqrt(index + 1) * 0.12;
+  const spiralRadius = 0.6 + Math.sqrt(index + 1) * 0.22;
   const spiralX = Math.cos(theta) * spiralRadius;
   const spiralY = Math.sin(theta) * spiralRadius * 0.82;
-  const jitterX = Math.sin(index * 7.13) * 0.15;
-  const jitterY = Math.cos(index * 5.37) * 0.12;
+  const jitterX = Math.sin(index * 7.13) * 0.3;
+  const jitterY = Math.cos(index * 5.37) * 0.25;
 
   return {
     position: [centerX + spiralX + jitterX, centerY + spiralY + jitterY, 0],

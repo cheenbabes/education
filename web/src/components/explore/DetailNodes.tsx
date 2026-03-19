@@ -54,10 +54,10 @@ function DetailDot({
   const principleShapes = useMemo(() => createPrincipleStar(), []);
 
   const color = nodeType === "principle"
-    ? "#f6e9c8"
+    ? "#FF7C15"
     : nodeType === "activity"
-      ? "#f0b15f"
-      : "#8ab8ee";
+      ? "#ED4672"
+      : "#B44AFF";
   const isSelected = focusedNode?.type === nodeType && focusedNode.id === id;
   const targetOpacity = previewOnly ? 0.45 : dimmed ? 0.2 : (emphasized || isSelected) ? 0.94 : 0.62;
   const targetScale = previewOnly ? 0.72 : isSelected ? 1.28 : emphasized ? 1.1 : 1;
@@ -142,7 +142,7 @@ function DetailDot({
         <Text
           position={[position[0], position[1] - 0.1, position[2]]}
           fontSize={showLabel ? 0.072 : 0.062}
-          color="#d8c18a"
+          color="#F9F6EF"
           anchorX="center"
           anchorY="top"
           fillOpacity={showLabel || isSelected ? 0.86 : 0.92}
