@@ -67,6 +67,7 @@ export interface MatchResult {
   totalScore: number;
   philosophyFitScore: number;
   fitLabel: "strong" | "good" | "partial";
+  matchReason: string;
   breakdown?: ScoreBreakdown;
   excludedReason?: string;
 }
@@ -108,6 +109,55 @@ const SETTING_BONUS = 0.05;
 const INTEGRATED_BONUS = 0.08;
 
 const TOP_N = 3;
+
+const PHILOSOPHY_NAMES: Record<string, string> = {
+  montessori: "Montessori",
+  waldorf: "Waldorf",
+  project_based: "project-based learning",
+  place_nature: "nature-based learning",
+  classical: "classical",
+  charlotte_mason: "Charlotte Mason",
+  unschooling: "child-led/unschooling",
+  eclectic_flexible: "eclectic/flexible",
+};
+
+function generateMatchReason(
+  philosophyBlend: PhilosophyBlend,
+  curriculum: CurriculumRecord,
+  label: "strong" | "good" | "partial",
+): string {
+  // User's top 2 philosophies by weight
+  const userTop = Object.entries(philosophyBlend)
+    .filter(([, v]) => v !== undefined && (v as number) > 0)
+    .sort(([, a], [, b]) => (b as number) - (a as number))
+    .slice(0, 2)
+    .map(([k]) => k);
+
+  if (label === "partial") {
+    // Find the philosophy the curriculum actually excels at
+    const currTopEntry = Object.entries(curriculum.philosophyScores)
+      .sort(([, a], [, b]) => b - a)[0];
+    const currTopName = PHILOSOPHY_NAMES[currTopEntry[0]] ?? currTopEntry[0];
+    return `This curriculum leans more ${currTopName} than your blend suggests — it may still work as a supplement.`;
+  }
+
+  const matchingPhils = userTop
+    .filter((p) => (curriculum.philosophyScores[p] ?? 0) >= 0.4)
+    .map((p) => PHILOSOPHY_NAMES[p] ?? p);
+
+  if (label === "strong") {
+    if (matchingPhils.length > 0) {
+      return `Strong fit — it's highly ${matchingPhils.join(" and ")}-oriented, matching your top philosophies.`;
+    }
+    return "Strong overall fit with your philosophy blend.";
+  }
+
+  // good
+  if (matchingPhils.length > 0) {
+    return `Good fit — it aligns with your ${matchingPhils.join(" and ")} tendencies, with some trade-offs.`;
+  }
+  return "Good overall fit with your philosophy blend, though not a perfect alignment.";
+}
 
 // --- Helpers ---
 
@@ -280,7 +330,7 @@ export function matchCurricula(
 
     if (excludedReason) {
       if (debug) {
-        allScored.push({ curriculum, totalScore: 0, philosophyFitScore: 0, fitLabel: "partial", breakdown, excludedReason });
+        allScored.push({ curriculum, totalScore: 0, philosophyFitScore: 0, fitLabel: "partial", matchReason: "Excluded by filter.", breakdown, excludedReason });
       }
       continue;
     }
@@ -361,11 +411,13 @@ export function matchCurricula(
     }
     totalScore += breakdown.giftedBonus;
 
+    const label = fitLabel(philosophyFitScore);
     const result: MatchResult = {
       curriculum,
       totalScore,
       philosophyFitScore,
-      fitLabel: fitLabel(philosophyFitScore),
+      fitLabel: label,
+      matchReason: generateMatchReason(philosophyBlend, curriculum, label),
       breakdown: debug ? breakdown : undefined,
     };
 
