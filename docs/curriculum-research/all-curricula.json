@@ -209,7 +209,7 @@
     "setting_fit": [
       "individual"
     ],
-    "notes": "Secular spin-off of Sonlight with the same literature-based approach. Four-day-per-week schedule. Uses Explode the Code for early phonics (levels A-C) and Wordly Wise for vocabulary (level C+). All-Subject bundles available at 20% discount. Diverse and modern literature selections."
+    "notes": "Secular spin-off of Sonlight with the same literature-based approach. Four-day-per-week schedule. Uses Explode the Code for early phonics (levels A-C) and Wordly Wise for vocabulary (level C+). All-Subject bundles available at 20% discount. Diverse and modern literature selections. Note: Some users describe BookShark as feeling lightly Christian despite its secular label, possibly due to its Sonlight roots and book selections."
   },
   {
     "name": "Brave Writer",
@@ -962,7 +962,7 @@
       "individual",
       "co-op"
     ],
-    "notes": "Secular spin-off of Sonlight. NGSS-aligned since 2021 revision. Includes science kit, instructor's guide, and assorted topical books. DVD experiment demos for levels A-E. 36-week, 4-day schedule. Religiously neutral \u2014 encourages parent-led worldview discussions. Reusable across siblings (only consumables need replacing). Can be paired with BookShark History for a full secular package."
+    "notes": "Secular spin-off of Sonlight. NGSS-aligned since 2021 revision. Includes science kit, instructor's guide, and assorted topical books. DVD experiment demos for levels A-E. 36-week, 4-day schedule. Religiously neutral \u2014 encourages parent-led worldview discussions. Reusable across siblings (only consumables need replacing). Can be paired with BookShark History for a full secular package. Note: Some users describe BookShark as feeling lightly Christian despite its secular label, possibly due to its Sonlight roots."
   },
   {
     "name": "Story of the World",
@@ -1176,7 +1176,7 @@
       "individual",
       "co-op"
     ],
-    "notes": "Secular spin-off of Sonlight. Levels A-J (PreK through 10th grade). History & Literature integrated \u2014 students read ~50 books/year. Level F (Eastern history) is especially beloved. Religiously neutral \u2014 covers faith's historical role from multiple perspectives. 36-week, 4-day schedule with detailed instructor's guide. Includes read-alouds, independent readers, timeline and map resources. Reusable across siblings. Can pair with BookShark Science for full secular package. Virtual option available for online tracking."
+    "notes": "Secular spin-off of Sonlight. Levels A-J (PreK through 10th grade). History & Literature integrated \u2014 students read ~50 books/year. Level F (Eastern history) is especially beloved. Religiously neutral \u2014 covers faith's historical role from multiple perspectives. 36-week, 4-day schedule with detailed instructor's guide. Includes read-alouds, independent readers, timeline and map resources. Reusable across siblings. Can pair with BookShark Science for full secular package. Virtual option available for online tracking. Note: Some users describe BookShark as feeling lightly Christian despite its secular label, possibly due to its Sonlight roots and book selections."
   },
   {
     "name": "Sonlight History",
@@ -1330,7 +1330,7 @@
     "setting_fit": [
       "individual"
     ],
-    "notes": "Secular alternative to Sonlight. All-Subject Packages cover language arts, science, math, history, and geography. 4-day/36-week schedule. Students read ~50 books per year. Does not cover high school fully (ends around age 16/level J). Heavy reading load requires parent involvement for read-alouds. Books reusable for siblings."
+    "notes": "Secular alternative to Sonlight. All-Subject Packages cover language arts, science, math, history, and geography. 4-day/36-week schedule. Students read ~50 books per year. Does not cover high school fully (ends around age 16/level J). Heavy reading load requires parent involvement for read-alouds. Books reusable for siblings. Note: Some users describe BookShark as feeling lightly Christian despite its secular label, possibly due to its Sonlight roots and book selections \u2014 parents with strong secular preferences should review book lists carefully."
   },
   {
     "name": "Timberdoodle",
@@ -1690,5 +1690,69 @@
       "co-op"
     ],
     "notes": "Covers Pre-K through Level 5 (ages 4-14) plus individual Constellation Studies for older students. Does NOT include math or explicit reading/phonics instruction (after Pre-K) \u2014 families must supplement. PDF-only curriculum; books purchased separately or borrowed from library. Level Pre-K is $32; Levels K-2 are $40-42; Level 3 is $47; Level 4 is $47; Level 5 is $52 ($76 with art and finance bundle). 36 weeks of daily lessons per level. Strong emphasis on diverse literature and multicultural perspectives. Socratic-inspired discussion and inquiry-based learning throughout. Includes art, music, philosophy, game logic, and creative writing (NaNoWriMo novel project in Levels 4-5). Cathy Duffy Top 103 Pick. Explicitly secular humanist \u2014 addresses worldview topics from humanist perspective, not religiously neutral. Heavy reading load; significant parent involvement required for discussions and activities. Very affordable curriculum guide, but book costs can add $100-200 per level if not using library."
+  },
+  {
+    "name": "Curiosity Chronicles",
+    "publisher": "Curiosity Chronicles (Vivian Meyers)",
+    "description": "Secular, globally inclusive world history curriculum spanning Ancient through Modern history, written in an engaging dialogue-driven format between two child characters. Created by a homeschooling mother with a master's degree in Comparative Studies, it deliberately avoids a Eurocentric perspective and is designed with neurodivergent learners in mind.",
+    "subjects": [
+      "social_studies"
+    ],
+    "grade_range": "1\u20138",
+    "philosophy_scores": {
+      "montessori": 0.1,
+      "waldorf": 0.1,
+      "project_based": 0.5,
+      "place_nature": 0.1,
+      "classical": 0.3,
+      "charlotte_mason": 0.3,
+      "unschooling": 0.2,
+      "eclectic_flexible": 0.6
+    },
+    "prep_level": "light",
+    "religious_type": "secular",
+    "faith_depth": "none",
+    "price_range": "$39\u201389/volume (complete print kit ~$89)",
+    "quality_score": 0.85,
+    "affiliate_url": "https://curiositychronicles.com/",
+    "setting_fit": [
+      "individual",
+      "co-op",
+      "micro-school",
+      "public-school-enrichment"
+    ],
+    "notes": "Four volumes: Ancient (Gr 1\u20133), Medieval (Gr 2\u20135), Early Modern (Gr 3\u20136), Modern (Gr 4\u20138). Each volume available \u00e0 la carte (textbook, audio, timeline kit ~$39) or as complete print package (~$89) including hardcover text, instructor guide, student workbook, audiobook, and wall timeline. Also available as PDF. Minecraft building challenges are a signature feature (requires separate activity guide). Explicitly designed for neurodivergent learners \u2014 ADHD, dyslexia, and sensory sensitivities are accommodated in the core curriculum, not as afterthoughts. Dialogue-based narrative style may feel juvenile for students 10+ but is praised for accessibility. Teaches religion as historical context only, with no faith worldview. Widely considered the most genuinely non-Eurocentric homeschool history option available. Use code HOMEGRAD for 5% off."
+  },
+  {
+    "name": "Stories in History",
+    "publisher": "Stories in History",
+    "description": "Secular, literature-rich, hands-on social studies curriculum designed for homeschool families, emphasizing diverse perspectives and historical thinking. Each full-year course uses picture books and short chapter books as primary sources, paired with projects, maps, timelines, and activities \u2014 with very little prep required of parents.",
+    "subjects": [
+      "social_studies"
+    ],
+    "grade_range": "1\u20138",
+    "philosophy_scores": {
+      "montessori": 0.1,
+      "waldorf": 0.1,
+      "project_based": 0.6,
+      "place_nature": 0.1,
+      "classical": 0.1,
+      "charlotte_mason": 0.55,
+      "unschooling": 0.15,
+      "eclectic_flexible": 0.6
+    },
+    "prep_level": "open-and-go",
+    "religious_type": "secular",
+    "faith_depth": "none",
+    "price_range": "$69 digital / $99 printed per full-year course",
+    "quality_score": 0.78,
+    "affiliate_url": "https://storiesinhistory.org/",
+    "setting_fit": [
+      "individual",
+      "co-op",
+      "micro-school",
+      "public-school-enrichment"
+    ],
+    "notes": "Five full-year courses: My World My Story (Gr 1\u20132), Early American History (Gr 3\u20135), California History (Gr 4, CA standards-aligned), Modern American History (Gr 5\u20138, covers 1870\u20131968), and Ancient Civilizations (Gr 6, coming Spring 2026). Each course is 8 units, full color, available in digital ($69) or print ($99). Designed for family-style learning \u2014 multiple grade levels can participate together. Individual worksheets and activities also sold separately ($1.50\u20135). Charter funds and ESA funds accepted. Ancient Civilizations course has an optional supplementary Bible Reference Blog, but the main curriculum is secular. Created by a homeschool parent; newer and smaller publisher but with strong parent reviews. Particularly strong for US history and California history; global coverage is limited compared to world history-focused curricula."
   }
 ]

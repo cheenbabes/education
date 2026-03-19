@@ -134,6 +134,27 @@ PHILOSOPHIES = [
         ),
         "disclaimer": None,
     },
+    {
+        "name": "charlotte-mason",
+        "description": (
+            "A literature-rich approach centered on living books, narration, nature "
+            "study, and short focused lessons. Treats children as whole persons and "
+            "emphasizes habit formation, copywork, and a wide, generous curriculum "
+            "spanning arts, music, and humanities alongside academics."
+        ),
+        "disclaimer": None,
+    },
+    {
+        "name": "classical",
+        "description": (
+            "Structured, teacher-directed education rooted in the Trivium: Grammar "
+            "(foundational facts and memorization), Logic (analytical reasoning), and "
+            "Rhetoric (persuasive expression). Emphasizes Great Books, Latin, formal "
+            "composition, and the development of wisdom and virtue through a rigorous "
+            "liberal arts curriculum."
+        ),
+        "disclaimer": None,
+    },
 ]
 
 # Developmental milestones by age range and domain
