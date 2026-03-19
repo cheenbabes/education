@@ -159,15 +159,15 @@ export default function CurriculumMoon({
           document.body.style.cursor = "auto";
         }}
       >
-        <circleGeometry args={[1.8, 16]} />
+        <circleGeometry args={[0.25, 16]} />
         <meshBasicMaterial transparent opacity={0} depthWrite={false} />
       </mesh>
 
       {/* Name label on hover or when connected to focused philosophy */}
       {showLabel && (
         <Text
-          position={[0, -1.4, 0]}
-          fontSize={1.2}
+          position={[0, -0.28, 0]}
+          fontSize={0.16}
           color="#f1dfb4"
           anchorX="center"
           anchorY="top"
