@@ -5,6 +5,7 @@ import { useFrame } from "@react-three/fiber";
 import { Text } from "@react-three/drei";
 import * as THREE from "three";
 import { useExploreState } from "./useExploreState";
+import { PHILOSOPHY_POSITIONS } from "./positions";
 
 interface DetailDotProps {
   label: string;
@@ -105,9 +106,10 @@ export default function DetailNodes() {
     const philosophy = graphData.philosophies.find((p) => p.name === philName);
     if (!philosophy) return null;
 
-    // Compute philosophy position (same formula as PhilosophyStar)
-    const x = (philosophy.dimensions.structure / 100) * 12 - 6;
-    const y = (philosophy.dimensions.modality / 100) * -8 + 4;
+    // Use manual philosophy positions
+    const manualPos = PHILOSOPHY_POSITIONS[philName] || [0, 0];
+    const x = manualPos[0];
+    const y = manualPos[1];
 
     const principles = graphData.principles.filter(
       (p) => p.philosophyId === philName,

@@ -1,8 +1,9 @@
 "use client";
 
-import { useRef, useEffect, useCallback, useMemo } from "react";
+import { useRef, useEffect, useMemo } from "react";
 import { Canvas, useThree, useFrame } from "@react-three/fiber";
 import { EffectComposer, Bloom } from "@react-three/postprocessing";
+import { MapControls } from "@react-three/drei";
 import * as THREE from "three";
 import { GraphData } from "./types";
 import PhilosophyStar from "./PhilosophyStar";
@@ -15,69 +16,41 @@ import {
   FocusedNode,
   VisibleLayers,
 } from "./useExploreState";
-
-/** Subtle mouse-based parallax on the camera (only when not focused) */
-function CameraRig() {
-  const { camera } = useThree();
-  const mouse = useRef({ x: 0, y: 0 });
-
-  const handleMouseMove = useCallback((e: MouseEvent) => {
-    // Normalized -1 to 1
-    mouse.current.x = (e.clientX / window.innerWidth) * 2 - 1;
-    mouse.current.y = -(e.clientY / window.innerHeight) * 2 + 1;
-  }, []);
-
-  useEffect(() => {
-    window.addEventListener("mousemove", handleMouseMove);
-    return () => window.removeEventListener("mousemove", handleMouseMove);
-  }, [handleMouseMove]);
-
-  useFrame(() => {
-    // Only apply subtle parallax — CameraController handles focus animation
-    camera.position.x += (mouse.current.x * 0.1 - camera.position.x) * 0.02;
-    camera.position.y += (mouse.current.y * 0.1 - camera.position.y) * 0.02;
-  });
-
-  return null;
-}
+import { PHILOSOPHY_POSITIONS } from "./positions";
 
 /** Camera controller that animates toward focused node */
 function CameraController({
   focusedNode,
-  data,
 }: {
   focusedNode: FocusedNode | null;
-  data: GraphData;
 }) {
   const { camera } = useThree();
   const targetPos = useRef(new THREE.Vector3(0, 0, 10));
-  const targetZoom = useRef(1);
+  const targetZoom = useRef(45);
 
   // Compute target position based on focused node
   useEffect(() => {
     if (!focusedNode) {
       targetPos.current.set(0, 0, 10);
-      targetZoom.current = 1;
+      targetZoom.current = 45;
       return;
     }
 
     if (focusedNode.type === "philosophy") {
-      const phil = data.philosophies.find((p) => p.name === focusedNode.id);
-      if (phil) {
-        const x = (phil.dimensions.structure / 100) * 12 - 6;
-        const y = (phil.dimensions.modality / 100) * -8 + 4;
-        targetPos.current.set(x, y, 10);
-        targetZoom.current = 3;
+      const pos = PHILOSOPHY_POSITIONS[focusedNode.id];
+      if (pos) {
+        targetPos.current.set(pos[0], pos[1], 10);
+        targetZoom.current = 90;
       }
     }
-  }, [focusedNode, data]);
+  }, [focusedNode]);
 
   useFrame(() => {
-    // Lerp camera position toward target
+    if (!focusedNode) return; // let MapControls handle when no focus
+
     camera.position.x += (targetPos.current.x - camera.position.x) * 0.05;
     camera.position.y += (targetPos.current.y - camera.position.y) * 0.05;
 
-    // Lerp zoom
     const ortho = camera as THREE.OrthographicCamera;
     ortho.zoom += (targetZoom.current - ortho.zoom) * 0.05;
     ortho.updateProjectionMatrix();
@@ -151,13 +124,10 @@ export default function ExploreCanvas({
     <Canvas
       orthographic
       camera={{
-        zoom: 1,
+        zoom: 45,
         near: -100,
         far: 100,
-        left: -8,
-        right: 8,
-        top: 5,
-        bottom: -5,
+        position: [0, 0, 10],
       }}
       style={{ width: "100%", height: "100%" }}
       gl={{ antialias: true }}
@@ -165,8 +135,15 @@ export default function ExploreCanvas({
       {/* Re-provide context inside the R3F Canvas reconciler */}
       <ExploreContext.Provider value={contextValue}>
         <Background />
-        <CameraRig />
-        <CameraController focusedNode={focusedNode} data={data} />
+        <MapControls
+          enableRotate={false}
+          enableDamping
+          dampingFactor={0.1}
+          minZoom={0.3}
+          maxZoom={8}
+          mouseButtons={{ LEFT: THREE.MOUSE.PAN, MIDDLE: THREE.MOUSE.DOLLY, RIGHT: THREE.MOUSE.PAN }}
+        />
+        <CameraController focusedNode={focusedNode} />
         <EscapeListener setFocusedNode={setFocusedNode} />
 
         {/* Invisible background plane — click to clear focus */}
@@ -199,9 +176,10 @@ export default function ExploreCanvas({
 
         <EffectComposer>
           <Bloom
-            luminanceThreshold={0.2}
-            luminanceSmoothing={0.9}
-            intensity={1.5}
+            luminanceThreshold={0.1}
+            luminanceSmoothing={0.5}
+            intensity={2.5}
+            mipmapBlur
           />
         </EffectComposer>
       </ExploreContext.Provider>

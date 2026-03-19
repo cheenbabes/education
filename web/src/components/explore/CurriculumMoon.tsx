@@ -6,26 +6,7 @@ import { Text } from "@react-three/drei";
 import * as THREE from "three";
 import { CurriculumNode } from "./types";
 import { useExploreState } from "./useExploreState";
-
-const PHILOSOPHY_DIMENSIONS: Record<
-  string,
-  { structure: number; modality: number }
-> = {
-  classical: { structure: 85, modality: 80 },
-  charlotte_mason: { structure: 60, modality: 55 },
-  "charlotte-mason": { structure: 60, modality: 55 },
-  waldorf: { structure: 45, modality: 25 },
-  "waldorf-adjacent": { structure: 45, modality: 25 },
-  montessori: { structure: 35, modality: 30 },
-  "montessori-inspired": { structure: 35, modality: 30 },
-  project_based: { structure: 40, modality: 35 },
-  "project-based-learning": { structure: 40, modality: 35 },
-  place_nature: { structure: 30, modality: 15 },
-  "place-nature-based": { structure: 30, modality: 15 },
-  unschooling: { structure: 10, modality: 20 },
-  eclectic_flexible: { structure: 50, modality: 50 },
-  flexible: { structure: 50, modality: 50 },
-};
+import { PHILOSOPHY_POSITIONS } from "./positions";
 
 const PHILOSOPHY_COLORS: Record<string, string> = {
   "montessori-inspired": "#8B5CF6",
@@ -72,20 +53,22 @@ export default function CurriculumMoon({
 
   const { position, color, connectedPhilosophies } = useMemo(() => {
     const scores = curriculum.philosophyScores;
-    let weightedStructure = 0;
-    let weightedModality = 0;
+    let weightedX = 0;
+    let weightedY = 0;
     let totalWeight = 0;
     let maxScore = 0;
     let topPhil = "";
     const connected: string[] = [];
 
     for (const [phil, score] of Object.entries(scores)) {
-      const dims = PHILOSOPHY_DIMENSIONS[phil];
-      if (!dims || score <= 0) continue;
-      weightedStructure += score * dims.structure;
-      weightedModality += score * dims.modality;
+      if (score <= 0) continue;
+      const canonical = normalizePhilKey(phil);
+      const pos = PHILOSOPHY_POSITIONS[canonical];
+      if (!pos) continue;
+      weightedX += score * pos[0];
+      weightedY += score * pos[1];
       totalWeight += score;
-      connected.push(normalizePhilKey(phil));
+      connected.push(canonical);
       if (score > maxScore) {
         maxScore = score;
         topPhil = phil;
@@ -100,25 +83,28 @@ export default function CurriculumMoon({
       };
     }
 
-    const avgStructure = weightedStructure / totalWeight;
-    const avgModality = weightedModality / totalWeight;
+    const computedX = weightedX / totalWeight;
+    const computedY = weightedY / totalWeight;
 
-    const x = (avgStructure / 100) * 12 - 6;
-    const y = (avgModality / 100) * -8 + 4;
+    // Add deterministic jitter based on index to spread moons out
+    const jitterX = Math.sin(index * 7.13) * 1.2;
+    const jitterY = Math.cos(index * 5.37) * 0.8;
+    const x = computedX + jitterX;
+    const y = computedY + jitterY;
 
-    // Color: silver-white base blended 20% with top philosophy color
+    // Color: silver-white base blended 40% with top philosophy color
     const base = new THREE.Color("#c0c0d0");
     const philColor = new THREE.Color(
       PHILOSOPHY_COLORS[topPhil] || "#c0c0d0",
     );
-    base.lerp(philColor, 0.2);
+    base.lerp(philColor, 0.4);
 
     return {
       position: [x, y, 0] as [number, number, number],
       color: base,
       connectedPhilosophies: Array.from(new Set(connected)),
     };
-  }, [curriculum]);
+  }, [curriculum, index]);
 
   // Determine focus-related state
   const isConnectedToFocused =
@@ -188,7 +174,7 @@ export default function CurriculumMoon({
           document.body.style.cursor = "auto";
         }}
       >
-        <sphereGeometry args={[0.06, 16, 16]} />
+        <sphereGeometry args={[0.12, 16, 16]} />
         <meshBasicMaterial color={color} transparent opacity={0.8} />
       </mesh>
 

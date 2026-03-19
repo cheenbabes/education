@@ -6,6 +6,7 @@ import { Text } from "@react-three/drei";
 import * as THREE from "three";
 import { PhilosophyNode } from "./types";
 import { useExploreState } from "./useExploreState";
+import { PHILOSOPHY_POSITIONS } from "./positions";
 
 interface PhilosophyStarProps {
   philosophy: PhilosophyNode;
@@ -26,19 +27,20 @@ export default function PhilosophyStar({
   const otherFocused = focusedNode !== null && !isFocused;
 
   const { position, radius, phaseOffset, color, ringRadii } = useMemo(() => {
-    const x = (philosophy.dimensions.structure / 100) * 12 - 6;
-    const y = (philosophy.dimensions.modality / 100) * -8 + 4;
+    const manualPos = PHILOSOPHY_POSITIONS[philosophy.name] || [0, 0];
+    const x = manualPos[0];
+    const y = manualPos[1];
     const totalNodes =
       philosophy.principleCount +
       philosophy.activityCount +
       philosophy.materialCount;
-    const r = 0.15 + Math.log(totalNodes + 1) * 0.06;
+    const r = 0.4 + Math.log(totalNodes + 1) * 0.12;
     const phase = index * 1.37; // golden-angle-ish offset
     const c = new THREE.Color(philosophy.color);
 
     // Ring radii scale with total node count
-    const baseRing = r + 0.2;
-    const rings = [baseRing, baseRing + 0.15, baseRing + 0.3];
+    const baseRing = r + 0.4;
+    const rings = [baseRing, baseRing + 0.3, baseRing + 0.6];
 
     return {
       position: [x, y, 0] as [number, number, number],
@@ -88,7 +90,7 @@ export default function PhilosophyStar({
         const mesh = child as THREE.Mesh;
         const mat = mesh.material as THREE.MeshBasicMaterial;
         if (mat.transparent) {
-          const baseOpacity = 0.1 - idx * 0.025;
+          const baseOpacity = 0.15 - idx * 0.05;
           mat.opacity += (baseOpacity * targetOpacity - mat.opacity) * 0.08;
         }
       });
@@ -125,11 +127,11 @@ export default function PhilosophyStar({
       <group ref={ringsRef}>
         {ringRadii.map((ringR, i) => (
           <mesh key={i} rotation={[0, 0, i * 0.3]}>
-            <ringGeometry args={[ringR, ringR + 0.015, 64]} />
+            <ringGeometry args={[ringR, ringR + 0.02, 64]} />
             <meshBasicMaterial
               color={color}
               transparent
-              opacity={0.1 - i * 0.025}
+              opacity={0.15 - i * 0.05}
             />
           </mesh>
         ))}
@@ -137,8 +139,8 @@ export default function PhilosophyStar({
 
       {/* Label */}
       <Text
-        position={[0, -(radius + 0.2), 0]}
-        fontSize={0.15}
+        position={[0, -(radius + 0.3), 0]}
+        fontSize={0.25}
         color="white"
         anchorX="center"
         anchorY="top"

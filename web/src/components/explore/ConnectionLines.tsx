@@ -4,33 +4,7 @@ import { useMemo } from "react";
 import { Line } from "@react-three/drei";
 import { useExploreState } from "./useExploreState";
 import { CurriculumNode } from "./types";
-
-const PHILOSOPHY_DIMENSIONS: Record<
-  string,
-  { structure: number; modality: number }
-> = {
-  classical: { structure: 85, modality: 80 },
-  "charlotte-mason": { structure: 60, modality: 55 },
-  "waldorf-adjacent": { structure: 45, modality: 25 },
-  "montessori-inspired": { structure: 35, modality: 30 },
-  "project-based-learning": { structure: 40, modality: 35 },
-  "place-nature-based": { structure: 30, modality: 15 },
-  unschooling: { structure: 10, modality: 20 },
-  flexible: { structure: 50, modality: 50 },
-};
-
-const ALL_DIMENSIONS: Record<
-  string,
-  { structure: number; modality: number }
-> = {
-  ...PHILOSOPHY_DIMENSIONS,
-  charlotte_mason: { structure: 60, modality: 55 },
-  waldorf: { structure: 45, modality: 25 },
-  montessori: { structure: 35, modality: 30 },
-  project_based: { structure: 40, modality: 35 },
-  place_nature: { structure: 30, modality: 15 },
-  eclectic_flexible: { structure: 50, modality: 50 },
-};
+import { PHILOSOPHY_POSITIONS } from "./positions";
 
 /** Normalize philosophy key variants to canonical form */
 function normalizePhilKey(key: string): string {
@@ -48,27 +22,31 @@ function normalizePhilKey(key: string): string {
 /** Compute curriculum position (same formula as CurriculumMoon) */
 function getCurriculumPosition(
   curriculum: CurriculumNode,
+  index: number,
 ): [number, number, number] {
-  let weightedStructure = 0;
-  let weightedModality = 0;
+  let weightedX = 0;
+  let weightedY = 0;
   let totalWeight = 0;
 
   for (const [phil, score] of Object.entries(curriculum.philosophyScores)) {
-    const dims = ALL_DIMENSIONS[phil];
-    if (!dims || score <= 0) continue;
-    weightedStructure += score * dims.structure;
-    weightedModality += score * dims.modality;
+    if (score <= 0) continue;
+    const canonical = normalizePhilKey(phil);
+    const pos = PHILOSOPHY_POSITIONS[canonical];
+    if (!pos) continue;
+    weightedX += score * pos[0];
+    weightedY += score * pos[1];
     totalWeight += score;
   }
 
   if (totalWeight === 0) return [0, 0, 0];
 
-  const avgStructure = weightedStructure / totalWeight;
-  const avgModality = weightedModality / totalWeight;
+  const computedX = weightedX / totalWeight;
+  const computedY = weightedY / totalWeight;
 
-  const x = (avgStructure / 100) * 12 - 6;
-  const y = (avgModality / 100) * -8 + 4;
-  return [x, y, 0];
+  // Add deterministic jitter (same as CurriculumMoon)
+  const jitterX = Math.sin(index * 7.13) * 1.2;
+  const jitterY = Math.cos(index * 5.37) * 0.8;
+  return [computedX + jitterX, computedY + jitterY, 0];
 }
 
 export default function ConnectionLines() {
@@ -82,10 +60,9 @@ export default function ConnectionLines() {
     );
     if (!philosophy) return [];
 
-    // Philosophy position (same formula as PhilosophyStar)
-    const px = (philosophy.dimensions.structure / 100) * 12 - 6;
-    const py = (philosophy.dimensions.modality / 100) * -8 + 4;
-    const philPos: [number, number, number] = [px, py, 0];
+    // Philosophy position from manual positions
+    const manualPos = PHILOSOPHY_POSITIONS[philosophy.name] || [0, 0];
+    const philPos: [number, number, number] = [manualPos[0], manualPos[1], 0];
 
     // Find all curricula connected to this philosophy
     const result: {
@@ -94,7 +71,8 @@ export default function ConnectionLines() {
       color: string;
     }[] = [];
 
-    for (const c of graphData.curricula) {
+    for (let i = 0; i < graphData.curricula.length; i++) {
+      const c = graphData.curricula[i];
       let isConnected = false;
       for (const [key, score] of Object.entries(c.philosophyScores)) {
         if (normalizePhilKey(key) === focusedNode.id && score > 0) {
@@ -104,7 +82,7 @@ export default function ConnectionLines() {
       }
 
       if (isConnected) {
-        const cPos = getCurriculumPosition(c);
+        const cPos = getCurriculumPosition(c, i);
         result.push({
           key: c.id,
           points: [philPos, cPos],
