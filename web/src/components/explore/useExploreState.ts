@@ -4,8 +4,9 @@ import { createContext, useContext } from "react";
 import { GraphData } from "./types";
 
 export interface FocusedNode {
-  type: "philosophy" | "curriculum";
+  type: "philosophy" | "curriculum" | "principle" | "activity" | "material";
   id: string;
+  philosophyId?: string;
 }
 
 export interface VisibleLayers {

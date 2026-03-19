@@ -1,9 +1,11 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import dynamic from "next/dynamic";
 import { GraphData } from "@/components/explore/types";
 import {
+  ExploreContext,
+  ExploreState,
   FocusedNode,
   VisibleLayers,
   DEFAULT_VISIBLE_LAYERS,
@@ -26,6 +28,21 @@ export default function ExplorePage() {
   );
   const [searchTerm, setSearchTerm] = useState("");
   const zoomRef = useRef<{ zoomIn: () => void; zoomOut: () => void }>({ zoomIn: () => {}, zoomOut: () => {} });
+  const contextValue = useMemo<ExploreState | null>(
+    () =>
+      data
+        ? {
+            focusedNode,
+            setFocusedNode,
+            graphData: data,
+            visibleLayers,
+            setVisibleLayers,
+            searchTerm,
+            setSearchTerm,
+          }
+        : null,
+    [focusedNode, data, visibleLayers, searchTerm],
+  );
 
   useEffect(() => {
     fetch("/api/explore/graph")
@@ -117,34 +134,84 @@ export default function ExplorePage() {
   }
 
   return (
-    <div className="w-screen h-screen bg-[#0a0a0f] overflow-hidden">
-      {/* 3D Canvas — receives state as props and re-provides context inside R3F reconciler */}
-      <ExploreCanvas
-        data={data}
-        focusedNode={focusedNode}
-        setFocusedNode={setFocusedNode}
-        visibleLayers={visibleLayers}
-        setVisibleLayers={setVisibleLayers}
-        searchTerm={searchTerm}
-        setSearchTerm={setSearchTerm}
-        zoomRef={zoomRef}
-      />
+    <ExploreContext.Provider value={contextValue}>
+      <div className="w-screen h-screen bg-[#060610] overflow-hidden relative">
+        {/* Watercolor night wash overlays */}
+        <div
+          data-testid="watercolor-bg"
+          className="pointer-events-none absolute inset-0 z-0 opacity-[0.92] bg-cover bg-center"
+          style={{ backgroundImage: "url('/explore/watercolor-bg-teal.png')" }}
+        />
+        <div className="pointer-events-none absolute inset-0 z-0 opacity-45 bg-[url('/explore/watercolor-grain.svg')] bg-cover bg-center mix-blend-soft-light" />
+        <div className="pointer-events-none absolute inset-0 z-0 opacity-38 mix-blend-screen bg-[radial-gradient(ellipse_at_18%_22%,rgba(62,126,177,0.48),transparent_52%),radial-gradient(ellipse_at_76%_72%,rgba(42,95,145,0.38),transparent_58%)]" />
+        <div className="pointer-events-none absolute inset-0 z-0 opacity-50 bg-[radial-gradient(circle_at_50%_50%,transparent_42%,rgba(2,3,12,0.62)_100%)]" />
+        <svg
+          className="pointer-events-none absolute inset-0 z-0 opacity-35"
+          viewBox="0 0 1600 1000"
+          preserveAspectRatio="none"
+          aria-hidden
+        >
+          <g fill="none" stroke="#d4af37" strokeLinecap="round" strokeLinejoin="round">
+            <ellipse cx="800" cy="500" rx="730" ry="440" strokeWidth="0.9" opacity="0.2" />
+            <ellipse cx="800" cy="500" rx="645" ry="380" strokeWidth="0.6" opacity="0.14" />
+            <ellipse cx="800" cy="500" rx="545" ry="320" strokeWidth="0.45" opacity="0.12" />
+            <path d="M110,500 C360,420 520,330 800,330 C1080,330 1240,420 1490,500" strokeWidth="0.55" opacity="0.16" />
+            <path d="M110,500 C360,580 520,670 800,670 C1080,670 1240,580 1490,500" strokeWidth="0.55" opacity="0.16" />
+            <path d="M800,70 C750,260 740,380 740,500 C740,620 750,740 800,930" strokeWidth="0.45" opacity="0.12" />
+            <path d="M800,70 C850,260 860,380 860,500 C860,620 850,740 800,930" strokeWidth="0.45" opacity="0.12" />
+            <path d="M250,140 C560,250 1040,250 1350,140" strokeWidth="0.45" opacity="0.11" strokeDasharray="2 8" />
+            <path d="M250,860 C560,750 1040,750 1350,860" strokeWidth="0.45" opacity="0.11" strokeDasharray="2 8" />
+          </g>
+        </svg>
 
-      {/* DOM overlays */}
-      <InfoPanel
-        focusedNode={focusedNode}
-        data={data}
-        onClose={handleClosePanel}
-      />
-      <ControlBar
-        visibleLayers={visibleLayers}
-        onToggleLayer={handleToggleLayer}
-        searchTerm={searchTerm}
-        onSearchChange={setSearchTerm}
-        onSearchSubmit={handleSearchSubmit}
-        onZoomIn={() => zoomRef.current.zoomIn()}
-        onZoomOut={() => zoomRef.current.zoomOut()}
-      />
-    </div>
+        {/* 3D Canvas — receives state as props and re-provides context inside R3F reconciler */}
+        <ExploreCanvas
+          data={data}
+          focusedNode={focusedNode}
+          setFocusedNode={setFocusedNode}
+          visibleLayers={visibleLayers}
+          setVisibleLayers={setVisibleLayers}
+          searchTerm={searchTerm}
+          setSearchTerm={setSearchTerm}
+          zoomRef={zoomRef}
+        />
+
+        {data.dataIntegrity?.missingPhilosophies?.length ? (
+          <div className="fixed top-4 left-1/2 -translate-x-1/2 z-50 px-3 py-1.5 text-[11px] tracking-[0.14em] uppercase text-[#d4af37]/80 bg-black/40 border border-[#d4af37]/30 rounded-full backdrop-blur-md">
+            Data gap: missing {data.dataIntegrity.missingPhilosophies.length} philosophy
+            {data.dataIntegrity.missingPhilosophies.length > 1 ? " entries" : " entry"} in KG
+          </div>
+        ) : null}
+
+        <div className="fixed left-3 bottom-14 z-40 text-[10px] text-[#d4af37]/55 tracking-[0.06em] uppercase pointer-events-auto">
+          Constellation lines data:
+          {" "}
+          <a
+            href="https://zenodo.org/doi/10.5281/zenodo.10397192"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline decoration-[#d4af37]/35 hover:text-[#d4af37]/85"
+          >
+            ConstellationLines (CC BY 4.0)
+          </a>
+        </div>
+
+        {/* DOM overlays */}
+        <InfoPanel
+          focusedNode={focusedNode}
+          data={data}
+          onClose={handleClosePanel}
+        />
+        <ControlBar
+          visibleLayers={visibleLayers}
+          onToggleLayer={handleToggleLayer}
+          searchTerm={searchTerm}
+          onSearchChange={setSearchTerm}
+          onSearchSubmit={handleSearchSubmit}
+          onZoomIn={() => zoomRef.current.zoomIn()}
+          onZoomOut={() => zoomRef.current.zoomOut()}
+        />
+      </div>
+    </ExploreContext.Provider>
   );
 }

@@ -52,4 +52,7 @@ export interface GraphData {
   principles: PrincipleNode[];
   activities: ActivityNode[];
   materials: MaterialNode[];
+  dataIntegrity?: {
+    missingPhilosophies: string[];
+  };
 }

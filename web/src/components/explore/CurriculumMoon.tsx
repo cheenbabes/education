@@ -2,41 +2,23 @@
 
 import { useRef, useMemo, useState } from "react";
 import { useFrame } from "@react-three/fiber";
-import { Text } from "@react-three/drei";
+import { Line, Text } from "@react-three/drei";
 import * as THREE from "three";
 import { CurriculumNode } from "./types";
 import { useExploreState } from "./useExploreState";
-import { PHILOSOPHY_POSITIONS } from "./positions";
+import { getCurriculumPlacement } from "./positions";
+import { GLYPH_SIZES } from "./glyphs";
 
 const PHILOSOPHY_COLORS: Record<string, string> = {
   "montessori-inspired": "#8B5CF6",
-  montessori: "#8B5CF6",
   "waldorf-adjacent": "#F59E0B",
-  waldorf: "#F59E0B",
   "project-based-learning": "#3B82F6",
-  project_based: "#3B82F6",
   "place-nature-based": "#10B981",
-  place_nature: "#10B981",
   classical: "#6366F1",
   "charlotte-mason": "#EC4899",
-  charlotte_mason: "#EC4899",
   unschooling: "#F97316",
   flexible: "#6B7280",
-  eclectic_flexible: "#6B7280",
 };
-
-/** Normalize philosophy key variants to canonical form */
-function normalizePhilKey(key: string): string {
-  const map: Record<string, string> = {
-    charlotte_mason: "charlotte-mason",
-    waldorf: "waldorf-adjacent",
-    montessori: "montessori-inspired",
-    project_based: "project-based-learning",
-    place_nature: "place-nature-based",
-    eclectic_flexible: "flexible",
-  };
-  return map[key] || key;
-}
 
 interface CurriculumMoonProps {
   curriculum: CurriculumNode;
@@ -47,72 +29,57 @@ export default function CurriculumMoon({
   curriculum,
   index,
 }: CurriculumMoonProps) {
-  const meshRef = useRef<THREE.Mesh>(null);
+  const nodeRef = useRef<THREE.Group>(null);
+  const glyphRef = useRef<THREE.Group>(null);
   const [hovered, setHovered] = useState(false);
-  const { focusedNode, setFocusedNode, searchTerm } = useExploreState();
+  const { focusedNode, setFocusedNode, searchTerm, graphData } = useExploreState();
+  const placement = useMemo(
+    () => getCurriculumPlacement(curriculum.philosophyScores, index),
+    [curriculum.philosophyScores, index],
+  );
 
-  const { position, color, connectedPhilosophies } = useMemo(() => {
-    const scores = curriculum.philosophyScores;
-    let weightedX = 0;
-    let weightedY = 0;
-    let totalWeight = 0;
-    let maxScore = 0;
-    let topPhil = "";
-    const connected: string[] = [];
-
-    for (const [phil, score] of Object.entries(scores)) {
-      if (score <= 0) continue;
-      const canonical = normalizePhilKey(phil);
-      const pos = PHILOSOPHY_POSITIONS[canonical];
-      if (!pos) continue;
-      weightedX += score * pos[0];
-      weightedY += score * pos[1];
-      totalWeight += score;
-      connected.push(canonical);
-      if (score > maxScore) {
-        maxScore = score;
-        topPhil = phil;
-      }
-    }
-
-    if (totalWeight === 0) {
-      return {
-        position: [0, 0, 0] as [number, number, number],
-        color: new THREE.Color("#c0c0d0"),
-        connectedPhilosophies: [] as string[],
-      };
-    }
-
-    const computedX = weightedX / totalWeight;
-    const computedY = weightedY / totalWeight;
-
-    // Add deterministic jitter based on index to spread moons widely
-    const jitterX = Math.sin(index * 7.13) * 2.8;
-    const jitterY = Math.cos(index * 5.37) * 2.0;
-    const x = computedX + jitterX;
-    const y = computedY + jitterY;
-
-    // Color: silver-white base blended 40% with top philosophy color
-    const base = new THREE.Color("#c0c0d0");
+  const { position, color, connectedPhilosophies, rayCount, innerRadius, outerRadius } = useMemo(() => {
+    // Color: warm ivory blended slightly with top philosophy accent.
+    const base = new THREE.Color("#e7d8b5");
     const philColor = new THREE.Color(
-      PHILOSOPHY_COLORS[topPhil] || "#c0c0d0",
+      PHILOSOPHY_COLORS[placement.topPhilosophy || ""] || "#c0c0d0",
     );
-    base.lerp(philColor, 0.4);
+    base.lerp(philColor, 0.16);
+    const hashSeed = curriculum.id
+      .split("")
+      .reduce((acc, ch) => acc + ch.charCodeAt(0), 0);
+    const rays = 6 + (hashSeed % 3); // 6-8 rays for subtle categorical variety
 
     return {
-      position: [x, y, 0] as [number, number, number],
+      position: placement.position,
       color: base,
-      connectedPhilosophies: Array.from(new Set(connected)),
+      connectedPhilosophies: placement.connectedPhilosophies,
+      rayCount: rays,
+      innerRadius: 0.1 + (hashSeed % 2) * 0.015,
+      outerRadius: 0.28 + (hashSeed % 3) * 0.014,
     };
-  }, [curriculum, index]);
+  }, [placement, curriculum.id]);
 
-  // Determine focus-related state
+  const isCurriculumFocused = focusedNode?.type === "curriculum" && focusedNode.id === curriculum.id;
+  const detailFocusPhilosophy = useMemo(() => {
+    if (focusedNode?.type === "principle") {
+      return graphData.principles.find((p) => p.id === focusedNode.id)?.philosophyId ?? null;
+    }
+    if (focusedNode?.type === "activity") {
+      return graphData.activities.find((a) => a.id === focusedNode.id)?.philosophyId ?? null;
+    }
+    if (focusedNode?.type === "material") {
+      return graphData.materials.find((m) => m.id === focusedNode.id)?.philosophyId ?? null;
+    }
+    return null;
+  }, [focusedNode, graphData]);
+
   const isConnectedToFocused =
-    focusedNode?.type === "philosophy" &&
-    connectedPhilosophies.includes(focusedNode.id);
+    (focusedNode?.type === "philosophy" && connectedPhilosophies.includes(focusedNode.id)) ||
+    (!!detailFocusPhilosophy && connectedPhilosophies.includes(detailFocusPhilosophy));
   const someNodeFocused = focusedNode !== null;
-  const shouldFade = someNodeFocused && !isConnectedToFocused;
-  const shouldHighlight = isConnectedToFocused;
+  const shouldHighlight = isCurriculumFocused || isConnectedToFocused;
+  const shouldFade = someNodeFocused && !shouldHighlight;
 
   // Search match
   const matchesSearch = useMemo(() => {
@@ -128,38 +95,82 @@ export default function CurriculumMoon({
   const showLabel = hovered || shouldHighlight || (!!searchTerm && matchesSearch);
 
   // Target opacity
-  const targetOpacity = !matchesSearch ? 0.08 : shouldFade ? 0.1 : 0.8;
+  const targetOpacity = !matchesSearch ? 0.1 : shouldFade ? 0.26 : isCurriculumFocused ? 0.98 : 0.9;
   // Target scale: grow slightly when connected to focused
-  const targetScale = shouldHighlight ? 1.4 : 1;
+  const targetScale = isCurriculumFocused ? 1.55 : shouldHighlight ? 1.35 : 1;
+  const lineOpacity = !matchesSearch ? 0.12 : shouldFade ? 0.28 : isCurriculumFocused ? 0.98 : 0.86;
+  const haloOpacity = !matchesSearch ? 0.06 : shouldFade ? 0.16 : isCurriculumFocused ? 0.3 : 0.2;
 
   // Phase offset for orbit drift
   const phaseOffset = useMemo(() => index * 2.17, [index]);
 
   useFrame(({ clock }) => {
-    if (meshRef.current) {
-      // Subtle slow orbit drift
+    if (nodeRef.current) {
+      // Subtle slow orbit drift.
       const t = clock.elapsedTime;
-      meshRef.current.position.x =
-        position[0] + Math.sin(t * 0.3 + phaseOffset) * 0.05;
-      meshRef.current.position.y =
-        position[1] + Math.cos(t * 0.25 + phaseOffset * 1.3) * 0.05;
-
-      // Lerp opacity
-      const mat = meshRef.current.material as THREE.MeshBasicMaterial;
-      mat.opacity += (targetOpacity - mat.opacity) * 0.08;
-
-      // Lerp scale
-      const s = meshRef.current.scale.x;
-      const newScale = s + (targetScale - s) * 0.08;
-      meshRef.current.scale.setScalar(newScale);
+      nodeRef.current.position.x = position[0] + Math.sin(t * 0.3 + phaseOffset) * 0.035;
+      nodeRef.current.position.y = position[1] + Math.cos(t * 0.25 + phaseOffset * 1.3) * 0.035;
+    }
+    if (glyphRef.current) {
+      const target = GLYPH_SIZES.curriculumBase * targetScale;
+      const current = glyphRef.current.scale.x;
+      const next = current + (target - current) * 0.08;
+      glyphRef.current.scale.set(next, next, 1);
     }
   });
 
   return (
-    <group>
+    <group ref={nodeRef} position={position}>
+      <group ref={glyphRef} scale={[GLYPH_SIZES.curriculumBase, GLYPH_SIZES.curriculumBase, 1]}>
+        <mesh position={[0, 0, 0.01]}>
+          <circleGeometry args={[outerRadius * 1.2, 40]} />
+          <meshBasicMaterial
+            color={color}
+            transparent
+            opacity={haloOpacity}
+            depthWrite={false}
+            toneMapped={false}
+          />
+        </mesh>
+        {Array.from({ length: rayCount }).map((_, i) => {
+          const angle = (i / rayCount) * Math.PI * 2;
+          const jitter = Math.sin(phaseOffset + i * 0.77) * 0.015;
+          const start: [number, number, number] = [
+            Math.cos(angle) * (innerRadius + jitter),
+            Math.sin(angle) * (innerRadius + jitter),
+            0.03,
+          ];
+          const end: [number, number, number] = [
+            Math.cos(angle) * (outerRadius + jitter),
+            Math.sin(angle) * (outerRadius + jitter),
+            0.03,
+          ];
+          return (
+            <Line
+              key={`ray-${i}`}
+              points={[start, end]}
+              color={color}
+              lineWidth={1.15}
+              transparent
+              opacity={lineOpacity}
+              depthWrite={false}
+              toneMapped={false}
+            />
+          );
+        })}
+        <mesh position={[0, 0, 0.04]}>
+          <circleGeometry args={[innerRadius * 0.62, 24]} />
+          <meshBasicMaterial
+            color="#f2e4c2"
+            transparent
+            opacity={targetOpacity}
+            depthWrite={false}
+            toneMapped={false}
+          />
+        </mesh>
+      </group>
+
       <mesh
-        ref={meshRef}
-        position={position}
         onClick={(e) => {
           e.stopPropagation();
           setFocusedNode({ type: "curriculum", id: curriculum.id });
@@ -174,19 +185,23 @@ export default function CurriculumMoon({
           document.body.style.cursor = "auto";
         }}
       >
-        <circleGeometry args={[0.08, 8]} />
-        <meshBasicMaterial color={color} transparent opacity={0.8} />
+        <circleGeometry args={[0.39, 16]} />
+        <meshBasicMaterial transparent opacity={0} depthWrite={false} />
       </mesh>
 
       {/* Name label on hover or when connected to focused philosophy */}
       {showLabel && (
         <Text
-          position={[position[0], position[1] - 0.12, 0]}
-          fontSize={0.08}
-          color="white"
+          position={[0, -0.21, 0]}
+          fontSize={0.104}
+          color="#f1dfb4"
           anchorX="center"
           anchorY="top"
-          fillOpacity={0.9}
+          fillOpacity={shouldFade ? 0.56 : 0.93}
+          letterSpacing={0.042}
+          outlineWidth={0.018}
+          outlineColor="#1d1710"
+          font="/fonts/CormorantSC-SemiBold.ttf"
         >
           {curriculum.name}
         </Text>

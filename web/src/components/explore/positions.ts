@@ -13,6 +13,8 @@ export const PHILOSOPHY_POSITIONS: Record<string, [number, number]> = {
   "flexible":               [ 0,    0.5],   // center (eclectic blend)
 };
 
+export const CANONICAL_PHILOSOPHIES = Object.keys(PHILOSOPHY_POSITIONS);
+
 /** Display names with clean formatting */
 export const PHILOSOPHY_DISPLAY_NAMES: Record<string, string> = {
   "classical":              "CLASSICAL",
@@ -48,3 +50,83 @@ export const CONSTELLATION_EDGES: [string, string][] = [
   ["waldorf-adjacent", "place-nature-based"],  // outdoor emphasis
   ["unschooling", "project-based-learning"],   // child-driven inquiry
 ];
+
+/** Normalize curriculum score keys to canonical philosophy IDs. */
+export function normalizePhilosophyKey(key: string): string {
+  const normalized = key.trim().toLowerCase();
+  const map: Record<string, string> = {
+    charlotte_mason: "charlotte-mason",
+    waldorf: "waldorf-adjacent",
+    montessori: "montessori-inspired",
+    project_based: "project-based-learning",
+    place_nature: "place-nature-based",
+    eclectic_flexible: "flexible",
+  };
+
+  return map[normalized] || normalized.replace(/_/g, "-");
+}
+
+/**
+ * Deterministic curriculum placement so moons/lines/camera always agree.
+ * Returns position + connected philosophy IDs + top philosophy.
+ */
+export function getCurriculumPlacement(
+  philosophyScores: Record<string, number>,
+  index: number,
+): {
+  position: [number, number, number];
+  connectedPhilosophies: string[];
+  topPhilosophy: string | null;
+} {
+  let weightedX = 0;
+  let weightedY = 0;
+  let totalWeight = 0;
+  let topPhilosophy: string | null = null;
+  let topScore = -Infinity;
+  const connected: string[] = [];
+
+  for (const [rawKey, rawValue] of Object.entries(philosophyScores || {})) {
+    const score = Number(rawValue);
+    if (!Number.isFinite(score) || score <= 0) continue;
+
+    const key = normalizePhilosophyKey(rawKey);
+    const pos = PHILOSOPHY_POSITIONS[key];
+    if (!pos) continue;
+
+    weightedX += score * pos[0];
+    weightedY += score * pos[1];
+    totalWeight += score;
+    connected.push(key);
+
+    if (score > topScore) {
+      topScore = score;
+      topPhilosophy = key;
+    }
+  }
+
+  if (totalWeight <= 0) {
+    return {
+      position: [0, 0, 0],
+      connectedPhilosophies: [],
+      topPhilosophy: null,
+    };
+  }
+
+  const centerX = weightedX / totalWeight;
+  const centerY = weightedY / totalWeight;
+
+  // Broader deterministic spread to avoid curriculum clustering.
+  const goldenAngle = 2.399963229728653;
+  const theta = index * goldenAngle;
+  const spiralRadius = 1.6 + Math.sqrt(index + 1) * 0.42;
+  const spiralX = Math.cos(theta) * spiralRadius;
+  const spiralY = Math.sin(theta) * spiralRadius * 0.82;
+  const jitterX = Math.sin(index * 7.13) * 0.55;
+  const jitterY = Math.cos(index * 5.37) * 0.42;
+
+  return {
+    position: [centerX + spiralX + jitterX, centerY + spiralY + jitterY, 0],
+    connectedPhilosophies: Array.from(new Set(connected)),
+    topPhilosophy,
+  };
+}

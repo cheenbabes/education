@@ -1,10 +1,11 @@
 "use client";
 
 import { useRef, useEffect, useMemo, MutableRefObject } from "react";
-import { Canvas, useThree, useFrame } from "@react-three/fiber";
-import { MapControls, Line } from "@react-three/drei";
+import { Canvas, useThree } from "@react-three/fiber";
+import { OrbitControls, Line } from "@react-three/drei";
 import { AdditiveBlending } from "three";
 import * as THREE from "three";
+import type { OrbitControls as OrbitControlsImpl } from "three-stdlib";
 import { GraphData } from "./types";
 import PhilosophyStar from "./PhilosophyStar";
 import CurriculumMoon from "./CurriculumMoon";
@@ -16,12 +17,22 @@ import {
   FocusedNode,
   VisibleLayers,
 } from "./useExploreState";
-import { PHILOSOPHY_POSITIONS, CONSTELLATION_EDGES } from "./positions";
+import {
+  PHILOSOPHY_POSITIONS,
+  CONSTELLATION_EDGES,
+} from "./positions";
 
 /** Constellation lines between philosophies — bezier curves in gold like a star atlas */
-function ConstellationLines() {
+function ConstellationLines({
+  philosophyNames,
+  focusActive,
+}: {
+  philosophyNames: Set<string>;
+  focusActive: boolean;
+}) {
   const lines = useMemo(() => {
     return CONSTELLATION_EDGES.map(([a, b]) => {
+      if (!philosophyNames.has(a) || !philosophyNames.has(b)) return null;
       const posA = PHILOSOPHY_POSITIONS[a];
       const posB = PHILOSOPHY_POSITIONS[b];
       if (!posA || !posB) return null;
@@ -47,7 +58,7 @@ function ConstellationLines() {
 
       return { points, key: `${a}-${b}` };
     }).filter(Boolean) as { points: THREE.Vector3[]; key: string }[];
-  }, []);
+  }, [philosophyNames]);
 
   return (
     <group>
@@ -56,9 +67,89 @@ function ConstellationLines() {
           key={line.key}
           points={line.points}
           color="#d4af37"
-          lineWidth={0.5}
+          lineWidth={0.8}
           transparent
-          opacity={0.15}
+          opacity={focusActive ? 0.09 : 0.24}
+        />
+      ))}
+    </group>
+  );
+}
+
+/** Decorative atlas guide rings/meridians to evoke antique celestial maps. */
+function AtlasGuides() {
+  const { rings, meridians, ticks } = useMemo(() => {
+    const makeRing = (radiusX: number, radiusY: number, z: number, steps: number) => {
+      const pts: THREE.Vector3[] = [];
+      for (let i = 0; i <= steps; i++) {
+        const t = (i / steps) * Math.PI * 2;
+        pts.push(new THREE.Vector3(Math.cos(t) * radiusX, Math.sin(t) * radiusY, z));
+      }
+      return pts;
+    };
+
+    const ringDefs = [
+      makeRing(13.5, 9.2, -0.35, 110),
+      makeRing(10.8, 7.4, -0.35, 110),
+      makeRing(7.2, 4.9, -0.35, 110),
+    ];
+    const meridianDefs = [
+      [
+        new THREE.Vector3(-12.4, 0, -0.34),
+        new THREE.Vector3(-4.8, 4.5, -0.34),
+        new THREE.Vector3(4.9, 4.5, -0.34),
+        new THREE.Vector3(12.4, 0, -0.34),
+      ],
+      [
+        new THREE.Vector3(-12.4, 0, -0.34),
+        new THREE.Vector3(-4.8, -4.5, -0.34),
+        new THREE.Vector3(4.9, -4.5, -0.34),
+        new THREE.Vector3(12.4, 0, -0.34),
+      ],
+    ];
+    const tickDefs: [THREE.Vector3, THREE.Vector3][] = [];
+    const stepCount = 28;
+    for (let i = 0; i < stepCount; i += 1) {
+      const t = (i / stepCount) * Math.PI * 2;
+      const cos = Math.cos(t);
+      const sin = Math.sin(t);
+      const outer = new THREE.Vector3(cos * 13.6, sin * 9.3, -0.34);
+      const inner = new THREE.Vector3(cos * 13.28, sin * 9.05, -0.34);
+      tickDefs.push([inner, outer]);
+    }
+    return { rings: ringDefs, meridians: meridianDefs, ticks: tickDefs };
+  }, []);
+
+  return (
+    <group rotation={[0, 0, -0.13]}>
+      {rings.map((points, i) => (
+        <Line
+          key={`guide-${i}`}
+          points={points}
+          color="#d4af37"
+          transparent
+          opacity={i === 0 ? 0.09 : 0.05}
+          lineWidth={i === 0 ? 0.55 : 0.3}
+        />
+      ))}
+      {meridians.map((points, i) => (
+        <Line
+          key={`meridian-${i}`}
+          points={points}
+          color="#d4af37"
+          transparent
+          opacity={0.08}
+          lineWidth={0.34}
+        />
+      ))}
+      {ticks.map(([a, b], i) => (
+        <Line
+          key={`tick-${i}`}
+          points={[a, b]}
+          color="#d4af37"
+          transparent
+          opacity={0.17}
+          lineWidth={0.3}
         />
       ))}
     </group>
@@ -68,8 +159,8 @@ function ConstellationLines() {
 /** Faint background star dust — tiny random points for atmosphere */
 function StarDust() {
   const points = useMemo(() => {
-    const positions = new Float32Array(600 * 3);
-    for (let i = 0; i < 600; i++) {
+    const positions = new Float32Array(1200 * 3);
+    for (let i = 0; i < 1200; i++) {
       positions[i * 3] = (Math.random() - 0.5) * 35;
       positions[i * 3 + 1] = (Math.random() - 0.5) * 25;
       positions[i * 3 + 2] = -0.5;
@@ -83,54 +174,21 @@ function StarDust() {
         <bufferAttribute
           attach="attributes-position"
           array={points}
-          count={600}
+          count={1200}
           itemSize={3}
         />
       </bufferGeometry>
       <pointsMaterial
         color="#d4af37"
-        size={0.03}
+        size={0.035}
         transparent
-        opacity={0.15}
+        opacity={0.24}
         blending={AdditiveBlending}
         depthWrite={false}
         sizeAttenuation
       />
     </points>
   );
-}
-
-/** Camera controller that animates toward focused node */
-function CameraController({ focusedNode }: { focusedNode: FocusedNode | null }) {
-  const { camera } = useThree();
-  const targetPos = useRef(new THREE.Vector3(0, 0, 10));
-  const targetZoom = useRef(45);
-
-  useEffect(() => {
-    if (!focusedNode) {
-      targetPos.current.set(0, 0, 10);
-      targetZoom.current = 45;
-      return;
-    }
-    if (focusedNode.type === "philosophy") {
-      const pos = PHILOSOPHY_POSITIONS[focusedNode.id];
-      if (pos) {
-        targetPos.current.set(pos[0], pos[1], 10);
-        targetZoom.current = 80;
-      }
-    }
-  }, [focusedNode]);
-
-  useFrame(() => {
-    if (!focusedNode) return;
-    camera.position.x += (targetPos.current.x - camera.position.x) * 0.05;
-    camera.position.y += (targetPos.current.y - camera.position.y) * 0.05;
-    const ortho = camera as THREE.OrthographicCamera;
-    ortho.zoom += (targetZoom.current - ortho.zoom) * 0.05;
-    ortho.updateProjectionMatrix();
-  });
-
-  return null;
 }
 
 /** Escape key listener to clear focus */
@@ -145,32 +203,76 @@ function EscapeListener({ setFocusedNode }: { setFocusedNode: (node: FocusedNode
   return null;
 }
 
+function BackgroundDismissPlane({ onDismiss }: { onDismiss: () => void }) {
+  const down = useRef<{ x: number; y: number } | null>(null);
+  return (
+    <mesh
+      position={[0, 0, -2]}
+      onPointerDown={(e) => {
+        down.current = { x: e.clientX, y: e.clientY };
+      }}
+      onClick={(e) => {
+        // Ignore drag-release clicks so panning does not clear focus.
+        if (!down.current) return;
+        const dx = e.clientX - down.current.x;
+        const dy = e.clientY - down.current.y;
+        const moved = Math.sqrt(dx * dx + dy * dy) > 6;
+        if (!moved) onDismiss();
+        down.current = null;
+      }}
+    >
+      <planeGeometry args={[200, 200]} />
+      <meshBasicMaterial transparent opacity={0} />
+    </mesh>
+  );
+}
+
 /** Set the background clear color */
 function Background() {
   const { gl } = useThree();
   useEffect(() => {
-    gl.setClearColor(new THREE.Color("#060610"));
+    gl.setClearColor(new THREE.Color("#000000"), 0);
   }, [gl]);
   return null;
 }
 
+/** Scale map zoom to viewport size so composition fills large screens. */
+function ResponsiveZoom({ controlsRef }: { controlsRef: MutableRefObject<OrbitControlsImpl | null> }) {
+  const { camera, size } = useThree();
+  useEffect(() => {
+    const ortho = camera as THREE.OrthographicCamera;
+    const shortest = Math.min(size.width, size.height);
+    const targetZoom = THREE.MathUtils.clamp(shortest / 14, 45, 95);
+    ortho.zoom = targetZoom;
+    ortho.updateProjectionMatrix();
+    controlsRef.current?.update?.();
+  }, [camera, size.width, size.height, controlsRef]);
+  return null;
+}
+
 /** Zoom controller that exposes zoomIn/zoomOut to DOM layer via ref */
-function ZoomController({ zoomRef }: { zoomRef: MutableRefObject<{ zoomIn: () => void; zoomOut: () => void }> }) {
+function ZoomController({
+  zoomRef,
+  controlsRef,
+}: {
+  zoomRef: MutableRefObject<{ zoomIn: () => void; zoomOut: () => void }>;
+  controlsRef: MutableRefObject<OrbitControlsImpl | null>;
+}) {
   const { camera } = useThree();
   useEffect(() => {
-    zoomRef.current = {
-      zoomIn: () => {
-        const ortho = camera as THREE.OrthographicCamera;
-        ortho.zoom = Math.min(ortho.zoom * 1.3, 200);
-        ortho.updateProjectionMatrix();
-      },
-      zoomOut: () => {
-        const ortho = camera as THREE.OrthographicCamera;
-        ortho.zoom = Math.max(ortho.zoom / 1.3, 15);
-        ortho.updateProjectionMatrix();
-      },
+    const applyZoom = (factor: number) => {
+      const ortho = camera as THREE.OrthographicCamera;
+      ortho.zoom = THREE.MathUtils.clamp(ortho.zoom * factor, 15, 200);
+      ortho.updateProjectionMatrix();
+      const controls = controlsRef.current;
+      controls?.update?.();
     };
-  }, [camera, zoomRef]);
+
+    zoomRef.current = {
+      zoomIn: () => applyZoom(1.2),
+      zoomOut: () => applyZoom(1 / 1.2),
+    };
+  }, [camera, zoomRef, controlsRef]);
   return null;
 }
 
@@ -196,7 +298,12 @@ export default function ExploreCanvas({
   zoomRef,
 }: ExploreCanvasProps) {
   const defaultZoomRef = useRef({ zoomIn: () => {}, zoomOut: () => {} });
+  const controlsRef = useRef<OrbitControlsImpl | null>(null);
   const resolvedZoomRef = zoomRef || defaultZoomRef;
+  const presentPhilosophyNames = useMemo(
+    () => new Set(data.philosophies.map((p) => p.name)),
+    [data.philosophies],
+  );
   const contextValue = useMemo<ExploreState>(
     () => ({
       focusedNode,
@@ -220,37 +327,44 @@ export default function ExploreCanvas({
         position: [0, 0, 10],
       }}
       style={{ width: "100%", height: "100%" }}
-      gl={{ antialias: true, alpha: false }}
+      gl={{ antialias: true, alpha: true }}
     >
       <ExploreContext.Provider value={contextValue}>
         <Background />
-        <MapControls
+        <ResponsiveZoom controlsRef={controlsRef} />
+        <AtlasGuides />
+        <OrbitControls
+          ref={controlsRef}
           enableRotate={false}
+          enabled
+          enablePan
+          screenSpacePanning
           enableDamping
           dampingFactor={0.1}
+          zoomSpeed={0.9}
+          panSpeed={1}
           minZoom={15}
           maxZoom={200}
           mouseButtons={{ LEFT: THREE.MOUSE.PAN, MIDDLE: THREE.MOUSE.DOLLY, RIGHT: THREE.MOUSE.PAN }}
         />
-        <ZoomController zoomRef={resolvedZoomRef} />
-        <CameraController focusedNode={focusedNode} />
+        <ZoomController zoomRef={resolvedZoomRef} controlsRef={controlsRef} />
         <EscapeListener setFocusedNode={setFocusedNode} />
 
-        {/* Click background to clear focus */}
-        <mesh position={[0, 0, -2]} onClick={() => setFocusedNode(null)}>
-          <planeGeometry args={[200, 200]} />
-          <meshBasicMaterial transparent opacity={0} />
-        </mesh>
+        {/* Click empty background to clear focus (without breaking drag-pan). */}
+        <BackgroundDismissPlane onDismiss={() => setFocusedNode(null)} />
 
         {/* Ambient star dust */}
         <StarDust />
 
         {/* Constellation lines between philosophies */}
-        <ConstellationLines />
+        <ConstellationLines
+          philosophyNames={presentPhilosophyNames}
+          focusActive={focusedNode !== null}
+        />
 
         {/* Philosophy stars */}
         {data.philosophies.map((p, i) => (
-          <PhilosophyStar key={p.name} philosophy={p} index={i} />
+          <PhilosophyStar key={`${p.name}-${i}`} philosophy={p} index={i} />
         ))}
 
         {/* Curriculum moons */}

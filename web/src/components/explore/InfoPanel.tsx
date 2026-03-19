@@ -76,7 +76,7 @@ function PhilosophyPanel({
     <div className="flex flex-col h-full">
       {/* Header */}
       <div className="flex items-start justify-between mb-4">
-        <h2 className="text-xl font-bold" style={{ color }}>
+        <h2 className="text-xl tracking-[0.12em] uppercase font-semibold" style={{ color }}>
           {displayName(philosophy.name)}
         </h2>
         <button
@@ -98,7 +98,7 @@ function PhilosophyPanel({
       </div>
 
       {/* Description */}
-      <p className="text-sm text-gray-400 leading-relaxed mb-4">
+      <p className="text-sm text-[#d4af37]/70 leading-relaxed mb-4">
         {philosophy.description}
       </p>
 
@@ -128,7 +128,7 @@ function PhilosophyPanel({
       <div className="border-t border-white/10 mb-4" />
 
       {/* Top Curricula */}
-      <h3 className="text-xs font-semibold text-white/60 uppercase tracking-wider mb-3">
+      <h3 className="text-xs font-semibold text-[#d4af37]/55 uppercase tracking-[0.14em] mb-3">
         Top Curricula
       </h3>
       <div className="flex-1 overflow-y-auto space-y-3 pr-1 min-h-0">
@@ -148,7 +148,7 @@ function PhilosophyPanel({
                   {c.name}
                 </a>
               ) : (
-                <span className="text-sm font-semibold text-white">
+                <span className="text-sm font-semibold text-[#f6e9c8]">
                   {c.name}
                 </span>
               )}
@@ -208,7 +208,9 @@ function CurriculumPanel({
     <div className="flex flex-col h-full">
       {/* Header */}
       <div className="flex items-start justify-between mb-2">
-        <h2 className="text-xl font-bold text-white">{curriculum.name}</h2>
+        <h2 className="text-xl tracking-[0.12em] uppercase font-semibold text-[#f6e9c8]">
+          {curriculum.name}
+        </h2>
         <button
           onClick={onClose}
           className="text-white/40 hover:text-white/80 transition-colors ml-2 mt-1 shrink-0"
@@ -229,7 +231,7 @@ function CurriculumPanel({
 
       <p className="text-sm text-white/50 mb-3">{curriculum.publisher}</p>
 
-      <p className="text-sm text-gray-400 leading-relaxed mb-4">
+      <p className="text-sm text-[#d4af37]/70 leading-relaxed mb-4">
         {curriculum.description}
       </p>
 
@@ -255,7 +257,7 @@ function CurriculumPanel({
       <div className="border-t border-white/10 mb-4" />
 
       {/* Philosophy score breakdown */}
-      <h3 className="text-xs font-semibold text-white/60 uppercase tracking-wider mb-3">
+      <h3 className="text-xs font-semibold text-[#d4af37]/55 uppercase tracking-[0.14em] mb-3">
         Philosophy Alignment
       </h3>
       <div className="flex-1 overflow-y-auto space-y-2.5 pr-1 min-h-0">
@@ -307,6 +309,67 @@ function CurriculumPanel({
   );
 }
 
+function DetailPanel({
+  focusedNode,
+  data,
+  onClose,
+}: {
+  focusedNode: FocusedNode;
+  data: GraphData;
+  onClose: () => void;
+}) {
+  const detail = useMemo(() => {
+    if (focusedNode.type === "principle") {
+      const item = data.principles.find((p) => p.id === focusedNode.id);
+      return item
+        ? { typeLabel: "Principle", name: item.name, description: item.description, philosophyId: item.philosophyId }
+        : null;
+    }
+    if (focusedNode.type === "activity") {
+      const item = data.activities.find((a) => a.id === focusedNode.id);
+      return item
+        ? { typeLabel: "Activity", name: item.name, description: item.description, philosophyId: item.philosophyId }
+        : null;
+    }
+    if (focusedNode.type === "material") {
+      const item = data.materials.find((m) => m.id === focusedNode.id);
+      return item
+        ? { typeLabel: "Material", name: item.name, description: item.category, philosophyId: item.philosophyId }
+        : null;
+    }
+    return null;
+  }, [focusedNode, data]);
+
+  if (!detail) return null;
+  return (
+    <div className="flex flex-col h-full">
+      <div className="flex items-start justify-between mb-4">
+        <div>
+          <h2 className="text-xl tracking-[0.1em] uppercase font-semibold text-[#f6e9c8]">
+            {detail.name}
+          </h2>
+          <p className="text-[11px] mt-1 tracking-[0.16em] uppercase text-[#d4af37]/55">
+            {detail.typeLabel}
+          </p>
+        </div>
+        <button
+          onClick={onClose}
+          className="text-white/40 hover:text-white/80 transition-colors ml-2 mt-1 shrink-0"
+          aria-label="Close panel"
+        >
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2">
+            <path d="M4 4l8 8M12 4l-8 8" />
+          </svg>
+        </button>
+      </div>
+      <p className="text-sm text-[#d4af37]/70 leading-relaxed mb-4">{detail.description || "No description available."}</p>
+      <div className="border-t border-white/10 mb-4" />
+      <p className="text-xs text-[#d4af37]/55 uppercase tracking-[0.14em] mb-1">Connected Philosophy</p>
+      <p className="text-sm text-[#f6e9c8]">{displayName(detail.philosophyId)}</p>
+    </div>
+  );
+}
+
 export default function InfoPanel({
   focusedNode,
   data,
@@ -330,12 +393,17 @@ export default function InfoPanel({
         : null,
     [focusedNode, data.curricula],
   );
+  const isDetailNode =
+    focusedNode?.type === "principle" ||
+    focusedNode?.type === "activity" ||
+    focusedNode?.type === "material";
 
   return (
     <div
       className={`fixed top-20 bottom-20 right-4 w-[340px] z-50
-        bg-black/60 backdrop-blur-xl border border-white/10 rounded-xl
-        p-5 overflow-hidden flex flex-col
+        bg-[linear-gradient(160deg,rgba(7,8,20,0.84),rgba(12,11,24,0.76))] backdrop-blur-xl border border-[#d4af37]/28 rounded-xl
+        p-5 overflow-hidden flex flex-col font-[ui-serif,Georgia,Times_New_Roman,serif]
+        shadow-[0_22px_48px_rgba(1,2,8,0.5),inset_0_0_0_1px_rgba(212,175,55,0.1)]
         transition-all duration-300 ease-out
         ${isOpen ? "translate-x-0 opacity-100 pointer-events-auto" : "translate-x-8 opacity-0 pointer-events-none"}`}
     >
@@ -351,6 +419,9 @@ export default function InfoPanel({
           curriculum={curriculum}
           onClose={onClose}
         />
+      )}
+      {isDetailNode && focusedNode && (
+        <DetailPanel focusedNode={focusedNode} data={data} onClose={onClose} />
       )}
     </div>
   );

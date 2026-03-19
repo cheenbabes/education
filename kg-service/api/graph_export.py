@@ -12,7 +12,7 @@ async def graph_export():
     conn = kuzu.Connection(db)
 
     # Philosophies
-    r = conn.execute("MATCH (p:Philosophy) RETURN p.name, p.description")
+    r = conn.execute("MATCH (p:Philosophy) RETURN DISTINCT p.name, p.description")
     philosophies = []
     while r.has_next():
         row = r.get_next()

@@ -1,6 +1,8 @@
 import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 
+export const dynamic = "force-dynamic";
+
 const KG_URL = process.env.NEXT_PUBLIC_KG_SERVICE_URL || "http://localhost:8000";
 
 // Philosophy positions on dimension axes (0-100 scale)
@@ -27,6 +29,7 @@ const PHILOSOPHY_COLORS: Record<string, string> = {
   "unschooling":            "#F97316",
   "flexible":               "#6B7280",
 };
+const CANONICAL_PHILOSOPHIES = Object.keys(PHILOSOPHY_DIMENSIONS);
 
 interface KgPhilosophy {
   name: string;
@@ -70,7 +73,7 @@ export async function GET() {
 
   try {
     const kgRes = await fetch(`${KG_URL}/graph-export`, {
-      next: { revalidate: 3600 },
+      cache: "no-store",
     });
     if (kgRes.ok) {
       kgData = await kgRes.json();
@@ -99,12 +102,33 @@ export async function GET() {
     notes: c.notes,
   }));
 
-  // Build philosophy nodes with dimensions and colors
-  const philosophies = kgData.philosophies.map((p: KgPhilosophy) => ({
+  // Build philosophy nodes with dimensions and colors, deduplicated by name.
+  const philosophyMap = new Map<string, KgPhilosophy>();
+  for (const p of kgData.philosophies) {
+    const existing = philosophyMap.get(p.name);
+    if (!existing) {
+      philosophyMap.set(p.name, p);
+      continue;
+    }
+    philosophyMap.set(p.name, {
+      ...existing,
+      description: existing.description || p.description,
+      principleCount: Math.max(existing.principleCount || 0, p.principleCount || 0),
+      activityCount: Math.max(existing.activityCount || 0, p.activityCount || 0),
+      materialCount: Math.max(existing.materialCount || 0, p.materialCount || 0),
+    });
+  }
+
+  const philosophies = Array.from(philosophyMap.values()).map((p) => ({
     ...p,
     dimensions: PHILOSOPHY_DIMENSIONS[p.name] || { structure: 50, modality: 50 },
     color: PHILOSOPHY_COLORS[p.name] || "#6B7280",
   }));
+
+  const presentPhilosophies = new Set(philosophies.map((p) => p.name));
+  const missingPhilosophies = CANONICAL_PHILOSOPHIES.filter(
+    (name) => !presentPhilosophies.has(name),
+  );
 
   return NextResponse.json(
     {
@@ -113,6 +137,9 @@ export async function GET() {
       principles: kgData.principles,
       activities: kgData.activities,
       materials: kgData.materials,
+      dataIntegrity: {
+        missingPhilosophies,
+      },
     },
     {
       headers: { "Cache-Control": "public, max-age=3600" },
