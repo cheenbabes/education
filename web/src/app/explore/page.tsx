@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import dynamic from "next/dynamic";
 import { GraphData } from "@/components/explore/types";
 import {
@@ -25,6 +25,7 @@ export default function ExplorePage() {
     DEFAULT_VISIBLE_LAYERS,
   );
   const [searchTerm, setSearchTerm] = useState("");
+  const zoomRef = useRef<{ zoomIn: () => void; zoomOut: () => void }>({ zoomIn: () => {}, zoomOut: () => {} });
 
   useEffect(() => {
     fetch("/api/explore/graph")
@@ -126,6 +127,7 @@ export default function ExplorePage() {
         setVisibleLayers={setVisibleLayers}
         searchTerm={searchTerm}
         setSearchTerm={setSearchTerm}
+        zoomRef={zoomRef}
       />
 
       {/* DOM overlays */}
@@ -140,6 +142,8 @@ export default function ExplorePage() {
         searchTerm={searchTerm}
         onSearchChange={setSearchTerm}
         onSearchSubmit={handleSearchSubmit}
+        onZoomIn={() => zoomRef.current.zoomIn()}
+        onZoomOut={() => zoomRef.current.zoomOut()}
       />
     </div>
   );

@@ -10,6 +10,8 @@ interface ControlBarProps {
   searchTerm: string;
   onSearchChange: (term: string) => void;
   onSearchSubmit: () => void;
+  onZoomIn?: () => void;
+  onZoomOut?: () => void;
 }
 
 interface TogglePillProps {
@@ -51,6 +53,8 @@ export default function ControlBar({
   searchTerm,
   onSearchChange,
   onSearchSubmit,
+  onZoomIn,
+  onZoomOut,
 }: ControlBarProps) {
   const [searchOpen, setSearchOpen] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -114,6 +118,24 @@ export default function ControlBar({
           <polyline points="9 22 9 12 15 12 15 22" />
         </svg>
       </Link>
+
+      {/* Zoom controls — right side, Google Maps style */}
+      <div className="fixed right-4 bottom-20 z-50 flex flex-col gap-0.5">
+        <button
+          onClick={onZoomIn}
+          className="w-9 h-9 bg-black/50 backdrop-blur-lg border border-white/10 rounded-t-lg text-white/60 hover:text-white hover:bg-white/10 transition-all flex items-center justify-center text-lg font-light"
+          aria-label="Zoom in"
+        >
+          +
+        </button>
+        <button
+          onClick={onZoomOut}
+          className="w-9 h-9 bg-black/50 backdrop-blur-lg border border-white/10 rounded-b-lg text-white/60 hover:text-white hover:bg-white/10 transition-all flex items-center justify-center text-lg font-light"
+          aria-label="Zoom out"
+        >
+          -
+        </button>
+      </div>
 
       {/* Bottom control bar */}
       <div className="fixed bottom-0 left-0 right-0 z-50 h-12 bg-black/40 backdrop-blur-lg border-t border-white/10 flex items-center justify-center gap-2 px-4">

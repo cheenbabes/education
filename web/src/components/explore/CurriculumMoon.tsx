@@ -86,9 +86,9 @@ export default function CurriculumMoon({
     const computedX = weightedX / totalWeight;
     const computedY = weightedY / totalWeight;
 
-    // Add deterministic jitter based on index to spread moons out
-    const jitterX = Math.sin(index * 7.13) * 1.2;
-    const jitterY = Math.cos(index * 5.37) * 0.8;
+    // Add deterministic jitter based on index to spread moons widely
+    const jitterX = Math.sin(index * 7.13) * 2.8;
+    const jitterY = Math.cos(index * 5.37) * 2.0;
     const x = computedX + jitterX;
     const y = computedY + jitterY;
 
@@ -174,7 +174,7 @@ export default function CurriculumMoon({
           document.body.style.cursor = "auto";
         }}
       >
-        <sphereGeometry args={[0.12, 16, 16]} />
+        <circleGeometry args={[0.08, 8]} />
         <meshBasicMaterial color={color} transparent opacity={0.8} />
       </mesh>
 

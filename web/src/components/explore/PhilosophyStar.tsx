@@ -3,10 +3,11 @@
 import { useRef, useMemo } from "react";
 import { useFrame } from "@react-three/fiber";
 import { Text } from "@react-three/drei";
+import { AdditiveBlending } from "three";
 import * as THREE from "three";
 import { PhilosophyNode } from "./types";
 import { useExploreState } from "./useExploreState";
-import { PHILOSOPHY_POSITIONS } from "./positions";
+import { PHILOSOPHY_POSITIONS, PHILOSOPHY_DISPLAY_NAMES } from "./positions";
 
 interface PhilosophyStarProps {
   philosophy: PhilosophyNode;
@@ -17,136 +18,135 @@ export default function PhilosophyStar({
   philosophy,
   index,
 }: PhilosophyStarProps) {
-  const meshRef = useRef<THREE.Mesh>(null);
-  const ringsRef = useRef<THREE.Group>(null);
   const groupRef = useRef<THREE.Group>(null);
+  const coreRef = useRef<THREE.Mesh>(null);
+  const glowRef = useRef<THREE.Mesh>(null);
   const { focusedNode, setFocusedNode, searchTerm } = useExploreState();
 
   const isFocused =
     focusedNode?.type === "philosophy" && focusedNode.id === philosophy.name;
   const otherFocused = focusedNode !== null && !isFocused;
 
-  const { position, radius, phaseOffset, color, ringRadii } = useMemo(() => {
-    const manualPos = PHILOSOPHY_POSITIONS[philosophy.name] || [0, 0];
-    const x = manualPos[0];
-    const y = manualPos[1];
+  const { position, coreRadius, glowRadius, phaseOffset, color } = useMemo(() => {
+    const pos = PHILOSOPHY_POSITIONS[philosophy.name] || [0, 0];
     const totalNodes =
       philosophy.principleCount +
       philosophy.activityCount +
       philosophy.materialCount;
-    const r = 0.4 + Math.log(totalNodes + 1) * 0.12;
-    const phase = index * 1.37; // golden-angle-ish offset
+    // Core star: make DRAMATICALLY larger than curriculum moons (0.08)
+    const core = 0.7 + Math.log(totalNodes + 1) * 0.1;
+    // Glow halo: 5x core radius for dramatic glow
+    const glow = core * 5;
+    const phase = index * 1.37;
     const c = new THREE.Color(philosophy.color);
 
-    // Ring radii scale with total node count
-    const baseRing = r + 0.4;
-    const rings = [baseRing, baseRing + 0.3, baseRing + 0.6];
-
     return {
-      position: [x, y, 0] as [number, number, number],
-      radius: r,
+      position: [pos[0], pos[1], 0] as [number, number, number],
+      coreRadius: core,
+      glowRadius: glow,
       phaseOffset: phase,
       color: c,
-      ringRadii: rings,
     };
   }, [philosophy, index]);
 
-  // Format display name: "place-nature-based" -> "Place Nature Based"
-  const displayName = useMemo(
-    () =>
-      philosophy.name
-        .split("-")
-        .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
-        .join(" "),
-    [philosophy.name],
-  );
+  const displayName = PHILOSOPHY_DISPLAY_NAMES[philosophy.name] ||
+    philosophy.name.split("-").map((w) => w.toUpperCase()).join(" ");
 
-  // Does this node match the current search?
   const matchesSearch = useMemo(() => {
     if (!searchTerm) return true;
     return displayName.toLowerCase().includes(searchTerm.toLowerCase());
   }, [searchTerm, displayName]);
 
-  // Target opacity: fade when another node is focused or search doesn't match
-  const targetOpacity = !matchesSearch ? 0.15 : otherFocused ? 0.2 : 1;
+  const targetOpacity = !matchesSearch ? 0.1 : otherFocused ? 0.25 : 1;
 
   useFrame(({ clock }) => {
-    if (meshRef.current) {
-      const pulse =
-        1 + 0.05 * Math.sin(clock.elapsedTime * 0.5 + phaseOffset);
-      meshRef.current.scale.setScalar(pulse);
+    const t = clock.elapsedTime;
+    // Gentle breathing pulse
+    const pulse = 1 + 0.08 * Math.sin(t * 0.4 + phaseOffset);
 
-      // Lerp opacity
-      const mat = meshRef.current.material as THREE.MeshBasicMaterial;
-      if (!mat.transparent) mat.transparent = true;
-      mat.opacity += (targetOpacity - mat.opacity) * 0.08;
+    if (coreRef.current) {
+      coreRef.current.scale.setScalar(pulse);
+      const mat = coreRef.current.material as THREE.MeshBasicMaterial;
+      mat.opacity += (targetOpacity - mat.opacity) * 0.06;
     }
-    if (ringsRef.current) {
-      ringsRef.current.rotation.z =
-        clock.elapsedTime * 0.05 + phaseOffset * 0.3;
-
-      // Fade rings too
-      ringsRef.current.children.forEach((child, idx) => {
-        const mesh = child as THREE.Mesh;
-        const mat = mesh.material as THREE.MeshBasicMaterial;
-        if (mat.transparent) {
-          const baseOpacity = 0.15 - idx * 0.05;
-          mat.opacity += (baseOpacity * targetOpacity - mat.opacity) * 0.08;
-        }
-      });
+    if (glowRef.current) {
+      glowRef.current.scale.setScalar(pulse * 1.05);
+      const mat = glowRef.current.material as THREE.MeshBasicMaterial;
+      mat.opacity += (targetOpacity * 0.3 - mat.opacity) * 0.06;
     }
   });
 
   const handleClick = (e: { stopPropagation: () => void }) => {
     e.stopPropagation();
-    if (isFocused) {
-      setFocusedNode(null);
-    } else {
-      setFocusedNode({ type: "philosophy", id: philosophy.name });
-    }
+    setFocusedNode(isFocused ? null : { type: "philosophy", id: philosophy.name });
   };
 
   return (
     <group ref={groupRef} position={position}>
-      {/* Core orb */}
-      <mesh
-        ref={meshRef}
-        onClick={handleClick}
-        onPointerOver={() => {
-          document.body.style.cursor = "pointer";
-        }}
-        onPointerOut={() => {
-          document.body.style.cursor = "auto";
-        }}
-      >
-        <sphereGeometry args={[radius, 32, 32]} />
-        <meshBasicMaterial color={color} transparent opacity={1} />
+      {/* Outer glow halo — AdditiveBlending for natural luminosity */}
+      <mesh ref={glowRef}>
+        <circleGeometry args={[glowRadius, 32]} />
+        <meshBasicMaterial
+          color={color}
+          transparent
+          opacity={0.3}
+          blending={AdditiveBlending}
+          depthWrite={false}
+        />
       </mesh>
 
-      {/* Ripple rings */}
-      <group ref={ringsRef}>
-        {ringRadii.map((ringR, i) => (
-          <mesh key={i} rotation={[0, 0, i * 0.3]}>
-            <ringGeometry args={[ringR, ringR + 0.02, 64]} />
-            <meshBasicMaterial
-              color={color}
-              transparent
-              opacity={0.15 - i * 0.05}
-            />
-          </mesh>
-        ))}
-      </group>
+      {/* Core bright star — no additive blending so colors stay vivid */}
+      <mesh
+        ref={coreRef}
+        onClick={handleClick}
+        onPointerOver={() => { document.body.style.cursor = "pointer"; }}
+        onPointerOut={() => { document.body.style.cursor = "auto"; }}
+      >
+        <circleGeometry args={[coreRadius, 24]} />
+        <meshBasicMaterial
+          color={color}
+          transparent
+          opacity={1}
+          depthWrite={false}
+        />
+      </mesh>
 
-      {/* Label */}
+      {/* Bright white center point */}
+      <mesh>
+        <circleGeometry args={[coreRadius * 0.4, 12]} />
+        <meshBasicMaterial
+          color="#ffffff"
+          transparent
+          opacity={0.9}
+          blending={AdditiveBlending}
+          depthWrite={false}
+        />
+      </mesh>
+
+      {/* Label — always visible, gold/warm tone, uppercase like star atlas */}
       <Text
-        position={[0, -(radius + 0.3), 0]}
-        fontSize={0.25}
-        color="white"
+        position={[0, -(coreRadius + 0.8), 0]}
+        fontSize={0.45}
+        color="#d4af37"
         anchorX="center"
         anchorY="top"
-        fillOpacity={!matchesSearch ? 0.08 : otherFocused ? 0.15 : 0.6}
+        fillOpacity={!matchesSearch ? 0.05 : otherFocused ? 0.2 : 0.85}
+        letterSpacing={0.12}
+        font={undefined}
       >
         {displayName}
+      </Text>
+
+      {/* Subtitle — node count */}
+      <Text
+        position={[0, -(coreRadius + 1.1), 0]}
+        fontSize={0.18}
+        color="#8a7a5a"
+        anchorX="center"
+        anchorY="top"
+        fillOpacity={!matchesSearch ? 0.03 : otherFocused ? 0.1 : 0.5}
+      >
+        {philosophy.principleCount + philosophy.activityCount + philosophy.materialCount} elements
       </Text>
     </group>
   );
