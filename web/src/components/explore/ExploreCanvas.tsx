@@ -17,6 +17,7 @@ import {
   FocusedNode,
   VisibleLayers,
 } from "./useExploreState";
+import { LayoutPositions } from "./useForceLayout";
 import {
   PHILOSOPHY_POSITIONS,
   CONSTELLATION_EDGES,
@@ -284,6 +285,7 @@ export interface ExploreCanvasProps {
   setVisibleLayers: (layers: VisibleLayers) => void;
   searchTerm: string;
   setSearchTerm: (term: string) => void;
+  layoutPositions: LayoutPositions;
   zoomRef?: MutableRefObject<{ zoomIn: () => void; zoomOut: () => void }>;
 }
 
@@ -295,6 +297,7 @@ export default function ExploreCanvas({
   setVisibleLayers,
   searchTerm,
   setSearchTerm,
+  layoutPositions,
   zoomRef,
 }: ExploreCanvasProps) {
   const defaultZoomRef = useRef({ zoomIn: () => {}, zoomOut: () => {} });
@@ -313,8 +316,9 @@ export default function ExploreCanvas({
       setVisibleLayers,
       searchTerm,
       setSearchTerm,
+      layoutPositions,
     }),
-    [focusedNode, setFocusedNode, data, visibleLayers, setVisibleLayers, searchTerm, setSearchTerm],
+    [focusedNode, setFocusedNode, data, visibleLayers, setVisibleLayers, searchTerm, setSearchTerm, layoutPositions],
   );
 
   return (

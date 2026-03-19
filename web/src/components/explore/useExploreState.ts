@@ -2,6 +2,7 @@
 
 import { createContext, useContext } from "react";
 import { GraphData } from "./types";
+import { LayoutPositions } from "./useForceLayout";
 
 export interface FocusedNode {
   type: "philosophy" | "curriculum" | "principle" | "activity" | "material";
@@ -31,6 +32,7 @@ export interface ExploreState {
   setVisibleLayers: (layers: VisibleLayers) => void;
   searchTerm: string;
   setSearchTerm: (term: string) => void;
+  layoutPositions: LayoutPositions;
 }
 
 export const ExploreContext = createContext<ExploreState | null>(null);

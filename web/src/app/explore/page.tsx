@@ -12,6 +12,7 @@ import {
 } from "@/components/explore/useExploreState";
 import InfoPanel from "@/components/explore/InfoPanel";
 import ControlBar from "@/components/explore/ControlBar";
+import { useForceLayout } from "@/components/explore/useForceLayout";
 
 // Dynamic import to avoid SSR issues with Three.js
 const ExploreCanvas = dynamic(
@@ -28,6 +29,11 @@ export default function ExplorePage() {
   );
   const [searchTerm, setSearchTerm] = useState("");
   const zoomRef = useRef<{ zoomIn: () => void; zoomOut: () => void }>({ zoomIn: () => {}, zoomOut: () => {} });
+  const layoutPositions = useForceLayout(
+    data ?? { philosophies: [], curricula: [], principles: [], activities: [], materials: [] },
+    focusedNode,
+    visibleLayers,
+  );
   const contextValue = useMemo<ExploreState | null>(
     () =>
       data
@@ -39,9 +45,10 @@ export default function ExplorePage() {
             setVisibleLayers,
             searchTerm,
             setSearchTerm,
+            layoutPositions,
           }
         : null,
-    [focusedNode, data, visibleLayers, searchTerm],
+    [focusedNode, data, visibleLayers, searchTerm, layoutPositions],
   );
 
   useEffect(() => {
@@ -173,6 +180,7 @@ export default function ExplorePage() {
           setVisibleLayers={setVisibleLayers}
           searchTerm={searchTerm}
           setSearchTerm={setSearchTerm}
+          layoutPositions={layoutPositions}
           zoomRef={zoomRef}
         />
 
