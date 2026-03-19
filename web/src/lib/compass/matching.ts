@@ -137,6 +137,7 @@ function generateMatchReason(
     // Find the philosophy the curriculum actually excels at
     const currTopEntry = Object.entries(curriculum.philosophyScores)
       .sort(([, a], [, b]) => b - a)[0];
+    if (!currTopEntry) return "This curriculum may still work as a supplement.";
     const currTopName = PHILOSOPHY_NAMES[currTopEntry[0]] ?? currTopEntry[0];
     return `This curriculum leans more ${currTopName} than your blend suggests — it may still work as a supplement.`;
   }
