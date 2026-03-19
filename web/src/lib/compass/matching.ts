@@ -80,6 +80,7 @@ export interface MatchWarning {
 export interface MatchOutput {
   bySubject: Record<string, MatchResult[]>;
   warnings: MatchWarning[];
+  fallbackBanner?: string;  // set when filters were relaxed to find results
   /** Debug mode: all curricula with scores, including excluded ones */
   allScored?: MatchResult[];
 }
@@ -161,6 +162,48 @@ function generateMatchReason(
 }
 
 // --- Helpers ---
+
+interface FilterSet {
+  budgetMax: number;
+  grades: string[];
+  religiousPreference: string | undefined;
+}
+
+function passesHardFilters(
+  curriculum: CurriculumRecord,
+  filters: FilterSet,
+): string | undefined {
+  // Returns excludedReason if excluded, undefined if passes
+
+  if (filters.religiousPreference && filters.religiousPreference !== "no-preference") {
+    if (filters.religiousPreference === "secular" && curriculum.religiousType !== "secular") {
+      return `Religious filter: wanted secular, got ${curriculum.religiousType}`;
+    }
+    if (filters.religiousPreference === "christian" && curriculum.religiousType !== "christian") {
+      return `Religious filter: wanted christian, got ${curriculum.religiousType}`;
+    }
+    if (
+      filters.religiousPreference === "other" &&
+      curriculum.religiousType !== "other" &&
+      curriculum.religiousType !== "secular"
+    ) {
+      return `Religious filter: wanted other/secular, got ${curriculum.religiousType}`;
+    }
+  }
+
+  if (!gradesOverlap(curriculum.gradeRange, filters.grades)) {
+    return `Grade filter: ${curriculum.gradeRange} doesn't overlap`;
+  }
+
+  if (filters.budgetMax < Infinity) {
+    const currMax = parsePriceMax(curriculum.priceRange);
+    if (currMax > filters.budgetMax) {
+      return `Budget filter: exceeds max $${filters.budgetMax}`;
+    }
+  }
+
+  return undefined;
+}
 
 function parsePriceMax(priceRange: string): number {
   // Handle formats like "$50-150", "Under $50", "$150-300", "Over $300", "$0-50"
@@ -291,43 +334,12 @@ export function matchCurricula(
     };
 
     // --- Hard filters ---
-    let excludedReason: string | undefined;
-
-    // Religious filter
-    if (
-      preferences.religiousPreference &&
-      preferences.religiousPreference !== "no-preference"
-    ) {
-      if (preferences.religiousPreference === "secular" && curriculum.religiousType !== "secular") {
-        excludedReason = `Religious filter: wanted secular, got ${curriculum.religiousType}`;
-      }
-      if (
-        preferences.religiousPreference === "christian" &&
-        curriculum.religiousType !== "christian"
-      ) {
-        excludedReason = `Religious filter: wanted christian, got ${curriculum.religiousType}`;
-      }
-      if (
-        preferences.religiousPreference === "other" &&
-        curriculum.religiousType !== "other" &&
-        curriculum.religiousType !== "secular"
-      ) {
-        excludedReason = `Religious filter: wanted other/secular, got ${curriculum.religiousType}`;
-      }
-    }
-
-    // Grade filter
-    if (!excludedReason && !gradesOverlap(curriculum.gradeRange, preferences.grades ?? [])) {
-      excludedReason = `Grade filter: ${curriculum.gradeRange} doesn't overlap with [${(preferences.grades ?? []).join(",")}]`;
-    }
-
-    // Budget filter
-    if (!excludedReason && budgetMax < Infinity) {
-      const currMax = parsePriceMax(curriculum.priceRange);
-      if (currMax > budgetMax) {
-        excludedReason = `Budget filter: ${curriculum.priceRange} exceeds max $${budgetMax}`;
-      }
-    }
+    const strictFilters: FilterSet = {
+      budgetMax,
+      grades: preferences.grades ?? [],
+      religiousPreference: preferences.religiousPreference,
+    };
+    const excludedReason = passesHardFilters(curriculum, strictFilters);
 
     if (excludedReason) {
       if (debug) {
@@ -446,5 +458,78 @@ export function matchCurricula(
     allScored.sort((a, b) => b.totalScore - a.totalScore);
   }
 
-  return { bySubject, warnings, allScored: debug ? allScored : undefined };
+  // Fallback: if any requested subject has 0 results, relax filters progressively
+  const strictFiltersForFallback: FilterSet = {
+    budgetMax: BUDGET_MAX[preferences.budget ?? "not-a-factor"] ?? Infinity,
+    grades: preferences.grades ?? [],
+    religiousPreference: preferences.religiousPreference,
+  };
+
+  const emptySubjects = requestedSubjects.filter(
+    (s) => !bySubject[s] || bySubject[s].length === 0,
+  );
+
+  let fallbackBanner: string | undefined;
+
+  if (emptySubjects.length > 0) {
+    const relaxations: Array<{ filters: FilterSet; banner: string }> = [
+      {
+        filters: { ...strictFiltersForFallback, budgetMax: Infinity },
+        banner: "No exact matches for your budget — here are the closest options. Note: these may exceed your stated budget.",
+      },
+      {
+        filters: { ...strictFiltersForFallback, budgetMax: Infinity, grades: [] },
+        banner: "No exact matches for your filters — here are the closest options (grade range and budget relaxed).",
+      },
+      {
+        filters: { budgetMax: Infinity, grades: [], religiousPreference: undefined },
+        banner: "No exact matches for your filters — here are the closest options (all filters relaxed).",
+      },
+    ];
+
+    for (const { filters, banner } of relaxations) {
+      const fallbackBySubject: Record<string, MatchResult[]> = {};
+
+      for (const subj of emptySubjects) {
+        for (const curriculum of curricula) {
+          const excluded = passesHardFilters(curriculum, filters);
+          if (excluded) continue;
+
+          let philosophyFitScore = 0;
+          for (const [philosophy, userWeight] of Object.entries(philosophyBlend)) {
+            if (userWeight === undefined) continue;
+            const currScore = curriculum.philosophyScores[philosophy] ?? 0;
+            philosophyFitScore += (userWeight as number) * currScore;
+          }
+          const totalScore = philosophyFitScore + curriculum.qualityScore * 0.05;
+          const label = fitLabel(philosophyFitScore);
+
+          const currSubjects = curriculum.subjects.includes("all-in-one")
+            ? requestedSubjects
+            : curriculum.subjects.map((s) => s.toLowerCase());
+
+          if (!currSubjects.includes(subj)) continue;
+
+          if (!fallbackBySubject[subj]) fallbackBySubject[subj] = [];
+          fallbackBySubject[subj].push({
+            curriculum,
+            totalScore,
+            philosophyFitScore,
+            fitLabel: label,
+            matchReason: generateMatchReason(philosophyBlend, curriculum, label),
+          });
+        }
+
+        if (fallbackBySubject[subj]?.length > 0) {
+          fallbackBySubject[subj].sort((a, b) => b.totalScore - a.totalScore);
+          bySubject[subj] = fallbackBySubject[subj].slice(0, TOP_N);
+          fallbackBanner = banner;
+        }
+      }
+
+      if (emptySubjects.every((s) => bySubject[s]?.length > 0)) break;
+    }
+  }
+
+  return { bySubject, warnings, fallbackBanner, allScored: debug ? allScored : undefined };
 }

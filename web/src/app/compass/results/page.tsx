@@ -44,6 +44,7 @@ interface MatchWarning {
 interface MatchOutput {
   bySubject: Record<string, MatchResult[]>;
   warnings: MatchWarning[];
+  fallbackBanner?: string;
 }
 
 const SUBJECT_LABELS: Record<string, string> = {
@@ -333,6 +334,13 @@ export default function ResultsPage() {
                 {w.message}
               </div>
             ))}
+          </div>
+        )}
+
+        {/* Fallback banner — shown when filters were relaxed */}
+        {matchOutput?.fallbackBanner && (
+          <div className="rounded p-4 text-sm bg-amber-50 dark:bg-amber-950 border border-amber-200 dark:border-amber-800 text-amber-800 dark:text-amber-200">
+            {matchOutput.fallbackBanner}
           </div>
         )}
 
