@@ -68,7 +68,11 @@ export function getActivePhilosophy(
       return focusedNode.id;
 
     case "curriculum": {
-      const curr = graphData.curricula.find((c) => c.id === focusedNode.id);
+      const curr =
+        graphData.curricula.find((c) => c.id === focusedNode.id) ||
+        (focusedNode.curriculumId
+          ? graphData.curricula.find((c) => c.id === focusedNode.curriculumId)
+          : null);
       if (!curr) return null;
       let topKey: string | null = null;
       let topScore = -Infinity;
@@ -203,7 +207,11 @@ function getConnectedKeys(
 
     case "curriculum": {
       // Connected: philosophies this curriculum scores on
-      const curr = graphData.curricula.find((c) => c.id === focusedNode.id);
+      const curr =
+        graphData.curricula.find((c) => c.id === focusedNode.id) ||
+        (focusedNode.curriculumId
+          ? graphData.curricula.find((c) => c.id === focusedNode.curriculumId)
+          : null);
       if (curr) {
         for (const [rawKey, rawVal] of Object.entries(curr.philosophyScores || {})) {
           const score = Number(rawVal);

@@ -345,6 +345,7 @@ export interface ExploreCanvasProps {
   searchTerm: string;
   setSearchTerm: (term: string) => void;
   layoutPositions: LayoutPositions;
+  placementPositions: Record<string, [number, number]>;
   zoomRef?: MutableRefObject<{ zoomIn: () => void; zoomOut: () => void }>;
 }
 
@@ -357,6 +358,7 @@ export default function ExploreCanvas({
   searchTerm,
   setSearchTerm,
   layoutPositions,
+  placementPositions,
   zoomRef,
 }: ExploreCanvasProps) {
   const defaultZoomRef = useRef({ zoomIn: () => {}, zoomOut: () => {} });
@@ -432,10 +434,14 @@ export default function ExploreCanvas({
           <PhilosophyStar key={`${p.name}-${i}`} philosophy={p} index={i} />
         ))}
 
-        {/* Curriculum moons */}
+        {/* Curriculum moons — rendered from per-philosophy placements */}
         {visibleLayers.curricula &&
-          data.curricula.map((c, i) => (
-            <CurriculumMoon key={c.id} curriculum={c} index={i} />
+          (data.curriculumPlacements || []).map((p) => (
+            <CurriculumMoon
+              key={p.placementId}
+              placement={p}
+              position={placementPositions[p.placementId] || [0, 0]}
+            />
           ))}
 
         {/* Connection lines from focused philosophy to curricula */}

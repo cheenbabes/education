@@ -68,6 +68,7 @@ export interface CurriculumPlacement {
 export interface GraphData {
   philosophies: PhilosophyNode[];
   curricula: CurriculumNode[];
+  curriculumPlacements?: CurriculumPlacement[];
   principles: PrincipleNode[];
   activities: ActivityNode[];
   materials: MaterialNode[];

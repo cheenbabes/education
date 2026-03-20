@@ -109,7 +109,11 @@ export default function ConnectionLines() {
     }
 
     if (focusedNode.type === "curriculum") {
-      const curriculumIndex = graphData.curricula.findIndex((c) => c.id === focusedNode.id);
+      let curriculumIndex = graphData.curricula.findIndex((c) => c.id === focusedNode.id);
+      // Fall back to curriculumId for placement-based focus
+      if (curriculumIndex < 0 && focusedNode.curriculumId) {
+        curriculumIndex = graphData.curricula.findIndex((c) => c.id === focusedNode.curriculumId);
+      }
       if (curriculumIndex < 0) return [];
       const curriculum = graphData.curricula[curriculumIndex];
       const cLayout = layoutPositions.positions.get(nodeKey("curriculum", curriculum.id));

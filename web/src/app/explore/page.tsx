@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import dynamic from "next/dynamic";
-import { GraphData } from "@/components/explore/types";
+import { GraphData, CurriculumPlacement } from "@/components/explore/types";
 import {
   ExploreContext,
   ExploreState,
@@ -13,6 +13,7 @@ import {
 import InfoPanel from "@/components/explore/InfoPanel";
 import ControlBar from "@/components/explore/ControlBar";
 import { useForceLayout } from "@/components/explore/useForceLayout";
+import { getOrbitalPosition } from "@/components/explore/positions";
 
 // Dynamic import to avoid SSR issues with Three.js
 const ExploreCanvas = dynamic(
@@ -34,6 +35,31 @@ export default function ExplorePage() {
     focusedNode,
     visibleLayers,
   );
+
+  // Compute orbital positions for curriculum placements
+  const placementPositions = useMemo(() => {
+    const placements = data?.curriculumPlacements;
+    if (!placements || placements.length === 0) return {} as Record<string, [number, number]>;
+
+    // Group placements by philosophy to get per-orbit index
+    const placementsByPhil: Record<string, CurriculumPlacement[]> = {};
+    for (const p of placements) {
+      (placementsByPhil[p.philosophyName] ??= []).push(p);
+    }
+    // Sort each group by score descending (highest score = closest)
+    for (const group of Object.values(placementsByPhil)) {
+      group.sort((a, b) => b.score - a.score);
+    }
+    // Compute positions
+    const positions: Record<string, [number, number]> = {};
+    for (const [philName, group] of Object.entries(placementsByPhil)) {
+      group.forEach((p, i) => {
+        positions[p.placementId] = getOrbitalPosition(philName, p.score, i, group.length);
+      });
+    }
+    return positions;
+  }, [data?.curriculumPlacements]);
+
   const contextValue = useMemo<ExploreState | null>(
     () =>
       data
@@ -94,7 +120,19 @@ export default function ExplorePage() {
         c.publisher.toLowerCase().includes(term),
     );
     if (matchedCurr) {
-      setFocusedNode({ type: "curriculum", id: matchedCurr.id });
+      // Try to focus on a placement for this curriculum; fall back to raw id
+      const matchedPlacement = (data.curriculumPlacements || []).find(
+        (p) => p.curriculumId === matchedCurr.id,
+      );
+      if (matchedPlacement) {
+        setFocusedNode({
+          type: "curriculum",
+          id: matchedPlacement.placementId,
+          curriculumId: matchedPlacement.curriculumId,
+        });
+      } else {
+        setFocusedNode({ type: "curriculum", id: matchedCurr.id });
+      }
     }
   }, [searchTerm, data]);
 
@@ -181,6 +219,7 @@ export default function ExplorePage() {
           searchTerm={searchTerm}
           setSearchTerm={setSearchTerm}
           layoutPositions={layoutPositions}
+          placementPositions={placementPositions}
           zoomRef={zoomRef}
         />
 

@@ -6,7 +6,8 @@ import { LayoutPositions } from "./useForceLayout";
 
 export interface FocusedNode {
   type: "philosophy" | "curriculum" | "principle" | "activity" | "material";
-  id: string;
+  id: string;           // placementId for curriculum placements
+  curriculumId?: string; // shared ID across sibling placements
   philosophyId?: string;
 }
 

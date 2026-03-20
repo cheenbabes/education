@@ -389,7 +389,9 @@ export default function InfoPanel({
   const curriculum = useMemo(
     () =>
       focusedNode?.type === "curriculum"
-        ? data.curricula.find((c) => c.id === focusedNode.id) || null
+        ? data.curricula.find(
+            (c) => c.id === focusedNode.id || c.id === focusedNode.curriculumId,
+          ) || null
         : null,
     [focusedNode, data.curricula],
   );

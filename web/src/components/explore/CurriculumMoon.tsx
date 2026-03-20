@@ -5,46 +5,48 @@ import { useFrame } from "@react-three/fiber";
 import { Text } from "@react-three/drei";
 import * as THREE from "three";
 import { createCurriculumSun } from "./glyphShapes";
-import { CurriculumNode } from "./types";
+import { CurriculumPlacement } from "./types";
 import { useExploreState } from "./useExploreState";
-import { getCurriculumPlacement } from "./positions";
+import { normalizePhilosophyKey } from "./positions";
 import { GLYPH_SIZES } from "./glyphs";
-import { nodeKey } from "./useForceLayout";
 
 interface CurriculumMoonProps {
-  curriculum: CurriculumNode;
-  index: number;
+  placement: CurriculumPlacement;
+  position: [number, number];
 }
 
 export default function CurriculumMoon({
-  curriculum,
-  index,
+  placement,
+  position: orbitalPos,
 }: CurriculumMoonProps) {
   const nodeRef = useRef<THREE.Group>(null);
   const glyphRef = useRef<THREE.Group>(null);
   const [hovered, setHovered] = useState(false);
-  const { focusedNode, setFocusedNode, searchTerm, graphData, layoutPositions } = useExploreState();
-  const placement = useMemo(
-    () => getCurriculumPlacement(curriculum.philosophyScores, index),
-    [curriculum.philosophyScores, index],
-  );
+  const { focusedNode, setFocusedNode, searchTerm, graphData } = useExploreState();
 
-  const layoutTarget = layoutPositions.positions.get(nodeKey("curriculum", curriculum.id));
-  const targetPos: [number, number, number] = layoutTarget
-    ? [layoutTarget.x, layoutTarget.y, 0]
-    : placement.position;
+  const targetPos: [number, number, number] = [orbitalPos[0], orbitalPos[1], 0];
 
-  const { color, connectedPhilosophies } = useMemo(() => {
-    // Flat gold color for all curricula.
-    const base = new THREE.Color("#FFB400");
+  // Build connected philosophies list from the placement's scores
+  const connectedPhilosophies = useMemo(() => {
+    const connected: string[] = [];
+    for (const [rawKey, rawValue] of Object.entries(placement.philosophyScores || {})) {
+      const score = Number(rawValue);
+      if (!Number.isFinite(score) || score <= 0) continue;
+      connected.push(normalizePhilosophyKey(rawKey));
+    }
+    return connected;
+  }, [placement.philosophyScores]);
 
-    return {
-      color: base,
-      connectedPhilosophies: placement.connectedPhilosophies,
-    };
-  }, [placement]);
+  const color = useMemo(() => new THREE.Color("#FFB400"), []);
 
-  const isCurriculumFocused = focusedNode?.type === "curriculum" && focusedNode.id === curriculum.id;
+  const isCurriculumFocused =
+    focusedNode?.type === "curriculum" && focusedNode.id === placement.placementId;
+  // Also highlight if a sibling placement (same curriculumId) is focused
+  const isSiblingFocused =
+    focusedNode?.type === "curriculum" &&
+    focusedNode.curriculumId === placement.curriculumId &&
+    focusedNode.id !== placement.placementId;
+
   const detailFocusPhilosophy = useMemo(() => {
     if (focusedNode?.type === "principle") {
       return graphData.principles.find((p) => p.id === focusedNode.id)?.philosophyId ?? null;
@@ -62,7 +64,7 @@ export default function CurriculumMoon({
     (focusedNode?.type === "philosophy" && connectedPhilosophies.includes(focusedNode.id)) ||
     (!!detailFocusPhilosophy && connectedPhilosophies.includes(detailFocusPhilosophy));
   const someNodeFocused = focusedNode !== null;
-  const shouldHighlight = isCurriculumFocused || isConnectedToFocused;
+  const shouldHighlight = isCurriculumFocused || isSiblingFocused || isConnectedToFocused;
   const shouldFade = someNodeFocused && !shouldHighlight;
 
   // Search match
@@ -70,13 +72,13 @@ export default function CurriculumMoon({
     if (!searchTerm) return true;
     const term = searchTerm.toLowerCase();
     return (
-      curriculum.name.toLowerCase().includes(term) ||
-      curriculum.publisher.toLowerCase().includes(term)
+      placement.name.toLowerCase().includes(term) ||
+      placement.publisher.toLowerCase().includes(term)
     );
-  }, [searchTerm, curriculum.name, curriculum.publisher]);
+  }, [searchTerm, placement.name, placement.publisher]);
 
   // Show label when: hovered, OR connected to focused philosophy, OR search match, OR in focused cluster
-  const isInFocusedCluster = focusedNode !== null && (isCurriculumFocused || isConnectedToFocused);
+  const isInFocusedCluster = focusedNode !== null && (isCurriculumFocused || isSiblingFocused || isConnectedToFocused);
   const showLabel = hovered || shouldHighlight || (!!searchTerm && matchesSearch) || isInFocusedCluster;
 
   // Target opacity
@@ -87,8 +89,14 @@ export default function CurriculumMoon({
 
   const sunShapes = useMemo(() => createCurriculumSun(), []);
 
-  // Phase offset for orbit drift
-  const phaseOffset = useMemo(() => index * 2.17, [index]);
+  // Phase offset for orbit drift — use a hash of placementId for determinism
+  const phaseOffset = useMemo(() => {
+    let hash = 0;
+    for (let i = 0; i < placement.placementId.length; i++) {
+      hash = (hash * 31 + placement.placementId.charCodeAt(i)) | 0;
+    }
+    return Math.abs(hash % 628) / 100;
+  }, [placement.placementId]);
 
   useFrame(({ clock }) => {
     if (nodeRef.current) {
@@ -132,7 +140,11 @@ export default function CurriculumMoon({
       <mesh
         onClick={(e) => {
           e.stopPropagation();
-          setFocusedNode({ type: "curriculum", id: curriculum.id });
+          setFocusedNode({
+            type: "curriculum",
+            id: placement.placementId,
+            curriculumId: placement.curriculumId,
+          });
         }}
         onPointerOver={(e) => {
           e.stopPropagation();
@@ -163,7 +175,7 @@ export default function CurriculumMoon({
           maxWidth={14}
           font="/fonts/CormorantSC-SemiBold.ttf"
         >
-          {curriculum.name}
+          {placement.name}
         </Text>
       )}
     </group>
