@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo } from "react";
-import { GraphData, PhilosophyNode, CurriculumNode } from "./types";
+import { GraphData, PhilosophyNode, CurriculumNode, CurriculumPlacement } from "./types";
 import { FocusedNode } from "./useExploreState";
 
 const PHILOSOPHY_COLORS: Record<string, string> = {
@@ -184,11 +184,20 @@ function PhilosophyPanel({
 
 function CurriculumPanel({
   curriculum,
+  placement,
+  siblingPlacements,
   onClose,
 }: {
   curriculum: CurriculumNode;
+  placement: CurriculumPlacement | null;
+  siblingPlacements: CurriculumPlacement[];
   onClose: () => void;
 }) {
+  const placementPhilosophy = placement ? normalizePhilKey(placement.philosophyName) : null;
+  const placementColor = placementPhilosophy
+    ? PHILOSOPHY_COLORS[placementPhilosophy] || "#6B7280"
+    : null;
+
   // Build sorted philosophy scores
   const sortedScores = useMemo(() => {
     const entries: { name: string; score: number; color: string }[] = [];
@@ -229,6 +238,19 @@ function CurriculumPanel({
         </button>
       </div>
 
+      {/* Placement context */}
+      {placement && placementPhilosophy && placementColor && (
+        <p className="text-xs text-white/40 mb-2">
+          Viewing near{" "}
+          <span className="font-medium" style={{ color: placementColor }}>
+            {displayName(placementPhilosophy)}
+          </span>{" "}
+          <span className="text-white/30">
+            ({(placement.score * 100).toFixed(0)}%)
+          </span>
+        </p>
+      )}
+
       <p className="text-sm text-white/50 mb-3">{curriculum.publisher}</p>
 
       <p className="text-sm text-[#d4af37]/70 leading-relaxed mb-4">
@@ -261,27 +283,70 @@ function CurriculumPanel({
         Philosophy Alignment
       </h3>
       <div className="flex-1 overflow-y-auto space-y-2.5 pr-1 min-h-0">
-        {sortedScores.map(({ name, score, color }) => (
-          <div key={name} className="space-y-1">
-            <div className="flex items-baseline justify-between">
-              <span className="text-xs text-white/80">
-                {displayName(name)}
-              </span>
-              <span className="text-xs text-white/40">
-                {(score * 100).toFixed(0)}%
-              </span>
-            </div>
-            <div className="h-1.5 rounded-full bg-white/5 overflow-hidden">
+        {sortedScores.map(({ name, score, color }) => {
+          const isCurrentPlacement = name === placementPhilosophy;
+          return (
+            <div key={name} className="space-y-1">
+              <div className="flex items-baseline justify-between">
+                <span
+                  className={`text-xs ${isCurrentPlacement ? "font-semibold text-white" : "text-white/80"}`}
+                >
+                  {displayName(name)}
+                  {isCurrentPlacement && (
+                    <span className="ml-1.5 text-[9px] font-normal text-white/35 uppercase tracking-wider">
+                      current
+                    </span>
+                  )}
+                </span>
+                <span
+                  className={`text-xs ${isCurrentPlacement ? "font-semibold text-white/60" : "text-white/40"}`}
+                >
+                  {(score * 100).toFixed(0)}%
+                </span>
+              </div>
               <div
-                className="h-full rounded-full transition-all duration-500"
-                style={{
-                  width: `${(score / maxScore) * 100}%`,
-                  backgroundColor: color,
-                }}
-              />
+                className={`rounded-full bg-white/5 overflow-hidden ${isCurrentPlacement ? "h-2" : "h-1.5"}`}
+              >
+                <div
+                  className="h-full rounded-full transition-all duration-500"
+                  style={{
+                    width: `${(score / maxScore) * 100}%`,
+                    backgroundColor: color,
+                    opacity: isCurrentPlacement ? 1 : 0.7,
+                  }}
+                />
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
+
+        {/* Sibling placements */}
+        {siblingPlacements.length > 0 && (
+          <>
+            <div className="border-t border-white/10 mt-3 pt-3" />
+            <h4 className="text-[10px] font-semibold text-[#d4af37]/45 uppercase tracking-[0.14em] mb-2">
+              Also appears near
+            </h4>
+            <div className="flex gap-1.5 flex-wrap">
+              {siblingPlacements.map((sp) => {
+                const sibPhil = normalizePhilKey(sp.philosophyName);
+                const sibColor = PHILOSOPHY_COLORS[sibPhil] || "#6B7280";
+                return (
+                  <span
+                    key={sp.placementId}
+                    className="text-[10px] px-2 py-0.5 rounded-full"
+                    style={{
+                      backgroundColor: `${sibColor}20`,
+                      color: sibColor,
+                    }}
+                  >
+                    {displayName(sibPhil)} ({(sp.score * 100).toFixed(0)}%)
+                  </span>
+                );
+              })}
+            </div>
+          </>
+        )}
 
         {/* Notes */}
         {curriculum.notes && (
@@ -395,6 +460,28 @@ export default function InfoPanel({
         : null,
     [focusedNode, data.curricula],
   );
+
+  // Resolve the current placement from curriculumPlacements
+  const currentPlacement = useMemo(() => {
+    if (focusedNode?.type !== "curriculum" || !data.curriculumPlacements) return null;
+    return (
+      data.curriculumPlacements.find((p) => p.placementId === focusedNode.id) ||
+      null
+    );
+  }, [focusedNode, data.curriculumPlacements]);
+
+  // Sibling placements: other philosophies where this curriculum also appears (score >= 30%)
+  const siblingPlacements = useMemo(() => {
+    if (!currentPlacement || !data.curriculumPlacements) return [];
+    return data.curriculumPlacements
+      .filter(
+        (p) =>
+          p.curriculumId === currentPlacement.curriculumId &&
+          p.placementId !== currentPlacement.placementId,
+      )
+      .sort((a, b) => b.score - a.score);
+  }, [currentPlacement, data.curriculumPlacements]);
+
   const isDetailNode =
     focusedNode?.type === "principle" ||
     focusedNode?.type === "activity" ||
@@ -419,6 +506,8 @@ export default function InfoPanel({
       {curriculum && (
         <CurriculumPanel
           curriculum={curriculum}
+          placement={currentPlacement}
+          siblingPlacements={siblingPlacements}
           onClose={onClose}
         />
       )}
