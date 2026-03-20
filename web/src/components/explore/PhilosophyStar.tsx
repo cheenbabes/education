@@ -36,18 +36,18 @@ export default function PhilosophyStar({
     focusedNode?.type === "philosophy" && focusedNode.id === philosophy.name;
   const isConnectedToFocusedCurriculum = useMemo(() => {
     if (focusedNode?.type !== "curriculum") return false;
-    const curriculum = graphData.curricula.find((c) => c.id === focusedNode.id);
+    // Try placement model first, then fall back to old curricula
+    const curriculum =
+      graphData.curricula.find((c) => c.id === focusedNode.curriculumId) ||
+      graphData.curricula.find((c) => c.id === focusedNode.id);
     if (!curriculum) return false;
-    // Keep pulse eligibility exactly in sync with ConnectionLines curriculum mode:
-    // top 4 weighted philosophies above threshold and with known positions.
     const topConnected = Object.entries(curriculum.philosophyScores)
       .map(([key, score]) => ({
         key: normalizePhilosophyKey(key),
         score: Number(score),
       }))
-      .filter((entry) => Number.isFinite(entry.score) && entry.score > 0.08 && PHILOSOPHY_POSITIONS[entry.key])
+      .filter((entry) => Number.isFinite(entry.score) && entry.score >= 0.30 && PHILOSOPHY_POSITIONS[entry.key])
       .sort((a, b) => b.score - a.score)
-      .slice(0, 4)
       .map((entry) => entry.key);
     return topConnected.includes(philosophy.name);
   }, [focusedNode, graphData.curricula, philosophy.name]);

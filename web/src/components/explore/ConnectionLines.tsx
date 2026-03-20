@@ -116,15 +116,17 @@ export default function ConnectionLines() {
       }
       if (curriculumIndex < 0) return [];
       const curriculum = graphData.curricula[curriculumIndex];
-      const cLayout = layoutPositions.positions.get(nodeKey("curriculum", curriculum.id));
+      // Try placement ID first, then fall back to curriculum ID
+      const cLayout =
+        layoutPositions.positions.get(nodeKey("curriculum", focusedNode.id)) ||
+        layoutPositions.positions.get(nodeKey("curriculum", curriculum.id));
       const cPos: [number, number, number] = cLayout
         ? [cLayout.x, cLayout.y, 0]
         : getCurriculumPlacement(curriculum.philosophyScores, curriculumIndex).position;
       const weighted = Object.entries(curriculum.philosophyScores)
         .map(([key, score]) => ({ key: normalizePhilosophyKey(key), score }))
-        .filter((entry) => entry.score > 0.08 && (layoutPositions.positions.get(nodeKey("philosophy", entry.key)) || PHILOSOPHY_POSITIONS[entry.key]))
-        .sort((a, b) => b.score - a.score)
-        .slice(0, 4);
+        .filter((entry) => entry.score >= 0.30 && (layoutPositions.positions.get(nodeKey("philosophy", entry.key)) || PHILOSOPHY_POSITIONS[entry.key]))
+        .sort((a, b) => b.score - a.score);
 
       for (const entry of weighted) {
         const philLayout = layoutPositions.positions.get(nodeKey("philosophy", entry.key));
