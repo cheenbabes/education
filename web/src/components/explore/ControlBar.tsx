@@ -18,7 +18,6 @@ interface TogglePillProps {
   label: string;
   active: boolean;
   disabled?: boolean;
-  activeColor: string;
   onClick: () => void;
   icon?: React.ReactNode;
 }
@@ -27,7 +26,6 @@ function TogglePill({
   label,
   active,
   disabled,
-  activeColor,
   onClick,
   icon,
 }: TogglePillProps) {
@@ -39,16 +37,16 @@ function TogglePill({
       aria-pressed={active}
       aria-label={`${label} layer`}
       data-testid={testId}
-      className={`px-3 py-1 rounded-full text-[11px] tracking-[0.14em] uppercase font-medium transition-all
+      className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] tracking-[0.14em] uppercase font-medium transition-all
         ${
           active
             ? "shadow-sm"
-            : "bg-white/5 text-[#d4af37]/45 hover:bg-white/10 hover:text-[#d4af37]/80"
+            : "bg-white/5 text-[#F9F6EF]/35 hover:bg-white/10 hover:text-[#F9F6EF]/70"
         }
         ${disabled ? "cursor-default" : "cursor-pointer"}`}
-      style={active ? { backgroundColor: "#F9F6EF", color: "#0B1426" } : undefined}
+      style={active ? { backgroundColor: "#F9F6EF", color: "#1B2A4A" } : undefined}
     >
-      {icon && <span className="mr-1 inline-flex" style={active ? { color: activeColor } : undefined}>{icon}</span>}
+      {icon}
       {label}
     </button>
   );
@@ -195,72 +193,60 @@ export default function ControlBar({
           label="Philosophies"
           active={true}
           disabled={true}
-          activeColor="#0B1426"
           onClick={() => {}}
           icon={
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
-              <circle cx="5" cy="5" r="2"/><circle cx="19" cy="8" r="2"/><circle cx="8" cy="19" r="2"/>
-              <line x1="5" y1="5" x2="19" y2="8" stroke="currentColor" strokeWidth="1"/>
-              <line x1="19" y1="8" x2="8" y2="19" stroke="currentColor" strokeWidth="1"/>
+            <svg width="12" height="12" viewBox="0 0 12 12">
+              <circle cx="6" cy="6" r="4" stroke="#1B2A4A" strokeWidth="1.5" fill="none"/>
             </svg>
           }
         />
         <TogglePill
           label="Curricula"
           active={visibleLayers.curricula}
-          activeColor="#FFB400"
           onClick={() => onToggleLayer("curricula")}
           icon={
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
-              <circle cx="12" cy="12" r="5"/>
-              <line x1="12" y1="1" x2="12" y2="5" stroke="currentColor" strokeWidth="1.5"/>
-              <line x1="12" y1="19" x2="12" y2="23" stroke="currentColor" strokeWidth="1.5"/>
-              <line x1="1" y1="12" x2="5" y2="12" stroke="currentColor" strokeWidth="1.5"/>
-              <line x1="19" y1="12" x2="23" y2="12" stroke="currentColor" strokeWidth="1.5"/>
-              <line x1="4.2" y1="4.2" x2="7" y2="7" stroke="currentColor" strokeWidth="1.2"/>
-              <line x1="17" y1="17" x2="19.8" y2="19.8" stroke="currentColor" strokeWidth="1.2"/>
-              <line x1="4.2" y1="19.8" x2="7" y2="17" stroke="currentColor" strokeWidth="1.2"/>
-              <line x1="17" y1="7" x2="19.8" y2="4.2" stroke="currentColor" strokeWidth="1.2"/>
+            <svg width="12" height="12" viewBox="0 0 12 12">
+              <g transform="translate(6,6)" fill="#FFB400">
+                {[0,30,60,90,120,150,180,210,240,270,300,330].map(r => <polygon key={r} points="0,-6 0.5,-2.2 -0.5,-2.2" transform={`rotate(${r})`}/>)}
+                <circle r="2.2"/>
+              </g>
             </svg>
           }
         />
         <TogglePill
           label="Principles"
           active={visibleLayers.principles}
-          activeColor="#FF7C15"
           onClick={() => onToggleLayer("principles")}
           icon={
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
-              <polygon points="12,1 13.5,9 12,11 10.5,9"/>
-              <polygon points="12,23 13.5,15 12,13 10.5,15"/>
-              <polygon points="1,12 9,10.5 11,12 9,13.5"/>
-              <polygon points="23,12 15,10.5 13,12 15,13.5"/>
-              <circle cx="12" cy="12" r="3"/>
+            <svg width="12" height="12" viewBox="0 0 12 12">
+              <g transform="translate(6,6)" fill="#FF7C15">
+                {[0,90,180,270].map(r => <polygon key={r} points="0,-6 0.8,-1.5 -0.8,-1.5" transform={`rotate(${r})`}/>)}
+                {[45,135,225,315].map(r => <polygon key={r} points="0,-4 0.5,-1.5 -0.5,-1.5" transform={`rotate(${r})`}/>)}
+                <circle r="1.5"/>
+              </g>
             </svg>
           }
         />
         <TogglePill
           label="Activities"
           active={visibleLayers.activities}
-          activeColor="#ED4672"
           onClick={() => onToggleLayer("activities")}
           icon={
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
-              <ellipse cx="12" cy="5" rx="2.5" ry="5" transform="rotate(0 12 12)"/>
-              <ellipse cx="12" cy="5" rx="2.5" ry="5" transform="rotate(120 12 12)"/>
-              <ellipse cx="12" cy="5" rx="2.5" ry="5" transform="rotate(240 12 12)"/>
-              <circle cx="12" cy="12" r="2"/>
+            <svg width="12" height="12" viewBox="0 0 12 12">
+              <g transform="translate(6,6)" fill="#ED4672">
+                {[0,60,120,180,240,300].map(r => <path key={r} d="M0,-6 C0.8,-2.5 1.5,-1 0,0 C-1.5,-1 -0.8,-2.5 0,-6Z" transform={`rotate(${r})`}/>)}
+                <circle r="1"/>
+              </g>
             </svg>
           }
         />
         <TogglePill
           label="Materials"
           active={visibleLayers.materials}
-          activeColor="#B44AFF"
           onClick={() => onToggleLayer("materials")}
           icon={
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M12,1 C12,8 13,10 21,12 C13,14 12,16 12,23 C12,16 11,14 3,12 C11,10 12,8 12,1Z"/>
+            <svg width="12" height="12" viewBox="0 0 12 12">
+              <path d="M6,0 C6,3.5 6.5,5 10,6 C6.5,7 6,8.5 6,12 C6,8.5 5.5,7 2,6 C5.5,5 6,3.5 6,0Z" fill="#B44AFF"/>
             </svg>
           }
         />
