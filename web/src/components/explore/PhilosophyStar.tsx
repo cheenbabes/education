@@ -125,8 +125,8 @@ export default function PhilosophyStar({
 
   useFrame(({ clock, camera }) => {
     if (groupRef.current) {
-      groupRef.current.position.x += (targetX - groupRef.current.position.x) * 0.02;
-      groupRef.current.position.y += (targetY - groupRef.current.position.y) * 0.02;
+      groupRef.current.position.x += (targetX - groupRef.current.position.x) * 0.04;
+      groupRef.current.position.y += (targetY - groupRef.current.position.y) * 0.04;
     }
 
     const t = clock.elapsedTime;

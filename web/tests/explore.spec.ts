@@ -106,11 +106,6 @@ test.describe("Explore atlas", () => {
       /watercolor-bg-teal\.png/,
     );
 
-    await expect(page.getByTestId("layer-philosophies")).toBeVisible();
-    await expect(page.getByTestId("layer-curricula")).toBeVisible();
-    await expect(page.getByTestId("layer-principles")).toBeVisible();
-    await expect(page.getByTestId("layer-activities")).toBeVisible();
-    await expect(page.getByTestId("layer-materials")).toBeVisible();
     await expect(page.getByLabel("Zoom in")).toBeVisible();
     await expect(page.getByLabel("Zoom out")).toBeVisible();
     await expect(page.getByLabel("Toggle search")).toBeVisible();
@@ -119,7 +114,7 @@ test.describe("Explore atlas", () => {
     await browser.close();
   });
 
-  test("toggles, search, and zoom interactions work", async () => {
+  test("search and zoom interactions work", async () => {
     const browser = await chromium.launch({
       args: ["--use-gl=angle", "--use-angle=swiftshader"],
     });
@@ -130,23 +125,8 @@ test.describe("Explore atlas", () => {
     await expect(page.locator("canvas")).toBeVisible({ timeout: 15000 });
     await expect(page.getByTestId("watercolor-bg")).toBeVisible();
 
-    const principles = page.getByTestId("layer-principles");
-    await expect(principles).toHaveAttribute("aria-pressed", "false");
-    await principles.click();
-    await expect(principles).toHaveAttribute("aria-pressed", "true");
-
-    const activities = page.getByTestId("layer-activities");
-    await expect(activities).toHaveAttribute("aria-pressed", "false");
-    await activities.click();
-    await expect(activities).toHaveAttribute("aria-pressed", "true");
-
-    const materials = page.getByTestId("layer-materials");
-    await expect(materials).toHaveAttribute("aria-pressed", "false");
-    await materials.click();
-    await expect(materials).toHaveAttribute("aria-pressed", "true");
-
     await page.getByLabel("Toggle search").click();
-    const searchInput = page.locator('input[placeholder="Search nodes..."]');
+    const searchInput = page.locator('input[placeholder="Search curricula..."]');
     await expect(searchInput).toBeVisible();
     await searchInput.fill("montessori");
     await searchInput.press("Enter");

@@ -21,6 +21,8 @@ export default function CurriculumMoon({
 }: CurriculumMoonProps) {
   const nodeRef = useRef<THREE.Group>(null);
   const glyphRef = useRef<THREE.Group>(null);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const labelRef = useRef<any>(null);
   const [hovered, setHovered] = useState(false);
   const { focusedNode, setFocusedNode, searchTerm, graphData, layoutPositions } = useExploreState();
 
@@ -70,9 +72,7 @@ export default function CurriculumMoon({
     );
   }, [searchTerm, placement.name, placement.publisher]);
 
-  // Show label when: hovered, OR connected to focused philosophy, OR search match, OR in focused cluster
   const isInFocusedCluster = focusedNode !== null && (isCurriculumFocused || isSiblingFocused || isConnectedToFocused);
-  const showLabel = hovered || shouldHighlight || (!!searchTerm && matchesSearch) || isInFocusedCluster;
 
   // Target opacity
   const targetOpacity = !matchesSearch ? 0.1 : shouldFade ? 0.55 : isCurriculumFocused ? 0.98 : 0.9;
@@ -91,19 +91,34 @@ export default function CurriculumMoon({
     return Math.abs(hash % 628) / 100;
   }, [placement.placementId]);
 
-  useFrame(({ clock }) => {
+  // Show label when: hovered, highlighted, search match, OR zoomed in past threshold
+  const showLabelDirect = hovered || shouldHighlight || (!!searchTerm && matchesSearch) || isInFocusedCluster;
+
+  useFrame(({ clock, camera }) => {
     if (nodeRef.current) {
       const t = clock.elapsedTime;
       const tx = targetPos[0] + Math.sin(t * 0.3 + phaseOffset) * 0.035;
       const ty = targetPos[1] + Math.cos(t * 0.25 + phaseOffset * 1.3) * 0.035;
-      nodeRef.current.position.x += (tx - nodeRef.current.position.x) * 0.02;
-      nodeRef.current.position.y += (ty - nodeRef.current.position.y) * 0.02;
+      nodeRef.current.position.x += (tx - nodeRef.current.position.x) * 0.04;
+      nodeRef.current.position.y += (ty - nodeRef.current.position.y) * 0.04;
     }
     if (glyphRef.current) {
       const target = GLYPH_SIZES.curriculumBase * targetScale;
       const current = glyphRef.current.scale.x;
       const next = current + (target - current) * 0.08;
       glyphRef.current.scale.set(next, next, 1);
+    }
+    // Fade curriculum label based on zoom level or interaction state
+    if (labelRef.current) {
+      const zoom = (camera as THREE.OrthographicCamera).zoom;
+      // Fade in between zoom 65–90
+      const zoomOpacity = THREE.MathUtils.clamp((zoom - 65) / 25, 0, 1);
+      const baseOpacity = shouldFade ? 0.56 : 0.93;
+      const target = showLabelDirect ? baseOpacity : zoomOpacity * 0.8;
+      const current = labelRef.current.fillOpacity ?? 0;
+      const next = current + (target - current) * 0.12;
+      labelRef.current.fillOpacity = next;
+      labelRef.current.outlineOpacity = next;
     }
   });
 
@@ -153,24 +168,24 @@ export default function CurriculumMoon({
         <meshBasicMaterial transparent opacity={0} depthWrite={false} />
       </mesh>
 
-      {/* Name label on hover or when connected to focused philosophy */}
-      {showLabel && (
-        <Text
-          position={[0, -0.28, 0]}
-          fontSize={0.16}
-          color="#FFB400"
-          anchorX="center"
-          anchorY="top"
-          fillOpacity={shouldFade ? 0.56 : 0.93}
-          letterSpacing={0.03}
-          outlineWidth={0.08}
-          outlineColor="#1d1710"
-          maxWidth={14}
-          font="/fonts/CormorantSC-SemiBold.ttf"
-        >
-          {placement.name}
-        </Text>
-      )}
+      {/* Name label — always rendered, opacity driven by zoom + interaction state */}
+      <Text
+        ref={labelRef}
+        position={[0, -0.28, 0]}
+        fontSize={0.16}
+        color="#FFB400"
+        anchorX="center"
+        anchorY="top"
+        fillOpacity={0}
+        outlineOpacity={0}
+        letterSpacing={0.03}
+        outlineWidth={0.08}
+        outlineColor="#1d1710"
+        maxWidth={14}
+        font="/fonts/CormorantSC-SemiBold.ttf"
+      >
+        {placement.name}
+      </Text>
     </group>
   );
 }

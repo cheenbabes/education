@@ -15,13 +15,6 @@ test.describe("Knowledge Graph Explorer", () => {
     const canvas = page.locator("canvas");
     await expect(canvas).toBeVisible();
 
-    // Should have control bar with all 5 toggle pills
-    await expect(page.getByText("Philosophies")).toBeVisible();
-    await expect(page.getByText("Curricula")).toBeVisible();
-    await expect(page.getByText("Principles")).toBeVisible();
-    await expect(page.getByText("Activities")).toBeVisible();
-    await expect(page.getByText("Materials")).toBeVisible();
-
     // Should have zoom buttons
     await expect(page.getByLabel("Zoom in")).toBeVisible();
     await expect(page.getByLabel("Zoom out")).toBeVisible();
@@ -36,7 +29,7 @@ test.describe("Knowledge Graph Explorer", () => {
     await browser.close();
   });
 
-  test("clicking toggle buttons changes their state", async () => {
+  test("search bar opens and closes", async () => {
     const browser = await chromium.launch({
       args: ["--use-gl=angle", "--use-angle=swiftshader"],
     });
@@ -44,29 +37,17 @@ test.describe("Knowledge Graph Explorer", () => {
     await page.goto(EXPLORE_URL);
     await page.waitForTimeout(5000);
 
-    // Principles toggle — should be off by default, click to turn on
-    const principlesBtn = page.getByText("Principles");
-    await principlesBtn.click();
+    // Open search
+    await page.getByLabel("Toggle search").click();
     await page.waitForTimeout(500);
-    await page.screenshot({ path: "/tmp/explore-principles-on.png" });
+    const searchInput = page.locator('input[placeholder="Search curricula..."]');
+    await expect(searchInput).toBeVisible();
+    await page.screenshot({ path: "/tmp/explore-search-open.png" });
 
-    // Activities toggle
-    const activitiesBtn = page.getByText("Activities");
-    await activitiesBtn.click();
+    // Close search
+    await page.getByLabel("Toggle search").click();
     await page.waitForTimeout(500);
-    await page.screenshot({ path: "/tmp/explore-activities-on.png" });
-
-    // Materials toggle
-    const materialsBtn = page.getByText("Materials");
-    await materialsBtn.click();
-    await page.waitForTimeout(500);
-    await page.screenshot({ path: "/tmp/explore-materials-on.png" });
-
-    // Turn curricula off
-    const curriculaBtn = page.getByText("Curricula");
-    await curriculaBtn.click();
-    await page.waitForTimeout(500);
-    await page.screenshot({ path: "/tmp/explore-curricula-off.png" });
+    await page.screenshot({ path: "/tmp/explore-search-closed.png" });
 
     await browser.close();
   });
@@ -120,7 +101,7 @@ test.describe("Knowledge Graph Explorer", () => {
     await page.waitForTimeout(300);
 
     // Type a search term
-    const searchInput = page.locator('input[placeholder="Search nodes..."]');
+    const searchInput = page.locator('input[placeholder="Search curricula..."]');
     await expect(searchInput).toBeVisible();
     await searchInput.fill("montessori");
     await page.waitForTimeout(500);

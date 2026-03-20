@@ -87,13 +87,6 @@ export default function ExplorePage() {
       .catch((err) => setError(err.message));
   }, []);
 
-  const handleToggleLayer = useCallback(
-    (layer: keyof VisibleLayers) => {
-      setVisibleLayers((prev) => ({ ...prev, [layer]: !prev[layer] }));
-    },
-    [],
-  );
-
   const handleClosePanel = useCallback(() => {
     setFocusedNode(null);
   }, []);
@@ -250,8 +243,6 @@ export default function ExplorePage() {
           onClose={handleClosePanel}
         />
         <ControlBar
-          visibleLayers={visibleLayers}
-          onToggleLayer={handleToggleLayer}
           searchTerm={searchTerm}
           onSearchChange={setSearchTerm}
           onSearchSubmit={handleSearchSubmit}

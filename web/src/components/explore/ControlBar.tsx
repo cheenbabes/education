@@ -2,11 +2,8 @@
 
 import Link from "next/link";
 import { useRef, useState, useEffect, useCallback } from "react";
-import { VisibleLayers } from "./useExploreState";
 
 interface ControlBarProps {
-  visibleLayers: VisibleLayers;
-  onToggleLayer: (layer: keyof VisibleLayers) => void;
   searchTerm: string;
   onSearchChange: (term: string) => void;
   onSearchSubmit: () => void;
@@ -14,47 +11,7 @@ interface ControlBarProps {
   onZoomOut?: () => void;
 }
 
-interface TogglePillProps {
-  label: string;
-  active: boolean;
-  disabled?: boolean;
-  onClick: () => void;
-  icon?: React.ReactNode;
-}
-
-function TogglePill({
-  label,
-  active,
-  disabled,
-  onClick,
-  icon,
-}: TogglePillProps) {
-  const testId = `layer-${label.toLowerCase().replace(/\s+/g, "-")}`;
-  return (
-    <button
-      onClick={onClick}
-      disabled={disabled}
-      aria-pressed={active}
-      aria-label={`${label} layer`}
-      data-testid={testId}
-      className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] tracking-[0.14em] uppercase font-medium transition-all
-        ${
-          active
-            ? "shadow-sm"
-            : "bg-white/5 text-[#F9F6EF]/35 hover:bg-white/10 hover:text-[#F9F6EF]/70"
-        }
-        ${disabled ? "cursor-default" : "cursor-pointer"}`}
-      style={active ? { backgroundColor: "#F9F6EF", color: "#1B2A4A" } : undefined}
-    >
-      {icon}
-      {label}
-    </button>
-  );
-}
-
 export default function ControlBar({
-  visibleLayers,
-  onToggleLayer,
   searchTerm,
   onSearchChange,
   onSearchSubmit,
@@ -149,10 +106,9 @@ export default function ControlBar({
         </button>
       </div>
 
-      {/* Bottom control bar */}
-      <div className="fixed bottom-0 left-0 right-0 z-50 h-12 bg-[linear-gradient(180deg,rgba(8,8,17,0.6),rgba(8,8,17,0.86))] backdrop-blur-xl border-t border-[#d4af37]/30 flex items-center justify-center gap-2 px-4 shadow-[0_-8px_26px_rgba(0,0,0,0.48)]">
-        {/* Search — left side */}
-        <div className="absolute left-4 flex items-center gap-1">
+      {/* Bottom control bar — centered search */}
+      <div className="fixed bottom-0 left-0 right-0 z-50 h-12 bg-[linear-gradient(180deg,rgba(8,8,17,0.6),rgba(8,8,17,0.86))] backdrop-blur-xl border-t border-[#d4af37]/30 flex items-center justify-center px-4 shadow-[0_-8px_26px_rgba(0,0,0,0.48)]">
+        <div className="flex items-center gap-1">
           <button
             onClick={handleToggleSearch}
             className="text-[#d4af37]/50 hover:text-[#d4af37] transition-colors p-1"
@@ -174,7 +130,7 @@ export default function ControlBar({
           </button>
           <div
             className="overflow-hidden transition-all duration-300"
-            style={{ width: searchOpen ? 200 : 0 }}
+            style={{ width: searchOpen ? 220 : 0 }}
           >
             <input
               ref={inputRef}
@@ -182,74 +138,11 @@ export default function ControlBar({
               value={searchTerm}
               onChange={(e) => onSearchChange(e.target.value)}
               onKeyDown={handleKeyDown}
-              placeholder="Search nodes..."
-              className="w-[200px] h-7 bg-black/35 border border-[#d4af37]/30 rounded text-xs text-[#e4d2a1] placeholder-[#d4af37]/35 px-2 outline-none focus:border-[#d4af37]/60 transition-colors"
+              placeholder="Search curricula..."
+              className="w-[220px] h-7 bg-black/35 border border-[#d4af37]/30 rounded text-xs text-[#e4d2a1] placeholder-[#d4af37]/35 px-2 outline-none focus:border-[#d4af37]/60 transition-colors"
             />
           </div>
         </div>
-
-        {/* Filter pills — center */}
-        <TogglePill
-          label="Philosophies"
-          active={true}
-          disabled={true}
-          onClick={() => {}}
-          icon={
-            <svg width="12" height="12" viewBox="0 0 12 12">
-              <circle cx="6" cy="6" r="4" stroke="#1B2A4A" strokeWidth="1.5" fill="none"/>
-            </svg>
-          }
-        />
-        <TogglePill
-          label="Curricula"
-          active={visibleLayers.curricula}
-          onClick={() => onToggleLayer("curricula")}
-          icon={
-            <svg width="12" height="12" viewBox="0 0 12 12">
-              <g transform="translate(6,6)" fill="#FFB400">
-                {[0,30,60,90,120,150,180,210,240,270,300,330].map(r => <polygon key={r} points="0,-6 0.5,-2.2 -0.5,-2.2" transform={`rotate(${r})`}/>)}
-                <circle r="2.2"/>
-              </g>
-            </svg>
-          }
-        />
-        <TogglePill
-          label="Principles"
-          active={visibleLayers.principles}
-          onClick={() => onToggleLayer("principles")}
-          icon={
-            <svg width="12" height="12" viewBox="0 0 12 12">
-              <g transform="translate(6,6)" fill="#FF7C15">
-                {[0,90,180,270].map(r => <polygon key={r} points="0,-6 0.8,-1.5 -0.8,-1.5" transform={`rotate(${r})`}/>)}
-                {[45,135,225,315].map(r => <polygon key={r} points="0,-4 0.5,-1.5 -0.5,-1.5" transform={`rotate(${r})`}/>)}
-                <circle r="1.5"/>
-              </g>
-            </svg>
-          }
-        />
-        <TogglePill
-          label="Activities"
-          active={visibleLayers.activities}
-          onClick={() => onToggleLayer("activities")}
-          icon={
-            <svg width="12" height="12" viewBox="0 0 12 12">
-              <g transform="translate(6,6)" fill="#ED4672">
-                {[0,60,120,180,240,300].map(r => <path key={r} d="M0,-6 C0.8,-2.5 1.5,-1 0,0 C-1.5,-1 -0.8,-2.5 0,-6Z" transform={`rotate(${r})`}/>)}
-                <circle r="1"/>
-              </g>
-            </svg>
-          }
-        />
-        <TogglePill
-          label="Materials"
-          active={visibleLayers.materials}
-          onClick={() => onToggleLayer("materials")}
-          icon={
-            <svg width="12" height="12" viewBox="0 0 12 12">
-              <path d="M6,0 C6,3.5 6.5,5 10,6 C6.5,7 6,8.5 6,12 C6,8.5 5.5,7 2,6 C5.5,5 6,3.5 6,0Z" fill="#B44AFF"/>
-            </svg>
-          }
-        />
       </div>
     </>
   );
