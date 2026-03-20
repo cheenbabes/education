@@ -3,14 +3,14 @@
  *  Positions span ±10 x ±7 to fill most of the canvas with breathing room.
  */
 export const PHILOSOPHY_POSITIONS: Record<string, [number, number]> = {
-  "classical":              [-8,    5.5],   // top-left (structured, academic)
-  "charlotte-mason":        [-2.5,  6.0],   // top-center (living books, narration)
-  "waldorf-adjacent":       [ 5,    5.0],   // top-right (creative, artistic)
-  "montessori-inspired":    [ 9,    0.5],   // far right (hands-on, self-directed)
-  "project-based-learning": [ 4,   -4.0],   // lower-right (inquiry, real-world)
-  "place-nature-based":     [-1,   -6.0],   // bottom-center (outdoor, nature)
-  "unschooling":            [-8,   -3.0],   // lower-left (child-led, freedom)
-  "flexible":               [ 0,    0.5],   // center (eclectic blend)
+  "classical":              [-12,    8],     // top-left
+  "charlotte-mason":        [  0,   10],     // top-center
+  "waldorf-adjacent":       [ 12,    8],     // top-right
+  "montessori-inspired":    [ 14,   -1],     // right
+  "project-based-learning": [  8,   -9],     // lower-right
+  "place-nature-based":     [ -4,  -10],     // bottom-left
+  "unschooling":            [-14,   -2],     // left
+  "flexible":               [  0,    0],     // center (eclectic — no placements rendered)
 };
 
 export const CANONICAL_PHILOSOPHIES = Object.keys(PHILOSOPHY_POSITIONS);

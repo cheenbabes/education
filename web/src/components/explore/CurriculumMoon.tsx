@@ -7,7 +7,6 @@ import * as THREE from "three";
 import { createCurriculumSun } from "./glyphShapes";
 import { CurriculumPlacement } from "./types";
 import { useExploreState } from "./useExploreState";
-import { normalizePhilosophyKey } from "./positions";
 import { GLYPH_SIZES } from "./glyphs";
 
 interface CurriculumMoonProps {
@@ -25,17 +24,6 @@ export default function CurriculumMoon({
   const { focusedNode, setFocusedNode, searchTerm, graphData } = useExploreState();
 
   const targetPos: [number, number, number] = [orbitalPos[0], orbitalPos[1], 0];
-
-  // Build connected philosophies list from the placement's scores
-  const connectedPhilosophies = useMemo(() => {
-    const connected: string[] = [];
-    for (const [rawKey, rawValue] of Object.entries(placement.philosophyScores || {})) {
-      const score = Number(rawValue);
-      if (!Number.isFinite(score) || score <= 0) continue;
-      connected.push(normalizePhilosophyKey(rawKey));
-    }
-    return connected;
-  }, [placement.philosophyScores]);
 
   const color = useMemo(() => new THREE.Color("#FFB400"), []);
 
@@ -61,8 +49,8 @@ export default function CurriculumMoon({
   }, [focusedNode, graphData]);
 
   const isConnectedToFocused =
-    (focusedNode?.type === "philosophy" && connectedPhilosophies.includes(focusedNode.id)) ||
-    (!!detailFocusPhilosophy && connectedPhilosophies.includes(detailFocusPhilosophy));
+    (focusedNode?.type === "philosophy" && placement.philosophyName === focusedNode.id) ||
+    (!!detailFocusPhilosophy && placement.philosophyName === detailFocusPhilosophy);
   const someNodeFocused = focusedNode !== null;
   const shouldHighlight = isCurriculumFocused || isSiblingFocused || isConnectedToFocused;
   const shouldFade = someNodeFocused && !shouldHighlight;

@@ -173,16 +173,25 @@ function getConnectedKeys(
 
   switch (focusedNode.type) {
     case "philosophy": {
-      // Connected: curricula that score > 0 for this philosophy
-      for (const c of graphData.curricula) {
-        for (const [rawKey, rawVal] of Object.entries(c.philosophyScores || {})) {
-          const score = Number(rawVal);
-          if (
-            Number.isFinite(score) &&
-            score > 0 &&
-            normalizePhilosophyKey(rawKey) === focusedNode.id
-          ) {
-            connected.add(nodeKey("curriculum", c.id));
+      // Connected: curriculum placements that orbit this philosophy (score >= 0.30)
+      if (graphData.curriculumPlacements) {
+        for (const p of graphData.curriculumPlacements) {
+          if (p.philosophyName === focusedNode.id) {
+            connected.add(nodeKey("curriculum", p.placementId));
+          }
+        }
+      } else {
+        // Fallback to old model
+        for (const c of graphData.curricula) {
+          for (const [rawKey, rawVal] of Object.entries(c.philosophyScores || {})) {
+            const score = Number(rawVal);
+            if (
+              Number.isFinite(score) &&
+              score >= 0.30 &&
+              normalizePhilosophyKey(rawKey) === focusedNode.id
+            ) {
+              connected.add(nodeKey("curriculum", c.id));
+            }
           }
         }
       }
