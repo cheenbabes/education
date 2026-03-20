@@ -124,14 +124,15 @@ export function getCurriculumPlacement(
     centerY += (secondary.pos[1] - primary.pos[1]) * pullStrength;
   }
 
-  // Small deterministic spread to avoid exact overlap within a philosophy's orbit.
+  // Spread curricula outside the philosophy constellation glyph (~1.1 unit radius).
+  // Minimum distance of 1.5 ensures no curriculum lands inside a philosophy.
   const goldenAngle = 2.399963229728653;
   const theta = index * goldenAngle;
-  const spiralRadius = 0.5 + Math.sqrt(index + 1) * 0.18;
+  const spiralRadius = 1.5 + Math.sqrt(index + 1) * 0.2;
   const spiralX = Math.cos(theta) * spiralRadius;
   const spiralY = Math.sin(theta) * spiralRadius * 0.82;
-  const jitterX = Math.sin(index * 7.13) * 0.25;
-  const jitterY = Math.cos(index * 5.37) * 0.2;
+  const jitterX = Math.sin(index * 7.13) * 0.2;
+  const jitterY = Math.cos(index * 5.37) * 0.16;
 
   return {
     position: [centerX + spiralX + jitterX, centerY + spiralY + jitterY, 0],
