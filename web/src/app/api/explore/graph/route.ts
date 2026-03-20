@@ -108,15 +108,29 @@ export async function GET() {
   // Generate curriculum placements — one node per philosophy where score ≥ 30%
   const PLACEMENT_THRESHOLD = 0.30;
 
+  // DB stores scores with underscore keys; positions/display use hyphenated canonical names
+  const SCORE_KEY_TO_CANONICAL: Record<string, string> = {
+    charlotte_mason: "charlotte-mason",
+    eclectic_flexible: "flexible",
+    place_nature: "place-nature-based",
+    project_based: "project-based-learning",
+    waldorf: "waldorf-adjacent",
+    montessori: "montessori-inspired",
+    // These match already:
+    classical: "classical",
+    unschooling: "unschooling",
+  };
+
   const curriculumPlacements: CurriculumPlacement[] = [];
   for (const c of curricula) {
     const scores = c.philosophyScores as Record<string, number>;
     for (const [philName, score] of Object.entries(scores)) {
-      if (score >= PLACEMENT_THRESHOLD) {
+      const canonicalName = SCORE_KEY_TO_CANONICAL[philName] ?? philName;
+      if (score >= PLACEMENT_THRESHOLD && canonicalName !== "flexible") {
         curriculumPlacements.push({
-          placementId: `${c.id}__${philName}`,
+          placementId: `${c.id}__${canonicalName}`,
           curriculumId: c.id,
-          philosophyName: philName,
+          philosophyName: canonicalName,
           score,
           name: c.name,
           publisher: c.publisher,
