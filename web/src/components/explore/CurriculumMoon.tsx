@@ -7,6 +7,7 @@ import * as THREE from "three";
 import { createCurriculumSun } from "./glyphShapes";
 import { CurriculumPlacement } from "./types";
 import { useExploreState } from "./useExploreState";
+import { nodeKey } from "./useForceLayout";
 import { GLYPH_SIZES } from "./glyphs";
 
 interface CurriculumMoonProps {
@@ -21,9 +22,13 @@ export default function CurriculumMoon({
   const nodeRef = useRef<THREE.Group>(null);
   const glyphRef = useRef<THREE.Group>(null);
   const [hovered, setHovered] = useState(false);
-  const { focusedNode, setFocusedNode, searchTerm, graphData } = useExploreState();
+  const { focusedNode, setFocusedNode, searchTerm, graphData, layoutPositions } = useExploreState();
 
-  const targetPos: [number, number, number] = [orbitalPos[0], orbitalPos[1], 0];
+  // Use force layout position if available (during focus), otherwise orbital position
+  const layoutTarget = layoutPositions.positions.get(nodeKey("curriculum", placement.placementId));
+  const targetPos: [number, number, number] = layoutTarget
+    ? [layoutTarget.x, layoutTarget.y, 0]
+    : [orbitalPos[0], orbitalPos[1], 0];
 
   const color = useMemo(() => new THREE.Color("#FFB400"), []);
 
