@@ -104,7 +104,31 @@ export default function ConnectionLines() {
     if (focusedNode.type === "philosophy") {
       const philosophy = graphData.philosophies.find((p) => p.name === focusedNode.id);
       if (!philosophy) return [];
-      pushCurriculumLinks(philosophy.name, "#e6c887", 0.26);
+      const philLayout = layoutPositions.positions.get(nodeKey("philosophy", philosophy.name));
+      const philPos: [number, number, number] = philLayout
+        ? [philLayout.x, philLayout.y, 0]
+        : (() => { const p = PHILOSOPHY_POSITIONS[philosophy.name]; return p ? [p[0], p[1], 0] as [number, number, number] : [0, 0, 0] as [number, number, number]; })();
+
+      // Use placements if available (position by placementId)
+      if (graphData.curriculumPlacements && graphData.curriculumPlacements.length > 0) {
+        for (const p of graphData.curriculumPlacements) {
+          if (p.philosophyName !== philosophy.name) continue;
+          const cLayout = layoutPositions.positions.get(nodeKey("curriculum", p.placementId));
+          if (!cLayout) continue;
+          result.push({
+            key: `${philosophy.name}-${p.placementId}`,
+            points: [philPos, [cLayout.x, cLayout.y, 0]],
+            color: "#e6c887",
+            opacity: 0.26,
+            width: 0.95,
+            shimmer: true,
+            shimmerSpeed: 2.6,
+            shimmerAmount: 0.28,
+          });
+        }
+      } else {
+        pushCurriculumLinks(philosophy.name, "#e6c887", 0.26);
+      }
       return result;
     }
 
