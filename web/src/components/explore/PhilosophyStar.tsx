@@ -194,7 +194,7 @@ export default function PhilosophyStar({
         onPointerOver={() => { document.body.style.cursor = "pointer"; }}
         onPointerOut={() => { document.body.style.cursor = "auto"; }}
       >
-        <circleGeometry args={[Math.max(0.78, baseScale * 0.56), 24]} />
+        <circleGeometry args={[Math.max(0.4, baseScale * 0.3), 24]} />
         <meshBasicMaterial transparent opacity={0} depthWrite={false} />
       </mesh>
 
