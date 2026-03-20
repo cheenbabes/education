@@ -17,6 +17,7 @@ import {
   PHILOSOPHY_POSITIONS,
   normalizePhilosophyKey,
   getCurriculumPlacement,
+  getOrbitalPosition,
 } from "./positions";
 
 // ---------------------------------------------------------------------------
@@ -121,11 +122,28 @@ function computeDefaultPositions(graphData: GraphData): Map<string, { x: number;
     }
   }
 
-  // Curricula — weighted placement via getCurriculumPlacement
-  graphData.curricula.forEach((c, i) => {
-    const { position } = getCurriculumPlacement(c.philosophyScores, i);
-    positions.set(nodeKey("curriculum", c.id), { x: position[0], y: position[1] });
-  });
+  // Curricula — orbital placements (new model) or fallback to old
+  if (graphData.curriculumPlacements && graphData.curriculumPlacements.length > 0) {
+    // Group by philosophy and compute orbital positions
+    const byPhil: Record<string, typeof graphData.curriculumPlacements> = {};
+    for (const p of graphData.curriculumPlacements) {
+      (byPhil[p.philosophyName] ??= []).push(p);
+    }
+    for (const group of Object.values(byPhil)) {
+      group.sort((a, b) => b.score - a.score);
+    }
+    for (const [philName, group] of Object.entries(byPhil)) {
+      group.forEach((p, i) => {
+        const [x, y] = getOrbitalPosition(philName, p.score, i, group.length);
+        positions.set(nodeKey("curriculum", p.placementId), { x, y });
+      });
+    }
+  } else {
+    graphData.curricula.forEach((c, i) => {
+      const { position } = getCurriculumPlacement(c.philosophyScores, i);
+      positions.set(nodeKey("curriculum", c.id), { x: position[0], y: position[1] });
+    });
+  }
 
   // Detail nodes — ring around their parent philosophy
   const detailGroups: Array<{
@@ -330,11 +348,19 @@ export function useForceLayout(
       if (def) addNode(nk, "philosophy", def.x, def.y);
     }
 
-    // Always include curricula
-    for (const c of graphData.curricula) {
-      const nk = nodeKey("curriculum", c.id);
-      const def = defaultPositions.get(nk);
-      if (def) addNode(nk, "curriculum", def.x, def.y);
+    // Always include curricula (use placements if available)
+    if (graphData.curriculumPlacements && graphData.curriculumPlacements.length > 0) {
+      for (const p of graphData.curriculumPlacements) {
+        const nk = nodeKey("curriculum", p.placementId);
+        const def = defaultPositions.get(nk);
+        if (def) addNode(nk, "curriculum", def.x, def.y);
+      }
+    } else {
+      for (const c of graphData.curricula) {
+        const nk = nodeKey("curriculum", c.id);
+        const def = defaultPositions.get(nk);
+        if (def) addNode(nk, "curriculum", def.x, def.y);
+      }
     }
 
     // Include detail nodes only if their layer is visible AND a philosophy is active
