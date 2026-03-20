@@ -51,6 +51,33 @@ export const CONSTELLATION_EDGES: [string, string][] = [
   ["unschooling", "project-based-learning"],   // child-driven inquiry
 ];
 
+export function getOrbitalPosition(
+  philosophyName: string,
+  score: number,
+  index: number,
+  totalInOrbit: number,
+): [number, number] {
+  void totalInOrbit; // reserved for future use
+  const philPos = PHILOSOPHY_POSITIONS[philosophyName];
+  if (!philPos) return [0, 0];
+
+  const minDist = 1.6;
+  const maxDist = 4.0;
+  const t = (score - 0.30) / 0.70;
+  const dist = maxDist - t * (maxDist - minDist);
+
+  const goldenAngle = 2.39996323;
+  const angle = index * goldenAngle;
+
+  const jitterR = (Math.sin(index * 7.13) * 0.15);
+  const jitterA = (Math.cos(index * 3.77) * 0.2);
+
+  const x = philPos[0] + (dist + jitterR) * Math.cos(angle + jitterA);
+  const y = philPos[1] + (dist + jitterR) * Math.sin(angle + jitterA);
+
+  return [x, y];
+}
+
 /** Normalize curriculum score keys to canonical philosophy IDs. */
 export function normalizePhilosophyKey(key: string): string {
   const normalized = key.trim().toLowerCase();

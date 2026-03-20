@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
+import type { CurriculumPlacement } from "@/components/explore/types";
 
 export const dynamic = "force-dynamic";
 
@@ -104,6 +105,36 @@ export async function GET() {
     notes: c.notes,
   }));
 
+  // Generate curriculum placements — one node per philosophy where score ≥ 30%
+  const PLACEMENT_THRESHOLD = 0.30;
+
+  const curriculumPlacements: CurriculumPlacement[] = [];
+  for (const c of curricula) {
+    const scores = c.philosophyScores as Record<string, number>;
+    for (const [philName, score] of Object.entries(scores)) {
+      if (score >= PLACEMENT_THRESHOLD) {
+        curriculumPlacements.push({
+          placementId: `${c.id}__${philName}`,
+          curriculumId: c.id,
+          philosophyName: philName,
+          score,
+          name: c.name,
+          publisher: c.publisher,
+          description: c.description,
+          subjects: c.subjects,
+          gradeRange: c.gradeRange,
+          philosophyScores: scores,
+          prepLevel: c.prepLevel,
+          religiousType: c.religiousType,
+          priceRange: c.priceRange,
+          qualityScore: c.qualityScore,
+          affiliateUrl: c.affiliateUrl,
+          notes: c.notes,
+        });
+      }
+    }
+  }
+
   // Build philosophy nodes with dimensions and colors, deduplicated by name.
   const philosophyMap = new Map<string, KgPhilosophy>();
   for (const p of kgData.philosophies) {
@@ -136,6 +167,7 @@ export async function GET() {
     {
       philosophies,
       curricula,
+      curriculumPlacements,
       principles: kgData.principles,
       activities: kgData.activities,
       materials: kgData.materials,

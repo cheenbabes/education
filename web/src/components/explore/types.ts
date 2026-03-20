@@ -46,6 +46,25 @@ export interface MaterialNode {
   philosophyId: string;
 }
 
+export interface CurriculumPlacement {
+  placementId: string;
+  curriculumId: string;
+  philosophyName: string;
+  score: number;
+  name: string;
+  publisher: string;
+  description: string;
+  subjects: string[];
+  gradeRange: string;
+  philosophyScores: Record<string, number>;
+  prepLevel: string;
+  religiousType: string;
+  priceRange: string;
+  qualityScore: number;
+  affiliateUrl: string | null;
+  notes: string | null;
+}
+
 export interface GraphData {
   philosophies: PhilosophyNode[];
   curricula: CurriculumNode[];
