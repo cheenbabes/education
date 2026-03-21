@@ -15,6 +15,22 @@ import {
 import { GLYPH_SIZES } from "./glyphs";
 import { CONSTELLATION_VECTORS } from "./constellationVectors";
 
+/** Create a 4-pointed sparkle star shape */
+function createSparkleShape(outerRadius: number, points: number, innerRatio: number): THREE.Shape {
+  const shape = new THREE.Shape();
+  const innerRadius = outerRadius * innerRatio;
+  const totalPoints = points * 2;
+  for (let i = 0; i <= totalPoints; i++) {
+    const angle = (i / totalPoints) * Math.PI * 2 - Math.PI / 2;
+    const r = i % 2 === 0 ? outerRadius : innerRadius;
+    const x = Math.cos(angle) * r;
+    const y = Math.sin(angle) * r;
+    if (i === 0) shape.moveTo(x, y);
+    else shape.lineTo(x, y);
+  }
+  return shape;
+}
+
 interface PhilosophyStarProps {
   philosophy: PhilosophyNode;
   index: number;
@@ -239,18 +255,32 @@ export default function PhilosophyStar({
         })}
         {constellation.points.map((point, pointIndex) => {
           const degree = pointDegrees[pointIndex] ?? 1;
-          const radius = degree >= 3 ? 0.045 : degree === 2 ? 0.036 : 0.03;
+          const size = degree >= 3 ? 0.07 : degree === 2 ? 0.055 : 0.04;
           return (
-            <mesh key={`star-${pointIndex}`} position={[point[0], point[1], 0.01]}>
-              <circleGeometry args={[radius, 20]} />
-              <meshBasicMaterial
-                color={highlightedByContext || isFocused ? "#F9F6EF" : "#F9F6EF"}
-                transparent
-                opacity={constellationPointOpacity}
-                depthWrite={false}
-                toneMapped={false}
-              />
-            </mesh>
+            <group key={`star-${pointIndex}`} position={[point[0], point[1], 0.01]}>
+              {/* 4-pointed sparkle — primary rays */}
+              <mesh>
+                <shapeGeometry args={[createSparkleShape(size, 4, 0.25)]} />
+                <meshBasicMaterial
+                  color="#F9F6EF"
+                  transparent
+                  opacity={constellationPointOpacity}
+                  depthWrite={false}
+                  toneMapped={false}
+                />
+              </mesh>
+              {/* Secondary diagonal rays (smaller, dimmer) */}
+              <mesh rotation={[0, 0, Math.PI / 4]}>
+                <shapeGeometry args={[createSparkleShape(size * 0.6, 4, 0.2)]} />
+                <meshBasicMaterial
+                  color="#F9F6EF"
+                  transparent
+                  opacity={constellationPointOpacity * 0.5}
+                  depthWrite={false}
+                  toneMapped={false}
+                />
+              </mesh>
+            </group>
           );
         })}
       </group>

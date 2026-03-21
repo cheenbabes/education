@@ -80,13 +80,6 @@ export default function ControlBar({
           <polyline points="9 22 9 12 15 12 15 22" />
         </svg>
       </Link>
-      <Link
-        href="/explore/glyph-lab"
-        className="fixed top-4 left-14 z-50 px-2 py-1 text-[10px] tracking-[0.14em] uppercase text-[#d4af37]/60 border border-[#d4af37]/30 rounded bg-black/30 hover:bg-[#d4af37]/10 hover:text-[#d4af37] transition-colors"
-        aria-label="Open glyph lab"
-      >
-        Glyph Lab
-      </Link>
 
       {/* Zoom controls — right side, Google Maps style */}
       <div className="fixed right-4 bottom-20 z-50 flex flex-col gap-0.5">

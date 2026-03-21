@@ -247,7 +247,7 @@ function ResponsiveZoom({ controlsRef }: { controlsRef: MutableRefObject<OrbitCo
   useEffect(() => {
     const ortho = camera as THREE.OrthographicCamera;
     const shortest = Math.min(size.width, size.height);
-    const targetZoom = THREE.MathUtils.clamp(shortest / 14, 45, 95);
+    const targetZoom = THREE.MathUtils.clamp(shortest / 18, 38, 88);
     ortho.zoom = targetZoom;
     ortho.updateProjectionMatrix();
     controlsRef.current?.update?.();
@@ -386,7 +386,7 @@ export default function ExploreCanvas({
     <Canvas
       orthographic
       camera={{
-        zoom: 45,
+        zoom: 38,
         near: -100,
         far: 100,
         position: [0, 0, 10],
