@@ -55,7 +55,7 @@ const ALL_PHILOSOPHIES: PhilosophyKey[] = [
   "classical",
   "charlotte_mason",
   "unschooling",
-  "eclectic_flexible",
+  "adaptive",
 ];
 
 /**
@@ -121,7 +121,7 @@ export function calculatePhilosophies(
     classical: 0,
     charlotte_mason: 0,
     unschooling: 0,
-    eclectic_flexible: 0,
+    adaptive: 0,
   };
 
   for (const q of PART1_QUESTIONS) {
@@ -211,7 +211,7 @@ export function detectStructureFlowSplit(
  * each archetype's ideal philosophy profile.
  * Secondary signal: dimension proximity (small tiebreaker).
  *
- * The Weaver archetype (eclectic) only wins when no single philosophy
+ * The Weaver archetype (adaptive) only wins when no single philosophy
  * dominates — i.e., the user's top philosophy is less than 20% of the blend.
  */
 export function determineArchetype(
@@ -229,10 +229,10 @@ export function determineArchetype(
     blendNorm[key] = (value as number) / 100;
   }
 
-  // Check if user has a dominant philosophy or is truly eclectic
+  // Check if user has a dominant philosophy or is truly adaptive
   const sortedPhils = Object.entries(blendNorm).sort((a, b) => b[1] - a[1]);
   const topPhilPct = sortedPhils.length > 0 ? sortedPhils[0][1] : 0;
-  const isTrulyEclectic = topPhilPct < 0.17; // No single philosophy > 17%
+  const isTrulyAdaptive = topPhilPct < 0.17; // No single philosophy > 17%
 
   const scored: Array<{ archetype: Archetype; score: number }> = [];
 
@@ -269,8 +269,8 @@ export function determineArchetype(
     // --- Combined score ---
     let finalScore = cosineSim * 0.8 + dimSim * 0.2;
 
-    // Weaver penalty: only let Weaver win if user is truly eclectic
-    if (archetype.id === "the-weaver" && !isTrulyEclectic) {
+    // Weaver penalty: only let Weaver win if user is truly adaptive
+    if (archetype.id === "the-weaver" && !isTrulyAdaptive) {
       finalScore -= 0.15;
     }
 
@@ -332,7 +332,7 @@ export const PHILOSOPHY_LABELS: Record<PhilosophyKey, string> = {
   classical: "Classical",
   charlotte_mason: "Charlotte Mason",
   unschooling: "Unschooling / Child-Led",
-  eclectic_flexible: "Eclectic / Flexible",
+  adaptive: "Adaptive",
 };
 
 /** Colors for philosophy pie chart */
@@ -344,5 +344,5 @@ export const PHILOSOPHY_COLORS: Record<PhilosophyKey, string> = {
   classical: "#6366F1",
   charlotte_mason: "#EC4899",
   unschooling: "#F97316",
-  eclectic_flexible: "#6B7280",
+  adaptive: "#6B7280",
 };

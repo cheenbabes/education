@@ -88,7 +88,7 @@ model Lesson {
   userId                 String
   title                  String
   interest               String
-  philosophy             String   // flexible, waldorf-adjacent, montessori-inspired, project-based, place-nature-based
+  philosophy             String   // adaptive, waldorf-adjacent, montessori-inspired, project-based, place-nature-based
   subjects               String[] // array of subject names
   multiSubjectOptimized  Boolean  @default(false)
   content                Json     // full lesson plan JSON

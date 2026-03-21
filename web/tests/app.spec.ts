@@ -114,7 +114,7 @@ test.describe("Generate Lesson", () => {
 
   test("has philosophy radio options", async ({ page }) => {
     await page.goto("/generate");
-    await expect(page.getByText("Flexible")).toBeVisible();
+    await expect(page.getByText("Adaptive")).toBeVisible();
     await expect(page.getByText("Waldorf-Adjacent")).toBeVisible();
     await expect(page.getByText("Montessori-Inspired")).toBeVisible();
     await expect(page.getByText("Project-Based Learning")).toBeVisible();

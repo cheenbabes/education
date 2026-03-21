@@ -15,7 +15,7 @@ import { ARCHETYPES } from "@/lib/compass/archetypes";
 
 const ALL_PHILS: PhilosophyKey[] = [
   "montessori", "waldorf", "project_based", "place_nature",
-  "classical", "charlotte_mason", "unschooling", "eclectic_flexible",
+  "classical", "charlotte_mason", "unschooling", "adaptive",
 ];
 const ALL_DIMS = ["structure", "modality", "subjectApproach", "direction", "social"] as const;
 
@@ -77,7 +77,7 @@ export default function PersonasPage() {
     name: "Custom Persona",
     description: "Adjust the sliders to model a specific parent/teacher type",
     expectedArchetype: "",
-    philosophyWeights: { montessori: 0.5, waldorf: 0.5, project_based: 0.5, place_nature: 0.5, classical: 0.5, charlotte_mason: 0.5, unschooling: 0.5, eclectic_flexible: 0.5 },
+    philosophyWeights: { montessori: 0.5, waldorf: 0.5, project_based: 0.5, place_nature: 0.5, classical: 0.5, charlotte_mason: 0.5, unschooling: 0.5, adaptive: 0.5 },
     dimensionBiases: { structure: 0, modality: 0, subjectApproach: 0, direction: 0, social: 0 },
   });
 

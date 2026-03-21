@@ -12,7 +12,7 @@ const PHILOSOPHY_COLORS: Record<string, string> = {
   classical: "#6366F1",
   "charlotte-mason": "#EC4899",
   unschooling: "#F97316",
-  flexible: "#6B7280",
+  adaptive: "#6B7280",
 };
 
 /** Normalize underscore-based philosophy keys to hyphenated canonical form */
@@ -23,7 +23,7 @@ function normalizePhilKey(key: string): string {
     montessori: "montessori-inspired",
     project_based: "project-based-learning",
     place_nature: "place-nature-based",
-    eclectic_flexible: "flexible",
+    adaptive: "adaptive",
   };
   return map[key] || key;
 }
@@ -101,28 +101,6 @@ function PhilosophyPanel({
       <p className="text-sm text-[#d4af37]/70 leading-relaxed mb-4">
         {philosophy.description}
       </p>
-
-      {/* Stats */}
-      <div className="flex gap-2 mb-4 flex-wrap">
-        <span
-          className="text-xs px-2 py-0.5 rounded-full"
-          style={{ backgroundColor: `${color}20`, color }}
-        >
-          {philosophy.principleCount} principles
-        </span>
-        <span
-          className="text-xs px-2 py-0.5 rounded-full"
-          style={{ backgroundColor: `${color}20`, color }}
-        >
-          {philosophy.activityCount} activities
-        </span>
-        <span
-          className="text-xs px-2 py-0.5 rounded-full"
-          style={{ backgroundColor: `${color}20`, color }}
-        >
-          {philosophy.materialCount} materials
-        </span>
-      </div>
 
       {/* Divider */}
       <div className="border-t border-white/10 mb-4" />

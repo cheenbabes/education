@@ -8,7 +8,7 @@ export const SUBJECTS = [
 export type Subject = (typeof SUBJECTS)[number];
 
 export const PHILOSOPHIES = [
-  { id: "flexible", label: "Flexible", description: "Blends approaches based on the subject, age, and your child's needs" },
+  { id: "adaptive", label: "Adaptive", description: "Blends approaches based on the subject, age, and your child's needs" },
   { id: "waldorf-adjacent", label: "Waldorf-Inspired", description: "Follows Waldorf principles and methods", disclaimer: "This lesson draws from Waldorf educational principles but may not align exactly with traditional Waldorf curriculum sequencing, which prescribes specific content for specific ages." },
   { id: "montessori-inspired", label: "Montessori-Inspired", description: "Hands-on, child-led, concrete-to-abstract learning" },
   { id: "project-based-learning", label: "Project-Based Learning", description: "Extended projects, inquiry-driven, real-world problems" },

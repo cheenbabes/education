@@ -17,7 +17,7 @@ const PHILOSOPHY_DIMENSIONS: Record<string, { structure: number; modality: numbe
   "project-based-learning": { structure: 40, modality: 35 },
   "place-nature-based":     { structure: 30, modality: 15 },
   "unschooling":            { structure: 10, modality: 20 },
-  "flexible":               { structure: 50, modality: 50 },
+  "adaptive":               { structure: 50, modality: 50 },
 };
 
 const PHILOSOPHY_COLORS: Record<string, string> = {
@@ -28,7 +28,7 @@ const PHILOSOPHY_COLORS: Record<string, string> = {
   "classical":              "#6366F1",
   "charlotte-mason":        "#EC4899",
   "unschooling":            "#F97316",
-  "flexible":               "#6B7280",
+  "adaptive":               "#6B7280",
 };
 const CANONICAL_PHILOSOPHIES = Object.keys(PHILOSOPHY_DIMENSIONS);
 
@@ -111,7 +111,8 @@ export async function GET() {
   // DB stores scores with underscore keys; positions/display use hyphenated canonical names
   const SCORE_KEY_TO_CANONICAL: Record<string, string> = {
     charlotte_mason: "charlotte-mason",
-    eclectic_flexible: "flexible",
+    adaptive: "adaptive",
+    eclectic_flexible: "adaptive",
     place_nature: "place-nature-based",
     project_based: "project-based-learning",
     waldorf: "waldorf-adjacent",
@@ -126,7 +127,7 @@ export async function GET() {
     const scores = c.philosophyScores as Record<string, number>;
     for (const [philName, score] of Object.entries(scores)) {
       const canonicalName = SCORE_KEY_TO_CANONICAL[philName] ?? philName;
-      if (score >= PLACEMENT_THRESHOLD && canonicalName !== "flexible") {
+      if (score >= PLACEMENT_THRESHOLD && canonicalName !== "adaptive") {
         curriculumPlacements.push({
           placementId: `${c.id}__${canonicalName}`,
           curriculumId: c.id,
@@ -166,11 +167,21 @@ export async function GET() {
     });
   }
 
-  const philosophies = Array.from(philosophyMap.values()).map((p) => ({
-    ...p,
-    dimensions: PHILOSOPHY_DIMENSIONS[p.name] || { structure: 50, modality: 50 },
-    color: PHILOSOPHY_COLORS[p.name] || "#6B7280",
-  }));
+  // Normalize legacy philosophy names from KG service
+  const LEGACY_PHILOSOPHY_NAMES: Record<string, string> = {
+    flexible: "adaptive",
+    eclectic: "adaptive",
+  };
+
+  const philosophies = Array.from(philosophyMap.values()).map((p) => {
+    const name = LEGACY_PHILOSOPHY_NAMES[p.name] || p.name;
+    return {
+      ...p,
+      name,
+      dimensions: PHILOSOPHY_DIMENSIONS[name] || { structure: 50, modality: 50 },
+      color: PHILOSOPHY_COLORS[name] || "#6B7280",
+    };
+  });
 
   const presentPhilosophies = new Set(philosophies.map((p) => p.name));
   const missingPhilosophies = CANONICAL_PHILOSOPHIES.filter(
@@ -190,7 +201,7 @@ export async function GET() {
       },
     },
     {
-      headers: { "Cache-Control": "public, max-age=3600" },
+      headers: { "Cache-Control": "no-cache" },
     },
   );
 }

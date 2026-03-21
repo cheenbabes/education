@@ -29,7 +29,7 @@ export const PHILOSOPHY_SEMANTIC_GLYPHS: Record<string, string> = {
   "project-based-learning": "/explore/constellation-philosophy/project-based-learning.png",
   "place-nature-based": "/explore/constellation-philosophy/place-nature-based.png",
   "unschooling": "/explore/constellation-philosophy/unschooling.png",
-  "flexible": "/explore/constellation-philosophy/flexible.png",
+  "adaptive": "/explore/constellation-philosophy/adaptive.png",
 };
 
 export const CURRICULUM_VARIANTS_BY_PHILOSOPHY: Record<string, string> = {
@@ -40,7 +40,7 @@ export const CURRICULUM_VARIANTS_BY_PHILOSOPHY: Record<string, string> = {
   "project-based-learning": "/explore/semantic-glyphs/curriculum-explorer.png",
   "place-nature-based": "/explore/semantic-glyphs/curriculum-explorer.png",
   "unschooling": "/explore/semantic-glyphs/curriculum-explorer.png",
-  "flexible": "/explore/semantic-glyphs/curriculum-creative.png",
+  "adaptive": "/explore/semantic-glyphs/curriculum-creative.png",
 };
 
 export function getPhilosophyGlyphPath(philosophyId: string): string {
@@ -72,8 +72,8 @@ export const PHILOSOPHY_PLANET_SIGNS: Record<string, string> = {
   "place-nature-based": "♀",
   // Uranus: autonomy, unconventional learning paths.
   "unschooling": "♅",
-  // Jupiter: synthesis, breadth, eclectic integration.
-  "flexible": "♃",
+  // Jupiter: synthesis, breadth, adaptive integration.
+  "adaptive": "♃",
 };
 
 export function getPhilosophyPlanetSign(philosophyId: string): string {

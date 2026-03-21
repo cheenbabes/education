@@ -3,14 +3,14 @@
  *  Positions span ±10 x ±7 to fill most of the canvas with breathing room.
  */
 export const PHILOSOPHY_POSITIONS: Record<string, [number, number]> = {
-  "classical":              [-12,    8],     // top-left
-  "charlotte-mason":        [  0,   10],     // top-center
-  "waldorf-adjacent":       [ 12,    8],     // top-right
-  "montessori-inspired":    [ 14,   -1],     // right
-  "project-based-learning": [  8,   -9],     // lower-right
-  "place-nature-based":     [ -4,  -10],     // bottom-left
-  "unschooling":            [-14,   -2],     // left
-  "flexible":               [  0,    0],     // center (eclectic — no placements rendered)
+  "classical":              [-15.4,  10.2],  // top-left
+  "charlotte-mason":        [  0,    12.8],  // top-center
+  "waldorf-adjacent":       [ 15.4,  10.2],  // top-right
+  "montessori-inspired":    [ 17.9,  -1.3],  // right
+  "project-based-learning": [ 10.2, -11.5],  // lower-right
+  "place-nature-based":     [ -5.1, -12.8],  // bottom-left
+  "unschooling":            [-17.9,  -2.6],  // left
+  "adaptive":               [  0,     0  ],  // center (adaptive — no placements rendered)
 };
 
 export const CANONICAL_PHILOSOPHIES = Object.keys(PHILOSOPHY_POSITIONS);
@@ -24,7 +24,7 @@ export const PHILOSOPHY_DISPLAY_NAMES: Record<string, string> = {
   "project-based-learning": "PROJECT-BASED",
   "place-nature-based":     "NATURE-BASED",
   "unschooling":            "UNSCHOOLING",
-  "flexible":               "ECLECTIC",
+  "adaptive":               "ADAPTIVE",
 };
 
 /** Constellation lines — philosophies that share conceptual connections.
@@ -41,10 +41,10 @@ export const CONSTELLATION_EDGES: [string, string][] = [
   ["project-based-learning", "place-nature-based"],
   ["place-nature-based", "unschooling"],
   // Cross-connections
-  ["unschooling", "flexible"],
-  ["flexible", "classical"],
-  ["flexible", "charlotte-mason"],
-  ["flexible", "montessori-inspired"],
+  ["unschooling", "adaptive"],
+  ["adaptive", "classical"],
+  ["adaptive", "charlotte-mason"],
+  ["adaptive", "montessori-inspired"],
   // More subtle connections
   ["charlotte-mason", "place-nature-based"],  // nature study
   ["waldorf-adjacent", "place-nature-based"],  // outdoor emphasis
@@ -57,20 +57,26 @@ export function getOrbitalPosition(
   index: number,
   totalInOrbit: number,
 ): [number, number] {
-  void totalInOrbit; // reserved for future use
   const philPos = PHILOSOPHY_POSITIONS[philosophyName];
   if (!philPos) return [0, 0];
 
-  const minDist = 1.6;
-  const maxDist = 4.0;
+  // Score-based base distance: high-score curricula orbit closer
+  const minDist = 2.0;
+  const maxDist = 5.0;
   const t = (score - 0.30) / 0.70;
-  const dist = maxDist - t * (maxDist - minDist);
+  const baseDist = maxDist - t * (maxDist - minDist);
+
+  // Index-based spiral expansion prevents same-score curricula from stacking.
+  // Scales with orbit density — more curricula means more spread needed.
+  const densityFactor = totalInOrbit > 12 ? 0.35 : 0.25;
+  const spiralExpand = Math.sqrt(index + 1) * densityFactor;
+  const dist = baseDist + spiralExpand;
 
   const goldenAngle = 2.39996323;
   const angle = index * goldenAngle;
 
-  const jitterR = (Math.sin(index * 7.13) * 0.15);
-  const jitterA = (Math.cos(index * 3.77) * 0.2);
+  const jitterR = (Math.sin(index * 7.13) * 0.18);
+  const jitterA = (Math.cos(index * 3.77) * 0.25);
 
   const x = philPos[0] + (dist + jitterR) * Math.cos(angle + jitterA);
   const y = philPos[1] + (dist + jitterR) * Math.sin(angle + jitterA);
@@ -87,7 +93,7 @@ export function normalizePhilosophyKey(key: string): string {
     montessori: "montessori-inspired",
     project_based: "project-based-learning",
     place_nature: "place-nature-based",
-    eclectic_flexible: "flexible",
+    eclectic_flexible: "adaptive",
   };
 
   return map[normalized] || normalized.replace(/_/g, "-");

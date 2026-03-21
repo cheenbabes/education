@@ -61,7 +61,7 @@ export function PrintLesson({ lesson }: { lesson: LessonPlan }) {
           ${lesson.children.map((c) => `&bull; ${c.name} (Grade ${c.grade})`).join(" ")}
         </div>
 
-        ${lesson.philosophy_summary && lesson.philosophy !== "flexible" ? `
+        ${lesson.philosophy_summary && lesson.philosophy !== "adaptive" ? `
           <div class="philosophy-box">
             <strong>Why this is ${philosophyLabel}:</strong> ${lesson.philosophy_summary}
           </div>

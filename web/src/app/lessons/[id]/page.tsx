@@ -173,7 +173,7 @@ export default function LessonDetailPage() {
           </div>
 
           {/* Philosophy summary */}
-          {philosophySummary && lesson.philosophy !== "flexible" && (
+          {philosophySummary && lesson.philosophy !== "adaptive" && (
             <div className="bg-amber-50 border border-amber-200 rounded p-4">
               <h3 className="text-sm font-medium text-amber-900 mb-1">
                 Philosophy: {lesson.philosophy.replace(/-/g, " ")}

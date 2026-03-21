@@ -88,8 +88,8 @@ describe("Archetype reachability (8 archetypes)", () => {
     expect(result.archetype.id).toBe("the-free-spirit");
   });
 
-  test("The Weaver is reachable via eclectic answers", () => {
-    const answers = buildAnswers(["eclectic_flexible"]);
+  test("The Weaver is reachable via adaptive answers", () => {
+    const answers = buildAnswers(["adaptive"]);
     const result = scoreCompass(answers);
     expect(result.archetype.id).toBe("the-weaver");
   });
@@ -105,7 +105,7 @@ describe("Archetype distribution", () => {
       ["project_based"],
       ["place_nature"],
       ["unschooling"],
-      ["eclectic_flexible"],
+      ["adaptive"],
       ["montessori", "unschooling"],
       ["classical", "charlotte_mason"],
     ];
@@ -129,7 +129,7 @@ describe("Archetype distribution", () => {
       { phils: ["charlotte_mason"] },
       { phils: ["project_based"] },
       { phils: ["unschooling"] },
-      { phils: ["eclectic_flexible"] },
+      { phils: ["adaptive"] },
       { phils: ["montessori", "unschooling"] },
       { phils: ["place_nature", "waldorf"], dimBias: { modality: -1 } },
       { phils: ["classical", "charlotte_mason"] },

@@ -11,7 +11,7 @@ export type PhilosophyKey =
   | "classical"
   | "charlotte_mason"
   | "unschooling"
-  | "eclectic_flexible";
+  | "adaptive";
 
 export interface DimensionWeights {
   structure?: number;       // negative = prescriptive, positive = adaptive
@@ -29,7 +29,7 @@ export interface PhilosophyWeights {
   classical?: number;
   charlotte_mason?: number;
   unschooling?: number;
-  eclectic_flexible?: number;
+  adaptive?: number;
 }
 
 export interface AnswerChoice {
@@ -70,7 +70,7 @@ export const PART1_QUESTIONS: Part1Question[] = [
       {
         text: "A clear schedule: math lesson at 9, reading at 10, with specific curriculum pages to cover",
         dimensions: { structure: -3, modality: 2, direction: -2 },
-        philosophies: { classical: 3, eclectic_flexible: 1 },
+        philosophies: { classical: 3, adaptive: 1 },
         subjectContext: "foundational",
       },
       {
@@ -86,12 +86,12 @@ export const PART1_QUESTIONS: Part1Question[] = [
       {
         text: "No fixed plan — we follow whatever the child is excited about and weave learning into it",
         dimensions: { structure: 3, direction: 3 },
-        philosophies: { unschooling: 3, eclectic_flexible: 1 },
+        philosophies: { unschooling: 3, adaptive: 1 },
       },
       {
         text: "We cover core material like math and reading in the morning, then the rest of the day is for projects and interests the child chooses",
         dimensions: { structure: -1, direction: 1, subjectApproach: 1 },
-        philosophies: { eclectic_flexible: 3, montessori: 1, project_based: 1 },
+        philosophies: { adaptive: 3, montessori: 1, project_based: 1 },
         subjectContext: "foundational",
       },
     ],
@@ -104,7 +104,7 @@ export const PART1_QUESTIONS: Part1Question[] = [
       {
         text: "A structured phonics program with daily practice and clear progression through skills",
         dimensions: { structure: -3, modality: 2, direction: -2 },
-        philosophies: { classical: 2, eclectic_flexible: 2 },
+        philosophies: { classical: 2, adaptive: 2 },
         subjectContext: "foundational",
       },
       {
@@ -126,7 +126,7 @@ export const PART1_QUESTIONS: Part1Question[] = [
       {
         text: "A mix of a structured phonics program and games, stories, and exploration of books — balance the systematic with the joyful",
         dimensions: { structure: -1, modality: 0, direction: 0 },
-        philosophies: { eclectic_flexible: 2, charlotte_mason: 2, montessori: 1 },
+        philosophies: { adaptive: 2, charlotte_mason: 2, montessori: 1 },
         subjectContext: "foundational",
       },
     ],
@@ -139,7 +139,7 @@ export const PART1_QUESTIONS: Part1Question[] = [
       {
         text: "Switch to manipulatives — use beads, blocks, or arrays they can touch and count",
         dimensions: { modality: -3, direction: -1 },
-        philosophies: { montessori: 3, eclectic_flexible: 1 },
+        philosophies: { montessori: 3, adaptive: 1 },
         subjectContext: "foundational",
       },
       {
@@ -163,7 +163,7 @@ export const PART1_QUESTIONS: Part1Question[] = [
       {
         text: "Go back to basics and fill the gaps — sometimes frustration means a foundation piece was missed",
         dimensions: { structure: -2, direction: -2, modality: 1 },
-        philosophies: { classical: 2, eclectic_flexible: 2 },
+        philosophies: { classical: 2, adaptive: 2 },
         subjectContext: "foundational",
       },
     ],
@@ -186,12 +186,12 @@ export const PART1_QUESTIONS: Part1Question[] = [
       {
         text: "Outdoor time is for play and free exploration — separate from academic learning",
         dimensions: { modality: 2, structure: -1, social: 1 },
-        philosophies: { classical: 2, eclectic_flexible: 1 },
+        philosophies: { classical: 2, adaptive: 1 },
       },
       {
         text: "We do projects outdoors when relevant — building a garden, measuring trees, mapping the neighborhood",
         dimensions: { modality: -2, subjectApproach: -1 },
-        philosophies: { project_based: 3, place_nature: 1, eclectic_flexible: 2 },
+        philosophies: { project_based: 3, place_nature: 1, adaptive: 2 },
       },
       {
         text: "The outdoor environment is a prepared space — sensory bins with natural materials, a garden to tend, practical life skills like composting",
@@ -213,7 +213,7 @@ export const PART1_QUESTIONS: Part1Question[] = [
       {
         text: "Social studies covers Egypt, but math and reading follow their own separate sequences",
         dimensions: { subjectApproach: 3, structure: -2 },
-        philosophies: { classical: 3, eclectic_flexible: 1 },
+        philosophies: { classical: 3, adaptive: 1 },
         subjectContext: "foundational",
       },
       {
@@ -241,7 +241,7 @@ export const PART1_QUESTIONS: Part1Question[] = [
       {
         text: "Regular assessments help me know what to focus on — I like seeing measurable progress",
         dimensions: { structure: -3, direction: -2 },
-        philosophies: { classical: 3, eclectic_flexible: 1 },
+        philosophies: { classical: 3, adaptive: 1 },
       },
       {
         text: "I observe carefully and keep notes. Narrative assessments and observations tell me what I need to know.",
@@ -251,7 +251,7 @@ export const PART1_QUESTIONS: Part1Question[] = [
       {
         text: "The child's portfolio of work and projects tells me everything I need to know",
         dimensions: { structure: 1, direction: 1 },
-        philosophies: { project_based: 2, waldorf: 1, eclectic_flexible: 1 },
+        philosophies: { project_based: 2, waldorf: 1, adaptive: 1 },
       },
       {
         text: "I trust the process — if they're engaged and curious, they're learning",
@@ -261,7 +261,7 @@ export const PART1_QUESTIONS: Part1Question[] = [
       {
         text: "A mix — periodic check-ins for core skills like reading and math, but informal observation for everything else",
         dimensions: { structure: -1, direction: 0, subjectApproach: 1 },
-        philosophies: { eclectic_flexible: 3, charlotte_mason: 1 },
+        philosophies: { adaptive: 3, charlotte_mason: 1 },
         subjectContext: "foundational",
       },
     ],
@@ -289,7 +289,7 @@ export const PART1_QUESTIONS: Part1Question[] = [
       {
         text: "We had a mix of structured lessons and free exploration, with plenty of time outdoors",
         dimensions: { structure: 0, modality: -1, social: 0 },
-        philosophies: { charlotte_mason: 2, eclectic_flexible: 2, place_nature: 1 },
+        philosophies: { charlotte_mason: 2, adaptive: 2, place_nature: 1 },
       },
       {
         text: "My child learned something new alongside other kids — group work, discussion, and shared discovery",
@@ -311,7 +311,7 @@ export const PART1_QUESTIONS: Part1Question[] = [
       {
         text: "I'd join for specific subjects like science labs or art, but keep core academics at home",
         dimensions: { social: -1, subjectApproach: 1 },
-        philosophies: { eclectic_flexible: 3 },
+        philosophies: { adaptive: 3 },
       },
       {
         text: "I prefer our own rhythm — we'd do social activities separately from academics",
@@ -326,7 +326,7 @@ export const PART1_QUESTIONS: Part1Question[] = [
       {
         text: "I'd try it out and see — take what works, leave what doesn't, and supplement at home as needed",
         dimensions: { social: -1, structure: 0, direction: 0 },
-        philosophies: { eclectic_flexible: 3, charlotte_mason: 1 },
+        philosophies: { adaptive: 3, charlotte_mason: 1 },
       },
     ],
   },
@@ -338,13 +338,13 @@ export const PART1_QUESTIONS: Part1Question[] = [
       {
         text: "Teach it anyway with a solid curriculum — some things just need to be learned whether they're fun or not",
         dimensions: { structure: -3, direction: -3 },
-        philosophies: { classical: 3, eclectic_flexible: 1 },
+        philosophies: { classical: 3, adaptive: 1 },
         subjectContext: "foundational",
       },
       {
         text: "Find a way to connect fractions to their interests — if they love cooking, use recipes",
         dimensions: { structure: 0, direction: 1, subjectApproach: -1 },
-        philosophies: { montessori: 1, eclectic_flexible: 2, project_based: 1 },
+        philosophies: { montessori: 1, adaptive: 2, project_based: 1 },
         subjectContext: "foundational",
       },
       {
@@ -362,7 +362,7 @@ export const PART1_QUESTIONS: Part1Question[] = [
       {
         text: "Set it aside for now and come back in a few weeks with a different angle — sometimes they just need time to mature into a concept",
         dimensions: { structure: 1, direction: 1 },
-        philosophies: { waldorf: 2, charlotte_mason: 2, eclectic_flexible: 1 },
+        philosophies: { waldorf: 2, charlotte_mason: 2, adaptive: 1 },
         subjectContext: "foundational",
       },
     ],
@@ -375,7 +375,7 @@ export const PART1_QUESTIONS: Part1Question[] = [
       {
         text: "Organized shelves with materials at the child's height — everything in its place, ready for the child to choose",
         dimensions: { structure: -1, direction: 1, modality: -2 },
-        philosophies: { montessori: 3, eclectic_flexible: 1 },
+        philosophies: { montessori: 3, adaptive: 1 },
       },
       {
         text: "A cozy reading nook, a nature table with seasonal treasures, and art supplies always within reach",
@@ -412,12 +412,12 @@ export const PART1_QUESTIONS: Part1Question[] = [
       {
         text: "Creative expression happens naturally through projects — building, designing, presenting, and problem-solving",
         dimensions: { modality: -2, direction: 1 },
-        philosophies: { project_based: 3, eclectic_flexible: 1 },
+        philosophies: { project_based: 3, adaptive: 1 },
       },
       {
         text: "Art is a separate subject we enjoy, but it doesn't need to be in every lesson",
         dimensions: { subjectApproach: 2, structure: -1 },
-        philosophies: { classical: 2, eclectic_flexible: 2 },
+        philosophies: { classical: 2, adaptive: 2 },
       },
       {
         text: "I follow the child's lead — if they want to draw for three hours, that IS the lesson",
@@ -444,12 +444,12 @@ export const PART1_QUESTIONS: Part1Question[] = [
       {
         text: "Mixed-age interaction is valuable — older children mentoring younger ones is how real communities work",
         dimensions: { social: -2, direction: 1 },
-        philosophies: { montessori: 2, eclectic_flexible: 1, place_nature: 1 },
+        philosophies: { montessori: 2, adaptive: 1, place_nature: 1 },
       },
       {
         text: "Social learning happens through real life — errands, community service, play dates — not structured academics",
         dimensions: { social: 1, direction: 2, structure: 1 },
-        philosophies: { unschooling: 3, eclectic_flexible: 1, waldorf: 1 },
+        philosophies: { unschooling: 3, adaptive: 1, waldorf: 1 },
       },
       {
         text: "Socratic discussion and narration — the child tells back what they've learned, and we discuss ideas together",
@@ -459,7 +459,7 @@ export const PART1_QUESTIONS: Part1Question[] = [
       {
         text: "I value one-on-one time — individualized attention is why we chose this path in the first place",
         dimensions: { social: 3, direction: -1 },
-        philosophies: { montessori: 1, eclectic_flexible: 2, classical: 1 },
+        philosophies: { montessori: 1, adaptive: 2, classical: 1 },
       },
     ],
   },
@@ -486,7 +486,7 @@ export const PART1_QUESTIONS: Part1Question[] = [
       {
         text: "We don't plan a weather unit — but when a big storm comes, we follow the curiosity and learn about it then",
         dimensions: { structure: 3, direction: 3 },
-        philosophies: { unschooling: 3, eclectic_flexible: 1 },
+        philosophies: { unschooling: 3, adaptive: 1 },
       },
       {
         text: "We learn about weather through stories, songs, and painting — a rainy day watercolor, a poem about autumn, a story about the wind",
@@ -508,7 +508,7 @@ export const PART1_QUESTIONS: Part1Question[] = [
       {
         text: "I like having a general guide but adapt the pace and order to my child",
         dimensions: { structure: 2, direction: 0 },
-        philosophies: { eclectic_flexible: 3, charlotte_mason: 1 },
+        philosophies: { adaptive: 3, charlotte_mason: 1 },
       },
       {
         text: "The child's developmental stage determines what we study, not a predetermined sequence",
@@ -555,7 +555,7 @@ export const PART1_QUESTIONS: Part1Question[] = [
       {
         text: "Let them lead — they might want to draw fish, or read about sharks, or watch a documentary. Follow the thread",
         dimensions: { direction: 3, structure: 1 },
-        philosophies: { unschooling: 2, eclectic_flexible: 1 },
+        philosophies: { unschooling: 2, adaptive: 1 },
       },
     ],
   },
@@ -582,7 +582,7 @@ export const PART1_QUESTIONS: Part1Question[] = [
       {
         text: "Routine matters for core skills, but the rest of the day should flex based on what comes up",
         dimensions: { structure: 0, direction: 0 },
-        philosophies: { eclectic_flexible: 2, place_nature: 1 },
+        philosophies: { adaptive: 2, place_nature: 1 },
         subjectContext: "foundational",
       },
       {
@@ -621,7 +621,7 @@ export const PART1_QUESTIONS: Part1Question[] = [
       {
         text: "It comes up naturally — a museum trip, a news event, a question about why things are the way they are",
         dimensions: { structure: 2, direction: 2 },
-        philosophies: { unschooling: 2, eclectic_flexible: 1 },
+        philosophies: { unschooling: 2, adaptive: 1 },
         subjectContext: "exploratory",
       },
     ],
@@ -634,7 +634,7 @@ export const PART1_QUESTIONS: Part1Question[] = [
       {
         text: "They have their place — good for math practice and spelling reinforcement",
         dimensions: { structure: -1, modality: 2 },
-        philosophies: { classical: 2, eclectic_flexible: 2 },
+        philosophies: { classical: 2, adaptive: 2 },
         subjectContext: "foundational",
       },
       {
@@ -655,7 +655,7 @@ export const PART1_QUESTIONS: Part1Question[] = [
       {
         text: "They're fine occasionally but shouldn't be the main method — variety keeps things engaging",
         dimensions: { structure: 0, modality: 0 },
-        philosophies: { eclectic_flexible: 2, waldorf: 1 },
+        philosophies: { adaptive: 2, waldorf: 1 },
       },
     ],
   },
@@ -687,7 +687,7 @@ export const PART1_QUESTIONS: Part1Question[] = [
       {
         text: "A little of everything — read a book about birds, go outside to observe, sketch what we see, or build a feeder. What I choose would depend on my child's needs and interests. I want to have options",
         dimensions: { structure: 0, direction: 0, modality: -1 },
-        philosophies: { eclectic_flexible: 5 },
+        philosophies: { adaptive: 5 },
       },
     ],
   },
@@ -719,7 +719,7 @@ export const PART1_QUESTIONS: Part1Question[] = [
       {
         text: "My child is still curious and loves learning — that's the only metric that matters",
         dimensions: { direction: 2, structure: 2 },
-        philosophies: { unschooling: 2, eclectic_flexible: 1 },
+        philosophies: { unschooling: 2, adaptive: 1 },
       },
     ],
   },

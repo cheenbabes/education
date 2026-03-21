@@ -117,9 +117,9 @@ PHILOSOPHIES = [
         "disclaimer": None,
     },
     {
-        "name": "flexible",
+        "name": "adaptive",
         "description": (
-            "An eclectic approach that draws from multiple philosophies based on "
+            "An adaptive approach that draws from multiple philosophies based on "
             "the child's needs and interests. Adaptable and parent-directed."
         ),
         "disclaimer": None,

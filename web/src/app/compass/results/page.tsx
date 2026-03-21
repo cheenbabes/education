@@ -575,7 +575,7 @@ const DEMO_RESULT = {
     classical: 5,
     charlotte_mason: 8,
     unschooling: 12,
-    eclectic_flexible: 5,
+    adaptive: 5,
   },
   structureFlowSplit: {
     hasSplit: false,

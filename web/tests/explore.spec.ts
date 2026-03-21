@@ -75,7 +75,7 @@ const MOCK_GRAPH = {
       "project-based-learning",
       "place-nature-based",
       "unschooling",
-      "flexible",
+      "adaptive",
     ],
   },
 };

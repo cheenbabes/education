@@ -15,7 +15,7 @@ export interface PhilosophyBlend {
   classical?: number;
   charlotte_mason?: number;
   unschooling?: number;
-  eclectic_flexible?: number;
+  adaptive?: number;
   [key: string]: number | undefined;
 }
 
@@ -119,7 +119,7 @@ const PHILOSOPHY_NAMES: Record<string, string> = {
   classical: "classical",
   charlotte_mason: "Charlotte Mason",
   unschooling: "child-led/unschooling",
-  eclectic_flexible: "eclectic/flexible",
+  adaptive: "adaptive",
 };
 
 function generateMatchReason(

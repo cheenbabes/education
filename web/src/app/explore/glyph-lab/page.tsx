@@ -28,7 +28,7 @@ const SEMANTIC_PACK: GlyphLabItem[] = [
   { id: 5, src: "/explore/constellation-philosophy/project-based-learning.png", tier: "Philosophy", label: "Project-Based - Scorpius", key: "project-based-learning" },
   { id: 6, src: "/explore/constellation-philosophy/place-nature-based.png", tier: "Philosophy", label: "Place/Nature - Ursa Major", key: "place-nature-based" },
   { id: 7, src: "/explore/constellation-philosophy/unschooling.png", tier: "Philosophy", label: "Unschooling - Pegasus", key: "unschooling" },
-  { id: 8, src: "/explore/constellation-philosophy/flexible.png", tier: "Philosophy", label: "Flexible - Leo", key: "flexible" },
+  { id: 8, src: "/explore/constellation-philosophy/adaptive.png", tier: "Philosophy", label: "Adaptive - Leo", key: "adaptive" },
   { id: 9, src: "/explore/semantic-glyphs/curriculum-structured.png", tier: "Curriculum", label: "Structured Curriculum" },
   { id: 10, src: "/explore/semantic-glyphs/curriculum-creative.png", tier: "Curriculum", label: "Creative Curriculum" },
   { id: 11, src: "/explore/semantic-glyphs/curriculum-explorer.png", tier: "Curriculum", label: "Explorer Curriculum" },
@@ -140,7 +140,7 @@ export default function GlyphLabPage() {
             <p>Project-Based - ♂ Mars</p>
             <p>Place/Nature - ♀ Venus</p>
             <p>Unschooling - ♅ Uranus</p>
-            <p>Flexible - ♃ Jupiter</p>
+            <p>Adaptive - ♃ Jupiter</p>
           </div>
           <p className="mt-3 text-[11px] text-[#d4af37]/65">
             Source:{" "}

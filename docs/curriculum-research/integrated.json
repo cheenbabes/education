@@ -18,7 +18,7 @@
       "classical": 0.3,
       "charlotte_mason": 0.65,
       "unschooling": 0.05,
-      "eclectic_flexible": 0.35
+      "adaptive": 0.35
     },
     "prep_level": "open-and-go",
     "religious_type": "christian",
@@ -50,7 +50,7 @@
       "classical": 0.25,
       "charlotte_mason": 0.6,
       "unschooling": 0.05,
-      "eclectic_flexible": 0.35
+      "adaptive": 0.35
     },
     "prep_level": "open-and-go",
     "religious_type": "secular",
@@ -82,7 +82,7 @@
       "classical": 0.1,
       "charlotte_mason": 0.35,
       "unschooling": 0.1,
-      "eclectic_flexible": 0.55
+      "adaptive": 0.55
     },
     "prep_level": "light",
     "religious_type": "secular",
@@ -115,7 +115,7 @@
       "classical": 0.2,
       "charlotte_mason": 0.5,
       "unschooling": 0.05,
-      "eclectic_flexible": 0.3
+      "adaptive": 0.3
     },
     "prep_level": "open-and-go",
     "religious_type": "christian",
@@ -148,7 +148,7 @@
       "classical": 0.45,
       "charlotte_mason": 0.55,
       "unschooling": 0.05,
-      "eclectic_flexible": 0.3
+      "adaptive": 0.3
     },
     "prep_level": "open-and-go",
     "religious_type": "christian",
@@ -181,7 +181,7 @@
       "classical": 0.05,
       "charlotte_mason": 0.35,
       "unschooling": 0.2,
-      "eclectic_flexible": 0.3
+      "adaptive": 0.3
     },
     "prep_level": "moderate",
     "religious_type": "secular",
@@ -212,7 +212,7 @@
       "classical": 0.15,
       "charlotte_mason": 0.65,
       "unschooling": 0.15,
-      "eclectic_flexible": 0.4
+      "adaptive": 0.4
     },
     "prep_level": "open-and-go",
     "religious_type": "christian",
@@ -245,7 +245,7 @@
       "classical": 0.4,
       "charlotte_mason": 0.05,
       "unschooling": 0.0,
-      "eclectic_flexible": 0.15
+      "adaptive": 0.15
     },
     "prep_level": "open-and-go",
     "religious_type": "secular",
@@ -277,7 +277,7 @@
       "classical": 0.2,
       "charlotte_mason": 0.45,
       "unschooling": 0.05,
-      "eclectic_flexible": 0.2
+      "adaptive": 0.2
     },
     "prep_level": "open-and-go",
     "religious_type": "christian",
@@ -310,7 +310,7 @@
       "classical": 0.15,
       "charlotte_mason": 0.3,
       "unschooling": 0.2,
-      "eclectic_flexible": 0.45
+      "adaptive": 0.45
     },
     "prep_level": "moderate",
     "religious_type": "secular",
@@ -342,7 +342,7 @@
       "classical": 0.0,
       "charlotte_mason": 0.3,
       "unschooling": 0.05,
-      "eclectic_flexible": 0.2
+      "adaptive": 0.2
     },
     "prep_level": "open-and-go",
     "religious_type": "secular",
@@ -375,7 +375,7 @@
       "classical": 0.0,
       "charlotte_mason": 0.25,
       "unschooling": 0.1,
-      "eclectic_flexible": 0.2
+      "adaptive": 0.2
     },
     "prep_level": "moderate",
     "religious_type": "secular",
@@ -408,7 +408,7 @@
       "classical": 0.25,
       "charlotte_mason": 0.65,
       "unschooling": 0.3,
-      "eclectic_flexible": 0.7
+      "adaptive": 0.7
     },
     "prep_level": "moderate",
     "religious_type": "secular",

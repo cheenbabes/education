@@ -36,7 +36,7 @@ export default function GeneratePage() {
   const [selectedChildren, setSelectedChildren] = useState<string[]>([]);
   const [interest, setInterest] = useState("");
   const [selectedSubjects, setSelectedSubjects] = useState<string[]>([]);
-  const [philosophy, setPhilosophy] = useState("flexible");
+  const [philosophy, setPhilosophy] = useState("adaptive");
   const [multiSubject, setMultiSubject] = useState(false);
   const [generating, setGenerating] = useState(false);
   const [generatingStep, setGeneratingStep] = useState(0);
@@ -409,7 +409,7 @@ export default function GeneratePage() {
               </div>
 
               {/* Philosophy summary */}
-              {result.philosophy_summary && result.philosophy !== "flexible" && (
+              {result.philosophy_summary && result.philosophy !== "adaptive" && (
                 <div className="bg-amber-50 border border-amber-200 rounded p-4">
                   <h3 className="text-sm font-medium text-amber-900 mb-1">
                     Why this is {PHILOSOPHIES.find(p => p.id === result.philosophy)?.label || result.philosophy}
