@@ -28,7 +28,7 @@ export const ARCHETYPES: Archetype[] = [
   {
     id: "the-guide",
     name: "The Guide",
-    icon: "\uD83E\uDDED",
+    icon: "🔭",
     description:
       "You value clear direction, structured progression, and the life of the mind. Great books, logical thinking, and measurable milestones define your approach. Your strength is creating a dependable learning environment with high academic expectations.",
     typicalPairings: "Classical + Charlotte Mason, Classical + Adaptive",
@@ -148,7 +148,7 @@ export const ARCHETYPES: Archetype[] = [
   {
     id: "the-architect",
     name: "The Architect",
-    icon: "\uD83D\uDD27",
+    icon: "🔨",
     description:
       "You love building — projects, experiments, models, and real-world solutions. Education for you is about creating something tangible while learning the skills and knowledge needed to make it happen. Place-based projects and collaborative work are natural extensions of your approach.",
     typicalPairings: "Project-Based + Place/Nature, Project-Based + Collaborative",
