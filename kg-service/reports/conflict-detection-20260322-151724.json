@@ -1,0 +1,1892 @@
+[
+  {
+    "duplicates": [
+      {
+        "principles": [
+          "Scaffold and Gradually Release Support",
+          "Scaffolded Support and Gradual Release"
+        ],
+        "sources": [
+          "CAST-UDL_Guidelines_v2.2_Full_Text",
+          "CAST-UDL_Guidelines_v2.2_Full_Text"
+        ],
+        "explanation": "Both principles describe providing scaffolds and gradually removing them as learners gain independence. The wording is nearly identical, and they should be merged."
+      },
+      {
+        "principles": [
+          "Responsive Caregiving",
+          "Responsive Caregiving"
+        ],
+        "sources": [
+          "cdc-milestone-checklists",
+          "cdc-milestone-moments"
+        ],
+        "explanation": "Both principles emphasize caregivers responding positively and attentively to children's cues to support emotional security and learning. They are essentially the same and should be merged."
+      },
+      {
+        "principles": [
+          "Routine and Consistency",
+          "Routine and Consistency"
+        ],
+        "sources": [
+          "cdc-milestone-checklists",
+          "cdc-milestone-moments"
+        ],
+        "explanation": "Both principles stress the importance of consistent routines for children's security and development. They are duplicates."
+      },
+      {
+        "principles": [
+          "Positive Reinforcement",
+          "Positive Reinforcement"
+        ],
+        "sources": [
+          "cdc-milestone-checklists",
+          "cdc-milestone-moments"
+        ],
+        "explanation": "Both principles advocate using positive words, attention, and encouragement to reinforce desired behaviors and skills. They are duplicates."
+      },
+      {
+        "principles": [
+          "Early Intervention",
+          "Early Intervention"
+        ],
+        "sources": [
+          "cdc-milestone-checklists",
+          "cdc-milestone-moments"
+        ],
+        "explanation": "Both principles recommend acting early if developmental concerns arise. They are duplicates."
+      },
+      {
+        "principles": [
+          "Screen Time Limitation",
+          "Screen Time Limitation"
+        ],
+        "sources": [
+          "cdc-milestone-checklists",
+          "cdc-milestone-moments"
+        ],
+        "explanation": "Both principles advise limiting screen time for young children, prioritizing real-world interaction. They are duplicates."
+      },
+      {
+        "principles": [
+          "Multiple Means of Engagement",
+          "Multiple Means of Engagement",
+          "Multiple Means of Engagement"
+        ],
+        "sources": [
+          "CAST-UDL_Guidelines_v2.2_Full_Text",
+          "CAST-UDL_Guidelines_v3.0_Full_Text",
+          "CAST-UDL_Guidelines_v3.0_Graphic_Organizer"
+        ],
+        "explanation": "All three principles describe providing varied ways to engage learners, recognizing individual interests and needs. They are essentially the same core idea, with minor elaborations."
+      },
+      {
+        "principles": [
+          "Multiple Means of Representation",
+          "Multiple Means of Representation",
+          "Multiple Means of Representation"
+        ],
+        "sources": [
+          "CAST-UDL_Guidelines_v2.2_Full_Text",
+          "CAST-UDL_Guidelines_v3.0_Full_Text",
+          "CAST-UDL_Guidelines_v3.0_Graphic_Organizer"
+        ],
+        "explanation": "All three principles focus on presenting information in diverse ways to ensure accessibility and relevance for all learners. They are duplicates."
+      },
+      {
+        "principles": [
+          "Multiple Means of Action and Expression",
+          "Multiple Means of Action & Expression",
+          "Multiple Means of Action and Expression"
+        ],
+        "sources": [
+          "CAST-UDL_Guidelines_v2.2_Full_Text",
+          "CAST-UDL_Guidelines_v3.0_Full_Text",
+          "CAST-UDL_Guidelines_v3.0_Graphic_Organizer"
+        ],
+        "explanation": "All three principles advocate for providing learners with varied options for demonstrating understanding and navigating learning environments. They are duplicates."
+      },
+      {
+        "principles": [
+          "Individualized Approach",
+          "Individualized Support"
+        ],
+        "sources": [
+          "cdc-milestone-checklists",
+          "cdc-milestone-moments"
+        ],
+        "explanation": "Both principles emphasize adapting to each child's unique pace, interests, and needs. They are duplicates."
+      },
+      {
+        "principles": [
+          "Ongoing Assessment",
+          "Persistent Formative Assessment",
+          "Ongoing Assessment"
+        ],
+        "sources": [
+          "Tomlinson-Differentiated_Classroom",
+          "Tomlinson-Differentiated_Classroom",
+          "Tomlinson-McTighe-Integrating_DI_and_UbD"
+        ],
+        "explanation": "All three principles describe ongoing, formative assessment to inform instruction and support student growth. They are duplicates."
+      },
+      {
+        "principles": [
+          "Growth Mindset",
+          "Growth Mindset and Continuous Improvement",
+          "Growth Mindset and Responsibility"
+        ],
+        "sources": [
+          "Tomlinson-Differentiated_Classroom",
+          "Tomlinson-Differentiated_Classroom",
+          "Tomlinson-McTighe-Integrating_DI_and_UbD"
+        ],
+        "explanation": "All three principles focus on the belief in the potential for growth and improvement, encouraging persistence and reflection. They are duplicates."
+      },
+      {
+        "principles": [
+          "Respect for Individual Differences",
+          "Value Diversity",
+          "Respect for Learner Differences"
+        ],
+        "sources": [
+          "Tomlinson-Differentiated_Classroom",
+          "Tomlinson-Differentiated_Classroom",
+          "Tomlinson-McTighe-Integrating_DI_and_UbD"
+        ],
+        "explanation": "All three principles emphasize valuing and addressing individual differences in readiness, interest, and learning profile. They are duplicates."
+      }
+    ],
+    "contradictions": [],
+    "tensions": [
+      {
+        "principles": [
+          "Coherent, Cumulative Curriculum",
+          "Flexible and Responsive Teaching"
+        ],
+        "sources": [
+          "core-knowledge-sequence",
+          "Tomlinson-Differentiated_Classroom"
+        ],
+        "explanation": "A coherent, cumulative curriculum emphasizes a fixed, sequenced body of knowledge for all, while flexible and responsive teaching advocates adapting instruction and content to individual needs. This creates a tension between standardization and personalization."
+      },
+      {
+        "principles": [
+          "Equal Access to Knowledge",
+          "Matching learner and method"
+        ],
+        "sources": [
+          "core-knowledge-sequence",
+          "Gardner-Frames_of_Mind"
+        ],
+        "explanation": "Equal access to a shared core curriculum suggests uniformity in what is taught, while matching learner and method emphasizes tailoring instruction to individual strengths and preferences. This tension reflects the challenge of balancing equity with personalization."
+      },
+      {
+        "principles": [
+          "Systematic and Explicit Instruction",
+          "Student Choice and Ownership"
+        ],
+        "sources": [
+          "core-knowledge-sequence",
+          "Tomlinson-Differentiated_Classroom"
+        ],
+        "explanation": "Systematic and explicit instruction implies teacher-directed, structured learning, while student choice and ownership emphasize learner autonomy and self-direction. The tension lies in balancing structure with flexibility."
+      },
+      {
+        "principles": [
+          "Backward Design",
+          "Flexible Instruction"
+        ],
+        "sources": [
+          "Tomlinson-McTighe-Integrating_DI_and_UbD",
+          "Tomlinson-McTighe-Integrating_DI_and_UbD"
+        ],
+        "explanation": "Backward design calls for planning instruction based on fixed learning outcomes, while flexible instruction suggests adapting goals and methods to student needs. The tension is between predetermined outcomes and adaptive processes."
+      },
+      {
+        "principles": [
+          "Cultural and Contextual Relevance",
+          "Core Knowledge Foundation"
+        ],
+        "sources": [
+          "Gardner-Frames_of_Mind",
+          "core-knowledge-sequence"
+        ],
+        "explanation": "Cultural and contextual relevance emphasizes adapting learning to local cultures and backgrounds, while a core knowledge foundation stresses a shared, universal body of knowledge. The tension is between localization and universality."
+      }
+    ],
+    "off_topic": [
+      {
+        "principle": "Screen Time Limitation",
+        "source": "cdc-milestone-checklists",
+        "explanation": "While related to child development, this principle is more about health guidelines than educational philosophy or adaptive pedagogy."
+      },
+      {
+        "principle": "Screen Time Limitation",
+        "source": "cdc-milestone-moments",
+        "explanation": "As above, this is a health recommendation rather than a core educational principle."
+      },
+      {
+        "principle": "Moral and Character Development",
+        "source": "core-knowledge-sequence",
+        "explanation": "This principle focuses on moral education, which, while important, is not central to the adaptive philosophy as defined by the other principles."
+      }
+    ],
+    "coherence_score": 8,
+    "coherence_notes": "The extracted principles for the adaptive philosophy are generally coherent, emphasizing flexibility, individualization, responsiveness, and diversity in teaching and learning. There is strong alignment across sources (UDL, Gardner, Tomlinson, CDC) regarding adapting education to learner needs, developmental stages, and cultural contexts. However, some tensions exist between standardization (core knowledge) and personalization (differentiation, UDL, Gardner). A few off-topic or peripheral principles (e.g., screen time, moral development) slightly detract from focus. Overall, the set is robust, with clear philosophical throughlines and only minor extraction issues.",
+    "philosophy": "adaptive",
+    "principle_count": 147,
+    "source_count": 10
+  },
+  {
+    "duplicates": [
+      {
+        "principles": [
+          "Children Are Born Persons",
+          "Children are born persons",
+          "Children are born persons",
+          "Children Are Persons",
+          "Children as Persons",
+          "Children Are Born Persons"
+        ],
+        "sources": [
+          "Macaulay-For_the_Childrens_Sake",
+          "Mason-Vol1-Home_Education",
+          "Mason-Vol2-Parents_and_Children",
+          "Mason-Vol3-School_Education",
+          "Mason-Vol3-School_Education",
+          "Mason-Vol6-Philosophy_of_Education"
+        ],
+        "explanation": "All these principles assert that children are complete, unique individuals from birth, deserving respect and dignity. They should be merged as a single foundational principle."
+      },
+      {
+        "principles": [
+          "Education Is a Life",
+          "Education is a life",
+          "Education Is a Life"
+        ],
+        "sources": [
+          "Macaulay-For_the_Childrens_Sake",
+          "Mason-Vol1-Home_Education",
+          "Mason-Vol3-School_Education"
+        ],
+        "explanation": "These principles all state that education is a lifelong process that nourishes the whole person with living ideas, not just formal instruction."
+      },
+      {
+        "principles": [
+          "Atmosphere, Discipline, Life",
+          "Education as Atmosphere, Discipline, Life",
+          "Three Educational Instruments"
+        ],
+        "sources": [
+          "Macaulay-For_the_Childrens_Sake",
+          "Mason-Vol2-Parents_and_Children",
+          "Mason-Vol3-School_Education"
+        ],
+        "explanation": "All three describe education as consisting of atmosphere (environment), discipline (habit), and life (ideas/relationships)."
+      },
+      {
+        "principles": [
+          "Respect for Personhood",
+          "Respect for the child\u2019s personality",
+          "Respect for the Child as Person",
+          "Respect for the Child as a Person",
+          "Respect for the Child\u2019s Personhood",
+          "Respect for the Personhood of the Child",
+          "Respect for Personality"
+        ],
+        "sources": [
+          "Macaulay-For_the_Childrens_Sake",
+          "Mason-Vol1-Home_Education",
+          "Macaulay-For_the_Childrens_Sake",
+          "Mason-Vol1-Home_Education",
+          "Mason-Vol2-Parents_and_Children",
+          "Mason-Vol2-Parents_and_Children",
+          "Mason-Vol3-School_Education"
+        ],
+        "explanation": "These all emphasize respecting the individuality, autonomy, and dignity of the child, and not manipulating or encroaching upon their personality."
+      },
+      {
+        "principles": [
+          "Habit Formation",
+          "Habit is ten natures",
+          "Education as Formation of Habit",
+          "Habit Formation",
+          "Education as Formation of Habit",
+          "Habit Formation"
+        ],
+        "sources": [
+          "Macaulay-For_the_Childrens_Sake",
+          "Mason-Vol1-Home_Education",
+          "Mason-Vol1-Home_Education",
+          "Mason-Vol2-Parents_and_Children",
+          "Mason-Vol2-Parents_and_Children",
+          "Mason-Vol3-School_Education"
+        ],
+        "explanation": "All these principles stress the centrality of habit formation\u2014moral, intellectual, and practical\u2014as foundational to education and character."
+      },
+      {
+        "principles": [
+          "Living Books and Ideas",
+          "Living Ideas and Nourishment",
+          "Use of living ideas and books",
+          "Use of Living Books",
+          "Living Books",
+          "Living Books",
+          "Living Ideas and Vital Knowledge",
+          "Learning Through Living Books and Narratives",
+          "Nourishment with Living Ideas",
+          "Living Ideas Nourish the Mind",
+          "Use of Living Books",
+          "Living Books"
+        ],
+        "sources": [
+          "Macaulay-For_the_Childrens_Sake",
+          "Macaulay-For_the_Childrens_Sake",
+          "Mason-Vol1-Home_Education",
+          "Mason-Vol1-Home_Education",
+          "Mason-Vol3-School_Education",
+          "Mason-Vol6-Philosophy_of_Education",
+          "Mason-Vol1-Home_Education",
+          "Mason-Vol2-Parents_and_Children",
+          "Mason-Vol2-Parents_and_Children",
+          "Mason-Vol3-School_Education",
+          "Mason-Vol6-Philosophy_of_Education",
+          "Mason-Vol6-Philosophy_of_Education"
+        ],
+        "explanation": "These all advocate for the use of 'living books'\u2014rich, literary, idea-filled texts\u2014as the primary means of nourishing the mind, rather than dry textbooks or rote facts."
+      },
+      {
+        "principles": [
+          "Short, Focused Lessons",
+          "Short, Focused Lessons",
+          "Short, Focused Lessons"
+        ],
+        "sources": [
+          "Macaulay-For_the_Childrens_Sake",
+          "Mason-Vol1-Home_Education",
+          "Mason-Vol3-School_Education"
+        ],
+        "explanation": "All three emphasize that lessons should be short, focused, and require full attention, preventing fatigue and allowing time for play and exploration."
+      },
+      {
+        "principles": [
+          "Direct Access to Source Material",
+          "Education by Books and Things"
+        ],
+        "sources": [
+          "Macaulay-For_the_Childrens_Sake",
+          "Mason-Vol3-School_Education"
+        ],
+        "explanation": "Both stress the importance of children engaging directly with original sources\u2014books, art, nature\u2014rather than filtered or overly interpreted content."
+      },
+      {
+        "principles": [
+          "Education as Relationship",
+          "Education is the science of relations",
+          "Education Is the Science of Relations",
+          "Science of Relations",
+          "Education is the Science of Relations",
+          "Education as the Science of Relations"
+        ],
+        "sources": [
+          "Macaulay-For_the_Childrens_Sake",
+          "Mason-Vol1-Home_Education",
+          "Mason-Vol3-School_Education",
+          "Mason-Vol6-Philosophy_of_Education",
+          "Mason-Vol6-Philosophy_of_Education",
+          "Mason-Vol6-Philosophy_of_Education"
+        ],
+        "explanation": "These all describe education as the process of forming relationships\u2014with knowledge, people, nature, and the world."
+      },
+      {
+        "principles": [
+          "Self-Education",
+          "Self-Education",
+          "Self-Education Through Act of Knowing"
+        ],
+        "sources": [
+          "Macaulay-For_the_Childrens_Sake",
+          "Mason-Vol6-Philosophy_of_Education",
+          "Mason-Vol6-Philosophy_of_Education"
+        ],
+        "explanation": "All describe true education as self-education, where the child actively assimilates knowledge, especially through narration and personal effort."
+      },
+      {
+        "principles": [
+          "Moral and Spiritual Development",
+          "Moral and spiritual development",
+          "Moral and Intellectual Training",
+          "Moral and Religious Instruction as Parental Duty",
+          "Moral and Intellectual Self-Management",
+          "Moral and Intellectual Self-Management",
+          "Moral and Spiritual Development"
+        ],
+        "sources": [
+          "Macaulay-For_the_Childrens_Sake",
+          "Mason-Vol1-Home_Education",
+          "Mason-Vol1-Home_Education",
+          "Mason-Vol2-Parents_and_Children",
+          "Mason-Vol3-School_Education",
+          "Mason-Vol6-Philosophy_of_Education",
+          "Mason-Vol6-Philosophy_of_Education"
+        ],
+        "explanation": "All these principles emphasize that education must include moral and spiritual growth, not just intellectual development."
+      },
+      {
+        "principles": [
+          "Narration and Recitation",
+          "Narration as a Learning Tool",
+          "Narration as Assimilation",
+          "Narration and Reflection",
+          "Narration and Single Reading",
+          "Single Reading and Narration"
+        ],
+        "sources": [
+          "Mason-Vol1-Home_Education",
+          "Mason-Vol1-Home_Education",
+          "Mason-Vol3-School_Education",
+          "Mason-Vol3-School_Education",
+          "Mason-Vol6-Philosophy_of_Education",
+          "Mason-Vol6-Philosophy_of_Education"
+        ],
+        "explanation": "These all describe narration (retelling what has been learned) as a key method for assimilation, retention, and expression."
+      },
+      {
+        "principles": [
+          "Parental Responsibility and Liberty",
+          "Parental Responsibility",
+          "Parents as Inspirers and Rulers",
+          "Education Begins at Home"
+        ],
+        "sources": [
+          "Macaulay-For_the_Childrens_Sake",
+          "Mason-Vol1-Home_Education",
+          "Mason-Vol2-Parents_and_Children",
+          "Mason-Vol2-Parents_and_Children"
+        ],
+        "explanation": "All affirm that parents have the primary responsibility and authority for their children's education, especially in the early years."
+      },
+      {
+        "principles": [
+          "Unity of Knowledge and Life",
+          "Unity of Intellectual and Spiritual Life"
+        ],
+        "sources": [
+          "Macaulay-For_the_Childrens_Sake",
+          "Mason-Vol3-School_Education"
+        ],
+        "explanation": "Both state that intellectual and spiritual life are unified and interconnected; there should be no artificial separation."
+      },
+      {
+        "principles": [
+          "Education for All Children",
+          "Liberal Education for All",
+          "Education Accessible to All",
+          "Education for All"
+        ],
+        "sources": [
+          "Macaulay-For_the_Childrens_Sake",
+          "Mason-Vol6-Philosophy_of_Education",
+          "Mason-Vol6-Philosophy_of_Education",
+          "Mason-Vol6-Philosophy_of_Education"
+        ],
+        "explanation": "All assert that a liberal, generous education is the right of every child, regardless of background or ability."
+      }
+    ],
+    "contradictions": [],
+    "tensions": [
+      {
+        "principles": [
+          "Authority and Freedom",
+          "Gradual Release of Authority",
+          "Masterly inactivity"
+        ],
+        "sources": [
+          "Macaulay-For_the_Childrens_Sake",
+          "Mason-Vol2-Parents_and_Children",
+          "Mason-Vol1-Home_Education"
+        ],
+        "explanation": "There is a tension between the need for parental/teacher authority and the emphasis on gradually increasing the child's autonomy and freedom, as well as the practice of 'masterly inactivity' (non-interference). This reflects a nuanced balance rather than a contradiction."
+      },
+      {
+        "principles": [
+          "Objective, Not Subjective, Self-Regard",
+          "Joy in Learning"
+        ],
+        "sources": [
+          "Mason-Vol2-Parents_and_Children",
+          "Mason-Vol1-Home_Education"
+        ],
+        "explanation": "While children are encouraged to focus outwardly (on others, nature, ideas), there is also an emphasis on the joy and delight of learning, which could risk becoming self-focused if not carefully balanced."
+      },
+      {
+        "principles": [
+          "No Artificial Motivation",
+          "Delight in Knowledge",
+          "Individualized and Non-Competitive Learning"
+        ],
+        "sources": [
+          "Mason-Vol6-Philosophy_of_Education",
+          "Mason-Vol3-School_Education",
+          "Mason-Vol2-Parents_and_Children"
+        ],
+        "explanation": "There is a tension between rejecting external motivators (marks, prizes) and the practical challenge of ensuring all children remain motivated by intrinsic delight and personal growth, especially in diverse classroom settings."
+      },
+      {
+        "principles": [
+          "Balance of Structure and Freedom",
+          "Balanced Structure and Freedom",
+          "Individualized Approach"
+        ],
+        "sources": [
+          "Macaulay-For_the_Childrens_Sake",
+          "Macaulay-For_the_Childrens_Sake",
+          "Mason-Vol2-Parents_and_Children"
+        ],
+        "explanation": "Balancing structure (routines, habits) with freedom (individual exploration, self-direction) can create tension in implementation, as too much of either may undermine the other."
+      }
+    ],
+    "off_topic": [
+      {
+        "principle": "Judicious Selection",
+        "source": "Mason-Vol3-School_Education",
+        "explanation": "While the careful selection of materials is important, this principle is more of a practical guideline than a core philosophical tenet."
+      },
+      {
+        "principle": "Cultivation of Taste",
+        "source": "Mason-Vol3-School_Education",
+        "explanation": "Developing literary taste is a valuable educational aim, but it is more a curricular detail than a foundational principle."
+      },
+      {
+        "principle": "Depth Over Quantity",
+        "source": "Mason-Vol3-School_Education",
+        "explanation": "Preferring depth to quantity in reading is a methodological preference rather than a philosophical principle."
+      },
+      {
+        "principle": "Parental Self-Education",
+        "source": "Mason-Vol2-Parents_and_Children",
+        "explanation": "While important for implementation, the self-education of parents is not a core philosophical principle about the nature of education itself."
+      }
+    ],
+    "coherence_score": 8,
+    "coherence_notes": "The extracted principles are highly coherent, with strong thematic unity around respect for the child as a person, the centrality of living ideas and books, habit formation, and the integration of intellectual, moral, and spiritual development. Most apparent duplications are due to restatements across different works and contexts. There are no outright contradictions, and the few tensions reflect legitimate philosophical nuances rather than inconsistencies. A handful of principles (e.g., 'Judicious Selection', 'Cultivation of Taste') are more practical or methodological than philosophical, but do not detract significantly from overall coherence.",
+    "philosophy": "charlotte-mason",
+    "principle_count": 129,
+    "source_count": 5
+  },
+  {
+    "duplicates": [
+      {
+        "principles": [
+          "Levels of Reading",
+          "Cumulative Levels of Reading"
+        ],
+        "sources": [
+          "Adler-How_to_Read_a_Book_1972",
+          "Adler-How_to_Read_a_Book_1972"
+        ],
+        "explanation": "Both principles describe the four cumulative levels of reading (elementary, inspectional, analytical, syntopical) and their sequential nature."
+      },
+      {
+        "principles": [
+          "Trivium Structure",
+          "Three-Stage Learning Progression",
+          "Three Stages of the Trivium",
+          "Classical Trivium Structure",
+          "Trivium Structure",
+          "Three Arts of the Trivium"
+        ],
+        "sources": [
+          "Bauer-Well_Trained_Mind",
+          "Bauer-Well_Trained_Mind",
+          "Bauer-Well_Trained_Mind",
+          "Wilson-Recovering_Lost_Tools_of_Learning",
+          "Wilson-Recovering_Lost_Tools_of_Learning",
+          "ClassicalConversations-What_is_the_Trivium"
+        ],
+        "explanation": "All these principles articulate the classical structure of education in three stages: grammar, logic/dialectic, and rhetoric, matched to developmental stages."
+      },
+      {
+        "principles": [
+          "Integration of Knowledge",
+          "Integration of Subjects",
+          "Integration of Disciplines",
+          "Integrated Knowledge",
+          "Integration Over Fragmentation"
+        ],
+        "sources": [
+          "Bauer-Well_Trained_Mind",
+          "Bauer-Well_Trained_Mind",
+          "Bauer-Well_Trained_Mind",
+          "Wilson-Recovering_Lost_Tools_of_Learning",
+          "Sayers-Lost_Tools_of_Learning"
+        ],
+        "explanation": "All emphasize that knowledge and subjects should be interconnected, not isolated, and that learning should reveal relationships across disciplines."
+      },
+      {
+        "principles": [
+          "Memorization Foundation",
+          "Emphasis on Memorization and Practice",
+          "Memory as Foundation",
+          "Foundational Knowledge First"
+        ],
+        "sources": [
+          "Bauer-Well_Trained_Mind",
+          "Bauer-Well_Trained_Mind",
+          "Sayers-Lost_Tools_of_Learning",
+          "ClassicalConversations-What_is_the_Trivium"
+        ],
+        "explanation": "Each principle stresses the importance of memorization and foundational knowledge in early education."
+      },
+      {
+        "principles": [
+          "Critical Thinking and Logic",
+          "Emphasis on Reason and Critical Thinking",
+          "Critical Thinking and Questioning"
+        ],
+        "sources": [
+          "Bauer-Well_Trained_Mind",
+          "Sayers-Lost_Tools_of_Learning",
+          "ClassicalConversations-What_is_the_Trivium"
+        ],
+        "explanation": "All focus on the explicit teaching of logic, reasoning, and critical thinking as a core educational goal."
+      },
+      {
+        "principles": [
+          "Parental Responsibility",
+          "Parental Responsibility and Diplomacy",
+          "Active Parental Involvement"
+        ],
+        "sources": [
+          "Bauer-Well_Trained_Mind",
+          "Bauer-Well_Trained_Mind",
+          "Wilson-Recovering_Lost_Tools_of_Learning"
+        ],
+        "explanation": "These principles all affirm the central role of parents in overseeing, guiding, and participating in their children's education."
+      },
+      {
+        "principles": [
+          "Socratic Dialogue and Critical Discussion",
+          "Socratic Dialogue and Discussion"
+        ],
+        "sources": [
+          "Bauer-Well_Trained_Mind",
+          "Bauer-Well_Trained_Mind"
+        ],
+        "explanation": "Both refer to the use of Socratic dialogue and guided discussion to deepen learning and develop rhetorical skill."
+      }
+    ],
+    "contradictions": [
+      {
+        "principles": [
+          "General and Liberal Curriculum",
+          "Integrated Biblical Worldview",
+          "Biblical Worldview in All Subjects"
+        ],
+        "sources": [
+          "Adler-Paideia_Proposal",
+          "Wilson-Recovering_Lost_Tools_of_Learning",
+          "Wilson-Recovering_Lost_Tools_of_Learning"
+        ],
+        "explanation": "Adler's principle advocates for a general, liberal, and nonspecialized curriculum accessible to all, without religious specificity. Wilson's principles assert that all subjects must be taught from a specifically Christian (biblical) worldview, rejecting educational neutrality. These are in direct conflict regarding the role of religious content in the curriculum.",
+        "severity": "high"
+      },
+      {
+        "principles": [
+          "Elimination of Nonessentials",
+          "Integrated Biblical Worldview"
+        ],
+        "sources": [
+          "Adler-Paideia_Proposal",
+          "Wilson-Recovering_Lost_Tools_of_Learning"
+        ],
+        "explanation": "Adler calls for the removal of nonessential activities and specialized content (including, by implication, religious instruction) from the core curriculum, whereas Wilson insists that biblical worldview integration is essential in all subjects.",
+        "severity": "medium"
+      }
+    ],
+    "tensions": [
+      {
+        "principles": [
+          "Teacher as Guide and Learner",
+          "Teacher as Guide, Not Subject Specialist"
+        ],
+        "sources": [
+          "Adler-Paideia_Proposal",
+          "Sayers-Lost_Tools_of_Learning"
+        ],
+        "explanation": "Both see the teacher as a guide, but Sayers de-emphasizes subject expertise, while Adler expects teachers to be well-educated and continuously learning. This creates a tension between pedagogical method and subject mastery."
+      },
+      {
+        "principles": [
+          "Community-Based Learning",
+          "Self-Directed Learning"
+        ],
+        "sources": [
+          "ClassicalConversations-What_is_the_Trivium",
+          "Sayers-Lost_Tools_of_Learning"
+        ],
+        "explanation": "Community-based learning emphasizes collaborative, discussion-driven education, while self-directed learning stresses independence and individual initiative. Both are valued, but they pull in different directions regarding the locus of learning."
+      },
+      {
+        "principles": [
+          "Standardized Testing as Evaluation",
+          "Personalized and Flexible Curriculum"
+        ],
+        "sources": [
+          "Bauer-Well_Trained_Mind",
+          "Bauer-Well_Trained_Mind"
+        ],
+        "explanation": "The use of standardized testing for evaluation may be at odds with the principle of personalizing curriculum to individual student needs and pacing, creating a tension between standardization and flexibility."
+      },
+      {
+        "principles": [
+          "Preparation for Citizenship and Work",
+          "Elimination of Nonessentials"
+        ],
+        "sources": [
+          "Adler-Paideia_Proposal",
+          "Adler-Paideia_Proposal"
+        ],
+        "explanation": "While both are from the same source, there is a tension between preparing for citizenship and work (which may require practical or specialized skills) and eliminating nonessential or specialized job training from the curriculum."
+      },
+      {
+        "principles": [
+          "Limited Use of Technology",
+          "Hands-On, Experiment-Based Science"
+        ],
+        "sources": [
+          "Bauer-Well_Trained_Mind",
+          "Bauer-Well_Trained_Mind"
+        ],
+        "explanation": "A strong preference for print-based learning and limited technology use may sometimes conflict with the demands of hands-on, experiment-based science, which can benefit from technological tools."
+      }
+    ],
+    "off_topic": [
+      {
+        "principle": "Physical Education and Health",
+        "source": "Bauer-Well_Trained_Mind",
+        "explanation": "While physical education is important, it is not a distinctive or central tenet of classical educational philosophy and appears more as a practical curricular recommendation."
+      },
+      {
+        "principle": "Record Keeping and Accountability",
+        "source": "Bauer-Well_Trained_Mind",
+        "explanation": "Detailed record keeping is an administrative practice, not a philosophical principle of classical education."
+      },
+      {
+        "principle": "Standardized Testing as Evaluation",
+        "source": "Bauer-Well_Trained_Mind",
+        "explanation": "The use of standardized tests is a modern educational practice and not a core classical principle."
+      },
+      {
+        "principle": "Community and Outsourcing",
+        "source": "Bauer-Well_Trained_Mind",
+        "explanation": "The use of tutors, co-ops, and community college classes is a logistical strategy rather than a philosophical principle."
+      },
+      {
+        "principle": "Parental Responsibility and Diplomacy",
+        "source": "Bauer-Well_Trained_Mind",
+        "explanation": "Emphasis on legal compliance and diplomacy with authorities is a practical concern, not a philosophical tenet."
+      }
+    ],
+    "coherence_score": 8,
+    "coherence_notes": "The extracted principles are generally coherent, with strong thematic unity around the Trivium, integration of knowledge, memorization, critical thinking, and the roles of teacher and parent. The main area of contradiction is between secular/liberal and explicitly Christian classical models, especially regarding curriculum neutrality versus religious integration. Some principles are administrative or logistical rather than philosophical. Overall, the set reflects a robust and nuanced picture of classical educational philosophy, with clear articulation of both shared foundations and legitimate areas of tension.",
+    "philosophy": "classical",
+    "principle_count": 116,
+    "source_count": 6
+  },
+  {
+    "duplicates": [
+      {
+        "principles": [
+          "Developmentally Appropriate Practice",
+          "Developmentally Appropriate Materials",
+          "Developmentally Appropriate Practice"
+        ],
+        "sources": [
+          "ams-early-childhood-materials",
+          "ams-elementary-materials",
+          "spontaneous-activity-in-education-1917",
+          "the-montessori-method-1912"
+        ],
+        "explanation": "All refer to selecting activities and materials that match the developmental stage, needs, and abilities of the child."
+      },
+      {
+        "principles": [
+          "Practical Life Skills",
+          "Preparation for Life",
+          "Practical Life Skills",
+          "Education for Independence"
+        ],
+        "sources": [
+          "ams-early-childhood-materials",
+          "ams-elementary-materials",
+          "the-montessori-method-1912"
+        ],
+        "explanation": "All focus on real-life activities fostering independence, care for self/environment, and preparation for real-world responsibilities."
+      },
+      {
+        "principles": [
+          "Sensorial Exploration",
+          "Sensory-Based Learning",
+          "Sensorial Education",
+          "Development of the Senses"
+        ],
+        "sources": [
+          "ams-early-childhood-materials",
+          "montessori-paradigm-of-learning-eric",
+          "the-montessori-method-1912"
+        ],
+        "explanation": "All emphasize refining the senses through hands-on, sensory experiences as foundational for learning."
+      },
+      {
+        "principles": [
+          "Grace and Courtesy",
+          "Grace and Courtesy"
+        ],
+        "sources": [
+          "ams-early-childhood-materials",
+          "planes-of-development-sensitive-periods"
+        ],
+        "explanation": "Both refer to explicit teaching and practice of social skills, manners, and respectful interactions."
+      },
+      {
+        "principles": [
+          "Integrated Curriculum",
+          "Integrated Curriculum"
+        ],
+        "sources": [
+          "ams-early-childhood-materials",
+          "ams-elementary-materials"
+        ],
+        "explanation": "Both describe the interconnection of subject areas through concrete, manipulative materials for holistic learning."
+      },
+      {
+        "principles": [
+          "Child Choice and Independence",
+          "Freedom Within Structure",
+          "Freedom of Choice",
+          "Liberty in Development",
+          "Liberty Through Activity",
+          "Freedom within Limits",
+          "Liberty Within Limits",
+          "Freedom with Responsibility"
+        ],
+        "sources": [
+          "ams-early-childhood-materials",
+          "ams-elementary-materials",
+          "montessori-paradigm-of-learning-eric",
+          "spontaneous-activity-in-education-1917",
+          "the-montessori-method-1912"
+        ],
+        "explanation": "All express the core Montessori idea that children should have freedom to choose activities and act independently, within a prepared environment and reasonable boundaries."
+      },
+      {
+        "principles": [
+          "Prepared Environment",
+          "Prepared Environment",
+          "Prepared Environment",
+          "Prepared Environment"
+        ],
+        "sources": [
+          "montessori-paradigm-of-learning-eric",
+          "planes-of-development-sensitive-periods",
+          "spontaneous-activity-in-education-1917",
+          "the-montessori-method-1912"
+        ],
+        "explanation": "All refer to the intentional design of the learning environment to support independent, self-directed activity and development."
+      },
+      {
+        "principles": [
+          "Auto-Education",
+          "Auto-education"
+        ],
+        "sources": [
+          "spontaneous-activity-in-education-1917",
+          "the-montessori-method-1912"
+        ],
+        "explanation": "Both describe the process by which children learn best through self-directed, repeated practice and discovery."
+      },
+      {
+        "principles": [
+          "Respect for the Child",
+          "Respect for the Child",
+          "Respect and Responsibility",
+          "Respect for Individual Development"
+        ],
+        "sources": [
+          "spontaneous-activity-in-education-1917",
+          "the-montessori-method-1912",
+          "montessori-paradigm-of-learning-eric"
+        ],
+        "explanation": "All emphasize treating children with respect, honoring their individuality, and supporting their development without coercion."
+      },
+      {
+        "principles": [
+          "Control of Error",
+          "Control of Error"
+        ],
+        "sources": [
+          "spontaneous-activity-in-education-1917",
+          "the-montessori-method-1912"
+        ],
+        "explanation": "Both state that materials should allow children to recognize and correct their own mistakes, fostering independence."
+      },
+      {
+        "principles": [
+          "Observation Over Intervention",
+          "Role of the Adult as Observer",
+          "Minimal Adult Intervention",
+          "Observation and Non-interference"
+        ],
+        "sources": [
+          "the-montessori-method-1912",
+          "spontaneous-activity-in-education-1917",
+          "montessori-paradigm-of-learning-eric"
+        ],
+        "explanation": "All describe the teacher's role as primarily observing and guiding only when necessary, rather than direct instruction."
+      },
+      {
+        "principles": [
+          "Sensitive Periods",
+          "Sensitive Periods"
+        ],
+        "sources": [
+          "planes-of-development-sensitive-periods",
+          "the-montessori-method-1912"
+        ],
+        "explanation": "Both refer to critical windows when children are especially receptive to acquiring certain skills, and education should respond accordingly."
+      },
+      {
+        "principles": [
+          "Learning through Activity",
+          "Hands-On Learning",
+          "Learning Through Movement"
+        ],
+        "sources": [
+          "spontaneous-activity-in-education-1917",
+          "montessori-paradigm-of-learning-eric",
+          "the-montessori-method-1912"
+        ],
+        "explanation": "All emphasize that children learn best through active, hands-on engagement with materials and movement."
+      }
+    ],
+    "contradictions": [],
+    "tensions": [
+      {
+        "principles": [
+          "Minimal Adult Intervention",
+          "Parental and Teacher Collaboration"
+        ],
+        "sources": [
+          "montessori-paradigm-of-learning-eric"
+        ],
+        "explanation": "While minimal adult intervention emphasizes child-led learning, the principle of collaboration suggests a more active adult role. However, these can be reconciled if collaboration is seen as support rather than direct instruction."
+      },
+      {
+        "principles": [
+          "Reality-Based Imagination",
+          "Cosmic Education"
+        ],
+        "sources": [
+          "spontaneous-activity-in-education-1917",
+          "ams-elementary-materials"
+        ],
+        "explanation": "Reality-based imagination stresses grounding creativity in real experiences, while cosmic education encourages broad, imaginative thinking about the universe. The tension is between imagination rooted in reality versus expansive, abstract conceptualization."
+      },
+      {
+        "principles": [
+          "Freedom of Choice",
+          "Freedom within Limits"
+        ],
+        "sources": [
+          "montessori-paradigm-of-learning-eric",
+          "the-montessori-method-1912"
+        ],
+        "explanation": "Absolute freedom is tempered by the need for limits to ensure respect and order, creating a productive tension between autonomy and community responsibility."
+      }
+    ],
+    "off_topic": [],
+    "coherence_score": 9,
+    "coherence_notes": "The extracted principles are highly coherent and consistent with core Montessori philosophy. There is significant overlap, as expected, but no direct contradictions. Tensions identified are legitimate nuances within Montessori thought. No principles appear off-topic or poorly extracted. The only minor deduction is for some redundancy and subtle differences in phrasing across sources.",
+    "philosophy": "montessori-inspired",
+    "principle_count": 76,
+    "source_count": 6
+  },
+  {
+    "duplicates": [
+      {
+        "principles": [
+          "Direct Nature Experience",
+          "Direct Experience in Nature",
+          "Learning Through Direct Nature Experience"
+        ],
+        "sources": [
+          "Louv-Last_Child_in_the_Woods",
+          "nature-based-education-literature-review"
+        ],
+        "explanation": "All three principles emphasize the necessity of regular, direct, hands-on experiences with nature as foundational for learning and development."
+      },
+      {
+        "principles": [
+          "Place-Based Learning",
+          "Place-Based and Experiential Education",
+          "Place-Based and Experiential Learning",
+          "Learning through Place",
+          "Local Place Connection",
+          "Connect Learning to Local",
+          "Learning Grounded in Place"
+        ],
+        "sources": [
+          "Louv-Last_Child_in_the_Woods",
+          "PBSE-Guiding-Principles-1",
+          "Quick-Start-Guide-to-Implementing-Place-Based-Education",
+          "Smith-Sobel-Place_Community_Based_Education"
+        ],
+        "explanation": "These principles all assert that learning should be rooted in the local environment, community, and context, making education relevant and meaningful by connecting it to place."
+      },
+      {
+        "principles": [
+          "Unstructured Outdoor Play",
+          "Constructive Boredom"
+        ],
+        "sources": [
+          "Louv-Last_Child_in_the_Woods"
+        ],
+        "explanation": "Both principles highlight the value of unstructured, self-directed time in nature, allowing for creativity, imagination, and openness to experience."
+      },
+      {
+        "principles": [
+          "Learning Through Doing",
+          "Experiential Learning",
+          "Experiential and Hands-On Learning",
+          "Authentic, Hands-on Learning",
+          "Experiential and Inquiry-Based Learning",
+          "Student-Centered and Experiential"
+        ],
+        "sources": [
+          "Louv-Last_Child_in_the_Woods",
+          "PBSE-Guiding-Principles-1",
+          "Quick-Start-Guide-to-Implementing-Place-Based-Education",
+          "Smith-Sobel-Place_Community_Based_Education",
+          "nature-based-education-literature-review"
+        ],
+        "explanation": "These principles all stress that students learn best through active, hands-on, inquiry-driven, and experiential engagement with their environment."
+      },
+      {
+        "principles": [
+          "Restorative Environments",
+          "Nature as Therapy",
+          "Restorative and Preventive Health"
+        ],
+        "sources": [
+          "Louv-Last_Child_in_the_Woods"
+        ],
+        "explanation": "All three principles describe the mental, emotional, and physical health benefits of nature, including stress reduction and therapeutic effects."
+      },
+      {
+        "principles": [
+          "Intergenerational Transmission",
+          "Adult Mentorship and Enthusiasm",
+          "Authentic Adult Connection"
+        ],
+        "sources": [
+          "Louv-Last_Child_in_the_Woods"
+        ],
+        "explanation": "These principles focus on the importance of adults modeling, facilitating, and authentically engaging with nature alongside children."
+      },
+      {
+        "principles": [
+          "Community and Family Involvement",
+          "Community and Policy Engagement",
+          "School-Community Partnerships",
+          "Integrate Community and School",
+          "Integration with Community"
+        ],
+        "sources": [
+          "Louv-Last_Child_in_the_Woods",
+          "PBSE-Guiding-Principles-1",
+          "Smith-Sobel-Place_Community_Based_Education"
+        ],
+        "explanation": "All emphasize the need for collaboration between schools, families, and communities to support place- and nature-based education."
+      },
+      {
+        "principles": [
+          "Attachment to Place",
+          "Joy, Wonder, and Solitude",
+          "Cultivation of Wonder"
+        ],
+        "sources": [
+          "Louv-Last_Child_in_the_Woods"
+        ],
+        "explanation": "These principles highlight the affective and emotional bonds formed with nature, including wonder, joy, and attachment to place."
+      },
+      {
+        "principles": [
+          "Interdisciplinary Approach",
+          "Interdisciplinary and Integrated Learning",
+          "Integration Across Subjects"
+        ],
+        "sources": [
+          "PBSE-Guiding-Principles-1",
+          "Quick-Start-Guide-to-Implementing-Place-Based-Education",
+          "nature-based-education-literature-review"
+        ],
+        "explanation": "All advocate for integrating multiple disciplines and connecting subject areas through real-world, place-based contexts."
+      },
+      {
+        "principles": [
+          "Student Voice and Democracy",
+          "Student Agency and Voice",
+          "Learner-Centered Approach"
+        ],
+        "sources": [
+          "PBSE-Guiding-Principles-1",
+          "Smith-Sobel-Place_Community_Based_Education",
+          "Quick-Start-Guide-to-Implementing-Place-Based-Education"
+        ],
+        "explanation": "These principles all stress the importance of student agency, voice, and participation in shaping their learning experiences."
+      },
+      {
+        "principles": [
+          "Respect for Natural Integrity",
+          "Respect and Care for Nature",
+          "Sustainability and Stewardship"
+        ],
+        "sources": [
+          "Louv-Last_Child_in_the_Woods",
+          "nature-based-education-literature-review",
+          "Smith-Sobel-Place_Community_Based_Education"
+        ],
+        "explanation": "All focus on fostering respect, care, and stewardship for the natural environment."
+      }
+    ],
+    "contradictions": [],
+    "tensions": [
+      {
+        "principles": [
+          "Balance Between Safety and Freedom",
+          "Balancing Risk and Safety"
+        ],
+        "sources": [
+          "Louv-Last_Child_in_the_Woods"
+        ],
+        "explanation": "While not contradictory, these principles reflect a tension between ensuring children's safety and allowing them the freedom to take risks and explore independently in nature."
+      },
+      {
+        "principles": [
+          "Flexible Learning Goals",
+          "Support School Priorities"
+        ],
+        "sources": [
+          "PBSE-Guiding-Principles-1"
+        ],
+        "explanation": "There is a tension between maintaining flexible, evolving learning goals based on student inquiry and aligning with predetermined school or district priorities and standards."
+      },
+      {
+        "principles": [
+          "Joy, Wonder, and Solitude",
+          "Community and Family Involvement"
+        ],
+        "sources": [
+          "Louv-Last_Child_in_the_Woods"
+        ],
+        "explanation": "A subtle tension exists between valuing solitary, personal experiences in nature and emphasizing collective, community-based engagement."
+      },
+      {
+        "principles": [
+          "Place-Based Learning",
+          "Local-to-Global Perspective"
+        ],
+        "sources": [
+          "Louv-Last_Child_in_the_Woods",
+          "Quick-Start-Guide-to-Implementing-Place-Based-Education"
+        ],
+        "explanation": "There is a tension between focusing learning strictly on the local environment and expanding understanding to regional, national, and global contexts."
+      },
+      {
+        "principles": [
+          "Teacher as Curriculum Designer",
+          "Flexible Learning Goals"
+        ],
+        "sources": [
+          "Smith-Sobel-Place_Community_Based_Education",
+          "PBSE-Guiding-Principles-1"
+        ],
+        "explanation": "A tension exists between teacher autonomy in curriculum design and the need for clear, adaptable learning goals that may be set at a broader institutional level."
+      }
+    ],
+    "off_topic": [],
+    "coherence_score": 9,
+    "coherence_notes": "The extracted principles are highly coherent, with strong thematic alignment around direct experience, place-based relevance, community integration, student agency, and environmental stewardship. Most duplication is due to overlapping terminology across sources rather than conceptual disagreement. No major contradictions or off-topic principles were found. Minor tensions reflect legitimate philosophical nuances rather than incoherence.",
+    "philosophy": "place-nature-based",
+    "principle_count": 76,
+    "source_count": 5
+  },
+  {
+    "duplicates": [
+      {
+        "principles": [
+          "Reflection",
+          "Reflection and Revision",
+          "Ongoing Reflection",
+          "Reflection and Feedback"
+        ],
+        "sources": [
+          "Larmer-Setting_Standard_for_PBL",
+          "Larmer-Setting_Standard_for_PBL",
+          "pbl-teaching-framework-winthrop",
+          "pbl-literature-review-mdrc"
+        ],
+        "explanation": "All these principles emphasize the importance of ongoing reflection and revision by both students and teachers throughout the project process to deepen understanding and improve outcomes."
+      },
+      {
+        "principles": [
+          "Student Voice and Choice",
+          "Student Choice and Autonomy",
+          "Student Choice"
+        ],
+        "sources": [
+          "Larmer-Setting_Standard_for_PBL",
+          "pbl-literature-review-mdrc",
+          "pbl-teaching-framework-winthrop"
+        ],
+        "explanation": "These principles all focus on providing students with opportunities to make decisions, express their ideas, and exercise autonomy in their learning, though the degree and context may vary."
+      },
+      {
+        "principles": [
+          "Collaboration",
+          "Collaborative Learning"
+        ],
+        "sources": [
+          "Larmer-Setting_Standard_for_PBL",
+          "pbl-literature-review-mdrc"
+        ],
+        "explanation": "Both principles highlight the importance of students working together in teams, developing communication and problem-solving skills through collaborative activities."
+      },
+      {
+        "principles": [
+          "Authentic Learning",
+          "Real-World Relevance",
+          "Community and Real-World Connections",
+          "Student Engagement"
+        ],
+        "sources": [
+          "Larmer-Setting_Standard_for_PBL",
+          "pbl-teaching-framework-winthrop",
+          "Larmer-Setting_Standard_for_PBL",
+          "pbl-literature-review-mdrc"
+        ],
+        "explanation": "These principles all stress the need for learning to be connected to real-world contexts, problems, and audiences, making learning meaningful and engaging for students."
+      },
+      {
+        "principles": [
+          "Teacher as Designer and Coach",
+          "Teacher as Facilitator",
+          "Teacher as Facilitator"
+        ],
+        "sources": [
+          "Larmer-Setting_Standard_for_PBL",
+          "Larmer-Setting_Standard_for_PBL",
+          "pbl-literature-review-mdrc"
+        ],
+        "explanation": "These principles describe the teacher's role as one of guiding, coaching, and scaffolding student learning rather than simply delivering content."
+      },
+      {
+        "principles": [
+          "Focus on Success Skills",
+          "Integration of Success Skills",
+          "Skill Integration",
+          "Significant Learning Goals"
+        ],
+        "sources": [
+          "Larmer-Setting_Standard_for_PBL",
+          "Larmer-Setting_Standard_for_PBL",
+          "pbl-teaching-framework-winthrop",
+          "pbl-literature-review-mdrc"
+        ],
+        "explanation": "All these principles emphasize the intentional development of critical thinking, collaboration, self-management, and other 21st-century skills alongside academic content."
+      },
+      {
+        "principles": [
+          "Challenging Inquiry",
+          "Driving Questions",
+          "Sustained Inquiry",
+          "Extended Inquiry",
+          "Project as Central Vehicle"
+        ],
+        "sources": [
+          "Larmer-Setting_Standard_for_PBL",
+          "pbl-literature-review-mdrc",
+          "Larmer-Setting_Standard_for_PBL",
+          "pbl-literature-review-mdrc",
+          "pbl-literature-review-mdrc"
+        ],
+        "explanation": "These principles all refer to the centrality of inquiry-driven projects, anchored by meaningful questions or problems that require sustained investigation."
+      },
+      {
+        "principles": [
+          "Public Product",
+          "Authentic Assessment",
+          "Demonstration of Learning"
+        ],
+        "sources": [
+          "Larmer-Setting_Standard_for_PBL",
+          "pbl-literature-review-mdrc",
+          "pbl-teaching-framework-winthrop"
+        ],
+        "explanation": "All three principles focus on students creating tangible products that are shared with an audience beyond the classroom as a demonstration of learning."
+      }
+    ],
+    "contradictions": [],
+    "tensions": [
+      {
+        "principles": [
+          "Student Voice and Choice",
+          "Teacher as Designer and Coach"
+        ],
+        "sources": [
+          "Larmer-Setting_Standard_for_PBL",
+          "Larmer-Setting_Standard_for_PBL"
+        ],
+        "explanation": "There is a tension between maximizing student autonomy and the teacher's responsibility to design, scaffold, and guide projects. Balancing student choice with necessary structure is a nuanced aspect of PBL."
+      },
+      {
+        "principles": [
+          "Equity and Differentiation",
+          "Student Choice and Autonomy"
+        ],
+        "sources": [
+          "Larmer-Setting_Standard_for_PBL",
+          "pbl-literature-review-mdrc"
+        ],
+        "explanation": "Allowing for broad student choice can sometimes conflict with the need to ensure equitable access and differentiated support for all learners. Projects must be designed to balance autonomy with inclusivity."
+      },
+      {
+        "principles": [
+          "Alignment to Standards",
+          "Student Choice and Autonomy"
+        ],
+        "sources": [
+          "Larmer-Setting_Standard_for_PBL",
+          "pbl-literature-review-mdrc"
+        ],
+        "explanation": "Ensuring projects meet required content standards may limit the extent of student choice, creating a tension between curricular demands and student-driven learning."
+      }
+    ],
+    "off_topic": [],
+    "coherence_score": 8,
+    "coherence_notes": "The extracted principles are highly coherent, with strong alignment across sources and minimal redundancy after merging duplicates. The philosophy is well-articulated, emphasizing experiential, inquiry-driven, and authentic learning with a balance of student autonomy and teacher guidance. No principles appear off-topic or poorly extracted. Minor tensions reflect legitimate pedagogical nuances rather than contradictions.",
+    "philosophy": "project-based-learning",
+    "principle_count": 43,
+    "source_count": 4
+  },
+  {
+    "duplicates": [
+      {
+        "principles": [
+          "Trust Children (FEE-Essential_Guide_Self_Directed_Education)",
+          "Trust Children (Holt-How_Children_Learn)",
+          "Trust in Human Nature (Holt-Instead_of_Education)"
+        ],
+        "sources": [
+          "FEE-Essential_Guide_Self_Directed_Education",
+          "Holt-How_Children_Learn",
+          "Holt-Instead_of_Education"
+        ],
+        "explanation": "All emphasize the belief that children are naturally curious, competent, and can be trusted to direct their own learning without constant adult intervention."
+      },
+      {
+        "principles": [
+          "Freedom to Choose (FEE-Essential_Guide_Self_Directed_Education)",
+          "Respect for Autonomy (FEE-Essential_Guide_Self_Directed_Education)",
+          "Respect for Autonomy (Holt-How_Children_Learn)",
+          "Respect for Autonomy (Holt-Instead_of_Education)",
+          "Autonomy (Riley-Unschooling_SDT)"
+        ],
+        "sources": [
+          "FEE-Essential_Guide_Self_Directed_Education",
+          "Holt-How_Children_Learn",
+          "Holt-Instead_of_Education",
+          "Riley-Unschooling_SDT"
+        ],
+        "explanation": "These principles all assert that children should have autonomy and agency in their learning, including the freedom to choose what, how, and when they learn."
+      },
+      {
+        "principles": [
+          "Facilitate, Don\u2019t Direct (FEE-Essential_Guide_Self_Directed_Education)",
+          "Parental Facilitation (Gray-Riley-Challenges_Benefits_Unschooling_232_Families)",
+          "Supportive Guidance (Holt-Instead_of_Education)"
+        ],
+        "sources": [
+          "FEE-Essential_Guide_Self_Directed_Education",
+          "Gray-Riley-Challenges_Benefits_Unschooling_232_Families",
+          "Holt-Instead_of_Education"
+        ],
+        "explanation": "All describe the parental/adult role as providing resources and support, but not directing or controlling the child's learning process."
+      },
+      {
+        "principles": [
+          "Value Free Play (FEE-Essential_Guide_Self_Directed_Education)",
+          "Value of Play and Fantasy (Holt-How_Children_Learn)"
+        ],
+        "sources": [
+          "FEE-Essential_Guide_Self_Directed_Education",
+          "Holt-How_Children_Learn"
+        ],
+        "explanation": "Both highlight the importance of unstructured, child-led play and fantasy as essential for development and learning."
+      },
+      {
+        "principles": [
+          "Natural Consequences (FEE-Essential_Guide_Self_Directed_Education)",
+          "Importance of Mistakes (Holt-How_Children_Learn)",
+          "Feedback and Reflection (Gatto-Weapons_of_Mass_Instruction)",
+          "Self-Correction and Reflection (Holt-How_Children_Learn)"
+        ],
+        "sources": [
+          "FEE-Essential_Guide_Self_Directed_Education",
+          "Holt-How_Children_Learn",
+          "Gatto-Weapons_of_Mass_Instruction"
+        ],
+        "explanation": "All emphasize that learning is best achieved through experiencing the real consequences of one's actions, making mistakes, and reflecting on them, rather than through artificial rewards or punishments."
+      },
+      {
+        "principles": [
+          "Learning Through Passion (FEE-Essential_Guide_Self_Directed_Education)",
+          "Intrinsic Motivation (Gray-Riley-Challenges_Benefits_Unschooling_232_Families)",
+          "Intrinsic Motivation (Holt-How_Children_Learn)",
+          "Intrinsic Motivation (Riley-Unschooling_SDT)",
+          "Learning is Natural (Holt-Instead_of_Education)"
+        ],
+        "sources": [
+          "FEE-Essential_Guide_Self_Directed_Education",
+          "Gray-Riley-Challenges_Benefits_Unschooling_232_Families",
+          "Holt-How_Children_Learn",
+          "Riley-Unschooling_SDT",
+          "Holt-Instead_of_Education"
+        ],
+        "explanation": "These principles all state that learning is most effective when driven by the learner's own interests, curiosity, and intrinsic motivation, rather than external pressures."
+      },
+      {
+        "principles": [
+          "Community and Human Resources (FEE-Essential_Guide_Self_Directed_Education)",
+          "Family and Community Integration (Gatto-Weapons_of_Mass_Instruction)",
+          "Integration with Community and Family (Gatto-Weapons_of_Mass_Instruction)",
+          "Community and Collaboration (Holt-Instead_of_Education)",
+          "Peer and Community Learning (Illich-Deschooling_Society)",
+          "Relatedness (Riley-Unschooling_SDT)"
+        ],
+        "sources": [
+          "FEE-Essential_Guide_Self_Directed_Education",
+          "Gatto-Weapons_of_Mass_Instruction",
+          "Holt-Instead_of_Education",
+          "Illich-Deschooling_Society",
+          "Riley-Unschooling_SDT"
+        ],
+        "explanation": "All emphasize the importance of learning within a community context, with access to people of different ages and backgrounds, and the value of relationships and collaboration."
+      },
+      {
+        "principles": [
+          "Self-Directed Learning (Gatto-Weapons_of_Mass_Instruction)",
+          "Child-Led Learning (Gray-Riley-Challenges_Benefits_Unschooling_232_Families)",
+          "Self-Directed Learning (Holt-How_Children_Learn)",
+          "Learning is Self-Directed (Illich-Deschooling_Society)",
+          "Self-Directed Learning (Riley-Unschooling_SDT)"
+        ],
+        "sources": [
+          "Gatto-Weapons_of_Mass_Instruction",
+          "Gray-Riley-Challenges_Benefits_Unschooling_232_Families",
+          "Holt-How_Children_Learn",
+          "Illich-Deschooling_Society",
+          "Riley-Unschooling_SDT"
+        ],
+        "explanation": "All describe the core unschooling idea that learners should direct their own education, choosing what, how, and when to learn."
+      },
+      {
+        "principles": [
+          "Learning Through Real Life (Gatto-Weapons_of_Mass_Instruction)",
+          "Learning Through Everyday Life (Riley-Unschooling_SDT)",
+          "Learning Through Real Experience (Holt-How_Children_Learn)",
+          "Learning Through Experience (Holt-How_Children_Learn)",
+          "Learning Integrated with Life (Holt-Instead_of_Education)",
+          "Integration of Life and Learning (Holt-Instead_of_Education)",
+          "Natural Learning Environment (Gray-Riley-Challenges_Benefits_Unschooling_232_Families)"
+        ],
+        "sources": [
+          "Gatto-Weapons_of_Mass_Instruction",
+          "Riley-Unschooling_SDT",
+          "Holt-How_Children_Learn",
+          "Holt-Instead_of_Education",
+          "Gray-Riley-Challenges_Benefits_Unschooling_232_Families"
+        ],
+        "explanation": "All assert that learning is most powerful when embedded in real-life experiences, daily activities, and natural environments, rather than abstract or artificial settings."
+      },
+      {
+        "principles": [
+          "Individualization (Gatto-Weapons_of_Mass_Instruction)",
+          "Individual Uniqueness (Gatto-Weapons_of_Mass_Instruction)",
+          "Respect for Individual Differences (Gray-Riley-Challenges_Benefits_Unschooling_232_Families)",
+          "Respect for Individual Learning Paths (Holt-How_Children_Learn)",
+          "Individual Pace and Path (Holt-How_Children_Learn)",
+          "Respect for Individual Interests (Holt-Instead_of_Education)"
+        ],
+        "sources": [
+          "Gatto-Weapons_of_Mass_Instruction",
+          "Gray-Riley-Challenges_Benefits_Unschooling_232_Families",
+          "Holt-How_Children_Learn",
+          "Holt-Instead_of_Education"
+        ],
+        "explanation": "All stress that each child is unique and education should be tailored to individual interests, abilities, and developmental timelines."
+      },
+      {
+        "principles": [
+          "Learning by Doing (Holt-How_Children_Learn)",
+          "Learning Through Doing (Gatto-Weapons_of_Mass_Instruction)",
+          "Learning by Doing (Holt-Instead_of_Education)",
+          "Learning Through Doing (Holt-How_Children_Learn)"
+        ],
+        "sources": [
+          "Holt-How_Children_Learn",
+          "Gatto-Weapons_of_Mass_Instruction",
+          "Holt-Instead_of_Education"
+        ],
+        "explanation": "All emphasize that active, hands-on engagement and experimentation are central to learning."
+      },
+      {
+        "principles": [
+          "Non-Coercive Environment (Holt-How_Children_Learn)",
+          "Voluntary Participation (Holt-Instead_of_Education)",
+          "Non-Compulsory Education (Holt-Instead_of_Education)"
+        ],
+        "sources": [
+          "Holt-How_Children_Learn",
+          "Holt-Instead_of_Education"
+        ],
+        "explanation": "All state that learning should not be forced or coerced; participation in learning activities should be voluntary."
+      },
+      {
+        "principles": [
+          "Access to Resources (Holt-Instead_of_Education)",
+          "Providing Rich Resources (Holt-How_Children_Learn)",
+          "Access to Educational Resources (Illich-Deschooling_Society)"
+        ],
+        "sources": [
+          "Holt-Instead_of_Education",
+          "Holt-How_Children_Learn",
+          "Illich-Deschooling_Society"
+        ],
+        "explanation": "All emphasize the importance of providing access to a wide range of resources and materials to support diverse learning interests."
+      }
+    ],
+    "contradictions": [],
+    "tensions": [
+      {
+        "principles": [
+          "Gradual Independence (FEE-Essential_Guide_Self_Directed_Education)",
+          "Early Responsibility (Gatto-Weapons_of_Mass_Instruction)"
+        ],
+        "sources": [
+          "FEE-Essential_Guide_Self_Directed_Education",
+          "Gatto-Weapons_of_Mass_Instruction"
+        ],
+        "explanation": "While both support autonomy, 'Gradual Independence' suggests a phased approach to responsibility, whereas 'Early Responsibility' advocates for trusting children with independence from a young age. This reflects a nuance in how quickly autonomy should be granted."
+      },
+      {
+        "principles": [
+          "Respect for Childhood\u2019s Natural Development (Gatto-Weapons_of_Mass_Instruction)",
+          "Early Responsibility (Gatto-Weapons_of_Mass_Instruction)"
+        ],
+        "sources": [
+          "Gatto-Weapons_of_Mass_Instruction",
+          "Gatto-Weapons_of_Mass_Instruction"
+        ],
+        "explanation": "There is a subtle tension between respecting the natural pace of childhood and advocating for early responsibility, as some children may not be ready for significant responsibilities early on."
+      },
+      {
+        "principles": [
+          "Flexible, Non-Standardized Approach (Gatto-Weapons_of_Mass_Instruction)",
+          "Freedom of Schedule (Gray-Riley-Challenges_Benefits_Unschooling_232_Families)"
+        ],
+        "sources": [
+          "Gatto-Weapons_of_Mass_Instruction",
+          "Gray-Riley-Challenges_Benefits_Unschooling_232_Families"
+        ],
+        "explanation": "Both support flexibility, but the former focuses on educational content and assessment, while the latter emphasizes daily routines. There could be tension in balancing family needs with individual learning rhythms."
+      },
+      {
+        "principles": [
+          "Production Over Consumption (Gatto-Weapons_of_Mass_Instruction)",
+          "Valuing Action Over Consumption (Illich-Deschooling_Society)"
+        ],
+        "sources": [
+          "Gatto-Weapons_of_Mass_Instruction",
+          "Illich-Deschooling_Society"
+        ],
+        "explanation": "Both value active participation over passive consumption, but the emphasis on 'production' could be interpreted as goal-oriented, while 'action' may include non-productive, exploratory activities. This reflects a philosophical nuance."
+      }
+    ],
+    "off_topic": [
+      {
+        "principle": "No Ranking or Labeling",
+        "source": "Holt-Instead_of_Education",
+        "explanation": "While relevant to the critique of schooling, this principle is more about assessment practices than the core philosophy of unschooling itself."
+      },
+      {
+        "principle": "Value of Experience over Credentials",
+        "source": "Holt-Instead_of_Education",
+        "explanation": "This principle is more about societal recognition of learning than the process of unschooling per se."
+      },
+      {
+        "principle": "Natural Authority over Official Authority",
+        "source": "Holt-Instead_of_Education",
+        "explanation": "This is more a critique of institutional authority than a direct statement about learning processes."
+      },
+      {
+        "principle": "Critique of Institutionalization",
+        "source": "Illich-Deschooling_Society",
+        "explanation": "While foundational to Illich's argument, this is a meta-level critique rather than a direct educational principle."
+      },
+      {
+        "principle": "Critical View of Institutional Schooling",
+        "source": "Holt-Instead_of_Education",
+        "explanation": "This is a critique of schooling rather than a positive principle of unschooling."
+      }
+    ],
+    "coherence_score": 8,
+    "coherence_notes": "The extracted principles are highly coherent, with strong thematic consistency around self-direction, intrinsic motivation, respect for autonomy, learning through real life, and the importance of community. There are many near-duplicates, reflecting the convergence of multiple sources on core ideas. No outright contradictions were found, but some tensions exist regarding the pace and timing of granting autonomy. A few principles are more meta-level critiques of schooling or assessment rather than direct statements about unschooling practice, but overall, the set is focused and representative of the philosophy.",
+    "philosophy": "unschooling",
+    "principle_count": 91,
+    "source_count": 7
+  },
+  {
+    "duplicates": [
+      {
+        "principles": [
+          "Artistic Integration",
+          "Artistic Integration",
+          "Artistic and Practical Integration",
+          "Artistic Integration",
+          "Creative, Artistic Experience",
+          "Artistic Integration",
+          "Integration of Arts and Academics"
+        ],
+        "sources": [
+          "Practical_Advice_to_Teachers-Rudolf_Steiner-294",
+          "child-development-training-manual-steiner",
+          "child-development-training-manual-steiner",
+          "emerson-waldorf-curriculum-guide",
+          "essentials-waldorf-early-childhood",
+          "waldorf-first-grade-overview",
+          "emerson-waldorf-curriculum-guide"
+        ],
+        "explanation": "All these principles emphasize the integration of artistic activities (art, music, movement, handwork) into all subjects to foster creativity, imagination, and holistic development."
+      },
+      {
+        "principles": [
+          "Developmental Appropriateness",
+          "Developmentally Appropriate Curriculum",
+          "Developmental Stages",
+          "Developmental Stages",
+          "Developmental Stages",
+          "Developmentally Appropriate Curriculum",
+          "Developmentally Appropriate Timing"
+        ],
+        "sources": [
+          "Practical_Advice_to_Teachers-Rudolf_Steiner-294",
+          "Practical_Advice_to_Teachers-Rudolf_Steiner-294",
+          "child-development-training-manual-steiner",
+          "emerson-waldorf-curriculum-guide",
+          "understanding-steiner-waldorf-approach",
+          "emerson-waldorf-curriculum-guide",
+          "waldorf-first-grade-overview"
+        ],
+        "explanation": "These principles all state that curriculum and teaching methods should be tailored to the child's developmental stage, with content and approach changing as children mature."
+      },
+      {
+        "principles": [
+          "Learning Through Doing",
+          "Learning by Doing",
+          "Learning through Doing",
+          "Experiential Learning"
+        ],
+        "sources": [
+          "Practical_Advice_to_Teachers-Rudolf_Steiner-294",
+          "child-development-training-manual-steiner",
+          "emerson-waldorf-curriculum-guide",
+          "child-development-training-manual-steiner"
+        ],
+        "explanation": "All emphasize that children learn best through active, hands-on, practical experiences rather than passive reception or rote memorization."
+      },
+      {
+        "principles": [
+          "Imitation and Example",
+          "Imitation in Early Childhood",
+          "Learning Through Imitation and Play",
+          "Imitation and Example",
+          "Imitation and Example"
+        ],
+        "sources": [
+          "The_Education_of_the_Child-Rudolf_Steiner",
+          "child-development-training-manual-steiner",
+          "emerson-waldorf-curriculum-guide",
+          "essentials-waldorf-early-childhood",
+          "understanding-steiner-waldorf-approach"
+        ],
+        "explanation": "These all state that young children learn primarily through imitation of adults and their environment, making the adult's behavior and surroundings crucial."
+      },
+      {
+        "principles": [
+          "Rhythm and Repetition",
+          "Rhythm and Repetition",
+          "Rhythm and Repetition",
+          "Rhythm and Routine"
+        ],
+        "sources": [
+          "child-development-training-manual-steiner",
+          "emerson-waldorf-curriculum-guide",
+          "understanding-steiner-waldorf-approach",
+          "waldorf-first-grade-overview"
+        ],
+        "explanation": "All emphasize the importance of daily, weekly, and yearly rhythms and repetition in supporting learning, security, and healthy development."
+      },
+      {
+        "principles": [
+          "Wholeness and Harmony",
+          "Threefold Human Being",
+          "Educating the Whole Child",
+          "Holistic Child Development",
+          "Cultivation of Will, Feeling, and Thinking",
+          "Educate Head, Heart, Hands"
+        ],
+        "sources": [
+          "Practical_Advice_to_Teachers-Rudolf_Steiner-294",
+          "child-development-training-manual-steiner",
+          "understanding-steiner-waldorf-approach",
+          "waldorf-first-grade-overview",
+          "emerson-waldorf-curriculum-guide",
+          "waldorf-first-grade-overview"
+        ],
+        "explanation": "All refer to educating the whole child (thinking, feeling, willing; head, heart, hands) and nurturing all aspects of the human being."
+      },
+      {
+        "principles": [
+          "Authority Through Relationship",
+          "Authority and Reverence",
+          "Teacher as Authority and Model"
+        ],
+        "sources": [
+          "Practical_Advice_to_Teachers-Rudolf_Steiner-294",
+          "The_Education_of_the_Child-Rudolf_Steiner",
+          "waldorf-first-grade-overview"
+        ],
+        "explanation": "All emphasize that children in middle childhood learn best through a loving sense of authority and reverence for the teacher as a model."
+      },
+      {
+        "principles": [
+          "From Whole to Parts",
+          "Whole-to-Part Learning"
+        ],
+        "sources": [
+          "Practical_Advice_to_Teachers-Rudolf_Steiner-294",
+          "emerson-waldorf-curriculum-guide"
+        ],
+        "explanation": "Both advocate teaching that proceeds from the whole to the parts, supporting deep understanding."
+      },
+      {
+        "principles": [
+          "Concrete Before Abstract",
+          "Delayed Abstraction"
+        ],
+        "sources": [
+          "Practical_Advice_to_Teachers-Rudolf_Steiner-294",
+          "waldorf-first-grade-overview"
+        ],
+        "explanation": "Both state that instruction should begin with concrete, lived experiences before introducing abstract concepts."
+      },
+      {
+        "principles": [
+          "Connection to Practical Life",
+          "Practical Life Skills"
+        ],
+        "sources": [
+          "Practical_Advice_to_Teachers-Rudolf_Steiner-294",
+          "understanding-steiner-waldorf-approach"
+        ],
+        "explanation": "Both emphasize integrating practical, real-life skills and experiences into the curriculum."
+      }
+    ],
+    "contradictions": [
+      {
+        "principles": [
+          "Authority Through Relationship",
+          "Non-Judgemental Guidance"
+        ],
+        "sources": [
+          "Practical_Advice_to_Teachers-Rudolf_Steiner-294",
+          "child-development-training-manual-steiner"
+        ],
+        "explanation": "While 'Authority Through Relationship' emphasizes the teacher as a loving authority and model, 'Non-Judgemental Guidance' suggests teachers should avoid imposing moral judgments and allow students to develop their own viewpoints. This could be seen as a contradiction regarding the teacher's role in moral development.",
+        "severity": "medium"
+      },
+      {
+        "principles": [
+          "Protection of Childhood Forces",
+          "Connection to Practical Life"
+        ],
+        "sources": [
+          "essentials-waldorf-early-childhood",
+          "Practical_Advice_to_Teachers-Rudolf_Steiner-294"
+        ],
+        "explanation": "'Protection of Childhood Forces' advocates for minimal intellectualization and a dreamlike, imaginative state in early childhood, while 'Connection to Practical Life' emphasizes linking lessons to real human life and practical understanding. There is a potential contradiction in how much real-world/practical content is appropriate in early childhood.",
+        "severity": "low"
+      }
+    ],
+    "tensions": [
+      {
+        "principles": [
+          "Balance of Structure and Freedom",
+          "Teacher as Authority and Model"
+        ],
+        "sources": [
+          "child-development-training-manual-steiner",
+          "waldorf-first-grade-overview"
+        ],
+        "explanation": "There is a tension between the need for teacher authority/modeling and the encouragement of freedom, self-direction, and independence as children mature."
+      },
+      {
+        "principles": [
+          "Self-Education Environment",
+          "Teacher as Model and Artist"
+        ],
+        "sources": [
+          "essentials-waldorf-early-childhood",
+          "Practical_Advice_to_Teachers-Rudolf_Steiner-294"
+        ],
+        "explanation": "'Self-Education Environment' emphasizes the child's self-directed learning, while 'Teacher as Model and Artist' highlights the teacher's active role in shaping the environment and modeling attitudes. The tension lies in balancing adult guidance with child autonomy."
+      },
+      {
+        "principles": [
+          "Delayed Intellectual Judgement",
+          "Respect for Individuality"
+        ],
+        "sources": [
+          "The_Education_of_the_Child-Rudolf_Steiner",
+          "child-development-training-manual-steiner"
+        ],
+        "explanation": "'Delayed Intellectual Judgement' suggests holding back independent intellectual thinking until after puberty, while 'Respect for Individuality' encourages supporting each child's unique identity and self-expression, which may include early intellectual curiosity."
+      }
+    ],
+    "off_topic": [
+      {
+        "principle": "Threefold Social Order",
+        "source": "emerson-waldorf-curriculum-guide",
+        "explanation": "While related to the broader Waldorf movement, this principle about the organization of school life around freedom, equality, and brotherhood is more about social philosophy than core educational method."
+      }
+    ],
+    "coherence_score": 8,
+    "coherence_notes": "The extracted principles are highly coherent, with strong thematic consistency around developmental appropriateness, holistic education, artistic integration, and learning through experience and imitation. Most apparent contradictions are minor and reflect nuanced differences in emphasis or stage-specific guidance. Some overlap and redundancy exist, but these reinforce core themes. Only a few principles (e.g., Threefold Social Order) are somewhat peripheral to classroom pedagogy.",
+    "philosophy": "waldorf-adjacent",
+    "principle_count": 103,
+    "source_count": 7
+  }
+]
