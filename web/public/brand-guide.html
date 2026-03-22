@@ -1,0 +1,1352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Brand Guide — The Sage's Compass</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cormorant+SC:wght@400;600;700&family=Cormorant:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap');
+
+    :root {
+      /* ══════════════════════════════════════════
+         V1 PALETTE (current — saved for reference)
+         ══════════════════════════════════════════ */
+
+      /* Core palette */
+      --ink: #1B1A17;
+      --parchment: #F9F6EF;
+      --gold: #D4AF37;
+      --gold-dim: rgba(212, 175, 55, 0.55);
+      --gold-glow: rgba(212, 175, 55, 0.12);
+
+      /* V1 Page watercolor hues (darker, more saturated) */
+      /* --v1-hue-explore: #0B2E4A;   deep teal night sky */
+      /* --v1-hue-compass: #2A1F3D;   deep indigo twilight */
+      /* --v1-hue-results: #1E2D3D;   slate blue dusk */
+      /* --v1-hue-generate: #2D2416;  warm umber firelight */
+      /* --v1-hue-lessons: #1A2E1A;   forest green glade */
+      /* --v1-hue-dashboard: #2B1A2E; plum evening */
+      /* --v1-hue-children: #1A2A2E;  sea glass teal */
+      /* --v1-hue-calendar: #2E2A1A;  amber candlelight */
+      /* --v1-hue-standards: #1F1F2E; midnight blue */
+      /* --v1-hue-about: #2E1A1A;     rosewood warmth */
+
+      /* ══════════════════════════════════════════
+         V2 PALETTE (lighter, softer, more pastel)
+         ══════════════════════════════════════════ */
+
+      /* Page watercolor hues — lighter and more pastel */
+      --hue-explore: #0B2E4A;     /* keep dark — the star map needs night sky */
+      --hue-home: #FDFBF7;        /* warm ivory */
+      --hue-compass: #E8E0F0;     /* lavender mist */
+      --hue-results: #DDE6EE;     /* morning fog */
+      --hue-generate: #F0EAE0;    /* warm linen */
+      --hue-lessons: #E0EDE0;     /* sage wash */
+      --hue-dashboard: #EDE0EE;   /* soft lilac */
+      --hue-children: #DDE8EA;    /* sea glass pale */
+      --hue-calendar: #EDE8DC;    /* parchment gold */
+      --hue-standards: #E0E0EE;   /* periwinkle mist */
+      --hue-about: #EDDFDF;       /* rose petal */
+
+      /* V1 Philosophy colors (current in codebase — saved for reference) */
+      /* --v1-phil-classical: #6366F1;     indigo */
+      /* --v1-phil-charlotte: #EC4899;     pink */
+      /* --v1-phil-waldorf: #F59E0B;       amber */
+      /* --v1-phil-montessori: #8B5CF6;    violet */
+      /* --v1-phil-project: #3B82F6;       blue */
+      /* --v1-phil-nature: #10B981;        emerald */
+      /* --v1-phil-unschooling: #F97316;   orange */
+      /* --v1-phil-adaptive: #6B7280;      gray */
+
+      /* V3 Philosophy colors (watercolor — muted, warm, earthy) */
+      --phil-classical: #5B5E8A;       /* slate indigo */
+      --phil-charlotte: #B07A8A;       /* dusty rose */
+      --phil-waldorf: #C4983D;         /* raw sienna */
+      --phil-montessori: #7D6B9E;      /* muted violet */
+      --phil-project: #5A7FA0;         /* steel blue */
+      --phil-nature: #5A947A;          /* sage green */
+      --phil-unschooling: #C07A42;     /* burnt orange */
+      --phil-adaptive: #8A8A7E;        /* warm gray */
+
+      /* Archetype colors (matched to V3 philosophy tones) */
+      --arch-guide: #5B5E8A;
+      --arch-explorer: #5A947A;
+      --arch-cultivator: #7D6B9E;
+      --arch-naturalist: #6BA07A;
+      --arch-storyteller: #B07A8A;
+      --arch-architect: #5A7FA0;
+      --arch-freespirit: #C07A42;
+      --arch-weaver: #8A8A7E;
+
+      /* ══════════════════════════════════════════
+         UI COMPONENT TOKENS
+         ══════════════════════════════════════════ */
+
+      /* Surfaces */
+      --surface-card: rgba(255, 255, 255, 0.7);
+      --surface-well: rgba(0, 0, 0, 0.03);
+      --surface-tooltip: #1B1A17;
+      --surface-overlay: rgba(0, 0, 0, 0.4);
+
+      /* Borders */
+      --border-default: rgba(0, 0, 0, 0.08);
+      --border-subtle: rgba(0, 0, 0, 0.04);
+      --border-emphasis: rgba(212, 175, 55, 0.3);
+
+      /* Text */
+      --text-primary: #1B1A17;
+      --text-secondary: #5A5A5A;
+      --text-tertiary: #9A9A9A;
+      --text-inverse: #F9F6EF;
+      --text-link: #5B5E8A;
+      --text-success: #059669;
+      --text-warning: #D97706;
+      --text-error: #DC2626;
+
+      /* Shadows */
+      --shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
+      --shadow-md: 0 4px 12px rgba(0,0,0,0.06);
+      --shadow-lg: 0 12px 32px rgba(0,0,0,0.08);
+      --shadow-card: 0 2px 8px rgba(0,0,0,0.04), 0 0 0 1px rgba(0,0,0,0.04);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      color: var(--ink);
+      background: var(--parchment);
+      line-height: 1.6;
+    }
+
+    .serif { font-family: 'Cormorant', serif; }
+    .serif-sc { font-family: 'Cormorant SC', serif; }
+
+    /* ─── Watercolor background system ─── */
+    .watercolor-bg {
+      position: relative;
+      overflow: hidden;
+    }
+    .watercolor-bg::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      /* Default texture — overridden per-hue class */
+      background: url('/explore/watercolor-texture-1.png') center/cover;
+      opacity: 0.15;
+      mix-blend-mode: multiply;
+      pointer-events: none;
+    }
+    .watercolor-bg::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url('/explore/watercolor-grain.svg') center/cover;
+      opacity: 0.08;
+      mix-blend-mode: soft-light;
+      pointer-events: none;
+    }
+    .watercolor-bg > * { position: relative; z-index: 1; }
+
+    /* Each page gets a UNIQUE texture image + sepia recolor technique.
+       Textures are neutral warm gray, so sepia+hue-rotate produces clean single-tone washes. */
+    /* Each page: unique texture + hue from approved palette (blues, mauves, greens, purples, teal, lavender, sage — NO yellow) */
+    .watercolor-bg.hue-explore::before { background-image: url('/explore/watercolor-bg-teal.png'); filter: hue-rotate(0deg) saturate(1.2); opacity: 0.92; }
+    .watercolor-bg.hue-home::before { background-image: url('/explore/watercolor-texture-1.png'); filter: sepia(0.4) hue-rotate(220deg) saturate(0.7) brightness(1.5); opacity: 0.15; }
+    .watercolor-bg.hue-compass::before { background-image: url('/explore/watercolor-texture-8.png'); filter: sepia(0.5) hue-rotate(220deg) saturate(0.9) brightness(1.3); opacity: 0.32; }
+    .watercolor-bg.hue-results::before { background-image: url('/explore/watercolor-texture-2.png'); filter: sepia(0.5) hue-rotate(200deg) saturate(0.8) brightness(1.3); opacity: 0.25; }
+    .watercolor-bg.hue-generate::before { background-image: url('/explore/watercolor-texture-9.png'); filter: sepia(0.4) hue-rotate(80deg) saturate(0.8) brightness(1.3); opacity: 0.2; }
+    .watercolor-bg.hue-lessons::before { background-image: url('/explore/watercolor-texture-5.png'); filter: sepia(0.4) hue-rotate(90deg) saturate(0.8) brightness(1.2); opacity: 0.22; }
+    .watercolor-bg.hue-dashboard::before { background-image: url('/explore/watercolor-texture-4.png'); filter: sepia(0.5) hue-rotate(250deg) saturate(0.8) brightness(1.3); opacity: 0.24; }
+    .watercolor-bg.hue-children::before { background-image: url('/explore/watercolor-texture-10.png'); filter: sepia(0.5) hue-rotate(170deg) saturate(0.9) brightness(1.3); opacity: 0.22; }
+    .watercolor-bg.hue-calendar::before { background-image: url('/explore/watercolor-texture-3.png'); filter: sepia(0.4) hue-rotate(150deg) saturate(0.8) brightness(1.3); opacity: 0.2; }
+    .watercolor-bg.hue-about::before { background-image: url('/explore/watercolor-texture-7.png'); filter: sepia(0.5) hue-rotate(290deg) saturate(0.7) brightness(1.3); opacity: 0.22; }
+
+    /* ─── Layout ─── */
+    .container { max-width: 960px; margin: 0 auto; padding: 0 2rem; }
+    section { padding: 4rem 0; }
+    section + section { border-top: 1px solid rgba(0,0,0,0.06); }
+
+    h1 { font-family: 'Cormorant SC', serif; font-size: 2.8rem; font-weight: 700; letter-spacing: 0.08em; color: var(--ink); }
+    h2 { font-family: 'Cormorant SC', serif; font-size: 1.8rem; font-weight: 600; letter-spacing: 0.06em; margin-bottom: 1.5rem; color: var(--ink); }
+    h3 { font-family: 'Inter', sans-serif; font-size: 0.85rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold-dim); margin-bottom: 0.75rem; }
+    p { font-size: 0.95rem; color: #4A4A4A; margin-bottom: 1rem; }
+    .lead { font-family: 'Cormorant', serif; font-size: 1.25rem; font-style: italic; color: #5A5A5A; }
+
+    /* ─── Hero ─── */
+    .hero {
+      min-height: 60vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 6rem 2rem;
+      background: var(--hue-explore);
+      color: var(--parchment);
+    }
+    .hero h1 { color: var(--parchment); font-size: 3.2rem; margin-bottom: 0.5rem; }
+    .hero .tagline { font-family: 'Cormorant', serif; font-size: 1.3rem; color: var(--gold); font-style: italic; margin-bottom: 1rem; }
+    .hero .subtitle { font-size: 0.95rem; color: rgba(249,246,239,0.6); max-width: 520px; }
+
+    /* ─── Color swatches ─── */
+    .swatch-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 1rem; margin: 1.5rem 0; }
+    .swatch {
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid rgba(0,0,0,0.06);
+    }
+    .swatch-color { height: 80px; }
+    .swatch-label { padding: 0.5rem 0.75rem; font-size: 0.75rem; }
+    .swatch-label .name { font-weight: 600; }
+    .swatch-label .hex { color: #888; font-family: monospace; font-size: 0.7rem; }
+
+    /* ─── Page hue previews ─── */
+    .hue-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1.5rem; margin: 1.5rem 0; }
+    .hue-card {
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid rgba(0,0,0,0.06);
+      height: 180px;
+      display: flex;
+      align-items: flex-end;
+      padding: 1rem;
+    }
+    .hue-card .page-name {
+      font-family: 'Cormorant SC', serif;
+      font-size: 0.9rem;
+      letter-spacing: 0.1em;
+      color: rgba(255,255,255,0.9);
+      text-shadow: 0 1px 4px rgba(0,0,0,0.4);
+    }
+
+    /* ─── Archetype ring ─── */
+    .archetype-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; margin: 1.5rem 0; }
+    .archetype-card {
+      text-align: center;
+      padding: 1.5rem 1rem;
+      border-radius: 16px;
+      background: white;
+      border: 1px solid rgba(0,0,0,0.06);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .archetype-card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.08); }
+    .archetype-icon { font-size: 2.5rem; margin-bottom: 0.5rem; }
+    .archetype-name { font-family: 'Cormorant SC', serif; font-size: 1rem; letter-spacing: 0.08em; font-weight: 600; }
+    .archetype-desc { font-size: 0.75rem; color: #888; margin-top: 0.5rem; line-height: 1.4; }
+
+    /* ─── Philosophy bar ─── */
+    .phil-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin: 1.5rem 0; }
+    .phil-chip {
+      padding: 0.75rem 1rem;
+      border-radius: 12px;
+      text-align: center;
+      color: white;
+      font-family: 'Cormorant SC', serif;
+      font-size: 0.85rem;
+      letter-spacing: 0.08em;
+      font-weight: 600;
+    }
+
+    /* ─── Typography specimens ─── */
+    .type-specimen { margin: 2rem 0; padding: 2rem; background: white; border-radius: 16px; border: 1px solid rgba(0,0,0,0.06); }
+    .type-specimen .sample { margin-bottom: 1.5rem; }
+    .type-specimen .meta { font-size: 0.7rem; color: #aaa; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.25rem; }
+
+    /* ─── Positioning ─── */
+    .positioning-card {
+      background: white;
+      border-radius: 16px;
+      padding: 2rem;
+      border: 1px solid rgba(0,0,0,0.06);
+      margin: 1rem 0;
+    }
+    .positioning-card blockquote {
+      font-family: 'Cormorant', serif;
+      font-size: 1.3rem;
+      font-style: italic;
+      color: var(--ink);
+      border-left: 3px solid var(--gold);
+      padding-left: 1rem;
+      margin: 1rem 0;
+    }
+
+    /* ─── Competitor comparison ─── */
+    table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; font-size: 0.85rem; }
+    th { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; color: #888; text-align: left; padding: 0.75rem; border-bottom: 2px solid rgba(0,0,0,0.08); }
+    td { padding: 0.75rem; border-bottom: 1px solid rgba(0,0,0,0.04); }
+    tr:hover td { background: rgba(212, 175, 55, 0.04); }
+
+    /* ─── Do / Don't ─── */
+    .do-dont { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin: 1.5rem 0; }
+    .do-col, .dont-col { padding: 1.5rem; border-radius: 16px; }
+    .do-col { background: #F0FAF0; border: 1px solid #C6E7C6; }
+    .dont-col { background: #FFF5F5; border: 1px solid #E7C6C6; }
+    .do-col h4 { color: #2D8A2D; }
+    .dont-col h4 { color: #8A2D2D; }
+    .do-col li, .dont-col li { font-size: 0.85rem; margin: 0.5rem 0; }
+
+    /* ─── UI Components ─── */
+    .component-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin: 2rem 0; }
+    .component-box { padding: 1.5rem; border-radius: 16px; }
+
+    .ui-card {
+      background: var(--surface-card);
+      border: 1px solid var(--border-default);
+      border-radius: 16px;
+      padding: 1.5rem;
+      box-shadow: var(--shadow-card);
+    }
+    .ui-well {
+      background: var(--surface-well);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 1.25rem;
+    }
+    .ui-tooltip {
+      background: var(--surface-tooltip);
+      color: var(--text-inverse);
+      padding: 0.5rem 0.75rem;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      display: inline-block;
+      box-shadow: var(--shadow-md);
+    }
+    .ui-tip {
+      background: rgba(212, 175, 55, 0.08);
+      border-left: 3px solid var(--gold);
+      border-radius: 0 10px 10px 0;
+      padding: 1rem 1.25rem;
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+    }
+    .ui-tip strong { color: var(--gold); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; display: block; margin-bottom: 0.25rem; }
+    .ui-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.25rem 0.6rem;
+      border-radius: 999px;
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+    }
+    .ui-badge.success { background: #ECFDF5; color: #059669; }
+    .ui-badge.warning { background: #FFFBEB; color: #D97706; }
+    .ui-badge.info { background: #EFF6FF; color: #3B82F6; }
+    .ui-badge.neutral { background: #F3F4F6; color: #6B7280; }
+    .ui-button-primary {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.6rem 1.5rem; border-radius: 10px; border: none;
+      background: var(--ink); color: var(--parchment);
+      font-family: 'Inter', sans-serif; font-size: 0.85rem; font-weight: 500;
+      cursor: pointer; transition: background 0.2s;
+    }
+    .ui-button-primary:hover { background: #333; }
+    .ui-button-secondary {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.6rem 1.5rem; border-radius: 10px;
+      border: 1px solid var(--border-default); background: transparent;
+      color: var(--text-primary);
+      font-family: 'Inter', sans-serif; font-size: 0.85rem; font-weight: 500;
+      cursor: pointer; transition: all 0.2s;
+    }
+    .ui-button-secondary:hover { background: var(--surface-well); }
+    .ui-button-gold {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.6rem 1.5rem; border-radius: 10px; border: none;
+      background: var(--gold); color: var(--ink);
+      font-family: 'Inter', sans-serif; font-size: 0.85rem; font-weight: 600;
+      cursor: pointer; transition: background 0.2s;
+    }
+    .ui-input {
+      width: 100%; padding: 0.6rem 0.75rem; border-radius: 10px;
+      border: 1px solid var(--border-default); background: white;
+      font-family: 'Inter', sans-serif; font-size: 0.85rem;
+      color: var(--text-primary); outline: none; transition: border 0.2s;
+    }
+    .ui-input:focus { border-color: var(--gold); box-shadow: 0 0 0 3px var(--gold-glow); }
+    .ui-input::placeholder { color: var(--text-tertiary); }
+    .ui-label {
+      display: block; font-size: 0.75rem; font-weight: 600;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--text-tertiary); margin-bottom: 0.35rem;
+    }
+
+    @media (max-width: 768px) {
+      .archetype-grid, .phil-grid { grid-template-columns: repeat(2, 1fr); }
+      .do-dont, .component-grid { grid-template-columns: 1fr; }
+      h1 { font-size: 2rem; }
+      .hero h1 { font-size: 2.4rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═══════════════════ HERO ═══════════════════ -->
+  <div class="hero watercolor-bg hue-explore">
+    <h1>The Sage's Compass</h1>
+    <div class="tagline">Discover how you teach. Find what fits.</div>
+    <div class="subtitle">
+      Brand Guide & Visual Identity — v1.0
+    </div>
+  </div>
+
+  <!-- ═══════════════════ POSITIONING ═══════════════════ -->
+  <section>
+    <div class="container">
+      <h3>Positioning</h3>
+      <h2>What We Are</h2>
+
+      <div class="positioning-card">
+        <blockquote>
+          A personalized curriculum engine that understands how you teach — not just what you teach.
+        </blockquote>
+        <p>
+          The Sage's Compass helps independent educators create lesson plans rooted in their
+          unique teaching philosophy — whether you homeschool one child, run a micro school,
+          lead a co-op, or teach a learning pod. An assessment reveals your natural teaching
+          archetype, then matches you with curricula and generates lessons that fit your style,
+          your schedule, and your learners. Standards alignment is built in for those who need it,
+          and stays out of the way for those who don't.
+        </p>
+      </div>
+
+      <div class="positioning-card">
+        <h3>One-liner</h3>
+        <blockquote>Interest-driven lesson plans rooted in how you actually teach. Powered by your students' curiosity.</blockquote>
+      </div>
+
+      <div class="positioning-card">
+        <h3>What makes us different</h3>
+        <ul style="padding-left: 1.5rem; color: #4A4A4A; font-size: 0.9rem; line-height: 2;">
+          <li><strong>Philosophy-specific lesson generation</strong> — lessons aren't generic. Each one is generated in accordance with a specific educational philosophy, shaped by your students' interests and your unique teaching style. No other platform does this — competitors mention "works with different philosophies" but generate the same lesson regardless.</li>
+          <li><strong>Distinct teaching philosophies</strong> built from quality primary sources on educational philosophy and child development — not marketing buzzwords</li>
+          <li><strong>Teaching archetype assessment</strong> — 20 scenarios that reveal your natural teaching style, which connects you to the philosophies that fit how you actually operate</li>
+          <li><strong>Comprehensive curriculum matching</strong> against your philosophy profile</li>
+          <li><strong>State standards across all 50 states</strong> — available when you need them, invisible when you don't</li>
+          <li><strong>Interactive constellation map</strong> to explore the philosophy landscape</li>
+        </ul>
+      </div>
+
+      <div class="do-dont">
+        <div class="do-col">
+          <h4>We are</h4>
+          <ul>
+            <li>Philosophy-rooted, grounded in research</li>
+            <li>Empowering educators, not replacing them</li>
+            <li>Personalized to how you teach, not just what you teach</li>
+          </ul>
+        </div>
+        <div class="dont-col">
+          <h4>We are not</h4>
+          <ul>
+            <li>A generic lesson plan generator</li>
+            <li>A replacement for the parent or teacher</li>
+            <li>One-size-fits-all curriculum</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ VISUAL IDENTITY ═══════════════════ -->
+  <section>
+    <div class="container">
+      <h3>Decision: Accent Color</h3>
+      <h2>What Replaces Gold?</h2>
+      <p>Gold stays on the Explore star map. For every other page, which accent color for buttons, progress bars, tips, badges, and interactive elements?</p>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.5rem; margin: 2rem 0;">
+        <!-- Option A: Warm Mauve -->
+        <div class="ui-card" style="padding: 1.5rem;">
+          <div style="width: 100%; height: 40px; border-radius: 8px; background: #9B7E8E; margin-bottom: 1rem;"></div>
+          <div style="font-family: 'Cormorant SC', serif; font-size: 1rem; letter-spacing: 0.06em; margin-bottom: 0.75rem;">A. Warm Mauve</div>
+          <div style="font-size: 0.7rem; font-family: monospace; color: #888; margin-bottom: 1rem;">#9B7E8E</div>
+          <button style="padding: 0.5rem 1.2rem; border-radius: 8px; border: none; background: #9B7E8E; color: white; font-size: 0.8rem; font-weight: 500; cursor: pointer; margin-bottom: 0.75rem; display: block;">Generate Lesson</button>
+          <div style="height: 4px; background: rgba(0,0,0,0.06); border-radius: 2px; margin-bottom: 0.75rem;"><div style="height: 100%; width: 45%; background: #9B7E8E; border-radius: 2px;"></div></div>
+          <div style="border-left: 3px solid #9B7E8E; padding: 0.5rem 0.75rem; background: rgba(155,126,142,0.08); border-radius: 0 6px 6px 0; font-size: 0.75rem; color: #5A5A5A; margin-bottom: 0.75rem;"><strong style="color: #9B7E8E; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.08em; display: block; margin-bottom: 0.15rem;">Tip</strong>Charlotte Mason believed in short lessons.</div>
+          <div style="display: flex; gap: 0.35rem;"><span style="font-size: 0.65rem; padding: 0.2rem 0.5rem; border-radius: 99px; background: rgba(155,126,142,0.12); color: #9B7E8E;">Montessori</span><span style="font-size: 0.65rem; padding: 0.2rem 0.5rem; border-radius: 99px; background: rgba(155,126,142,0.12); color: #7A6070;">85%</span></div>
+        </div>
+
+        <!-- Option B: Soft Sage -->
+        <div class="ui-card" style="padding: 1.5rem;">
+          <div style="width: 100%; height: 40px; border-radius: 8px; background: #7A9E8A; margin-bottom: 1rem;"></div>
+          <div style="font-family: 'Cormorant SC', serif; font-size: 1rem; letter-spacing: 0.06em; margin-bottom: 0.75rem;">B. Soft Sage</div>
+          <div style="font-size: 0.7rem; font-family: monospace; color: #888; margin-bottom: 1rem;">#7A9E8A</div>
+          <button style="padding: 0.5rem 1.2rem; border-radius: 8px; border: none; background: #7A9E8A; color: white; font-size: 0.8rem; font-weight: 500; cursor: pointer; margin-bottom: 0.75rem; display: block;">Generate Lesson</button>
+          <div style="height: 4px; background: rgba(0,0,0,0.06); border-radius: 2px; margin-bottom: 0.75rem;"><div style="height: 100%; width: 45%; background: #7A9E8A; border-radius: 2px;"></div></div>
+          <div style="border-left: 3px solid #7A9E8A; padding: 0.5rem 0.75rem; background: rgba(122,158,138,0.08); border-radius: 0 6px 6px 0; font-size: 0.75rem; color: #5A5A5A; margin-bottom: 0.75rem;"><strong style="color: #7A9E8A; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.08em; display: block; margin-bottom: 0.15rem;">Tip</strong>Charlotte Mason believed in short lessons.</div>
+          <div style="display: flex; gap: 0.35rem;"><span style="font-size: 0.65rem; padding: 0.2rem 0.5rem; border-radius: 99px; background: rgba(122,158,138,0.12); color: #7A9E8A;">Montessori</span><span style="font-size: 0.65rem; padding: 0.2rem 0.5rem; border-radius: 99px; background: rgba(122,158,138,0.12); color: #5A7E6A;">85%</span></div>
+        </div>
+
+        <!-- Option C: Muted Indigo -->
+        <div class="ui-card" style="padding: 1.5rem;">
+          <div style="width: 100%; height: 40px; border-radius: 8px; background: #6E6E9E; margin-bottom: 1rem;"></div>
+          <div style="font-family: 'Cormorant SC', serif; font-size: 1rem; letter-spacing: 0.06em; margin-bottom: 0.75rem;">C. Muted Indigo</div>
+          <div style="font-size: 0.7rem; font-family: monospace; color: #888; margin-bottom: 1rem;">#6E6E9E</div>
+          <button style="padding: 0.5rem 1.2rem; border-radius: 8px; border: none; background: #6E6E9E; color: white; font-size: 0.8rem; font-weight: 500; cursor: pointer; margin-bottom: 0.75rem; display: block;">Generate Lesson</button>
+          <div style="height: 4px; background: rgba(0,0,0,0.06); border-radius: 2px; margin-bottom: 0.75rem;"><div style="height: 100%; width: 45%; background: #6E6E9E; border-radius: 2px;"></div></div>
+          <div style="border-left: 3px solid #6E6E9E; padding: 0.5rem 0.75rem; background: rgba(110,110,158,0.08); border-radius: 0 6px 6px 0; font-size: 0.75rem; color: #5A5A5A; margin-bottom: 0.75rem;"><strong style="color: #6E6E9E; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.08em; display: block; margin-bottom: 0.15rem;">Tip</strong>Charlotte Mason believed in short lessons.</div>
+          <div style="display: flex; gap: 0.35rem;"><span style="font-size: 0.65rem; padding: 0.2rem 0.5rem; border-radius: 99px; background: rgba(110,110,158,0.12); color: #6E6E9E;">Montessori</span><span style="font-size: 0.65rem; padding: 0.2rem 0.5rem; border-radius: 99px; background: rgba(110,110,158,0.12); color: #5A5A7E;">85%</span></div>
+        </div>
+      </div>
+
+      <h3>Visual Identity</h3>
+      <h2>Watercolor Storybook</h2>
+      <p class="lead">
+        Every page feels like opening a hand-illustrated field guide. Warm, organic,
+        slightly imperfect — the opposite of corporate SaaS.
+      </p>
+
+      <h3 style="margin-top: 2rem;">Core Palette</h3>
+      <div class="swatch-grid">
+        <div class="swatch">
+          <div class="swatch-color" style="background: #1B1A17;"></div>
+          <div class="swatch-label"><div class="name">Ink</div><div class="hex">#1B1A17</div></div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background: #F9F6EF;"></div>
+          <div class="swatch-label"><div class="name">Parchment</div><div class="hex">#F9F6EF</div></div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background: #D4AF37;"></div>
+          <div class="swatch-label"><div class="name">Gold</div><div class="hex">#D4AF37</div></div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background: #FFB400;"></div>
+          <div class="swatch-label"><div class="name">Curriculum Sun</div><div class="hex">#FFB400</div></div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background: #0B2E4A;"></div>
+          <div class="swatch-label"><div class="name">Night Sky</div><div class="hex">#0B2E4A</div></div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background: #2A1F3D;"></div>
+          <div class="swatch-label"><div class="name">Twilight</div><div class="hex">#2A1F3D</div></div>
+        </div>
+      </div>
+
+      <h3 style="margin-top: 2rem;">Page Atmospheres &amp; Component Previews</h3>
+      <p>Each page mockup shows realistic content with its watercolor hue, typography, and key UI elements. Verify these fit before building.</p>
+
+      <!-- ── HOME ── -->
+      <div style="margin: 2rem 0;">
+        <div class="watercolor-bg hue-home" style="background: var(--hue-home); border-radius: 16px; padding: 3rem 2rem; text-align: center;">
+          <div style="font-family: 'Cormorant SC', serif; font-size: 2.4rem; font-weight: 700; letter-spacing: 0.08em; color: var(--ink);">THE SAGE'S COMPASS</div>
+          <div style="font-family: 'Cormorant', serif; font-size: 1.15rem; font-style: italic; color: var(--text-secondary); margin: 0.5rem 0 1.5rem;">Discover how you teach. Find what fits.</div>
+          <div style="display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap;">
+            <button class="ui-button-primary">Take the Assessment</button>
+            <button class="ui-button-secondary">Explore Philosophies</button>
+          </div>
+          <div style="font-size: 0.7rem; color: var(--text-tertiary); margin-top: 1rem;">For homeschool parents, co-op organizers, and independent educators</div>
+        </div>
+        <div style="font-size: 0.7rem; color: #aaa; text-transform: uppercase; letter-spacing: 0.1em; margin-top: 0.5rem;">Home — Warm Ivory #FDFBF7</div>
+      </div>
+
+      <!-- ── COMPASS QUIZ ── -->
+      <div style="margin: 2rem 0;">
+        <div class="watercolor-bg hue-compass" style="background: var(--hue-compass); border-radius: 16px; padding: 2.5rem 2rem;">
+          <div style="height: 3px; background: rgba(0,0,0,0.08); border-radius: 2px; margin-bottom: 1.5rem;"><div style="height: 100%; width: 45%; background: var(--gold); border-radius: 2px;"></div></div>
+          <div style="text-align: center; font-size: 0.7rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(27,26,23,0.4); margin-bottom: 0.25rem;">Question 9 of 20</div>
+          <div style="text-align: center; font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase; color: #B8960F; margin-bottom: 1.5rem;">Your Teaching Style</div>
+          <div style="font-family: 'Cormorant', serif; font-size: 1.3rem; text-align: center; color: var(--ink); line-height: 1.5; margin-bottom: 1.5rem;">Your 6-year-old is ready to start reading. Which approach feels right?</div>
+          <div style="display: flex; flex-direction: column; gap: 0.6rem; max-width: 500px; margin: 0 auto;">
+            <div style="padding: 0.85rem 1rem; border-radius: 10px; border: 1px solid rgba(0,0,0,0.1); background: rgba(255,255,255,0.5); font-size: 0.8rem; color: var(--ink);">Systematic phonics: letter sounds, blending rules, decodable readers</div>
+            <div style="padding: 0.85rem 1rem; border-radius: 10px; border: 1px solid rgba(212,175,55,0.6); background: rgba(212,175,55,0.12); font-size: 0.8rem; color: var(--ink);">Surround them with living books and let reading emerge naturally</div>
+            <div style="padding: 0.85rem 1rem; border-radius: 10px; border: 1px solid rgba(0,0,0,0.1); background: rgba(255,255,255,0.5); font-size: 0.8rem; color: var(--ink);">Sandpaper letters and movable alphabet — tactile, self-paced</div>
+          </div>
+        </div>
+        <div style="font-size: 0.7rem; color: #aaa; text-transform: uppercase; letter-spacing: 0.1em; margin-top: 0.5rem;">Compass Quiz — Lavender Mist #E8E0F0</div>
+      </div>
+
+      <!-- ── RESULTS ── -->
+      <div style="margin: 2rem 0;">
+        <div class="watercolor-bg hue-results" style="background: var(--hue-results); border-radius: 16px; padding: 2.5rem 2rem; text-align: center;">
+          <div style="font-size: 3rem; margin-bottom: 0.5rem;">🌱</div>
+          <div style="font-size: 0.6rem; letter-spacing: 0.14em; text-transform: uppercase; color: #B8960F; margin-bottom: 0.25rem;">Your Teaching Archetype</div>
+          <div style="font-family: 'Cormorant SC', serif; font-size: 2rem; font-weight: 700; letter-spacing: 0.06em; color: var(--ink);">THE CULTIVATOR</div>
+          <div style="font-family: 'Cormorant', serif; font-size: 1rem; font-style: italic; color: var(--text-secondary); margin: 0.75rem auto; max-width: 420px; line-height: 1.5;">You carefully prepare the learning environment and curate the materials, but you trust the child to lead their own discovery.</div>
+          <div style="display: flex; gap: 0.5rem; justify-content: center; margin-top: 1.25rem;">
+            <span class="ui-badge" style="background: rgba(125,107,158,0.12); color: #7D6B9E;">Montessori 42%</span>
+            <span class="ui-badge" style="background: rgba(176,122,138,0.12); color: #B07A8A;">Charlotte Mason 28%</span>
+            <span class="ui-badge" style="background: rgba(90,148,122,0.12); color: #5A947A;">Nature 18%</span>
+          </div>
+        </div>
+        <div style="font-size: 0.7rem; color: #aaa; text-transform: uppercase; letter-spacing: 0.1em; margin-top: 0.5rem;">Results — Morning Fog #DDE6EE</div>
+      </div>
+
+      <!-- ── GENERATE LESSON ── -->
+      <div style="margin: 2rem 0;">
+        <div class="watercolor-bg hue-generate" style="background: var(--hue-generate); border-radius: 16px; padding: 2.5rem 2rem;">
+          <div style="font-family: 'Cormorant SC', serif; font-size: 1.6rem; font-weight: 600; letter-spacing: 0.06em; color: var(--ink); margin-bottom: 0.25rem;">Generate a Lesson</div>
+          <div style="font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase; color: #B8960F; margin-bottom: 1.5rem;">Plant a Seed</div>
+          <div style="max-width: 400px;">
+            <label class="ui-label">Your Child</label>
+            <div style="padding: 0.6rem 0.75rem; border-radius: 10px; border: 1px solid var(--border-default); background: white; font-size: 0.85rem; color: var(--ink); margin-bottom: 1rem;">Emma (Grade 2)</div>
+            <label class="ui-label">Seed — What Sparks Curiosity?</label>
+            <input class="ui-input" value="butterflies and metamorphosis" style="margin-bottom: 1rem;" />
+            <label class="ui-label">Subject</label>
+            <div style="display: flex; gap: 0.5rem; margin-bottom: 1rem;">
+              <span class="ui-badge info" style="padding: 0.4rem 0.8rem; font-size: 0.75rem;">Science</span>
+              <span class="ui-badge neutral" style="padding: 0.4rem 0.8rem; font-size: 0.75rem;">Math</span>
+              <span class="ui-badge neutral" style="padding: 0.4rem 0.8rem; font-size: 0.75rem;">Language Arts</span>
+            </div>
+            <label class="ui-label">Philosophy</label>
+            <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1.5rem;">
+              <span class="ui-badge" style="background: rgba(176,122,138,0.15); color: #B07A8A; padding: 0.4rem 0.8rem; font-size: 0.75rem; border: 1px solid rgba(176,122,138,0.3);">Charlotte Mason</span>
+              <span class="ui-badge neutral" style="padding: 0.4rem 0.8rem; font-size: 0.75rem;">Montessori</span>
+              <span class="ui-badge neutral" style="padding: 0.4rem 0.8rem; font-size: 0.75rem;">Classical</span>
+            </div>
+            <button class="ui-button-gold">Generate Lesson</button>
+          </div>
+        </div>
+        <div style="font-size: 0.7rem; color: #aaa; text-transform: uppercase; letter-spacing: 0.1em; margin-top: 0.5rem;">Generate — Warm Linen #F0EAE0</div>
+      </div>
+
+      <!-- ── LESSON VIEW ── -->
+      <div style="margin: 2rem 0;">
+        <div class="watercolor-bg hue-lessons" style="background: var(--hue-lessons); border-radius: 16px; padding: 2.5rem 2rem;">
+          <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">
+            <span class="ui-badge" style="background: rgba(176,122,138,0.12); color: #B07A8A;">Charlotte Mason</span>
+            <span style="font-size: 0.7rem; color: var(--text-tertiary);">Grade 2 &middot; Science</span>
+          </div>
+          <div style="font-family: 'Cormorant SC', serif; font-size: 1.5rem; font-weight: 600; letter-spacing: 0.06em; color: var(--ink); margin-bottom: 0.5rem;">The Butterfly's Journey</div>
+          <div style="font-family: 'Cormorant', serif; font-size: 0.95rem; font-style: italic; color: var(--text-secondary); margin-bottom: 1.25rem;">A nature study of metamorphosis through living books and outdoor observation</div>
+          <div class="ui-card" style="margin-bottom: 0.75rem;">
+            <div style="font-size: 0.65rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #B8960F; margin-bottom: 0.5rem;">Section 1: Living Books</div>
+            <div style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;">Read "The Very Hungry Caterpillar" aloud, then narrate back the stages of metamorphosis. Draw each stage in a nature journal.</div>
+          </div>
+          <div class="ui-tip">
+            <strong>Philosophy Connection</strong>
+            Charlotte Mason believed nature study should come through direct observation and narration, not textbook diagrams. Take the journal outside if possible.
+          </div>
+        </div>
+        <div style="font-size: 0.7rem; color: #aaa; text-transform: uppercase; letter-spacing: 0.1em; margin-top: 0.5rem;">Lesson View — Sage Wash #E0EDE0</div>
+      </div>
+
+      <!-- ── DASHBOARD ── -->
+      <div style="margin: 2rem 0;">
+        <div class="watercolor-bg hue-dashboard" style="background: var(--hue-dashboard); border-radius: 16px; padding: 2.5rem 2rem;">
+          <div style="font-family: 'Cormorant SC', serif; font-size: 1.6rem; font-weight: 600; letter-spacing: 0.06em; color: var(--ink); margin-bottom: 0.25rem;">Good Morning</div>
+          <div style="font-family: 'Cormorant', serif; font-size: 0.95rem; font-style: italic; color: var(--text-secondary); margin-bottom: 1.5rem;">Here's what's happening with your family</div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+            <div class="ui-card">
+              <div style="font-size: 0.65rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-tertiary); margin-bottom: 0.5rem;">Emma (Grade 2)</div>
+              <div style="font-size: 0.85rem; color: var(--ink); margin-bottom: 0.35rem;">Next: The Butterfly's Journey</div>
+              <div style="display: flex; gap: 0.35rem;"><span class="ui-badge success">12 lessons</span><span class="ui-badge warning">3 gaps</span></div>
+            </div>
+            <div class="ui-card">
+              <div style="font-size: 0.65rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-tertiary); margin-bottom: 0.5rem;">Jack (Grade 4)</div>
+              <div style="font-size: 0.85rem; color: var(--ink); margin-bottom: 0.35rem;">Next: Roman Engineering</div>
+              <div style="display: flex; gap: 0.35rem;"><span class="ui-badge success">18 lessons</span><span class="ui-badge warning">1 gap</span></div>
+            </div>
+          </div>
+        </div>
+        <div style="font-size: 0.7rem; color: #aaa; text-transform: uppercase; letter-spacing: 0.1em; margin-top: 0.5rem;">Dashboard — Soft Lilac #EDE0EE</div>
+      </div>
+
+      <!-- ── CHILDREN ── -->
+      <div style="margin: 2rem 0;">
+        <div class="watercolor-bg hue-children" style="background: var(--hue-children); border-radius: 16px; padding: 2.5rem 2rem;">
+          <div style="font-family: 'Cormorant SC', serif; font-size: 1.6rem; font-weight: 600; letter-spacing: 0.06em; color: var(--ink); margin-bottom: 1.25rem;">Your Children</div>
+          <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+            <div class="ui-card" style="flex: 1; min-width: 180px;">
+              <div style="font-family: 'Cormorant SC', serif; font-size: 1.1rem; font-weight: 600; color: var(--ink);">Emma</div>
+              <div style="font-size: 0.8rem; color: var(--text-secondary); margin: 0.25rem 0;">Grade 2 &middot; Age 7</div>
+              <div style="display: flex; gap: 0.35rem; margin-top: 0.5rem;"><span class="ui-badge neutral">MI Standards</span><span class="ui-badge" style="background: rgba(125,107,158,0.12); color: #7D6B9E;">Cultivator</span></div>
+            </div>
+            <div class="ui-card" style="flex: 1; min-width: 180px;">
+              <div style="font-family: 'Cormorant SC', serif; font-size: 1.1rem; font-weight: 600; color: var(--ink);">Jack</div>
+              <div style="font-size: 0.8rem; color: var(--text-secondary); margin: 0.25rem 0;">Grade 4 &middot; Age 9</div>
+              <div style="display: flex; gap: 0.35rem; margin-top: 0.5rem;"><span class="ui-badge neutral">MI Standards</span><span class="ui-badge" style="background: rgba(90,127,160,0.12); color: #5A7FA0;">Architect</span></div>
+            </div>
+          </div>
+        </div>
+        <div style="font-size: 0.7rem; color: #aaa; text-transform: uppercase; letter-spacing: 0.1em; margin-top: 0.5rem;">Children — Sea Glass Pale #DDE8EA</div>
+      </div>
+
+      <!-- ── CALENDAR ── -->
+      <div style="margin: 2rem 0;">
+        <div class="watercolor-bg hue-calendar" style="background: var(--hue-calendar); border-radius: 16px; padding: 2.5rem 2rem;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem;">
+            <div style="font-family: 'Cormorant SC', serif; font-size: 1.6rem; font-weight: 600; letter-spacing: 0.06em; color: var(--ink);">March 2026</div>
+            <div style="display: flex; gap: 0.5rem;">
+              <span class="ui-badge neutral" style="padding: 0.35rem 0.7rem; font-size: 0.7rem; cursor: pointer;">Week</span>
+              <span class="ui-badge" style="background: var(--ink); color: var(--parchment); padding: 0.35rem 0.7rem; font-size: 0.7rem;">Month</span>
+            </div>
+          </div>
+          <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 0.5rem;">
+            <div class="ui-well" style="padding: 0.6rem; text-align: center;"><div style="font-size: 0.7rem; color: var(--text-tertiary);">Mon 17</div><div style="font-size: 0.75rem; color: var(--ink); margin-top: 0.25rem;">Butterfly's Journey</div></div>
+            <div class="ui-well" style="padding: 0.6rem; text-align: center;"><div style="font-size: 0.7rem; color: var(--text-tertiary);">Tue 18</div><div style="font-size: 0.75rem; color: var(--ink); margin-top: 0.25rem;">Fraction Kitchen</div></div>
+            <div class="ui-well" style="padding: 0.6rem; text-align: center;"><div style="font-size: 0.7rem; color: var(--text-tertiary);">Wed 19</div><div style="font-size: 0.75rem; color: var(--ink); margin-top: 0.25rem;">Nature Journal</div></div>
+            <div class="ui-well" style="padding: 0.6rem; text-align: center;"><div style="font-size: 0.7rem; color: var(--text-tertiary);">Thu 20</div><div style="font-size: 0.75rem; color: var(--ink); margin-top: 0.25rem;">Story Narration</div></div>
+            <div class="ui-well" style="padding: 0.6rem; text-align: center; border: 1px solid var(--gold); background: rgba(212,175,55,0.06);"><div style="font-size: 0.7rem; color: var(--gold);">Fri 21</div><div style="font-size: 0.75rem; color: var(--ink); margin-top: 0.25rem;">Field Trip</div></div>
+          </div>
+        </div>
+        <div style="font-size: 0.7rem; color: #aaa; text-transform: uppercase; letter-spacing: 0.1em; margin-top: 0.5rem;">Calendar — Parchment Gold #EDE8DC</div>
+      </div>
+
+      <!-- ── STANDARDS ── -->
+      <div style="margin: 2rem 0;">
+        <div class="watercolor-bg hue-standards" style="background: var(--hue-standards); border-radius: 16px; padding: 2.5rem 2rem;">
+          <div style="font-family: 'Cormorant SC', serif; font-size: 1.6rem; font-weight: 600; letter-spacing: 0.06em; color: var(--ink); margin-bottom: 0.25rem;">Standards Tracker</div>
+          <div style="font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; color: #B8960F; margin-bottom: 1.25rem;">Emma &middot; Grade 2 &middot; Michigan</div>
+          <div class="ui-card" style="margin-bottom: 0.75rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+              <span style="font-size: 0.85rem; font-weight: 500; color: var(--ink);">Mathematics</span>
+              <span style="font-size: 0.75rem; color: var(--text-tertiary);">68%</span>
+            </div>
+            <div style="height: 6px; background: var(--surface-well); border-radius: 3px; overflow: hidden;"><div style="height: 100%; width: 68%; background: var(--phil-montessori); border-radius: 3px;"></div></div>
+            <div style="display: flex; gap: 0.35rem; margin-top: 0.5rem;"><span class="ui-badge success">12 mastered</span><span class="ui-badge warning">5 in progress</span><span class="ui-badge neutral">8 not started</span></div>
+          </div>
+          <div class="ui-card">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+              <span style="font-size: 0.85rem; font-weight: 500; color: var(--ink);">Language Arts</span>
+              <span style="font-size: 0.75rem; color: var(--text-tertiary);">82%</span>
+            </div>
+            <div style="height: 6px; background: var(--surface-well); border-radius: 3px; overflow: hidden;"><div style="height: 100%; width: 82%; background: var(--phil-charlotte); border-radius: 3px;"></div></div>
+            <div style="display: flex; gap: 0.35rem; margin-top: 0.5rem;"><span class="ui-badge success">18 mastered</span><span class="ui-badge warning">2 in progress</span><span class="ui-badge neutral">4 not started</span></div>
+          </div>
+        </div>
+        <div style="font-size: 0.7rem; color: #aaa; text-transform: uppercase; letter-spacing: 0.1em; margin-top: 0.5rem;">Standards — Periwinkle Mist #E0E0EE</div>
+      </div>
+
+      <!-- ── EXPLORE (reference only) ── -->
+      <div style="margin: 2rem 0;">
+        <div class="watercolor-bg hue-explore" style="background: var(--hue-explore); border-radius: 16px; padding: 2.5rem 2rem; text-align: center;">
+          <div style="font-family: 'Cormorant SC', serif; font-size: 1.6rem; font-weight: 600; letter-spacing: 0.08em; color: var(--parchment);">EXPLORE</div>
+          <div style="font-family: 'Cormorant', serif; font-size: 0.95rem; font-style: italic; color: rgba(249,246,239,0.5); margin: 0.5rem 0;">The constellation star map — dark theme, already built</div>
+          <div style="font-size: 0.75rem; color: var(--gold-dim); margin-top: 0.75rem;">Stars: #F9F6EF &middot; Curricula: #FFB400 &middot; Lines: gold at 12% opacity</div>
+        </div>
+        <div style="font-size: 0.7rem; color: #aaa; text-transform: uppercase; letter-spacing: 0.1em; margin-top: 0.5rem;">Explore — Deep Teal #0B2E4A (dark theme, unchanged)</div>
+      </div>
+
+      <!-- ── ABOUT ── -->
+      <div style="margin: 2rem 0;">
+        <div class="watercolor-bg hue-about" style="background: var(--hue-about); border-radius: 16px; padding: 2.5rem 2rem; text-align: center;">
+          <div style="font-family: 'Cormorant SC', serif; font-size: 1.8rem; font-weight: 600; letter-spacing: 0.06em; color: var(--ink); margin-bottom: 0.5rem;">Our Story</div>
+          <div style="font-family: 'Cormorant', serif; font-size: 1rem; font-style: italic; color: var(--text-secondary); max-width: 440px; margin: 0 auto; line-height: 1.6;">We started as homeschool parents who couldn't find lesson plans that matched how we actually teach. So we built it ourselves.</div>
+          <button class="ui-button-secondary" style="margin-top: 1.5rem;">Book an Advising Session</button>
+        </div>
+        <div style="font-size: 0.7rem; color: #aaa; text-transform: uppercase; letter-spacing: 0.1em; margin-top: 0.5rem;">About — Rose Petal #EDDFDF</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ TYPOGRAPHY ═══════════════════ -->
+  <section>
+    <div class="container">
+      <h3>Typography</h3>
+      <h2>Type System</h2>
+
+      <h3>Type Scale</h3>
+      <div class="type-specimen">
+        <div class="sample">
+          <div class="meta">H1 Display — Cormorant SC 700, 2.8rem, tracking 0.08em</div>
+          <div style="font-family: 'Cormorant SC', serif; font-size: 2.8rem; font-weight: 700; letter-spacing: 0.08em;">
+            THE SAGE'S COMPASS
+          </div>
+        </div>
+        <div class="sample">
+          <div class="meta">H2 Section — Cormorant SC 600, 1.8rem, tracking 0.06em</div>
+          <div style="font-family: 'Cormorant SC', serif; font-size: 1.8rem; font-weight: 600; letter-spacing: 0.06em;">
+            Discover Your Teaching Archetype
+          </div>
+        </div>
+        <div class="sample">
+          <div class="meta">H3 Label — Inter 600, 0.85rem, uppercase, tracking 0.12em</div>
+          <div style="font-family: 'Inter', sans-serif; font-size: 0.85rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(212,175,55,0.55);">
+            Philosophy Alignment
+          </div>
+        </div>
+        <div class="sample">
+          <div class="meta">Lead / Tagline — Cormorant Italic, 1.25rem</div>
+          <div style="font-family: 'Cormorant', serif; font-size: 1.25rem; font-style: italic; color: #5A5A5A;">
+            Interest-driven lesson plans rooted in how you actually teach. Powered by your students' curiosity.
+          </div>
+        </div>
+        <div class="sample">
+          <div class="meta">Body — Inter 400, 0.95rem, line-height 1.6</div>
+          <div style="font-family: 'Inter', sans-serif; font-size: 0.95rem; color: #4A4A4A; line-height: 1.6;">
+            Answer based on what feels natural to you and what you want to give
+            the children you teach. Let your conceptions of pedagogies and
+            frameworks fall away. Just be yourself. There are no wrong answers.
+          </div>
+        </div>
+        <div class="sample">
+          <div class="meta">Small Body — Inter 400, 0.85rem</div>
+          <div style="font-family: 'Inter', sans-serif; font-size: 0.85rem; color: #5A5A5A;">
+            For homeschool parents, co-op organizers, micro school teachers,
+            and anyone making independent curriculum decisions.
+          </div>
+        </div>
+        <div class="sample">
+          <div class="meta">Star Map Labels — Cormorant SC 600, 1.1rem, tracking 0.12em</div>
+          <div style="font-family: 'Cormorant SC', serif; font-size: 1.1rem; font-weight: 600; letter-spacing: 0.12em; color: var(--gold);">
+            CLASSICAL &nbsp;&nbsp; CHARLOTTE MASON &nbsp;&nbsp; MONTESSORI &nbsp;&nbsp; WALDORF
+          </div>
+        </div>
+        <div class="sample">
+          <div class="meta">Metadata — Inter 600, 0.7rem, uppercase, tracking 0.14em</div>
+          <div style="font-family: 'Inter', sans-serif; font-size: 0.7rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(212,175,55,0.55);">
+            About 5 minutes &nbsp;&bull;&nbsp; 20 scenarios &nbsp;&bull;&nbsp; No wrong answers
+          </div>
+        </div>
+        <div class="sample">
+          <div class="meta">Caption / Fine Print — Inter 300, 0.75rem</div>
+          <div style="font-family: 'Inter', sans-serif; font-size: 0.75rem; font-weight: 300; color: #9A9A9A;">
+            Constellation lines data: ConstellationLines (CC BY 4.0)
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ QUIZ FUNNEL ═══════════════════ -->
+  <section>
+    <div class="container">
+      <h3>The Funnel</h3>
+      <h2>Compass Quiz Aesthetics</h2>
+      <p>The assessment is the primary conversion funnel. It needs to feel warm, unhurried, and personal — like a conversation, not a test or a quiz. Every screen should reinforce "there are no wrong answers."</p>
+
+      <h3 style="margin-top: 2rem;">Quiz Question — Part 1 Scenario</h3>
+      <div style="max-width: 640px; margin: 1.5rem auto;">
+        <div class="watercolor-bg hue-compass" style="border-radius: 20px; padding: 2.5rem 2rem; min-height: 480px; display: flex; flex-direction: column; background: var(--hue-compass);">
+
+          <!-- Progress -->
+          <div style="height: 3px; background: rgba(0,0,0,0.08); border-radius: 2px; margin-bottom: 2rem;">
+            <div style="height: 100%; width: 35%; background: var(--gold); border-radius: 2px; transition: width 0.5s;"></div>
+          </div>
+
+          <!-- Meta -->
+          <div style="text-align: center; margin-bottom: 0.5rem;">
+            <span style="font-family: 'Inter', sans-serif; font-size: 0.75rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(27,26,23,0.45);">Question 7 of 20</span>
+          </div>
+          <div style="text-align: center; margin-bottom: 1.75rem;">
+            <span style="font-family: 'Inter', sans-serif; font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; color: #B8960F;">Your Teaching Style</span>
+          </div>
+
+          <!-- Scenario -->
+          <h2 style="font-family: 'Cormorant', serif; font-size: 1.4rem; font-weight: 400; color: var(--ink); text-align: center; line-height: 1.5; margin-bottom: 2rem;">
+            Imagine your ideal teaching morning. Which sounds closest to what you&rsquo;d want?
+          </h2>
+
+          <!-- Choices -->
+          <div style="display: flex; flex-direction: column; gap: 0.75rem; flex: 1;">
+            <button style="width: 100%; text-align: left; padding: 1rem 1.25rem; border-radius: 12px; border: 1px solid rgba(0,0,0,0.1); background: rgba(255,255,255,0.5); color: var(--ink); font-family: 'Inter', sans-serif; font-size: 0.85rem; line-height: 1.5; cursor: pointer; transition: all 0.2s;">
+              A clear schedule: math lesson at 9, reading at 10, with specific curriculum pages to cover
+            </button>
+            <button style="width: 100%; text-align: left; padding: 1rem 1.25rem; border-radius: 12px; border: 1px solid rgba(212,175,55,0.6); background: rgba(212,175,55,0.12); color: var(--ink); font-family: 'Inter', sans-serif; font-size: 0.85rem; line-height: 1.5; cursor: pointer;">
+              The child chooses from prepared work stations — math manipulatives, reading corner, science shelf
+            </button>
+            <button style="width: 100%; text-align: left; padding: 1rem 1.25rem; border-radius: 12px; border: 1px solid rgba(0,0,0,0.1); background: rgba(255,255,255,0.5); color: var(--ink); font-family: 'Inter', sans-serif; font-size: 0.85rem; line-height: 1.5; cursor: pointer; transition: all 0.2s;">
+              We start with a story or song circle, then move into a hands-on main lesson block
+            </button>
+            <button style="width: 100%; text-align: left; padding: 1rem 1.25rem; border-radius: 12px; border: 1px solid rgba(0,0,0,0.1); background: rgba(255,255,255,0.5); color: var(--ink); font-family: 'Inter', sans-serif; font-size: 0.85rem; line-height: 1.5; cursor: pointer; transition: all 0.2s;">
+              No fixed plan — we follow whatever the child is excited about and weave learning into it
+            </button>
+          </div>
+
+          <!-- Back -->
+          <div style="margin-top: 1.5rem;">
+            <span style="font-family: 'Inter', sans-serif; font-size: 0.8rem; color: rgba(27,26,23,0.35); cursor: pointer;">&larr; Previous question</span>
+          </div>
+
+        </div>
+      </div>
+
+      <h3 style="margin-top: 2rem;">Quiz Design Tokens</h3>
+      <div class="type-specimen">
+        <div class="sample">
+          <div class="meta">Question Counter — Inter 500, 0.75rem, uppercase, tracking 0.1em</div>
+          <div style="font-family: 'Inter', sans-serif; font-size: 0.75rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(27,26,23,0.45);">
+            Question 7 of 20
+          </div>
+        </div>
+        <div class="sample">
+          <div class="meta">Phase Label — Inter 400, 0.65rem, uppercase, tracking 0.12em, gold-dim</div>
+          <div style="font-family: 'Inter', sans-serif; font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(212,175,55,0.55);">
+            Your Teaching Style
+          </div>
+        </div>
+        <div class="sample">
+          <div class="meta">Scenario Text — Cormorant 400, 1.4rem, line-height 1.5</div>
+          <div style="font-family: 'Cormorant', serif; font-size: 1.4rem; font-weight: 400; color: #1B1A17; line-height: 1.5;">
+            Imagine your ideal teaching morning. Which sounds closest to what you'd want?
+          </div>
+        </div>
+        <div class="sample">
+          <div class="meta">Choice Text — Inter 400, 0.85rem, line-height 1.5</div>
+          <div style="font-family: 'Inter', sans-serif; font-size: 0.85rem; color: var(--ink); line-height: 1.5;">
+            The child chooses from prepared work stations — math manipulatives, reading corner, science shelf
+          </div>
+        </div>
+        <div class="sample">
+          <div class="meta">Back Link — Inter 400, 0.8rem, muted</div>
+          <div style="font-family: 'Inter', sans-serif; font-size: 0.8rem; color: rgba(27,26,23,0.35);">
+            &larr; Previous question
+          </div>
+        </div>
+      </div>
+
+      <h3 style="margin-top: 2rem;">Quiz UX Rules</h3>
+      <div class="do-dont">
+        <div class="do-col">
+          <h4>Do</h4>
+          <ul>
+            <li>Use <strong>Cormorant serif</strong> for scenario questions — feels like a conversation</li>
+            <li>Progress bar in <strong>gold</strong> — subtle, warm</li>
+            <li>Choices have generous padding (1rem+) and breathing room</li>
+            <li>Selected state uses <strong>gold border + soft gold background</strong></li>
+            <li>Auto-advance after selection with brief 400ms pause</li>
+            <li>Background uses the <strong>compass hue</strong> (lavender mist / indigo twilight)</li>
+            <li>Keep it <strong>one question per screen</strong> — no scrolling</li>
+          </ul>
+        </div>
+        <div class="dont-col">
+          <h4>Don't</h4>
+          <ul>
+            <li>Use radio buttons or checkboxes — these are cards, not a form</li>
+            <li>Number the choices (A, B, C) — removes judgment/ranking feel</li>
+            <li>Show philosophy labels on choices (debug only)</li>
+            <li>Use bright/saturated colors for choice cards</li>
+            <li>Make it feel timed or rushed</li>
+            <li>Show a percentage complete — use the thin progress bar only</li>
+          </ul>
+        </div>
+      </div>
+
+      <h3 style="margin-top: 2rem;">Compass Reveal (after Part 1)</h3>
+      <p style="font-size: 0.9rem; color: #5A5A5A;">After question 20, the archetype is revealed. This is the emotional peak — the moment the parent feels seen.</p>
+      <div style="max-width: 400px; margin: 1.5rem auto; text-align: center;">
+        <div class="ui-card" style="padding: 2.5rem; border: 1px solid var(--border-emphasis);">
+          <div style="font-size: 3.5rem; margin-bottom: 0.75rem;">🌱</div>
+          <div style="font-family: 'Inter', sans-serif; font-size: 0.65rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold-dim); margin-bottom: 0.35rem;">Your Teaching Archetype</div>
+          <div style="font-family: 'Cormorant SC', serif; font-size: 1.8rem; font-weight: 700; letter-spacing: 0.06em; color: var(--ink);">THE CULTIVATOR</div>
+          <p style="font-family: 'Cormorant', serif; font-size: 1.05rem; font-style: italic; color: #5A5A5A; margin-top: 0.75rem; line-height: 1.5;">
+            You carefully prepare the learning environment and curate the materials, but you trust the child to lead their own discovery.
+          </p>
+        </div>
+      </div>
+      <div class="type-specimen" style="margin-top: 1.5rem;">
+        <div class="sample">
+          <div class="meta">Archetype Label — Inter 400, 0.65rem, uppercase, tracking 0.14em, gold-dim</div>
+          <div style="font-family: 'Inter', sans-serif; font-size: 0.65rem; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(212,175,55,0.55);">Your Teaching Archetype</div>
+        </div>
+        <div class="sample">
+          <div class="meta">Archetype Name — Cormorant SC 700, 1.8rem, tracking 0.06em</div>
+          <div style="font-family: 'Cormorant SC', serif; font-size: 1.8rem; font-weight: 700; letter-spacing: 0.06em;">THE CULTIVATOR</div>
+        </div>
+        <div class="sample">
+          <div class="meta">Archetype Description — Cormorant Italic, 1.05rem, line-height 1.5</div>
+          <div style="font-family: 'Cormorant', serif; font-size: 1.05rem; font-style: italic; color: #5A5A5A; line-height: 1.5;">
+            You carefully prepare the learning environment and curate the materials, but you trust the child to lead their own discovery.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ UI COMPONENTS ═══════════════════ -->
+  <section>
+    <div class="container">
+      <h3>UI Components</h3>
+      <h2>Building Blocks</h2>
+      <p>The atomic elements used across every page. All components inherit the watercolor storybook feeling through soft borders, warm shadows, and the parchment background.</p>
+
+      <h3 style="margin-top: 2rem;">Cards, Wells & Containers</h3>
+      <div class="component-grid">
+        <div>
+          <div class="meta" style="font-size: 0.7rem; color: #aaa; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.5rem;">Card (elevated surface)</div>
+          <div class="ui-card">
+            <h4 style="font-family: 'Cormorant SC', serif; font-size: 1.1rem; letter-spacing: 0.06em; margin-bottom: 0.5rem;">Charlotte Mason</h4>
+            <p style="font-size: 0.85rem; color: #5A5A5A; margin: 0;">Living books, narration, nature study, and short lessons that respect the child's attention.</p>
+          </div>
+        </div>
+        <div>
+          <div class="meta" style="font-size: 0.7rem; color: #aaa; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.5rem;">Well (recessed surface)</div>
+          <div class="ui-well">
+            <p style="font-size: 0.85rem; color: #5A5A5A; margin: 0;">Standards addressed: 3.MD.C.7, 3.OA.A.3, 3.NF.A.1. These align with Michigan Grade 3 Mathematics benchmarks.</p>
+          </div>
+        </div>
+      </div>
+
+      <h3 style="margin-top: 2rem;">Tips, Tooltips & Badges</h3>
+      <div class="component-grid">
+        <div>
+          <div class="meta" style="font-size: 0.7rem; color: #aaa; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.5rem;">Tip callout</div>
+          <div class="ui-tip">
+            <strong>Tip</strong>
+            This philosophy works best when children have unstructured time to explore materials at their own pace. Consider setting up "stations" rather than planning sequential activities.
+          </div>
+        </div>
+        <div>
+          <div class="meta" style="font-size: 0.7rem; color: #aaa; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.5rem;">Tooltip (on hover)</div>
+          <div style="display: flex; flex-direction: column; gap: 1rem; align-items: flex-start;">
+            <div class="ui-tooltip">
+              Montessori-Inspired: Hands-on, self-directed learning with carefully prepared environments
+            </div>
+            <div class="ui-tooltip" style="background: var(--gold); color: var(--ink);">
+              85% philosophy match — strong alignment with your teaching style
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top: 1.5rem;">
+        <div class="meta" style="font-size: 0.7rem; color: #aaa; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.75rem;">Badges</div>
+        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+          <span class="ui-badge success">Mastered</span>
+          <span class="ui-badge warning">In Progress</span>
+          <span class="ui-badge info">3.MD.C.7</span>
+          <span class="ui-badge neutral">Grade 2</span>
+          <span class="ui-badge" style="background: rgba(212,175,55,0.1); color: #B8960F;">Classical</span>
+          <span class="ui-badge" style="background: rgba(125,107,158,0.12); color: #7D6B9E;">Montessori</span>
+        </div>
+      </div>
+
+      <h3 style="margin-top: 2rem;">Buttons</h3>
+      <div style="display: flex; gap: 1rem; flex-wrap: wrap; margin: 1rem 0;">
+        <button class="ui-button-primary">Begin</button>
+        <button class="ui-button-secondary">Learn More</button>
+        <button class="ui-button-gold">Generate Lesson</button>
+      </div>
+
+      <h3 style="margin-top: 2rem;">Form Elements</h3>
+      <div style="max-width: 400px; margin: 1rem 0;">
+        <label class="ui-label">Child's Interest</label>
+        <input class="ui-input" placeholder="dinosaurs, space, cooking..." />
+        <div style="height: 1rem;"></div>
+        <label class="ui-label">Grade Level</label>
+        <input class="ui-input" placeholder="e.g. Grade 3" />
+      </div>
+
+      <h3 style="margin-top: 2rem;">Info Container (philosophy summary)</h3>
+      <div class="ui-card" style="border-left: 3px solid var(--phil-montessori);">
+        <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem;">
+          <span class="ui-badge" style="background: rgba(125,107,158,0.12); color: #7D6B9E;">Montessori-Inspired</span>
+          <span style="font-size: 0.75rem; color: var(--text-tertiary);">85% match</span>
+        </div>
+        <p style="font-size: 0.85rem; color: var(--text-secondary); margin: 0; line-height: 1.6;">
+          This lesson uses hands-on manipulatives and self-correcting materials, allowing your learner to discover
+          mathematical concepts through tactile exploration rather than direct instruction.
+        </p>
+      </div>
+
+      <h3 style="margin-top: 2rem;">Warning / Note Container</h3>
+      <div class="ui-well" style="border-left: 3px solid var(--text-warning); background: #FFFBEB;">
+        <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+          <span style="font-size: 0.75rem; font-weight: 600; color: var(--text-warning); text-transform: uppercase; letter-spacing: 0.08em;">Note</span>
+        </div>
+        <p style="font-size: 0.85rem; color: #92400E; margin: 0;">
+          Waldorf-adjacent lessons may not align exactly with conventional grade-level expectations,
+          as this philosophy follows its own developmental timeline.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ PHILOSOPHY COLORS V1 vs V2 ═══════════════════ -->
+  <section>
+    <div class="container">
+      <h3>Color Evolution</h3>
+      <h2>Philosophy Colors: V1 vs V2</h2>
+      <p>V1 colors are Tailwind defaults (bright, digital). V2 shifts softer. V3 is designed to feel like they belong in a watercolor field guide — muted, warm, earthy. All versions preserved for comparison.</p>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.5rem; margin: 1.5rem 0;">
+        <div style="text-align: center; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: #888; padding-bottom: 0.5rem;">V1 (Current)</div>
+        <div style="text-align: center; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: #888; padding-bottom: 0.5rem;">V2 (Lighter)</div>
+        <div style="text-align: center; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: #888; padding-bottom: 0.5rem;">V3 (Watercolor)</div>
+
+        <div style="background: #6366F1; color: white; padding: 0.6rem 1rem; border-radius: 8px; font-size: 0.8rem;">Classical #6366F1</div>
+        <div style="background: #818CF8; color: white; padding: 0.6rem 1rem; border-radius: 8px; font-size: 0.8rem;">Classical #818CF8</div>
+        <div style="background: #5B5E8A; color: white; padding: 0.6rem 1rem; border-radius: 8px; font-size: 0.8rem;">Classical #5B5E8A</div>
+
+        <div style="background: #EC4899; color: white; padding: 0.6rem 1rem; border-radius: 8px; font-size: 0.8rem;">Charlotte #EC4899</div>
+        <div style="background: #F472B6; color: white; padding: 0.6rem 1rem; border-radius: 8px; font-size: 0.8rem;">Charlotte #F472B6</div>
+        <div style="background: #B07A8A; color: white; padding: 0.6rem 1rem; border-radius: 8px; font-size: 0.8rem;">Charlotte #B07A8A</div>
+
+        <div style="background: #F59E0B; color: white; padding: 0.6rem 1rem; border-radius: 8px; font-size: 0.8rem;">Waldorf #F59E0B</div>
+        <div style="background: #FBBF24; color: #1B1A17; padding: 0.6rem 1rem; border-radius: 8px; font-size: 0.8rem;">Waldorf #FBBF24</div>
+        <div style="background: #C4983D; color: white; padding: 0.6rem 1rem; border-radius: 8px; font-size: 0.8rem;">Waldorf #C4983D</div>
+
+        <div style="background: #8B5CF6; color: white; padding: 0.6rem 1rem; border-radius: 8px; font-size: 0.8rem;">Montessori #8B5CF6</div>
+        <div style="background: #A78BFA; color: white; padding: 0.6rem 1rem; border-radius: 8px; font-size: 0.8rem;">Montessori #A78BFA</div>
+        <div style="background: #7D6B9E; color: white; padding: 0.6rem 1rem; border-radius: 8px; font-size: 0.8rem;">Montessori #7D6B9E</div>
+
+        <div style="background: #3B82F6; color: white; padding: 0.6rem 1rem; border-radius: 8px; font-size: 0.8rem;">Project #3B82F6</div>
+        <div style="background: #60A5FA; color: white; padding: 0.6rem 1rem; border-radius: 8px; font-size: 0.8rem;">Project #60A5FA</div>
+        <div style="background: #5A7FA0; color: white; padding: 0.6rem 1rem; border-radius: 8px; font-size: 0.8rem;">Project #5A7FA0</div>
+
+        <div style="background: #10B981; color: white; padding: 0.6rem 1rem; border-radius: 8px; font-size: 0.8rem;">Nature #10B981</div>
+        <div style="background: #34D399; color: #1B1A17; padding: 0.6rem 1rem; border-radius: 8px; font-size: 0.8rem;">Nature #34D399</div>
+        <div style="background: #5A947A; color: white; padding: 0.6rem 1rem; border-radius: 8px; font-size: 0.8rem;">Nature #5A947A</div>
+
+        <div style="background: #F97316; color: white; padding: 0.6rem 1rem; border-radius: 8px; font-size: 0.8rem;">Unschooling #F97316</div>
+        <div style="background: #FB923C; color: white; padding: 0.6rem 1rem; border-radius: 8px; font-size: 0.8rem;">Unschooling #FB923C</div>
+        <div style="background: #C07A42; color: white; padding: 0.6rem 1rem; border-radius: 8px; font-size: 0.8rem;">Unschooling #C07A42</div>
+
+        <div style="background: #6B7280; color: white; padding: 0.6rem 1rem; border-radius: 8px; font-size: 0.8rem;">Adaptive #6B7280</div>
+        <div style="background: #9CA3AF; color: white; padding: 0.6rem 1rem; border-radius: 8px; font-size: 0.8rem;">Adaptive #9CA3AF</div>
+        <div style="background: #8A8A7E; color: white; padding: 0.6rem 1rem; border-radius: 8px; font-size: 0.8rem;">Adaptive #8A8A7E</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ ARCHETYPES ═══════════════════ -->
+  <section>
+    <div class="container">
+      <h3>Archetypes</h3>
+      <h2>The Eight Teaching Archetypes</h2>
+      <p>Each archetype represents a natural teaching style. Primary archetype gets a full watercolor character illustration; secondary gets the icon alone.</p>
+
+      <div class="archetype-grid">
+        <div class="archetype-card" style="border-top: 3px solid var(--arch-guide);">
+          <div class="archetype-icon">🔭</div>
+          <div class="archetype-name">The Guide</div>
+          <div style="font-family: 'Cormorant', serif; font-size: 0.85rem; font-style: italic; color: var(--arch-guide); margin: 0.35rem 0;">Classical &middot; Charlotte Mason</div>
+          <div class="archetype-desc">Clear direction, structured progression, life of the mind</div>
+        </div>
+        <div class="archetype-card" style="border-top: 3px solid var(--arch-explorer);">
+          <div class="archetype-icon">🌍</div>
+          <div class="archetype-name">The Explorer</div>
+          <div style="font-family: 'Cormorant', serif; font-size: 0.85rem; font-style: italic; color: var(--arch-explorer); margin: 0.35rem 0;">Place/Nature &middot; Project-Based</div>
+          <div class="archetype-desc">Follows curiosity into the world, real experiences over textbooks</div>
+        </div>
+        <div class="archetype-card" style="border-top: 3px solid var(--arch-cultivator);">
+          <div class="archetype-icon">🌱</div>
+          <div class="archetype-name">The Cultivator</div>
+          <div style="font-family: 'Cormorant', serif; font-size: 0.85rem; font-style: italic; color: var(--arch-cultivator); margin: 0.35rem 0;">Montessori &middot; Charlotte Mason</div>
+          <div class="archetype-desc">Prepares the environment, curates materials, trusts the child to lead</div>
+        </div>
+        <div class="archetype-card" style="border-top: 3px solid var(--arch-naturalist);">
+          <div class="archetype-icon">🌿</div>
+          <div class="archetype-name">The Naturalist</div>
+          <div style="font-family: 'Cormorant', serif; font-size: 0.85rem; font-style: italic; color: var(--arch-naturalist); margin: 0.35rem 0;">Place/Nature &middot; Waldorf</div>
+          <div class="archetype-desc">Natural world as classroom, direct sensory experience</div>
+        </div>
+        <div class="archetype-card" style="border-top: 3px solid var(--arch-storyteller);">
+          <div class="archetype-icon">📖</div>
+          <div class="archetype-name">The Storyteller</div>
+          <div style="font-family: 'Cormorant', serif; font-size: 0.85rem; font-style: italic; color: var(--arch-storyteller); margin: 0.35rem 0;">Charlotte Mason &middot; Waldorf</div>
+          <div class="archetype-desc">Living books, narration, rich narratives bring learning to life</div>
+        </div>
+        <div class="archetype-card" style="border-top: 3px solid var(--arch-architect);">
+          <div class="archetype-icon">🔨</div>
+          <div class="archetype-name">The Architect</div>
+          <div style="font-family: 'Cormorant', serif; font-size: 0.85rem; font-style: italic; color: var(--arch-architect); margin: 0.35rem 0;">Project-Based &middot; Montessori</div>
+          <div class="archetype-desc">Projects, experiments, models — education through building</div>
+        </div>
+        <div class="archetype-card" style="border-top: 3px solid var(--arch-freespirit);">
+          <div class="archetype-icon">🦋</div>
+          <div class="archetype-name">The Free Spirit</div>
+          <div style="font-family: 'Cormorant', serif; font-size: 0.85rem; font-style: italic; color: var(--arch-freespirit); margin: 0.35rem 0;">Unschooling &middot; Montessori</div>
+          <div class="archetype-desc">Freedom, time, rich environment — children are natural learners</div>
+        </div>
+        <div class="archetype-card" style="border-top: 3px solid var(--arch-weaver);">
+          <div class="archetype-icon">🧶</div>
+          <div class="archetype-name">The Weaver</div>
+          <div style="font-family: 'Cormorant', serif; font-size: 0.85rem; font-style: italic; color: var(--arch-weaver); margin: 0.35rem 0;">Adaptive &middot; balanced blend</div>
+          <div class="archetype-desc">Draws from many traditions, adapts to each child and season</div>
+        </div>
+      </div>
+
+      <p style="margin-top: 1.5rem; font-size: 0.85rem; color: #888;">
+        <strong>Art direction:</strong> Each archetype will have a watercolor storybook-style
+        character illustration — a person holding or interacting with their icon.
+        Style: warm, hand-painted, slightly whimsical. Not clipart. Not corporate.
+        Think golden-age children's book illustration meets Myers-Briggs personality cards.
+      </p>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ PHILOSOPHIES ═══════════════════ -->
+  <section>
+    <div class="container">
+      <h3>Philosophies</h3>
+      <h2>Eight Educational Philosophies</h2>
+      <p>Each philosophy has its own color, constellation, and body of research. Curricula orbit the philosophies they align with on the star map. <strong>Note:</strong> Stars on the map are all the same color (coconut cream / gold). Philosophy colors only appear in the info panel, badges, and UI elements — not the stars themselves.</p>
+
+      <div class="phil-grid">
+        <div class="phil-chip" style="background: var(--phil-classical);">Classical</div>
+        <div class="phil-chip" style="background: var(--phil-charlotte);">Charlotte Mason</div>
+        <div class="phil-chip" style="background: var(--phil-waldorf);">Waldorf</div>
+        <div class="phil-chip" style="background: var(--phil-montessori);">Montessori</div>
+        <div class="phil-chip" style="background: var(--phil-project);">Project-Based</div>
+        <div class="phil-chip" style="background: var(--phil-nature);">Place/Nature</div>
+        <div class="phil-chip" style="background: var(--phil-unschooling);">Unschooling</div>
+        <div class="phil-chip" style="background: var(--phil-adaptive);">Adaptive</div>
+      </div>
+
+      <table>
+        <thead>
+          <tr><th>Philosophy</th><th>Constellation</th><th>Character</th><th>Info Panel Color</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Classical</td><td>Capricornus</td><td>Structured, timeless</td><td style="color: var(--phil-classical);">Slate Indigo #5B5E8A</td></tr>
+          <tr><td>Charlotte Mason</td><td>Cassiopeia</td><td>Literary elegance</td><td style="color: var(--phil-charlotte);">Dusty Rose #B07A8A</td></tr>
+          <tr><td>Waldorf</td><td>Cygnus (Swan)</td><td>Creative beauty</td><td style="color: var(--phil-waldorf);">Raw Sienna #C4983D</td></tr>
+          <tr><td>Montessori</td><td>Crux (Southern Cross)</td><td>Simple precision</td><td style="color: var(--phil-montessori);">Muted Violet #7D6B9E</td></tr>
+          <tr><td>Project-Based</td><td>Scorpius</td><td>Complex connections</td><td style="color: var(--phil-project);">Steel Blue #5A7FA0</td></tr>
+          <tr><td>Place/Nature</td><td>Ursa Major</td><td>Navigation, outdoors</td><td style="color: var(--phil-nature);">Sage Green #5A947A</td></tr>
+          <tr><td>Unschooling</td><td>Pegasus</td><td>Freedom, open sky</td><td style="color: var(--phil-unschooling);">Burnt Orange #C07A42</td></tr>
+          <tr><td>Adaptive</td><td>Leo</td><td>Flexible leadership</td><td style="color: var(--phil-adaptive);">Warm Gray #8A8A7E</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ COMPETITIVE EDGE ═══════════════════ -->
+  <section>
+    <div class="container">
+      <h3>Competitive Positioning</h3>
+      <h2>Us vs. The Field</h2>
+
+      <div class="ui-tip" style="margin-bottom: 2rem;">
+        <strong>Key insight</strong>
+        Of 50+ competitors analyzed, not a single one generates lessons rooted in a specific educational philosophy. They all produce generic "lesson plans" — the parent's teaching philosophy is never part of the equation. We are the only platform where a Classical lesson reads differently from a Montessori lesson reads differently from an Unschooling lesson — because each draws from a different knowledge base of principles, activities, and materials.
+      </div>
+
+      <table>
+        <thead>
+          <tr><th>Dimension</th><th>The Sage's Compass</th><th>LearnSpark</th><th>50+ Others</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Philosophy-rooted generation</strong></td>
+            <td><strong>8 distinct philosophies</strong> — each lesson draws from philosophy-specific principles, activities, and materials. A Classical lesson is fundamentally different from a Montessori lesson.</td>
+            <td>Claims "adaptable to Montessori, PBL" but all lessons come from the same generic engine</td>
+            <td>Zero. No competitor generates philosophy-specific lessons. They produce one-size-fits-all content.</td>
+          </tr>
+          <tr>
+            <td><strong>Philosophy knowledge base</strong></td>
+            <td>29 reference PDFs extracted into 253 principles, 265 activities, 276 materials — real research, not marketing labels</td>
+            <td>No knowledge graph</td>
+            <td>None</td>
+          </tr>
+          <tr>
+            <td><strong>Teaching archetype assessment</strong></td>
+            <td>20 scenarios, 8 archetypes, 5 dimensions — reveals how you naturally teach</td>
+            <td>None</td>
+            <td>None</td>
+          </tr>
+          <tr>
+            <td><strong>Curriculum matching</strong></td>
+            <td>100+ curricula scored against your philosophy profile</td>
+            <td>None</td>
+            <td>None</td>
+          </tr>
+          <tr>
+            <td><strong>State standards</strong></td>
+            <td>363K+ across all 50 states</td>
+            <td>Some</td>
+            <td>CCSS + NGSS only (4-6 states)</td>
+          </tr>
+          <tr>
+            <td><strong>Visualization</strong></td>
+            <td>Interactive constellation star map</td>
+            <td>None</td>
+            <td>None</td>
+          </tr>
+          <tr>
+            <td><strong>Identity</strong></td>
+            <td>Watercolor storybook — warm, personal, soulful</td>
+            <td>Clean SaaS template — could sell anything</td>
+            <td>Generic templates</td>
+          </tr>
+          <tr>
+            <td><strong>Price point</strong></td>
+            <td>$14.99/mo (planned)</td>
+            <td>$39/mo + credits (~50 lessons)</td>
+            <td>$5-$17/mo</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ VOICE & TONE ═══════════════════ -->
+  <section>
+    <div class="container">
+      <h3>Voice & Tone</h3>
+      <h2>How We Sound</h2>
+
+      <div class="do-dont">
+        <div class="do-col">
+          <h4>Our voice</h4>
+          <ul>
+            <li>"Just be yourself. There are no wrong answers."</li>
+            <li>"Discover how you teach."</li>
+            <li>"Powered by your students' curiosity."</li>
+            <li>Warm, encouraging, knowledgeable</li>
+            <li>Like a wise friend who homeschools too</li>
+            <li>Confident without being pushy</li>
+          </ul>
+        </div>
+        <div class="dont-col">
+          <h4>Not our voice</h4>
+          <ul>
+            <li>"AI-powered adaptive learning engine"</li>
+            <li>"Supercharge your homeschool workflow"</li>
+            <li>"Trusted by 10,000+ families worldwide"</li>
+            <li>Corporate, buzzwordy, hype-driven</li>
+            <li>Talking down to parents</li>
+            <li>Promising magic — we empower, not replace</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="positioning-card" style="margin-top: 2rem;">
+        <h3>The closing line</h3>
+        <blockquote>
+          We handle the standards, the research, and the planning.
+          You show up with love, energy, and curiosity.
+        </blockquote>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ SITE MAP ═══════════════════ -->
+  <section>
+    <div class="container">
+      <h3>Site Architecture</h3>
+      <h2>Page Map</h2>
+
+      <table>
+        <thead>
+          <tr><th>Page</th><th>Purpose</th><th>Watercolor Hue</th><th>Status</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Home / Hero</strong></td><td>Value prop, archetype circle, CTA</td><td>Warm ivory</td><td>Needs design</td></tr>
+          <tr><td><strong>Compass (intro)</strong></td><td>Assessment directions, set the tone</td><td>Lavender mist</td><td>Done</td></tr>
+          <tr><td><strong>Compass (assessment)</strong></td><td>20 scenarios</td><td>Lavender mist</td><td>Functional</td></tr>
+          <tr><td><strong>Compass (results)</strong></td><td>Archetype reveal, philosophy blend</td><td>Morning fog</td><td>Functional</td></tr>
+          <tr><td><strong>Explore (star map)</strong></td><td>Interactive constellation visualization</td><td>Deep teal night</td><td>Done</td></tr>
+          <tr><td><strong>Generate</strong></td><td>Create a lesson plan</td><td>Warm linen</td><td>Functional</td></tr>
+          <tr><td><strong>Lessons</strong></td><td>View/manage lesson plans</td><td>Sage wash</td><td>Functional</td></tr>
+          <tr><td><strong>Dashboard</strong></td><td>Family overview, quick actions</td><td>Soft lilac</td><td>Functional</td></tr>
+          <tr><td><strong>Children</strong></td><td>Manage child profiles</td><td>Sea glass</td><td>Functional</td></tr>
+          <tr><td><strong>Calendar</strong></td><td>Schedule & plan</td><td>Parchment gold</td><td>Functional</td></tr>
+          <tr><td><strong>Standards</strong></td><td>Progress tracking by standard</td><td>Periwinkle mist</td><td>Functional</td></tr>
+          <tr><td><strong>About</strong></td><td>Mission, team, story</td><td>Rose petal</td><td>Not started</td></tr>
+          <tr><td><strong>Pricing</strong></td><td>Plans and free trial</td><td>Warm ivory</td><td>Not started</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ FOOTER ═══════════════════ -->
+  <section style="background: var(--ink); color: var(--parchment); padding: 3rem 0;">
+    <div class="container" style="text-align: center;">
+      <div style="font-family: 'Cormorant SC', serif; font-size: 1.4rem; letter-spacing: 0.1em; color: var(--gold); margin-bottom: 0.5rem;">
+        The Sage's Compass
+      </div>
+      <div style="font-size: 0.8rem; color: rgba(249,246,239,0.4);">
+        Brand Guide v1.0 — Living document, iterate as we build.
+      </div>
+    </div>
+  </section>
+
+</body>
+</html>

@@ -1,0 +1,313 @@
+CAST Universal Design for Learning (UDL) Guidelines Version 3.0
+Released: July 30, 2024
+Source: https://udlguidelines.cast.org/
+License: Creative Commons Attribution-NonCommercial-NoDerivatives 4.0
+
+Citation: CAST (2024). Universal design for learning guidelines version 3.0.
+Lynnfield, MA: Author.
+
+================================================================================
+
+OVERVIEW
+
+The UDL Guidelines aim to foster "learner agency that is purposeful & reflective,
+resourceful & authentic, strategic & action-oriented."
+
+The UDL framework is based on extensive research and brain science, offering
+design strategies based on three key brain networks:
+- Affective Network (impacting motivation and learner engagement)
+- Recognition Network (affecting perception and understanding of new learning)
+- Strategic Network (addressing learners' abilities to plan, organize, and take action)
+
+Guidelines 3.0 was released July 30, 2024, with emphasis on addressing
+"critical barriers rooted in biases and systems of exclusion for learners
+with and without disabilities."
+
+Key updates in 3.0:
+- A more asset-based approach
+- A focus on identity as part of learner variability
+- An emphasis on interdependence and collective learning
+- A shift from educator-centered to learner-centered language
+
+================================================================================
+
+PRINCIPLE 1: DESIGN MULTIPLE MEANS OF ENGAGEMENT
+
+Guideline 7: Welcoming Interests & Identities
+  - Optimize choice and autonomy
+  - Optimize relevance, value, and authenticity
+  - Nurture joy and play
+  - Address biases, threats, and distractions
+
+Guideline 8: Sustaining Effort & Persistence
+  - Clarify the meaning and purpose of goals
+  - Optimize challenge and support
+  - Foster collaboration, interdependence, and collective learning
+  - Foster belonging and community
+  - Offer action-oriented feedback
+
+Guideline 9: Emotional Capacity
+  - Recognize expectations, beliefs, and motivations
+  - Develop awareness of self and others
+  - Promote individual and collective reflection
+  - Cultivate empathy and restorative practices
+
+================================================================================
+
+PRINCIPLE 2: DESIGN MULTIPLE MEANS OF REPRESENTATION
+
+Guideline 1: Perception
+  - Support opportunities to customize the display of information
+  - Support multiple ways to perceive information
+  - Represent a diversity of perspectives and identities in authentic ways
+
+Guideline 2: Language & Symbols
+  - Clarify vocabulary, symbols, and language structures
+  - Support decoding of text, mathematical notation, and symbols
+  - Cultivate understanding and respect across languages and dialects
+  - Address biases in the use of language and symbols
+  - Illustrate through multiple media
+
+Guideline 3: Building Knowledge
+  - Connect prior knowledge to new learning
+  - Highlight and explore patterns, critical features, big ideas, and relationships
+  - Cultivate multiple ways of knowing and making meaning
+  - Maximize transfer and generalization
+
+================================================================================
+
+PRINCIPLE 3: DESIGN MULTIPLE MEANS OF ACTION & EXPRESSION
+
+Guideline 4: Interaction
+  - Vary and honor the methods for response, navigation, and movement
+  - Optimize access to accessible materials and assistive technologies and tools
+
+Guideline 5: Expression & Communication
+  - Use multiple media for communication
+  - Use multiple tools for construction, composition, and creativity
+  - Build fluencies with graduated support for practice and performance
+  - Address biases related to modes of expression and communication
+
+Guideline 6: Strategy Development
+  - Set meaningful goals
+  - Anticipate and plan for challenges
+  - Organize information and resources
+  - Enhance capacity for monitoring progress
+  - Challenge exclusionary practices
+
+================================================================================
+
+DETAILED CHECKPOINT DESCRIPTIONS (from Guidelines 2.2 full text, supplemented
+with 3.0 updates where noted)
+
+ENGAGEMENT — Welcoming Interests & Identities (Guideline 7)
+
+Optimize choice and autonomy:
+Provide learners with as much discretion and autonomy as possible. Offer choices
+in areas such as: the level of perceived challenge, the type of rewards or
+recognition available, the context or content used for practicing and assessing
+skills, the tools used for information gathering or production, the color,
+design, or graphics of layouts, and the sequence or timing for completion of
+subcomponents of tasks.
+
+Optimize relevance, value, and authenticity:
+Vary activities and sources of information so that they can be personalized and
+contextualized to learners' lives, culturally relevant and responsive to
+different racial, cultural, ethnic, and gender groups, age appropriate and
+ability appropriate, and appropriate for different racial, cultural, ethnic,
+and linguistic groups.
+
+Nurture joy and play:
+Create learning environments that invite curiosity, exploration, and wonder.
+Design activities that include elements of surprise, novelty, and delight.
+Honor the role of imagination, creativity, and play in learning at all ages.
+
+Address biases, threats, and distractions:
+Vary the level of novelty or risk. Vary the level of sensory stimulation.
+Vary the social demands required for learning or performance. Involve all
+participants in whole class discussions. Create routines. Create an accepting
+and supportive classroom climate. Address biases and stereotypes in the
+learning environment.
+
+ENGAGEMENT — Sustaining Effort & Persistence (Guideline 8)
+
+Clarify the meaning and purpose of goals:
+Prompt or require learners to explicitly formulate or restate goal. Display
+the goal in multiple ways. Encourage the setting of personal goals and
+objectives. Model the process of setting appropriate goals.
+
+Optimize challenge and support:
+Differentiate the degree of difficulty or complexity. Vary the degrees of
+freedom for acceptable performance. Emphasize process, effort, improvement
+in meeting standards as alternatives to external evaluation and competition.
+
+Foster collaboration, interdependence, and collective learning:
+Create cooperative learning groups. Create expectations for group work.
+Provide prompts that guide learners in when and how to ask peers and/or
+teachers for help. Encourage and support opportunities for peer interactions
+and supports. Construct communities of learners.
+
+Foster belonging and community:
+Create a safe, inclusive learning environment where all learners feel valued
+and respected. Support the development of positive relationships among
+learners. Encourage learners to share their perspectives and experiences.
+
+Offer action-oriented feedback:
+Provide feedback that encourages perseverance, focuses on development of
+efficacy and self-awareness. Provide feedback that is substantive and
+informative rather than comparative or competitive. Provide feedback that
+models how to incorporate evaluation into positive strategies for future
+success.
+
+ENGAGEMENT — Emotional Capacity (Guideline 9)
+
+Recognize expectations, beliefs, and motivations:
+Help learners identify and understand their own expectations and beliefs
+about learning. Support learners in recognizing how their beliefs affect
+their engagement and persistence.
+
+Develop awareness of self and others:
+Promote activities that encourage self-reflection and self-assessment.
+Develop learners' ability to recognize and cope with their emotions.
+
+Promote individual and collective reflection:
+Provide multiple models and scaffolds for managing frustration. Develop
+internal controls and coping skills. Use real life situations or simulations
+to demonstrate coping skills.
+
+Cultivate empathy and restorative practices:
+Support learners in understanding others' perspectives and experiences.
+Use restorative approaches to address conflicts and build community.
+
+REPRESENTATION — Perception (Guideline 1)
+
+Support opportunities to customize the display of information:
+Offer ways of customizing the display of information including: the size
+of text, images, graphs, tables, or other visual content; the contrast
+between background and text or image; the color used for information or
+emphasis; the volume or rate of speech or sound; the speed or timing of
+video, animation, sound, simulations; the layout of visual or other
+elements; the font used for print materials.
+
+Support multiple ways to perceive information:
+Provide the same information through different sensory modalities
+(e.g., through vision, hearing, or touch). Provide information in a
+format that will allow for adjustability by the user.
+
+Represent a diversity of perspectives and identities in authentic ways:
+Ensure that learning materials include diverse perspectives and identities.
+Avoid stereotypical or tokenistic representations.
+
+REPRESENTATION — Language & Symbols (Guideline 2)
+
+Clarify vocabulary, symbols, and language structures:
+Pre-teach vocabulary and symbols. Provide descriptions. Provide graphic
+symbols with alternative text descriptions. Highlight how complex terms,
+expressions, or equations are composed of simpler words or symbols.
+
+Support decoding of text, mathematical notation, and symbols:
+Allow the use of text-to-speech. Use automatic voicing with digital
+mathematical notation (MathML). Provide digital text with an accompanying
+human voice recording. Allow for flexibility and easy access to multiple
+representations of notation where appropriate.
+
+Cultivate understanding and respect across languages and dialects:
+Make all key information available in dominant languages AND in learners'
+home languages. Allow for cross-linguistic glossaries. Embed visual,
+non-linguistic supports for vocabulary clarification.
+
+Address biases in the use of language and symbols:
+Examine learning materials for linguistic bias. Use inclusive language.
+Provide opportunities for learners to contribute terminology from their
+own cultures and languages.
+
+Illustrate through multiple media:
+Present key concepts in one form of symbolic representation with an
+alternative form. Make explicit links between information provided in
+texts and any accompanying representation of that information in
+illustrations, equations, charts, or diagrams.
+
+REPRESENTATION — Building Knowledge (Guideline 3)
+
+Connect prior knowledge to new learning:
+Activate or supply background knowledge. Use advance organizers. Pre-teach
+critical prerequisite concepts through demonstration or models. Bridge
+concepts with relevant analogies and metaphors. Make explicit cross-
+curricular connections.
+
+Highlight and explore patterns, critical features, big ideas, and relationships:
+Highlight or emphasize key elements in text, graphics, diagrams, formulas.
+Use outlines, graphic organizers, unit organizer routines, concept organizer
+routines. Use multiple examples and non-examples. Highlight previously
+learned skills that can be used to solve unfamiliar problems.
+
+Cultivate multiple ways of knowing and making meaning:
+Provide explicit, supported opportunities to generalize learning. Offer
+checklists, organizers, sticky notes, electronic reminders. Offer templates,
+graphic organizers, concept maps as scaffolds.
+
+Maximize transfer and generalization:
+Provide explicit, supported opportunities to generalize learning to new
+situations. Offer checklists, organizers. Offer templates, graphic
+organizers, concept maps as scaffolds for linking new information to
+prior knowledge.
+
+ACTION & EXPRESSION — Interaction (Guideline 4)
+
+Vary and honor the methods for response, navigation, and movement:
+Provide alternatives for physically responding or indicating selections.
+Provide alternatives for the rate, timing, speed, and range of motor action
+required to interact with instructional materials.
+
+Optimize access to accessible materials and assistive technologies and tools:
+Provide alternative keyboard commands for mouse action. Build switch and
+scanning access. Provide access to alternative keyboards. Customize overlays
+for touch screens and keyboards.
+
+ACTION & EXPRESSION — Expression & Communication (Guideline 5)
+
+Use multiple media for communication:
+Compose in multiple media such as text, speech, drawing, illustration,
+design, film, music, dance/movement, visual art, sculpture. Use social
+media and interactive web tools.
+
+Use multiple tools for construction, composition, and creativity:
+Provide spellcheckers, grammar checkers, word prediction software. Provide
+text-to-speech software, human dictation, recording. Provide calculators,
+graphing calculators, geometric sketchpads. Provide sentence starters or
+sentence strips. Use story webs, outlining tools, or concept mapping tools.
+
+Build fluencies with graduated support for practice and performance:
+Provide differentiated models. Provide differentiated mentors. Provide
+scaffolds that can be gradually released. Provide differentiated feedback.
+Provide opportunities to practice with supports and then to show skill
+without supports.
+
+Address biases related to modes of expression and communication:
+Recognize that learners have preferred modes of expression. Ensure
+assessment allows for multiple modes of demonstrating knowledge.
+
+ACTION & EXPRESSION — Strategy Development (Guideline 6)
+
+Set meaningful goals:
+Provide prompts and scaffolds for estimating effort, resources, and
+difficulty. Provide models or examples of the process and product of
+goal-setting. Provide guides and checklists for scaffolding goal-setting.
+
+Anticipate and plan for challenges:
+Embed prompts to "show and explain your work." Provide checklists and
+project planning templates. Embed coaches or mentors that model think-alouds.
+
+Organize information and resources:
+Provide graphic organizers and templates for data collection and organizing
+information. Embed prompts for categorizing and systematizing. Provide
+checklists and guides for note-taking.
+
+Enhance capacity for monitoring progress:
+Provide templates that guide self-monitoring. Provide representations of
+progress. Ask learners to identify the type of feedback or advice they seek.
+Provide differentiated models of self-assessment strategies.
+
+Challenge exclusionary practices:
+Examine practices that may create barriers for certain learners. Ensure
+that strategy development supports are accessible to all learners.
