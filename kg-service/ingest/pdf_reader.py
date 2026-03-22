@@ -1,4 +1,4 @@
-"""PDF text extraction utility using PyMuPDF."""
+"""Text extraction utility for PDF, EPUB, and plain text files."""
 
 from __future__ import annotations
 
@@ -8,7 +8,9 @@ import fitz  # PyMuPDF
 
 
 def extract_text(pdf_path: Path) -> str:
-    """Extract all text from a PDF file, page by page."""
+    """Extract all text from a PDF, EPUB, or plain text file."""
+    if pdf_path.suffix.lower() == ".txt":
+        return pdf_path.read_text(encoding="utf-8")
     doc = fitz.open(str(pdf_path))
     pages: list[str] = []
     for page in doc:

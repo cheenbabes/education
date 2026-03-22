@@ -216,7 +216,7 @@ def extract_philosophy(philosophy: str, force: bool = False) -> list[dict]:
         sys.exit(1)
 
     docs = sorted(
-        list(pdf_dir.glob("*.pdf")) + list(pdf_dir.glob("*.epub"))
+        list(pdf_dir.glob("*.pdf")) + list(pdf_dir.glob("*.epub")) + list(pdf_dir.glob("*.txt"))
     )
     if not docs:
         print(f"WARNING: No PDFs/epubs found in {pdf_dir}")
@@ -241,7 +241,7 @@ def extract_all(force: bool = False) -> dict[str, list[dict]]:
     """Extract data from all philosophy directories."""
     all_data = {}
     for subdir in sorted(settings.docs_root.iterdir()):
-        if subdir.is_dir() and not subdir.name.startswith("."):
+        if subdir.is_dir() and not subdir.name.startswith(".") and not subdir.name.startswith("_"):
             all_data[subdir.name] = extract_philosophy(subdir.name, force=force)
     return all_data
 
