@@ -11,7 +11,7 @@
 #   evaluate             — needs human decision on keep vs. drop
 #   dropped              — excluded from KG extraction (may remain in directory)
 #
-# Generated: 2026-03-21
+# Generated: 2026-03-21, updated: 2026-03-22 (all acquisitions complete)
 # See: docs/plans/2026-03-21-kg-source-audit.md
 
 philosophies:
@@ -23,37 +23,53 @@ philosophies:
   # ───────────────────────────────────────────────────────────────────────
   adaptive:
     sources:
-      # --- Planned acquisitions ---
-      - filename: null
+      # --- Acquired T1/T2 sources ---
+      - filename: "Tomlinson-Differentiated_Classroom.epub"
         tier: T1
         title: "The Differentiated Classroom"
         author: "Carol Ann Tomlinson"
         year: 2014
-        status: pending-acquisition
+        status: pending-extraction
         rationale: "Canonical text on responsive teaching by readiness, interest, and learning profile"
 
-      - filename: null
+      - filename: "Tomlinson-McTighe-Integrating_DI_and_UbD.pdf"
         tier: T1
         title: "Integrating Differentiated Instruction & Understanding by Design"
         author: "Carol Ann Tomlinson & Jay McTighe"
         year: 2006
-        status: pending-acquisition
+        status: pending-extraction
         rationale: "Bridges adaptive teaching with backward design"
 
-      - filename: null
+      - filename: "CAST-UDL_Guidelines_v2.2_Full_Text.pdf"
         tier: T2
-        title: "UDL Guidelines"
+        title: "UDL Guidelines v2.2 Full Text"
         author: "CAST"
         year: 2018
-        status: pending-acquisition
-        rationale: "Universal Design for Learning framework — free download"
+        status: pending-extraction
+        rationale: "Universal Design for Learning framework — comprehensive narrative version"
 
-      - filename: null
+      - filename: "CAST-UDL_Guidelines_v3.0_Full_Text.txt"
         tier: T2
-        title: "Frames of Mind"
+        title: "UDL Guidelines v3.0 Full Text"
+        author: "CAST"
+        year: 2024
+        status: pending-extraction
+        rationale: "UDL v3.0 update — 3 principles, 9 guidelines, ~40 checkpoints"
+
+      - filename: "CAST-UDL_Guidelines_v3.0_Graphic_Organizer.pdf"
+        tier: T3
+        title: "UDL Guidelines v3.0 Graphic Organizer"
+        author: "CAST"
+        year: 2024
+        status: pending-extraction
+        rationale: "One-page UDL overview — supplemental quick reference"
+
+      - filename: "Gardner-Frames_of_Mind.epub"
+        tier: T2
+        title: "Frames of Mind: The Theory of Multiple Intelligences"
         author: "Howard Gardner"
         year: 1983
-        status: pending-acquisition
+        status: pending-extraction
         rationale: "Multiple intelligences theory, foundational to adapt-to-the-learner approach"
 
       # --- Existing files, reclassified as T3 supplemental ---
@@ -136,14 +152,14 @@ philosophies:
         status: evaluate
         rationale: "160MB scanned PDF, poor for extraction. Decide: extract via OCR, find typed version, or skip if other volumes cover its principles"
 
-      # --- Planned acquisition ---
-      - filename: null
+      # --- Acquired T2 source (Macaulay instead of Karen Glass) ---
+      - filename: "Macaulay-For_the_Childrens_Sake.pdf"
         tier: T2
-        title: "Consider This"
-        author: "Karen Glass"
-        year: 2014
-        status: pending-acquisition
-        rationale: "Modern interpreter of Mason's philosophy — would sharpen principle extraction beyond verbose Victorian prose. Alternative: A Delectable Education podcast companion."
+        title: "For the Children's Sake"
+        author: "Susan Schaeffer Macaulay"
+        year: 1984
+        status: pending-extraction
+        rationale: "The book that revived Charlotte Mason in North America. Distills Mason's core ideas into accessible modern language. Replaces Karen Glass 'Consider This' (unavailable as ebook)."
 
   # ───────────────────────────────────────────────────────────────────────
   # CLASSICAL — 8 principles today, CRITICAL (need ~60-80)
@@ -167,37 +183,37 @@ philosophies:
         status: extracted
         rationale: "Practical stage descriptions from a homeschool community perspective"
 
-      # --- Planned acquisitions ---
-      - filename: null
+      # --- Acquired sources ---
+      - filename: "Bauer-Well_Trained_Mind.epub"
         tier: T1
-        title: "The Well-Trained Mind"
+        title: "The Well-Trained Mind (3rd ed.)"
         author: "Susan Wise Bauer & Jessie Wise"
-        year: 2016
-        status: pending-acquisition
+        year: 2009
+        status: pending-extraction
         rationale: "The classical homeschool bible — stage-by-stage K-12 activities and materials. Highest-impact single addition across the entire KG."
 
-      - filename: null
+      - filename: "Wilson-Recovering_Lost_Tools_of_Learning.epub"
         tier: T2
         title: "Recovering the Lost Tools of Learning"
         author: "Douglas Wilson"
         year: 1991
-        status: pending-acquisition
+        status: pending-extraction
         rationale: "Practical school model, Grammar-through-Rhetoric structure, memorization/recitation activities"
 
-      - filename: null
+      - filename: "Adler-Paideia_Proposal.pdf"
         tier: T2
         title: "The Paideia Proposal"
         author: "Mortimer Adler"
         year: 1982
-        status: pending-acquisition
+        status: pending-extraction
         rationale: "Three pedagogical modes: didactic instruction, coached practice, Socratic seminar"
 
-      - filename: null
+      - filename: "Adler-How_to_Read_a_Book_1972.pdf"
         tier: T2
         title: "How to Read a Book"
-        author: "Mortimer Adler"
+        author: "Mortimer Adler & Charles Van Doren"
         year: 1972
-        status: pending-acquisition
+        status: pending-extraction
         rationale: "Reading skill levels that map to Trivium stages"
 
   # ───────────────────────────────────────────────────────────────────────
@@ -261,21 +277,21 @@ philosophies:
   # ───────────────────────────────────────────────────────────────────────
   place-nature-based:
     sources:
-      # --- Planned acquisitions ---
-      - filename: null
+      # --- Acquired T1 sources ---
+      - filename: "Smith-Sobel-Place_Community_Based_Education.epub"
         tier: T1
-        title: "Place-Based Education"
-        author: "David Sobel"
-        year: 2004
-        status: pending-acquisition
-        rationale: "THE defining text. A scanned image PDF was previously in the repo but is no longer present / was unextractable. Need a text-extractable version or OCR."
+        title: "Place- and Community-Based Education in Schools"
+        author: "Gregory A. Smith & David Sobel"
+        year: 2010
+        status: pending-extraction
+        rationale: "Sobel co-authored comprehensive treatment of place-based education. More recent and thorough than his 2004 solo monograph."
 
-      - filename: null
+      - filename: "Louv-Last_Child_in_the_Woods.epub"
         tier: T1
         title: "Last Child in the Woods"
         author: "Richard Louv"
         year: 2005
-        status: pending-acquisition
+        status: pending-extraction
         rationale: "Cultural touchstone that launched the nature-based education movement"
 
       # --- Existing files — reclassified per plan ---
@@ -350,21 +366,21 @@ philosophies:
   # ───────────────────────────────────────────────────────────────────────
   project-based-learning:
     sources:
-      # --- Planned acquisitions ---
-      - filename: null
+      # --- Acquired T1 sources ---
+      - filename: "Dewey-Experience_and_Education.pdf"
         tier: T1
         title: "Experience and Education"
         author: "John Dewey"
         year: 1938
-        status: pending-acquisition
+        status: pending-extraction
         rationale: "Short, foundational, public domain. The philosophical root of all project-based learning."
 
-      - filename: null
+      - filename: "Larmer-Setting_Standard_for_PBL.pdf"
         tier: T1
         title: "Setting the Standard for Project Based Learning"
         author: "John Larmer, John Mergendoller & Suzie Boss"
         year: 2015
-        status: pending-acquisition
+        status: pending-extraction
         rationale: "The modern PBL bible from Buck Institute / PBLWorks"
 
       # --- Existing files — reclassified per plan ---
@@ -430,13 +446,13 @@ philosophies:
   # ───────────────────────────────────────────────────────────────────────
   unschooling:
     sources:
-      # --- Planned acquisition ---
-      - filename: null
+      # --- Acquired T1 source ---
+      - filename: "Holt-How_Children_Learn.pdf"
         tier: T1
         title: "How Children Learn"
         author: "John Holt"
         year: 1967
-        status: pending-acquisition
+        status: pending-extraction
         rationale: "THE foundational unschooling text — detailed observations of how children naturally learn through play and curiosity"
 
       # --- Existing files ---
