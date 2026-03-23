@@ -1,0 +1,1597 @@
+[
+  {
+    "philosophy": "adaptive",
+    "grade_band": "3-5",
+    "subject": "Math",
+    "lesson_title": "Mission Fractions: Packing Fuel for a Space Launch",
+    "scores": {
+      "philosophy_alignment": 5,
+      "principle_grounding": 5,
+      "age_appropriateness": 5,
+      "standards_integration": 5,
+      "lesson_quality": 5,
+      "differentiation": 5,
+      "philosophy_distinctiveness": 5
+    },
+    "overall_score": 5.0,
+    "hallucinated_principles": [],
+    "strengths": [
+      "Every lesson section explicitly references and embodies adaptive philosophy principles from the KG.",
+      "References to readiness, student choice, formative assessment, flexible content/process, and student ownership are clear, accurate, and actionable.",
+      "Activities, materials, and language are developmentally well-calibrated for grades 3-5, with options to adjust for individual readiness.",
+      "Integration of standards is seamless\u2014standards are real, correctly cited, and their implementation is natural, not forced.",
+      "Instructions are clear, engaging, and practical for a homeschool parent; lesson arc is complete with introduction, exploration, practice, application, and reflection.",
+      "Differentiation notes are highly specific (e.g., concrete/pictorial/abstract options, challenge/support variations, targeted feedback prompts).",
+      "Adaptive philosophy is unmistakable throughout\u2014the lesson would look substantially different under a different philosophy (e.g., not one-size-fits-all, prioritizes flexibility and student input)."
+    ],
+    "weaknesses": [
+      "None significant; lesson could, if desired, offer more explicit tie-ins to cultural diversity or cross-disciplinary connections, but this does not detract from core adaptive alignment.",
+      "If used with a group, some instructions would need additional differentiation notes for multiple children."
+    ],
+    "critical_issues": [],
+    "lesson": {
+      "title": "Mission Fractions: Packing Fuel for a Space Launch",
+      "theme": "space exploration",
+      "estimated_duration_minutes": 60,
+      "philosophy": "adaptive",
+      "children": [
+        {
+          "child_id": "eval-child-3-5",
+          "name": "Jack",
+          "grade": "4",
+          "age": 9,
+          "differentiation_notes": "Offer choice in numbers and tools: Jack can work with fraction strips/circles or draw bar models. If he\u2019s ready, include mixed numbers and fraction-by-whole-number word problems; if he needs more support, keep denominators to 2, 3, 4, 6, 8, 10 and use concrete pieces first. Encourage him to explain thinking out loud before writing equations."
+        }
+      ],
+      "standards_addressed": [
+        {
+          "code": "CCSS.Math.Content.4.NF.B.3b",
+          "description_plain": "Your child can break a fraction into a sum of smaller fractions with the same bottom number in different ways, and show or explain how they did it.",
+          "how_addressed": "Jack decomposes 'fuel tank' fractions (e.g., 7/8) into multiple sums with like denominators and records each as an equation, supported by a visual model."
+        },
+        {
+          "code": "CCSS.Math.Content.4.NF.A.2",
+          "description_plain": "Your child can compare two fractions with different top and bottom numbers by making common denominators or using benchmarks like 1/2, use >, =, or < symbols, and explain their thinking with pictures if needed.",
+          "how_addressed": "Jack compares fuel plans for two rocket stages using benchmarks (1/2, 1) and/or common denominators, then justifies with a bar model or fraction strips."
+        },
+        {
+          "code": "CCSS.Math.Practice.MP6",
+          "description_plain": "Your child can use math words and numbers carefully and accurately.",
+          "how_addressed": "Jack labels wholes, denominators, and units (tank, stage, minutes) and checks that comparisons refer to the same whole before using <, >, =."
+        },
+        {
+          "code": "CCSS.Math.Practice.MP8",
+          "description_plain": "Your child can notice patterns in math and use them to solve problems more easily.",
+          "how_addressed": "Jack looks for repeated reasoning (e.g., how many 1/8 pieces make 7/8; how decompositions can be rearranged) and uses that pattern to create new decompositions quickly."
+        }
+      ],
+      "materials_needed": [
+        {
+          "name": "Paper (blank or lined)",
+          "household_alternative": "Cardboard from a cereal box or the back of junk mail",
+          "optional": false
+        },
+        {
+          "name": "Pencil and eraser",
+          "household_alternative": "Pen or colored pencil",
+          "optional": false
+        },
+        {
+          "name": "Colored pencils/markers (2\u20133 colors)",
+          "household_alternative": "Crayons or just a pencil with different shading",
+          "optional": true
+        },
+        {
+          "name": "Scissors",
+          "household_alternative": "Tear paper strips by hand",
+          "optional": true
+        },
+        {
+          "name": "Fraction strips or fraction circles (printable or homemade)",
+          "household_alternative": "Handmade paper strips folded into equal parts (halves, fourths, eighths, tenths)",
+          "optional": false
+        },
+        {
+          "name": "Timer or clock",
+          "household_alternative": "Microwave/stove clock or a phone timer",
+          "optional": true
+        },
+        {
+          "name": "Chalk for outdoor drawing",
+          "household_alternative": "Sidewalk chalk substitute: a bucket of water and a paintbrush, or sticks to draw in dirt",
+          "optional": true
+        }
+      ],
+      "lesson_sections": [
+        {
+          "title": "Launch Briefing: Choose the Mission + Quick Pre-Check",
+          "duration_minutes": 10,
+          "type": "introduction",
+          "indoor_outdoor": "indoor",
+          "instructions": "Tell Jack: \u201cToday you\u2019re the mission mathematician. Our job is to pack fuel for a rocket launch using fractions.\u201d Give him two mission choices so he has ownership:\n1) \u201cMoon Supply Run\u201d (simpler: denominators 2, 4, 8)\n2) \u201cMars Relay Satellite\u201d (challenge: include 10s/100s or mixed numbers)\n\nThen do a fast pre-check (no pressure): ask him to show 3/4 using strips, and to tell which is larger: 3/8 or 1/2 (he can use a model). Use what you see to decide whether to stay concrete (strips) or move to drawn bar models/equations sooner.",
+          "philosophy_connection": "Adaptive and parent-directed: you start with Jack\u2019s readiness, offer mission choice for ownership, and use quick formative assessment to set the right level of challenge.",
+          "tips": [
+            "If Jack hesitates, say: \u201cShow me with pieces first\u2014then we\u2019ll write it.\u201d",
+            "Keep the tone like a real mission briefing: clear goal, tools ready, and a plan."
+          ],
+          "extensions": [
+            "Have Jack set a personal goal: \u201cToday I want to get better at (comparing fractions / writing equations / explaining my thinking).\u201d"
+          ]
+        },
+        {
+          "title": "Build the Fuel Tank Model (The \u201cWhole\u201d Matters!)",
+          "duration_minutes": 15,
+          "type": "exploration",
+          "indoor_outdoor": "indoor",
+          "instructions": "Together, define the WHOLE as one full fuel tank. Draw a large rectangle and label it \u201c1 tank.\u201d Now pick a denominator set based on readiness (suggest 8ths for a solid 4th-grade fit).\n\nOption A (hands-on): Help Jack make a strip for 1 tank and fold/cut it into 8 equal pieces. Label each piece 1/8.\n\nOption B (drawn model): Divide the rectangle into 8 equal sections and shade pieces.\n\nNow give a space context: \u201cStage 1 needs 5/8 of a tank for liftoff. Stage 2 needs 2/8 for orbit insertion.\u201d Ask Jack to model both on the tank (separate colors if possible) and check: \u201cHow much fuel is planned total?\u201d Let him add: 5/8 + 2/8.\n\nPause for precision: Ask, \u201cAre we still talking about the same whole tank?\u201d and have him point to the full strip/rectangle.",
+          "philosophy_connection": "Hands-on, experiential learning supports understanding; you flex between manipulatives and drawings based on what Jack needs to make meaning.",
+          "tips": [
+            "If equal parts are tricky, fold carefully together first; perfection isn\u2019t required, but equal parts help the math make sense.",
+            "Use consistent language: numerator = how many parts; denominator = what size parts."
+          ],
+          "extensions": [
+            "Switch the denominator to 6ths or 10ths and ask Jack what changes and what stays the same about the \u2018whole tank.\u2019"
+          ]
+        },
+        {
+          "title": "Mission Task 1: Decompose Fuel in More Than One Way",
+          "duration_minutes": 15,
+          "type": "practice",
+          "indoor_outdoor": "indoor",
+          "instructions": "Tell Jack: \u201cMission control wants backup fuel plans. Same total fuel, different ways to combine it.\u201d\n\nGive him 2\u20133 target fractions to decompose (choose based on readiness):\n- Core: 7/8\n- Medium: 5/6\n- Challenge: 9/8 (as 1 1/8 or 8/8 + 1/8)\n\nFor each target, require at least TWO different decompositions with the same denominator, recorded as equations, and justified with a model. Examples you can prompt (but let him create his own):\n- 7/8 = 1/8 + 6/8\n- 7/8 = 3/8 + 4/8\n- 7/8 = 2/8 + 2/8 + 3/8\n\nAsk him to explain: \u201cHow do you know these are equal?\u201d Encourage him to point to the pieces or shaded parts.\n\nAdd a growth-mindset check: if he makes an error, treat it like a systems test\u2014\u201cGreat catch opportunity. Which piece count doesn\u2019t match the target?\u201d",
+          "philosophy_connection": "Flexible product and process: Jack can show learning with strips, drawings, and equations. Ongoing formative assessment happens as he explains and self-corrects.",
+          "tips": [
+            "If Jack writes 7/8 = 3/8 + 5/8, ask him to test it with pieces rather than telling him it\u2019s wrong.",
+            "Have him underline denominators to reinforce 'same-size parts' when decomposing."
+          ],
+          "extensions": [
+            "Ask for THREE decompositions and have Jack rank them from \u201cmost efficient to explain\u201d to \u201cmost creative.\u201d"
+          ]
+        },
+        {
+          "title": "Outdoor \u201cOrbit Walk\u201d: Fraction Comparisons on a Number Line",
+          "duration_minutes": 10,
+          "type": "exploration",
+          "indoor_outdoor": "outdoor",
+          "instructions": "Go outside with chalk (or draw in dirt). Make a long number line from 0 to 1 and label 0, 1/2, and 1.\n\nCall it the \u201corbit track.\u201d Give Jack two \u2018fuel gauges\u2019 to compare, one pair at a time. Choose 2\u20134 comparisons:\n- 3/8 vs 1/2\n- 2/3 vs 3/5\n- 7/10 vs 3/4\n\nFor each pair:\n1) Have him place each fraction on the number line (estimate first).\n2) Then let him refine using a strategy: benchmark to 1/2, or create common denominators on paper.\n3) He records the comparison with a symbol: <, >, or =.\n\nKeep precision: remind him comparisons only work if both are parts of the same whole (your 0\u20131 track).",
+          "philosophy_connection": "Meaning and engagement: movement and an outdoor model make abstract fraction size more concrete. The adaptive approach lets you shift between estimation, benchmarks, or common denominators as needed.",
+          "tips": [
+            "If spacing is hard, only mark 0, 1/2, and 1 and focus on \u2018left/right of 1/2\u2019 first.",
+            "Ask: \u201cWhich is closer to 1?\u201d to build intuition before exact methods."
+          ],
+          "extensions": [
+            "Add improper fractions (like 5/4) by extending the number line to 2 and naming it \u201ctwo orbits.\u201d"
+          ]
+        },
+        {
+          "title": "Reflection + Mission Report (Choose Your Evidence)",
+          "duration_minutes": 10,
+          "type": "reflection",
+          "indoor_outdoor": "both",
+          "instructions": "Back inside (or stay outside), ask Jack to choose one of these \u2018mission report\u2019 options:\nA) Explain (out loud) one decomposition and one comparison, using the model.\nB) Write a short \u201cMission Log\u201d (3\u20135 sentences): what you did, what was tricky, what strategy helped.\nC) Create a mini-poster: \u201cFuel Fraction Rules I Used Today\u201d with 2 examples.\n\nThen do a quick parent check-in:\n- \u201cShow me one fraction you can decompose in two ways without help.\u201d\n- \u201cCompare these: 3/8 __ 4/10. Tell me how you know.\u201d\n\nEnd with a partnership question: \u201cWhat should tomorrow\u2019s mission focus on\u2014decomposing faster, comparing trickier fractions, or making word problems?\u201d",
+          "philosophy_connection": "Student choice and ownership in how he demonstrates learning, plus collaborative reflection and goal-setting to guide what comes next.",
+          "tips": [
+            "If writing feels like a barrier today, choose the oral explanation and you can scribe one key equation for him.",
+            "Celebrate strategy use (models, benchmarks, common denominators) more than speed."
+          ],
+          "extensions": [
+            "Record Jack giving a 30-second \u2018mission update\u2019 explaining one comparison; play it back so he can self-assess clarity and precision."
+          ]
+        }
+      ],
+      "assessment_suggestions": [
+        "Can Jack decompose a fraction like 7/8 into two different sums with like denominators and justify with a model?",
+        "When comparing two fractions (e.g., 2/3 and 3/5), does Jack choose a reasonable strategy (benchmark or common denominator) and explain why the comparison is valid (same whole)?",
+        "Does Jack use precise math language (numerator/denominator, greater than/less than) and accurate symbols?"
+      ],
+      "cleanup_notes": "Collect fraction pieces into a labeled envelope (\u201cFuel Strips\u201d) so you can reuse them. Take a quick photo of the outdoor number line before it washes away, or have Jack copy one comparison into his notebook.",
+      "next_lesson_seeds": [
+        "Space Travel Word Problems: multi-step problems about distance/time using the four operations (mission planning).",
+        "Angle Math in Space: measure \u2018turn angles\u2019 for rover navigation using a protractor (tie to spacecraft orientation).",
+        "Decimals as Fuel Readings: convert tenths/hundredths to decimals and compare fuel gauge readings (e.g., 0.7 vs 0.68).",
+        "Line Plots from \u2018Asteroid Samples\u2019: measure objects to the nearest 1/4 inch and make a line plot, then add/subtract fractions from the data."
+      ],
+      "philosophy_summary": null,
+      "content_hash": null
+    }
+  },
+  {
+    "philosophy": "charlotte-mason",
+    "grade_band": "3-5",
+    "subject": "Math",
+    "lesson_title": "Moon-Mission Fractions: Fuel, Time, and Tiny Decisions",
+    "scores": {
+      "philosophy_alignment": 5,
+      "principle_grounding": 5,
+      "age_appropriateness": 5,
+      "standards_integration": 5,
+      "lesson_quality": 5,
+      "differentiation": 5,
+      "philosophy_distinctiveness": 5
+    },
+    "overall_score": 5.0,
+    "hallucinated_principles": [],
+    "strengths": [
+      "Every section is explicitly and accurately grounded in Charlotte Mason principles, with clear ties to living ideas, narration, habit formation, use of concrete materials, nature/outdoor experience, and respect for the child's personhood.",
+      "All referenced principles (living ideas, narration, short and focused lessons, nature/outdoor experience, habit formation, joyful learning, learning by things, etc.) are present in the provided KG.",
+      "Activities are perfectly matched to the developmental stage (grade 3-5), with brisk pacing, hands-on visual models, and concise oral/written narration.",
+      "Standards are seamlessly integrated; codes are real CCSS 4th grade fraction standards and math practices, and activities address them authentically.",
+      "Lesson is clear, engaging, and ready to use for a homeschool parent, with specific material suggestions, practical tips, and natural transitions.",
+      "Differentiation is specific and meaningful, addressing the needs and readiness of the single child described.",
+      "Distinctive Charlotte Mason elements (living book excerpt, narration, nature/outdoor connection, habit and atmosphere focus) make this lesson unmistakably CM."
+    ],
+    "weaknesses": [
+      "Some lesson sections could further emphasize the 'joy in learning' principle (though it is present in tone).",
+      "Outdoor component, while short and purposeful, could be expanded further to allow for more real-world/nature observation (moon phases, sky, etc.) if time allowed.",
+      "Reflection section could offer more scaffolding for less confident narrators (though the starter sentence helps)."
+    ],
+    "critical_issues": [],
+    "lesson": {
+      "title": "Moon-Mission Fractions: Fuel, Time, and Tiny Decisions",
+      "theme": "space exploration",
+      "estimated_duration_minutes": 60,
+      "philosophy": "charlotte-mason",
+      "children": [
+        {
+          "child_id": "eval-child-3-5",
+          "name": "Jack",
+          "grade": "4",
+          "age": 9,
+          "differentiation_notes": "Keep the lesson brisk and concrete: use a single short reading, then immediate narration. Offer a choice of fraction models (paper strips, circle diagram, or number line) so Jack can show thinking visually. If he\u2019s ready, invite one \u2018extra challenge\u2019 comparison with unlike denominators; if not, keep comparisons to same whole and benchmark fractions (1/2, 1)."
+        }
+      ],
+      "standards_addressed": [
+        {
+          "code": "CCSS.Math.Content.4.NF.B.3",
+          "description_plain": "Your child understands that a fraction like 5/6 is made of five 1/6 pieces added together.",
+          "how_addressed": "Jack builds \u2018fuel fractions\u2019 from unit fractions (1/8, 1/10) and writes them as repeated unit-fraction sums and as a single fraction."
+        },
+        {
+          "code": "CCSS.Math.Content.4.NF.B.3b",
+          "description_plain": "Your child can break a fraction into a sum of smaller fractions with the same bottom number in different ways and show or explain how.",
+          "how_addressed": "Jack decomposes mission fuel fractions (e.g., 7/8) into multiple sums with denominator 8 and records equations to match his visual model."
+        },
+        {
+          "code": "CCSS.Math.Content.4.NF.A.2",
+          "description_plain": "Your child can compare two fractions, use >, =, or <, and explain their thinking with pictures if needed.",
+          "how_addressed": "Jack compares two \u2018mission plans\u2019 by comparing fractions of the same whole fuel tank using benchmarks (1/2, 1) and/or common denominators on fraction strips."
+        },
+        {
+          "code": "CCSS.Math.Practice.MP6",
+          "description_plain": "Your child can use math words and numbers carefully and accurately.",
+          "how_addressed": "Jack labels models, writes clear equations, and states comparisons with correct symbols and complete sentences during narration."
+        },
+        {
+          "code": "CCSS.Math.Practice.MP8",
+          "description_plain": "Your child can notice patterns in math and use them to solve problems more easily.",
+          "how_addressed": "Jack looks for regularity in decompositions (e.g., taking away 1/8 repeatedly; noticing pairs that make 1) and uses that pattern to generate new equations quickly."
+        }
+      ],
+      "materials_needed": [
+        {
+          "name": "A short living-book style excerpt about a space mission (1\u20132 pages) or a well-written article",
+          "household_alternative": "A library book about Apollo missions or a printed NASA/Kids article; choose a narrative passage, not a fact list.",
+          "optional": false
+        },
+        {
+          "name": "Notebook paper (or a math notebook) and pencil",
+          "household_alternative": "Any paper plus a pen; a small whiteboard also works.",
+          "optional": false
+        },
+        {
+          "name": "Scissors",
+          "household_alternative": "Tear paper carefully along folds if you prefer not to use scissors.",
+          "optional": false
+        },
+        {
+          "name": "Ruler or straight edge",
+          "household_alternative": "The edge of a book or a piece of cardboard.",
+          "optional": false
+        },
+        {
+          "name": "Colored pencils/markers (2\u20133 colors)",
+          "household_alternative": "Regular pencil with different shading patterns (dots/stripes).",
+          "optional": true
+        },
+        {
+          "name": "Nature notebook (optional) or a page reserved for sky notes",
+          "household_alternative": "Any small notebook or a folded sheet of paper.",
+          "optional": true
+        }
+      ],
+      "lesson_sections": [
+        {
+          "title": "Opening: A Living Idea\u2014One Short Reading About a Mission",
+          "duration_minutes": 10,
+          "type": "introduction",
+          "indoor_outdoor": "indoor",
+          "instructions": "Choose a short, vivid passage about a space mission (Apollo, Artemis, a rover landing, or an astronaut\u2019s description). Read it aloud once with care and attention\u2014no stopping to explain. Then ask Jack to narrate back what he heard in his own words. Keep your face interested and neutral; let him do the work of recalling. If he pauses, you can say, \u201cGo on,\u201d or \u201cWhat happened next?\u201d but avoid leading questions.\n\nClose by saying: \u201cToday we\u2019re going to do the kind of math mission planners do\u2014thinking in parts of a whole.\u201d",
+          "philosophy_connection": "Charlotte Mason lessons begin with worthy \u2018mind food\u2019 (living ideas) and rely on narration after a single reading to strengthen attention and true knowing.",
+          "tips": [
+            "Pick a passage with a clear sequence (problem \u2192 decision \u2192 outcome). That makes narration easier and more satisfying.",
+            "Stop at 1\u20132 pages even if it\u2019s exciting; the shortness supports full attention."
+          ],
+          "extensions": [
+            "If Jack loves reading independently, let him read the passage silently once and then narrate orally."
+          ]
+        },
+        {
+          "title": "Hands-On Math: Build a \u201cFuel Tank\u201d Fraction Model",
+          "duration_minutes": 15,
+          "type": "exploration",
+          "indoor_outdoor": "indoor",
+          "instructions": "Tell Jack: \u201cWe\u2019ll pretend this strip is the rocket\u2019s fuel tank. Mission Control thinks in fractions of a full tank.\u201d\n\n1) Cut (or fold and tear) a strip of paper about 2\u20133 cm wide.\n2) Label the whole strip as 1 (one full tank).\n3) Fold the strip into 8 equal parts (eighths). Crease well. Unfold and use your ruler to darken the fold lines.\n4) Ask Jack to shade 1/8 in one color and label it \u201c1/8.\u201d Then shade 2/8 and label it \u201c2/8,\u201d continuing until he can see that 8/8 is the whole.\n5) Say: \u201cIf we use 5 pieces of 1/8 fuel, what fraction is that?\u201d Let him point to five shaded eighths and write: 1/8 + 1/8 + 1/8 + 1/8 + 1/8 = 5/8.\n\nKeep the pace brisk\u2014this is model-building, not a craft project.",
+          "philosophy_connection": "Charlotte Mason emphasizes learning \u2018by books and things\u2019\u2014real, simple materials that make an idea visible\u2014while keeping lessons short and purposeful.",
+          "tips": [
+            "If eighths are tricky to fold evenly, fold in half three times (1/2, 1/4, 1/8).",
+            "Have Jack do the labeling; it supports precision (MP6)."
+          ],
+          "extensions": [
+            "Make a second strip in tenths to preview decimals later (10 equal parts)."
+          ]
+        },
+        {
+          "title": "Practice: Decompose Mission Fuel in More Than One Way",
+          "duration_minutes": 15,
+          "type": "practice",
+          "indoor_outdoor": "indoor",
+          "instructions": "Explain: \u201cSometimes a mission uses fuel in stages. The total might be 7/8 of a tank, but it can be spent in different chunks.\u201d\n\nUsing the eighths strip, have Jack choose ONE target fraction from this list (you choose if he needs structure): 5/8, 6/8, or 7/8.\n\nAsk him to show and record at least three different decompositions (same denominator each time). For example, if he picks 7/8, he might write:\n- 7/8 = 1/8 + 1/8 + 1/8 + 1/8 + 1/8 + 1/8 + 1/8\n- 7/8 = 3/8 + 4/8\n- 7/8 = 5/8 + 2/8\n- 7/8 = 6/8 + 1/8\n\nAfter each equation, have him point to the matching parts on the strip and say one precise sentence: \u201cThese parts add to the same whole amount of fuel.\u201d\n\nIf he finishes quickly, invite one \u2018pattern noticing\u2019 question: \u201cWhat do you notice about the pairs that make 7/8? What stays the same?\u201d",
+          "philosophy_connection": "Short, focused practice strengthens habits of attention and exactness; asking for a clear statement mirrors CM\u2019s emphasis on careful, truthful expression.",
+          "tips": [
+            "Require neat, readable fraction writing; stop after a few strong examples rather than many rushed ones.",
+            "If Jack gets stuck, offer one model (e.g., 7/8 = 6/8 + 1/8) and let him generate the next."
+          ],
+          "extensions": [
+            "Challenge: Use 10ths strip (if made) and decompose 7/10 in three ways; discuss how tenths relate to money (dimes) without turning it into a long side-lesson."
+          ]
+        },
+        {
+          "title": "Outdoor Connection: Sky-Measure Walk (Angles as \u2018Turns\u2019 and Fraction Benchmarks)",
+          "duration_minutes": 12,
+          "type": "exploration",
+          "indoor_outdoor": "outdoor",
+          "instructions": "Go outside for fresh air and a change of posture.\n\nTell Jack: \u201cAstronauts and navigators think about turns and directions. A full turn is like a whole.\u201d\n\n1) Stand facing a landmark (tree, mailbox, corner of the yard). Call that direction \u20180.\u2019\n2) Ask Jack to make a half-turn (1/2 turn) and point behind him. Then a quarter-turn (1/4 turn) and point to the side. Then three-quarter turn (3/4) and point.\n3) Now connect it back to fractions: \u201cIf 1 full turn is 1, what fraction is a half-turn? A quarter-turn?\u201d\n4) Finish with one quick comparison: \u201cWhich is greater: 3/4 turn or 5/8 of a turn?\u201d Let him reason using benchmarks: 3/4 = 6/8, so 6/8 > 5/8.\n\nKeep it lively and brief, then head back inside.",
+          "philosophy_connection": "Nature and outdoor experience refresh the mind and train the senses; this short \u2018out-of-door\u2019 interlude supports attention and helps Jack form relationships between math ideas and the real world.",
+          "tips": [
+            "If space allows, let Jack be \u2018Mission Commander\u2019 and give you the turn commands once.",
+            "If it\u2019s not safe to turn with eyes closed, keep eyes open and use slow, deliberate movements."
+          ],
+          "extensions": [
+            "At dusk another day, repeat while spotting the Moon: talk about \u2018half\u2019 and \u2018quarter\u2019 as you notice moon phases (no need for a lecture\u2014just noticing)."
+          ]
+        },
+        {
+          "title": "Reflection: Narration of the Math (Oral, Then One Written Sentence)",
+          "duration_minutes": 8,
+          "type": "reflection",
+          "indoor_outdoor": "indoor",
+          "instructions": "Ask Jack for a short oral narration of today\u2019s math work: \u201cTell me what you learned about fuel fractions and how you can break one fraction into parts.\u201d\n\nThen ask for one written sentence in his notebook (keep it simple and exact). Offer a starter if needed:\n- \u201cI can decompose ___/8 into ___/8 + ___/8 because the parts make the same whole.\u201d\n\nIf he\u2019s willing, have him add one example equation under the sentence, neatly written.",
+          "philosophy_connection": "Narration is the child\u2019s work of assimilation; a brief written component supports habit formation and precise, truthful expression without over-testing.",
+          "tips": [
+            "Accept his own wording; only correct math symbols or unclear fraction notation.",
+            "Stop while it still feels successful\u2014leave him with appetite for next time."
+          ],
+          "extensions": [
+            "Invite a \u2018mission log\u2019 entry: draw the fuel strip and label the fraction used in today\u2019s chosen plan."
+          ]
+        }
+      ],
+      "assessment_suggestions": [
+        "Can Jack represent a fraction like 5/8 as a sum of unit fractions (1/8 repeated) without prompting?",
+        "When asked to decompose 7/8, can he produce at least two different same-denominator equations and match them to his strip model?",
+        "During the outdoor comparison (3/4 vs 5/8), does he justify the comparison using a benchmark or common denominator (e.g., 3/4 = 6/8) and use > correctly?"
+      ],
+      "cleanup_notes": "Collect the fraction strips in an envelope labeled \u201cMission Math Models\u201d so you can reuse them next lesson. Put scissors and ruler away immediately to reinforce the habit of neatness and prompt finishing.",
+      "next_lesson_seeds": [
+        "Make a line plot of \u2018mission measurements\u2019 in 1/8 units (pretend data such as fuel used on 6 practice launches) and solve add/subtract questions from the plot (CCSS 4.MD.B.4).",
+        "Create a \u2018space garden rectangle\u2019 plan: design a small rectangular \u201claunch pad\u201d or \u201chabitat floor\u201d on grid paper and find area/perimeter (4.MD.A.3).",
+        "Move from tenths to hundredths: convert fractions with denominator 10 to denominator 100 and write as decimals (4.NF.C.5, 4.NF.C.6)."
+      ],
+      "philosophy_summary": "This lesson fits a Charlotte Mason approach by beginning with a short, well-written narrative to provide living ideas and then requiring narration after a single reading. The math is presented through simple, concrete \u2018things\u2019 (fraction strips) in short, focused segments, with an outdoor interlude to refresh attention and help Jack form real relationships with the idea of parts and wholes.",
+      "content_hash": null
+    }
+  },
+  {
+    "philosophy": "classical",
+    "grade_band": "3-5",
+    "subject": "Math",
+    "lesson_title": "Mission Fractions: Fuel, Time, and a Precise Launch Plan",
+    "scores": {
+      "philosophy_alignment": 5,
+      "principle_grounding": 5,
+      "age_appropriateness": 5,
+      "standards_integration": 5,
+      "lesson_quality": 5,
+      "differentiation": 5,
+      "philosophy_distinctiveness": 5
+    },
+    "overall_score": 5.0,
+    "hallucinated_principles": [],
+    "strengths": [
+      "Every section explicitly and accurately connects to classical principles such as Trivium structure, language-centered learning, mastery through repetition, notebooking, and Socratic dialogue.",
+      "All referenced principles are directly traceable to the provided KG.",
+      "Activities, pace, and language are precisely targeted to grades 3-5, with support for both foundational and emerging logical reasoning.",
+      "State and practice standards are integrated naturally into the lesson flow, with clear, accurate codes and authentic classroom applications.",
+      "The lesson is engaging, systematic, and ready to use, with clear instructions, differentiation, and assessment suggestions.",
+      "Differentiation for Jack is specific and actionable, including both support and challenge options.",
+      "The lesson is unmistakably classical, with features like copywork, oral recitation, notebooking, and integration of written and spoken reasoning."
+    ],
+    "weaknesses": [
+      "The outdoor, hands-on number line activity is less traditional for classical philosophy, but is justified as supporting disciplined observation and language development.",
+      "A minor point: more explicit use of primary sources or great books could further reinforce classical distinctiveness, though this is not typical in elementary math."
+    ],
+    "critical_issues": [],
+    "lesson": {
+      "title": "Mission Fractions: Fuel, Time, and a Precise Launch Plan",
+      "theme": "space exploration",
+      "estimated_duration_minutes": 60,
+      "philosophy": "classical",
+      "children": [
+        {
+          "child_id": "eval-child-3-5",
+          "name": "Jack",
+          "grade": "4",
+          "age": 9,
+          "differentiation_notes": "Offer a choice of number sizes: keep denominators to 8/10/100 and totals under 2 for confidence, or extend to mixed numbers and more than one valid decomposition for extra challenge. Encourage Jack to speak his reasoning first (logic stage emerging) and then write a clean final solution with correct symbols and labels (precision)."
+        }
+      ],
+      "standards_addressed": [
+        {
+          "code": "CCSS.Math.Content.4.NF.B.3b",
+          "description_plain": "Your child can break a fraction into a sum of smaller fractions with the same bottom number in different ways, and show or explain how they did it.",
+          "how_addressed": "Jack decomposes \u201cfuel fractions\u201d (e.g., 7/8) into multiple sums with like denominators and records each as an equation, supported by a simple visual model."
+        },
+        {
+          "code": "CCSS.Math.Content.4.NF.A.2",
+          "description_plain": "Your child can compare two fractions with different top and bottom numbers by making common denominators or using benchmarks like 1/2, use >, =, or < symbols, and explain their thinking with pictures if needed.",
+          "how_addressed": "Jack compares possible mission plans (e.g., 3/4 vs 5/8 fuel remaining) using benchmarks and/or common denominators, then justifies with a drawn fraction bar."
+        },
+        {
+          "code": "CCSS.Math.Content.4.MD.A.2",
+          "description_plain": "Your child can solve word problems about distance, time, liquid, weight, and money, including those with fractions or decimals, and can show measurements on diagrams like number lines.",
+          "how_addressed": "Jack solves short mission word problems involving elapsed time and \u201cfuel used\u201d fractions, representing quantities with a number line and clear units."
+        },
+        {
+          "code": "CCSS.Math.Practice.MP6",
+          "description_plain": "Your child can use math words and numbers carefully and accurately.",
+          "how_addressed": "Throughout the lesson Jack labels wholes, writes complete equations, uses comparison symbols correctly, and checks that fractions refer to the same whole (the same fuel tank)."
+        },
+        {
+          "code": "CCSS.Math.Practice.MP8",
+          "description_plain": "Your child can notice patterns in math and use them to solve problems more easily.",
+          "how_addressed": "Jack looks for regularity when decomposing fractions (e.g., 7/8 = 1/8+1/8+... and also = 4/8+3/8) and when converting tenths to hundredths."
+        },
+        {
+          "code": "CCSS.Math.Content.4.NF.C.5",
+          "description_plain": "Your child can change a fraction with 10 on the bottom to an equivalent fraction with 100 on the bottom, and use this to add fractions like 3/10 + 4/100.",
+          "how_addressed": "Jack converts \u201csensor accuracy\u201d fractions from tenths to hundredths and adds them to small hundredths values in a mission-readiness check."
+        }
+      ],
+      "materials_needed": [
+        {
+          "name": "Notebook paper",
+          "household_alternative": "Printer paper or a spiral notebook",
+          "optional": false
+        },
+        {
+          "name": "Pencil and eraser",
+          "household_alternative": "Any pen/pencil; use a spare sheet to rewrite neatly if needed",
+          "optional": false
+        },
+        {
+          "name": "Ruler (for fraction bars/number lines)",
+          "household_alternative": "Straight edge like a book spine or a piece of cardboard",
+          "optional": true
+        },
+        {
+          "name": "Index cards (for \u201cmission cards\u201d)",
+          "household_alternative": "Cut-up scrap paper",
+          "optional": true
+        },
+        {
+          "name": "Chalkboard/whiteboard (for parent modeling)",
+          "household_alternative": "Paper in a sheet protector, or a large sheet of paper",
+          "optional": true
+        },
+        {
+          "name": "Outdoor chalk (sidewalk) or tape (for a number line outside)",
+          "household_alternative": "Sticks to draw in dirt, or cones/rocks to mark points",
+          "optional": true
+        }
+      ],
+      "lesson_sections": [
+        {
+          "title": "Grammar Warm-Up: Space Mission Facts as Fraction Language",
+          "duration_minutes": 10,
+          "type": "introduction",
+          "indoor_outdoor": "indoor",
+          "instructions": "Tell Jack: \u201cToday you are Mission Mathematician. Your job is to speak and write fractions precisely so the crew can launch safely.\u201d\n\nOn your board/paper, write and have Jack read aloud (recite) these key terms, then define them in his own words:\n1) numerator, 2) denominator, 3) equivalent fractions, 4) benchmark fractions (1/2, 1).\n\nThen do a quick oral drill (you ask, he answers):\n- \u201cWhat does 7/8 mean in words?\u201d (Seven parts of size one-eighth.)\n- \u201cIf the whole is one fuel tank, what must stay the same when we compare fractions?\u201d (The whole.)\n- \u201cName two fractions equal to 1/2.\u201d (e.g., 4/8, 50/100).\n\nFinish by having Jack copy one neat sentence into his notebook (copywork): \u201cFractions can be compared only when they refer to the same whole.\u201d",
+          "philosophy_connection": "This is the Grammar stage: you provide clear definitions, correct vocabulary, and short recitation to build mental \u2018pegs\u2019 for later reasoning. The copywork reinforces language-centered learning and careful habits.",
+          "tips": [
+            "Keep the pace brisk and confident; stop to correct math vocabulary gently (e.g., say \u201cseven eighths,\u201d not \u201cseven over eight\u201d)."
+          ],
+          "extensions": [
+            "Have Jack memorize a short \u2018fraction creed\u2019 for the week: \u201cSame whole, fair comparison; common denominator, clear decision.\u201d"
+          ]
+        },
+        {
+          "title": "Exploration (Outdoor): Walk the Mission Number Line (0 to 1 Fuel Tank)",
+          "duration_minutes": 15,
+          "type": "exploration",
+          "indoor_outdoor": "outdoor",
+          "instructions": "Go outside and make a long number line from 0 to 1 using chalk or tape. Mark 0, 1/2, and 1 first.\n\nTell Jack the story: \u201cThe rocket has one full fuel tank. We will mark how much fuel is left after different maneuvers.\u201d\n\nNow place and label these points together (let Jack do the marking and labeling): 1/4, 3/4, 1/8, 5/8, 7/8.\n\nAsk Socratic-style questions as he works:\n- \u201cHow do you know 5/8 is greater than 1/2 without calculating?\u201d\n- \u201cWhere would 4/8 go? Why?\u201d\n- \u201cIf 3/4 and 6/8 land on the same spot, what does that tell us?\u201d\n\nEnd by having Jack stand at 1 and step backward to 7/8, then to 3/4, narrating in words: \u201cI used 1/8, then I used 1/8 again,\u201d etc.",
+          "philosophy_connection": "Although classical learning is word-centered, this outdoor component supports disciplined observation and clear mathematical speech: Jack must label, place, and justify. Your guided questioning begins the Logic stage gently while staying concrete.",
+          "tips": [
+            "If space is short, do a smaller line (0 to 1) with fewer points; accuracy of placement matters more than quantity."
+          ],
+          "extensions": [
+            "Add a second line marked in tenths (0/10 to 10/10) and discuss which markings are \u2018easier\u2019 to place and why."
+          ]
+        },
+        {
+          "title": "Practice: Fuel Decompositions (Many True Equations for One Fraction)",
+          "duration_minutes": 20,
+          "type": "practice",
+          "indoor_outdoor": "indoor",
+          "instructions": "Back inside, tell Jack: \u201cMission Control needs multiple safe ways to plan fuel use. Your job is to show different true decompositions.\u201d\n\n1) Choose one target fraction (start with 7/8). Have Jack draw a simple fraction bar divided into 8 equal parts and shade 7.\n2) Ask him to write at least three different decompositions as equations with like denominators. For example:\n- 7/8 = 1/8 + 1/8 + 1/8 + 1/8 + 1/8 + 1/8 + 1/8\n- 7/8 = 4/8 + 3/8\n- 7/8 = 5/8 + 2/8\n3) After each equation, require a brief justification sentence: \u201cThis works because 4 eighths and 3 eighths make 7 eighths.\u201d\n\nRepeat with one more fraction (e.g., 5/6 or 9/10) if time allows.\n\nAs you coach, insist on precision: same denominator, correct equals sign usage, and clear handwriting.",
+          "philosophy_connection": "This section is systematic skill-building (mastery through repetition and review). It moves from Grammar (what the symbols mean) into Logic (why the equations must be true) and requires written expression aligned with classical rigor.",
+          "tips": [
+            "If Jack gets stuck, prompt with a question: \u201cWhat pair of numbers adds to 7?\u201d then place those over 8."
+          ],
+          "extensions": [
+            "Challenge: require two decompositions that use three addends (e.g., 7/8 = 1/8 + 2/8 + 4/8) and have Jack explain how he found them."
+          ]
+        },
+        {
+          "title": "Logic & Rhetoric Mini-Task: Choose the Best Mission Plan (Compare and Argue)",
+          "duration_minutes": 10,
+          "type": "reflection",
+          "indoor_outdoor": "indoor",
+          "instructions": "Present two mission options and have Jack decide which is safer, then defend his answer with math.\n\nWrite this scenario:\n\u201cPlan A leaves 3/4 of the fuel. Plan B leaves 5/8 of the fuel. Which plan leaves more fuel for the return trip?\u201d\n\nHave Jack:\n1) Record the comparison using a symbol (>, <, or =).\n2) Justify in one of two acceptable ways:\n- Benchmark method: compare each to 1/2 and to 1.\n- Common denominator method: rewrite 3/4 as 6/8, then compare 6/8 to 5/8.\n3) Give a short spoken \u2018Mission Control report\u2019 (30 seconds): \u201cI recommend Plan __ because\u2026\u201d.\n\nIf there\u2019s time, add a quick decimals readiness check:\n\u201cSensor accuracy improved by 3/10 plus 4/100. What is the total improvement?\u201d Have Jack convert 3/10 to 30/100 and add.",
+          "philosophy_connection": "This is classical Logic and early Rhetoric: Jack must not only compute, but also argue clearly and briefly. The oral report strengthens language-centered learning and trains careful reasoning rather than guesswork.",
+          "tips": [
+            "Ask him to include the phrase \u201cthe same whole fuel tank\u201d in his explanation to reinforce valid comparisons."
+          ],
+          "extensions": [
+            "Have Jack critique a wrong argument you present (gently): \u201cSomeone says 5/8 is bigger than 3/4 because 5 is bigger than 3.\u201d Ask him to explain what is wrong and correct it."
+          ]
+        },
+        {
+          "title": "Transition: Notebooking and Orderly Wrap-Up",
+          "duration_minutes": 5,
+          "type": "transition",
+          "indoor_outdoor": "indoor",
+          "instructions": "Have Jack date the page and title it \u201cMission Fractions.\u201d Ask him to choose his neatest fraction bar and his best comparison explanation and box them as his \u2018final report.\u2019\n\nClose with a quick recitation (you prompt, he answers):\n- \u201cTo compare fractions fairly, we must have the same ____.\u201d (whole)\n- \u201cTo add fractions with like denominators, we add the ____.\u201d (numerators)\n\nTell him specifically what he did well (precision, perseverance, clear explanation) and what to practice next time (one concrete target, like lining up denominators or writing cleaner fraction bars).",
+          "philosophy_connection": "Classical education values order, record-keeping, and mastery. This short notebooking step creates a durable record and reinforces disciplined habits and clear expression.",
+          "tips": [
+            "If handwriting is messy, let him rewrite only the boxed \u2018final report\u2019 rather than the whole page."
+          ],
+          "extensions": [
+            "Start a simple \u201cSpace Math\u201d section in a binder and add one boxed example per lesson to build a portfolio over time."
+          ]
+        }
+      ],
+      "assessment_suggestions": [
+        "Ask Jack to explain (without help) why 3/4 = 6/8 using a drawing or words, and listen for correct use of \u201csame whole\u201d and \u201cequal parts.\u201d",
+        "Give one fresh decomposition prompt: \u201cWrite two different equations that equal 9/10 using tenths.\u201d Check for like denominators and correct totals.",
+        "Present a quick comparison: \u201cWhich is larger, 7/8 or 4/5?\u201d Look for a reasonable strategy (benchmarking or common denominators) and a justified symbol choice."
+      ],
+      "cleanup_notes": "Bring in any outdoor markers/chalk, erase or remove tape if needed, and file the boxed notebook page in Jack\u2019s math binder. If you used index cards, keep them as a \u2018mission deck\u2019 for warm-ups next time.",
+      "next_lesson_seeds": [
+        "Angle training for spacecraft turns: measure and sketch angles with a protractor (connect to degrees as 1/360 of a circle).",
+        "Mission timeline math: elapsed time word problems with launch windows and checkpoints, using number lines.",
+        "Line plots of \u2018meteor sample sizes\u2019 measured in 1/8 units, then add/subtract fractions using the plot."
+      ],
+      "philosophy_summary": "This lesson follows the classical Trivium by grounding Jack first in clear fraction vocabulary and facts (Grammar), then requiring justified comparisons and decompositions (Logic), and finally asking for a brief spoken and written recommendation (Rhetoric). The work is systematic, practice-rich, and language-centered, emphasizing precision, orderly notebooking, and disciplined reasoning.",
+      "content_hash": null
+    }
+  },
+  {
+    "philosophy": "montessori-inspired",
+    "grade_band": "3-5",
+    "subject": "Math",
+    "lesson_title": "Mission Fractions: Fuel Cells for a Spacecraft",
+    "scores": {
+      "philosophy_alignment": 5,
+      "principle_grounding": 5,
+      "age_appropriateness": 5,
+      "standards_integration": 5,
+      "lesson_quality": 5,
+      "differentiation": 5,
+      "philosophy_distinctiveness": 5
+    },
+    "overall_score": 5.0,
+    "hallucinated_principles": [],
+    "strengths": [
+      "Every lesson section explicitly connects to authentic Montessori principles from the KG.",
+      "Choice, prepared environment, hands-on materials, and child agency are foregrounded throughout.",
+      "All referenced principles are present in the KG (e.g., Prepared Environment, Control of Error, Learning Through Movement, Auto-education).",
+      "Activities, language, and duration are perfectly suited for grades 3-5, with rich use of concrete and abstract representations.",
+      "Standards are seamlessly woven in, with real CCSS codes and authentic integration into lesson tasks.",
+      "Differentiation is specific, actionable, and child-centered\u2014even for a single learner.",
+      "Lesson is engaging, clear, and provides a complete, meaningful arc, including tips, extensions, and reflective closure.",
+      "The Montessori-inspired character is unmistakable and would be distinct from lessons based on other philosophies."
+    ],
+    "weaknesses": [
+      "None identified; all evaluation dimensions are exemplary."
+    ],
+    "critical_issues": [],
+    "lesson": {
+      "title": "Mission Fractions: Fuel Cells for a Spacecraft",
+      "theme": "space exploration",
+      "estimated_duration_minutes": 60,
+      "philosophy": "montessori-inspired",
+      "children": [
+        {
+          "child_id": "eval-child-3-5",
+          "name": "Jack",
+          "grade": "4",
+          "age": 9,
+          "differentiation_notes": "Offer Jack choice in tools (fraction strips, paper folding, or LEGO/blocks). Let him select challenge level (like denominators 4/6/8 vs. adding tenths/hundredths). Encourage independent checking with models before asking you."
+        }
+      ],
+      "standards_addressed": [
+        {
+          "code": "CCSS.Math.Content.4.NF.B.3",
+          "description_plain": "Your child understands that a fraction like 5/6 is made of five 1/6 pieces added together.",
+          "how_addressed": "Jack builds a 'fuel bar' from unit fraction pieces (e.g., 1/8 tiles) and records repeated unit-fraction sums."
+        },
+        {
+          "code": "CCSS.Math.Content.4.NF.B.3b",
+          "description_plain": "Your child can break a fraction into a sum of smaller fractions with the same bottom number in different ways, and show or explain how they did it.",
+          "how_addressed": "Jack decomposes a target fuel amount (e.g., 6/8) into multiple same-denominator sums (1/8+5/8, 3/8+3/8, 2/8+2/8+2/8) and justifies with a visual model."
+        },
+        {
+          "code": "CCSS.Math.Content.4.NF.A.2",
+          "description_plain": "Your child can compare two fractions by using benchmarks like 1/2 or common denominators, use >, =, or <, and explain their thinking with pictures if needed.",
+          "how_addressed": "Jack compares two 'mission plans' (fraction fuel loads) using a fraction strip/number line and records comparisons with symbols."
+        },
+        {
+          "code": "CCSS.Math.Practice.MP6",
+          "description_plain": "Your child can use math words and numbers carefully and accurately.",
+          "how_addressed": "Jack labels wholes, denominators, and equivalences precisely and checks that comparisons refer to the same whole fuel bar."
+        },
+        {
+          "code": "CCSS.Math.Practice.MP8",
+          "description_plain": "Your child can notice patterns in math and use them to solve problems more easily.",
+          "how_addressed": "Jack notices regularity when building with unit fractions (e.g., two 1/8 make 2/8; four 1/8 make 4/8 = 1/2) and uses it to decompose quickly."
+        }
+      ],
+      "materials_needed": [
+        {
+          "name": "Paper strips or index cards (for making fraction strips)",
+          "household_alternative": "Printer paper cut into strips, sticky notes, or recycled cereal-box cardboard",
+          "optional": false
+        },
+        {
+          "name": "Scissors",
+          "household_alternative": "Tear strips carefully by folding and creasing",
+          "optional": false
+        },
+        {
+          "name": "Pencil + colored pencils/markers",
+          "household_alternative": "Pen and any coloring tool",
+          "optional": false
+        },
+        {
+          "name": "Ruler (optional but helpful for equal parts)",
+          "household_alternative": "Edge of a book, a tape measure, or folding to create equal parts",
+          "optional": true
+        },
+        {
+          "name": "Small manipulatives (LEGO bricks, beads, buttons) to represent unit fractions",
+          "household_alternative": "Coins, bottle caps, dried beans, or small paper squares",
+          "optional": true
+        },
+        {
+          "name": "Chalk or sidewalk chalk (for outdoor number line)",
+          "household_alternative": "Painter\u2019s tape on a driveway/patio, or a stick to draw in dirt/sand",
+          "optional": true
+        }
+      ],
+      "lesson_sections": [
+        {
+          "title": "Prepared Environment: Set Up the Mission Control Shelf",
+          "duration_minutes": 10,
+          "type": "introduction",
+          "indoor_outdoor": "indoor",
+          "instructions": "Invite Jack to help you prepare a simple \u201cMission Control\u201d work area. Put materials on a tray or in a basket: paper strips, scissors, pencil, and coloring tools. Tell him: \u201cToday you\u2019ll choose how to show spacecraft fuel using fractions.\u201d Give him two or three tool options (fraction strips, paper folding, or manipulatives). Ask him to pick one as his main tool and one as a backup. Then agree on a clear work boundary (a mat, placemat, or a section of the table) and a quiet signal if either of you needs a pause.",
+          "philosophy_connection": "This creates a prepared environment and supports independence and child agency\u2014Jack chooses materials and sets up an orderly workspace that makes self-correction easier.",
+          "tips": [
+            "Keep extra paper strips and a scrap pile nearby so mistakes feel easy to fix without adult rescue."
+          ],
+          "extensions": [
+            "Add a \u201cmission log\u201d page where Jack can date the work and title it like a scientist."
+          ]
+        },
+        {
+          "title": "Concrete Material: Build a 'Fuel Bar' Whole and Unit Fractions",
+          "duration_minutes": 15,
+          "type": "exploration",
+          "indoor_outdoor": "indoor",
+          "instructions": "Tell Jack the spacecraft has one full fuel bar (the whole). Hand him one long strip and label it \u201c1 whole fuel bar.\u201d Ask him to choose a denominator to work with today: 4, 6, 8, or 10 (offer these and let him decide). Then help only as needed while he creates matching fraction strips.\n\nOption A (fraction strips): He makes a second strip the same length, folds it into equal parts (e.g., 8), creases, and cuts to make unit pieces (each is 1/8). He labels a few pieces clearly.\n\nOption B (manipulatives): He lines up 8 identical objects to represent 8 equal parts of the fuel bar. One object = 1/8.\n\nOnce he has unit pieces, invite him to physically build 1/2 and 1/4 (or other benchmarks) by combining unit pieces. Ask: \u201cHow many unit pieces make one-half of the fuel bar? How do you know?\u201d",
+          "philosophy_connection": "This follows Montessori\u2019s concrete-to-abstract progression and isolation of difficulty: Jack focuses on unit fractions and equivalence using hands-on, self-checking materials.",
+          "tips": [
+            "If equal folding is frustrating, quietly model folding one strip, then let him repeat on a fresh strip."
+          ],
+          "extensions": [
+            "Have Jack create a labeled fraction strip set for 1/2, 1/3, 1/4, 1/5, 1/6, 1/8, 1/10 over multiple days and store it in an envelope."
+          ]
+        },
+        {
+          "title": "Mission Task: Decompose Fuel Loads in More Than One Way",
+          "duration_minutes": 15,
+          "type": "practice",
+          "indoor_outdoor": "indoor",
+          "instructions": "Explain the mission needs a specific fuel load for launch, like 6/8 of a tank (or choose a target that fits his denominator). Let Jack pick 1 target fraction from a short menu you write: for eighths (5/8, 6/8, 7/8) or for sixths (4/6, 5/6). \n\nNow challenge him to show at least three different decompositions using the same denominator, and to record each as an equation.\n\nExample prompts you can offer (but let him do the thinking):\n- \u201cCan you make it as 1/8 + something?\u201d\n- \u201cCan you split it into two equal parts?\u201d\n- \u201cCan you make it using three addends?\u201d\n\nHe builds each decomposition with pieces, lines them up on the whole strip to self-check, then writes the equation (e.g., 6/8 = 1/8 + 5/8; 6/8 = 3/8 + 3/8; 6/8 = 2/8 + 2/8 + 2/8). Ask him to circle the decomposition that feels most \u2018mission-efficient\u2019 and explain why (fewer pieces, easier to assemble, etc.).",
+          "philosophy_connection": "Jack repeats a purposeful task with control of error (the pieces must match the whole). He practices scientific reasoning by testing and recording multiple solutions.",
+          "tips": [
+            "If he writes an equation that doesn\u2019t match his model, point him back to the pieces: \u201cCheck it with your fuel tiles first.\u201d"
+          ],
+          "extensions": [
+            "Add a mixed-number mission: make 1 and 3/8 fuel bars and decompose the fractional part in two ways (like 3/8 = 1/8 + 2/8)."
+          ]
+        },
+        {
+          "title": "Outdoor Component: Astronaut Fraction Walk (Number Line Comparisons)",
+          "duration_minutes": 10,
+          "type": "exploration",
+          "indoor_outdoor": "outdoor",
+          "instructions": "Go outside with chalk (or tape) and draw a long number line from 0 to 1. Mark 0, 1/2, and 1 clearly. Ask Jack to choose the same denominator he used indoors and mark the partitions (e.g., eighths). \n\nGive him two \u201cmission plans\u201d to compare, or let him invent them (for example: Plan A uses 5/8 fuel, Plan B uses 2/3 fuel\u2014if you used eighths, you can instead compare 5/8 and 6/8). He stands on each fraction point to compare physically. Then he records the comparison with a symbol: >, <, or =.\n\nAsk the key precision question: \u201cAre these fractions talking about the same whole?\u201d Point to the 0-to-1 line to reinforce that the whole is fixed.",
+          "philosophy_connection": "Movement supports cognition (learning through movement). The outdoor environment adds freshness and observation while keeping the math structure clear and self-checkable on the number line.",
+          "tips": [
+            "If space is limited, make a smaller number line and use a toy astronaut/LEGO figure to \u2018stand\u2019 on the fractions."
+          ],
+          "extensions": [
+            "Compare using the benchmark 1/2: \u201cWhich is closer to 1/2, 3/8 or 5/8? How can you tell on the line?\u201d"
+          ]
+        },
+        {
+          "title": "Reflection & Mission Log: What Patterns Did You Notice?",
+          "duration_minutes": 10,
+          "type": "reflection",
+          "indoor_outdoor": "indoor",
+          "instructions": "Back inside, invite Jack to do a short mission log entry. Keep it brief and child-led: ask him to write (or tell you and you write) 2\u20133 sentences answering:\n1) \u201cWhat was your target fuel fraction today?\u201d\n2) \u201cShow one decomposition you\u2019re proud of.\u201d\n3) \u201cWhat pattern did you notice when adding unit fractions?\u201d\n\nIf he\u2019s willing, have him choose one equation and illustrate it with a neat bar model (rectangle divided into equal parts) to connect concrete pieces to an abstract drawing.",
+          "philosophy_connection": "This respects the child\u2019s work cycle and supports auto-education: Jack consolidates learning by choosing what to record and by translating from hands-on to representation.",
+          "tips": [
+            "Use neutral language: \u201cShow me your evidence,\u201d rather than \u201cThat\u2019s right/wrong,\u201d to keep intrinsic motivation strong."
+          ],
+          "extensions": [
+            "Create a small display folder labeled \u201cSpace Math,\u201d and let Jack decide which page to file as his \u2018best work.\u2019"
+          ]
+        }
+      ],
+      "assessment_suggestions": [
+        "Can Jack build a target fraction from unit pieces and explain it as repeated addition of 1/b (e.g., 6/8 is six 1/8 pieces)?",
+        "When asked to decompose a fraction (like 6/8), can Jack find at least two different same-denominator sums and verify each with his model?",
+        "Can Jack compare two fractions that refer to the same whole using a number line or fraction strips and correctly use >, <, or = with a brief justification?"
+      ],
+      "cleanup_notes": "Have Jack restore the prepared environment: stack fraction strips in an envelope labeled with the denominator, return tools to the tray, and recycle scraps. A quick photo of his best decomposition before cleanup can preserve the work without keeping everything out.",
+      "next_lesson_seeds": [
+        "Equivalent fractions as \u201cdifferent-sized fuel tiles\u201d: show that 1/2 = 4/8 by overlaying strips, then generate more equivalents.",
+        "Decimal mission upgrade: connect tenths and hundredths (e.g., 3/10 = 30/100) and compare decimal fuel readings.",
+        "Angle navigation: use a protractor to measure \u2018turn angles\u2019 for a rover route and connect angles to fractions of a full 360\u00b0 turn."
+      ],
+      "philosophy_summary": "This lesson fits a Montessori-inspired approach by offering Jack meaningful choice, a prepared environment, and hands-on materials that provide control of error. He moves from concrete fraction pieces to number-line and drawn models (concrete-to-abstract) while you primarily observe and guide lightly, supporting independence and deep concentration.",
+      "content_hash": null
+    }
+  },
+  {
+    "philosophy": "place-nature-based",
+    "grade_band": "3-5",
+    "subject": "Math",
+    "lesson_title": "Backyard Mission Control: Fraction Fuel & Orbit Patterns",
+    "scores": {
+      "philosophy_alignment": 5,
+      "principle_grounding": 5,
+      "age_appropriateness": 5,
+      "standards_integration": 5,
+      "lesson_quality": 5,
+      "differentiation": 5,
+      "philosophy_distinctiveness": 5
+    },
+    "overall_score": 5.0,
+    "hallucinated_principles": [],
+    "strengths": [
+      "Every section is deeply rooted in place-nature-based philosophy, with specific, traceable principles from the KG (direct experience, place-based, student autonomy, respect for nature, wonder, learning through doing, etc.).",
+      "Clear, developmentally appropriate activities with hands-on, outdoor math explorations, and language/pacing suitable for grades 3-5.",
+      "Standards are authentic, well-integrated, and mapped directly to the lesson\u2019s math activities.",
+      "Instructions are clear, engaging, and provide a full arc from introduction through reflection. The lesson is highly usable for homeschoolers.",
+      "Differentiation is specific to the individual child (Jack), offering both scaffolding and challenge options.",
+      "Lesson would be easily distinguished from generic or other philosophy-based lessons\u2014it is unmistakably place-nature-based."
+    ],
+    "weaknesses": [
+      "Lesson is designed for a single student, so differentiation is only demonstrated for one profile (though very well-targeted).",
+      "Some families with limited outdoor space or poor weather may need more explicit indoor adaptations.",
+      "The heavy place-nature-based focus might make it less accessible for families without safe outdoor access, though some household alternatives are suggested."
+    ],
+    "critical_issues": [],
+    "lesson": {
+      "title": "Backyard Mission Control: Fraction Fuel & Orbit Patterns",
+      "theme": "space exploration",
+      "estimated_duration_minutes": 60,
+      "philosophy": "place-nature-based",
+      "children": [
+        {
+          "child_id": "eval-child-3-5",
+          "name": "Jack",
+          "grade": "4",
+          "age": 9,
+          "differentiation_notes": "Offer choice and autonomy: let Jack pick the 'planet' (tree/shrub/rock) and the scale. If he\u2019s ready, push toward multiple decompositions and justifications; if he\u2019s frustrated, keep denominators the same (e.g., eighths) and use physical models (sticks/pebbles) before equations."
+        }
+      ],
+      "standards_addressed": [
+        {
+          "code": "CCSS.Math.Content.4.NF.B.3b",
+          "description_plain": "Your child can break a fraction into a sum of smaller fractions with the same bottom number in different ways, and show or explain how they did it.",
+          "how_addressed": "Jack builds a 'fuel tank' fraction using natural objects and decomposes it multiple ways (e.g., 6/8 = 1/8+1/8+1/8+1/8+1/8+1/8 and 6/8 = 4/8+2/8), recording equations and matching them to a visual model."
+        },
+        {
+          "code": "CCSS.Math.Content.4.NF.A.2",
+          "description_plain": "Your child can compare two fractions with different top and bottom numbers by making common denominators or using benchmarks like 1/2, use >, =, or < symbols, and explain their thinking with pictures if needed.",
+          "how_addressed": "Jack compares 'fuel options' (fractions) for different mission legs, using benchmarks (1/2, 1) and/or common denominators, then justifies with a drawn or object-based model."
+        },
+        {
+          "code": "CCSS.Math.Content.4.OA.C.5",
+          "description_plain": "Your child can make number or shape patterns by following a rule and can notice things about the pattern that aren't directly stated in the rule.",
+          "how_addressed": "Jack creates an outdoor 'orbit path' pattern using a rule (e.g., step lengths or turns) and identifies features that emerge (repeats, symmetry, growth)."
+        },
+        {
+          "code": "CCSS.Math.Practice.MP8",
+          "description_plain": "Your child can notice patterns in math and use them to solve problems more easily.",
+          "how_addressed": "Jack looks for repeated reasoning while decomposing equivalent fractions and while extending his orbit pattern rule, explaining shortcuts he notices."
+        },
+        {
+          "code": "CCSS.Math.Practice.MP6",
+          "description_plain": "Your child can use math words and numbers carefully and accurately.",
+          "how_addressed": "Jack labels the 'whole' clearly (the full fuel tank / full orbit loop), uses correct fraction notation, and checks that comparisons refer to the same whole."
+        }
+      ],
+      "materials_needed": [
+        {
+          "name": "Nature journal or notebook + pencil",
+          "household_alternative": "Printer paper on a clipboard or a few sheets stapled together",
+          "optional": false
+        },
+        {
+          "name": "Loose parts (pebbles, acorns, leaves) to use as counters",
+          "household_alternative": "Coins, beans, LEGO pieces, or pasta",
+          "optional": false
+        },
+        {
+          "name": "Chalk (sidewalk or driveway) or a stick for drawing in dirt",
+          "household_alternative": "Masking tape indoors to mark lines on the floor",
+          "optional": false
+        },
+        {
+          "name": "Measuring tape or ruler",
+          "household_alternative": "A piece of string + a ruler (measure the string afterward) or pacing with consistent steps",
+          "optional": true
+        },
+        {
+          "name": "Small container or cup (for 'fuel tank')",
+          "household_alternative": "A bowl, a muffin tin cup, or a drawn circle on paper",
+          "optional": true
+        }
+      ],
+      "lesson_sections": [
+        {
+          "title": "Mission Briefing: Choose Your Launch Site (and Your \u2018Whole\u2019)",
+          "duration_minutes": 10,
+          "type": "introduction",
+          "indoor_outdoor": "outdoor",
+          "instructions": "Head outside with Jack and tell him you\u2019re setting up a space exploration mission using your own local \u2018launch site.\u2019 Invite him to choose one outdoor landmark to be a planet (a tree, a big rock, a garden bed) and one flat area to be Mission Control (driveway, patio, sidewalk). Then set the key math rule for the day: you must always agree on what counts as ONE WHOLE. Decide together what the \u2018whole\u2019 will be for fuel\u2014either (a) 8 pebbles = a full fuel tank, or (b) 12 pebbles = a full fuel tank (let Jack choose). Have him write in his journal: \u201cWhole fuel tank = ___ pieces.\u201d",
+          "philosophy_connection": "You begin with direct experience in a familiar outdoor place, building attachment to place and grounding abstract fraction ideas in sensory, hands-on choices Jack makes.",
+          "tips": [
+            "If Jack struggles with fractions, pick 8 pieces for the whole so eighths are easy to see and build.",
+            "Use language like \u201cOur backyard is our spaceport today\u201d to boost imaginative buy-in."
+          ],
+          "extensions": [
+            "Do a 60-second quiet \u2018astronaut scan\u2019: listen for sounds, feel the wind, notice light/shadows\u2014then name one \u2018space weather\u2019 observation."
+          ]
+        },
+        {
+          "title": "Fuel Tank Fractions: Build, Decompose, and Prove It",
+          "duration_minutes": 20,
+          "type": "exploration",
+          "indoor_outdoor": "outdoor",
+          "instructions": "Have Jack collect the exact number of loose parts that equals one whole fuel tank (8 or 12). Ask him to arrange them in a neat line or circle and label it \u201c1 whole.\u201d Now give him a mission: \u201cLoad 6/8 fuel\u201d (or \u201c9/12 fuel,\u201d depending on your chosen whole). He builds that fraction by moving the correct number of pieces into a \u2018fuel tank\u2019 area (a cup/bowl or a circle you draw with chalk).\n\nNext, challenge him to break that same fuel amount into different addends with the same denominator. Example prompts (adjust to your denominator):\n- \u201cShow 6/8 as a sum of unit fractions (1/8 pieces). Write the equation.\u201d\n- \u201cShow 6/8 as 4/8 + 2/8. Write it.\u201d\n- \u201cFind a third way.\u201d\nEach time, have him physically group the pieces to match the decomposition and record the matching equation in his journal. Ask him to justify: \u201cHow do you know these are equal amounts of fuel?\u201d Encourage him to point to the model while explaining.",
+          "philosophy_connection": "Jack learns through doing\u2014touching, grouping, and rearranging natural objects\u2014while wonder and imaginative play (fuel for a spacecraft) keep the math meaningful and embodied.",
+          "tips": [
+            "Keep denominators consistent within this section so the focus stays on decomposition and equivalence.",
+            "If he writes an equation incorrectly, ask him to \u2018debug the mission\u2019 by checking it against the pieces rather than correcting it immediately."
+          ],
+          "extensions": [
+            "Switch the mission fuel to a mixed number with like denominators (e.g., 1 2/8) using a second \u2018tank\u2019 of 8 pieces and decompose the fractional part."
+          ]
+        },
+        {
+          "title": "Fuel Choice Challenge: Compare Fractions for Two Mission Legs",
+          "duration_minutes": 15,
+          "type": "practice",
+          "indoor_outdoor": "outdoor",
+          "instructions": "Set up two \u201cmission legs\u201d around your chosen planet landmark:\n- Leg A: a short route from Mission Control to the planet.\n- Leg B: a longer route that loops around the planet and returns.\n\nTell Jack each leg requires a fuel fraction. Give him two options to compare, making sure they refer to the same whole fuel tank you defined earlier. Choose one pair that is close to 1/2 and one pair that is close to 1. Examples:\n- Compare 3/8 and 5/12 (if your whole is 12, use 4/12 and 5/12 instead; keep it manageable).\n- Compare 6/8 and 9/12 (great for noticing equivalence).\n\nHave him:\n1) Build each fraction with loose parts.\n2) Decide which is greater using >, <, or =.\n3) Justify using either a benchmark (1/2, 1) or by converting to a common denominator (you can support with questions like, \u201cWhat would both be out of 24?\u201d).\n\nFinish by letting him choose which fuel option he\u2019d pack for the longer leg and explain why.",
+          "philosophy_connection": "You\u2019re using the local environment as the \u2018mission map\u2019 while keeping the learning student-centered: Jack chooses routes and argues for the best fuel plan using real models in nature.",
+          "tips": [
+            "If common denominators feel heavy today, lean on benchmarks: \u2018Which is closer to half? Which is closer to full?\u2019",
+            "Keep the tone playful: he\u2019s an engineer making a safety decision."
+          ],
+          "extensions": [
+            "Add a constraint: \u201cYou must save at least 1/8 of a tank for emergencies.\u201d Have him test which options meet the rule."
+          ]
+        },
+        {
+          "title": "Orbit Pattern Walk: Make a Rule, Record the Pattern, Spot the Structure",
+          "duration_minutes": 10,
+          "type": "exploration",
+          "indoor_outdoor": "outdoor",
+          "instructions": "Use chalk (or a stick in dirt) to mark a starting point as \u201cLaunch Pad.\u201d Tell Jack you\u2019re designing an \u2018orbit path\u2019 pattern a rover could follow. He creates a simple rule-based pattern using steps and turns, such as:\n- \u201cWalk 3 steps forward, turn right, walk 2 steps, turn right, repeat.\u201d\nOR\n- \u201cEach loop adds 1 step: 2 steps, 3 steps, 4 steps, 5 steps\u2026\u201d\n\nHave him do the pattern for at least 4 repeats while you watch for safety. Then pause and ask him to record the pattern as a number sequence (e.g., 2,3,4,5) or as repeated instructions. Ask: \u201cWhat stays the same each time? What changes? What do you predict will happen on the next repeat?\u201d Encourage precise language (steps, turns, repeats).",
+          "philosophy_connection": "This is unstructured outdoor play with a math spine\u2014Jack\u2019s body becomes a measurement tool, and repeated reasoning emerges naturally from movement in a real place.",
+          "tips": [
+            "If space is small, shrink the steps or use tiles/sidewalk squares as \u2018steps.\u2019",
+            "Let Jack be the designer; you be the \u2018mission recorder\u2019 if he\u2019d rather talk than write."
+          ],
+          "extensions": [
+            "Have him look for symmetry or a repeating loop and label it as a \u2018cycle\u2019 in his pattern."
+          ]
+        },
+        {
+          "title": "Astronaut Debrief: What Did We Prove Today?",
+          "duration_minutes": 5,
+          "type": "reflection",
+          "indoor_outdoor": "both",
+          "instructions": "Find a comfortable outdoor spot (or come inside if needed). Ask Jack to answer (spoken or written):\n1) \u201cWhat does the denominator mean in our fuel tank model?\u201d\n2) \u201cShow me one fraction you decomposed in two different ways.\u201d\n3) \u201cWhat pattern did you make for the orbit walk, and what did you predict next?\u201d\nClose by having him name one thing he noticed about your outdoor \u2018spaceport\u2019 today (a bird call, a cloud shape, a cool rock) to keep wonder connected to learning.",
+          "philosophy_connection": "Reflection strengthens attention and meaning-making, tying math learning to sensory experience and cultivating wonder in the local environment.",
+          "tips": [
+            "If he\u2019s tired, keep it to one strong explanation and one quick sketch."
+          ],
+          "extensions": [
+            "Invite him to teach the fuel model to another family member as the \u2018new astronaut trainee.\u2019"
+          ]
+        }
+      ],
+      "assessment_suggestions": [
+        "Ask Jack to model 6/8 (or 9/12) with objects, then write two different decomposition equations that match his model.",
+        "Give two fractions that refer to the same whole (e.g., 3/8 and 4/12) and have him decide >, <, or = and explain using either a benchmark or a common denominator.",
+        "Listen for precision: Does he consistently state what the whole is and keep comparisons valid by referring to the same whole?"
+      ],
+      "cleanup_notes": "Have Jack return all natural loose parts to where he found them (or place them gently under a tree) to practice respect for nature. If you used chalk, decide together whether to leave the orbit path for tomorrow\u2019s play or rinse it away as a \u2018mission reset.\u2019",
+      "next_lesson_seeds": [
+        "Create a line plot of \u2018moon rock\u2019 (pebble) lengths measured to the nearest 1/4 inch, then answer fraction addition/subtraction questions from the plot (connects to 4.MD.B.4).",
+        "Design a rectangular \u2018solar panel field\u2019 on the driveway with chalk and compute area/perimeter; compare two designs for efficiency (connects to 4.MD.A.3).",
+        "Stargazing math night: estimate and then count visible stars in a section of sky; scale up to estimate a larger area (modeling with mathematics)."
+      ],
+      "philosophy_summary": "This lesson fits a place-nature-based approach by using your own outdoor space as the primary classroom and by grounding fractions and patterns in direct, hands-on interaction with natural materials. Jack\u2019s autonomy in choosing landmarks, rules, and representations supports student-centered, experiential learning while cultivating wonder and a positive bond with local nature.",
+      "content_hash": null
+    }
+  },
+  {
+    "philosophy": "project-based-learning",
+    "grade_band": "3-5",
+    "subject": "Math",
+    "lesson_title": "Mission Control Math: Design a Space Supply Plan",
+    "scores": {
+      "philosophy_alignment": 5,
+      "principle_grounding": 5,
+      "age_appropriateness": 5,
+      "standards_integration": 5,
+      "lesson_quality": 5,
+      "differentiation": 5,
+      "philosophy_distinctiveness": 5
+    },
+    "overall_score": 5.0,
+    "hallucinated_principles": [],
+    "strengths": [
+      "Every section clearly cites and exemplifies project-based learning (PBL) principles, including driving questions, authentic assessment, extended inquiry, critique & revision, and real-world relevance.",
+      "All referenced principles are explicitly found in the provided KG and are applied in context.",
+      "Activities, language, and expectations are perfectly calibrated for upper elementary (grades 3-5), with scaffolding and options to increase or decrease complexity.",
+      "Standards are not only correctly coded and real but also deeply woven into the activities with clear, natural connections.",
+      "Lesson includes a full arc: launch, exploration, modeling, calculation, critique, reflection, and public product, with clear and engaging instructions.",
+      "Differentiation is specific, actionable, and tailored to the individual child (Jack), with scaffolds and extensions for varied readiness.",
+      "The design and flow are unmistakably PBL, with emphasis on student autonomy, real-world context, iterative improvement, and public sharing."
+    ],
+    "weaknesses": [
+      "Lesson is written for a single child, so differentiation for a group isn't demonstrated (though it is strong for the single learner).",
+      "A few instructions are wordy and may require the parent to paraphrase for a younger or less verbal child.",
+      "Some steps could be overwhelming for a struggling learner if all extensions are attempted at once (though base activities are well-scaffolded)."
+    ],
+    "critical_issues": [],
+    "lesson": {
+      "title": "Mission Control Math: Design a Space Supply Plan",
+      "theme": "space exploration",
+      "estimated_duration_minutes": 60,
+      "philosophy": "project-based-learning",
+      "children": [
+        {
+          "child_id": "eval-child-3-5",
+          "name": "Jack",
+          "grade": "4",
+          "age": 9,
+          "differentiation_notes": "Offer choice in numbers and complexity: keep denominators to 8 or 10 if he needs confidence, or add mixed numbers/decimals to hundredths if he\u2019s ready. Provide a fraction strip/number line scaffold at first, then fade support by asking him to justify comparisons and decompositions independently."
+        }
+      ],
+      "standards_addressed": [
+        {
+          "code": "CCSS.Math.Content.4.NF.B.3b",
+          "description_plain": "Your child can break a fraction into a sum of smaller fractions with the same bottom number in different ways, and show or explain how they did it.",
+          "how_addressed": "Jack decomposes \u201cdaily water\u201d and \u201cfuel\u201d fractions into multiple same-denominator sums to create flexible supply plans and records each as an equation with a visual model."
+        },
+        {
+          "code": "CCSS.Math.Content.4.NF.A.2",
+          "description_plain": "Your child can compare two fractions with different top and bottom numbers by making common denominators or using benchmarks like 1/2, use >, =, or < symbols, and explain their thinking with pictures if needed.",
+          "how_addressed": "Jack compares alternate astronaut meal and water options (fractions of a crate) using benchmarks (1/2, 1) and/or common denominators, then justifies choices for the mission."
+        },
+        {
+          "code": "CCSS.Math.Content.4.OA.A.3",
+          "description_plain": "Your child can solve word problems that take more than one step using addition, subtraction, multiplication, or division, and can check if their answers make sense by estimating or rounding.",
+          "how_addressed": "Jack solves multi-step mission constraints (days \u00d7 crew, then subtract reserves, interpret remainders as extra packs) and checks reasonableness with estimation."
+        },
+        {
+          "code": "CCSS.Math.Practice.MP4",
+          "description_plain": "Your child can use math to solve real-life problems and show their thinking with pictures, numbers, or objects.",
+          "how_addressed": "Jack builds a simple \u201cmission model\u201d (tables, diagrams, and equations) to plan supplies and communicate decisions like a mission planner."
+        },
+        {
+          "code": "CCSS.Math.Practice.MP6",
+          "description_plain": "Your child can use math words and numbers carefully and accurately.",
+          "how_addressed": "Jack labels wholes clearly (one crate, one day, one astronaut), uses correct fraction notation, and writes comparison symbols and equations precisely in his plan."
+        },
+        {
+          "code": "CCSS.Math.Practice.MP8",
+          "description_plain": "Your child can notice patterns in math and use them to solve problems more easily.",
+          "how_addressed": "Jack notices repeated reasoning (e.g., adding the same daily fraction each day, or scaling by crew size) and generalizes a shortcut rule for totals."
+        }
+      ],
+      "materials_needed": [
+        {
+          "name": "Paper (blank or graph)",
+          "household_alternative": "Back of recycled paper or a notebook",
+          "optional": false
+        },
+        {
+          "name": "Pencil + eraser",
+          "household_alternative": "Pen or colored pencil",
+          "optional": false
+        },
+        {
+          "name": "Ruler (for tables/number lines)",
+          "household_alternative": "Straight edge like a book or cardboard strip",
+          "optional": false
+        },
+        {
+          "name": "Scissors and tape or glue (for fraction strips/prototypes)",
+          "household_alternative": "Tear paper carefully and use a small bit of water as \u201cglue\u201d or just draw the strips",
+          "optional": true
+        },
+        {
+          "name": "Small objects for modeling (beans/LEGO/coins)",
+          "household_alternative": "Buttons, pasta, or paper dots",
+          "optional": true
+        },
+        {
+          "name": "Device for quick research (optional: NASA/ESA images of supply modules)",
+          "household_alternative": "Library book about space missions or printed pictures",
+          "optional": true
+        }
+      ],
+      "lesson_sections": [
+        {
+          "title": "Project Launch: The Mission Brief",
+          "duration_minutes": 10,
+          "type": "introduction",
+          "indoor_outdoor": "indoor",
+          "instructions": "Tell Jack: \u201cYou\u2019re Mission Control. Your job is to plan supplies for a short space mission and prove your plan works with math.\u201d Put the driving question at the top of the page: \u201cHow can we design a space supply plan that lasts the whole mission without running out?\u201d\n\nGive him a simple scenario (or let him choose one):\n- Option A: 3 astronauts for 6 days\n- Option B: 4 astronauts for 5 days\n- Option C (his choice): pick crew (2\u20136) and days (3\u20138)\n\nDefine the \u2018whole\u2019 clearly: one supply crate holds 1 whole of each category (water, meals, oxygen filters). Explain that each day, each astronaut uses a fraction of a crate. His plan must show totals and include a small safety reserve.\n\nLet him choose a mission name and destination (Moon base, Mars flyby, asteroid visit) to increase ownership.",
+          "philosophy_connection": "You launch an authentic, open-ended project with a driving question and student choice, making the math feel like real mission planning (PBL entry event + need-to-know).",
+          "tips": [
+            "Keep the scenario on a sticky note so you don\u2019t keep re-explaining the constraints.",
+            "If he feels stuck, offer two pre-made mission options and let him pick."
+          ],
+          "extensions": [
+            "Add a \u2018payload limit\u2019 (e.g., only 3 crates fit) so he must revise the plan.",
+            "Invite a family member to play \u201cFlight Director\u201d who asks clarifying questions."
+          ]
+        },
+        {
+          "title": "Outdoor Fieldwork: Map a \u201cLanding Zone\u201d Rectangle (Area/Perimeter as Payload Space)",
+          "duration_minutes": 10,
+          "type": "exploration",
+          "indoor_outdoor": "outdoor",
+          "instructions": "Go outside with chalk (or a stick in dirt) and mark a rectangle to represent the cargo bay floor space on a lander. For example, make it 6 feet by 4 feet (or 12 steps by 8 steps if you don\u2019t have a tape measure).\n\nHave Jack measure and record:\n- Length and width\n- Perimeter (outline) and area (space inside)\n\nThen connect it to the project: \u201cEach supply crate takes up 1 square unit (you decide the unit). How many crates could fit if we pack them in rows?\u201d Have him sketch a quick top-down grid on paper and write a sentence explaining how area helps mission planning.\n\nKeep it light: this is a quick real-world hook, not a long geometry lesson.",
+          "philosophy_connection": "This is real-world investigation and data collection tied to an authentic constraint (space is limited on spacecraft). It supports PBL by grounding the project in a physical model Jack can measure and reference.",
+          "tips": [
+            "If measuring in feet is hard, use \u2018steps\u2019 as a consistent unit and focus on the reasoning.",
+            "Ask, \u201cWhat does area tell us that perimeter doesn\u2019t?\u201d to reinforce meaning."
+          ],
+          "extensions": [
+            "Try a second rectangle and compare which design is better for packing crates (same perimeter, different area).",
+            "Have Jack propose a new cargo bay size and justify it with math."
+          ]
+        },
+        {
+          "title": "Build the Math Model: Daily Use Fractions + Decompositions",
+          "duration_minutes": 15,
+          "type": "exploration",
+          "indoor_outdoor": "indoor",
+          "instructions": "Back inside, set up a \u2018Supply Use Table\u2019 with columns: Category, Use per astronaut per day, Crew size, Days, Total used.\n\nUse these suggested daily rates (or let Jack invent reasonable ones):\n- Water: 3/8 crate per astronaut per day\n- Meals: 1/4 crate per astronaut per day\n- Filters: 1/10 crate per astronaut per day\n\nNow focus on fraction building and decomposing. Pick ONE category (water works well) and ask Jack to show two different decompositions of the daily fraction using the same denominator.\nExamples he can choose from:\n- 3/8 = 1/8 + 1/8 + 1/8\n- 3/8 = 2/8 + 1/8\nThen have him record each as an equation and draw a quick fraction bar split into eighths.\n\nPrompt: \u201cMission planners like flexible packing. If you can break 3/8 into different bundles, you can pack supplies in different ways.\u201d",
+          "philosophy_connection": "Jack constructs knowledge by creating representations (table + visual models) and explaining multiple valid solutions\u2014core PBL inquiry and sense-making, not worksheet repetition.",
+          "tips": [
+            "Be very explicit about the \u2018whole\u2019: one full crate equals 1. Write \u20181 crate = 1 whole\u2019 at the top.",
+            "If denominators feel heavy, switch water to 3/6 or 4/8 temporarily, then return to 3/8."
+          ],
+          "extensions": [
+            "Ask for a third decomposition (e.g., 3/8 = 1/8 + 2/8) and have him explain which is easiest to pack.",
+            "Have him build a quick set of fraction strips (eighths/tenths) to reuse in future lessons."
+          ]
+        },
+        {
+          "title": "Mission Calculations: Multi-Step Totals + Reasonableness Check",
+          "duration_minutes": 15,
+          "type": "practice",
+          "indoor_outdoor": "indoor",
+          "instructions": "Have Jack compute totals for each category using his chosen crew and days.\n\nGuide him through a consistent process:\n1) Multiply the daily fraction by crew size (fraction \u00d7 whole number as repeated addition).\n2) Multiply that result by number of days (or add daily totals repeatedly).\n3) Add a safety reserve (choose 1/8 crate water and 1/10 crate filters, or let him choose a reserve and justify it).\n\nExample prompts (don\u2019t do all for him\u2014ask him to choose a method):\n- \u201cIf one astronaut uses 3/8 crate of water per day, how much do 4 astronauts use per day?\u201d\n- \u201cWhat pattern do you notice if we add 3/8 four times?\u201d\n- \u201cDoes your total go over 1 crate? If yes, how many crates do you need?\u201d\n\nThen do a reasonableness check:\n- \u201cIs your answer close to what you\u2019d expect if you rounded 3/8 to 1/2?\u201d\n- \u201cIf you estimate first, does the exact answer make sense?\u201d\n\nHave him circle one place where he used estimation to check his work.",
+          "philosophy_connection": "This is sustained problem-solving within the central project, integrating success skills (perseverance, self-checking) and authentic constraints (reserves, limited crates).",
+          "tips": [
+            "If the arithmetic gets bogged down, let him compute one category fully and do the others with estimation today\u2014then finish next lesson.",
+            "Encourage neat labeling: \u2018per day,\u2019 \u2018per astronaut,\u2019 and \u2018total\u2019 to support precision."
+          ],
+          "extensions": [
+            "Add a \u2018resupply delay\u2019 twist: one extra day added unexpectedly\u2014how does the plan change?",
+            "Let him create a general rule like: total water = (3/8) \u00d7 crew \u00d7 days + reserve."
+          ]
+        },
+        {
+          "title": "Compare Competing Plans + Critique & Revision",
+          "duration_minutes": 5,
+          "type": "reflection",
+          "indoor_outdoor": "indoor",
+          "instructions": "Ask Jack to create a second plan that competes with his first plan by changing one variable (crew size, days, or daily rates). Then have him compare at least two fractions from the two plans using >, <, or =.\n\nExamples:\n- Compare daily water rates: 3/8 vs 2/5 (which is more and how do you know?)\n- Compare reserves: 1/10 vs 1/8\n\nUse a quick critique protocol:\n- You say: \u201cOne thing that\u2019s clear is\u2026\u201d\n- You ask: \u201cOne question I have is\u2026\u201d\n- He revises one part of his table or explanation for clarity.\n\nEnd with a 2-sentence reflection he writes or \u0434\u0438\u043atates: \u201cThe hardest part was\u2026 My math helped the mission by\u2026\u201d",
+          "philosophy_connection": "PBL emphasizes critique, revision, and communicating reasoning. Jack compares options like a real team choosing between mission proposals, then improves his product based on feedback.",
+          "tips": [
+            "If comparing unlike denominators is tough, encourage benchmark thinking: compare each to 1/2 or 1.",
+            "Keep the revision small and doable (fix one label, rewrite one equation, redraw one model)."
+          ],
+          "extensions": [
+            "Have him prepare a 60-second \u2018Mission Control briefing\u2019 to share with another adult or relative as the audience.",
+            "Turn his final plan into a one-page poster or a simple slide with the driving question and the math evidence."
+          ]
+        },
+        {
+          "title": "Public Product Prep: Mini-Briefing to an Audience",
+          "duration_minutes": 5,
+          "type": "transition",
+          "indoor_outdoor": "both",
+          "instructions": "Help Jack choose his \u2018public product\u2019 format for today: a taped-up poster on the wall, a notebook page to show someone, or a quick photo to text to a relative.\n\nHave him include three required elements:\n1) The driving question\n2) His supply table with totals\n3) One visual fraction model + one comparison statement using >, <, or =\n\nThen schedule the audience: \u201cAfter dinner, you\u2019ll brief your plan to ____ for 2 minutes.\u201d",
+          "philosophy_connection": "PBL culminates in an authentic product shared beyond the learner-teacher pair, increasing purpose and accountability while keeping it age-appropriate.",
+          "tips": [
+            "If no outside audience is available, record a short voice memo of Jack explaining his plan.",
+            "Take a quick photo of the final work so revisions next time feel easy."
+          ],
+          "extensions": [
+            "Ask the audience to vote between Plan A and Plan B and explain why; Jack responds with math evidence.",
+            "Start a running \u2018Mission Log\u2019 journal for future lessons in this project."
+          ]
+        }
+      ],
+      "assessment_suggestions": [
+        "Can Jack clearly state what \u20181 whole\u2019 represents (one crate) and keep that consistent when comparing fractions?",
+        "When asked to decompose a fraction (e.g., 3/8), can he produce at least two correct same-denominator sums and record them as equations?",
+        "Can Jack solve the multi-step supply totals and explain his strategy (repeated addition, multiplication, or a rule) with labels like \u2018per day\u2019 and \u2018total\u2019?",
+        "Can he compare two fractions from competing plans using >, <, or = and justify using a benchmark (1/2, 1) or a visual model?",
+        "Does he perform a quick reasonableness check (estimate/round) and notice if an answer seems too big or too small?"
+      ],
+      "cleanup_notes": "Collect fraction strips/objects into a labeled baggie called \u201cMission Math Kit.\u201d If you drew outdoor rectangles with chalk, let Jack decide whether to keep them for tomorrow\u2019s \u2018launch site\u2019 or rinse them away as a symbolic \u2018mission reset.\u2019",
+      "next_lesson_seeds": [
+        "Add decimals: convert tenths to hundredths (e.g., 3/10 = 30/100) and compare decimal supply rates between two mission plans.",
+        "Create a line plot of daily water use measurements (in 1/8 units) for each astronaut and solve fraction addition/subtraction questions from the plot.",
+        "Introduce a budget: assign costs per crate and have Jack optimize the plan under a spending limit (multi-step word problems).",
+        "Angle navigation add-on: use a protractor to plan rover turns (additive angle measure) on a simple grid map of the landing zone."
+      ],
+      "philosophy_summary": "This lesson uses a central, authentic project\u2014planning supplies for a space mission\u2014anchored by a driving question and shaped by Jack\u2019s choices (crew, days, destination). Jack learns math through extended inquiry, modeling, and iterative improvement, producing a shareable \u201cMission Control\u201d plan with critique and revision, which aligns with project-based learning\u2019s focus on meaningful products and real-world relevance.",
+      "content_hash": null
+    }
+  },
+  {
+    "philosophy": "unschooling",
+    "grade_band": "3-5",
+    "subject": "Math",
+    "lesson_title": "Mission Control Math: Plan a Mini Space Launch",
+    "scores": {
+      "philosophy_alignment": 5,
+      "principle_grounding": 5,
+      "age_appropriateness": 5,
+      "standards_integration": 5,
+      "lesson_quality": 5,
+      "differentiation": 5,
+      "philosophy_distinctiveness": 5
+    },
+    "overall_score": 5.0,
+    "hallucinated_principles": [],
+    "strengths": [
+      "Every lesson section explicitly connects to unschooling principles from the KG, such as Freedom to Choose, Facilitate Don\u2019t Direct, Learning Through Real Life, and Feedback and Reflection.",
+      "All referenced principles are clearly present in the KG; there are no invented or misattributed principles.",
+      "Activities, instructions, and extensions are perfectly calibrated to the 3-5 grade band\u2014language is accessible, math concepts (fractions, measurement) are age-appropriate, and the lesson is hands-on.",
+      "State standards are integrated seamlessly into real activities, not forced; the standard codes are accurate and their connections are plausible and well described.",
+      "Lesson arc is clear and engaging, with multiple entry points, choice, and a meaningful real-world context (space exploration). Instructions are parent-friendly and easy to follow.",
+      "Differentiation is highly specific (e.g., alternative recording methods, challenge levels) and responsive to the individual child\u2019s interests and needs.",
+      "The lesson is unmistakably unschooling-based: child autonomy, voluntary participation, learning through play/exploration, and non-coercive reflection are evident throughout."
+    ],
+    "weaknesses": [
+      "None significant. All rubric dimensions are fully met or exceeded. The only possible minor suggestion is that the lesson could explicitly reference even more of the KG\u2019s rich community/collaboration principles, but these are implied in the extensions."
+    ],
+    "critical_issues": [],
+    "lesson": {
+      "title": "Mission Control Math: Plan a Mini Space Launch",
+      "theme": "space exploration",
+      "estimated_duration_minutes": 60,
+      "philosophy": "unschooling",
+      "children": [
+        {
+          "child_id": "eval-child-3-5",
+          "name": "Jack",
+          "grade": "4",
+          "age": 9,
+          "differentiation_notes": "Offer Jack real choices (what to build, what to measure, how to record). If he wants a bigger challenge, invite multi-step planning (budgets, distance conversions, or fraction/decimal fuel mixes). If he\u2019s not into one part (e.g., writing), let him record with drawings, photos, or voice notes instead."
+        }
+      ],
+      "standards_addressed": [
+        {
+          "code": "CCSS.Math.Content.4.MD.A.2",
+          "description_plain": "Your child can solve real-life math problems about distance and time and show measurements on a diagram like a number line.",
+          "how_addressed": "Jack measures and compares launch distances (or flight times) and can represent results with a simple number line or labeled sketch of the launch zone."
+        },
+        {
+          "code": "CCSS.Math.Content.4.NF.A.2",
+          "description_plain": "Your child can compare two fractions, use >, =, or <, and explain their thinking (with pictures if needed).",
+          "how_addressed": "Jack compares \u2018fuel mixes\u2019 (fractions) for different rocket designs/launch attempts and justifies which mix is larger or closer to 1/2 or 1."
+        },
+        {
+          "code": "CCSS.Math.Content.4.NF.B.3b",
+          "description_plain": "Your child can break a fraction into a sum of smaller fractions with the same denominator in different ways and show or explain it.",
+          "how_addressed": "Jack decomposes a chosen fuel fraction (e.g., 6/8) into sums like 1/8+5/8 or 3/8+3/8 and connects it to how he\u2019d \u201cload\u201d fuel in stages."
+        },
+        {
+          "code": "CCSS.Math.Practice.MP6",
+          "description_plain": "Your child can use math words and numbers carefully and accurately.",
+          "how_addressed": "Jack labels units (feet/steps, seconds, fractions) and practices precise recording while measuring launches and comparing results."
+        },
+        {
+          "code": "CCSS.Math.Practice.MP8",
+          "description_plain": "Your child can notice patterns in math and use them to solve problems more easily.",
+          "how_addressed": "Jack looks for repeated reasoning (e.g., which design or launch angle tends to go farther) and uses that pattern to make a next-try prediction."
+        }
+      ],
+      "materials_needed": [
+        {
+          "name": "Paper (for rocket, notes, or a simple data table)",
+          "household_alternative": "Junk mail, scrap paper, newspaper",
+          "optional": false
+        },
+        {
+          "name": "Tape",
+          "household_alternative": "Masking tape, painter\u2019s tape, or folded paper tabs",
+          "optional": true
+        },
+        {
+          "name": "Measuring tool (tape measure or ruler)",
+          "household_alternative": "Yardstick, a piece of string plus a ruler, or measuring by footsteps",
+          "optional": false
+        },
+        {
+          "name": "Chalk or painter\u2019s tape for marking a launch line",
+          "household_alternative": "A stick to draw a line in dirt, or a shoe/rope as a boundary",
+          "optional": true
+        },
+        {
+          "name": "Stopwatch/timer (phone or kitchen timer)",
+          "household_alternative": "Counting seconds out loud (\u201cone-one-thousand\u2026\u201d)",
+          "optional": true
+        },
+        {
+          "name": "Pencil/marker",
+          "household_alternative": "Pen, colored pencil, or notes app",
+          "optional": false
+        },
+        {
+          "name": "Optional: protractor (for launch angle experiments)",
+          "household_alternative": "A printed protractor, or approximate angles by eye (low/medium/high)",
+          "optional": true
+        }
+      ],
+      "lesson_sections": [
+        {
+          "title": "Choose the Mission (Jack Sets the Goal)",
+          "duration_minutes": 10,
+          "type": "introduction",
+          "indoor_outdoor": "both",
+          "instructions": "Tell Jack: \u201cWe\u2019ve got a space mission window open for the next hour\u2014do you want to run a launch test, design a rocket, or plan a fuel strategy?\u201d Offer 2\u20133 mission options and let him pick one:\n1) Distance mission: make a paper rocket and see which version flies farthest.\n2) Accuracy mission: try to land near a target \u2018planet\u2019 (a hat, hoop, or chalk circle).\n3) Fuel mission: create and compare fraction \u2018fuel mixes\u2019 for different launch attempts.\nAs he chooses, ask one curiosity question: \u201cWhat would make this feel like real mission control\u2014measuring distance, timing, or tracking fuel?\u201d Let his answer decide what you emphasize next.",
+          "philosophy_connection": "This section centers Jack\u2019s autonomy and interest (Freedom to Choose, Child-Led Learning). You\u2019re offering resources and possibilities, not assigning a task.",
+          "tips": [
+            "If Jack shrugs, start by launching a simple folded paper rocket yourself and ask if he wants to improve it or beat your distance."
+          ],
+          "extensions": [
+            "Let Jack name the mission, rocket, and \u2018destination\u2019 (Moon, Mars, Europa). Naming often boosts buy-in and naturally leads to labeling/precision."
+          ]
+        },
+        {
+          "title": "Build & Tinker: Paper Rocket Prototypes",
+          "duration_minutes": 15,
+          "type": "exploration",
+          "indoor_outdoor": "both",
+          "instructions": "Invite Jack to make a quick paper rocket any way he wants (folded paper airplane style, paper tube rocket, or a \u2018dart\u2019). Your role is to be the materials helper.\nThen ask: \u201cWant to make one small change and see what happens?\u201d Offer change-ideas only if he asks or seems stuck:\n- Add a small paperclip as \u2018payload\u2019 (weight)\n- Make fins (triangles) and tape them\n- Change nose shape (pointy vs. flat)\n- Make a longer body\nHave him create 2\u20133 versions he can tell apart (Rocket A/B/C). Encourage him to mark each one with a symbol or name.",
+          "philosophy_connection": "Jack learns by doing and following his curiosity (Hands-On Experimentation, Messing About). You facilitate access to materials without directing the design.",
+          "tips": [
+            "Keep prototypes quick\u2014aim for \u2018good enough to test\u2019 rather than perfection."
+          ],
+          "extensions": [
+            "If Jack enjoys building, let him create a \u2018payload bay\u2019 and decide a rule like \u201ceach rocket must carry 2 pennies\u201d (then measure how it changes distance)."
+          ]
+        },
+        {
+          "title": "Outdoor Launch Window: Measure, Record, and Compare",
+          "duration_minutes": 20,
+          "type": "practice",
+          "indoor_outdoor": "outdoor",
+          "instructions": "Go outside (driveway, yard, hallway if needed). Mark a clear launch line. Ask Jack what should count as the landing spot (first touch? where it stops?). Use his rule.\nHave Jack do 3 launches per rocket (or as many as he wants). After each launch, measure the distance from the launch line to the landing point.\nRecording options\u2014let Jack choose:\n- Simple table: Rocket A: __, __, __\n- Tally marks and best distance only\n- Photo of each landing spot with a spoken distance note\nAs you measure, casually model precision: \u201cThat looks like 12 feet 4 inches\u2014want inches too, or just feet?\u201d\nWhen you have at least a few data points, ask: \u201cWhich rocket is winning so far? How can we tell\u2014best launch, average-ish, or most consistent?\u201d Let him decide the \u2018winning rule.\u2019",
+          "philosophy_connection": "This is real-world math embedded in a meaningful project Jack chose (Learning Through Real Life, Natural Consequences). Measuring and recording support genuine purpose, not a worksheet.",
+          "tips": [
+            "If measuring in inches feels tedious, measure in footsteps and convert just one launch into inches/feet as a curiosity challenge."
+          ],
+          "extensions": [
+            "Create a quick number line on paper (0 to the farthest distance) and mark each rocket\u2019s best launch as a point\u2014instant visual comparison (MP4)."
+          ]
+        },
+        {
+          "title": "Fuel Fractions: Mix, Compare, and Decompose",
+          "duration_minutes": 10,
+          "type": "exploration",
+          "indoor_outdoor": "indoor",
+          "instructions": "Tell Jack: \u201cMission control needs a fuel plan. Let\u2019s pretend each launch uses 1 whole tank.\u201d Draw a rectangle (fuel tank) and divide it into equal parts (choose a denominator that feels easy for him: 8 or 10 works well).\nAsk Jack to pick a fuel load for Rocket A and Rocket B (e.g., 5/8 and 3/8, or 7/10 and 4/10). Have him shade each tank.\nThen invite comparisons:\n- \u201cWhich uses more fuel? How do you know?\u201d (use >, <, =)\n- \u201cWhich is closer to half a tank?\u201d\nThen decomposition (same denominator): \u201cCan you load 6/8 in two stages in more than one way?\u201d Examples he can discover: 1/8+5/8, 2/8+4/8, 3/8+3/8. Let him choose one to write as an equation.\nIf he wants, connect it back to launches: \u201cIf each test launch uses 3/8 of a tank, how many launches until you\u2019re out?\u201d (only if he\u2019s into it).",
+          "philosophy_connection": "Fractions show up as a tool for Jack\u2019s own mission story, not as an imposed topic (Learning Through Passion, Facilitate Don\u2019t Direct). He controls the numbers and the complexity.",
+          "tips": [
+            "If Jack resists drawing fractions, swap to real objects: 8 crackers, 10 LEGO bricks, or a paper strip cut into equal parts."
+          ],
+          "extensions": [
+            "Introduce decimals only if Jack is curious: \u201cIf 5/10 is half, that\u2019s 0.5\u2014want to write fuel as decimals?\u201d"
+          ]
+        },
+        {
+          "title": "Mission Debrief: Patterns, Next Hypothesis, and What to Try Tomorrow",
+          "duration_minutes": 5,
+          "type": "reflection",
+          "indoor_outdoor": "both",
+          "instructions": "Ask Jack to give a quick mission debrief in his preferred format (talking, drawing, or a 3-sentence \u2018report\u2019):\n- \u201cWhat change made the biggest difference?\u201d\n- \u201cWhat pattern did you notice?\u201d (e.g., heavier payload went shorter, certain shape flew straighter)\n- \u201cWhat\u2019s your next hypothesis for the next launch window?\u201d\nIf he\u2019s open to it, help him phrase it like mission control: \u201cIf we ______, then the rocket will ______ because ______.\u201d",
+          "philosophy_connection": "Reflection is invited, not demanded, and it grows from Jack\u2019s lived experience (Feedback and Reflection, Self-Correction). You\u2019re supporting his meaning-making without grading.",
+          "tips": [
+            "Keep it light. If he\u2019s done, accept \u2018I don\u2019t know\u2019 and end on a positive next-step invitation."
+          ],
+          "extensions": [
+            "Let Jack share results with someone (other parent, grandparent, friend) and ask them to predict the next design\u2014natural social learning."
+          ]
+        }
+      ],
+      "assessment_suggestions": [
+        "While measuring, notice whether Jack chooses appropriate units and records distances consistently (feet only vs. feet-and-inches) and whether he can explain what his numbers mean.",
+        "Ask Jack to compare two fuel fractions he chose using >, <, or = and listen for a justification tied to the same whole (the same-sized \u2018tank\u2019 drawing or object model).",
+        "Listen for pattern language in the debrief (e.g., \u201cevery time we added weight it went shorter\u201d), showing repeated reasoning and early generalization."
+      ],
+      "cleanup_notes": "Have Jack decide what to keep for the next launch (best rocket, all rockets, or just the idea). Store rockets flat in a labeled folder or recycle them. If you marked outdoors with chalk/tape, invite him to remove it as part of \u2018closing the launch site.\u2019",
+      "next_lesson_seeds": [
+        "Angle investigations: try three launch angles (low/medium/high) and see which gives the best distance; record and look for a pattern.",
+        "Data upgrade: make a simple bar graph of best distances for Rocket A/B/C, or compute a rough \u2018average\u2019 for each rocket.",
+        "Mission budget: assign each rocket a cost (tape = 2 credits, paperclip = 3 credits) and optimize distance per credit.",
+        "Scale model solar system walk: choose a scale (e.g., 1 step = 1 million km) and calculate/compare distances (as far as interest holds)."
+      ],
+      "philosophy_summary": "This lesson stays true to unschooling by letting Jack choose the mission and the level of math he wants to use, while you simply provide rich materials and a real reason to measure, compare, and record. The math grows naturally from hands-on play and experimentation, with reflection based on Jack\u2019s own observations rather than external evaluation.",
+      "content_hash": null
+    }
+  },
+  {
+    "philosophy": "waldorf-adjacent",
+    "grade_band": "3-5",
+    "subject": "Math",
+    "lesson_title": "Mission Fractions: Fuel Cells for a Moonbound Rocket",
+    "scores": {
+      "philosophy_alignment": 5,
+      "principle_grounding": 5,
+      "age_appropriateness": 5,
+      "standards_integration": 5,
+      "lesson_quality": 5,
+      "differentiation": 5,
+      "philosophy_distinctiveness": 5
+    },
+    "overall_score": 5.0,
+    "hallucinated_principles": [],
+    "strengths": [
+      "Every lesson section clearly cites and enacts specific Waldorf-adjacent principles from the KG (e.g., rhythm and repetition, whole-to-part, learning through feeling, artistic integration, experiential learning, movement).",
+      "Activities are developmentally appropriate for grades 3-5: imaginative story, hands-on work, movement, artistic recording, and opportunities for reflection.",
+      "State standards (CCSS) are genuinely woven into practice, not forced; the codes are real and the lesson activities directly address the described learning outcomes.",
+      "Instructions are clear, engaging, and complete, with a natural progression and a strong narrative arc.",
+      "Differentiation is specific and actionable, including clear scaffolding and challenge options for the single child profile.",
+      "The lesson is highly distinctive: story, movement, art, and reverence set it apart from generic or conventional lessons.",
+      "Assessment, cleanup, and next steps are thoughtfully integrated, supporting both learning and homeschool practicalities."
+    ],
+    "weaknesses": [
+      "The lesson is optimized for one child; if used with multiple children, additional differentiation notes would be needed.",
+      "Some outdoor activities may require adaptation for families without outdoor space or specific materials (though alternatives are suggested).",
+      "Pacing may need minor adjustment for some children (e.g., more/fewer decompositions), though this is minor."
+    ],
+    "critical_issues": [],
+    "lesson": {
+      "title": "Mission Fractions: Fuel Cells for a Moonbound Rocket",
+      "theme": "space exploration",
+      "estimated_duration_minutes": 60,
+      "philosophy": "waldorf-adjacent",
+      "children": [
+        {
+          "child_id": "eval-child-3-5",
+          "name": "Jack",
+          "grade": "4",
+          "age": 9,
+          "differentiation_notes": "Offer choice in challenge level: start with like denominators (e.g., eighths) and move to tenths/hundredths if he\u2019s ready. If he needs more support, keep the \u2018whole\u2019 consistent by using the same-size circles each time and build decompositions with physical pieces before writing equations."
+        }
+      ],
+      "standards_addressed": [
+        {
+          "code": "CCSS.Math.Content.4.NF.B.3",
+          "description_plain": "Your child understands that a fraction like 5/6 means five pieces of size 1/6 added together.",
+          "how_addressed": "Jack builds \u2018fuel cells\u2019 from unit fractions (1/8, 1/10, 1/100) and experiences a/b as repeated unit fractions before recording equations."
+        },
+        {
+          "code": "CCSS.Math.Content.4.NF.B.3b",
+          "description_plain": "Your child can break a fraction into a sum of smaller fractions with the same bottom number in different ways, and show or explain how they did it.",
+          "how_addressed": "Jack decomposes mission fuel fractions (e.g., 6/8) into multiple sums with the same denominator using a visual model and then records each as an equation."
+        },
+        {
+          "code": "CCSS.Math.Content.4.NF.A.2",
+          "description_plain": "Your child can compare two fractions with different top and bottom numbers by making common denominators or using benchmarks like 1/2, use >, =, or < symbols, and explain their thinking with pictures if needed.",
+          "how_addressed": "Jack compares two \u2018routes\u2019 (fractions of a full fuel tank) using benchmarks (1/2, 1) and/or common denominators, then justifies with drawings of equal-size fuel circles."
+        },
+        {
+          "code": "CCSS.Math.Practice.MP6",
+          "description_plain": "Your child can use math words and numbers carefully and accurately.",
+          "how_addressed": "Jack labels wholes, denominators, and sums precisely and checks that all comparisons refer to the same-sized \u2018whole tank\u2019 model."
+        },
+        {
+          "code": "CCSS.Math.Practice.MP8",
+          "description_plain": "Your child can notice patterns in math and use them to solve problems more easily.",
+          "how_addressed": "Jack looks for regularity in decompositions (e.g., swapping addends, grouping unit fractions) and notices patterns like \u2018two eighths is one fourth\u2019 through repeated building."
+        }
+      ],
+      "materials_needed": [
+        {
+          "name": "Paper (blank or sketchbook/main lesson book page)",
+          "household_alternative": "Printer paper or the back of recycled paper",
+          "optional": false
+        },
+        {
+          "name": "Colored pencils or crayons",
+          "household_alternative": "Regular pencil plus one marker/highlighter for shading",
+          "optional": false
+        },
+        {
+          "name": "Scissors",
+          "household_alternative": "Tear paper carefully along folds (no scissors needed)",
+          "optional": true
+        },
+        {
+          "name": "Small objects for counters (beans/buttons/coins)",
+          "household_alternative": "LEGO pieces, pebbles, or scraps of paper",
+          "optional": true
+        },
+        {
+          "name": "Chalk (sidewalk chalk if outdoors)",
+          "household_alternative": "A stick for drawing in dirt/sand, or painter\u2019s tape lines on a patio",
+          "optional": true
+        }
+      ],
+      "lesson_sections": [
+        {
+          "title": "Opening Rhythm: \u2018Launch Count\u2019 Skip-Counting",
+          "duration_minutes": 8,
+          "type": "introduction",
+          "indoor_outdoor": "both",
+          "instructions": "Begin with a short, steady rhythm to gather Jack\u2019s attention. You clap a simple beat and invite him to step, clap, or tap along like a launch countdown.\n\nChoose a \u201cmission number\u201d together (8 works well for eighths; 10 works well for tenths). Count up by that number like rocket stages: 8, 16, 24, 32\u2026 (or 10, 20, 30\u2026). After a few rounds, switch roles and let Jack lead the rhythm and the counting.\n\nClose by saying: \u201cToday we\u2019re planning fuel for a space mission. Our math will help us measure parts of a whole tank.\u201d",
+          "philosophy_connection": "Uses rhythm, movement, and repetition to warm up the will and feeling life before moving into written math, aligning with Waldorf-adjacent whole-child practice.",
+          "tips": [
+            "Keep it short and lively; stop while he still feels successful.",
+            "If he stumbles, simply restart the countdown\u2014like a real launch rehearsal."
+          ],
+          "extensions": [
+            "Try counting backward by 8s or 10s as a \u2018re-entry countdown.\u2019",
+            "Add a whispered count for the last three numbers to build focus and reverence."
+          ]
+        },
+        {
+          "title": "Story Picture: The Rocket\u2019s Fuel Cells (Meet the Whole)",
+          "duration_minutes": 10,
+          "type": "exploration",
+          "indoor_outdoor": "indoor",
+          "instructions": "Tell a short imaginative story: \u201cA small exploration rocket is preparing for a long journey. Its fuel tank isn\u2019t one big pool\u2014it\u2019s made of equal fuel cells, like honeycomb chambers. The engineer must fill exact parts of the tank so the rocket is balanced.\u201d\n\nOn paper, draw one large circle and name it \u201c1 Whole Fuel Tank.\u201d Ask Jack to decorate the circle with a simple border (stars, dots, or a ring like Saturn). Then choose one denominator for today\u2019s main work (recommend 8). Fold a second circle (or the same circle if you prefer) to show equal parts: halves, then quarters, then eighths. Draw the partition lines clearly and label: 1/8, 2/8, 3/8\u2026 up to 8/8.\n\nAsk: \u201cIf the tank is 8 equal cells, what does 1/8 mean? What does 5/8 mean?\u201d Let him answer in his own words before you add any \u2018mathy\u2019 explanation.",
+          "philosophy_connection": "Begins with a whole image (the fuel tank) and moves into parts through artistic drawing and story, supporting imagination-led understanding before abstraction.",
+          "tips": [
+            "Use consistent language: \u2018whole tank\u2019 and \u2018equal cells\u2019 to anchor the meaning of the denominator.",
+            "If folding is frustrating, you can draw the circle and use a ruler-like method to eyeball eighths\u2014precision can grow over time."
+          ],
+          "extensions": [
+            "Make a second \u2018tank\u2019 with 10 equal parts for tenths if he\u2019s ready.",
+            "Invite Jack to retell the story back to you in two or three sentences."
+          ]
+        },
+        {
+          "title": "Hands-On Building: Decomposing Fuel Fractions (Same Denominator, Many Ways)",
+          "duration_minutes": 18,
+          "type": "practice",
+          "indoor_outdoor": "indoor",
+          "instructions": "Create simple fraction pieces for eighths. Option A: Draw and cut out 8 equal wedge pieces from a circle (or cut a paper strip into 8 equal rectangles). Option B (no cutting): Use the partitioned circle and shade sections.\n\nChoose a \u201cfuel target\u201d fraction for the mission\u2014start with 6/8. Say: \u201cThe rocket needs 6/8 of a tank for the Moon route. How can we make 6/8 using smaller eighths in different groupings?\u201d\n\nGuide Jack to find at least three decompositions, keeping the denominator the same each time. Examples you can invite (but let him discover):\n- 6/8 = 1/8 + 5/8\n- 6/8 = 2/8 + 4/8\n- 6/8 = 3/8 + 3/8\n- 6/8 = 1/8 + 1/8 + 4/8\n\nFor each one, have him build it with pieces or shading first, then record the equation neatly. After each equation, ask: \u201cHow do you know it\u2019s still 6/8?\u201d Encourage him to point to the same total shaded area.\n\nRepeat with a second target fraction if time allows (try 7/8 or 5/8).",
+          "philosophy_connection": "Learning by doing: Jack experiences fractions through tangible building and visual form before symbol work, with repetition that strengthens memory and confidence.",
+          "tips": [
+            "Keep the \u2018whole\u2019 identical each time (same circle/strip size) so the comparisons and sums stay truthful.",
+            "If he rushes the writing, pause and model careful notation once (clear fraction bar, aligned denominators)."
+          ],
+          "extensions": [
+            "Challenge: Decompose 6/8 into four addends (e.g., 1/8+1/8+2/8+2/8) and notice patterns.",
+            "Ask him to invent a \u2018fuel engineer rule\u2019: what always stays the same in these decompositions?"
+          ]
+        },
+        {
+          "title": "Outdoor Mission: Chalk \u2018Orbit Paths\u2019 Fraction Comparisons",
+          "duration_minutes": 12,
+          "type": "exploration",
+          "indoor_outdoor": "outdoor",
+          "instructions": "Go outside with sidewalk chalk (or a stick in dirt). Draw two large, same-size circles on the ground\u2014two identical \u2018fuel tanks\u2019 or \u2018orbit rings.\u2019 Label them Tank A and Tank B.\n\nGive Jack two route cards (you can say them aloud): for example, Route A uses 3/4 of a tank, Route B uses 5/8 of a tank. Ask him to shade each circle to match the fraction. If he needs a structure, let him lightly mark Tank A into fourths and Tank B into eighths.\n\nNow ask: \u201cWhich route uses more fuel?\u201d Encourage him to use a benchmark first: \u201cIs it more or less than 1/2?\u201d Then help him connect to common denominators if needed: 3/4 = 6/8, so 6/8 > 5/8.\n\nHave him record the comparison with a symbol on a small paper: 3/4 > 5/8, and add one sentence of justification: \u201cBecause 3/4 is the same as 6/8, and 6/8 is more than 5/8.\u201d",
+          "philosophy_connection": "Connects math to movement, fresh air, and large-form drawing, nurturing a living relationship with number and form rather than only seatwork.",
+          "tips": [
+            "Make sure the two circles are the same size so the \u2018whole\u2019 is truly the same.",
+            "If chalk circles are hard, draw two equal rectangles instead (fuel bars)."
+          ],
+          "extensions": [
+            "Try a new comparison using tenths: 7/10 vs 3/5 (convert 3/5 to 6/10).",
+            "Let Jack create the next pair of fractions for you to compare."
+          ]
+        },
+        {
+          "title": "Main Lesson Book Page: \u2018Fuel Engineer\u2019s Log\u2019 (Art + Precision)",
+          "duration_minutes": 8,
+          "type": "practice",
+          "indoor_outdoor": "indoor",
+          "instructions": "Back inside, help Jack create a neat \u2018Fuel Engineer\u2019s Log\u2019 page.\n\nAt the top, have him write the title and date. Then invite him to draw one beautiful fuel tank circle (or strip) and shade his favorite target fraction from today (e.g., 6/8). Under it, he copies two decompositions and one comparison statement from the outdoor mission.\n\nClose the page with one short reflection line you can scribe if needed: \u201cI can make the same fraction in different ways by regrouping equal parts.\u201d",
+          "philosophy_connection": "Waldorf-adjacent practice of creating a personal, artistic record of learning (main lesson book style), balancing beauty with careful mathematical form.",
+          "tips": [
+            "You can do the \u2018teacher model\u2019 first (lightly) and let him mirror your layout for confidence.",
+            "Aim for clarity over quantity\u2014one well-made page is plenty."
+          ],
+          "extensions": [
+            "Add a small border pattern that repeats every 8 shapes (a subtle nod to patterning and regularity)."
+          ]
+        },
+        {
+          "title": "Closing Reflection: Gratitude for Measures",
+          "duration_minutes": 4,
+          "type": "reflection",
+          "indoor_outdoor": "both",
+          "instructions": "End quietly. Ask Jack two gentle questions:\n1) \u201cWhat did you notice about making 6/8 in different ways?\u201d\n2) \u201cWhat helped you decide which fraction was bigger outside?\u201d\n\nThen offer a simple closing thought: \u201cWhen we measure carefully, we help the mission succeed. Math can be a way of being truthful and precise.\u201d If your family has a gratitude habit, take one breath together and name one thing you appreciated about today\u2019s work.",
+          "philosophy_connection": "Supports reverence, truthfulness, and the feeling life\u2014bringing meaning to precision rather than treating it as mere correctness.",
+          "tips": [
+            "Keep reflection oral and brief; let the learning \u2018rest\u2019 after the lesson."
+          ],
+          "extensions": [
+            "Invite Jack to teach one decomposition to another family member later today."
+          ]
+        }
+      ],
+      "assessment_suggestions": [
+        "Ask Jack to show (with shading or pieces) two different decompositions of 5/8 and write the matching equations.",
+        "Give a quick comparison: 2/3 vs 3/5. Observe whether he uses a benchmark (like 1/2) or attempts a common denominator, and whether he remembers that the \u2018whole\u2019 must be the same.",
+        "Listen for precise language: denominator, eighths/tenths, whole, equal parts, greater than/less than."
+      ],
+      "cleanup_notes": "Collect fraction pieces into a labeled envelope (\u201cEighth Fuel Cells\u201d) so you can reuse them. Wipe chalk if needed, or leave the circles for tomorrow\u2019s quick review. End with a simple reset: pencils back in cup, paper stacked, scraps in recycling.",
+      "next_lesson_seeds": [
+        "Tenths and hundredths as \u2018computer-guided micro-fuel\u2019: build 3/10 and convert to 30/100; connect to simple decimals (0.3, 0.30).",
+        "Moon base geometry: design rectangular solar panels and use area/perimeter to plan the base layout.",
+        "Angle \u2018turns\u2019 for rover navigation: measure and draw angles as rover steering commands."
+      ],
+      "philosophy_summary": "This lesson leads with imaginative story and strong visual images (rocket fuel cells) and then moves into hands-on building before formal equations, honoring a Waldorf-adjacent \u2018whole-to-part\u2019 approach and delayed abstraction. Artistic recording and rhythmic movement support head\u2013heart\u2013hands learning, while repetition and careful notation cultivate memory, precision, and a truthful relationship to number.",
+      "content_hash": null
+    }
+  }
+]

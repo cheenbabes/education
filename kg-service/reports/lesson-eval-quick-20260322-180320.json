@@ -1,0 +1,201 @@
+[
+  {
+    "philosophy": "classical",
+    "grade_band": "3-5",
+    "subject": "Math",
+    "lesson_title": "Mission Fractions: Planning a Space Supply Run",
+    "scores": {
+      "philosophy_alignment": 5,
+      "principle_grounding": 5,
+      "age_appropriateness": 5,
+      "standards_integration": 5,
+      "lesson_quality": 5,
+      "differentiation": 5,
+      "philosophy_distinctiveness": 5
+    },
+    "overall_score": 5.0,
+    "hallucinated_principles": [],
+    "strengths": [
+      "Every lesson section explicitly cites and authentically embodies classical principles from the KG, such as parts-to-whole instruction, language-centered learning, sequential knowledge building, and Trivium structure (grammar, logic, rhetoric).",
+      "All referenced philosophy connections are directly traceable to the KG without any invented or non-existent principles.",
+      "Activities, language, and pacing are exceptionally well-calibrated to grades 3-5; all instructions are clear, concrete, and developmentally appropriate.",
+      "State standards (with real codes) are seamlessly integrated into meaningful, engaging activities and not just tacked on.",
+      "Lesson is thoroughly designed, engaging, complete, and ready to use by homeschool parents; the space theme adds delight.",
+      "Differentiation is precise and actionable for the individual child (Jack), with clear scaffolds and challenge options.",
+      "The lesson is unmistakably classical in structure, language, and method\u2014impossible to mistake for any other educational philosophy."
+    ],
+    "weaknesses": [
+      "None significant; the lesson is exemplary in all rubric dimensions."
+    ],
+    "critical_issues": [],
+    "lesson": {
+      "title": "Mission Fractions: Planning a Space Supply Run",
+      "theme": "space exploration",
+      "estimated_duration_minutes": 60,
+      "philosophy": "classical",
+      "children": [
+        {
+          "child_id": "eval-child-3-5",
+          "name": "Jack",
+          "grade": "4",
+          "age": 9,
+          "differentiation_notes": "If Jack is new to fraction equivalence, keep denominators to 2, 4, 8, and 10 and lean on fraction-strip visuals. If he\u2019s ready for more challenge, include denominators 12 and 100 and ask him to justify comparisons using two different methods (benchmark + common denominator)."
+        }
+      ],
+      "standards_addressed": [
+        {
+          "code": "CCSS.Math.Content.4.NF.B.3b",
+          "description_plain": "Your child can break a fraction into a sum of smaller fractions with the same bottom number in different ways, and show or explain how they did it.",
+          "how_addressed": "Jack decomposes mission supply fractions (e.g., 7/8 of fuel) into multiple sums with the same denominator and records each as an equation, checking with fraction-strip models."
+        },
+        {
+          "code": "CCSS.Math.Content.4.NF.A.2",
+          "description_plain": "Your child can compare two fractions with different top and bottom numbers by making common denominators or using benchmarks like 1/2, use >, =, or < symbols, and explain their thinking with pictures if needed.",
+          "how_addressed": "Jack compares competing mission plans (fractions of cargo capacity used) using benchmarks (1/2, 1) and common denominators, then justifies with a quick visual model."
+        },
+        {
+          "code": "CCSS.Math.Content.4.OA.A.3",
+          "description_plain": "Your child can solve word problems that take more than one step using addition, subtraction, multiplication, or division, and can check if their answers make sense by estimating or rounding.",
+          "how_addressed": "Jack solves multi-step 'mission planning' word problems that combine fraction addition/subtraction with whole-number constraints (total crates), then checks reasonableness by estimating near 1 whole."
+        },
+        {
+          "code": "CCSS.Math.Practice.MP6",
+          "description_plain": "Your child can use math words and numbers carefully and accurately.",
+          "how_addressed": "Throughout, Jack writes clear equations, labels the 'whole' (one cargo bay), and uses correct comparison symbols and units (fractions of a bay)."
+        },
+        {
+          "code": "CCSS.Math.Practice.MP8",
+          "description_plain": "Your child can notice patterns in math and use them to solve problems more easily.",
+          "how_addressed": "Jack notices regularity when decomposing and recomposing fractions (e.g., trading 2/8 for 1/4, or building mixed numbers from unit fractions) and uses these patterns to work faster."
+        }
+      ],
+      "materials_needed": [
+        {
+          "name": "Notebook paper (or math notebook)",
+          "household_alternative": "Any scrap paper or the back of printed pages",
+          "optional": false
+        },
+        {
+          "name": "Pencil and eraser",
+          "household_alternative": "Pen (circle mistakes) or a whiteboard marker",
+          "optional": false
+        },
+        {
+          "name": "Ruler (for making fraction strips neatly)",
+          "household_alternative": "Straight edge like a book or cereal box edge",
+          "optional": false
+        },
+        {
+          "name": "Scissors",
+          "household_alternative": "Tear along folds or pre-cut strips for your child",
+          "optional": true
+        },
+        {
+          "name": "Colored pencils or crayons",
+          "household_alternative": "Regular pencil with different shading patterns",
+          "optional": true
+        },
+        {
+          "name": "Index cards (for mission cards)",
+          "household_alternative": "Cut-up scrap paper",
+          "optional": true
+        },
+        {
+          "name": "Chalkboard/whiteboard (for parent modeling)",
+          "household_alternative": "Paper turned sideways as a \u2018board\u2019",
+          "optional": true
+        }
+      ],
+      "lesson_sections": [
+        {
+          "title": "Grammar Warm-Up: Space Fraction Facts (Recitation + Quick Review)",
+          "duration_minutes": 10,
+          "type": "introduction",
+          "indoor_outdoor": "indoor",
+          "instructions": "Tell Jack: \u201cToday you\u2019re the mission mathematician. Our \u2018whole\u2019 is 1 cargo bay.\u201d On your board/paper, write and have him read aloud (then you erase one part at a time for him to supply):\n1) 1 = 2/2 = 4/4 = 8/8\n2) 1/2 = 2/4 = 4/8\n3) 1/4 = 2/8\n4) Benchmarks: less than 1/2, equal to 1/2, more than 1/2\nThen ask him to copy the four lines neatly into his notebook (this becomes his \u2018mission reference\u2019). End by asking: \u201cWhen we compare fractions, what must be the same?\u201d Guide him to say: \u201cThey must refer to the same whole (the same cargo bay).\u201d",
+          "philosophy_connection": "This is the Grammar stage emphasis: memorizing and practicing foundational fraction equivalences and precise language (\u201cwhole,\u201d \u201cbenchmark,\u201d \u201cequivalent\u201d) to build mental pegs for later reasoning.",
+          "tips": [
+            "Keep the pace brisk and confident\u2014think \u2018drill for mastery,\u2019 not \u2018lecture.\u2019",
+            "If Jack hesitates, point to an equivalent-fractions line and let him derive the answer from the pattern."
+          ],
+          "extensions": [
+            "Add 1/5 = 2/10 and discuss why fifths are convenient when you later convert to tenths."
+          ]
+        },
+        {
+          "title": "Exploration: Build a \u2018Cargo Bay\u2019 Fraction Model (Fraction Strips)",
+          "duration_minutes": 15,
+          "type": "exploration",
+          "indoor_outdoor": "both",
+          "instructions": "Take paper outside to a porch/table (or stay indoors if weather doesn\u2019t cooperate). Tell Jack you\u2019re making a model of one cargo bay.\n1) Cut (or fold and tear) 4 long strips of equal length. Label each strip at the left: \u201c1 whole.\u201d\n2) On strip A, leave it whole and label it 1.\n3) On strip B, use the ruler to divide into 2 equal parts; label each 1/2.\n4) On strip C, divide into 4 equal parts; label each 1/4.\n5) On strip D, divide into 8 equal parts; label each 1/8.\nHave Jack line up the strips and physically point to show: 1/2 matches 2/4 and 4/8; 1/4 matches 2/8.\nClose with one precise sentence you have him say back to you: \u201cEquivalent fractions name the same amount of the same whole.\u201d",
+          "philosophy_connection": "Classical, parts-to-whole instruction: Jack constructs concrete models (parts) to support accurate definitions and later logical comparison (whole). Outdoor work supports attention and steady, disciplined handwork while remaining teacher-directed and word-centered.",
+          "tips": [
+            "Insist on neat partitioning; precision now prevents confusion later.",
+            "If he makes uneven parts, treat it as a math moment: \u2018If the parts aren\u2019t equal, can we call them fourths?\u2019"
+          ],
+          "extensions": [
+            "Make a tenths strip (divide into 10) and a hundredths strip by shading 10/100 at a time (no need to cut 100 pieces\u2014just draw a 10\u00d710 grid)."
+          ]
+        },
+        {
+          "title": "Guided Practice (Logic): Decompose Mission Supplies in More Than One Way",
+          "duration_minutes": 20,
+          "type": "practice",
+          "indoor_outdoor": "indoor",
+          "instructions": "Tell Jack: \u201cMission Control needs supplies loaded. Each item uses a fraction of the cargo bay. Your job is to show the same load in different, equally true ways.\u201d Use his fraction strips as a check.\n\nWrite these on paper, one at a time. For each, require (a) two different decompositions with the same denominator and (b) an equation recorded neatly.\nA) Fuel load: 7/8 of the bay.\n- Example prompts you can give: \u201cShow 7/8 as 1/8 + 6/8. Now show it as 3/8 + 4/8.\u201d\nB) Food load: 5/4 of the bay (explain this means 1 whole and 1/4 more\u2014an \u2018overflow\u2019 plan).\n- Require: 5/4 = 4/4 + 1/4 and 5/4 = 2/4 + 3/4.\nC) Oxygen load: 9/8 of the bay.\n- Require: 9/8 = 8/8 + 1/8 and 9/8 = 5/8 + 4/8.\n\nAfter each, ask one short \u2018why\u2019 question: \u201cHow do you know your two sums are equal?\u201d Encourage him to point to the strip and to the arithmetic (same denominator; numerators add to the same total).",
+          "philosophy_connection": "This is the Logic stage beginning: Jack analyzes and justifies decompositions, not merely computes. The work is systematic and written, emphasizing careful notation and reasoning.",
+          "tips": [
+            "Require him to read each equation aloud after writing it; this catches many errors (MP6).",
+            "If he tries to change denominators, redirect: \u201cSame denominator today\u2014show me you can keep the unit size steady.\u201d"
+          ],
+          "extensions": [
+            "Ask for a third decomposition for each fraction, or require one decomposition that uses three addends (e.g., 7/8 = 1/8 + 2/8 + 4/8)."
+          ]
+        },
+        {
+          "title": "Application (Logic + Rhetoric): Choose the Better Mission Plan (Compare + Justify)",
+          "duration_minutes": 10,
+          "type": "practice",
+          "indoor_outdoor": "indoor",
+          "instructions": "Present two \u2018mission plans\u2019 and have Jack decide which uses more cargo space, then justify in words and symbols.\n\nPlan 1: Scientific instruments use 3/4 of the bay.\nPlan 2: Scientific instruments use 5/8 of the bay.\nAsk him to:\n1) Write the comparison with symbols: 3/4 __ 5/8.\n2) Justify using one method: make common denominators (3/4 = 6/8) OR use a visual model with his strips.\n3) Say a clear sentence: \u201c3/4 is greater than 5/8 because \u2026\u201d\n\nThen give a second comparison that nudges benchmark thinking:\nPlan A uses 7/10 of the bay; Plan B uses 69/100 of the bay.\nHave him convert 7/10 to hundredths (70/100) and compare 70/100 to 69/100.",
+          "philosophy_connection": "Rhetoric begins in small form here: Jack must express mathematical truth clearly and persuasively, not just compute. Classical education values articulate explanation grounded in precise definitions and orderly proof.",
+          "tips": [
+            "Insist he names the method he used: \u201cI used common denominators\u201d or \u201cI used a benchmark/visual model.\u201d",
+            "If he argues from \u2018bigger denominator means bigger fraction,\u2019 pause and correct with a quick counterexample using strips."
+          ],
+          "extensions": [
+            "Ask him to invent his own pair of fractions for you to compare and then critique your reasoning if you \u2018make a mistake\u2019 on purpose (gentle MP3 practice)."
+          ]
+        },
+        {
+          "title": "Reflection & Notebooking: Mission Log (Summary, Pattern, Virtue of Precision)",
+          "duration_minutes": 5,
+          "type": "reflection",
+          "indoor_outdoor": "indoor",
+          "instructions": "Have Jack write a short \u2018Mission Log\u2019 of 3\u20134 sentences:\n- One sentence defining equivalent fractions.\n- One sentence describing a pattern he noticed (for example, \u201cMultiplying the numerator and denominator by the same number makes an equivalent fraction.\u201d).\n- One sentence about precision (for example, \u201cFractions can only be compared if they refer to the same whole.\u201d).\nIf time, let him read it aloud to you with clear voice and pacing.",
+          "philosophy_connection": "Language-centered learning: writing and oral recitation solidify knowledge. The reflection also supports classical formation\u2014habits of carefulness, truth-telling, and disciplined work.",
+          "tips": [
+            "If writing is slow today, let him dictate one sentence while you write, then have him copy it neatly (still keeps it word-centered).",
+            "Praise specific virtues: careful labeling, neat equations, honest correction."
+          ],
+          "extensions": [
+            "Start a \u2018Space Exploration Math\u2019 section in a binder and file today\u2019s fraction strips and mission log as the first entry."
+          ]
+        }
+      ],
+      "assessment_suggestions": [
+        "Ask Jack to decompose 6/8 in two different ways (same denominator) and explain how he knows both are correct.",
+        "Give a fresh comparison (e.g., 2/3 vs 3/5) and have him choose a strategy (benchmark or common denominator) and justify his symbol choice.",
+        "Watch for precision: Does he label the whole, keep denominators consistent when required, and read equations accurately aloud?"
+      ],
+      "cleanup_notes": "Have Jack stack and label the fraction strips in an envelope or clip them together. Put the mission log and any work into a binder. Quick reset: return ruler/scissors and sweep paper scraps.",
+      "next_lesson_seeds": [
+        "Angle math as rocket turns: measure and add angles to \u2018navigate\u2019 a spacecraft (connect to degrees as 1/360 of a circle).",
+        "Line plots of \u2018crater diameter\u2019 measurements in 1/4 inches and solve fraction addition/subtraction from the plot.",
+        "Decimal fractions for space distances: convert tenths to hundredths and compare \u2018probe accuracy\u2019 readings (e.g., 0.7 vs 0.69)."
+      ],
+      "philosophy_summary": "This lesson follows the classical Trivium by grounding Jack first in memorized fraction equivalences (Grammar), then requiring orderly justification and analysis through decompositions and comparisons (Logic), and finally asking for clear written and oral explanation (early Rhetoric). The work is systematic, teacher-directed, and language-centered, emphasizing precision and disciplined reasoning while using the motivating theme of space exploration.",
+      "content_hash": null
+    }
+  }
+]
