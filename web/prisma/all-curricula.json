@@ -1758,5 +1758,471 @@
     ],
     "notes": "Highly detailed secular Waldorf curriculum. Kindergarten is 464 pages + 75 MP3s; First Grade is 541 pages + 63 MP3s; Second Grade is 735 pages + 59 MP3s. Created by Kelly, a former mixed-age kindergarten teacher with developmental neuropsychology background. Emphasizes rhythm, imagination, and play. Digital format (view online, download, or print). Community membership included. Fourth grade in development.",
     "active": true
+  },
+  {
+    "name": "Christopherus Homeschool Resources",
+    "publisher": "Christopherus Homeschool Resources (Donna Simmons)",
+    "description": "One of the original Waldorf homeschool curricula with deep Steiner/Anthroposophical grounding. Complete grade-by-grade curriculum covering all subjects through main lesson blocks, form drawing, watercolor, handwork, and seasonal rhythms.",
+    "subjects": [
+      "math",
+      "literacy",
+      "science",
+      "social_studies"
+    ],
+    "grade_range": "K–8",
+    "philosophy_scores": {
+      "montessori": 0.1,
+      "waldorf": 0.95,
+      "project_based": 0.1,
+      "place_nature": 0.3,
+      "classical": 0.05,
+      "charlotte_mason": 0.2,
+      "unschooling": 0.1,
+      "adaptive": 0.05
+    },
+    "prep_level": "moderate",
+    "religious_type": "anthroposophical",
+    "faith_depth": "philosophical",
+    "price_range": "$150-300/year",
+    "quality_score": 0.88,
+    "affiliate_url": "https://www.christopherushomeschool.com/",
+    "setting_fit": [
+      "individual"
+    ],
+    "notes": "One of the oldest Waldorf homeschool curricula. Donna Simmons is a trained Waldorf teacher. Includes consulting component. Deep Steiner philosophy grounding.",
+    "active": true
+  },
+  {
+    "name": "Live Education",
+    "publisher": "Live Education",
+    "description": "Complete Waldorf curriculum packages sold as physical sets per grade. WASC-accredited. Covers all core subjects through the Waldorf developmental approach with main lesson blocks, arts integration, and seasonal rhythms.",
+    "subjects": [
+      "math",
+      "literacy",
+      "science",
+      "social_studies"
+    ],
+    "grade_range": "K–8",
+    "philosophy_scores": {
+      "montessori": 0.1,
+      "waldorf": 0.9,
+      "project_based": 0.1,
+      "place_nature": 0.25,
+      "classical": 0.05,
+      "charlotte_mason": 0.15,
+      "unschooling": 0.05,
+      "adaptive": 0.05
+    },
+    "prep_level": "moderate",
+    "religious_type": "anthroposophical",
+    "faith_depth": "philosophical",
+    "price_range": "$300-500/year",
+    "quality_score": 0.85,
+    "affiliate_url": "https://www.live-education.com/",
+    "setting_fit": [
+      "individual",
+      "co-op"
+    ],
+    "notes": "WASC-accredited Waldorf curriculum. Complete physical curriculum sets per grade.",
+    "active": true
+  },
+  {
+    "name": "Logos Press Homeschool Bundles",
+    "publisher": "Logos Press (Canon Press)",
+    "description": "Pioneer of classical Christian education since 1981. Complete curriculum bundles for grades 1-6 with daily lesson plans covering math, science, English, grammar, literature, history, Bible, and Latin starting in 3rd grade.",
+    "subjects": [
+      "math",
+      "literacy",
+      "science",
+      "social_studies"
+    ],
+    "grade_range": "1–6",
+    "philosophy_scores": {
+      "montessori": 0.05,
+      "waldorf": 0.05,
+      "project_based": 0.1,
+      "place_nature": 0.0,
+      "classical": 0.9,
+      "charlotte_mason": 0.2,
+      "unschooling": 0.0,
+      "adaptive": 0.1
+    },
+    "prep_level": "open-and-go",
+    "religious_type": "christian",
+    "faith_depth": "deep",
+    "price_range": "$470-1160/year",
+    "quality_score": 0.87,
+    "affiliate_url": "https://logospressonline.com/",
+    "setting_fit": [
+      "individual",
+      "co-op"
+    ],
+    "notes": "Associated with Douglas Wilson and Logos School, Moscow, Idaho. Pioneer of classical Christian ed revival. Daily lesson plans included. Latin starts grade 3.",
+    "active": true
+  },
+  {
+    "name": "The Gentle + Classical Press",
+    "publisher": "The Gentle + Classical Press",
+    "description": "The gentlest classical option for young children, blending Charlotte Mason's literature-rich methods with classical trivium structure. Covers language arts, history, science, nature study, poetry, art, and music.",
+    "subjects": [
+      "literacy",
+      "science",
+      "social_studies"
+    ],
+    "grade_range": "Pre-K–6",
+    "philosophy_scores": {
+      "montessori": 0.1,
+      "waldorf": 0.1,
+      "project_based": 0.05,
+      "place_nature": 0.15,
+      "classical": 0.55,
+      "charlotte_mason": 0.6,
+      "unschooling": 0.0,
+      "adaptive": 0.15
+    },
+    "prep_level": "low",
+    "religious_type": "christian",
+    "faith_depth": "moderate",
+    "price_range": "$27-45/product",
+    "quality_score": 0.84,
+    "affiliate_url": "https://shopgentleclassical.com/",
+    "setting_fit": [
+      "individual",
+      "co-op"
+    ],
+    "notes": "Multiple award winner. Blends CM methods with classical structure. Math and reading programs must be sourced separately for K-6. Preschool curriculum available for ages 2-4.",
+    "active": true
+  },
+  {
+    "name": "Build Your Library",
+    "publisher": "Build Your Library (Emily Cook)",
+    "description": "The most established secular Charlotte Mason curriculum. 36-week PDF lesson plans covering history, literature, poetry, science, art, nature study, and composer/artist study. Chronological history progression across all levels.",
+    "subjects": [
+      "literacy",
+      "science",
+      "social_studies"
+    ],
+    "grade_range": "K–12",
+    "philosophy_scores": {
+      "montessori": 0.05,
+      "waldorf": 0.05,
+      "project_based": 0.1,
+      "place_nature": 0.25,
+      "classical": 0.2,
+      "charlotte_mason": 0.85,
+      "unschooling": 0.15,
+      "adaptive": 0.2
+    },
+    "prep_level": "low",
+    "religious_type": "secular",
+    "faith_depth": "none",
+    "price_range": "$30-60/year",
+    "quality_score": 0.9,
+    "affiliate_url": "https://buildyourlibrary.com/",
+    "setting_fit": [
+      "individual",
+      "co-op"
+    ],
+    "notes": "Created by Emily Cook, 21-year homeschool veteran and co-founder of SEA Homeschoolers. Secular. Math and grammar sourced separately. Books from library. Author of 'A Literary Education'.",
+    "active": true
+  },
+  {
+    "name": "Wildwood Curriculum",
+    "publisher": "Wildwood Curriculum (volunteer parents)",
+    "description": "Modern secular Charlotte Mason curriculum with deliberately diverse, modern book selections. Covers history, geography, literature, science, nature study, art, music, poetry, and handicrafts.",
+    "subjects": [
+      "literacy",
+      "science",
+      "social_studies"
+    ],
+    "grade_range": "Ages 6–12",
+    "philosophy_scores": {
+      "montessori": 0.05,
+      "waldorf": 0.05,
+      "project_based": 0.05,
+      "place_nature": 0.3,
+      "classical": 0.15,
+      "charlotte_mason": 0.9,
+      "unschooling": 0.15,
+      "adaptive": 0.15
+    },
+    "prep_level": "moderate",
+    "religious_type": "secular",
+    "faith_depth": "none",
+    "price_range": "Free",
+    "quality_score": 0.82,
+    "affiliate_url": "https://wildwoodcurriculum.com/",
+    "setting_fit": [
+      "individual",
+      "co-op"
+    ],
+    "notes": "Free. Deliberately chooses books that are secular, modern, and respectful of minorities, indigenous peoples, and women. US, Canadian, and India versions. Companion podcast: Stonechats.",
+    "active": true
+  },
+  {
+    "name": "Mater Amabilis",
+    "publisher": "Dr. Kathryn Faulkner & Michele Quigley",
+    "description": "The premier Catholic Charlotte Mason curriculum, free and online since 2004. Based directly on Mason's Parents' Union School programmes. Covers all CM subjects including history, geography, science, literature, religion, poetry, artist/composer study.",
+    "subjects": [
+      "literacy",
+      "science",
+      "social_studies"
+    ],
+    "grade_range": "Pre-K–12",
+    "philosophy_scores": {
+      "montessori": 0.05,
+      "waldorf": 0.05,
+      "project_based": 0.05,
+      "place_nature": 0.25,
+      "classical": 0.25,
+      "charlotte_mason": 0.95,
+      "unschooling": 0.05,
+      "adaptive": 0.05
+    },
+    "prep_level": "moderate",
+    "religious_type": "christian",
+    "faith_depth": "deep",
+    "price_range": "Free",
+    "quality_score": 0.86,
+    "affiliate_url": "http://materamabilis.org/",
+    "setting_fit": [
+      "individual",
+      "co-op"
+    ],
+    "notes": "Free Catholic CM curriculum. Named after the Catholic parish in Ambleside, England where Charlotte Mason lived. Literature-rich with extensive read-aloud lists. Thousands of families use it.",
+    "active": true
+  },
+  {
+    "name": "Living Books Press",
+    "publisher": "Living Books Press (Sheila Carroll)",
+    "description": "Charlotte Mason curriculum with 20+ years of development. Week-by-week teaching guides covering Bible, language arts, history, geography, science, nature study, art, and music. 100% of proceeds fund schools educating 750 children in Africa.",
+    "subjects": [
+      "literacy",
+      "science",
+      "social_studies"
+    ],
+    "grade_range": "K–8",
+    "philosophy_scores": {
+      "montessori": 0.05,
+      "waldorf": 0.05,
+      "project_based": 0.05,
+      "place_nature": 0.25,
+      "classical": 0.15,
+      "charlotte_mason": 0.9,
+      "unschooling": 0.05,
+      "adaptive": 0.1
+    },
+    "prep_level": "low",
+    "religious_type": "christian",
+    "faith_depth": "moderate",
+    "price_range": "$100-145/year",
+    "quality_score": 0.85,
+    "affiliate_url": "https://charlottemasonhomeschooling.com/",
+    "setting_fit": [
+      "individual",
+      "co-op"
+    ],
+    "notes": "100% of proceeds support schools in Africa. Created by Sheila Carroll with master's degrees in Educational Leadership and Children's Literature. Math recommended separately (Singapore Math or Math-U-See).",
+    "active": true
+  },
+  {
+    "name": "A Mind in the Light",
+    "publisher": "A Mind in the Light",
+    "description": "Secular Charlotte Mason curriculum with some classical methods. Organized by historical time period with teaching guides covering science, natural history, literature, tales, poetry, art, music, Plutarch, and citizenship.",
+    "subjects": [
+      "literacy",
+      "science",
+      "social_studies"
+    ],
+    "grade_range": "Ages 5–14+",
+    "philosophy_scores": {
+      "montessori": 0.05,
+      "waldorf": 0.05,
+      "project_based": 0.1,
+      "place_nature": 0.2,
+      "classical": 0.25,
+      "charlotte_mason": 0.8,
+      "unschooling": 0.1,
+      "adaptive": 0.15
+    },
+    "prep_level": "moderate",
+    "religious_type": "secular",
+    "faith_depth": "none",
+    "price_range": "$80+/year",
+    "quality_score": 0.83,
+    "affiliate_url": "https://www.amindinthelight.com/",
+    "setting_fit": [
+      "individual",
+      "co-op"
+    ],
+    "notes": "Secular CM with some classical methods. Includes French, German, and Latin resources. Still growing — creator building out all historical periods.",
+    "active": true
+  },
+  {
+    "name": "Wayfarers",
+    "publisher": "Barefoot Meandering / Barefoot Ragamuffin Curricula",
+    "description": "A 'Classical Mason' blend — four-year historical cycle covering all subjects for the whole family in one guide. Daily lesson plans for three age groups on 2-page spreads. Secular but inclusive of optional religious readings.",
+    "subjects": [
+      "literacy",
+      "science",
+      "social_studies"
+    ],
+    "grade_range": "Pre-K–12",
+    "philosophy_scores": {
+      "montessori": 0.05,
+      "waldorf": 0.05,
+      "project_based": 0.1,
+      "place_nature": 0.15,
+      "classical": 0.45,
+      "charlotte_mason": 0.65,
+      "unschooling": 0.05,
+      "adaptive": 0.15
+    },
+    "prep_level": "low",
+    "religious_type": "secular",
+    "faith_depth": "none",
+    "price_range": "$30-60/volume",
+    "quality_score": 0.82,
+    "affiliate_url": "http://barefootmeandering.com/",
+    "setting_fit": [
+      "individual",
+      "co-op"
+    ],
+    "notes": "Four volumes: Ancient, Medieval, Revolution, Modern. One guide covers the whole family. Secular but includes optional readings from multiple religious traditions. Free 3-week samples available.",
+    "active": true
+  },
+  {
+    "name": "KONOS Character Curriculum",
+    "publisher": "KONOS, Inc. (Jessica Hulcy & Carole Thaxton)",
+    "description": "The first curriculum written specifically for homeschool (1983). Hands-on, multi-age unit studies centered on character traits integrating science, social studies, art, music, literature, and health. Each unit revolves around a character trait studied for 1-2 months.",
+    "subjects": [
+      "science",
+      "social_studies",
+      "literacy"
+    ],
+    "grade_range": "K–12",
+    "philosophy_scores": {
+      "montessori": 0.2,
+      "waldorf": 0.1,
+      "project_based": 0.8,
+      "place_nature": 0.15,
+      "classical": 0.1,
+      "charlotte_mason": 0.25,
+      "unschooling": 0.1,
+      "adaptive": 0.2
+    },
+    "prep_level": "moderate",
+    "religious_type": "christian",
+    "faith_depth": "moderate",
+    "price_range": "$99-225/volume",
+    "quality_score": 0.83,
+    "affiliate_url": "https://konos.com/",
+    "setting_fit": [
+      "individual",
+      "co-op",
+      "micro-school"
+    ],
+    "notes": "First homeschool curriculum (1983). Three volumes with 30 interchangeable units. Character-trait-based. Math/spelling/grammar purchased separately. Multi-age design for teaching all children together.",
+    "active": true
+  },
+  {
+    "name": "Five in a Row",
+    "publisher": "Five in a Row Publishing (Jane Claire Lambert)",
+    "description": "Award-winning literature-based curriculum where each week centers on one outstanding children's book, extracting lessons in five subject areas across five days. Gentle, affordable, and beloved by homeschool families for decades.",
+    "subjects": [
+      "literacy",
+      "science",
+      "social_studies",
+      "math"
+    ],
+    "grade_range": "Ages 2–12+",
+    "philosophy_scores": {
+      "montessori": 0.1,
+      "waldorf": 0.1,
+      "project_based": 0.55,
+      "place_nature": 0.15,
+      "classical": 0.05,
+      "charlotte_mason": 0.6,
+      "unschooling": 0.2,
+      "adaptive": 0.3
+    },
+    "prep_level": "low",
+    "religious_type": "secular",
+    "faith_depth": "none",
+    "price_range": "$49-100/year",
+    "quality_score": 0.88,
+    "affiliate_url": "https://fiveinarow.com/",
+    "setting_fit": [
+      "individual",
+      "co-op"
+    ],
+    "notes": "Before FIAR (ages 2-4), Volumes 1-3 (ages 5-9), Volumes 4-8 (ages 9-12+). Optional Bible supplement sold separately. Math/phonics supplements needed for early grades. Books sourced from library.",
+    "active": true
+  },
+  {
+    "name": "Keys of the Universe",
+    "publisher": "Keys of the Universe",
+    "description": "The most comprehensive Montessori elementary curriculum for homeschoolers. Complete downloadable albums for all subjects — mathematics, geometry, geography, history, biology, language/literature, art, and music — with video instruction and community support.",
+    "subjects": [
+      "math",
+      "literacy",
+      "science",
+      "social_studies"
+    ],
+    "grade_range": "Ages 6–12",
+    "philosophy_scores": {
+      "montessori": 0.95,
+      "waldorf": 0.05,
+      "project_based": 0.2,
+      "place_nature": 0.15,
+      "classical": 0.05,
+      "charlotte_mason": 0.1,
+      "unschooling": 0.2,
+      "adaptive": 0.1
+    },
+    "prep_level": "moderate",
+    "religious_type": "secular",
+    "faith_depth": "none",
+    "price_range": "$415-455",
+    "quality_score": 0.9,
+    "affiliate_url": "https://keysoftheuniverse.com/",
+    "setting_fit": [
+      "individual"
+    ],
+    "notes": "Complete Montessori Cosmic Education albums. One-time purchase with permanent access and updates. No prior Montessori training needed. Active support community included.",
+    "active": true
+  },
+  {
+    "name": "Multisori",
+    "publisher": "Multisori",
+    "description": "Authentic Montessori curriculum designed for parents without certification. Covers language arts, mathematics, practical life, science, geography/culture, art, and sensorial activities. All manipulatives are printable — no expensive Montessori materials needed.",
+    "subjects": [
+      "math",
+      "literacy",
+      "science",
+      "social_studies"
+    ],
+    "grade_range": "Ages 2.5–6.5",
+    "philosophy_scores": {
+      "montessori": 0.9,
+      "waldorf": 0.05,
+      "project_based": 0.1,
+      "place_nature": 0.1,
+      "classical": 0.05,
+      "charlotte_mason": 0.05,
+      "unschooling": 0.15,
+      "adaptive": 0.1
+    },
+    "prep_level": "open-and-go",
+    "religious_type": "secular",
+    "faith_depth": "none",
+    "price_range": "$499",
+    "quality_score": 0.85,
+    "affiliate_url": "https://multisori.com/",
+    "setting_fit": [
+      "individual"
+    ],
+    "notes": "One-time purchase. All manipulatives printable. Claims children exit performing 2 years above grade level. Free group coaching included. Scholarship program available.",
+    "active": true
   }
 ]

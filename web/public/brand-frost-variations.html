@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Frosted Glass Variations — The Sage's Compass</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cormorant+SC:wght@400;600;700&family=Cormorant:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap');
+
+    :root {
+      --ink: #1B1A17;
+      --night: #0B2E4A;
+      --parchment: #F9F6EF;
+      --accent-primary: #6E6E9E;
+      --accent-secondary: #7A9E8A;
+      --accent-tertiary: #9B7E8E;
+      --text-secondary: #5A5A5A;
+      --text-tertiary: #767676;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Inter', sans-serif; color: var(--ink); background: var(--parchment); line-height: 1.6; }
+
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; }
+    section { padding: 2.5rem 0; border-bottom: 1px solid rgba(0,0,0,0.06); }
+    h1 { font-family: 'Cormorant SC', serif; font-size: 2.2rem; font-weight: 700; letter-spacing: 0.08em; text-align: center; margin-bottom: 0.5rem; }
+    h2 { font-family: 'Cormorant SC', serif; font-size: 1.3rem; font-weight: 600; letter-spacing: 0.06em; margin-bottom: 1rem; }
+    .subtitle { font-family: 'Cormorant', serif; font-size: 1rem; font-style: italic; color: var(--text-secondary); text-align: center; margin-bottom: 2rem; }
+    .label { font-size: 0.6rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-tertiary); margin-bottom: 0.5rem; }
+    .variations { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.5rem; margin: 1rem 0; }
+    .variation-label { font-size: 0.6rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-tertiary); text-align: center; margin-top: 0.5rem; }
+
+    /* Watercolor backgrounds */
+    .wc { position: relative; overflow: hidden; padding: 1.75rem 1.5rem; border-radius: 16px; }
+    .wc::before { content: ''; position: absolute; inset: 0; filter: saturate(0) brightness(1.1); mix-blend-mode: multiply; pointer-events: none; }
+    .wc::after { content: ''; position: absolute; inset: 0; pointer-events: none; }
+    .wc > * { position: relative; z-index: 1; }
+
+    .wc-compass::before { background: url('/explore/watercolor-texture-8.png') center/cover; opacity: 0.35; }
+    .wc-compass::after { background: radial-gradient(ellipse at 40% 25%, rgba(140,125,175,0.35), transparent 60%), radial-gradient(ellipse at 65% 75%, rgba(125,115,165,0.28), transparent 55%); }
+    .wc-compass { background: #E8E0F0; }
+
+    .wc-results::before { background: url('/explore/watercolor-texture-2.png') center/cover; opacity: 0.3; }
+    .wc-results::after { background: radial-gradient(ellipse at 50% 20%, rgba(150,130,180,0.3), transparent 60%), radial-gradient(ellipse at 30% 70%, rgba(135,125,170,0.22), transparent 55%); }
+    .wc-results { background: #DDE6EE; }
+
+    .wc-peach::before { background: url('/explore/watercolor-texture-9.png') center/cover; opacity: 0.3; }
+    .wc-peach::after { background: radial-gradient(ellipse at 35% 30%, rgba(195,155,140,0.28), transparent 60%), radial-gradient(ellipse at 70% 65%, rgba(185,150,135,0.22), transparent 55%); }
+    .wc-peach { background: #F5EBE6; }
+
+    .wc-sage::before { background: url('/explore/watercolor-texture-5.png') center/cover; opacity: 0.32; }
+    .wc-sage::after { background: radial-gradient(ellipse at 45% 25%, rgba(110,148,125,0.3), transparent 60%), radial-gradient(ellipse at 60% 75%, rgba(120,150,130,0.22), transparent 55%); }
+    .wc-sage { background: #E0EDE0; }
+
+    .wc-teal::before { background: url('/explore/watercolor-texture-3.png') center/cover; opacity: 0.3; }
+    .wc-teal::after { background: radial-gradient(ellipse at 35% 25%, rgba(115,155,165,0.28), transparent 60%), radial-gradient(ellipse at 70% 75%, rgba(120,150,160,0.22), transparent 55%); }
+    .wc-teal { background: #E0E8EC; }
+
+    /* ═══ THREE FROST LEVELS ═══ */
+
+    /* Light frost — more watercolor shows through, dreamy */
+    .frost-light { background: rgba(255,255,255,0.58); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.35); border-radius: 12px; padding: 1.25rem; box-shadow: 0 1px 8px rgba(0,0,0,0.03); }
+    .pill-frost-light { display: inline-block; font-size: 0.7rem; padding: 0.3rem 0.65rem; border-radius: 6px; background: rgba(255,255,255,0.55); backdrop-filter: blur(6px); border: 1px solid rgba(255,255,255,0.35); font-weight: 500; }
+
+    /* Medium frost — balanced, the watercolor is a soft hint behind */
+    .frost-medium { background: rgba(255,255,255,0.72); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.5); border-radius: 12px; padding: 1.25rem; box-shadow: 0 2px 10px rgba(0,0,0,0.04); }
+    .pill-frost-medium { display: inline-block; font-size: 0.7rem; padding: 0.3rem 0.65rem; border-radius: 6px; background: rgba(255,255,255,0.68); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.45); font-weight: 500; }
+
+    /* Heavy frost — nearly opaque, crisp and clean, just a whisper of watercolor */
+    .frost-heavy { background: rgba(255,255,255,0.88); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.6); border-radius: 12px; padding: 1.25rem; box-shadow: 0 2px 12px rgba(0,0,0,0.05); }
+    .pill-frost-heavy { display: inline-block; font-size: 0.7rem; padding: 0.3rem 0.65rem; border-radius: 6px; background: rgba(255,255,255,0.82); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.55); font-weight: 600; }
+
+    .btn-night { display: inline-block; padding: 0.55rem 1.25rem; border-radius: 10px; border: none; background: var(--night); color: var(--parchment); font-family: 'Inter', sans-serif; font-size: 0.78rem; font-weight: 500; cursor: pointer; }
+    .btn-accent { display: inline-block; padding: 0.55rem 1.25rem; border-radius: 10px; border: none; background: var(--accent-primary); color: white; font-family: 'Inter', sans-serif; font-size: 0.78rem; font-weight: 500; cursor: pointer; }
+
+    @media (max-width: 900px) { .variations { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+
+  <div style="text-align: center; padding: 2.5rem 1.5rem 0.5rem;">
+    <h1>Frosted Glass Variations</h1>
+    <div class="subtitle">Three frost intensities. Same layout. Pick the feel.</div>
+    <div style="display: flex; gap: 2rem; justify-content: center; margin: 1.5rem 0; font-size: 0.75rem;">
+      <div><strong style="color: var(--accent-primary);">B1 — Light Frost</strong><br/>58% white, 8px blur<br/>Watercolor bleeds through</div>
+      <div><strong style="color: var(--accent-primary);">B2 — Medium Frost</strong><br/>72% white, 12px blur<br/>Soft hint of watercolor</div>
+      <div><strong style="color: var(--accent-primary);">B3 — Heavy Frost</strong><br/>88% white, 16px blur<br/>Nearly opaque, whisper of color</div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════ COMPASS QUIZ ═══════════════════ -->
+  <section>
+    <div class="container">
+      <h2>Compass Quiz</h2>
+      <div class="variations">
+        <div>
+          <div class="wc wc-compass">
+            <div style="height: 3px; background: rgba(0,0,0,0.12); border-radius: 2px; margin-bottom: 1.25rem;"><div style="height: 100%; width: 45%; background: var(--accent-primary); border-radius: 2px;"></div></div>
+            <div style="text-align: center; font-size: 0.6rem; color: var(--text-secondary); margin-bottom: 0.75rem;">QUESTION 9 OF 20</div>
+            <div style="font-family: 'Cormorant', serif; font-size: 1.1rem; text-align: center; color: var(--ink); line-height: 1.5; margin-bottom: 1.25rem;">Your 6-year-old is ready to start reading. Which approach feels right?</div>
+            <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+              <div class="frost-light" style="font-size: 0.78rem; cursor: pointer;">Systematic phonics: letter sounds, blending rules</div>
+              <div style="background: var(--night); color: var(--parchment); border-radius: 12px; padding: 1.25rem; font-size: 0.78rem; font-weight: 500; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">Surround them with living books and let reading emerge</div>
+              <div class="frost-light" style="font-size: 0.78rem; cursor: pointer;">Sandpaper letters and movable alphabet — tactile</div>
+            </div>
+          </div>
+          <div class="variation-label">B1 — Light Frost</div>
+        </div>
+        <div>
+          <div class="wc wc-compass">
+            <div style="height: 3px; background: rgba(0,0,0,0.12); border-radius: 2px; margin-bottom: 1.25rem;"><div style="height: 100%; width: 45%; background: var(--accent-primary); border-radius: 2px;"></div></div>
+            <div style="text-align: center; font-size: 0.6rem; color: var(--text-secondary); margin-bottom: 0.75rem;">QUESTION 9 OF 20</div>
+            <div style="font-family: 'Cormorant', serif; font-size: 1.1rem; text-align: center; color: var(--ink); line-height: 1.5; margin-bottom: 1.25rem;">Your 6-year-old is ready to start reading. Which approach feels right?</div>
+            <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+              <div class="frost-medium" style="font-size: 0.78rem; cursor: pointer;">Systematic phonics: letter sounds, blending rules</div>
+              <div style="background: var(--night); color: var(--parchment); border-radius: 12px; padding: 1.25rem; font-size: 0.78rem; font-weight: 500; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">Surround them with living books and let reading emerge</div>
+              <div class="frost-medium" style="font-size: 0.78rem; cursor: pointer;">Sandpaper letters and movable alphabet — tactile</div>
+            </div>
+          </div>
+          <div class="variation-label">B2 — Medium Frost</div>
+        </div>
+        <div>
+          <div class="wc wc-compass">
+            <div style="height: 3px; background: rgba(0,0,0,0.12); border-radius: 2px; margin-bottom: 1.25rem;"><div style="height: 100%; width: 45%; background: var(--accent-primary); border-radius: 2px;"></div></div>
+            <div style="text-align: center; font-size: 0.6rem; color: var(--text-secondary); margin-bottom: 0.75rem;">QUESTION 9 OF 20</div>
+            <div style="font-family: 'Cormorant', serif; font-size: 1.1rem; text-align: center; color: var(--ink); line-height: 1.5; margin-bottom: 1.25rem;">Your 6-year-old is ready to start reading. Which approach feels right?</div>
+            <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+              <div class="frost-heavy" style="font-size: 0.78rem; cursor: pointer;">Systematic phonics: letter sounds, blending rules</div>
+              <div style="background: var(--night); color: var(--parchment); border-radius: 12px; padding: 1.25rem; font-size: 0.78rem; font-weight: 500; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">Surround them with living books and let reading emerge</div>
+              <div class="frost-heavy" style="font-size: 0.78rem; cursor: pointer;">Sandpaper letters and movable alphabet — tactile</div>
+            </div>
+          </div>
+          <div class="variation-label">B3 — Heavy Frost</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ RESULTS ═══════════════════ -->
+  <section>
+    <div class="container">
+      <h2>Results — Cultivator Badges</h2>
+      <div class="variations">
+        <div>
+          <div class="wc wc-results" style="text-align: center; min-height: 260px;">
+            <div style="font-size: 2.2rem; margin-bottom: 0.25rem;">🌱</div>
+            <div style="font-size: 0.5rem; letter-spacing: 0.14em; text-transform: uppercase; color: #5B5E8A;">Your Teaching Archetype</div>
+            <div style="font-family: 'Cormorant SC', serif; font-size: 1.5rem; font-weight: 700; letter-spacing: 0.06em; margin: 0.2rem 0 0.4rem;">THE CULTIVATOR</div>
+            <div style="font-family: 'Cormorant', serif; font-size: 0.85rem; font-style: italic; color: var(--text-secondary); max-width: 320px; margin: 0 auto 0.75rem; line-height: 1.4;">You prepare the environment and curate materials, but trust the child to lead.</div>
+            <div style="display: flex; gap: 0.35rem; justify-content: center; flex-wrap: wrap;">
+              <span class="pill-frost-light" style="color: #5D4B7E;">Montessori 42%</span>
+              <span class="pill-frost-light" style="color: #8A5A6A;">Charlotte Mason 28%</span>
+              <span class="pill-frost-light" style="color: #3A745A;">Nature 18%</span>
+            </div>
+          </div>
+          <div class="variation-label">B1 — Light Frost Pills</div>
+        </div>
+        <div>
+          <div class="wc wc-results" style="text-align: center; min-height: 260px;">
+            <div style="font-size: 2.2rem; margin-bottom: 0.25rem;">🌱</div>
+            <div style="font-size: 0.5rem; letter-spacing: 0.14em; text-transform: uppercase; color: #5B5E8A;">Your Teaching Archetype</div>
+            <div style="font-family: 'Cormorant SC', serif; font-size: 1.5rem; font-weight: 700; letter-spacing: 0.06em; margin: 0.2rem 0 0.4rem;">THE CULTIVATOR</div>
+            <div style="font-family: 'Cormorant', serif; font-size: 0.85rem; font-style: italic; color: var(--text-secondary); max-width: 320px; margin: 0 auto 0.75rem; line-height: 1.4;">You prepare the environment and curate materials, but trust the child to lead.</div>
+            <div style="display: flex; gap: 0.35rem; justify-content: center; flex-wrap: wrap;">
+              <span class="pill-frost-medium" style="color: #5D4B7E;">Montessori 42%</span>
+              <span class="pill-frost-medium" style="color: #8A5A6A;">Charlotte Mason 28%</span>
+              <span class="pill-frost-medium" style="color: #3A745A;">Nature 18%</span>
+            </div>
+          </div>
+          <div class="variation-label">B2 — Medium Frost Pills</div>
+        </div>
+        <div>
+          <div class="wc wc-results" style="text-align: center; min-height: 260px;">
+            <div style="font-size: 2.2rem; margin-bottom: 0.25rem;">🌱</div>
+            <div style="font-size: 0.5rem; letter-spacing: 0.14em; text-transform: uppercase; color: #5B5E8A;">Your Teaching Archetype</div>
+            <div style="font-family: 'Cormorant SC', serif; font-size: 1.5rem; font-weight: 700; letter-spacing: 0.06em; margin: 0.2rem 0 0.4rem;">THE CULTIVATOR</div>
+            <div style="font-family: 'Cormorant', serif; font-size: 0.85rem; font-style: italic; color: var(--text-secondary); max-width: 320px; margin: 0 auto 0.75rem; line-height: 1.4;">You prepare the environment and curate materials, but trust the child to lead.</div>
+            <div style="display: flex; gap: 0.35rem; justify-content: center; flex-wrap: wrap;">
+              <span class="pill-frost-heavy" style="color: #5D4B7E;">Montessori 42%</span>
+              <span class="pill-frost-heavy" style="color: #8A5A6A;">Charlotte Mason 28%</span>
+              <span class="pill-frost-heavy" style="color: #3A745A;">Nature 18%</span>
+            </div>
+          </div>
+          <div class="variation-label">B3 — Heavy Frost Pills</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ GENERATE ═══════════════════ -->
+  <section>
+    <div class="container">
+      <h2>Generate — Form Panel</h2>
+      <div class="variations">
+        <div>
+          <div class="wc wc-peach">
+            <div style="font-family: 'Cormorant SC', serif; font-size: 1.2rem; font-weight: 600; letter-spacing: 0.06em; margin-bottom: 0.8rem;">Generate a Lesson</div>
+            <div class="frost-light" style="padding: 1.25rem;">
+              <div class="label">Seed — What Sparks Curiosity?</div>
+              <div style="padding: 0.45rem 0.6rem; border-radius: 8px; border: 1px solid rgba(0,0,0,0.08); background: rgba(255,255,255,0.5); font-size: 0.78rem; margin-bottom: 0.85rem;">butterflies and metamorphosis</div>
+              <div class="label">Philosophy</div>
+              <div style="display: flex; gap: 0.35rem; margin-bottom: 1rem;">
+                <span class="pill-frost-light" style="color: var(--accent-tertiary); font-weight: 600;">Charlotte Mason</span>
+                <span class="pill-frost-light" style="color: var(--text-secondary);">Montessori</span>
+              </div>
+              <button class="btn-night" style="width: 100%; text-align: center;">Generate Lesson</button>
+            </div>
+          </div>
+          <div class="variation-label">B1 — Light Frost Panel</div>
+        </div>
+        <div>
+          <div class="wc wc-peach">
+            <div style="font-family: 'Cormorant SC', serif; font-size: 1.2rem; font-weight: 600; letter-spacing: 0.06em; margin-bottom: 0.8rem;">Generate a Lesson</div>
+            <div class="frost-medium" style="padding: 1.25rem;">
+              <div class="label">Seed — What Sparks Curiosity?</div>
+              <div style="padding: 0.45rem 0.6rem; border-radius: 8px; border: 1px solid rgba(0,0,0,0.08); background: rgba(255,255,255,0.55); font-size: 0.78rem; margin-bottom: 0.85rem;">butterflies and metamorphosis</div>
+              <div class="label">Philosophy</div>
+              <div style="display: flex; gap: 0.35rem; margin-bottom: 1rem;">
+                <span class="pill-frost-medium" style="color: var(--accent-tertiary); font-weight: 600;">Charlotte Mason</span>
+                <span class="pill-frost-medium" style="color: var(--text-secondary);">Montessori</span>
+              </div>
+              <button class="btn-night" style="width: 100%; text-align: center;">Generate Lesson</button>
+            </div>
+          </div>
+          <div class="variation-label">B2 — Medium Frost Panel</div>
+        </div>
+        <div>
+          <div class="wc wc-peach">
+            <div style="font-family: 'Cormorant SC', serif; font-size: 1.2rem; font-weight: 600; letter-spacing: 0.06em; margin-bottom: 0.8rem;">Generate a Lesson</div>
+            <div class="frost-heavy" style="padding: 1.25rem;">
+              <div class="label">Seed — What Sparks Curiosity?</div>
+              <div style="padding: 0.45rem 0.6rem; border-radius: 8px; border: 1px solid rgba(0,0,0,0.06); background: rgba(255,255,255,0.6); font-size: 0.78rem; margin-bottom: 0.85rem;">butterflies and metamorphosis</div>
+              <div class="label">Philosophy</div>
+              <div style="display: flex; gap: 0.35rem; margin-bottom: 1rem;">
+                <span class="pill-frost-heavy" style="color: var(--accent-tertiary); font-weight: 600;">Charlotte Mason</span>
+                <span class="pill-frost-heavy" style="color: var(--text-secondary);">Montessori</span>
+              </div>
+              <button class="btn-night" style="width: 100%; text-align: center;">Generate Lesson</button>
+            </div>
+          </div>
+          <div class="variation-label">B3 — Heavy Frost Panel</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ LESSON VIEW ═══════════════════ -->
+  <section>
+    <div class="container">
+      <h2>Lesson View — Cards + Philosophy Tip</h2>
+      <div class="variations">
+        <div>
+          <div class="wc wc-sage">
+            <div style="display: flex; align-items: center; gap: 0.35rem; margin-bottom: 0.2rem;">
+              <span class="pill-frost-light" style="color: #8A5A6A;">Charlotte Mason</span>
+              <span style="font-size: 0.6rem; color: var(--text-secondary);">Grade 2 &middot; Science</span>
+            </div>
+            <div style="font-family: 'Cormorant SC', serif; font-size: 1.15rem; font-weight: 600; letter-spacing: 0.06em; margin-bottom: 0.75rem;">The Butterfly's Journey</div>
+            <div class="frost-light" style="margin-bottom: 0.5rem;">
+              <div style="font-size: 0.55rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #5B5E8A; margin-bottom: 0.35rem;">Section 1: Living Books</div>
+              <div style="font-size: 0.78rem; color: var(--text-secondary); line-height: 1.5;">Read "The Very Hungry Caterpillar" aloud, then narrate back the stages.</div>
+            </div>
+            <div class="frost-light" style="border-left: 3px solid #9B7E8E;">
+              <div style="font-size: 0.55rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #9B7E8E; margin-bottom: 0.25rem;">Philosophy Connection</div>
+              <div style="font-size: 0.78rem; color: var(--text-secondary); line-height: 1.5;">Charlotte Mason believed nature study should come through direct observation.</div>
+            </div>
+          </div>
+          <div class="variation-label">B1 — Light Frost</div>
+        </div>
+        <div>
+          <div class="wc wc-sage">
+            <div style="display: flex; align-items: center; gap: 0.35rem; margin-bottom: 0.2rem;">
+              <span class="pill-frost-medium" style="color: #8A5A6A;">Charlotte Mason</span>
+              <span style="font-size: 0.6rem; color: var(--text-secondary);">Grade 2 &middot; Science</span>
+            </div>
+            <div style="font-family: 'Cormorant SC', serif; font-size: 1.15rem; font-weight: 600; letter-spacing: 0.06em; margin-bottom: 0.75rem;">The Butterfly's Journey</div>
+            <div class="frost-medium" style="margin-bottom: 0.5rem;">
+              <div style="font-size: 0.55rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #5B5E8A; margin-bottom: 0.35rem;">Section 1: Living Books</div>
+              <div style="font-size: 0.78rem; color: var(--text-secondary); line-height: 1.5;">Read "The Very Hungry Caterpillar" aloud, then narrate back the stages.</div>
+            </div>
+            <div class="frost-medium" style="border-left: 3px solid #9B7E8E;">
+              <div style="font-size: 0.55rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #9B7E8E; margin-bottom: 0.25rem;">Philosophy Connection</div>
+              <div style="font-size: 0.78rem; color: var(--text-secondary); line-height: 1.5;">Charlotte Mason believed nature study should come through direct observation.</div>
+            </div>
+          </div>
+          <div class="variation-label">B2 — Medium Frost</div>
+        </div>
+        <div>
+          <div class="wc wc-sage">
+            <div style="display: flex; align-items: center; gap: 0.35rem; margin-bottom: 0.2rem;">
+              <span class="pill-frost-heavy" style="color: #8A5A6A;">Charlotte Mason</span>
+              <span style="font-size: 0.6rem; color: var(--text-secondary);">Grade 2 &middot; Science</span>
+            </div>
+            <div style="font-family: 'Cormorant SC', serif; font-size: 1.15rem; font-weight: 600; letter-spacing: 0.06em; margin-bottom: 0.75rem;">The Butterfly's Journey</div>
+            <div class="frost-heavy" style="margin-bottom: 0.5rem;">
+              <div style="font-size: 0.55rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #5B5E8A; margin-bottom: 0.35rem;">Section 1: Living Books</div>
+              <div style="font-size: 0.78rem; color: var(--text-secondary); line-height: 1.5;">Read "The Very Hungry Caterpillar" aloud, then narrate back the stages.</div>
+            </div>
+            <div class="frost-heavy" style="border-left: 3px solid #9B7E8E;">
+              <div style="font-size: 0.55rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #9B7E8E; margin-bottom: 0.25rem;">Philosophy Connection</div>
+              <div style="font-size: 0.78rem; color: var(--text-secondary); line-height: 1.5;">Charlotte Mason believed nature study should come through direct observation.</div>
+            </div>
+          </div>
+          <div class="variation-label">B3 — Heavy Frost</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ CALENDAR ═══════════════════ -->
+  <section>
+    <div class="container">
+      <h2>Calendar — Day Cells</h2>
+      <div class="variations">
+        <div>
+          <div class="wc wc-teal" style="min-height: 160px;">
+            <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 0.35rem;">
+              <div class="frost-light" style="padding: 0.45rem; text-align: center;"><div style="font-size: 0.55rem; color: var(--text-tertiary);">Mon</div><div style="font-size: 0.65rem; margin-top: 0.1rem;">Butterfly's Journey</div></div>
+              <div class="frost-light" style="padding: 0.45rem; text-align: center;"><div style="font-size: 0.55rem; color: var(--text-tertiary);">Tue</div><div style="font-size: 0.65rem; margin-top: 0.1rem;">Fraction Kitchen</div></div>
+              <div class="frost-light" style="padding: 0.45rem; text-align: center;"><div style="font-size: 0.55rem; color: var(--text-tertiary);">Wed</div><div style="font-size: 0.65rem; margin-top: 0.1rem;">Nature Journal</div></div>
+              <div class="frost-light" style="padding: 0.45rem; text-align: center;"><div style="font-size: 0.55rem; color: var(--text-tertiary);">Thu</div><div style="font-size: 0.65rem; margin-top: 0.1rem;">Story Narration</div></div>
+              <div style="padding: 0.45rem; text-align: center; background: var(--night); color: var(--parchment); border-radius: 12px;"><div style="font-size: 0.55rem; opacity: 0.7;">Fri</div><div style="font-size: 0.65rem; margin-top: 0.1rem; font-weight: 500;">Field Trip</div></div>
+            </div>
+          </div>
+          <div class="variation-label">B1 — Light Frost Cells</div>
+        </div>
+        <div>
+          <div class="wc wc-teal" style="min-height: 160px;">
+            <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 0.35rem;">
+              <div class="frost-medium" style="padding: 0.45rem; text-align: center;"><div style="font-size: 0.55rem; color: var(--text-tertiary);">Mon</div><div style="font-size: 0.65rem; margin-top: 0.1rem;">Butterfly's Journey</div></div>
+              <div class="frost-medium" style="padding: 0.45rem; text-align: center;"><div style="font-size: 0.55rem; color: var(--text-tertiary);">Tue</div><div style="font-size: 0.65rem; margin-top: 0.1rem;">Fraction Kitchen</div></div>
+              <div class="frost-medium" style="padding: 0.45rem; text-align: center;"><div style="font-size: 0.55rem; color: var(--text-tertiary);">Wed</div><div style="font-size: 0.65rem; margin-top: 0.1rem;">Nature Journal</div></div>
+              <div class="frost-medium" style="padding: 0.45rem; text-align: center;"><div style="font-size: 0.55rem; color: var(--text-tertiary);">Thu</div><div style="font-size: 0.65rem; margin-top: 0.1rem;">Story Narration</div></div>
+              <div style="padding: 0.45rem; text-align: center; background: var(--night); color: var(--parchment); border-radius: 12px;"><div style="font-size: 0.55rem; opacity: 0.7;">Fri</div><div style="font-size: 0.65rem; margin-top: 0.1rem; font-weight: 500;">Field Trip</div></div>
+            </div>
+          </div>
+          <div class="variation-label">B2 — Medium Frost Cells</div>
+        </div>
+        <div>
+          <div class="wc wc-teal" style="min-height: 160px;">
+            <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 0.35rem;">
+              <div class="frost-heavy" style="padding: 0.45rem; text-align: center;"><div style="font-size: 0.55rem; color: var(--text-tertiary);">Mon</div><div style="font-size: 0.65rem; margin-top: 0.1rem;">Butterfly's Journey</div></div>
+              <div class="frost-heavy" style="padding: 0.45rem; text-align: center;"><div style="font-size: 0.55rem; color: var(--text-tertiary);">Tue</div><div style="font-size: 0.65rem; margin-top: 0.1rem;">Fraction Kitchen</div></div>
+              <div class="frost-heavy" style="padding: 0.45rem; text-align: center;"><div style="font-size: 0.55rem; color: var(--text-tertiary);">Wed</div><div style="font-size: 0.65rem; margin-top: 0.1rem;">Nature Journal</div></div>
+              <div class="frost-heavy" style="padding: 0.45rem; text-align: center;"><div style="font-size: 0.55rem; color: var(--text-tertiary);">Thu</div><div style="font-size: 0.65rem; margin-top: 0.1rem;">Story Narration</div></div>
+              <div style="padding: 0.45rem; text-align: center; background: var(--night); color: var(--parchment); border-radius: 12px;"><div style="font-size: 0.55rem; opacity: 0.7;">Fri</div><div style="font-size: 0.65rem; margin-top: 0.1rem; font-weight: 500;">Field Trip</div></div>
+            </div>
+          </div>
+          <div class="variation-label">B3 — Heavy Frost Cells</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div style="text-align: center; padding: 2rem; font-size: 0.75rem; color: var(--text-tertiary);">
+    <strong>Summary:</strong> B1 = dreamy, watercolor bleeds through &nbsp;|&nbsp; B2 = balanced, soft hint &nbsp;|&nbsp; B3 = crisp, nearly opaque<br/>
+    You can mix — e.g. B1 for quiz (immersive), B2 for forms (readable), B3 for data-heavy pages (crisp).
+  </div>
+
+</body>
+</html>
