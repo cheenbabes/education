@@ -38,6 +38,31 @@ function formatDate(d: Date): string {
 
 const DAY_NAMES = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
+const frostPillBase: React.CSSProperties = {
+  background: "rgba(255,255,255,0.68)",
+  backdropFilter: "blur(10px)",
+  border: "1px solid rgba(255,255,255,0.45)",
+  borderRadius: "6px",
+  fontSize: "0.7rem",
+  padding: "0.25rem 0.6rem",
+  fontWeight: 500,
+  display: "inline-flex",
+  alignItems: "center",
+  cursor: "pointer",
+};
+
+const nightButton: React.CSSProperties = {
+  background: "#0B2E4A",
+  color: "#F9F6EF",
+  borderRadius: "10px",
+  padding: "0.6rem 1.4rem",
+  cursor: "pointer",
+  fontSize: "0.875rem",
+  fontWeight: 500,
+  border: "none",
+  textDecoration: "none",
+};
+
 export default function CalendarPage() {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [view, setView] = useState<"week" | "month">("week");
@@ -107,29 +132,38 @@ export default function CalendarPage() {
 
   if (loading) {
     return (
-      <Shell>
+      <Shell hue="calendar">
         <div className="flex items-center justify-center py-12">
-          <p className="text-gray-500 dark:text-gray-400">Loading...</p>
+          <p style={{ color: "#5A5A5A" }}>Loading...</p>
         </div>
       </Shell>
     );
   }
 
   return (
-    <Shell>
+    <Shell hue="calendar">
       <div className="space-y-4">
+        {/* Header */}
         <div className="flex items-center justify-between">
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">Calendar</h1>
-          <div className="flex gap-2">
+          <h1 className="font-cormorant-sc text-3xl" style={{ color: "#0B2E4A" }}>Calendar</h1>
+          <div className="flex gap-1.5">
             <button
               onClick={() => setView("week")}
-              className={`px-3 py-1.5 text-sm rounded ${view === "week" ? "bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900" : "bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400"}`}
+              style={
+                view === "week"
+                  ? { ...frostPillBase, background: "#0B2E4A", color: "#F9F6EF", border: "1px solid #0B2E4A", fontSize: "0.8rem", padding: "0.35rem 0.8rem" }
+                  : { ...frostPillBase, fontSize: "0.8rem", padding: "0.35rem 0.8rem", color: "#5A5A5A" }
+              }
             >
               Week
             </button>
             <button
               onClick={() => setView("month")}
-              className={`px-3 py-1.5 text-sm rounded ${view === "month" ? "bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900" : "bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400"}`}
+              style={
+                view === "month"
+                  ? { ...frostPillBase, background: "#0B2E4A", color: "#F9F6EF", border: "1px solid #0B2E4A", fontSize: "0.8rem", padding: "0.35rem 0.8rem" }
+                  : { ...frostPillBase, fontSize: "0.8rem", padding: "0.35rem 0.8rem", color: "#5A5A5A" }
+              }
             >
               Month
             </button>
@@ -140,18 +174,18 @@ export default function CalendarPage() {
         <div className="flex items-center justify-between">
           <button
             onClick={() => (view === "week" ? navigateWeek(-1) : navigateMonth(-1))}
-            className="px-3 py-1.5 text-sm bg-white border border-gray-200 dark:border-gray-700 rounded hover:bg-gray-50 dark:hover:bg-gray-800 dark:bg-gray-900"
+            style={frostPillBase}
           >
             &larr; Previous
           </button>
-          <h2 className="font-medium text-gray-900 dark:text-gray-100">
+          <h2 className="font-cormorant-sc" style={{ fontSize: "1.1rem", color: "#0B2E4A" }}>
             {view === "week"
               ? `${weekDates[0].toLocaleDateString("en-US", { month: "short", day: "numeric" })} — ${weekDates[6].toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}`
               : currentDate.toLocaleDateString("en-US", { month: "long", year: "numeric" })}
           </h2>
           <button
             onClick={() => (view === "week" ? navigateWeek(1) : navigateMonth(1))}
-            className="px-3 py-1.5 text-sm bg-white border border-gray-200 dark:border-gray-700 rounded hover:bg-gray-50 dark:hover:bg-gray-800 dark:bg-gray-900"
+            style={frostPillBase}
           >
             Next &rarr;
           </button>
@@ -168,13 +202,35 @@ export default function CalendarPage() {
               return (
                 <div
                   key={dateStr}
-                  className={`bg-white dark:bg-gray-900 rounded border p-3 min-h-[160px] ${
-                    isToday ? "border-blue-300 bg-blue-50/30" : "border-gray-200 dark:border-gray-700"
-                  }`}
+                  style={{
+                    background: lessons.length > 0 ? "rgba(255,255,255,0.72)" : "rgba(255,255,255,0.35)",
+                    backdropFilter: "blur(12px)",
+                    border: isToday ? "1px solid rgba(110,110,158,0.4)" : "1px solid rgba(255,255,255,0.5)",
+                    borderRadius: "10px",
+                    padding: "0.6rem",
+                    minHeight: "10rem",
+                    boxShadow: lessons.length > 0 ? "0 2px 10px rgba(0,0,0,0.04)" : "none",
+                  }}
                 >
                   <div className="text-center mb-2">
-                    <p className="text-xs text-gray-500 dark:text-gray-400">{DAY_NAMES[date.getDay()]}</p>
-                    <p className={`text-sm font-medium ${isToday ? "text-blue-600" : "text-gray-900 dark:text-gray-100"}`}>
+                    <p
+                      style={{
+                        fontSize: "0.65rem",
+                        color: "#767676",
+                        textTransform: "uppercase",
+                        letterSpacing: "0.05em",
+                        fontVariantCaps: "small-caps",
+                      }}
+                    >
+                      {DAY_NAMES[date.getDay()]}
+                    </p>
+                    <p
+                      style={{
+                        fontSize: "0.875rem",
+                        fontWeight: 500,
+                        color: isToday ? "#6E6E9E" : "#0B2E4A",
+                      }}
+                    >
                       {date.getDate()}
                     </p>
                   </div>
@@ -183,22 +239,34 @@ export default function CalendarPage() {
                       <Link
                         key={lesson.id}
                         href={`/lessons/${lesson.id}`}
-                        className={`block p-1.5 rounded text-xs ${
-                          lesson.completed
-                            ? "bg-green-50 border border-green-200"
-                            : "bg-gray-50 dark:bg-gray-900 border border-gray-150 hover:bg-gray-100 dark:bg-gray-800"
-                        }`}
+                        style={{
+                          display: "block",
+                          padding: "0.375rem 0.5rem",
+                          borderRadius: "6px",
+                          fontSize: "0.7rem",
+                          textDecoration: "none",
+                          background: lesson.completed
+                            ? "rgba(122,158,138,0.15)"
+                            : "rgba(255,255,255,0.72)",
+                          border: isToday
+                            ? "1px solid rgba(255,255,255,0.5)"
+                            : "1px solid rgba(255,255,255,0.5)",
+                          borderLeft: isToday ? "3px solid #6E6E9E" : lesson.completed ? "3px solid #7A9E8A" : "1px solid rgba(255,255,255,0.5)",
+                          backdropFilter: "blur(8px)",
+                        }}
                       >
-                        <p className="font-medium text-gray-900 truncate">{lesson.title}</p>
+                        <p style={{ fontWeight: 500, color: "#0B2E4A", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                          {lesson.title}
+                        </p>
                         <div className="flex gap-1 mt-0.5 flex-wrap">
                           {lesson.children.map((c) => (
-                            <span key={c} className="text-gray-400 dark:text-gray-500">{c}</span>
+                            <span key={c} style={{ color: "#767676", fontSize: "0.65rem" }}>{c}</span>
                           ))}
                         </div>
                         {lesson.completed && lesson.rating && (
                           <div className="flex gap-0.5 mt-0.5">
                             {[1, 2, 3, 4, 5].map((s) => (
-                              <span key={s} className={`text-[10px] ${s <= lesson.rating! ? "text-yellow-400" : "text-gray-200"}`}>★</span>
+                              <span key={s} style={{ fontSize: "0.625rem", color: s <= lesson.rating! ? "#C4983D" : "rgba(0,0,0,0.12)" }}>★</span>
                             ))}
                           </div>
                         )}
@@ -214,14 +282,27 @@ export default function CalendarPage() {
         {/* Month View */}
         {view === "month" && (
           <div>
-            <div className="grid grid-cols-7 gap-px bg-gray-200 dark:bg-gray-800 rounded-t border border-gray-200">
+            {/* Day headers */}
+            <div className="grid grid-cols-7 gap-px" style={{ background: "rgba(255,255,255,0.3)", borderRadius: "10px 10px 0 0", marginBottom: "1px" }}>
               {DAY_NAMES.map((day) => (
-                <div key={day} className="bg-gray-50 dark:bg-gray-900 text-center py-2 text-xs font-medium text-gray-500 dark:text-gray-400">
+                <div
+                  key={day}
+                  style={{
+                    textAlign: "center",
+                    padding: "0.5rem 0",
+                    fontSize: "0.65rem",
+                    color: "#767676",
+                    textTransform: "uppercase",
+                    letterSpacing: "0.05em",
+                    fontVariantCaps: "small-caps",
+                    background: "rgba(255,255,255,0.55)",
+                  }}
+                >
                   {day}
                 </div>
               ))}
             </div>
-            <div className="grid grid-cols-7 gap-px bg-gray-200 dark:bg-gray-800 rounded-b border-x border-b border-gray-200">
+            <div className="grid grid-cols-7 gap-px" style={{ background: "rgba(0,0,0,0.04)", borderRadius: "0 0 10px 10px" }}>
               {monthDates.map((date) => {
                 const dateStr = formatDate(date);
                 const lessons = lessonsByDate[dateStr] || [];
@@ -231,22 +312,43 @@ export default function CalendarPage() {
                 return (
                   <div
                     key={dateStr}
-                    className={`bg-white dark:bg-gray-900 p-2 min-h-[80px] ${
-                      !isCurrentMonth ? "opacity-40" : ""
-                    } ${isToday ? "bg-blue-50/50" : ""}`}
+                    style={{
+                      background: isToday ? "rgba(110,110,158,0.08)" : "rgba(255,255,255,0.6)",
+                      padding: "0.5rem",
+                      minHeight: "5rem",
+                      opacity: isCurrentMonth ? 1 : 0.4,
+                    }}
                   >
-                    <p className={`text-xs mb-1 ${isToday ? "text-blue-600 font-medium" : "text-gray-500 dark:text-gray-400"}`}>
+                    <p
+                      style={{
+                        fontSize: "0.75rem",
+                        marginBottom: "0.25rem",
+                        color: isToday ? "#6E6E9E" : "#767676",
+                        fontWeight: isToday ? 600 : 400,
+                      }}
+                    >
                       {date.getDate()}
                     </p>
                     {lessons.map((lesson) => (
                       <Link
                         key={lesson.id}
                         href={`/lessons/${lesson.id}`}
-                        className={`block text-[10px] p-1 rounded mb-0.5 truncate ${
-                          lesson.completed
-                            ? "bg-green-50 text-green-700"
-                            : "bg-blue-50 text-blue-700"
-                        }`}
+                        style={{
+                          display: "block",
+                          fontSize: "0.625rem",
+                          padding: "0.2rem 0.375rem",
+                          borderRadius: "4px",
+                          marginBottom: "0.125rem",
+                          overflow: "hidden",
+                          textOverflow: "ellipsis",
+                          whiteSpace: "nowrap",
+                          textDecoration: "none",
+                          background: lesson.completed
+                            ? "rgba(122,158,138,0.15)"
+                            : "rgba(255,255,255,0.72)",
+                          color: lesson.completed ? "#5A947A" : "#6E6E9E",
+                          border: "1px solid rgba(255,255,255,0.5)",
+                        }}
                       >
                         {lesson.title}
                       </Link>
@@ -258,11 +360,8 @@ export default function CalendarPage() {
           </div>
         )}
 
-        <div className="flex justify-center">
-          <Link
-            href="/generate"
-            className="px-4 py-2 bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900 rounded text-sm hover:bg-gray-800 dark:hover:bg-gray-200"
-          >
+        <div className="flex justify-center pt-2">
+          <Link href="/generate" style={{ ...nightButton, display: "inline-block" }}>
             + Generate New Lesson
           </Link>
         </div>

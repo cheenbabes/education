@@ -1,24 +1,30 @@
 "use client";
 
+import Image from "next/image";
 import { Shell } from "@/components/shell";
 import { ARCHETYPES } from "@/lib/compass/archetypes";
 import { DIMENSION_LABELS, PHILOSOPHY_LABELS, PHILOSOPHY_COLORS, PhilosophyKey } from "@/lib/compass/scoring";
 
 export default function ArchetypesPage() {
   return (
-    <Shell>
-      <div className="max-w-3xl space-y-6">
-        <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
-          Education Compass Archetypes
-        </h1>
-        <p className="text-sm text-gray-600 dark:text-gray-400">
-          There are {ARCHETYPES.length} archetypes. Each represents a distinct
-          teaching style based on your philosophy blend and dimension scores. Take the
-          quiz to discover yours.
-        </p>
+    <Shell hue="archetypes">
+      <div className="max-w-4xl space-y-6">
+        <div className="space-y-2">
+          <h1
+            className="font-cormorant-sc text-3xl font-semibold"
+            style={{ color: "var(--ink)" }}
+          >
+            Education Compass Archetypes
+          </h1>
+          <p className="text-sm" style={{ color: "var(--text-secondary)" }}>
+            There are {ARCHETYPES.length} archetypes. Each represents a distinct
+            teaching style based on your philosophy blend and dimension scores. Take the
+            quiz to discover yours.
+          </p>
+        </div>
 
-        {/* Archetype cards */}
-        <div className="space-y-4">
+        {/* 2-column grid (1-col on mobile) */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {ARCHETYPES.map((a) => {
             // Sort philosophies by weight for this archetype
             const sortedPhils = (Object.entries(a.philosophyProfile) as [PhilosophyKey, number][])
@@ -28,34 +34,80 @@ export default function ArchetypesPage() {
             return (
               <div
                 key={a.id}
-                className="bg-white dark:bg-gray-900 rounded border border-gray-200 dark:border-gray-800 p-4 space-y-3"
+                className="relative overflow-hidden"
+                style={{
+                  background: "rgba(255,255,255,0.72)",
+                  backdropFilter: "blur(12px)",
+                  WebkitBackdropFilter: "blur(12px)",
+                  border: "1px solid rgba(255,255,255,0.5)",
+                  borderRadius: "12px",
+                  borderLeft: `4px solid ${a.color}`,
+                }}
               >
-                <div className="flex items-start gap-3">
-                  <span className="text-3xl">{a.icon}</span>
-                  <div>
-                    <h3 className="font-medium text-gray-900 dark:text-gray-100">
+                {/* Top row: text left, character + tool right */}
+                <div className="flex items-start gap-3 p-4">
+                  {/* Text column */}
+                  <div className="flex-1 min-w-0 space-y-1.5">
+                    <h3
+                      className="font-cormorant-sc text-xl font-semibold leading-tight"
+                      style={{ color: a.color }}
+                    >
                       {a.name}
                     </h3>
-                    <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+                    <p className="text-sm leading-relaxed" style={{ color: "var(--text-secondary)" }}>
                       {a.description}
                     </p>
                   </div>
+
+                  {/* Character image + tool icon */}
+                  <div className="relative flex-shrink-0 self-start">
+                    <Image
+                      src={a.imagePath}
+                      alt={a.name}
+                      width={160}
+                      height={160}
+                      className="object-contain"
+                      style={{ height: "160px", width: "auto" }}
+                    />
+                    {/* Tool icon small, lower-right of character */}
+                    <div className="absolute bottom-0 right-0 translate-x-1/4 translate-y-1/4">
+                      <Image
+                        src={a.toolPath}
+                        alt=""
+                        width={48}
+                        height={48}
+                        className="object-contain drop-shadow-sm"
+                        style={{ height: "48px", width: "auto" }}
+                      />
+                    </div>
+                  </div>
                 </div>
 
-                {/* Philosophy affinity */}
-                <div className="space-y-1.5 pt-2 border-t border-gray-100 dark:border-gray-800">
-                  <p className="text-xs font-medium text-gray-500 dark:text-gray-400">
+                {/* Philosophy affinity pills */}
+                <div
+                  className="px-4 pb-4 space-y-2"
+                  style={{ borderTop: "1px solid rgba(0,0,0,0.05)", paddingTop: "0.75rem", marginTop: "0.25rem" }}
+                >
+                  <p
+                    className="text-xs font-medium uppercase tracking-wide"
+                    style={{ color: "var(--text-tertiary)" }}
+                  >
                     Philosophy affinity
                   </p>
                   <div className="flex flex-wrap gap-1.5">
                     {sortedPhils.map(([phil, weight]) => (
                       <span
                         key={phil}
-                        className="text-xs px-2 py-0.5 rounded"
+                        className="text-xs font-medium"
                         style={{
-                          backgroundColor: `${PHILOSOPHY_COLORS[phil]}20`,
+                          background: "rgba(255,255,255,0.68)",
+                          backdropFilter: "blur(10px)",
+                          WebkitBackdropFilter: "blur(10px)",
+                          border: "1px solid rgba(255,255,255,0.45)",
+                          borderRadius: "6px",
+                          fontSize: "0.7rem",
+                          padding: "0.25rem 0.6rem",
                           color: PHILOSOPHY_COLORS[phil],
-                          border: `1px solid ${PHILOSOPHY_COLORS[phil]}40`,
                         }}
                       >
                         {PHILOSOPHY_LABELS[phil]} ({Math.round(weight * 100)}%)
@@ -65,8 +117,11 @@ export default function ArchetypesPage() {
                 </div>
 
                 {/* Dimension tendencies */}
-                <div className="space-y-1.5">
-                  <p className="text-xs font-medium text-gray-500 dark:text-gray-400">
+                <div className="px-4 pb-4 space-y-1.5">
+                  <p
+                    className="text-xs font-medium uppercase tracking-wide"
+                    style={{ color: "var(--text-tertiary)" }}
+                  >
                     Dimension tendencies
                   </p>
                   {(
@@ -76,18 +131,30 @@ export default function ArchetypesPage() {
                     const hasValue = value !== undefined;
                     return (
                       <div key={dim} className="space-y-0.5">
-                        <div className={`flex justify-between text-xs ${hasValue ? "text-gray-500 dark:text-gray-400" : "text-gray-300 dark:text-gray-600"}`}>
+                        <div
+                          className="flex justify-between text-xs"
+                          style={{ color: hasValue ? "var(--text-secondary)" : "rgba(0,0,0,0.2)" }}
+                        >
                           <span>{DIMENSION_LABELS[dim].left}</span>
-                          <span className={hasValue ? "font-medium text-gray-600 dark:text-gray-300" : ""}>
+                          <span
+                            className={hasValue ? "font-medium" : ""}
+                            style={{ color: hasValue ? "var(--ink)" : undefined }}
+                          >
                             {DIMENSION_LABELS[dim].name}
                           </span>
                           <span>{DIMENSION_LABELS[dim].right}</span>
                         </div>
-                        <div className="relative h-2 bg-gray-100 dark:bg-gray-800 rounded-full">
+                        <div
+                          className="relative h-2 rounded-full"
+                          style={{ background: "rgba(0,0,0,0.06)" }}
+                        >
                           {hasValue && (
                             <div
-                              className="absolute top-1/2 -translate-y-1/2 w-3 h-3 bg-gray-900 dark:bg-gray-200 rounded-full"
-                              style={{ left: `calc(${value}% - 6px)` }}
+                              className="absolute top-1/2 -translate-y-1/2 w-3 h-3 rounded-full"
+                              style={{
+                                left: `calc(${value}% - 6px)`,
+                                background: a.color,
+                              }}
                             />
                           )}
                         </div>

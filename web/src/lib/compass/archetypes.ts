@@ -7,6 +7,12 @@ export interface Archetype {
   id: string;
   name: string;
   icon: string;
+  /** Watercolor character illustration path */
+  imagePath: string;
+  /** Watercolor tool/object illustration path */
+  toolPath: string;
+  /** CSS hex color for this archetype */
+  color: string;
   description: string;
   /** Which philosophy pairings lead here */
   typicalPairings: string;
@@ -29,6 +35,9 @@ export const ARCHETYPES: Archetype[] = [
     id: "the-guide",
     name: "The Guide",
     icon: "🔭",
+    imagePath: "/archetypes/guide.png",
+    toolPath: "/archetypes/tools/spyglass.png",
+    color: "#5B5E8A",
     description:
       "You value clear direction, structured progression, and the life of the mind. Great books, logical thinking, and measurable milestones define your approach. Your strength is creating a dependable learning environment with high academic expectations.",
     typicalPairings: "Classical + Charlotte Mason, Classical + Adaptive",
@@ -53,6 +62,9 @@ export const ARCHETYPES: Archetype[] = [
     id: "the-explorer",
     name: "The Explorer",
     icon: "\uD83C\uDF0D",
+    imagePath: "/archetypes/explorer.png",
+    toolPath: "/archetypes/tools/map.png",
+    color: "#5A947A",
     description:
       "You follow your child's curiosity into the world around them. You trust that real learning happens through real experiences in real places. Your classroom is everywhere — the backyard, the creek, the farmer's market. Your strength is turning the world itself into the curriculum.",
     typicalPairings: "Unschooling + Place/Nature, Unschooling + Montessori",
@@ -77,6 +89,9 @@ export const ARCHETYPES: Archetype[] = [
     id: "the-cultivator",
     name: "The Cultivator",
     icon: "\uD83C\uDF31",
+    imagePath: "/archetypes/cultivator.png",
+    toolPath: "/archetypes/tools/watering-can.png",
+    color: "#7D6B9E",
     description:
       "You carefully prepare the learning environment and curate the materials, but your child chooses what to work on and at what pace. Your strength is balancing structure with independence — children learn by doing within a thoughtfully designed space.",
     typicalPairings: "Montessori + Structured, Montessori + Project-Based",
@@ -101,6 +116,9 @@ export const ARCHETYPES: Archetype[] = [
     id: "the-naturalist",
     name: "The Naturalist",
     icon: "\uD83C\uDF3F",
+    imagePath: "/archetypes/naturalist.png",
+    toolPath: "/archetypes/tools/fern.png",
+    color: "#6BA07A",
     description:
       "The natural world is your classroom. You believe children learn best through direct experience with their environment, seasons, and living things. Your strength is grounding education in place, wonder, and observation.",
     typicalPairings: "Place/Nature + Charlotte Mason, Place/Nature + Waldorf",
@@ -125,6 +143,9 @@ export const ARCHETYPES: Archetype[] = [
     id: "the-storyteller",
     name: "The Storyteller",
     icon: "\uD83D\uDCD6",
+    imagePath: "/archetypes/storyteller.png",
+    toolPath: "/archetypes/tools/book.png",
+    color: "#B07A8A",
     description:
       "You bring learning to life through living books, narration, and rich narratives. You value beauty in education and believe that great stories and careful observation cultivate both mind and character. Nature study, copywork, and short lessons define your rhythm.",
     typicalPairings: "Charlotte Mason + Place/Nature, Charlotte Mason + Waldorf",
@@ -149,6 +170,9 @@ export const ARCHETYPES: Archetype[] = [
     id: "the-architect",
     name: "The Architect",
     icon: "🔨",
+    imagePath: "/archetypes/architect.png",
+    toolPath: "/archetypes/tools/hammer.png",
+    color: "#5A7FA0",
     description:
       "You love building — projects, experiments, models, and real-world solutions. Education for you is about creating something tangible while learning the skills and knowledge needed to make it happen. Place-based projects and collaborative work are natural extensions of your approach.",
     typicalPairings: "Project-Based + Place/Nature, Project-Based + Collaborative",
@@ -173,6 +197,9 @@ export const ARCHETYPES: Archetype[] = [
     id: "the-free-spirit",
     name: "The Free Spirit",
     icon: "\uD83E\uDD8B",
+    imagePath: "/archetypes/free-spirit.png",
+    toolPath: "/archetypes/tools/butterfly.png",
+    color: "#C07A42",
     description:
       "You trust that children are natural learners. Given freedom, time, and a rich environment, they'll pursue what matters to them and learn deeply. Your strength is creating space for authentic, self-directed discovery.",
     typicalPairings: "Unschooling + Montessori, Unschooling + Adaptive",
@@ -197,6 +224,9 @@ export const ARCHETYPES: Archetype[] = [
     id: "the-weaver",
     name: "The Weaver",
     icon: "\uD83E\uDDF6",
+    imagePath: "/archetypes/weaver.png",
+    toolPath: "/archetypes/tools/yarn.png",
+    color: "#8A8A7E",
     description:
       "You draw from many traditions, adapting your approach to each child, each subject, and each season of life. Your strength is flexibility — you're not committed to one method but to what works. You pick and choose the best from every philosophy.",
     typicalPairings: "Adaptive + any combination, balanced across philosophies",

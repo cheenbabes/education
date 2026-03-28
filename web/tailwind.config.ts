@@ -1,7 +1,6 @@
 import type { Config } from "tailwindcss";
 
 const config: Config = {
-  darkMode: "class",
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
@@ -10,8 +9,20 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
+        ink: "var(--ink)",
+        parchment: "var(--parchment)",
+        night: "var(--night)",
+        "accent-primary": "var(--accent-primary)",
+        "accent-secondary": "var(--accent-secondary)",
+        "accent-tertiary": "var(--accent-tertiary)",
+      },
+      fontFamily: {
+        "cormorant-sc": ["'Cormorant SC'", "'IM Fell English SC'", "serif"],
+        cormorant: ["'Cormorant'", "serif"],
+        sans: ["'Inter'", "system-ui", "sans-serif"],
+      },
+      backdropBlur: {
+        frost: "12px",
       },
     },
   },

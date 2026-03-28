@@ -2,6 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ─── Fonts ─────────────────────────────────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+SC:wght@400;600;700&family=Cormorant:ital,wght@0,400;0,600;1,400;1,600&family=Inter:wght@300;400;500;600&display=swap');
+
 @font-face {
   font-family: "IM Fell English SC";
   src: url("/fonts/im-fell-english-sc.woff") format("woff");
@@ -26,25 +29,303 @@
   font-display: swap;
 }
 
+/* ─── Design tokens ──────────────────────────────────────────────────────── */
+:root {
+  /* Core */
+  --ink: #1B1A17;
+  --parchment: #F9F6EF;
+  --night: #0B2E4A;
+
+  /* Accent trio */
+  --accent-primary: #6E6E9E;
+  --accent-secondary: #7A9E8A;
+  --accent-tertiary: #9B7E8E;
+  --accent-primary-dim: rgba(110, 110, 158, 0.55);
+  --accent-primary-glow: rgba(110, 110, 158, 0.12);
+  --accent-secondary-glow: rgba(122, 158, 138, 0.12);
+  --accent-tertiary-glow: rgba(155, 126, 142, 0.12);
+
+  /* Text */
+  --text-primary: #1B1A17;
+  --text-secondary: #5A5A5A;
+  --text-tertiary: #767676;
+  --text-inverse: #F9F6EF;
+  --text-link: #5B5E8A;
+
+  /* Borders */
+  --border-default: rgba(0, 0, 0, 0.08);
+  --border-subtle: rgba(0, 0, 0, 0.04);
+  --border-emphasis: rgba(110, 110, 158, 0.3);
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.06);
+  --shadow-card: 0 2px 8px rgba(0,0,0,0.04), 0 0 0 1px rgba(0,0,0,0.04);
+
+  /* Surfaces — B2 Medium Frost */
+  --frost-bg: rgba(255, 255, 255, 0.72);
+  --frost-border: rgba(255, 255, 255, 0.5);
+  --frost-blur: 12px;
+  --frost-pill-bg: rgba(255, 255, 255, 0.68);
+  --frost-pill-border: rgba(255, 255, 255, 0.45);
+
+  /* Page watercolor hues (V2 — pastel) */
+  --hue-home: #FDFBF7;
+  --hue-compass: #E8E0F0;
+  --hue-results: #DDE6EE;
+  --hue-generate: #F0EAE0;
+  --hue-lessons: #E0EDE0;
+  --hue-dashboard: #EDE0EE;
+  --hue-children: #DDE8EA;
+  --hue-calendar: #EDE8DC;
+  --hue-standards: #E0E0EE;
+  --hue-archetypes: #E8E0F0;
+
+  /* Philosophy colors (V3 — muted watercolor) */
+  --phil-classical: #5B5E8A;
+  --phil-charlotte: #B07A8A;
+  --phil-waldorf: #C4983D;
+  --phil-montessori: #7D6B9E;
+  --phil-project: #5A7FA0;
+  --phil-nature: #5A947A;
+  --phil-unschooling: #C07A42;
+  --phil-adaptive: #8A8A7E;
+
+  /* Archetype accent colors */
+  --arch-guide: #5B5E8A;
+  --arch-explorer: #5A947A;
+  --arch-cultivator: #7D6B9E;
+  --arch-naturalist: #6BA07A;
+  --arch-storyteller: #B07A8A;
+  --arch-architect: #5A7FA0;
+  --arch-freespirit: #C07A42;
+  --arch-weaver: #8A8A7E;
+}
+
+/* ─── Base reset ─────────────────────────────────────────────────────────── */
 @layer base {
-  /* Dark mode form elements */
-  .dark select,
-  .dark input[type="text"],
-  .dark input[type="date"],
-  .dark textarea {
-    background-color: rgb(17 24 39); /* gray-900 */
-    color: rgb(243 244 246); /* gray-100 */
-    color-scheme: dark;
+  body {
+    font-family: 'Inter', sans-serif;
+    color: var(--ink);
+    background-color: var(--parchment);
   }
 
-  .dark option {
-    background-color: rgb(17 24 39);
-    color: rgb(243 244 246);
+  /* Form elements use brand colors */
+  select,
+  input[type="text"],
+  input[type="date"],
+  input[type="email"],
+  textarea {
+    background-color: rgba(255, 255, 255, 0.6);
+    color: var(--ink);
+    border-color: var(--border-default);
+  }
+
+  option {
+    background-color: var(--parchment);
+    color: var(--ink);
   }
 }
 
+/* ─── Watercolor background system ───────────────────────────────────────── */
+/*
+  3-layer system:
+  Layer 1 (background-color) — page hue tint
+  Layer 2 (::before)         — grayscale texture for organic paint strokes
+  Layer 3 (::after)          — colored radial wash overlay
+*/
+.watercolor-page {
+  position: relative;
+  min-height: 100vh;
+}
+.watercolor-page::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: url('/explore/watercolor-texture-1.png') center/cover;
+  filter: saturate(0) brightness(1.1);
+  opacity: 0.3;
+  mix-blend-mode: multiply;
+  pointer-events: none;
+  z-index: 0;
+}
+.watercolor-page::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+.watercolor-page > * { position: relative; z-index: 1; }
+
+/* Per-page hue overrides */
+.watercolor-page.hue-home {
+  background-color: var(--hue-home);
+}
+.watercolor-page.hue-home::before { background-image: url('/explore/watercolor-texture-1.png'); opacity: 0.22; }
+.watercolor-page.hue-home::after {
+  background: radial-gradient(ellipse at 25% 30%, rgba(160,145,190,0.2), transparent 60%),
+              radial-gradient(ellipse at 75% 70%, rgba(145,155,185,0.15), transparent 55%);
+}
+
+.watercolor-page.hue-compass {
+  background-color: var(--hue-compass);
+}
+.watercolor-page.hue-compass::before { background-image: url('/explore/watercolor-texture-8.png'); opacity: 0.35; }
+.watercolor-page.hue-compass::after {
+  background: radial-gradient(ellipse at 40% 25%, rgba(140,125,175,0.4), transparent 60%),
+              radial-gradient(ellipse at 65% 75%, rgba(125,115,165,0.3), transparent 55%);
+}
+
+.watercolor-page.hue-results {
+  background-color: var(--hue-results);
+}
+.watercolor-page.hue-results::before { background-image: url('/explore/watercolor-texture-2.png'); opacity: 0.28; }
+.watercolor-page.hue-results::after {
+  background: radial-gradient(ellipse at 50% 20%, rgba(150,130,180,0.32), transparent 60%),
+              radial-gradient(ellipse at 30% 70%, rgba(135,125,170,0.24), transparent 55%);
+}
+
+.watercolor-page.hue-generate {
+  background-color: var(--hue-generate);
+}
+.watercolor-page.hue-generate::before { background-image: url('/explore/watercolor-texture-9.png'); opacity: 0.28; }
+.watercolor-page.hue-generate::after {
+  background: radial-gradient(ellipse at 35% 30%, rgba(120,155,130,0.28), transparent 60%),
+              radial-gradient(ellipse at 70% 65%, rgba(130,160,140,0.22), transparent 55%);
+}
+
+.watercolor-page.hue-lessons {
+  background-color: var(--hue-lessons);
+}
+.watercolor-page.hue-lessons::before { background-image: url('/explore/watercolor-texture-5.png'); opacity: 0.3; }
+.watercolor-page.hue-lessons::after {
+  background: radial-gradient(ellipse at 40% 30%, rgba(90,148,122,0.25), transparent 60%),
+              radial-gradient(ellipse at 65% 70%, rgba(100,155,130,0.18), transparent 55%);
+}
+
+.watercolor-page.hue-dashboard {
+  background-color: var(--hue-dashboard);
+}
+.watercolor-page.hue-dashboard::before { background-image: url('/explore/watercolor-texture-8.png'); opacity: 0.25; }
+.watercolor-page.hue-dashboard::after {
+  background: radial-gradient(ellipse at 30% 25%, rgba(155,126,168,0.28), transparent 60%),
+              radial-gradient(ellipse at 70% 75%, rgba(145,120,160,0.2), transparent 55%);
+}
+
+.watercolor-page.hue-children {
+  background-color: var(--hue-children);
+}
+.watercolor-page.hue-children::before { background-image: url('/explore/watercolor-texture-3.png'); opacity: 0.25; }
+.watercolor-page.hue-children::after {
+  background: radial-gradient(ellipse at 35% 25%, rgba(115,155,165,0.22), transparent 60%),
+              radial-gradient(ellipse at 68% 72%, rgba(120,150,160,0.18), transparent 55%);
+}
+
+.watercolor-page.hue-calendar {
+  background-color: var(--hue-calendar);
+}
+.watercolor-page.hue-calendar::before { background-image: url('/explore/watercolor-texture-9.png'); opacity: 0.25; }
+.watercolor-page.hue-calendar::after {
+  background: radial-gradient(ellipse at 40% 30%, rgba(180,160,100,0.22), transparent 60%),
+              radial-gradient(ellipse at 65% 68%, rgba(170,155,95,0.16), transparent 55%);
+}
+
+.watercolor-page.hue-standards {
+  background-color: var(--hue-standards);
+}
+.watercolor-page.hue-standards::before { background-image: url('/explore/watercolor-texture-1.png'); opacity: 0.25; }
+.watercolor-page.hue-standards::after {
+  background: radial-gradient(ellipse at 35% 28%, rgba(110,110,170,0.22), transparent 60%),
+              radial-gradient(ellipse at 68% 70%, rgba(120,118,168,0.16), transparent 55%);
+}
+
+.watercolor-page.hue-archetypes {
+  background-color: var(--hue-archetypes);
+}
+.watercolor-page.hue-archetypes::before { background-image: url('/explore/watercolor-texture-8.png'); opacity: 0.3; }
+.watercolor-page.hue-archetypes::after {
+  background: radial-gradient(ellipse at 38% 25%, rgba(140,125,175,0.32), transparent 60%),
+              radial-gradient(ellipse at 65% 72%, rgba(125,115,165,0.22), transparent 55%);
+}
+
+/* ─── Frosted glass components (B2 Medium) ───────────────────────────────── */
+.frost-card {
+  background: var(--frost-bg);
+  backdrop-filter: blur(var(--frost-blur));
+  -webkit-backdrop-filter: blur(var(--frost-blur));
+  border: 1px solid var(--frost-border);
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+}
+
+.frost-pill {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.7rem;
+  padding: 0.25rem 0.6rem;
+  border-radius: 6px;
+  background: var(--frost-pill-bg);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid var(--frost-pill-border);
+  font-weight: 500;
+  line-height: 1;
+}
+
+/* ─── Typography utilities ───────────────────────────────────────────────── */
+.font-cormorant-sc {
+  font-family: 'Cormorant SC', 'IM Fell English SC', serif;
+}
+
+.font-cormorant {
+  font-family: 'Cormorant', serif;
+}
+
+/* ─── Brand buttons ──────────────────────────────────────────────────────── */
+.btn-night {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.6rem 1.4rem;
+  border-radius: 10px;
+  background: var(--night);
+  color: var(--parchment);
+  font-family: 'Inter', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  transition: opacity 0.15s;
+  text-decoration: none;
+}
+.btn-night:hover { opacity: 0.88; }
+
+.btn-accent {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.6rem 1.4rem;
+  border-radius: 10px;
+  background: var(--accent-primary);
+  color: white;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  transition: opacity 0.15s;
+  text-decoration: none;
+}
+.btn-accent:hover { opacity: 0.88; }
+
+/* ─── Misc utilities ─────────────────────────────────────────────────────── */
 @layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
+  .text-balance { text-wrap: balance; }
+  .text-ink { color: var(--ink); }
+  .text-secondary { color: var(--text-secondary); }
+  .text-tertiary { color: var(--text-tertiary); }
+  .bg-parchment { background-color: var(--parchment); }
+  .bg-night { background-color: var(--night); }
+  .border-default { border-color: var(--border-default); }
 }

@@ -33,6 +33,27 @@ interface StandardsData {
   subjects: SubjectProgress[];
 }
 
+const frostCard: React.CSSProperties = {
+  background: "rgba(255,255,255,0.72)",
+  backdropFilter: "blur(12px)",
+  border: "1px solid rgba(255,255,255,0.5)",
+  borderRadius: "12px",
+  padding: "1.25rem",
+  boxShadow: "0 2px 10px rgba(0,0,0,0.04)",
+};
+
+const frostPillBase: React.CSSProperties = {
+  background: "rgba(255,255,255,0.68)",
+  backdropFilter: "blur(10px)",
+  border: "1px solid rgba(255,255,255,0.45)",
+  borderRadius: "6px",
+  fontSize: "0.7rem",
+  padding: "0.25rem 0.6rem",
+  fontWeight: 500,
+  display: "inline-flex",
+  alignItems: "center",
+};
+
 export default function StandardsPage() {
   const [children, setChildren] = useState<ChildData[]>([]);
   const [selectedChild, setSelectedChild] = useState<string>("");
@@ -75,9 +96,9 @@ export default function StandardsPage() {
 
   if (loading) {
     return (
-      <Shell>
+      <Shell hue="standards">
         <div className="flex items-center justify-center py-12">
-          <p className="text-gray-500 dark:text-gray-400">Loading...</p>
+          <p style={{ color: "#5A5A5A" }}>Loading...</p>
         </div>
       </Shell>
     );
@@ -85,12 +106,12 @@ export default function StandardsPage() {
 
   if (children.filter((c) => c.standardsOptIn).length === 0) {
     return (
-      <Shell>
-        <div className="text-center py-12 text-gray-500 dark:text-gray-400">
-          <p className="text-lg font-medium">No children have standards tracking enabled</p>
-          <p className="text-sm mt-2">
+      <Shell hue="standards">
+        <div className="text-center py-12" style={{ color: "#5A5A5A" }}>
+          <p style={{ fontSize: "1.125rem", fontWeight: 500 }}>No children have standards tracking enabled</p>
+          <p style={{ fontSize: "0.875rem", marginTop: "0.5rem" }}>
             Enable it in the{" "}
-            <Link href="/children" className="text-blue-600 hover:underline">
+            <Link href="/children" style={{ color: "#6E6E9E" }} className="hover:underline">
               Children settings
             </Link>{" "}
             page.
@@ -102,12 +123,12 @@ export default function StandardsPage() {
 
   if (child && !child.standardsOptIn) {
     return (
-      <Shell>
-        <div className="text-center py-12 text-gray-500 dark:text-gray-400">
-          <p className="text-lg font-medium">Standards tracking is off for {child.name}</p>
-          <p className="text-sm mt-2">
+      <Shell hue="standards">
+        <div className="text-center py-12" style={{ color: "#5A5A5A" }}>
+          <p style={{ fontSize: "1.125rem", fontWeight: 500 }}>Standards tracking is off for {child.name}</p>
+          <p style={{ fontSize: "0.875rem", marginTop: "0.5rem" }}>
             You can enable it in the{" "}
-            <Link href="/children" className="text-blue-600 hover:underline">
+            <Link href="/children" style={{ color: "#6E6E9E" }} className="hover:underline">
               Children settings
             </Link>{" "}
             page.
@@ -122,35 +143,47 @@ export default function StandardsPage() {
   const totalCovered = progress.reduce((sum, sp) => sum + sp.covered, 0);
 
   return (
-    <Shell>
+    <Shell hue="standards">
       <div className="space-y-6">
-        <div className="flex items-center justify-between">
+        {/* Header */}
+        <div className="flex items-center justify-between flex-wrap gap-3">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">Standards Progress</h1>
+            <h1 className="font-cormorant-sc text-3xl" style={{ color: "#0B2E4A" }}>Standards Progress</h1>
             {data && (
-              <p className="text-sm text-gray-500 mt-1">
+              <p style={{ fontSize: "0.875rem", color: "#5A5A5A", marginTop: "0.25rem" }}>
                 {data.state} — Grade {data.gradeLevel} — {totalCovered} of {totalStandards} objectives covered
               </p>
             )}
           </div>
-          <select
-            value={selectedChild}
-            onChange={(e) => setSelectedChild(e.target.value)}
-            className="border border-gray-200 dark:border-gray-700 rounded px-3 py-1.5 text-sm text-gray-900 dark:text-gray-100"
-          >
-            {children
-              .filter((c) => c.standardsOptIn)
-              .map((c) => (
-                <option key={c.id} value={c.id}>
-                  {c.name} — Grade {c.gradeLevel}
-                </option>
-              ))}
-          </select>
+
+          {/* Child selector as frost-pill select */}
+          <div style={{ position: "relative" }}>
+            <select
+              value={selectedChild}
+              onChange={(e) => setSelectedChild(e.target.value)}
+              style={{
+                ...frostPillBase,
+                fontSize: "0.8rem",
+                padding: "0.4rem 1.2rem 0.4rem 0.8rem",
+                appearance: "none",
+                cursor: "pointer",
+                color: "#0B2E4A",
+              }}
+            >
+              {children
+                .filter((c) => c.standardsOptIn)
+                .map((c) => (
+                  <option key={c.id} value={c.id}>
+                    {c.name} — Grade {c.gradeLevel}
+                  </option>
+                ))}
+            </select>
+          </div>
         </div>
 
         {loadingStandards ? (
           <div className="flex items-center justify-center py-12">
-            <p className="text-gray-500 dark:text-gray-400">Loading standards...</p>
+            <p style={{ color: "#5A5A5A" }}>Loading standards...</p>
           </div>
         ) : (
           <>
@@ -159,16 +192,21 @@ export default function StandardsPage() {
               {progress.map((sp) => {
                 const pct = sp.total > 0 ? Math.round((sp.covered / sp.total) * 100) : 0;
                 return (
-                  <div key={sp.subject} className="bg-white dark:bg-gray-900 rounded border border-gray-200 dark:border-gray-800 p-4">
-                    <p className="text-sm font-medium text-gray-900 dark:text-gray-100">{sp.subject}</p>
-                    <p className="text-2xl font-bold text-gray-900 mt-1">{pct}%</p>
-                    <p className="text-xs text-gray-500 dark:text-gray-400">
+                  <div key={sp.subject} style={frostCard}>
+                    <p style={{ fontSize: "0.875rem", fontWeight: 500, color: "#0B2E4A" }}>{sp.subject}</p>
+                    <p style={{ fontSize: "1.5rem", fontWeight: 700, color: "#6E6E9E", marginTop: "0.25rem" }}>{pct}%</p>
+                    <p style={{ fontSize: "0.75rem", color: "#767676" }}>
                       {sp.covered} of {sp.total} objectives
                     </p>
-                    <div className="mt-2 bg-gray-100 dark:bg-gray-800 rounded-full h-2">
+                    <div style={{ marginTop: "0.5rem", background: "rgba(0,0,0,0.08)", borderRadius: "9999px", height: "0.5rem" }}>
                       <div
-                        className="bg-green-500 rounded-full h-2 transition-all"
-                        style={{ width: `${pct}%` }}
+                        style={{
+                          background: "#6E6E9E",
+                          borderRadius: "9999px",
+                          height: "0.5rem",
+                          width: `${pct}%`,
+                          transition: "width 0.3s ease",
+                        }}
                       />
                     </div>
                   </div>
@@ -178,42 +216,68 @@ export default function StandardsPage() {
 
             {/* Detailed checklists */}
             {progress.map((sp) => (
-              <div key={sp.subject} className="bg-white dark:bg-gray-900 rounded border border-gray-200 dark:border-gray-800">
-                <div className="p-4 border-b border-gray-100 dark:border-gray-800">
-                  <h2 className="font-medium text-gray-900 dark:text-gray-100">
+              <div key={sp.subject} style={{ ...frostCard, padding: 0, overflow: "hidden" }}>
+                <div style={{ padding: "1rem 1.25rem", borderBottom: "1px solid rgba(0,0,0,0.06)" }}>
+                  <h2 className="font-cormorant-sc" style={{ fontSize: "1rem", color: "#0B2E4A" }}>
                     {sp.subject} — {sp.covered}/{sp.total} covered
                   </h2>
                 </div>
-                <div className="divide-y divide-gray-50 dark:divide-gray-800">
+                <div>
                   {sp.standards.map((std) => (
                     <div
                       key={std.code}
-                      className={`p-4 flex items-start gap-3 ${std.covered ? "bg-green-50/50" : ""}`}
+                      style={{
+                        padding: "0.75rem 1.25rem",
+                        display: "flex",
+                        alignItems: "flex-start",
+                        gap: "0.75rem",
+                        borderBottom: "1px solid rgba(0,0,0,0.04)",
+                        background: std.covered ? "rgba(122,158,138,0.1)" : "transparent",
+                      }}
                     >
+                      {/* Checkbox */}
                       <div
-                        className={`mt-0.5 w-5 h-5 rounded border flex items-center justify-center flex-shrink-0 ${
-                          std.covered
-                            ? "bg-green-500 border-green-500 text-white"
-                            : "border-gray-300"
-                        }`}
+                        style={{
+                          marginTop: "0.125rem",
+                          width: "1.25rem",
+                          height: "1.25rem",
+                          borderRadius: "4px",
+                          border: std.covered ? "none" : "1px solid rgba(0,0,0,0.2)",
+                          background: std.covered ? "#7A9E8A" : "transparent",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          flexShrink: 0,
+                          color: "#fff",
+                          fontSize: "0.7rem",
+                        }}
                       >
-                        {std.covered && <span className="text-xs">&#10003;</span>}
+                        {std.covered && <span>&#10003;</span>}
                       </div>
-                      <div className="flex-1">
-                        <div className="flex items-center gap-2">
-                          <span className="text-xs font-mono text-gray-400 dark:text-gray-500">{std.code}</span>
+
+                      <div style={{ flex: 1 }}>
+                        <div className="flex items-center gap-2 flex-wrap">
+                          <span
+                            style={{
+                              fontFamily: "monospace",
+                              fontSize: "0.7rem",
+                              color: "#767676",
+                            }}
+                          >
+                            {std.code}
+                          </span>
                           {std.covered && std.lessonTitle && (
-                            <span className="text-xs text-green-600">
+                            <span style={{ ...frostPillBase, color: "#5A947A", background: "rgba(122,158,138,0.15)", border: "1px solid rgba(122,158,138,0.3)", fontSize: "0.65rem" }}>
                               via: {std.lessonTitle}
                             </span>
                           )}
                         </div>
-                        <p className="text-sm text-gray-700 mt-0.5">{std.description}</p>
+                        <p style={{ fontSize: "0.875rem", color: "#5A5A5A", marginTop: "0.125rem" }}>{std.description}</p>
                       </div>
                     </div>
                   ))}
                   {sp.standards.length === 0 && (
-                    <div className="p-4 text-center text-sm text-gray-400 dark:text-gray-500">
+                    <div style={{ padding: "1rem", textAlign: "center", fontSize: "0.875rem", color: "#767676" }}>
                       No standards found for this subject and grade.
                     </div>
                   )}
@@ -222,9 +286,9 @@ export default function StandardsPage() {
             ))}
 
             {progress.length === 0 && (
-              <div className="text-center py-8 text-gray-500 dark:text-gray-400">
+              <div style={{ textAlign: "center", padding: "2rem 0", color: "#5A5A5A" }}>
                 <p>No standards data available.</p>
-                <p className="text-sm mt-1">Make sure the KG service is running.</p>
+                <p style={{ fontSize: "0.875rem", marginTop: "0.25rem", color: "#767676" }}>Make sure the KG service is running.</p>
               </div>
             )}
           </>

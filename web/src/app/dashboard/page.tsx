@@ -23,6 +23,32 @@ interface LessonData {
   createdAt: string;
 }
 
+const frostCard: React.CSSProperties = {
+  background: "rgba(255,255,255,0.72)",
+  backdropFilter: "blur(12px)",
+  border: "1px solid rgba(255,255,255,0.5)",
+  borderRadius: "12px",
+  padding: "1.25rem",
+};
+
+const frostPill: React.CSSProperties = {
+  background: "rgba(255,255,255,0.68)",
+  backdropFilter: "blur(10px)",
+  border: "1px solid rgba(255,255,255,0.45)",
+  borderRadius: "6px",
+  fontSize: "0.7rem",
+  padding: "0.25rem 0.6rem",
+  fontWeight: 500,
+};
+
+const nightButton: React.CSSProperties = {
+  background: "#0B2E4A",
+  color: "#F9F6EF",
+  borderRadius: "10px",
+  padding: "0.6rem 1.4rem",
+  fontSize: "0.85rem",
+};
+
 export default function DashboardPage() {
   const [children, setChildren] = useState<Child[]>([]);
   const [lessons, setLessons] = useState<LessonData[]>([]);
@@ -81,22 +107,22 @@ export default function DashboardPage() {
 
   if (loading) {
     return (
-      <Shell>
+      <Shell hue="dashboard">
         <div className="flex items-center justify-center py-12">
-          <p className="text-gray-500 dark:text-gray-400">Loading...</p>
+          <p className="text-gray-500">Loading...</p>
         </div>
       </Shell>
     );
   }
 
   return (
-    <Shell>
+    <Shell hue="dashboard">
       <div className="space-y-6">
         <div className="flex items-center justify-between">
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">Dashboard</h1>
+          <h1 className="font-cormorant-sc text-3xl text-gray-900">Dashboard</h1>
           <Link
             href="/generate"
-            className="px-4 py-2 bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900 rounded hover:bg-gray-800 dark:hover:bg-gray-200 text-sm"
+            style={nightButton}
           >
             Generate Lesson
           </Link>
@@ -105,19 +131,23 @@ export default function DashboardPage() {
         {/* Children summary */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {children.map((child) => (
-            <div key={child.id} className="bg-white dark:bg-gray-900 rounded border border-gray-200 dark:border-gray-800 p-4">
+            <div key={child.id} style={frostCard}>
               <div className="flex items-center justify-between mb-2">
-                <h3 className="font-medium text-gray-900 dark:text-gray-100">{child.name}</h3>
-                <span className="text-xs text-gray-500 bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded">
+                <h3 className="font-medium text-gray-900">{child.name}</h3>
+                <span style={{ ...frostPill, color: "#6E6E9E" }}>
                   Grade {child.gradeLevel}
                 </span>
               </div>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Age {getAge(child.dateOfBirth)}</p>
+              <p className="text-sm text-gray-600">Age {getAge(child.dateOfBirth)}</p>
               <p className="text-sm text-gray-500 mt-1">
                 Standards: {child.standardsOptIn ? "Tracking" : "Not tracking"}
               </p>
               {child.standardsOptIn && (
-                <Link href={`/standards?child=${child.id}`} className="text-sm text-blue-600 hover:underline mt-2 block">
+                <Link
+                  href={`/standards?child=${child.id}`}
+                  className="text-sm hover:underline mt-2 block"
+                  style={{ color: "#6E6E9E" }}
+                >
                   View progress
                 </Link>
               )}
@@ -125,7 +155,13 @@ export default function DashboardPage() {
           ))}
           <Link
             href="/children"
-            className="bg-white rounded border border-dashed border-gray-300 dark:border-gray-700 p-4 flex items-center justify-center text-gray-500 hover:border-gray-400 hover:text-gray-600 dark:text-gray-400"
+            className="rounded flex items-center justify-center text-gray-500 hover:text-gray-600"
+            style={{
+              background: "rgba(255,255,255,0.4)",
+              border: "1px dashed rgba(255,255,255,0.6)",
+              borderRadius: "12px",
+              padding: "1.25rem",
+            }}
           >
             + Add child
           </Link>
@@ -134,40 +170,56 @@ export default function DashboardPage() {
         {/* Upcoming lessons */}
         <div>
           <div className="flex items-center justify-between mb-3">
-            <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">Upcoming Lessons</h2>
-            <Link href="/calendar" className="text-sm text-blue-600 hover:underline">
+            <h2 className="font-cormorant-sc text-xl text-gray-900">Upcoming Lessons</h2>
+            <Link
+              href="/calendar"
+              className="text-sm hover:underline"
+              style={{ color: "#6E6E9E" }}
+            >
               View calendar
             </Link>
           </div>
-          <div className="bg-white dark:bg-gray-900 rounded border border-gray-200 dark:border-gray-800 divide-y divide-gray-100 dark:divide-gray-800">
+          <div
+            style={{
+              background: "rgba(255,255,255,0.72)",
+              backdropFilter: "blur(12px)",
+              border: "1px solid rgba(255,255,255,0.5)",
+              borderRadius: "12px",
+              overflow: "hidden",
+            }}
+          >
             {upcoming.length === 0 && (
               <div className="p-4 text-center text-gray-500 text-sm">
-                No upcoming lessons scheduled. <Link href="/generate" className="text-blue-600 hover:underline">Generate one</Link>
+                No upcoming lessons scheduled.{" "}
+                <Link href="/generate" className="hover:underline" style={{ color: "#6E6E9E" }}>
+                  Generate one
+                </Link>
               </div>
             )}
-            {upcoming.map((lesson) => (
+            {upcoming.map((lesson, idx) => (
               <Link
                 key={lesson.id}
                 href={`/lessons/${lesson.id}`}
-                className="block p-4 hover:bg-gray-50 dark:hover:bg-gray-800 dark:bg-gray-900"
+                className="block p-4 hover:bg-white/30 transition-colors"
+                style={idx > 0 ? { borderTop: "1px solid rgba(0,0,0,0.06)" } : {}}
               >
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="font-medium text-gray-900 dark:text-gray-100">{lesson.title}</p>
+                    <p className="font-medium text-gray-900">{lesson.title}</p>
                     <div className="flex gap-2 mt-1">
                       {lesson.subjects.map((s) => (
-                        <span key={s} className="text-xs bg-blue-50 text-blue-700 px-2 py-0.5 rounded">
+                        <span key={s} style={{ ...frostPill, color: "#6E6E9E" }}>
                           {s}
                         </span>
                       ))}
                       {lesson.lessonChildren.map((lc) => (
-                        <span key={lc.child.name} className="text-xs bg-gray-100 dark:bg-gray-800 text-gray-600 px-2 py-0.5 rounded">
+                        <span key={lc.child.name} style={frostPill}>
                           {lc.child.name}
                         </span>
                       ))}
                     </div>
                   </div>
-                  <span className="text-sm text-gray-500 dark:text-gray-400">
+                  <span className="text-sm text-gray-500">
                     {lesson.calendarEntries[0]?.scheduledDate.split("T")[0]}
                   </span>
                 </div>
@@ -178,18 +230,30 @@ export default function DashboardPage() {
 
         {/* Recent completions */}
         <div>
-          <h2 className="text-lg font-semibold text-gray-900 mb-3">Recent Completions</h2>
-          <div className="bg-white dark:bg-gray-900 rounded border border-gray-200 dark:border-gray-800 divide-y divide-gray-100 dark:divide-gray-800">
+          <h2 className="font-cormorant-sc text-xl text-gray-900 mb-3">Recent Completions</h2>
+          <div
+            style={{
+              background: "rgba(255,255,255,0.72)",
+              backdropFilter: "blur(12px)",
+              border: "1px solid rgba(255,255,255,0.5)",
+              borderRadius: "12px",
+              overflow: "hidden",
+            }}
+          >
             {recentCompletions.length === 0 && (
               <div className="p-4 text-center text-gray-500 text-sm">
                 No completed lessons yet.
               </div>
             )}
             {recentCompletions.map((completion, idx) => (
-              <div key={`${completion.id}-${idx}`} className="p-4 flex items-center justify-between">
+              <div
+                key={`${completion.id}-${idx}`}
+                className="p-4 flex items-center justify-between"
+                style={idx > 0 ? { borderTop: "1px solid rgba(0,0,0,0.06)" } : {}}
+              >
                 <div>
-                  <p className="font-medium text-gray-900 dark:text-gray-100">{completion.title}</p>
-                  <p className="text-sm text-gray-500 dark:text-gray-400">{completion.childName} — {completion.completedAt}</p>
+                  <p className="font-medium text-gray-900">{completion.title}</p>
+                  <p className="text-sm text-gray-500">{completion.childName} — {completion.completedAt}</p>
                 </div>
                 <div className="flex gap-0.5">
                   {[1, 2, 3, 4, 5].map((star) => (

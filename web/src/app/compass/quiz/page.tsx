@@ -2,6 +2,7 @@
 
 import { useState, useMemo, useCallback, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { Shell } from "@/components/shell";
 import { PART1_QUESTIONS, PART2_QUESTIONS, Part2Question } from "@/lib/compass/questions";
 import {
   scoreCompass,
@@ -177,12 +178,12 @@ function QuizPageInner() {
           : 95;
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
+    <Shell hue="compass">
       {/* Progress bar */}
-      <div className="fixed top-0 left-0 right-0 z-50 h-1 bg-gray-200 dark:bg-gray-800">
+      <div className="fixed top-0 left-0 right-0 z-50 h-1 bg-gray-200">
         <div
-          className="h-full bg-gray-900 dark:bg-gray-100 transition-all duration-500 ease-out"
-          style={{ width: `${progressPercent}%` }}
+          className="h-full transition-all duration-500 ease-out"
+          style={{ width: `${progressPercent}%`, backgroundColor: "#6E6E9E" }}
         />
       </div>
 
@@ -191,10 +192,10 @@ function QuizPageInner() {
         {phase === "part1" && (
           <div className="space-y-6">
             <div className="text-center space-y-1">
-              <p className="text-sm text-gray-500 dark:text-gray-400">
+              <p className="text-sm text-gray-500">
                 Question {currentQ + 1} of {totalPart1}
               </p>
-              <p className="text-xs text-gray-400 dark:text-gray-500">
+              <p className="text-xs text-gray-400">
                 Part 1: Your Teaching Style
               </p>
             </div>
@@ -203,7 +204,7 @@ function QuizPageInner() {
               key={PART1_QUESTIONS[currentQ].id}
               className="animate-fadeIn"
             >
-              <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100 text-center mb-6 leading-relaxed">
+              <h2 className="font-cormorant-sc text-2xl text-gray-900 text-center mb-6 leading-relaxed">
                 {PART1_QUESTIONS[currentQ].scenario}
               </h2>
 
@@ -213,11 +214,27 @@ function QuizPageInner() {
                     key={idx}
                     onClick={() => handlePart1Select(idx)}
                     disabled={animating}
-                    className={`w-full text-left p-4 rounded border transition-all duration-200 ${
+                    className="w-full text-left transition-all duration-200"
+                    style={
                       selectedChoice === idx
-                        ? "border-gray-900 dark:border-gray-100 bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900"
-                        : "border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 text-gray-700 dark:text-gray-300 hover:border-gray-300 dark:hover:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800"
-                    }`}
+                        ? {
+                            background: "#0B2E4A",
+                            color: "#F9F6EF",
+                            borderRadius: "12px",
+                            padding: "1rem",
+                            border: "none",
+                            cursor: "pointer",
+                          }
+                        : {
+                            background: "rgba(255,255,255,0.72)",
+                            backdropFilter: "blur(12px)",
+                            border: "1px solid rgba(255,255,255,0.5)",
+                            borderRadius: "12px",
+                            padding: "1rem",
+                            color: "#374151",
+                            cursor: "pointer",
+                          }
+                    }
                   >
                     <span className="text-sm leading-relaxed">
                       {choice.text}
@@ -262,7 +279,7 @@ function QuizPageInner() {
                             return (
                               <span
                                 key={dim}
-                                className="text-[10px] px-1.5 py-0.5 rounded bg-gray-100 dark:bg-gray-800 text-gray-500"
+                                className="text-[10px] px-1.5 py-0.5 rounded bg-gray-100 text-gray-500"
                               >
                                 {dimLabel[dim] || dim} {arrow} {Math.abs(val)}
                               </span>
@@ -281,7 +298,7 @@ function QuizPageInner() {
                   setCurrentQ(currentQ - 1);
                   setSelectedChoice(null);
                 }}
-                className="text-sm text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+                className="text-sm text-gray-400 hover:text-gray-600"
               >
                 &#8592; Previous question
               </button>
@@ -294,22 +311,31 @@ function QuizPageInner() {
           <div className="space-y-8 animate-fadeIn">
             <div className="text-center space-y-3">
               <p className="text-4xl">{compassResult.archetype.icon}</p>
-              <h2 className="text-3xl font-bold text-gray-900 dark:text-gray-100">
+              <h2 className="font-cormorant-sc text-3xl text-gray-900">
                 {compassResult.archetype.name}
               </h2>
               {compassResult.secondaryArchetype && (
-                <p className="text-sm text-gray-500 dark:text-gray-400">
+                <p className="text-sm text-gray-500">
                   with {compassResult.secondaryArchetype.name} tendencies
                 </p>
               )}
-              <p className="text-gray-600 dark:text-gray-400 max-w-md mx-auto">
+              <p className="text-gray-600 max-w-md mx-auto">
                 {compassResult.archetype.description}
               </p>
             </div>
 
             {/* Dimension bars */}
-            <div className="bg-white dark:bg-gray-900 rounded border border-gray-200 dark:border-gray-800 p-6 space-y-5">
-              <h3 className="font-semibold text-gray-900 dark:text-gray-100">
+            <div
+              style={{
+                background: "rgba(255,255,255,0.72)",
+                backdropFilter: "blur(12px)",
+                border: "1px solid rgba(255,255,255,0.5)",
+                borderRadius: "12px",
+                padding: "1.25rem",
+              }}
+              className="space-y-5"
+            >
+              <h3 className="font-semibold text-gray-900">
                 Your Five Dimensions
               </h3>
               {(Object.keys(DIMENSION_LABELS) as Array<keyof typeof DIMENSION_LABELS>).map(
@@ -331,12 +357,21 @@ function QuizPageInner() {
             </div>
 
             {/* Philosophy pie chart */}
-            <div className="bg-white dark:bg-gray-900 rounded border border-gray-200 dark:border-gray-800 p-6 space-y-4">
-              <h3 className="font-semibold text-gray-900 dark:text-gray-100">
+            <div
+              style={{
+                background: "rgba(255,255,255,0.72)",
+                backdropFilter: "blur(12px)",
+                border: "1px solid rgba(255,255,255,0.5)",
+                borderRadius: "12px",
+                padding: "1.25rem",
+              }}
+              className="space-y-4"
+            >
+              <h3 className="font-semibold text-gray-900">
                 Your Philosophy Blend
               </h3>
               <PhilosophyChart philosophies={compassResult.philosophies} />
-              <p className="text-xs text-gray-400 dark:text-gray-500 text-center italic">
+              <p className="text-xs text-gray-400 text-center italic">
                 Most educators are a blend — your compass reflects your natural
                 tendencies, not a rigid category.
               </p>
@@ -344,8 +379,8 @@ function QuizPageInner() {
 
             {/* Debug panel — archetype scoring breakdown */}
             {debug && compassResult.archetypeScores && (
-              <div className="bg-orange-50 dark:bg-orange-950 border border-orange-200 dark:border-orange-800 rounded p-4 space-y-3">
-                <h3 className="text-sm font-semibold text-orange-800 dark:text-orange-200">
+              <div className="bg-orange-50 border border-orange-200 rounded p-4 space-y-3">
+                <h3 className="text-sm font-semibold text-orange-800">
                   Debug: Archetype Scoring
                 </h3>
                 <div className="space-y-1.5">
@@ -356,16 +391,16 @@ function QuizPageInner() {
                     const isSecondary = idx === 1;
                     return (
                       <div key={s.id} className="flex items-center gap-2">
-                        <span className={`text-xs w-28 text-right ${isPrimary ? "font-bold text-orange-900 dark:text-orange-100" : isSecondary ? "font-medium text-orange-700 dark:text-orange-300" : "text-orange-600 dark:text-orange-400"}`}>
+                        <span className={`text-xs w-28 text-right ${isPrimary ? "font-bold text-orange-900" : isSecondary ? "font-medium text-orange-700" : "text-orange-600"}`}>
                           {s.name}
                         </span>
-                        <div className="flex-1 h-3 bg-orange-100 dark:bg-orange-900 rounded-full overflow-hidden">
+                        <div className="flex-1 h-3 bg-orange-100 rounded-full overflow-hidden">
                           <div
-                            className={`h-full rounded-full ${isPrimary ? "bg-orange-600" : isSecondary ? "bg-orange-400" : "bg-orange-200 dark:bg-orange-700"}`}
+                            className={`h-full rounded-full ${isPrimary ? "bg-orange-600" : isSecondary ? "bg-orange-400" : "bg-orange-200"}`}
                             style={{ width: `${pct}%` }}
                           />
                         </div>
-                        <span className="text-xs text-orange-600 dark:text-orange-400 w-12 text-right font-mono">
+                        <span className="text-xs text-orange-600 w-12 text-right font-mono">
                           {s.score.toFixed(3)}
                         </span>
                         {isPrimary && <span className="text-[10px] bg-orange-600 text-white px-1.5 py-0.5 rounded">1st</span>}
@@ -374,7 +409,7 @@ function QuizPageInner() {
                     );
                   })}
                 </div>
-                <div className="text-xs text-orange-600 dark:text-orange-400 space-y-1 pt-2 border-t border-orange-200 dark:border-orange-800">
+                <div className="text-xs text-orange-600 space-y-1 pt-2 border-t border-orange-200">
                   <p><strong>Result:</strong> {compassResult.archetype.name} with {compassResult.secondaryArchetype?.name || "no"} tendencies</p>
                   <p><strong>Gap:</strong> {(compassResult.archetypeScores[0].score - compassResult.archetypeScores[1].score).toFixed(3)} between 1st and 2nd</p>
                   <p><strong>Top philosophies:</strong> {Object.entries(compassResult.philosophies).sort(([,a],[,b]) => b - a).slice(0, 3).map(([k, v]) => `${PHILOSOPHY_LABELS[k as PhilosophyKey]?.split(/[\s/]/)[0]} ${v}%`).join(", ")}</p>
@@ -388,11 +423,19 @@ function QuizPageInner() {
                   setPhase("part2");
                   setCurrentP2(0);
                 }}
-                className="px-8 py-3 bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900 rounded font-medium hover:bg-gray-800 dark:hover:bg-gray-200 transition-colors"
+                style={{
+                  background: "#0B2E4A",
+                  color: "#F9F6EF",
+                  borderRadius: "10px",
+                  padding: "0.6rem 1.4rem",
+                  fontSize: "0.85rem",
+                  border: "none",
+                  cursor: "pointer",
+                }}
               >
                 Continue to Curriculum Matching
               </button>
-              <p className="text-xs text-gray-400 dark:text-gray-500 mt-2">
+              <p className="text-xs text-gray-400 mt-2">
                 {visiblePart2Questions.length} quick questions about your
                 practical needs
               </p>
@@ -422,21 +465,30 @@ function QuizPageInner() {
           <div className="space-y-8 animate-fadeIn">
             <div className="text-center space-y-3">
               <p className="text-5xl">{compassResult.archetype.icon}</p>
-              <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
+              <h2 className="font-cormorant-sc text-2xl text-gray-900">
                 You&apos;re {compassResult.archetype.name}
               </h2>
               {compassResult.secondaryArchetype && (
-                <p className="text-sm text-gray-500 dark:text-gray-400">
+                <p className="text-sm text-gray-500">
                   with {compassResult.secondaryArchetype.name} tendencies
                 </p>
               )}
-              <p className="text-gray-600 dark:text-gray-400">
+              <p className="text-gray-600">
                 {compassResult.archetype.description.split(".")[0]}.
               </p>
             </div>
 
-            <div className="bg-white dark:bg-gray-900 rounded border border-gray-200 dark:border-gray-800 p-6 space-y-4">
-              <p className="text-center text-gray-700 dark:text-gray-300">
+            <div
+              style={{
+                background: "rgba(255,255,255,0.72)",
+                backdropFilter: "blur(12px)",
+                border: "1px solid rgba(255,255,255,0.5)",
+                borderRadius: "12px",
+                padding: "1.25rem",
+              }}
+              className="space-y-4"
+            >
+              <p className="text-center text-gray-700">
                 Enter your email to unlock your full Education Compass —
                 detailed dimension breakdown, philosophy blend, and
                 personalized curriculum recommendations.
@@ -448,12 +500,22 @@ function QuizPageInner() {
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="your@email.com"
                   required
-                  className="w-full px-4 py-3 border border-gray-300 dark:border-gray-700 rounded text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-800 focus:ring-2 focus:ring-gray-400 focus:outline-none"
+                  className="w-full px-4 py-3 border border-gray-300 rounded text-gray-900 bg-white focus:ring-2 focus:outline-none"
+                  style={{ focusRingColor: "#6E6E9E" } as React.CSSProperties}
                 />
                 <button
                   type="submit"
                   disabled={submitting || !email.trim()}
-                  className="w-full py-3 bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900 rounded font-medium hover:bg-gray-800 dark:hover:bg-gray-200 disabled:opacity-50 transition-colors"
+                  className="w-full disabled:opacity-50 transition-colors"
+                  style={{
+                    background: "#0B2E4A",
+                    color: "#F9F6EF",
+                    borderRadius: "10px",
+                    padding: "0.6rem 1.4rem",
+                    fontSize: "0.85rem",
+                    border: "none",
+                    cursor: submitting || !email.trim() ? "not-allowed" : "pointer",
+                  }}
                 >
                   {submitting ? "Unlocking..." : "Unlock My Full Results"}
                 </button>
@@ -476,7 +538,7 @@ function QuizPageInner() {
                 }
                 router.push("/compass/results");
               }}
-              className="block mx-auto text-sm text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+              className="block mx-auto text-sm text-gray-400 hover:text-gray-600"
             >
               Skip for now
             </button>
@@ -499,7 +561,7 @@ function QuizPageInner() {
           animation: fadeIn 0.3s ease-out;
         }
       `}</style>
-    </div>
+    </Shell>
   );
 }
 
@@ -521,24 +583,24 @@ function DimensionBar({
   return (
     <div className="space-y-1.5">
       <div className="flex justify-between text-sm">
-        <span className="text-gray-500 dark:text-gray-400">{leftLabel}</span>
-        <span className="font-medium text-gray-700 dark:text-gray-300">
+        <span className="text-gray-500">{leftLabel}</span>
+        <span className="font-medium text-gray-700">
           {label}
         </span>
-        <span className="text-gray-500 dark:text-gray-400">{rightLabel}</span>
+        <span className="text-gray-500">{rightLabel}</span>
       </div>
-      <div className="relative h-3 bg-gray-100 dark:bg-gray-800 rounded-full">
+      <div className="relative h-3 bg-gray-100 rounded-full">
         <div
-          className="absolute top-1/2 -translate-y-1/2 w-4 h-4 bg-gray-900 dark:bg-gray-100 rounded-full border-2 border-white dark:border-gray-900 shadow transition-all duration-700 ease-out"
-          style={{ left: `calc(${value}% - 8px)` }}
+          className="absolute top-1/2 -translate-y-1/2 w-4 h-4 rounded-full border-2 border-white shadow transition-all duration-700 ease-out"
+          style={{ left: `calc(${value}% - 8px)`, backgroundColor: "#6E6E9E" }}
         />
         <div
-          className="h-full bg-gray-300 dark:bg-gray-700 rounded-full transition-all duration-700 ease-out"
-          style={{ width: `${value}%` }}
+          className="h-full rounded-full transition-all duration-700 ease-out"
+          style={{ width: `${value}%`, backgroundColor: "#6E6E9E", opacity: 0.4 }}
         />
       </div>
       {callout && (
-        <p className="text-xs text-amber-600 dark:text-amber-400 italic mt-1">
+        <p className="text-xs text-amber-600 italic mt-1">
           {callout}
         </p>
       )}
@@ -598,26 +660,26 @@ function PhilosophyChart({
               className="w-3 h-3 rounded-full flex-shrink-0"
               style={{ backgroundColor: item.color }}
             />
-            <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+            <span className="text-sm font-medium text-gray-700">
               {item.name}
             </span>
-            <span className="text-sm text-gray-400 dark:text-gray-500">
+            <span className="text-sm text-gray-400">
               {item.value}%
             </span>
           </div>
         ))}
         {data.length > 3 && (
-          <div className="space-y-1 pt-1 border-t border-gray-100 dark:border-gray-800 mt-1">
+          <div className="space-y-1 pt-1 border-t border-gray-100 mt-1">
             {data.slice(3).map((item, idx) => (
               <div key={idx} className="flex items-center gap-2">
                 <span
                   className="w-2 h-2 rounded-full flex-shrink-0"
                   style={{ backgroundColor: item.color }}
                 />
-                <span className="text-xs text-gray-500 dark:text-gray-400">
+                <span className="text-xs text-gray-500">
                   {item.name}
                 </span>
-                <span className="text-xs text-gray-400 dark:text-gray-500">
+                <span className="text-xs text-gray-400">
                   {item.value}%
                 </span>
               </div>
@@ -656,15 +718,15 @@ function Part2QuestionView({
   return (
     <div className="space-y-6 animate-fadeIn" key={question.id}>
       <div className="text-center space-y-1">
-        <p className="text-sm text-gray-500 dark:text-gray-400">
+        <p className="text-sm text-gray-500">
           Question {currentIndex + 1} of {total}
         </p>
-        <p className="text-xs text-gray-400 dark:text-gray-500">
+        <p className="text-xs text-gray-400">
           Part 2: Your Practical Needs
         </p>
       </div>
 
-      <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100 text-center leading-relaxed">
+      <h2 className="font-cormorant-sc text-2xl text-gray-900 text-center leading-relaxed">
         {question.question}
       </h2>
 
@@ -679,11 +741,27 @@ function Part2QuestionView({
             <button
               key={choice.value}
               onClick={() => onAnswer(question.id, choice.value, question.type)}
-              className={`w-full text-left p-4 rounded border transition-all duration-200 ${
+              className="w-full text-left transition-all duration-200"
+              style={
                 isSelected
-                  ? "border-gray-900 dark:border-gray-100 bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900"
-                  : "border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 text-gray-700 dark:text-gray-300 hover:border-gray-300 dark:hover:border-gray-700"
-              }`}
+                  ? {
+                      background: "#0B2E4A",
+                      color: "#F9F6EF",
+                      borderRadius: "12px",
+                      padding: "1rem",
+                      border: "none",
+                      cursor: "pointer",
+                    }
+                  : {
+                      background: "rgba(255,255,255,0.72)",
+                      backdropFilter: "blur(12px)",
+                      border: "1px solid rgba(255,255,255,0.5)",
+                      borderRadius: "12px",
+                      padding: "1rem",
+                      color: "#374151",
+                      cursor: "pointer",
+                    }
+              }
             >
               <span className="text-sm">{choice.label}</span>
             </button>
@@ -692,7 +770,7 @@ function Part2QuestionView({
       </div>
 
       {question.type === "multi" && (
-        <p className="text-xs text-gray-400 dark:text-gray-500 text-center">
+        <p className="text-xs text-gray-400 text-center">
           Select all that apply
         </p>
       )}
@@ -701,7 +779,7 @@ function Part2QuestionView({
         {onBack ? (
           <button
             onClick={onBack}
-            className="text-sm text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+            className="text-sm text-gray-400 hover:text-gray-600"
           >
             &#8592; Back
           </button>
@@ -711,7 +789,16 @@ function Part2QuestionView({
         <button
           onClick={onNext}
           disabled={!hasAnswer}
-          className="px-6 py-2 bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900 rounded font-medium text-sm hover:bg-gray-800 dark:hover:bg-gray-200 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+          className="disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+          style={{
+            background: "#0B2E4A",
+            color: "#F9F6EF",
+            borderRadius: "10px",
+            padding: "0.6rem 1.4rem",
+            fontSize: "0.85rem",
+            border: "none",
+            cursor: hasAnswer ? "pointer" : "not-allowed",
+          }}
         >
           {currentIndex + 1 === total ? "See Results" : "Next"}
         </button>

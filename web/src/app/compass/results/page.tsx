@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState, useEffect, useCallback } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { Shell } from "@/components/shell";
 import {
@@ -54,10 +55,10 @@ const SUBJECT_LABELS: Record<string, string> = {
   social_studies: "Social Studies",
 };
 
-const FIT_STYLES: Record<string, { bg: string; text: string; label: string; darkBg: string; darkText: string }> = {
-  strong: { bg: "bg-green-50", text: "text-green-700", label: "Strong Match", darkBg: "dark:bg-green-950", darkText: "dark:text-green-300" },
-  good: { bg: "bg-blue-50", text: "text-blue-700", label: "Good Match", darkBg: "dark:bg-blue-950", darkText: "dark:text-blue-300" },
-  partial: { bg: "bg-amber-50", text: "text-amber-700", label: "Close Fit", darkBg: "dark:bg-amber-950", darkText: "dark:text-amber-300" },
+const FIT_STYLES: Record<string, { bg: string; text: string; label: string }> = {
+  strong: { bg: "bg-green-50", text: "text-green-700", label: "Strong Match" },
+  good: { bg: "bg-blue-50", text: "text-blue-700", label: "Good Match" },
+  partial: { bg: "bg-amber-50", text: "text-amber-700", label: "Close Fit" },
 };
 
 const PREP_STYLES: Record<string, { color: string }> = {
@@ -96,11 +97,11 @@ const LITERACY_COMPONENT_LABELS: Record<LiteracyComponent, string> = {
 };
 
 const LITERACY_COMPONENT_COLORS: Record<LiteracyComponent, string> = {
-  reading: "bg-sky-100 text-sky-700 dark:bg-sky-950 dark:text-sky-300",
-  writing: "bg-violet-100 text-violet-700 dark:bg-violet-950 dark:text-violet-300",
-  spelling: "bg-rose-100 text-rose-700 dark:bg-rose-950 dark:text-rose-300",
-  grammar: "bg-orange-100 text-orange-700 dark:bg-orange-950 dark:text-orange-300",
-  complete: "bg-teal-100 text-teal-700 dark:bg-teal-950 dark:text-teal-300",
+  reading: "bg-sky-100 text-sky-700",
+  writing: "bg-violet-100 text-violet-700",
+  spelling: "bg-rose-100 text-rose-700",
+  grammar: "bg-orange-100 text-orange-700",
+  complete: "bg-teal-100 text-teal-700",
 };
 
 function formatSubjectList(subjects: string[]): string {
@@ -202,40 +203,77 @@ export default function ResultsPage() {
   const top3 = philosophyData.slice(0, 3);
 
   return (
-    <Shell>
+    <Shell hue="results">
       <div className="max-w-3xl space-y-6">
         <div className="flex items-center justify-between">
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
+          <h1 className="font-cormorant-sc text-2xl font-semibold" style={{ color: "var(--ink)" }}>
             Your Education Compass
           </h1>
           <Link
             href="/compass/quiz"
-            className="text-sm text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+            className="text-sm hover:underline"
+            style={{ color: "var(--text-secondary)" }}
           >
             Retake quiz
           </Link>
         </div>
 
-        {/* Archetype */}
-        <div className="bg-white dark:bg-gray-900 rounded border border-gray-200 dark:border-gray-800 p-6 space-y-4">
-          <div className="text-center space-y-2">
-            <p className="text-4xl">{archetype.icon}</p>
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
+        {/* Archetype — frost card with character image */}
+        <div
+          className="rounded-xl p-6 space-y-4"
+          style={{
+            background: "rgba(255,255,255,0.72)",
+            backdropFilter: "blur(12px)",
+            WebkitBackdropFilter: "blur(12px)",
+            border: "1px solid rgba(255,255,255,0.5)",
+            borderRadius: "12px",
+          }}
+        >
+          <div className="text-center space-y-3">
+            {/* Character image with tool icon overlay */}
+            <div className="relative inline-block mx-auto">
+              <Image
+                src={archetype.imagePath}
+                alt={archetype.name}
+                width={220}
+                height={220}
+                className="object-contain"
+                style={{ height: "220px", width: "auto" }}
+              />
+              {/* Tool icon offset lower-right */}
+              <div className="absolute bottom-0 right-0 translate-x-1/4 translate-y-1/4">
+                <Image
+                  src={archetype.toolPath}
+                  alt=""
+                  width={80}
+                  height={80}
+                  className="object-contain drop-shadow-md"
+                  style={{ height: "80px", width: "auto" }}
+                />
+              </div>
+            </div>
+
+            <h2
+              className="font-cormorant-sc text-3xl font-semibold mt-6"
+              style={{ color: archetype.color }}
+            >
               You&apos;re {archetype.name}
             </h2>
             {secondaryArchetype && (
-              <p className="text-sm text-gray-500 dark:text-gray-400">
+              <p className="text-sm font-medium" style={{ color: secondaryArchetype.color }}>
                 with {secondaryArchetype.name} tendencies
               </p>
             )}
           </div>
-          <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+
+          <p className="text-sm leading-relaxed font-cormorant" style={{ color: "var(--text-secondary)" }}>
             {archetype.description}
           </p>
+
           {secondaryArchetype && (
-            <div className="border-t border-gray-100 dark:border-gray-800 pt-3">
-              <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
-                <span className="font-medium text-gray-700 dark:text-gray-300">
+            <div className="pt-3" style={{ borderTop: "1px solid rgba(0,0,0,0.07)" }}>
+              <p className="text-sm leading-relaxed" style={{ color: "var(--text-secondary)" }}>
+                <span className="font-medium" style={{ color: "var(--ink)" }}>
                   With {secondaryArchetype.name} tendencies,
                 </span>{" "}
                 {getComboText(archetype.id, secondaryArchetype.id).shareText.charAt(0).toLowerCase() + getComboText(archetype.id, secondaryArchetype.id).shareText.slice(1)}
@@ -245,8 +283,17 @@ export default function ResultsPage() {
         </div>
 
         {/* Dimension bars */}
-        <div className="bg-white dark:bg-gray-900 rounded border border-gray-200 dark:border-gray-800 p-4 space-y-5">
-          <h3 className="font-medium text-gray-900 dark:text-gray-100">
+        <div
+          className="rounded-xl p-4 space-y-5"
+          style={{
+            background: "rgba(255,255,255,0.72)",
+            backdropFilter: "blur(12px)",
+            WebkitBackdropFilter: "blur(12px)",
+            border: "1px solid rgba(255,255,255,0.5)",
+            borderRadius: "12px",
+          }}
+        >
+          <h3 className="font-cormorant-sc font-semibold" style={{ color: "var(--ink)" }}>
             Your Five Dimensions
           </h3>
           {(
@@ -254,28 +301,37 @@ export default function ResultsPage() {
           ).map((dim) => (
             <div key={dim} className="space-y-1.5">
               <div className="flex justify-between text-sm">
-                <span className="text-gray-500 dark:text-gray-400">
+                <span style={{ color: "var(--text-secondary)" }}>
                   {DIMENSION_LABELS[dim].left}
                 </span>
-                <span className="font-medium text-gray-700 dark:text-gray-300">
+                <span className="font-medium" style={{ color: "var(--ink)" }}>
                   {DIMENSION_LABELS[dim].name}
                 </span>
-                <span className="text-gray-500 dark:text-gray-400">
+                <span style={{ color: "var(--text-secondary)" }}>
                   {DIMENSION_LABELS[dim].right}
                 </span>
               </div>
-              <div className="relative h-3 bg-gray-100 dark:bg-gray-800 rounded-full">
+              <div
+                className="relative h-3 rounded-full"
+                style={{ background: "rgba(0,0,0,0.06)" }}
+              >
                 <div
-                  className="absolute top-1/2 -translate-y-1/2 w-4 h-4 bg-gray-900 dark:bg-gray-100 rounded-full border-2 border-white dark:border-gray-900 shadow transition-all duration-700 ease-out"
-                  style={{ left: `calc(${dimensions[dim]}% - 8px)` }}
+                  className="absolute top-1/2 -translate-y-1/2 w-4 h-4 rounded-full border-2 border-white shadow transition-all duration-700 ease-out"
+                  style={{
+                    left: `calc(${dimensions[dim]}% - 8px)`,
+                    background: "var(--accent-primary)",
+                  }}
                 />
                 <div
-                  className="h-full bg-gray-300 dark:bg-gray-700 rounded-full transition-all duration-700 ease-out"
-                  style={{ width: `${dimensions[dim]}%` }}
+                  className="h-full rounded-full transition-all duration-700 ease-out"
+                  style={{
+                    width: `${dimensions[dim]}%`,
+                    background: "var(--accent-primary-dim)",
+                  }}
                 />
               </div>
               {dim === "structure" && structureSplit?.hasSplit && structureSplit.message && (
-                <p className="text-xs text-amber-600 dark:text-amber-400 italic">
+                <p className="text-xs italic" style={{ color: "#d97706" }}>
                   {structureSplit.message}
                 </p>
               )}
@@ -284,8 +340,17 @@ export default function ResultsPage() {
         </div>
 
         {/* Philosophy blend */}
-        <div className="bg-white dark:bg-gray-900 rounded border border-gray-200 dark:border-gray-800 p-4 space-y-4">
-          <h3 className="font-medium text-gray-900 dark:text-gray-100">
+        <div
+          className="rounded-xl p-4 space-y-4"
+          style={{
+            background: "rgba(255,255,255,0.72)",
+            backdropFilter: "blur(12px)",
+            WebkitBackdropFilter: "blur(12px)",
+            border: "1px solid rgba(255,255,255,0.5)",
+            borderRadius: "12px",
+          }}
+        >
+          <h3 className="font-cormorant-sc font-semibold" style={{ color: "var(--ink)" }}>
             Your Philosophy Blend
           </h3>
           <div className="flex flex-col sm:flex-row items-center gap-6">
@@ -307,7 +372,7 @@ export default function ResultsPage() {
                   </Pie>
                   <Tooltip
                     formatter={(value) => `${value}%`}
-                    contentStyle={{ borderRadius: "8px", border: "1px solid #e5e7eb", fontSize: "12px" }}
+                    contentStyle={{ borderRadius: "8px", border: "1px solid rgba(0,0,0,0.08)", fontSize: "12px" }}
                   />
                 </PieChart>
               </ResponsiveContainer>
@@ -315,47 +380,93 @@ export default function ResultsPage() {
             <div className="space-y-2 flex-1">
               {top3.map((item, idx) => (
                 <div key={idx} className="flex items-center gap-2">
-                  <span className="w-3 h-3 rounded-full flex-shrink-0" style={{ backgroundColor: item.color }} />
-                  <span className="text-sm font-medium text-gray-700 dark:text-gray-300">{item.name}</span>
-                  <span className="text-sm text-gray-400 dark:text-gray-500">{item.value}%</span>
+                  {/* Frost pill for top philosophies */}
+                  <span
+                    className="flex items-center gap-1.5 px-2 py-1 text-xs font-medium"
+                    style={{
+                      background: "rgba(255,255,255,0.68)",
+                      backdropFilter: "blur(10px)",
+                      WebkitBackdropFilter: "blur(10px)",
+                      border: "1px solid rgba(255,255,255,0.45)",
+                      borderRadius: "6px",
+                      color: item.color,
+                    }}
+                  >
+                    <span
+                      className="w-2 h-2 rounded-full flex-shrink-0"
+                      style={{ backgroundColor: item.color }}
+                    />
+                    {item.name}
+                  </span>
+                  <span className="text-sm" style={{ color: "var(--text-secondary)" }}>
+                    {item.value}%
+                  </span>
                 </div>
               ))}
               {philosophyData.length > 3 && (
-                <div className="space-y-1 pt-1 border-t border-gray-100 dark:border-gray-800 mt-1">
+                <div
+                  className="space-y-1 pt-1 mt-1"
+                  style={{ borderTop: "1px solid rgba(0,0,0,0.06)" }}
+                >
                   {philosophyData.slice(3).map((item, idx) => (
                     <div key={idx} className="flex items-center gap-2">
-                      <span className="w-2 h-2 rounded-full flex-shrink-0" style={{ backgroundColor: item.color }} />
-                      <span className="text-xs text-gray-500 dark:text-gray-400">{item.name}</span>
-                      <span className="text-xs text-gray-400 dark:text-gray-500">{item.value}%</span>
+                      <span
+                        className="w-2 h-2 rounded-full flex-shrink-0"
+                        style={{ backgroundColor: item.color }}
+                      />
+                      <span className="text-xs" style={{ color: "var(--text-secondary)" }}>
+                        {item.name}
+                      </span>
+                      <span className="text-xs" style={{ color: "var(--text-tertiary)" }}>
+                        {item.value}%
+                      </span>
                     </div>
                   ))}
                 </div>
               )}
             </div>
           </div>
-          <p className="text-xs text-gray-400 dark:text-gray-500 text-center italic">
+          <p
+            className="text-xs text-center italic font-cormorant"
+            style={{ color: "var(--text-tertiary)" }}
+          >
             Most educators are a blend — your compass reflects your natural tendencies, not a rigid category.
           </p>
         </div>
 
-        {/* Archetype-specific app pitch — elevated above curriculum */}
-        <div className="bg-gray-900 dark:bg-gray-100 rounded p-6 space-y-3">
-          <h3 className="text-lg font-bold text-white dark:text-gray-900">
+        {/* Archetype-specific app pitch */}
+        <div
+          className="rounded-xl p-6 space-y-3"
+          style={{ background: "var(--night)", borderRadius: "10px" }}
+        >
+          <h3
+            className="font-cormorant-sc text-lg font-semibold"
+            style={{ color: "var(--parchment)" }}
+          >
             {archetype.appPitch.headline}
           </h3>
-          <p className="text-sm text-gray-300 dark:text-gray-600 leading-relaxed">
+          <p
+            className="text-sm leading-relaxed"
+            style={{ color: "rgba(249,246,239,0.75)" }}
+          >
             {archetype.appPitch.body}
           </p>
           <Link
             href="/generate"
-            className="inline-block px-5 py-2 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 rounded font-medium text-sm hover:bg-gray-100 dark:hover:bg-gray-800"
+            className="inline-block text-sm font-medium hover:opacity-90 transition-opacity"
+            style={{
+              background: "var(--parchment)",
+              color: "var(--night)",
+              borderRadius: "10px",
+              padding: "0.6rem 1.4rem",
+            }}
           >
             {archetype.appPitch.cta} &rarr;
           </Link>
         </div>
 
         {/* Curriculum note */}
-        <p className="text-xs text-gray-400 dark:text-gray-500 italic">
+        <p className="text-xs italic" style={{ color: "var(--text-tertiary)" }}>
           Below are curriculum recommendations for your foundational subjects. Many published curricula lean toward classical structure — we&apos;ve found the best matches for your philosophy.
         </p>
 
@@ -365,12 +476,12 @@ export default function ResultsPage() {
             {matchOutput.warnings.map((w, idx) => (
               <div
                 key={idx}
-                className={`rounded p-4 text-sm ${
+                className={`rounded-xl p-4 text-sm ${
                   w.type === "dyslexia-recommendation"
-                    ? "bg-blue-50 dark:bg-blue-950 border border-blue-200 dark:border-blue-800 text-blue-800 dark:text-blue-200"
+                    ? "bg-blue-50 border border-blue-200 text-blue-800"
                     : w.type === "adhd-recommendation"
-                      ? "bg-purple-50 dark:bg-purple-950 border border-purple-200 dark:border-purple-800 text-purple-800 dark:text-purple-200"
-                      : "bg-amber-50 dark:bg-amber-950 border border-amber-200 dark:border-amber-800 text-amber-800 dark:text-amber-200"
+                      ? "bg-purple-50 border border-purple-200 text-purple-800"
+                      : "bg-amber-50 border border-amber-200 text-amber-800"
                 }`}
               >
                 {w.message}
@@ -379,37 +490,65 @@ export default function ResultsPage() {
           </div>
         )}
 
-        {/* Fallback banner — shown when filters were relaxed */}
+        {/* Fallback banner */}
         {matchOutput?.fallbackBanner && (
-          <div className="rounded p-4 text-sm bg-amber-50 dark:bg-amber-950 border border-amber-200 dark:border-amber-800 text-amber-800 dark:text-amber-200">
+          <div className="rounded-xl p-4 text-sm bg-amber-50 border border-amber-200 text-amber-800">
             {matchOutput.fallbackBanner}
           </div>
         )}
 
         {/* Curriculum Recommendations */}
         <div className="space-y-4">
-          <h3 className="font-medium text-gray-900 dark:text-gray-100 text-lg">
+          <h3
+            className="font-cormorant-sc text-lg font-semibold"
+            style={{ color: "var(--ink)" }}
+          >
             Curriculum Recommendations
           </h3>
 
           {matchLoading && (
-            <div className="bg-white dark:bg-gray-900 rounded border border-gray-200 dark:border-gray-800 p-8 text-center">
-              <div className="inline-block w-5 h-5 border-2 border-gray-900 dark:border-gray-100 border-t-transparent rounded-full animate-spin mb-2" />
-              <p className="text-sm text-gray-500 dark:text-gray-400">Finding your best curriculum matches...</p>
+            <div
+              className="rounded-xl p-8 text-center"
+              style={{
+                background: "rgba(255,255,255,0.72)",
+                backdropFilter: "blur(12px)",
+                WebkitBackdropFilter: "blur(12px)",
+                border: "1px solid rgba(255,255,255,0.5)",
+                borderRadius: "12px",
+              }}
+            >
+              <div
+                className="inline-block w-5 h-5 border-2 border-t-transparent rounded-full animate-spin mb-2"
+                style={{ borderColor: "var(--accent-primary)", borderTopColor: "transparent" }}
+              />
+              <p className="text-sm" style={{ color: "var(--text-secondary)" }}>
+                Finding your best curriculum matches...
+              </p>
             </div>
           )}
 
           {matchError && (
-            <div className="bg-red-50 border border-red-200 rounded p-4 text-sm text-red-700">
+            <div className="bg-red-50 border border-red-200 rounded-xl p-4 text-sm text-red-700">
               {matchError}
             </div>
           )}
 
           {matchOutput && Object.keys(matchOutput.bySubject).length === 0 && !matchLoading && (
-            <div className="bg-white dark:bg-gray-900 rounded border border-gray-200 dark:border-gray-800 p-6 text-center">
-              <p className="text-sm text-gray-500 dark:text-gray-400">
+            <div
+              className="rounded-xl p-6 text-center"
+              style={{
+                background: "rgba(255,255,255,0.72)",
+                backdropFilter: "blur(12px)",
+                WebkitBackdropFilter: "blur(12px)",
+                border: "1px solid rgba(255,255,255,0.5)",
+                borderRadius: "12px",
+              }}
+            >
+              <p className="text-sm" style={{ color: "var(--text-secondary)" }}>
                 No curriculum matches found for your filters. Try adjusting your preferences or{" "}
-                <Link href="/compass/quiz" className="text-blue-600 hover:underline">retaking the quiz</Link>.
+                <Link href="/compass/quiz" className="hover:underline" style={{ color: "var(--accent-primary)" }}>
+                  retaking the quiz
+                </Link>.
               </p>
             </div>
           )}
@@ -417,11 +556,13 @@ export default function ResultsPage() {
           {matchOutput &&
             Object.entries(matchOutput.bySubject).map(([subject, results]) => (
               <div key={subject} className="space-y-3">
-                <h4 className="font-medium text-gray-700 dark:text-gray-300">
+                <h4
+                  className="font-cormorant-sc font-semibold"
+                  style={{ color: "var(--text-secondary)" }}
+                >
                   {SUBJECT_LABELS[subject] || subject}
                 </h4>
 
-                {/* Comparison table */}
                 <div className="space-y-2">
                   {results.map((match, idx) => {
                     const c = match.curriculum;
@@ -431,31 +572,40 @@ export default function ResultsPage() {
                     return (
                       <div
                         key={c.id}
-                        className="bg-white dark:bg-gray-900 rounded border border-gray-200 dark:border-gray-800 p-4"
+                        className="p-4"
+                        style={{
+                          background: "rgba(255,255,255,0.72)",
+                          backdropFilter: "blur(12px)",
+                          WebkitBackdropFilter: "blur(12px)",
+                          border: "1px solid rgba(255,255,255,0.5)",
+                          borderRadius: "12px",
+                        }}
                       >
                         <div className="flex items-start justify-between gap-3">
                           <div className="flex-1 min-w-0">
                             <div className="flex items-center gap-2 flex-wrap">
-                              <h5 className="font-medium text-gray-900 dark:text-gray-100 text-sm">
+                              <h5
+                                className="font-medium text-sm"
+                                style={{ color: "var(--ink)" }}
+                              >
                                 {idx + 1}. {c.name}
                               </h5>
-                              {/* Best Fit badge: positional — results are pre-sorted by score server-side */}
                               {idx === 0 && (
-                                <span className="text-xs px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300 font-medium">
+                                <span className="text-xs px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 font-medium">
                                   Best Fit
                                 </span>
                               )}
-                              <span className={`text-xs px-2 py-0.5 rounded ${fit.bg} ${fit.text} ${fit.darkBg} ${fit.darkText}`}>
+                              <span className={`text-xs px-2 py-0.5 rounded ${fit.bg} ${fit.text}`}>
                                 {fit.label}
                               </span>
                             </div>
-                            <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
+                            <p className="text-xs mt-0.5" style={{ color: "var(--text-secondary)" }}>
                               {c.publisher}
                             </p>
-                            <p className="text-sm text-gray-600 dark:text-gray-400 mt-1 line-clamp-2">
+                            <p className="text-sm mt-1 line-clamp-2" style={{ color: "var(--text-secondary)" }}>
                               {c.description}
                             </p>
-                            <p className="text-xs text-gray-500 dark:text-gray-400 mt-1 italic">
+                            <p className="text-xs mt-1 italic" style={{ color: "var(--text-tertiary)" }}>
                               {match.matchReason}
                             </p>
                           </div>
@@ -463,7 +613,7 @@ export default function ResultsPage() {
 
                         <div className="flex flex-wrap gap-2 mt-3">
                           {c.subjects.length > 1 && (
-                            <span className="text-xs px-2 py-0.5 rounded bg-indigo-100 dark:bg-indigo-950 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800 font-medium">
+                            <span className="text-xs px-2 py-0.5 rounded bg-indigo-100 text-indigo-700 border border-indigo-200 font-medium">
                               All-in-One Bundle
                             </span>
                           )}
@@ -478,31 +628,55 @@ export default function ResultsPage() {
                           >
                             {c.prepLevel}
                           </span>
-                          <span className="text-xs px-2 py-0.5 rounded bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400">
+                          <span
+                            className="text-xs px-2 py-0.5 rounded"
+                            style={{
+                              background: "rgba(0,0,0,0.05)",
+                              color: "var(--text-secondary)",
+                            }}
+                          >
                             {c.religiousType === "christian"
                               ? `Christian (${c.faithDepth})`
                               : c.religiousType.charAt(0).toUpperCase() + c.religiousType.slice(1)}
                           </span>
-                          <span className="text-xs px-2 py-0.5 rounded bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400">
+                          <span
+                            className="text-xs px-2 py-0.5 rounded"
+                            style={{
+                              background: "rgba(0,0,0,0.05)",
+                              color: "var(--text-secondary)",
+                            }}
+                          >
                             {c.gradeRange}
                           </span>
-                          <span className="text-xs px-2 py-0.5 rounded bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400">
+                          <span
+                            className="text-xs px-2 py-0.5 rounded"
+                            style={{
+                              background: "rgba(0,0,0,0.05)",
+                              color: "var(--text-secondary)",
+                            }}
+                          >
                             {c.priceRange}
                           </span>
                         </div>
 
                         {c.subjects.length > 1 && (
-                          <p className="text-xs text-indigo-600 dark:text-indigo-400 mt-1.5">
+                          <p className="text-xs text-indigo-600 mt-1.5">
                             Covers {formatSubjectList(c.subjects)} — may need to be purchased as a complete package. Check the publisher&apos;s site.
                           </p>
                         )}
 
                         {c.notes && (
                           <details className="mt-2">
-                            <summary className="text-xs text-gray-400 dark:text-gray-500 cursor-pointer">
+                            <summary
+                              className="text-xs cursor-pointer"
+                              style={{ color: "var(--text-tertiary)" }}
+                            >
                               Details
                             </summary>
-                            <p className="text-xs text-gray-500 dark:text-gray-400 mt-1 leading-relaxed">
+                            <p
+                              className="text-xs mt-1 leading-relaxed"
+                              style={{ color: "var(--text-secondary)" }}
+                            >
                               {c.notes}
                             </p>
                           </details>
@@ -527,7 +701,13 @@ export default function ResultsPage() {
                             href={c.affiliateUrl}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="inline-block mt-3 text-xs px-3 py-1.5 bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900 rounded hover:bg-gray-800 dark:hover:bg-gray-200"
+                            className="inline-block mt-3 text-xs font-medium hover:opacity-90 transition-opacity"
+                            style={{
+                              background: "var(--night)",
+                              color: "var(--parchment)",
+                              borderRadius: "10px",
+                              padding: "0.6rem 1.4rem",
+                            }}
                           >
                             Learn More &rarr;
                           </a>
@@ -540,14 +720,29 @@ export default function ResultsPage() {
             ))}
         </div>
 
-        {/* Bottom CTA — reinforces the archetype pitch */}
-        <div className="bg-white dark:bg-gray-900 rounded border border-gray-200 dark:border-gray-800 p-4 text-center space-y-2">
-          <p className="text-sm text-gray-600 dark:text-gray-400">
+        {/* Bottom CTA */}
+        <div
+          className="rounded-xl p-4 text-center space-y-2"
+          style={{
+            background: "rgba(255,255,255,0.72)",
+            backdropFilter: "blur(12px)",
+            WebkitBackdropFilter: "blur(12px)",
+            border: "1px solid rgba(255,255,255,0.5)",
+            borderRadius: "12px",
+          }}
+        >
+          <p className="text-sm" style={{ color: "var(--text-secondary)" }}>
             Ready to start building lessons that match your {archetype.name} style?
           </p>
           <Link
             href="/generate"
-            className="inline-block px-6 py-2 bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900 rounded font-medium text-sm hover:bg-gray-800 dark:hover:bg-gray-200"
+            className="inline-block text-sm font-medium hover:opacity-90 transition-opacity"
+            style={{
+              background: "var(--night)",
+              color: "var(--parchment)",
+              borderRadius: "10px",
+              padding: "0.6rem 1.4rem",
+            }}
           >
             {archetype.appPitch.cta} &rarr;
           </Link>

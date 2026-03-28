@@ -1,17 +1,9 @@
 import type { Metadata } from "next";
-import localFont from "next/font/local";
-import { ThemeProvider } from "@/components/theme-provider";
 import "./globals.css";
 
-const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
-});
-
 export const metadata: Metadata = {
-  title: "EduApp — Homeschool Lesson Planner",
-  description: "Interest-driven lesson plans for homeschooling families",
+  title: "The Sage's Compass — Homeschool Curriculum for Your Family",
+  description: "Discover your teaching archetype, then generate custom lesson plans matched to your philosophy, your child's interests, and your state's standards.",
 };
 
 export default function RootLayout({
@@ -20,9 +12,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className={`${geistSans.variable} font-sans antialiased bg-gray-50 dark:bg-gray-950 min-h-screen text-gray-900 dark:text-gray-100 transition-colors`}>
-        <ThemeProvider>{children}</ThemeProvider>
+    <html lang="en">
+      <body className="antialiased min-h-screen">
+        {children}
       </body>
     </html>
   );
