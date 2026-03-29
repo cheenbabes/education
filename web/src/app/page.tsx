@@ -147,42 +147,34 @@ export default function Home() {
           </p>
         </div>
 
-        {/* Horizontal scroll row */}
+        {/* 8-column grid — all cards in one line, no scrollbar */}
         <div style={{
-          display: "flex",
-          gap: "1rem",
-          overflowX: "auto",
-          paddingBottom: "1rem",
-          scrollSnapType: "x mandatory",
-          WebkitOverflowScrolling: "touch",
+          display: "grid",
+          gridTemplateColumns: "repeat(8, 1fr)",
+          gap: "0.6rem",
         }}>
           {ARCHETYPES.map((a) => (
             <div key={a.id} style={{
-              flexShrink: 0,
-              width: "148px",
-              scrollSnapAlign: "start",
               background: "rgba(255,255,255,0.72)",
               backdropFilter: "blur(12px)",
               WebkitBackdropFilter: "blur(12px)",
               border: "1px solid rgba(255,255,255,0.5)",
-              borderRadius: "16px",
+              borderRadius: "14px",
               borderBottom: `3px solid ${a.color}`,
-              padding: "1rem 0.75rem",
+              padding: "0.85rem 0.5rem",
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
-              gap: "0.5rem",
+              gap: "0.4rem",
               textAlign: "center",
-              transition: "transform 0.15s, box-shadow 0.15s",
-              cursor: "default",
             }}>
-              <div style={{ width: "72px", height: "72px", borderRadius: "50%", overflow: "hidden", background: "rgba(255,255,255,0.5)" }}>
-                <Image src={a.imagePath} alt={a.name} width={72} height={72} style={{ objectFit: "cover", objectPosition: "top" }} />
+              <div style={{ width: "56px", height: "56px", borderRadius: "50%", overflow: "hidden", background: "rgba(255,255,255,0.5)" }}>
+                <Image src={a.imagePath} alt={a.name} width={56} height={56} style={{ objectFit: "cover", objectPosition: "top" }} />
               </div>
-              <div className="font-cormorant-sc" style={{ fontSize: "0.82rem", fontWeight: 600, color: a.color, letterSpacing: "0.04em" }}>
+              <div className="font-cormorant-sc" style={{ fontSize: "0.72rem", fontWeight: 600, color: a.color, letterSpacing: "0.03em" }}>
                 {a.name}
               </div>
-              <div style={{ fontSize: "0.7rem", color: "var(--text-secondary)", lineHeight: 1.4 }}>
+              <div style={{ fontSize: "0.62rem", color: "var(--text-secondary)", lineHeight: 1.4 }}>
                 {archetypeHook(a.id)}
               </div>
             </div>
@@ -202,7 +194,7 @@ export default function Home() {
           textAlign: "center",
         }}>
           <p className="font-cormorant" style={{ fontSize: "1rem", fontStyle: "italic", color: "var(--ink)", lineHeight: 1.6, marginBottom: "0.5rem" }}>
-            &ldquo;Finding your values, your philosophy, that is where quality education starts.&rdquo;
+            &ldquo;Great education starts with knowing yourself as a teacher&rdquo;
           </p>
           <p style={{ fontSize: "0.78rem", color: "var(--text-tertiary)" }}>— Founder, M.Ed., EdD Student</p>
         </div>
@@ -257,13 +249,39 @@ export default function Home() {
                 body: "Type anything: 'frogs,' 'the American Revolution,' 'fractions.' Select the subject and grade. We handle the philosophy, standards, and structure.",
                 preview: (
                   <div style={{ background: "rgba(240,234,224,0.6)", borderRadius: "10px", padding: "1rem", fontSize: "0.72rem" }}>
+                    {/* Topic input */}
                     <div style={{ background: "rgba(255,255,255,0.7)", border: "1px solid rgba(0,0,0,0.08)", borderRadius: "8px", padding: "0.5rem 0.65rem", marginBottom: "0.5rem", color: "var(--text-tertiary)" }}>
                       What is your child curious about today?
                     </div>
+                    {/* Subject pills */}
                     <div style={{ display: "flex", gap: "0.35rem", marginBottom: "0.5rem" }}>
                       {["Science", "History", "Math"].map((s, i) => (
                         <span key={s} style={{ fontSize: "0.65rem", padding: "0.25rem 0.5rem", borderRadius: "6px", background: i === 0 ? "var(--night)" : "rgba(255,255,255,0.7)", color: i === 0 ? "var(--parchment)" : "var(--text-secondary)", border: "1px solid rgba(255,255,255,0.4)" }}>{s}</span>
                       ))}
+                    </div>
+                    {/* Philosophy selector */}
+                    <div style={{ marginBottom: "0.6rem" }}>
+                      <div style={{ fontSize: "0.55rem", fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--text-tertiary)", marginBottom: "0.35rem" }}>Philosophy</div>
+                      <div style={{ display: "flex", flexWrap: "wrap", gap: "0.3rem" }}>
+                        {[
+                          { label: "Charlotte Mason", color: "#B07A8A" },
+                          { label: "Montessori",      color: "#7D6B9E" },
+                          { label: "Classical",       color: "#5B5E8A" },
+                          { label: "Project-Based",   color: "#5A7FA0" },
+                          { label: "Waldorf",         color: "#C4983D" },
+                          { label: "Nature",          color: "#5A947A" },
+                        ].map(({ label, color }, i) => (
+                          <span key={label} style={{
+                            fontSize: "0.6rem",
+                            padding: "0.2rem 0.45rem",
+                            borderRadius: "5px",
+                            background: i === 0 ? `${color}22` : "rgba(255,255,255,0.6)",
+                            color: i === 0 ? color : "var(--text-secondary)",
+                            border: i === 0 ? `1px solid ${color}44` : "1px solid rgba(0,0,0,0.07)",
+                            fontWeight: i === 0 ? 600 : 400,
+                          }}>{label}</span>
+                        ))}
+                      </div>
                     </div>
                     <div style={{ background: "var(--night)", color: "var(--parchment)", borderRadius: "8px", padding: "0.5rem", textAlign: "center", fontWeight: 500 }}>Generate Lesson</div>
                   </div>
@@ -272,7 +290,7 @@ export default function Home() {
               {
                 num: "03",
                 heading: "A Complete Lesson, Ready to Use",
-                body: "Two minutes of planning, not two hours.",
+                body: "Two minutes of planning, not two hours. You get a structured, philosophy-aligned lesson — activities, materials, and a narration prompt — ready to teach. No blank page, no second-guessing. Just open it and go.",
                 preview: (
                   <div style={{ background: "rgba(224,237,224,0.6)", borderRadius: "10px", padding: "1rem", fontSize: "0.72rem" }}>
                     <div className="font-cormorant-sc" style={{ fontSize: "0.88rem", marginBottom: "0.35rem" }}>The Life Cycle of a Frog</div>
@@ -322,7 +340,33 @@ export default function Home() {
               headline: "Every lesson reflects your unique teaching philosophy",
               body: "Montessori math doesn't just include manipulatives. It follows Maria Montessori's concrete-to-abstract sequence, extracted from her original writings. Charlotte Mason lessons use living books, short sessions, and narration. Classical lessons build on critical thinking. 29 foundational texts, a library of materials for each pedagogy — that's what powers every lesson.",
               note: undefined,
-              visual: <></>,
+              visual: (
+                <div style={{ background: "rgba(224,237,224,0.5)", borderRadius: "14px", padding: "1.25rem", display: "flex", flexDirection: "column", gap: "0.6rem" }}>
+                  {/* Sample lesson card */}
+                  <div className="font-cormorant-sc" style={{ fontSize: "1rem", color: "var(--ink)" }}>The Life Cycle of a Butterfly</div>
+                  <div style={{ display: "flex", gap: "0.4rem", flexWrap: "wrap" }}>
+                    {[
+                      { label: "Charlotte Mason", color: "#B07A8A" },
+                      { label: "Grade 2 · Science", color: "var(--text-tertiary)" },
+                    ].map(({ label, color }) => (
+                      <span key={label} style={{ fontSize: "0.65rem", padding: "0.2rem 0.5rem", borderRadius: "5px", background: "rgba(255,255,255,0.7)", color, border: "1px solid rgba(0,0,0,0.07)" }}>{label}</span>
+                    ))}
+                  </div>
+                  {[
+                    { type: "Nature Observation", desc: "Go outside and look for caterpillars or chrysalises. Sketch what you find in your nature journal." },
+                    { type: "Living Book", desc: "Read aloud from a picture book about metamorphosis. Ask your child to narrate it back in their own words." },
+                    { type: "Handicraft", desc: "Create a watercolor lifecycle diagram — egg, caterpillar, chrysalis, butterfly." },
+                  ].map(({ type, desc }) => (
+                    <div key={type} style={{ background: "rgba(255,255,255,0.75)", borderRadius: "8px", padding: "0.6rem 0.75rem" }}>
+                      <div style={{ fontSize: "0.58rem", fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "#B07A8A", marginBottom: "0.25rem" }}>{type}</div>
+                      <div style={{ fontSize: "0.73rem", color: "var(--text-secondary)", lineHeight: 1.5 }}>{desc}</div>
+                    </div>
+                  ))}
+                  <div style={{ fontSize: "0.65rem", color: "var(--accent-primary)", background: "rgba(110,110,158,0.08)", borderRadius: "6px", padding: "0.3rem 0.5rem" }}>
+                    ✓ NGSS-LS1.B · K-2 Life Science
+                  </div>
+                </div>
+              ),
             },
             {
               right: false,
@@ -551,10 +595,12 @@ export default function Home() {
 // Characters that naturally face left — don't auto-flip even when on right side of ring
 const NO_AUTO_FLIP = new Set(["the-free-spirit", "the-architect", "the-storyteller"]);
 
-// Per-character vertical crop position — push crop point down slightly so head is fully visible
-const OBJECT_POSITION: Record<string, string> = {
-  "the-weaver":    "50% 2%",    // sitting character — push crop up so head fills top of circle
-  "the-architect": "62% 5%",   // character is left-of-center in PNG — shift right to centre her
+// Per-character crop offsets (top/left as % of nodeSize, negative = shift up/left)
+// top: how far down to start the crop (negative = shift image up, showing more of top)
+// left: horizontal offset (negative = shift image left; positive = shift right)
+const CROP_OFFSET: Record<string, { top?: string; left?: string; width?: string }> = {
+  "the-weaver":    { top: "-30%" },          // show upper body clearly
+  "the-architect": { top: "5%", left: "18%" }, // centre her horizontally in the circle
 };
 
 function ArchetypeRing({ archetypes }: { archetypes: typeof ARCHETYPES }) {
@@ -562,24 +608,13 @@ function ArchetypeRing({ archetypes }: { archetypes: typeof ARCHETYPES }) {
   const center = size / 2;
   const radius = 178;
   const nodeSize = 112;
-  const compassSize = 190;
+  const compassSize = 325;
 
   return (
     <div style={{ position: "relative", width: size, height: size }}>
-      {/* Center compass — large, fills its circle */}
-      <div style={{
-        position: "absolute",
-        top: "50%",
-        left: "50%",
-        transform: "translate(-50%, -50%)",
-        width: `${compassSize}px`,
-        height: `${compassSize}px`,
-        borderRadius: "50%",
-        overflow: "hidden",
-        boxShadow: "0 4px 20px rgba(0,0,0,0.12)",
-        zIndex: 2,
-      }}>
-        <Image src="/archetypes/tools/compass.png" alt="Compass" width={compassSize} height={compassSize} style={{ objectFit: "cover", objectPosition: "center" }} />
+      {/* Center compass — no circle, image floats freely over transparent bg */}
+      <div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", zIndex: 2 }}>
+        <Image src="/archetypes/tools/compass.png" alt="Compass" width={compassSize} height={compassSize} style={{ objectFit: "contain", display: "block" }} />
       </div>
 
       {/* Character nodes */}
@@ -588,35 +623,39 @@ function ArchetypeRing({ archetypes }: { archetypes: typeof ARCHETYPES }) {
         const x = center + radius * Math.cos(angle);
         const y = center + radius * Math.sin(angle);
         const autoFlip = Math.cos(angle) > 0.1 && !NO_AUTO_FLIP.has(a.id);
-        const objPos = OBJECT_POSITION[a.id] ?? "50% 0%";
+        const crop = CROP_OFFSET[a.id] ?? {};
         return (
           <div
             key={a.id}
+            title={a.name}
             style={{
               position: "absolute",
               left: x,
               top: y,
-              transform: "translate(-50%, -50%)",
+              transform: autoFlip
+                ? "translate(-50%, -50%) scaleX(-1)"
+                : "translate(-50%, -50%)",
               width: `${nodeSize}px`,
               height: `${nodeSize}px`,
               borderRadius: "50%",
               overflow: "hidden",
-              background: "rgba(255,255,255,0.85)",
               border: `2px solid ${a.color}`,
               boxShadow: `0 2px 12px rgba(0,0,0,0.12)`,
               zIndex: 1,
             }}
-            title={a.name}
           >
-            <Image
+            {/* img inside div: top/left move which part of the image is visible */}
+            {/* top: 0 = show from very top; top: -20% = shift image up 20% of nodeSize */}
+            {/* left: 0 = left-aligned; left: 10% = shift image right */}
+            <img
               src={a.imagePath}
               alt={a.name}
-              width={112}
-              height={112}
               style={{
-                objectFit: "cover",
-                objectPosition: objPos,
-                transform: autoFlip ? "scaleX(-1)" : "none",
+                position: "absolute",
+                width: "100%",   // fills circle width; height auto-scales (taller = crops bottom)
+                height: "auto",
+                top: crop.top ?? "0%",
+                left: crop.left ?? "0%",
               }}
             />
           </div>
