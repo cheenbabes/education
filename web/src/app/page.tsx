@@ -494,9 +494,9 @@ export default function Home() {
               I&apos;ve Spent 14 Years Learning What You&apos;re Trying to Figure Out.
             </h2>
             <p className="font-cormorant" style={{ fontSize: "1rem", fontStyle: "italic", color: "var(--text-secondary)", lineHeight: 1.75, marginBottom: "1.5rem" }}>
-              Lesson planning used to take hours every week — not because I didn&apos;t know education; I had a master&apos;s in it. But because matching the right activity to the right child, the right philosophy to the right standard, is genuinely hard. I did it across three states, in my own home, in micro schools, and in co-ops.
+              Every week, lesson planning took hours — not from ignorance. I had a master&apos;s degree in education. It was hard because matching the right activity to the right child, the right philosophy to the right standard, is genuinely hard. I taught across three states, in my own home, in micro schools and co-ops.
               <br /><br />
-              I spent years learning core educational philosophies. Then I built the tool I wish I had.
+              I spent years studying the philosophies I now build into every lesson. Eventually I stopped wishing for a better tool and built one.
             </p>
 
             <div style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem", marginBottom: "1.25rem" }}>
