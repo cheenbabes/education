@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import dynamic from "next/dynamic";
 import { GraphData, CurriculumPlacement } from "@/components/explore/types";
 import {
@@ -22,6 +23,8 @@ const ExploreCanvas = dynamic(
 );
 
 export default function ExplorePage() {
+  const searchParams = useSearchParams();
+  const embedMode = searchParams.get("embed") === "true";
   const [data, setData] = useState<GraphData | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [focusedNode, setFocusedNode] = useState<FocusedNode | null>(null);
@@ -214,6 +217,7 @@ export default function ExplorePage() {
           layoutPositions={layoutPositions}
           placementPositions={placementPositions}
           zoomRef={zoomRef}
+          embedMode={embedMode}
         />
 
         {data.dataIntegrity?.missingPhilosophies?.length ? (

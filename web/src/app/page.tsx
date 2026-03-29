@@ -394,7 +394,7 @@ export default function Home() {
               visual: (
                 <div style={{ position: "relative", borderRadius: "14px", overflow: "hidden", height: "400px", boxShadow: "0 8px 32px rgba(0,0,0,0.18)" }}>
                   <iframe
-                    src="/explore"
+                    src="/explore?embed=true"
                     title="Explore the curriculum map"
                     scrolling="no"
                     style={{

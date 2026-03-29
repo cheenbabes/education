@@ -242,12 +242,14 @@ function Background() {
 }
 
 /** Scale map zoom to viewport size so composition fills large screens. */
-function ResponsiveZoom({ controlsRef }: { controlsRef: MutableRefObject<OrbitControlsImpl | null> }) {
+function ResponsiveZoom({ controlsRef, embedMode }: { controlsRef: MutableRefObject<OrbitControlsImpl | null>; embedMode?: boolean }) {
   const { camera, size } = useThree();
   useEffect(() => {
     const ortho = camera as THREE.OrthographicCamera;
     const shortest = Math.min(size.width, size.height);
-    const targetZoom = THREE.MathUtils.clamp(shortest / 26, 24, 62);
+    const targetZoom = embedMode
+      ? THREE.MathUtils.clamp(shortest / 42, 14, 36)
+      : THREE.MathUtils.clamp(shortest / 26, 24, 62);
     ortho.zoom = targetZoom;
     ortho.updateProjectionMatrix();
     controlsRef.current?.update?.();
@@ -347,6 +349,7 @@ export interface ExploreCanvasProps {
   layoutPositions: LayoutPositions;
   placementPositions: Record<string, [number, number]>;
   zoomRef?: MutableRefObject<{ zoomIn: () => void; zoomOut: () => void }>;
+  embedMode?: boolean;
 }
 
 export default function ExploreCanvas({
@@ -360,6 +363,7 @@ export default function ExploreCanvas({
   layoutPositions,
   placementPositions,
   zoomRef,
+  embedMode,
 }: ExploreCanvasProps) {
   const defaultZoomRef = useRef({ zoomIn: () => {}, zoomOut: () => {} });
   const controlsRef = useRef<OrbitControlsImpl | null>(null);
@@ -396,7 +400,7 @@ export default function ExploreCanvas({
     >
       <ExploreContext.Provider value={contextValue}>
         <Background />
-        <ResponsiveZoom controlsRef={controlsRef} />
+        <ResponsiveZoom controlsRef={controlsRef} embedMode={embedMode} />
         <AtlasGuides />
         <OrbitControls
           ref={controlsRef}
