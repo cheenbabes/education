@@ -533,34 +533,52 @@ export default function Home() {
 
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1.1fr 1fr", gap: "1.25rem", alignItems: "stretch" }}>
             {[
-              { name: "Compass", icon: "🧭", price: "$0", period: "/ forever", features: ["Full Compass Quiz + archetype discovery", "3 lesson generations per month", "Top curriculum matches for your philosophy"], cta: "Start Free →", featured: false },
-              { name: "Homestead", icon: "🏡", price: "$17.99", period: "/ month", badge: "Most Popular", features: ["30 lessons per month (unlimited annually)", "Up to 4 children, multi-child differentiation", "Full standards tracking across all 50 states", "Private community access"], cta: "Start Homestead →", featured: true },
-              { name: "Homeschool", icon: "🌾", price: "$24.99", period: "/ month", features: ["Unlimited lessons, up to 6 children", "Full standards coverage reports", "Monthly AMA with the founder"], cta: "Start Homeschool →", featured: false },
-            ].map(({ name, icon, price, period, badge, features, cta, featured }) => (
-              <div key={name} className="frost-card" style={{
-                padding: "1.75rem 1.5rem",
-                border: featured ? "1px solid rgba(110,110,158,0.35)" : "1px solid rgba(255,255,255,0.5)",
-                boxShadow: featured ? "0 4px 20px rgba(110,110,158,0.12)" : "0 2px 10px rgba(0,0,0,0.04)",
+              { name: "Compass", price: "$0", period: "/ forever", features: ["Full Compass Quiz + archetype discovery", "3 lesson generations per month", "Top curriculum matches for your philosophy"], cta: "Start Free →", featured: false },
+              { name: "Homestead", price: "$17.99", period: "/ month", badge: "Most Popular", features: ["30 lessons per month (unlimited annually)", "Up to 4 children, multi-child differentiation", "Full standards tracking across all 50 states", "Private community access"], cta: "Start Homestead →", featured: true },
+              { name: "Homeschool", price: "$24.99", period: "/ month", features: ["Unlimited lessons, up to 6 children", "Full standards coverage reports", "Monthly AMA with the founder"], cta: "Start Homeschool →", featured: false },
+            ].map(({ name, price, period, badge, features, cta, featured }) => (
+              <div key={name} style={{
+                padding: featured ? "2.25rem 1.75rem" : "1.75rem 1.5rem",
+                margin: featured ? "-1.25rem 0" : "0",
+                borderRadius: "14px",
+                border: featured ? "none" : "1px solid rgba(255,255,255,0.5)",
+                boxShadow: featured ? "0 12px 40px rgba(0,0,0,0.18)" : "0 2px 10px rgba(0,0,0,0.04)",
+                background: featured ? "var(--night)" : "rgba(255,255,255,0.72)",
+                backdropFilter: featured ? "none" : "blur(12px)",
+                WebkitBackdropFilter: featured ? "none" : "blur(12px)",
                 display: "flex",
                 flexDirection: "column",
+                position: "relative" as const,
+                zIndex: featured ? 1 : 0,
               }}>
                 {badge && (
-                  <div style={{ fontSize: "0.65rem", fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--accent-tertiary)", marginBottom: "0.5rem" }}>{badge}</div>
+                  <div style={{ fontSize: "0.65rem", fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "#D4AF37", marginBottom: "0.6rem" }}>{badge}</div>
                 )}
-                <div style={{ fontSize: "1.5rem", marginBottom: "0.5rem", opacity: 0.7 }}>{icon}</div>
-                <div className="font-cormorant-sc" style={{ fontSize: "1.2rem", fontWeight: 600, color: "var(--ink)", marginBottom: "0.25rem" }}>{name}</div>
+                <div className="font-cormorant-sc" style={{ fontSize: "1.2rem", fontWeight: 600, color: featured ? "var(--parchment)" : "var(--ink)", marginBottom: "0.25rem" }}>{name}</div>
                 <div style={{ marginBottom: "1.25rem" }}>
-                  <span className="font-cormorant-sc" style={{ fontSize: "1.75rem", fontWeight: 700, color: "var(--ink)" }}>{price}</span>
-                  <span style={{ fontSize: "0.82rem", color: "var(--text-tertiary)" }}> {period}</span>
+                  <span className="font-cormorant-sc" style={{ fontSize: "1.75rem", fontWeight: 700, color: featured ? "var(--parchment)" : "var(--ink)" }}>{price}</span>
+                  <span style={{ fontSize: "0.82rem", color: featured ? "rgba(249,246,239,0.5)" : "var(--text-tertiary)" }}> {period}</span>
                 </div>
                 <ul style={{ listStyle: "none", padding: 0, margin: "0 0 1.5rem", display: "flex", flexDirection: "column", gap: "0.6rem", flex: 1 }}>
                   {features.map((f) => (
-                    <li key={f} style={{ fontSize: "0.82rem", color: "var(--text-secondary)", display: "flex", gap: "0.5rem" }}>
-                      <span style={{ color: "var(--accent-secondary)", flexShrink: 0 }}>✓</span> {f}
+                    <li key={f} style={{ fontSize: "0.82rem", color: featured ? "rgba(249,246,239,0.75)" : "var(--text-secondary)", display: "flex", gap: "0.5rem" }}>
+                      <span style={{ color: featured ? "#D4AF37" : "var(--accent-secondary)", flexShrink: 0 }}>✓</span> {f}
                     </li>
                   ))}
                 </ul>
-                <Link href="/compass" className="btn-night" style={{ width: "100%", textAlign: "center", fontSize: "0.85rem" }}>
+                <Link href="/compass" style={{
+                  display: "block",
+                  width: "100%",
+                  textAlign: "center",
+                  fontSize: "0.85rem",
+                  padding: "0.75rem",
+                  borderRadius: "10px",
+                  background: featured ? "rgba(212,175,55,0.9)" : "var(--night)",
+                  color: featured ? "var(--night)" : "var(--parchment)",
+                  fontWeight: 600,
+                  textDecoration: "none",
+                  letterSpacing: "0.02em",
+                }}>
                   {cta}
                 </Link>
               </div>
