@@ -553,30 +553,33 @@ const NO_AUTO_FLIP = new Set(["the-free-spirit", "the-architect", "the-storytell
 
 // Per-character vertical crop position — push crop point down slightly so head is fully visible
 const OBJECT_POSITION: Record<string, string> = {
-  "the-weaver": "50% 12%",   // sitting character — crop shows upper body and head
+  "the-weaver":    "50% 2%",    // sitting character — push crop up so head fills top of circle
+  "the-architect": "62% 5%",   // character is left-of-center in PNG — shift right to centre her
 };
 
 function ArchetypeRing({ archetypes }: { archetypes: typeof ARCHETYPES }) {
-  const size = 480;
+  const size = 540;
   const center = size / 2;
-  const radius = 158;
-  const nodeSize = 108;
+  const radius = 178;
+  const nodeSize = 112;
+  const compassSize = 190;
 
   return (
     <div style={{ position: "relative", width: size, height: size }}>
-      {/* Center compass — fills the circle edge to edge */}
+      {/* Center compass — large, fills its circle */}
       <div style={{
         position: "absolute",
         top: "50%",
         left: "50%",
         transform: "translate(-50%, -50%)",
-        width: "130px",
-        height: "130px",
+        width: `${compassSize}px`,
+        height: `${compassSize}px`,
         borderRadius: "50%",
         overflow: "hidden",
+        boxShadow: "0 4px 20px rgba(0,0,0,0.12)",
         zIndex: 2,
       }}>
-        <Image src="/archetypes/tools/compass.png" alt="Compass" width={130} height={130} style={{ objectFit: "cover", objectPosition: "center" }} />
+        <Image src="/archetypes/tools/compass.png" alt="Compass" width={compassSize} height={compassSize} style={{ objectFit: "cover", objectPosition: "center" }} />
       </div>
 
       {/* Character nodes */}
@@ -608,8 +611,8 @@ function ArchetypeRing({ archetypes }: { archetypes: typeof ARCHETYPES }) {
             <Image
               src={a.imagePath}
               alt={a.name}
-              width={nodeSize}
-              height={nodeSize}
+              width={112}
+              height={112}
               style={{
                 objectFit: "cover",
                 objectPosition: objPos,
@@ -632,13 +635,13 @@ function ArchetypeRing({ archetypes }: { archetypes: typeof ARCHETYPES }) {
 function archetypeHook(id: string): string {
   const hooks: Record<string, string> = {
     "the-guide": "Clear direction, rigorous academics, measurable milestones",
-    "the-explorer": "The world is the classroom — always has been",
-    "the-cultivator": "Prepared environment. Child chooses. Trust the process.",
+    "the-explorer": "The world is the classroom. It always has been",
+    "the-cultivator": "Prepare the environment and let the child choose. Trust the process",
     "the-naturalist": "Seasons, soil, and sky teach better than any textbook",
-    "the-storyteller": "Living books, narration, and the beauty of the world, not of great ideas.",
+    "the-storyteller": "Living books, narration, the beauty of the world, and great ideas",
     "the-architect": "Learning means building something real",
-    "the-free-spirit": "Trust. Curiosity. Freedom. Children know what they need.",
-    "the-weaver": "I adapt and value all the tools I have in my teaching toolbox.",
+    "the-free-spirit": "Trust. Curiosity. Freedom. Children know what they need",
+    "the-weaver": "I adapt and value all the tools I have in my teaching toolbox",
   };
   return hooks[id] ?? "";
 }
