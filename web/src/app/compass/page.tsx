@@ -16,27 +16,27 @@ export default function CompassPage() {
           </p>
         </div>
 
-        <div className="space-y-5 text-[16px] leading-relaxed text-gray-700">
-          <p className="font-cormorant italic" style={{ fontSize: "1.1rem", lineHeight: 1.7 }}>
+        <div className="space-y-4" style={{ fontSize: "0.92rem", lineHeight: 1.75, color: "var(--text-secondary)" }}>
+          <p>
             This quiz is designed to reveal your natural propensities as a teacher.
             You&apos;ll get the most accurate results by considering both what you feel
-            is important <em>and</em> how you naturally operate.
+            is important <strong style={{ color: "var(--ink)", fontWeight: 500 }}>and</strong> how you naturally operate.
           </p>
 
-          <p className="font-cormorant italic" style={{ fontSize: "1.1rem", lineHeight: 1.7 }}>
+          <p>
             For example, someone who loves spending time reading at home with their
             children may not feel as inspired to head to the farmers market for a
             hands-on math lesson while buying fruit. Both ways of teaching can be
             wonderful — neither is better than the other.
           </p>
 
-          <p className="font-cormorant italic" style={{ fontSize: "1.1rem", lineHeight: 1.7 }}>
+          <p>
             Answer based on what feels natural to you and what you want to give
             the children you teach. Let your conceptions of pedagogies and
             frameworks fall away.
           </p>
 
-          <p className="font-cormorant-sc font-semibold text-gray-900" style={{ fontSize: "1.05rem", letterSpacing: "0.02em" }}>
+          <p className="font-cormorant-sc" style={{ fontSize: "1rem", fontWeight: 600, color: "var(--ink)", letterSpacing: "0.02em" }}>
             Just be yourself. There are no wrong answers.
           </p>
         </div>
