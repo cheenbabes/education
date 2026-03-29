@@ -223,7 +223,7 @@ export default function Home() {
             </h2>
           </div>
 
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "2rem" }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "2rem", alignItems: "stretch" }}>
             {[
               {
                 num: "01",
@@ -309,9 +309,14 @@ export default function Home() {
                 ),
               },
             ].map(({ num, heading, body, preview }) => (
-              <div key={num} style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+              <div key={num} className="frost-card" style={{
+                display: "flex",
+                flexDirection: "column",
+                padding: "1.75rem 1.5rem",
+                gap: "1rem",
+              }}>
                 <div style={{ fontSize: "2.5rem", fontWeight: 700, fontFamily: "'Cormorant SC', serif", color: "rgba(110,110,158,0.18)", lineHeight: 1 }}>{num}</div>
-                <div>
+                <div style={{ flex: 1 }}>
                   <h3 className="font-cormorant-sc" style={{ fontSize: "1.05rem", fontWeight: 600, color: "var(--ink)", marginBottom: "0.5rem", letterSpacing: "0.03em" }}>{heading}</h3>
                   <p style={{ fontSize: "0.85rem", color: "var(--text-secondary)", lineHeight: 1.6 }}>{body}</p>
                 </div>
