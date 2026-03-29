@@ -249,6 +249,55 @@
               radial-gradient(ellipse at 65% 72%, rgba(125,115,165,0.22), transparent 55%);
 }
 
+/* ─── Watercolor card variants ──────────────────────────────────────────── */
+/*
+  Same 3-layer logic as .watercolor-page but scoped to a card element.
+  Layer 1 (background-color) — hue tint on the element itself
+  Layer 2 (::before)         — grayscale texture, multiply-blended
+  Layer 3 (::after)          — colored radial wash
+*/
+.wc-card {
+  position: relative;
+  overflow: hidden;
+}
+.wc-card > * { position: relative; z-index: 1; }
+.wc-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  filter: saturate(0) brightness(1.05);
+  mix-blend-mode: multiply;
+  pointer-events: none;
+  z-index: 0;
+}
+.wc-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Sage — lesson / nature / Charlotte Mason palette */
+.wc-card-sage { background-color: rgba(224, 237, 224, 0.55); }
+.wc-card-sage::before { background-image: url('/explore/watercolor-texture-5.png'); opacity: 0.32; }
+.wc-card-sage::after {
+  background:
+    radial-gradient(ellipse at 25% 30%, rgba(90,148,122,0.22), transparent 60%),
+    radial-gradient(ellipse at 72% 68%, rgba(100,155,130,0.16), transparent 55%);
+}
+
+/* Parchment — standards / warm neutral palette */
+.wc-card-parchment { background-color: rgba(237, 232, 218, 0.55); }
+.wc-card-parchment::before { background-image: url('/explore/watercolor-texture-1.png'); opacity: 0.28; }
+.wc-card-parchment::after {
+  background:
+    radial-gradient(ellipse at 30% 28%, rgba(160,145,100,0.18), transparent 60%),
+    radial-gradient(ellipse at 68% 68%, rgba(150,135,95,0.12), transparent 55%);
+}
+
 /* ─── Frosted glass components (B2 Medium) ───────────────────────────────── */
 .frost-card {
   background: var(--frost-bg);

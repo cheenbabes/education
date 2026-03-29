@@ -346,7 +346,7 @@ export default function Home() {
               body: "Montessori math doesn't just include manipulatives. It follows Maria Montessori's concrete-to-abstract sequence, extracted from her original writings. Charlotte Mason lessons use living books, short sessions, and narration. Classical lessons build on critical thinking. 29 foundational texts, a library of materials for each pedagogy — that's what powers every lesson.",
               note: undefined,
               visual: (
-                <div style={{ background: "rgba(224,237,224,0.5)", borderRadius: "14px", padding: "1.25rem", display: "flex", flexDirection: "column", gap: "0.6rem" }}>
+                <div className="wc-card wc-card-sage frost-card" style={{ borderRadius: "14px", padding: "1.25rem", display: "flex", flexDirection: "column", gap: "0.6rem" }}>
                   {/* Sample lesson card */}
                   <div className="font-cormorant-sc" style={{ fontSize: "1rem", color: "var(--ink)" }}>The Life Cycle of a Butterfly</div>
                   <div style={{ display: "flex", gap: "0.4rem", flexWrap: "wrap" }}>
@@ -379,7 +379,7 @@ export default function Home() {
               body: "363,000+ standards across all 50 states, mapped to the K-12 scope. You choose the philosophy. We make sure the standards are covered — without turning your lesson into a worksheet. Standards alignment is a quiet background guarantee, not the whole point.",
               note: "All 50 states · 363,000+ standards · Automatically updated",
               visual: (
-                <div style={{ background: "rgba(224,237,224,0.5)", borderRadius: "12px", padding: "1.25rem", display: "flex", flexWrap: "wrap", gap: "0.5rem", alignItems: "center" }}>
+                <div className="wc-card wc-card-parchment frost-card" style={{ borderRadius: "12px", padding: "1.25rem", display: "flex", flexWrap: "wrap", gap: "0.5rem", alignItems: "center" }}>
                   {["2.OA.1 — Operations & Algebraic Thinking", "NGSS-LS1.A — Life Science", "CCSS.ELA.RI.3.1 — Reading Informational", "MI.SS.3.H1 — History & Geography", "2.MD.5 — Measurement"].map((s) => (
                     <span key={s} style={{ fontSize: "0.68rem", padding: "0.25rem 0.55rem", borderRadius: "6px", background: "rgba(110,110,158,0.1)", color: "var(--accent-primary)", border: "1px solid rgba(110,110,158,0.2)" }}>{s}</span>
                   ))}
