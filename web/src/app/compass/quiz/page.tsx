@@ -192,10 +192,10 @@ function QuizPageInner() {
         {phase === "part1" && (
           <div className="space-y-6">
             <div className="text-center space-y-1">
-              <p className="text-sm text-gray-500">
+              <p className="text-sm" style={{ color: "var(--text-secondary)" }}>
                 Question {currentQ + 1} of {totalPart1}
               </p>
-              <p className="text-xs text-gray-400">
+              <p style={{ fontSize: "0.7rem", fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--accent-primary)" }}>
                 Part 1: Your Teaching Style
               </p>
             </div>
@@ -204,7 +204,7 @@ function QuizPageInner() {
               key={PART1_QUESTIONS[currentQ].id}
               className="animate-fadeIn"
             >
-              <h2 className="font-cormorant-sc text-2xl text-gray-900 text-center mb-6 leading-relaxed">
+              <h2 className="font-cormorant text-center mb-6" style={{ fontSize: "clamp(1.5rem, 3vw, 2.2rem)", lineHeight: 1.4, color: "var(--ink)", fontWeight: 600 }}>
                 {PART1_QUESTIONS[currentQ].scenario}
               </h2>
 
@@ -435,7 +435,7 @@ function QuizPageInner() {
               >
                 Continue to Curriculum Matching
               </button>
-              <p className="text-xs text-gray-400 mt-2">
+              <p className="text-xs mt-2" style={{ color: "var(--text-secondary)" }}>
                 {visiblePart2Questions.length} quick questions about your
                 practical needs
               </p>
@@ -718,15 +718,15 @@ function Part2QuestionView({
   return (
     <div className="space-y-6 animate-fadeIn" key={question.id}>
       <div className="text-center space-y-1">
-        <p className="text-sm text-gray-500">
+        <p className="text-sm" style={{ color: "var(--text-secondary)" }}>
           Question {currentIndex + 1} of {total}
         </p>
-        <p className="text-xs text-gray-400">
+        <p style={{ fontSize: "0.7rem", fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--accent-primary)" }}>
           Part 2: Your Practical Needs
         </p>
       </div>
 
-      <h2 className="font-cormorant-sc text-2xl text-gray-900 text-center leading-relaxed">
+      <h2 className="font-cormorant text-center" style={{ fontSize: "clamp(1.5rem, 3vw, 2.2rem)", lineHeight: 1.4, color: "var(--ink)", fontWeight: 600 }}>
         {question.question}
       </h2>
 
