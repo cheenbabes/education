@@ -531,26 +531,29 @@ export default function Home() {
             </p>
           </div>
 
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1.1fr 1fr", gap: "1.25rem", alignItems: "start" }}>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1.1fr 1fr", gap: "1.25rem", alignItems: "stretch" }}>
             {[
-              { name: "Compass", price: "$0", period: "/ forever", features: ["Full Compass Quiz + archetype discovery", "3 lesson generations per month", "Top curriculum matches for your philosophy"], cta: "Start Free →", featured: false },
-              { name: "Hearth", price: "$14.99", period: "/ month", badge: "Most Popular", features: ["30 lessons per month (unlimited annually)", "Up to 4 children, multi-child differentiation", "Full standards tracking across all 50 states", "Private community access"], cta: "Start Hearth →", featured: true },
-              { name: "Homestead", price: "$24.99", period: "/ month", features: ["Unlimited lessons, up to 6 children", "Full standards coverage reports", "Monthly AMA with the founder"], cta: "Start Homestead →", featured: false },
-            ].map(({ name, price, period, badge, features, cta, featured }) => (
+              { name: "Compass", icon: "🧭", price: "$0", period: "/ forever", features: ["Full Compass Quiz + archetype discovery", "3 lesson generations per month", "Top curriculum matches for your philosophy"], cta: "Start Free →", featured: false },
+              { name: "Homestead", icon: "🏡", price: "$17.99", period: "/ month", badge: "Most Popular", features: ["30 lessons per month (unlimited annually)", "Up to 4 children, multi-child differentiation", "Full standards tracking across all 50 states", "Private community access"], cta: "Start Homestead →", featured: true },
+              { name: "Homeschool", icon: "🌾", price: "$24.99", period: "/ month", features: ["Unlimited lessons, up to 6 children", "Full standards coverage reports", "Monthly AMA with the founder"], cta: "Start Homeschool →", featured: false },
+            ].map(({ name, icon, price, period, badge, features, cta, featured }) => (
               <div key={name} className="frost-card" style={{
                 padding: "1.75rem 1.5rem",
                 border: featured ? "1px solid rgba(110,110,158,0.35)" : "1px solid rgba(255,255,255,0.5)",
                 boxShadow: featured ? "0 4px 20px rgba(110,110,158,0.12)" : "0 2px 10px rgba(0,0,0,0.04)",
+                display: "flex",
+                flexDirection: "column",
               }}>
                 {badge && (
                   <div style={{ fontSize: "0.65rem", fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--accent-tertiary)", marginBottom: "0.5rem" }}>{badge}</div>
                 )}
+                <div style={{ fontSize: "1.5rem", marginBottom: "0.5rem", opacity: 0.7 }}>{icon}</div>
                 <div className="font-cormorant-sc" style={{ fontSize: "1.2rem", fontWeight: 600, color: "var(--ink)", marginBottom: "0.25rem" }}>{name}</div>
                 <div style={{ marginBottom: "1.25rem" }}>
                   <span className="font-cormorant-sc" style={{ fontSize: "1.75rem", fontWeight: 700, color: "var(--ink)" }}>{price}</span>
                   <span style={{ fontSize: "0.82rem", color: "var(--text-tertiary)" }}> {period}</span>
                 </div>
-                <ul style={{ listStyle: "none", padding: 0, margin: "0 0 1.5rem", display: "flex", flexDirection: "column", gap: "0.6rem" }}>
+                <ul style={{ listStyle: "none", padding: 0, margin: "0 0 1.5rem", display: "flex", flexDirection: "column", gap: "0.6rem", flex: 1 }}>
                   {features.map((f) => (
                     <li key={f} style={{ fontSize: "0.82rem", color: "var(--text-secondary)", display: "flex", gap: "0.5rem" }}>
                       <span style={{ color: "var(--accent-secondary)", flexShrink: 0 }}>✓</span> {f}
