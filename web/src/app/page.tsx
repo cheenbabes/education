@@ -454,20 +454,25 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── Section 6: Social proof ────────────────────────────────────── */}
-      <section style={{
-        padding: "5rem 1.5rem",
-        background: "rgba(255,255,255,0.35)",
-        borderTop: "1px solid rgba(0,0,0,0.05)",
-        borderBottom: "1px solid rgba(0,0,0,0.05)",
-      }}>
-        <div style={{ maxWidth: "700px", margin: "0 auto", textAlign: "center" }}>
-          <div style={{ borderLeft: "4px solid var(--accent-secondary)", background: "rgba(255,255,255,0.5)", borderRadius: "0 12px 12px 0", padding: "1.25rem 1.5rem", textAlign: "left" }}>
-            <p className="font-cormorant" style={{ fontSize: "1.05rem", fontStyle: "italic", color: "var(--ink)", lineHeight: 1.6, marginBottom: "0.5rem" }}>
-              &ldquo;I&apos;m not trying to replace you. You&apos;re still the teacher — and you&apos;re a good one. I&apos;m trying to give you back the hours you spend planning, so you can spend them teaching.&rdquo;
-            </p>
-            <p style={{ fontSize: "0.78rem", color: "var(--text-tertiary)" }}>— Founder, M.Ed., EdD Student</p>
-          </div>
+      {/* ── Section 6: Full-width image ─────────────────────────────────── */}
+      <section style={{ padding: "0", overflow: "hidden" }}>
+        <div className="wc-card wc-card-sage" style={{
+          width: "100%",
+          aspectRatio: "16 / 5",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          borderRadius: 0,
+        }}>
+          <p style={{
+            fontSize: "0.78rem",
+            color: "var(--text-tertiary)",
+            fontFamily: "'Cormorant', serif",
+            fontStyle: "italic",
+            letterSpacing: "0.04em",
+          }}>
+            Full-width lifestyle photo — teacher with students, natural light
+          </p>
         </div>
       </section>
 
