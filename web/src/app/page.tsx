@@ -455,35 +455,32 @@ export default function Home() {
       </section>
 
       {/* ── Section 6: Full-width image ─────────────────────────────────── */}
-      <section style={{ padding: "0", overflow: "hidden" }}>
-        <div className="wc-card wc-card-sage" style={{
-          width: "100%",
-          aspectRatio: "16 / 5",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          borderRadius: 0,
-        }}>
-          <p style={{
-            fontSize: "0.78rem",
-            color: "var(--text-tertiary)",
-            fontFamily: "'Cormorant', serif",
-            fontStyle: "italic",
-            letterSpacing: "0.04em",
-          }}>
-            Full-width lifestyle photo — teacher with students, natural light
-          </p>
-        </div>
+      <section style={{ padding: "2rem 0", display: "flex", justifyContent: "center" }}>
+        <img
+          src="/kids-strip.png"
+          alt="Children learning outdoors"
+          style={{ width: "1200x", maxWidth: "none", height: "auto", display: "block" }}
+        />
       </section>
 
       {/* ── Section 7: Founder ─────────────────────────────────────────── */}
       <section style={{ padding: "5rem 1.5rem", maxWidth: "1100px", margin: "0 auto" }}>
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1.4fr", gap: "4rem", alignItems: "start" }}>
-          {/* Photo placeholder */}
-          <div style={{ background: "rgba(237,223,223,0.4)", borderRadius: "16px", aspectRatio: "4/5", display: "flex", alignItems: "center", justifyContent: "center" }}>
-            <p style={{ fontSize: "0.78rem", color: "var(--text-tertiary)", textAlign: "center", padding: "2rem" }}>
-              Founder photo<br />(warm, natural light — teaching, with books, or with a child)
-            </p>
+          {/* Founder photo – decorative oval frame */}
+          <div style={{ aspectRatio: "3/4", display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <div style={{
+              width: "90%",
+              aspectRatio: "3/4",
+              borderRadius: "50%",
+              overflow: "hidden",
+              boxShadow: "0 8px 32px rgba(0,0,0,0.10), 0 0 0 6px rgba(237,223,223,0.5), 0 0 0 12px rgba(237,223,223,0.25)",
+            }}>
+              <img
+                src="/founder.jpg"
+                alt="Founder portrait"
+                style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center top" }}
+              />
+            </div>
           </div>
 
           <div>
