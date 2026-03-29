@@ -3,16 +3,16 @@ import Image from "next/image";
 import { Nav } from "@/components/nav";
 import { ARCHETYPES } from "@/lib/compass/archetypes";
 
-// Archetype ring order: Guide (north, most structured) clockwise to Free Spirit (south, least structured)
+// Archetype ring order: Weaver at top (12 o'clock), Storyteller upper-right, Guide upper-left (last)
 const RING_ORDER = [
-  "the-guide",
+  "the-weaver",
   "the-storyteller",
   "the-architect",
-  "the-weaver",
   "the-free-spirit",
   "the-naturalist",
   "the-cultivator",
   "the-explorer",
+  "the-guide",
 ];
 
 const ringArchetypes = RING_ORDER.map(
@@ -48,8 +48,7 @@ export default function Home() {
               letterSpacing: "0.04em",
               color: "var(--ink)",
             }}>
-              Every family teaches differently.
-              Now your lessons can too.
+              Lessons that adapt to you and your students.
             </h1>
 
             <p className="font-cormorant" style={{
@@ -58,9 +57,7 @@ export default function Home() {
               color: "var(--text-secondary)",
               lineHeight: 1.6,
             }}>
-              Discover your teaching archetype. Generate custom, standards-aligned
-              lesson plans for any philosophy — Montessori, Charlotte Mason,
-              Classical, and more — in two minutes.
+              Discover your teaching archetype, explore curricula, generate custom, standards-aligned lesson plans for any philosophy — Montessori, Charlotte Mason, Classical, and more — in two minutes.
             </p>
 
             <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
@@ -91,14 +88,14 @@ export default function Home() {
             {/* Trust badges */}
             <div style={{ display: "flex", flexWrap: "wrap", gap: "0.75rem", marginTop: "0.5rem" }}>
               {[
-                { icon: "🧭", label: "14 Years Teaching" },
-                { icon: "🎓", label: "Master's in Education" },
-                { icon: "🏠", label: "Homeschooled Her Own Children" },
-              ].map(({ icon, label }) => (
+                "Master's in Education",
+                "Doctoral Candidate",
+                "14 years teaching",
+                "Experience in multiple pedagogies",
+              ].map((label) => (
                 <span key={label} style={{
                   display: "inline-flex",
                   alignItems: "center",
-                  gap: "0.4rem",
                   fontSize: "0.78rem",
                   fontWeight: 500,
                   color: "var(--text-secondary)",
@@ -107,7 +104,7 @@ export default function Home() {
                   borderRadius: "8px",
                   padding: "0.3rem 0.65rem",
                 }}>
-                  <span>{icon}</span> {label}
+                  {label}
                 </span>
               ))}
             </div>
@@ -145,7 +142,7 @@ export default function Home() {
         }}>
           {[
             { stat: "363,000+", desc: "State Standards Integrated." },
-            { stat: "29 Foundational Texts", desc: "Studied. 253 Teaching Principles Extracted." },
+            { stat: "29 Foundational Texts", desc: "A library of materials supporting each pedagogy." },
             { stat: "100+ Curricula", desc: "Matched to Your Philosophy." },
           ].map(({ stat, desc }) => (
             <div key={stat}>
@@ -229,7 +226,7 @@ export default function Home() {
           textAlign: "center",
         }}>
           <p className="font-cormorant" style={{ fontSize: "1rem", fontStyle: "italic", color: "var(--ink)", lineHeight: 1.6, marginBottom: "0.5rem" }}>
-            &ldquo;Most families are a blend of two or three archetypes. The Compass Quiz finds your unique combination — and then the app uses it to shape every lesson we generate for your family.&rdquo;
+            &ldquo;Finding your values, your philosophy, that is where quality education starts.&rdquo;
           </p>
           <p style={{ fontSize: "0.78rem", color: "var(--text-tertiary)" }}>— Founder, M.Ed., EdD Candidate</p>
         </div>
@@ -299,7 +296,7 @@ export default function Home() {
               {
                 num: "03",
                 heading: "A Complete Lesson, Ready to Use",
-                body: "Your lesson arrives with objectives, philosophy-matched activities, materials, standards alignment, and print-ready formatting. Two minutes, not two hours.",
+                body: "Two minutes of planning, not two hours.",
                 preview: (
                   <div style={{ background: "rgba(224,237,224,0.6)", borderRadius: "10px", padding: "1rem", fontSize: "0.72rem" }}>
                     <div className="font-cormorant-sc" style={{ fontSize: "0.88rem", marginBottom: "0.35rem" }}>The Life Cycle of a Frog</div>
@@ -338,7 +335,7 @@ export default function Home() {
             Built on Real Pedagogy
           </p>
           <h2 className="font-cormorant-sc" style={{ fontSize: "2rem", fontWeight: 700, letterSpacing: "0.05em", color: "var(--ink)" }}>
-            Not a ChatGPT Wrapper. A Master Educator&apos;s Methodology.
+            Lessons generated through a master educator&apos;s methodology.
           </h2>
         </div>
 
@@ -346,21 +343,10 @@ export default function Home() {
           {[
             {
               right: true,
-              headline: "Every Lesson Speaks Your Philosophy's Language",
-              body: "Montessori math doesn't just 'include manipulatives' — it follows Maria Montessori's concrete-to-abstract sequence, extracted from her original writings. Charlotte Mason lessons use living books, short sessions, and narration. Classical lessons build on the trivium. We didn't read Wikipedia. We read 29 foundational texts and extracted 253 core teaching principles. That's what powers every lesson.",
-              note: "This is the answer to 'why not just use ChatGPT?'",
-              visual: (
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.75rem" }}>
-                  <div style={{ background: "rgba(0,0,0,0.04)", borderRadius: "10px", padding: "0.85rem", fontSize: "0.72rem" }}>
-                    <div style={{ fontSize: "0.6rem", fontWeight: 600, color: "var(--text-tertiary)", marginBottom: "0.5rem", textTransform: "uppercase", letterSpacing: "0.08em" }}>Generic AI</div>
-                    <div style={{ lineHeight: 1.5, color: "var(--text-secondary)" }}>Here is a lesson about fractions. Students will learn to add fractions using a worksheet. Complete exercises 1–10.</div>
-                  </div>
-                  <div style={{ background: "rgba(125,107,158,0.08)", border: "1px solid rgba(125,107,158,0.2)", borderRadius: "10px", padding: "0.85rem", fontSize: "0.72rem" }}>
-                    <span style={{ fontSize: "0.6rem", padding: "0.2rem 0.45rem", borderRadius: "5px", background: "rgba(125,107,158,0.12)", color: "#7D6B9E", display: "inline-block", marginBottom: "0.5rem" }}>Montessori</span>
-                    <div style={{ lineHeight: 1.5, color: "var(--ink)" }}>Introduce fraction tiles (concrete). Child sorts and compares. Progress to picture fractions (pictorial) when ready. Abstract notation comes last.</div>
-                  </div>
-                </div>
-              ),
+              headline: "Every lesson reflects your unique teaching philosophy",
+              body: "Montessori math doesn't just include manipulatives. It follows Maria Montessori's concrete-to-abstract sequence, extracted from her original writings. Charlotte Mason lessons use living books, short sessions, and narration. Classical lessons build on critical thinking. 29 foundational texts, a library of materials for each pedagogy — that's what powers every lesson.",
+              note: undefined,
+              visual: <></>,
             },
             {
               right: false,
@@ -398,7 +384,7 @@ export default function Home() {
                   <div>
                     <h3 className="font-cormorant-sc" style={{ fontSize: "1.4rem", fontWeight: 600, color: "var(--ink)", marginBottom: "1rem", letterSpacing: "0.03em" }}>{headline}</h3>
                     <p style={{ fontSize: "0.88rem", color: "var(--text-secondary)", lineHeight: 1.7, marginBottom: "0.75rem" }}>{body}</p>
-                    <p style={{ fontSize: "0.8rem", color: "var(--text-tertiary)", fontStyle: "italic" }}>{note}</p>
+                    {note && <p style={{ fontSize: "0.8rem", color: "var(--text-tertiary)", fontStyle: "italic" }}>{note}</p>}
                   </div>
                   <div>{visual}</div>
                 </>
@@ -408,7 +394,7 @@ export default function Home() {
                   <div>
                     <h3 className="font-cormorant-sc" style={{ fontSize: "1.4rem", fontWeight: 600, color: "var(--ink)", marginBottom: "1rem", letterSpacing: "0.03em" }}>{headline}</h3>
                     <p style={{ fontSize: "0.88rem", color: "var(--text-secondary)", lineHeight: 1.7, marginBottom: "0.75rem" }}>{body}</p>
-                    <p style={{ fontSize: "0.8rem", color: "var(--text-tertiary)", fontStyle: "italic" }}>{note}</p>
+                    {note && <p style={{ fontSize: "0.8rem", color: "var(--text-tertiary)", fontStyle: "italic" }}>{note}</p>}
                   </div>
                 </>
               )}
@@ -424,37 +410,8 @@ export default function Home() {
         borderTop: "1px solid rgba(0,0,0,0.05)",
         borderBottom: "1px solid rgba(0,0,0,0.05)",
       }}>
-        <div style={{ maxWidth: "1100px", margin: "0 auto" }}>
-          <div style={{ textAlign: "center", marginBottom: "2.5rem" }}>
-            <p style={{ fontSize: "0.7rem", fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: "var(--accent-primary)", marginBottom: "0.5rem" }}>
-              From Homeschool Families
-            </p>
-            <h2 className="font-cormorant-sc" style={{ fontSize: "2rem", fontWeight: 700, letterSpacing: "0.05em", color: "var(--ink)" }}>
-              What Happens When Your Lessons Finally Fit
-            </h2>
-          </div>
-
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "1.5rem", marginBottom: "2rem" }}>
-            {[
-              { archetype: "The Storyteller", color: "#B07A8A", quote: "This is the first tool that actually understands that my lessons are supposed to be short, rich, and rooted in living books. The generated lesson for our nature study this week was better than anything I could have planned myself.", name: "Sarah M.", location: "Michigan", ages: "Ages 8 & 11" },
-              { archetype: "The Free Spirit", color: "#C07A42", quote: "I don't 'do school.' But when my son got obsessed with volcanoes, I wanted to go deeper without spending my Sunday mapping standards. I typed 'volcanoes' and had a complete lesson in two minutes. He just thought it was cool.", name: "Jen K.", location: "Oregon", ages: "Age 9" },
-              { archetype: "The Weaver", color: "#8A8A7E", quote: "Three kids, three completely different ways of learning. The multi-child feature changed our mornings. I generate one lesson, it differentiates for a 2nd grader and a 5th grader, and we actually do school together now.", name: "Rachel T.", location: "Texas", ages: "Ages 7, 10 & 13" },
-            ].map(({ archetype, color, quote, name, location, ages }) => (
-              <div key={name} className="frost-card" style={{ padding: "1.5rem", display: "flex", flexDirection: "column", gap: "1rem" }}>
-                <span style={{ fontSize: "0.68rem", fontFamily: "'Cormorant SC', serif", padding: "0.2rem 0.5rem", borderRadius: "5px", background: `${color}18`, color, border: `1px solid ${color}30`, width: "fit-content" }}>
-                  {archetype}
-                </span>
-                <p className="font-cormorant" style={{ fontSize: "1rem", fontStyle: "italic", color: "var(--ink)", lineHeight: 1.6, flexGrow: 1 }}>
-                  &ldquo;{quote}&rdquo;
-                </p>
-                <div style={{ fontSize: "0.8rem", color: "var(--text-secondary)" }}>
-                  <span style={{ fontWeight: 500 }}>{name}</span>, {location} · {ages}
-                </div>
-              </div>
-            ))}
-          </div>
-
-          <div style={{ maxWidth: "700px", margin: "0 auto", borderLeft: "4px solid var(--accent-secondary)", background: "rgba(255,255,255,0.5)", borderRadius: "0 12px 12px 0", padding: "1.25rem 1.5rem" }}>
+        <div style={{ maxWidth: "700px", margin: "0 auto", textAlign: "center" }}>
+          <div style={{ borderLeft: "4px solid var(--accent-secondary)", background: "rgba(255,255,255,0.5)", borderRadius: "0 12px 12px 0", padding: "1.25rem 1.5rem", textAlign: "left" }}>
             <p className="font-cormorant" style={{ fontSize: "1.05rem", fontStyle: "italic", color: "var(--ink)", lineHeight: 1.6, marginBottom: "0.5rem" }}>
               &ldquo;I&apos;m not trying to replace you. You&apos;re still the teacher — and you&apos;re a good one. I&apos;m trying to give you back the hours you spend planning, so you can spend them teaching.&rdquo;
             </p>
@@ -481,11 +438,9 @@ export default function Home() {
               I&apos;ve Spent 14 Years Learning What You&apos;re Trying to Figure Out.
             </h2>
             <p className="font-cormorant" style={{ fontSize: "1rem", fontStyle: "italic", color: "var(--text-secondary)", lineHeight: 1.75, marginBottom: "1.5rem" }}>
-              When I started teaching, curriculum planning took hours every week. Not because I didn&apos;t know education — I had a master&apos;s in it. But because matching the right activity to the right child, the right philosophy to the right standard, is genuinely hard. I did it across three states, in my own home, in micro schools, and in co-ops.
+              Lesson planning used to take hours every week — not because I didn&apos;t know education; I had a master&apos;s in it. But because matching the right activity to the right child, the right philosophy to the right standard, is genuinely hard. I did it across three states, in my own home, in micro schools, and in co-ops.
               <br /><br />
-              I read every major text on educational philosophy. I tracked 253 core principles. I mapped 363,000 state standards.
-              <br /><br />
-              Then I built the tool I wished I&apos;d had.
+              I spent years learning core educational philosophies. Then I built the tool I wish I had.
             </p>
 
             <div style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem", marginBottom: "1.25rem" }}>
@@ -496,9 +451,6 @@ export default function Home() {
               ))}
             </div>
 
-            <p style={{ fontSize: "0.88rem", fontStyle: "italic", color: "var(--accent-primary)" }}>
-              &ldquo;The AI is the delivery mechanism. My 14 years of expertise is the product.&rdquo;
-            </p>
           </div>
         </div>
       </section>
@@ -621,7 +573,7 @@ export default function Home() {
 
 // ── Archetype ring component ─────────────────────────────────────────────────
 function ArchetypeRing({ archetypes }: { archetypes: typeof ARCHETYPES }) {
-  const size = 340;
+  const size = 400;
   const center = size / 2;
   const radius = 120;
 
@@ -633,8 +585,8 @@ function ArchetypeRing({ archetypes }: { archetypes: typeof ARCHETYPES }) {
         top: "50%",
         left: "50%",
         transform: "translate(-50%, -50%)",
-        width: "64px",
-        height: "64px",
+        width: "130px",
+        height: "130px",
         borderRadius: "50%",
         background: "rgba(255,255,255,0.8)",
         backdropFilter: "blur(8px)",
@@ -644,7 +596,7 @@ function ArchetypeRing({ archetypes }: { archetypes: typeof ARCHETYPES }) {
         justifyContent: "center",
         zIndex: 2,
       }}>
-        <Image src="/archetypes/tools/compass.png" alt="Compass" width={44} height={44} style={{ objectFit: "contain" }} />
+        <Image src="/archetypes/tools/compass.png" alt="Compass" width={110} height={110} style={{ objectFit: "contain" }} />
       </div>
 
       {/* Character nodes */}
@@ -660,8 +612,8 @@ function ArchetypeRing({ archetypes }: { archetypes: typeof ARCHETYPES }) {
               left: x,
               top: y,
               transform: "translate(-50%, -50%)",
-              width: "58px",
-              height: "58px",
+              width: "76px",
+              height: "76px",
               borderRadius: "50%",
               overflow: "hidden",
               background: "rgba(255,255,255,0.85)",
@@ -674,9 +626,9 @@ function ArchetypeRing({ archetypes }: { archetypes: typeof ARCHETYPES }) {
             <Image
               src={a.imagePath}
               alt={a.name}
-              width={58}
-              height={58}
-              style={{ objectFit: "cover", objectPosition: "top" }}
+              width={76}
+              height={76}
+              style={{ objectFit: "cover", objectPosition: "top", transform: Math.cos(angle) > 0 ? "scaleX(-1)" : "none" }}
             />
           </div>
         );
@@ -697,10 +649,10 @@ function archetypeHook(id: string): string {
     "the-explorer": "The world is the classroom — always has been",
     "the-cultivator": "Prepared environment. Child chooses. Trust the process.",
     "the-naturalist": "Seasons, soil, and sky teach better than any textbook",
-    "the-storyteller": "Living books, narration, and the beauty of great ideas",
-    "the-architect": "Real learning means building something real",
+    "the-storyteller": "Living books, narration, and the beauty of the world, not of great ideas.",
+    "the-architect": "Learning means building something real",
     "the-free-spirit": "Trust. Curiosity. Freedom. Children know what they need.",
-    "the-weaver": "A bit of everything — whatever works for this child, today",
+    "the-weaver": "I adapt and value all the tools I have in my teaching toolbox.",
   };
   return hooks[id] ?? "";
 }

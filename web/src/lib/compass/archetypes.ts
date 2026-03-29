@@ -201,7 +201,7 @@ export const ARCHETYPES: Archetype[] = [
     toolPath: "/archetypes/tools/butterfly.png",
     color: "#C07A42",
     description:
-      "You trust that children are natural learners. Given freedom, time, and a rich environment, they'll pursue what matters to them and learn deeply. Your strength is creating space for authentic, self-directed discovery.",
+      "You trust that children are natural learners. Given freedom, time, and a rich environment, they'll pursue what matters to them and learn with real purpose. Your strength is creating space for authentic, self-directed discovery.",
     typicalPairings: "Unschooling + Montessori, Unschooling + Adaptive",
     appPitch: {
       headline: "Structure When You Want It, Freedom Always",

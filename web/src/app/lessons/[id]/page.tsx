@@ -198,7 +198,7 @@ export default function LessonDetailPage() {
 
   return (
     <Shell hue="lessons">
-      <div className="max-w-3xl space-y-6">
+      <div className="max-w-5xl space-y-6">
         {/* Back + Print row */}
         <div className="flex items-center justify-between">
           <Link href="/lessons" style={{ color: "#6E6E9E", fontSize: "0.875rem", textDecoration: "none" }} className="hover:underline">

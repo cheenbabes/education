@@ -8,7 +8,7 @@ import { DIMENSION_LABELS, PHILOSOPHY_LABELS, PHILOSOPHY_COLORS, PhilosophyKey }
 export default function ArchetypesPage() {
   return (
     <Shell hue="archetypes">
-      <div className="max-w-4xl space-y-6">
+      <div className="max-w-5xl space-y-6">
         <div className="space-y-2">
           <h1
             className="font-cormorant-sc text-3xl font-semibold"
@@ -59,7 +59,7 @@ export default function ArchetypesPage() {
                     </p>
                   </div>
 
-                  {/* Character image + tool icon */}
+                  {/* Character image */}
                   <div className="relative flex-shrink-0 self-start">
                     <Image
                       src={a.imagePath}
@@ -67,19 +67,8 @@ export default function ArchetypesPage() {
                       width={160}
                       height={160}
                       className="object-contain"
-                      style={{ height: "160px", width: "auto" }}
+                      style={{ transform: 'scaleX(-1)', objectFit: 'cover', objectPosition: 'top', height: "160px", width: "auto" }}
                     />
-                    {/* Tool icon small, lower-right of character */}
-                    <div className="absolute bottom-0 right-0 translate-x-1/4 translate-y-1/4">
-                      <Image
-                        src={a.toolPath}
-                        alt=""
-                        width={48}
-                        height={48}
-                        className="object-contain drop-shadow-sm"
-                        style={{ height: "48px", width: "auto" }}
-                      />
-                    </div>
                   </div>
                 </div>
 
@@ -148,15 +137,13 @@ export default function ArchetypesPage() {
                           className="relative h-2 rounded-full"
                           style={{ background: "rgba(0,0,0,0.06)" }}
                         >
-                          {hasValue && (
-                            <div
-                              className="absolute top-1/2 -translate-y-1/2 w-3 h-3 rounded-full"
-                              style={{
-                                left: `calc(${value}% - 6px)`,
-                                background: a.color,
-                              }}
-                            />
-                          )}
+                          <div
+                            className="absolute top-1/2 -translate-y-1/2 w-3 h-3 rounded-full"
+                            style={{
+                              left: `calc(${hasValue ? value : 50}% - 6px)`,
+                              background: hasValue ? a.color : "rgba(0,0,0,0.2)",
+                            }}
+                          />
                         </div>
                       </div>
                     );

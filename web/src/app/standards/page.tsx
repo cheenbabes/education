@@ -157,17 +157,31 @@ export default function StandardsPage() {
           </div>
 
           {/* Child selector as frost-pill select */}
-          <div style={{ position: "relative" }}>
+          <div style={{
+            position: "relative",
+            background: "rgba(255,255,255,0.72)",
+            backdropFilter: "blur(12px)",
+            WebkitBackdropFilter: "blur(12px)",
+            border: "1px solid rgba(255,255,255,0.5)",
+            borderRadius: "10px",
+            padding: "0.5rem 0.75rem",
+            display: "inline-flex",
+            alignItems: "center",
+          }}>
             <select
               value={selectedChild}
               onChange={(e) => setSelectedChild(e.target.value)}
               style={{
-                ...frostPillBase,
                 fontSize: "0.8rem",
-                padding: "0.4rem 1.2rem 0.4rem 0.8rem",
                 appearance: "none",
+                WebkitAppearance: "none",
                 cursor: "pointer",
                 color: "#0B2E4A",
+                background: "transparent",
+                border: "none",
+                outline: "none",
+                paddingRight: "2rem",
+                fontWeight: 500,
               }}
             >
               {children
@@ -178,6 +192,9 @@ export default function StandardsPage() {
                   </option>
                 ))}
             </select>
+            <svg style={{ position: 'absolute', right: '0.6rem', top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none' }} width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="6 9 12 15 18 9"/>
+            </svg>
           </div>
         </div>
 

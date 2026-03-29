@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel, Field
+from typing import Optional
 
 from kg.query import get_standards, get_all_standards_for_grade
 
@@ -14,8 +15,8 @@ class StandardOut(BaseModel):
     code: str
     description: str
     description_plain: str
-    domain: str
-    cluster: str
+    domain: Optional[str] = None
+    cluster: Optional[str] = None
 
 
 class StandardsResponse(BaseModel):
