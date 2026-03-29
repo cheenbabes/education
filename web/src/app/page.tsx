@@ -38,7 +38,7 @@ export default function Home() {
               textTransform: "uppercase",
               color: "var(--accent-primary)",
             }}>
-              Designed by a Master Educator. Built for Your Family.
+              Designed by a Master Educator. Built for Your Teaching Style.
             </p>
 
             <h1 className="font-cormorant-sc" style={{
@@ -84,30 +84,6 @@ export default function Home() {
             }}>
               See how it works →
             </Link>
-
-            {/* Trust badges */}
-            <div style={{ display: "flex", flexWrap: "wrap", gap: "0.75rem", marginTop: "0.5rem" }}>
-              {[
-                "Master's in Education",
-                "Doctoral Candidate",
-                "14 years teaching",
-                "Experience in multiple pedagogies",
-              ].map((label) => (
-                <span key={label} style={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  fontSize: "0.78rem",
-                  fontWeight: 500,
-                  color: "var(--text-secondary)",
-                  background: "rgba(255,255,255,0.6)",
-                  border: "1px solid rgba(0,0,0,0.07)",
-                  borderRadius: "8px",
-                  padding: "0.3rem 0.65rem",
-                }}>
-                  {label}
-                </span>
-              ))}
-            </div>
           </div>
 
           {/* Right: archetype ring */}
@@ -228,7 +204,7 @@ export default function Home() {
           <p className="font-cormorant" style={{ fontSize: "1rem", fontStyle: "italic", color: "var(--ink)", lineHeight: 1.6, marginBottom: "0.5rem" }}>
             &ldquo;Finding your values, your philosophy, that is where quality education starts.&rdquo;
           </p>
-          <p style={{ fontSize: "0.78rem", color: "var(--text-tertiary)" }}>— Founder, M.Ed., EdD Candidate</p>
+          <p style={{ fontSize: "0.78rem", color: "var(--text-tertiary)" }}>— Founder, M.Ed., EdD Student</p>
         </div>
 
         <div style={{ textAlign: "center", marginTop: "2rem" }}>
@@ -415,7 +391,7 @@ export default function Home() {
             <p className="font-cormorant" style={{ fontSize: "1.05rem", fontStyle: "italic", color: "var(--ink)", lineHeight: 1.6, marginBottom: "0.5rem" }}>
               &ldquo;I&apos;m not trying to replace you. You&apos;re still the teacher — and you&apos;re a good one. I&apos;m trying to give you back the hours you spend planning, so you can spend them teaching.&rdquo;
             </p>
-            <p style={{ fontSize: "0.78rem", color: "var(--text-tertiary)" }}>— Founder, M.Ed., EdD Candidate</p>
+            <p style={{ fontSize: "0.78rem", color: "var(--text-tertiary)" }}>— Founder, M.Ed., EdD Student</p>
           </div>
         </div>
       </section>
@@ -444,7 +420,7 @@ export default function Home() {
             </p>
 
             <div style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem", marginBottom: "1.25rem" }}>
-              {["M.Ed. in Education", "EdD Candidate", "14 Years Teaching", "Homeschooled Own Children", "Ran Micro Schools", "Taught Across 3 States"].map((chip) => (
+              {["M.Ed. in Education", "EdD Student", "14 Years Teaching", "Homeschooled Own Children", "Ran Micro Schools", "Taught Across 3 States"].map((chip) => (
                 <span key={chip} style={{ fontSize: "0.72rem", padding: "0.3rem 0.65rem", borderRadius: "8px", background: "rgba(255,255,255,0.65)", border: "1px solid rgba(0,0,0,0.07)", color: "var(--text-secondary)", boxShadow: "0 1px 2px rgba(0,0,0,0.04)" }}>
                   {chip}
                 </span>
@@ -572,14 +548,23 @@ export default function Home() {
 }
 
 // ── Archetype ring component ─────────────────────────────────────────────────
+// Characters that naturally face left — don't auto-flip even when on right side of ring
+const NO_AUTO_FLIP = new Set(["the-free-spirit", "the-architect", "the-storyteller"]);
+
+// Per-character vertical crop position — push crop point down slightly so head is fully visible
+const OBJECT_POSITION: Record<string, string> = {
+  "the-weaver": "50% 12%",   // sitting character — crop shows upper body and head
+};
+
 function ArchetypeRing({ archetypes }: { archetypes: typeof ARCHETYPES }) {
-  const size = 400;
+  const size = 480;
   const center = size / 2;
-  const radius = 120;
+  const radius = 158;
+  const nodeSize = 108;
 
   return (
     <div style={{ position: "relative", width: size, height: size }}>
-      {/* Center compass icon */}
+      {/* Center compass — fills the circle edge to edge */}
       <div style={{
         position: "absolute",
         top: "50%",
@@ -588,15 +573,10 @@ function ArchetypeRing({ archetypes }: { archetypes: typeof ARCHETYPES }) {
         width: "130px",
         height: "130px",
         borderRadius: "50%",
-        background: "rgba(255,255,255,0.8)",
-        backdropFilter: "blur(8px)",
-        border: "2px solid rgba(110,110,158,0.25)",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
+        overflow: "hidden",
         zIndex: 2,
       }}>
-        <Image src="/archetypes/tools/compass.png" alt="Compass" width={110} height={110} style={{ objectFit: "contain" }} />
+        <Image src="/archetypes/tools/compass.png" alt="Compass" width={130} height={130} style={{ objectFit: "cover", objectPosition: "center" }} />
       </div>
 
       {/* Character nodes */}
@@ -604,6 +584,8 @@ function ArchetypeRing({ archetypes }: { archetypes: typeof ARCHETYPES }) {
         const angle = (i / archetypes.length) * 2 * Math.PI - Math.PI / 2;
         const x = center + radius * Math.cos(angle);
         const y = center + radius * Math.sin(angle);
+        const autoFlip = Math.cos(angle) > 0.1 && !NO_AUTO_FLIP.has(a.id);
+        const objPos = OBJECT_POSITION[a.id] ?? "50% 0%";
         return (
           <div
             key={a.id}
@@ -612,13 +594,13 @@ function ArchetypeRing({ archetypes }: { archetypes: typeof ARCHETYPES }) {
               left: x,
               top: y,
               transform: "translate(-50%, -50%)",
-              width: "76px",
-              height: "76px",
+              width: `${nodeSize}px`,
+              height: `${nodeSize}px`,
               borderRadius: "50%",
               overflow: "hidden",
               background: "rgba(255,255,255,0.85)",
               border: `2px solid ${a.color}`,
-              boxShadow: `0 2px 10px rgba(0,0,0,0.1)`,
+              boxShadow: `0 2px 12px rgba(0,0,0,0.12)`,
               zIndex: 1,
             }}
             title={a.name}
@@ -626,9 +608,13 @@ function ArchetypeRing({ archetypes }: { archetypes: typeof ARCHETYPES }) {
             <Image
               src={a.imagePath}
               alt={a.name}
-              width={76}
-              height={76}
-              style={{ objectFit: "cover", objectPosition: "top", transform: Math.cos(angle) > 0 ? "scaleX(-1)" : "none" }}
+              width={nodeSize}
+              height={nodeSize}
+              style={{
+                objectFit: "cover",
+                objectPosition: objPos,
+                transform: autoFlip ? "scaleX(-1)" : "none",
+              }}
             />
           </div>
         );
@@ -636,7 +622,7 @@ function ArchetypeRing({ archetypes }: { archetypes: typeof ARCHETYPES }) {
 
       {/* Connecting ring guide */}
       <svg style={{ position: "absolute", inset: 0, pointerEvents: "none" }} width={size} height={size}>
-        <circle cx={center} cy={center} r={radius} fill="none" stroke="rgba(110,110,158,0.12)" strokeWidth="1" strokeDasharray="4 6" />
+        <circle cx={center} cy={center} r={radius} fill="none" stroke="rgba(110,110,158,0.1)" strokeWidth="1" strokeDasharray="3 8" />
       </svg>
     </div>
   );
