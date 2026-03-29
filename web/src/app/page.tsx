@@ -230,7 +230,7 @@ export default function Home() {
                 heading: "Discover Your Teaching Archetype",
                 body: "20 thoughtfully designed questions reveal how you naturally approach education — your philosophy, your rhythms, your strengths. No teaching degree required.",
                 preview: (
-                  <div style={{ background: "rgba(232,224,240,0.6)", borderRadius: "10px", padding: "1rem", fontSize: "0.72rem" }}>
+                  <div className="wc-card wc-card-lavender" style={{ borderRadius: "10px", padding: "1rem", fontSize: "0.72rem" }}>
                     <div style={{ height: "3px", background: "rgba(0,0,0,0.1)", borderRadius: "2px", marginBottom: "0.75rem" }}>
                       <div style={{ width: "35%", height: "100%", background: "var(--accent-primary)", borderRadius: "2px" }} />
                     </div>
@@ -248,7 +248,7 @@ export default function Home() {
                 heading: "Type a Topic. Pick a Subject. Hit Generate.",
                 body: "Type anything: 'frogs,' 'the American Revolution,' 'fractions.' Select the subject and grade. We handle the philosophy, standards, and structure.",
                 preview: (
-                  <div style={{ background: "rgba(240,234,224,0.6)", borderRadius: "10px", padding: "1rem", fontSize: "0.72rem" }}>
+                  <div className="wc-card wc-card-parchment" style={{ borderRadius: "10px", padding: "1rem", fontSize: "0.72rem" }}>
                     {/* Topic input */}
                     <div style={{ background: "rgba(255,255,255,0.7)", border: "1px solid rgba(0,0,0,0.08)", borderRadius: "8px", padding: "0.5rem 0.65rem", marginBottom: "0.5rem", color: "var(--text-tertiary)" }}>
                       What is your child curious about today?
@@ -292,7 +292,7 @@ export default function Home() {
                 heading: "A Complete Lesson, Ready to Use",
                 body: "Two minutes of planning, not two hours. You get a structured, philosophy-aligned lesson — activities, materials, and a narration prompt — ready to teach. No blank page, no second-guessing. Just open it and go.",
                 preview: (
-                  <div style={{ background: "rgba(224,237,224,0.6)", borderRadius: "10px", padding: "1rem", fontSize: "0.72rem" }}>
+                  <div className="wc-card wc-card-sage" style={{ borderRadius: "10px", padding: "1rem", fontSize: "0.72rem" }}>
                     <div className="font-cormorant-sc" style={{ fontSize: "0.88rem", marginBottom: "0.35rem" }}>The Life Cycle of a Frog</div>
                     <div style={{ display: "flex", gap: "0.35rem", marginBottom: "0.6rem" }}>
                       <span style={{ fontSize: "0.65rem", padding: "0.2rem 0.45rem", borderRadius: "5px", background: "rgba(176,122,138,0.15)", color: "#B07A8A", border: "1px solid rgba(176,122,138,0.25)" }}>Charlotte Mason</span>
@@ -392,13 +392,39 @@ export default function Home() {
               body: "The Explore map lets you navigate 100+ curricula scored against your archetype, the 8 philosophy models, and the principles that connect them. It's not a dropdown list — it's a visual space for discovery. Find the curriculum that actually fits your family.",
               note: "Paired with the Compass Quiz, it answers the question every new homeschool parent has: where do I even begin?",
               visual: (
-                <div style={{ background: "#0B2E4A", borderRadius: "12px", padding: "1.25rem", minHeight: "120px", display: "flex", alignItems: "center", justifyContent: "center", gap: "1.5rem" }}>
-                  {["Classical", "Montessori", "Charlotte Mason", "Waldorf", "Project-Based"].map((p, i) => (
-                    <div key={p} style={{ textAlign: "center" }}>
-                      <div style={{ width: i === 2 ? "14px" : "8px", height: i === 2 ? "14px" : "8px", borderRadius: "50%", background: i === 2 ? "#D4AF37" : "rgba(212,175,55,0.4)", margin: "0 auto 0.3rem" }} />
-                      <div style={{ fontSize: "0.6rem", color: "rgba(249,246,239,0.6)", width: "60px" }}>{p}</div>
+                <div style={{ position: "relative", borderRadius: "14px", overflow: "hidden", height: "400px", boxShadow: "0 8px 32px rgba(0,0,0,0.18)" }}>
+                  <iframe
+                    src="/explore"
+                    title="Explore the curriculum map"
+                    scrolling="no"
+                    style={{
+                      border: "none",
+                      width: "167%",
+                      height: "667px",
+                      transform: "scale(0.6)",
+                      transformOrigin: "top left",
+                      pointerEvents: "none",
+                      display: "block",
+                    }}
+                  />
+                  {/* Gradient overlay + CTA */}
+                  <div style={{
+                    position: "absolute",
+                    inset: 0,
+                    background: "linear-gradient(to bottom, transparent 40%, rgba(11,46,74,0.92) 100%)",
+                    display: "flex",
+                    alignItems: "flex-end",
+                    padding: "1.5rem",
+                  }}>
+                    <div>
+                      <p style={{ fontSize: "0.82rem", color: "rgba(249,246,239,0.75)", marginBottom: "0.75rem", lineHeight: 1.5 }}>
+                        100+ curricula · scored to your archetype · free to explore
+                      </p>
+                      <Link href="/explore" className="btn-night" style={{ fontSize: "0.9rem", padding: "0.65rem 1.5rem", borderRadius: "10px" }}>
+                        Open the Explore Map →
+                      </Link>
                     </div>
-                  ))}
+                  </div>
                 </div>
               ),
             },

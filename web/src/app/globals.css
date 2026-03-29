@@ -289,6 +289,15 @@
     radial-gradient(ellipse at 72% 68%, rgba(100,155,130,0.16), transparent 55%);
 }
 
+/* Lavender — compass / archetype / quiz palette */
+.wc-card-lavender { background-color: rgba(232, 224, 240, 0.55); }
+.wc-card-lavender::before { background-image: url('/explore/watercolor-texture-8.png'); opacity: 0.28; }
+.wc-card-lavender::after {
+  background:
+    radial-gradient(ellipse at 28% 30%, rgba(140,125,175,0.22), transparent 60%),
+    radial-gradient(ellipse at 70% 68%, rgba(125,115,165,0.16), transparent 55%);
+}
+
 /* Parchment — standards / warm neutral palette */
 .wc-card-parchment { background-color: rgba(237, 232, 218, 0.55); }
 .wc-card-parchment::before { background-image: url('/explore/watercolor-texture-1.png'); opacity: 0.28; }
