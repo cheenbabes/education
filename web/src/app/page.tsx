@@ -392,16 +392,16 @@ export default function Home() {
               body: "The Explore map lets you navigate 100+ curricula scored against your archetype, the 8 philosophy models, and the principles that connect them. It's not a dropdown list — it's a visual space for discovery. Find the curriculum that actually fits your family.",
               note: "Paired with the Compass Quiz, it answers the question every new homeschool parent has: where do I even begin?",
               visual: (
-                <div style={{ position: "relative", borderRadius: "14px", overflow: "hidden", height: "400px", boxShadow: "0 8px 32px rgba(0,0,0,0.18)" }}>
+                <div style={{ position: "relative", borderRadius: "14px", overflow: "hidden", height: "400px", boxShadow: "0 8px 32px rgba(0,0,0,0.18)", border: "2px solid rgba(196,152,61,0.4)" }}>
                   <iframe
                     src="/explore?embed=true"
                     title="Explore the curriculum map"
                     scrolling="no"
                     style={{
                       border: "none",
-                      width: "167%",
-                      height: "667px",
-                      transform: "scale(0.6)",
+                      width: "250%",
+                      height: "1000px",
+                      transform: "scale(0.4)",
                       transformOrigin: "top left",
                       pointerEvents: "none",
                       display: "block",
@@ -420,7 +420,17 @@ export default function Home() {
                       <p style={{ fontSize: "0.82rem", color: "rgba(249,246,239,0.75)", marginBottom: "0.75rem", lineHeight: 1.5 }}>
                         100+ curricula · scored to your archetype · free to explore
                       </p>
-                      <Link href="/explore" className="btn-night" style={{ fontSize: "0.9rem", padding: "0.65rem 1.5rem", borderRadius: "10px" }}>
+                      <Link href="/explore" style={{
+                        fontSize: "0.9rem",
+                        padding: "0.65rem 1.5rem",
+                        borderRadius: "10px",
+                        background: "transparent",
+                        color: "#F9F6EF",
+                        border: "2px solid rgba(196,152,61,0.7)",
+                        display: "inline-block",
+                        textDecoration: "none",
+                        fontWeight: 500,
+                      }}>
                         Open the Explore Map →
                       </Link>
                     </div>
