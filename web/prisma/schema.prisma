@@ -93,6 +93,7 @@ model Lesson {
   multiSubjectOptimized  Boolean  @default(false)
   content                Json     // full lesson plan JSON
   contentHash            String   // for dedup detection
+  favorite               Boolean  @default(false)
 
   user             User              @relation(fields: [userId], references: [id], onDelete: Cascade)
   lessonChildren   LessonChild[]
