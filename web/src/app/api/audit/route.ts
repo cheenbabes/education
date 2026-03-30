@@ -203,8 +203,10 @@ function computeOverlapMatrix(principles: KgPrinciple[]): OverlapMatrix {
     for (let j = i + 1; j < n; j++) {
       const setA = termsByPhil[PHILOSOPHY_ORDER[i]];
       const setB = termsByPhil[PHILOSOPHY_ORDER[j]];
-      const intersection = new Set([...setA].filter(x => setB.has(x)));
-      const union = new Set([...setA, ...setB]);
+      const arrA = Array.from(setA);
+      const arrB = Array.from(setB);
+      const intersection = new Set(arrA.filter(x => setB.has(x)));
+      const union = new Set(arrA.concat(arrB));
       const jaccard = union.size > 0 ? intersection.size / union.size : 0;
       matrix[i][j] = jaccard;
       matrix[j][i] = jaccard;
@@ -213,7 +215,7 @@ function computeOverlapMatrix(principles: KgPrinciple[]): OverlapMatrix {
         philosophyB: PHILOSOPHY_ORDER[j],
         jaccard: Math.round(jaccard * 1000) / 1000,
         sharedTermCount: intersection.size,
-        topSharedTerms: [...intersection].sort().slice(0, 8),
+        topSharedTerms: Array.from(intersection).sort().slice(0, 8),
       });
     }
   }
