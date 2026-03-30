@@ -326,7 +326,7 @@ export const DIMENSION_LABELS: Record<
 /** Human-readable labels for philosophies */
 export const PHILOSOPHY_LABELS: Record<PhilosophyKey, string> = {
   montessori: "Montessori-Inspired",
-  waldorf: "Waldorf-Adjacent",
+  waldorf: "Waldorf-Inspired",
   project_based: "Project-Based Learning",
   place_nature: "Place/Nature-Based",
   classical: "Classical",

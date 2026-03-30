@@ -16,7 +16,7 @@ export interface Archetype {
   description: string;
   /** Which philosophy pairings lead here */
   typicalPairings: string;
-  /** Personalized EduApp pitch for this archetype */
+  /** Personalized Sage's Compass pitch for this archetype */
   appPitch: { headline: string; body: string; cta: string };
   /** Philosophy affinity profile — higher values = stronger match */
   philosophyProfile: Record<PhilosophyKey, number>;
@@ -43,7 +43,7 @@ export const ARCHETYPES: Archetype[] = [
     typicalPairings: "Classical + Charlotte Mason, Classical + Adaptive",
     appPitch: {
       headline: "Structured Foundation, Creative Extension",
-      body: "You value a solid curriculum for core skills — and that's smart. Pick your literacy and math foundations from the recommendations below, then use EduApp to generate rigorous, standards-aligned lessons for science, history, and the subjects where you want to connect academics to your child's interests without losing the structure you value.",
+      body: "You value a solid curriculum for core skills — and that's smart. Pick your literacy and math foundations from the recommendations below, then use Sage's Compass to generate rigorous, standards-aligned lessons for science, history, and the subjects where you want to connect academics to your child's interests without losing the structure you value.",
       cta: "Build Structured Lessons",
     },
     philosophyProfile: {
@@ -64,13 +64,13 @@ export const ARCHETYPES: Archetype[] = [
     icon: "\uD83C\uDF0D",
     imagePath: "/archetypes/explorer.png",
     toolPath: "/archetypes/tools/map.png",
-    color: "#5A947A",
+    color: "#3D7E95",
     description:
       "You follow your child's curiosity into the world around them. You trust that real learning happens through real experiences in real places. Your classroom is everywhere — the backyard, the creek, the farmer's market. Your strength is turning the world itself into the curriculum.",
     typicalPairings: "Unschooling + Place/Nature, Unschooling + Montessori",
     appPitch: {
       headline: "Your Classroom Is Everywhere",
-      body: "As an Explorer, your teaching style is inherently responsive and child-led. Boxed curricula can anchor literacy and math, but for the subjects where you follow your child's curiosity — science, social studies, the world around you — EduApp was built for exactly this. Tell us what your child is fascinated by today, and we'll create a standards-aligned lesson that matches your Explorer approach.",
+      body: "As an Explorer, your teaching style is inherently responsive and child-led. Boxed curricula can anchor literacy and math, but for the subjects where you follow your child's curiosity — science, social studies, the world around you — Sage's Compass was built for exactly this. Tell us what your child is fascinated by today, and we'll create a standards-aligned lesson that matches your Explorer approach.",
       cta: "Create Interest-Driven Lessons",
     },
     philosophyProfile: {
@@ -83,7 +83,7 @@ export const ARCHETYPES: Archetype[] = [
       unschooling: 0.4,
       adaptive: 0.05,
     },
-    dimensionTendencies: { direction: 70, modality: 25, structure: 65 },
+    dimensionTendencies: { direction: 70, modality: 25, structure: 75, subjectApproach: 30, social: 35 },
   },
   {
     id: "the-cultivator",
@@ -97,7 +97,7 @@ export const ARCHETYPES: Archetype[] = [
     typicalPairings: "Montessori + Structured, Montessori + Project-Based",
     appPitch: {
       headline: "Prepare the Environment, Follow the Child",
-      body: "Your approach means you curate the environment and your child chooses what to explore. EduApp works the same way — you select the subject and your child's current interest, and we prepare a complete, hands-on lesson ready for them to work through. Use a structured curriculum for foundational literacy and math, and let EduApp create the rest.",
+      body: "Your approach means you curate the environment and your child chooses what to explore. Sage's Compass works the same way — you select the subject and your child's current interest, and we prepare a complete, hands-on lesson ready for them to work through. Use a structured curriculum for foundational literacy and math, and let Sage's Compass create the rest.",
       cta: "Prepare Lessons for Your Child",
     },
     philosophyProfile: {
@@ -110,7 +110,7 @@ export const ARCHETYPES: Archetype[] = [
       unschooling: 0.0,
       adaptive: 0.1,
     },
-    dimensionTendencies: { structure: 35, modality: 25, direction: 50 },
+    dimensionTendencies: { structure: 35, modality: 25, direction: 65, social: 60 },
   },
   {
     id: "the-naturalist",
@@ -124,18 +124,18 @@ export const ARCHETYPES: Archetype[] = [
     typicalPairings: "Place/Nature + Charlotte Mason, Place/Nature + Waldorf",
     appPitch: {
       headline: "Bring the Outdoors Into Every Lesson",
-      body: "You believe the natural world is the best teacher. EduApp generates place-based, nature-connected lessons tied to your child's environment and interests — seasonal science, local ecology, outdoor math, nature journaling prompts. Pick a foundational curriculum for reading and math basics, then let EduApp design the rest around the world right outside your door.",
+      body: "You believe the natural world is the best teacher. Sage's Compass generates place-based, nature-connected lessons tied to your child's environment and interests — seasonal science, local ecology, outdoor math, nature journaling prompts. Pick a foundational curriculum for reading and math basics, then let Sage's Compass design the rest around the world right outside your door.",
       cta: "Create Nature-Based Lessons",
     },
     philosophyProfile: {
-      montessori: 0.05,
-      waldorf: 0.15,
-      project_based: 0.05,
+      montessori: 0.0,
+      waldorf: 0.4,
+      project_based: 0.0,
       place_nature: 0.5,
       classical: 0.0,
-      charlotte_mason: 0.15,
-      unschooling: 0.05,
-      adaptive: 0.05,
+      charlotte_mason: 0.1,
+      unschooling: 0.0,
+      adaptive: 0.0,
     },
     dimensionTendencies: { modality: 20, direction: 60 },
   },
@@ -151,18 +151,18 @@ export const ARCHETYPES: Archetype[] = [
     typicalPairings: "Charlotte Mason + Place/Nature, Charlotte Mason + Waldorf",
     appPitch: {
       headline: "Living Lessons for Living Books Families",
-      body: "Your approach values short, rich lessons built around great books and real-world observation. EduApp generates lessons in exactly this spirit — discussion-friendly, connected to nature and literature, and designed to be completed in focused, age-appropriate time blocks. Choose your core reading and math curriculum, then use EduApp to create lessons for science, history, and nature study.",
+      body: "Your approach values short, rich lessons built around great books and real-world observation. Sage's Compass generates lessons in exactly this spirit — discussion-friendly, connected to nature and literature, and designed to be completed in focused, age-appropriate time blocks. Choose your core reading and math curriculum, then use Sage's Compass to create lessons for science, history, and nature study.",
       cta: "Create Living Lessons",
     },
     philosophyProfile: {
-      montessori: 0.05,
-      waldorf: 0.1,
-      project_based: 0.05,
-      place_nature: 0.1,
-      classical: 0.1,
+      montessori: 0.0,
+      waldorf: 0.4,
+      project_based: 0.0,
+      place_nature: 0.05,
+      classical: 0.05,
       charlotte_mason: 0.45,
-      unschooling: 0.05,
-      adaptive: 0.1,
+      unschooling: 0.0,
+      adaptive: 0.05,
     },
     dimensionTendencies: { modality: 65, structure: 45 },
   },
@@ -178,7 +178,7 @@ export const ARCHETYPES: Archetype[] = [
     typicalPairings: "Project-Based + Place/Nature, Project-Based + Collaborative",
     appPitch: {
       headline: "Projects That Teach Themselves",
-      body: "You believe children learn best by building, creating, and solving real problems. EduApp generates project-based lessons around your child's interests — complete with materials lists, step-by-step instructions, and the academic standards being covered behind the scenes. Use a solid curriculum for literacy and math foundations, then let EduApp design the projects for everything else.",
+      body: "You believe children learn best by building, creating, and solving real problems. Sage's Compass generates project-based lessons around your child's interests — complete with materials lists, step-by-step instructions, and the academic standards being covered behind the scenes. Use a solid curriculum for literacy and math foundations, then let Sage's Compass design the projects for everything else.",
       cta: "Generate Project-Based Lessons",
     },
     philosophyProfile: {
@@ -205,7 +205,7 @@ export const ARCHETYPES: Archetype[] = [
     typicalPairings: "Unschooling + Montessori, Unschooling + Adaptive",
     appPitch: {
       headline: "Structure When You Want It, Freedom Always",
-      body: "You trust your child to lead their own learning — and that works. But sometimes an interest sparks and you want to go deeper without spending hours planning. EduApp turns your child's latest fascination into a complete, thoughtful lesson in seconds. No boxed curriculum required. Just tell us what they're curious about, and we'll handle the rest — standards-aligned, age-appropriate, and designed for your child-led approach.",
+      body: "You trust your child to lead their own learning — and that works. But sometimes an interest sparks and you want to go deeper without spending hours planning. Sage's Compass turns your child's latest fascination into a complete, thoughtful lesson in seconds. No boxed curriculum required. Just tell us what they're curious about, and we'll handle the rest — standards-aligned, age-appropriate, and designed for your child-led approach.",
       cta: "Turn Curiosity Into Lessons",
     },
     philosophyProfile: {
@@ -232,7 +232,7 @@ export const ARCHETYPES: Archetype[] = [
     typicalPairings: "Adaptive + any combination, balanced across philosophies",
     appPitch: {
       headline: "The Perfect Tool for Pick-and-Choose Educators",
-      body: "You pull from everywhere — hands-on materials for math, great books for reading, projects for science, nature in the afternoon. EduApp matches your flexibility. Select any approach, any subject, any interest, and get a tailored lesson that adapts to however you're teaching that day. Use your chosen curricula for the core, and let EduApp fill in the rest — differently every time, just like you.",
+      body: "You pull from everywhere — hands-on materials for math, great books for reading, projects for science, nature in the afternoon. Sage's Compass matches your flexibility. Select any approach, any subject, any interest, and get a tailored lesson that adapts to however you're teaching that day. Use your chosen curricula for the core, and let Sage's Compass fill in the rest — differently every time, just like you.",
       cta: "Create Adaptive Lessons",
     },
     philosophyProfile: {
@@ -245,6 +245,6 @@ export const ARCHETYPES: Archetype[] = [
       unschooling: 0.1,
       adaptive: 0.4,
     },
-    dimensionTendencies: { structure: 50, direction: 50 },
+    dimensionTendencies: { structure: 80, direction: 50 },
   },
 ];

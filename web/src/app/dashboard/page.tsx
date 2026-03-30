@@ -81,6 +81,21 @@ export default function DashboardPage() {
     })
     .slice(0, 5);
 
+  // Missed: past scheduled date, no completions
+  const missed = lessons
+    .filter((l) => {
+      const entry = l.calendarEntries[0];
+      if (!entry) return false;
+      const date = entry.scheduledDate.split("T")[0];
+      return date < today && l.completions.length === 0;
+    })
+    .sort((a, b) => {
+      const dateA = a.calendarEntries[0]?.scheduledDate || "";
+      const dateB = b.calendarEntries[0]?.scheduledDate || "";
+      return dateB.localeCompare(dateA); // most recent missed first
+    })
+    .slice(0, 5);
+
   // Recent completions: lessons that have at least one completion, most recent first
   const recentCompletions = lessons
     .flatMap((l) =>
@@ -228,6 +243,53 @@ export default function DashboardPage() {
           </div>
         </div>
 
+        {/* Needs attention — past due, not completed */}
+        {missed.length > 0 && (
+          <div>
+            <h2 className="font-cormorant-sc text-xl text-gray-900 mb-3">Needs Attention</h2>
+            <div
+              style={{
+                background: "rgba(255,255,255,0.72)",
+                backdropFilter: "blur(12px)",
+                border: "1px solid rgba(196,152,61,0.2)",
+                borderRadius: "12px",
+                overflow: "hidden",
+              }}
+            >
+              {missed.map((lesson, idx) => {
+                const date = lesson.calendarEntries[0]?.scheduledDate.split("T")[0] || "";
+                const daysAgo = Math.floor((new Date(today).getTime() - new Date(date).getTime()) / 86400000);
+                return (
+                  <Link
+                    href={`/lessons/${lesson.id}`}
+                    key={lesson.id}
+                    className="p-4 flex items-center justify-between hover:bg-white/40 transition-colors"
+                    style={{ display: "flex", textDecoration: "none", ...(idx > 0 ? { borderTop: "1px solid rgba(0,0,0,0.06)" } : {}) }}
+                  >
+                    <div>
+                      <p className="font-medium text-gray-900">{lesson.title}</p>
+                      <p className="text-sm text-gray-500">
+                        Scheduled {date} — {daysAgo === 1 ? "yesterday" : `${daysAgo} days ago`}
+                      </p>
+                    </div>
+                    <span style={{
+                      fontSize: "0.7rem",
+                      fontWeight: 500,
+                      padding: "0.2rem 0.6rem",
+                      borderRadius: "6px",
+                      background: "rgba(196,152,61,0.1)",
+                      color: "#B08A2E",
+                      whiteSpace: "nowrap",
+                    }}>
+                      Not completed
+                    </span>
+                  </Link>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
         {/* Recent completions */}
         <div>
           <h2 className="font-cormorant-sc text-xl text-gray-900 mb-3">Recent Completions</h2>
@@ -246,10 +308,11 @@ export default function DashboardPage() {
               </div>
             )}
             {recentCompletions.map((completion, idx) => (
-              <div
+              <Link
+                href={`/lessons/${completion.id}`}
                 key={`${completion.id}-${idx}`}
-                className="p-4 flex items-center justify-between"
-                style={idx > 0 ? { borderTop: "1px solid rgba(0,0,0,0.06)" } : {}}
+                className="p-4 flex items-center justify-between hover:bg-white/40 transition-colors"
+                style={{ display: "flex", textDecoration: "none", ...(idx > 0 ? { borderTop: "1px solid rgba(0,0,0,0.06)" } : {}) }}
               >
                 <div>
                   <p className="font-medium text-gray-900">{completion.title}</p>
@@ -265,7 +328,7 @@ export default function DashboardPage() {
                     </span>
                   ))}
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         </div>

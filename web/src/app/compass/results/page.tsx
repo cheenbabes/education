@@ -89,11 +89,11 @@ const LITERACY_COMPONENTS: Record<string, LiteracyComponent[]> = {
 };
 
 const LITERACY_COMPONENT_LABELS: Record<LiteracyComponent, string> = {
-  reading: "R",
-  writing: "W",
-  spelling: "S",
-  grammar: "G",
-  complete: "Complete LA",
+  reading: "Reading",
+  writing: "Writing",
+  spelling: "Spelling",
+  grammar: "Grammar",
+  complete: "Complete Language Arts",
 };
 
 const LITERACY_COMPONENT_COLORS: Record<LiteracyComponent, string> = {
@@ -230,8 +230,8 @@ export default function ResultsPage() {
           }}
         >
           <div className="text-center space-y-3">
-            {/* Character image with tool icon overlay */}
-            <div className="relative inline-block mx-auto">
+            {/* Primary character + secondary tool side by side */}
+            <div className="flex items-end justify-center">
               <Image
                 src={archetype.imagePath}
                 alt={archetype.name}
@@ -240,17 +240,16 @@ export default function ResultsPage() {
                 className="object-contain"
                 style={{ height: "220px", width: "auto" }}
               />
-              {/* Tool icon offset lower-right */}
-              <div className="absolute bottom-0 right-0 translate-x-1/4 translate-y-1/4">
+              {secondaryArchetype && (
                 <Image
-                  src={archetype.toolPath}
-                  alt=""
-                  width={80}
-                  height={80}
-                  className="object-contain drop-shadow-md"
-                  style={{ height: "80px", width: "auto" }}
+                  src={secondaryArchetype.toolPath}
+                  alt={secondaryArchetype.name}
+                  width={120}
+                  height={120}
+                  className="object-contain opacity-70"
+                  style={{ height: "120px", width: "auto", marginLeft: "-12px" }}
                 />
-              </div>
+              )}
             </div>
 
             <h2
@@ -266,7 +265,7 @@ export default function ResultsPage() {
             )}
           </div>
 
-          <p className="text-sm leading-relaxed font-cormorant" style={{ color: "var(--text-secondary)" }}>
+          <p className="font-cormorant text-center mx-auto" style={{ fontSize: "1rem", fontStyle: "italic", lineHeight: 1.6, color: "var(--text-secondary)", maxWidth: "480px" }}>
             {archetype.description}
           </p>
 
@@ -476,13 +475,20 @@ export default function ResultsPage() {
             {matchOutput.warnings.map((w, idx) => (
               <div
                 key={idx}
-                className={`rounded-xl p-4 text-sm ${
-                  w.type === "dyslexia-recommendation"
-                    ? "bg-blue-50 border border-blue-200 text-blue-800"
-                    : w.type === "adhd-recommendation"
-                      ? "bg-purple-50 border border-purple-200 text-purple-800"
-                      : "bg-amber-50 border border-amber-200 text-amber-800"
-                }`}
+                style={{
+                  background: "rgba(255,255,255,0.88)",
+                  backdropFilter: "blur(24px)",
+                  WebkitBackdropFilter: "blur(24px)",
+                  borderRadius: "12px",
+                  borderTop: "3px solid #D97706",
+                  borderRight: "1px solid rgba(217,119,6,0.15)",
+                  borderBottom: "1px solid rgba(217,119,6,0.15)",
+                  borderLeft: "1px solid rgba(217,119,6,0.15)",
+                  padding: "1rem 1.25rem",
+                  fontSize: "0.85rem",
+                  color: "var(--ink)",
+                  boxShadow: "0 4px 16px rgba(217,119,6,0.1), 0 1px 4px rgba(0,0,0,0.06)",
+                }}
               >
                 {w.message}
               </div>
@@ -492,7 +498,20 @@ export default function ResultsPage() {
 
         {/* Fallback banner */}
         {matchOutput?.fallbackBanner && (
-          <div className="rounded-xl p-4 text-sm bg-amber-50 border border-amber-200 text-amber-800">
+          <div style={{
+            background: "rgba(255,255,255,0.88)",
+            backdropFilter: "blur(24px)",
+            WebkitBackdropFilter: "blur(24px)",
+            borderRadius: "12px",
+            borderTop: "3px solid #D97706",
+            borderRight: "1px solid rgba(217,119,6,0.15)",
+            borderBottom: "1px solid rgba(217,119,6,0.15)",
+            borderLeft: "1px solid rgba(217,119,6,0.15)",
+            padding: "1rem 1.25rem",
+            fontSize: "0.85rem",
+            color: "var(--ink)",
+            boxShadow: "0 4px 16px rgba(217,119,6,0.1), 0 1px 4px rgba(0,0,0,0.06)",
+          }}>
             {matchOutput.fallbackBanner}
           </div>
         )}

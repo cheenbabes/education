@@ -26,6 +26,10 @@ export default function ArchetypesPage() {
         {/* 2-column grid (1-col on mobile) */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {ARCHETYPES.map((a) => {
+            // These archetypes need to be flipped to face away from the text
+            const FLIP_IDS = new Set(["the-guide", "the-explorer", "the-cultivator"]);
+            const imageTransform = FLIP_IDS.has(a.id) ? "scaleX(-1)" : undefined;
+
             // Sort philosophies by weight for this archetype
             const sortedPhils = (Object.entries(a.philosophyProfile) as [PhilosophyKey, number][])
               .filter(([, v]) => v >= 0.1)
@@ -67,7 +71,7 @@ export default function ArchetypesPage() {
                       width={160}
                       height={160}
                       className="object-contain"
-                      style={{ transform: 'scaleX(-1)', objectFit: 'cover', objectPosition: 'top', height: "160px", width: "auto" }}
+                      style={{ transform: imageTransform, objectFit: 'cover', objectPosition: 'top', height: "160px", width: "auto" }}
                     />
                   </div>
                 </div>
@@ -116,19 +120,15 @@ export default function ArchetypesPage() {
                   {(
                     Object.keys(DIMENSION_LABELS) as Array<keyof typeof DIMENSION_LABELS>
                   ).map((dim) => {
-                    const value = a.dimensionTendencies[dim];
-                    const hasValue = value !== undefined;
+                    const value = a.dimensionTendencies[dim] ?? 50;
                     return (
                       <div key={dim} className="space-y-0.5">
                         <div
                           className="flex justify-between text-xs"
-                          style={{ color: hasValue ? "var(--text-secondary)" : "rgba(0,0,0,0.2)" }}
+                          style={{ color: "var(--text-secondary)" }}
                         >
                           <span>{DIMENSION_LABELS[dim].left}</span>
-                          <span
-                            className={hasValue ? "font-medium" : ""}
-                            style={{ color: hasValue ? "var(--ink)" : undefined }}
-                          >
+                          <span className="font-medium" style={{ color: "var(--ink)" }}>
                             {DIMENSION_LABELS[dim].name}
                           </span>
                           <span>{DIMENSION_LABELS[dim].right}</span>
@@ -140,8 +140,8 @@ export default function ArchetypesPage() {
                           <div
                             className="absolute top-1/2 -translate-y-1/2 w-3 h-3 rounded-full"
                             style={{
-                              left: `calc(${hasValue ? value : 50}% - 6px)`,
-                              background: hasValue ? a.color : "rgba(0,0,0,0.2)",
+                              left: `calc(${value}% - 6px)`,
+                              background: a.color,
                             }}
                           />
                         </div>

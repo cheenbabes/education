@@ -459,7 +459,7 @@ export default function Home() {
         <img
           src="/kids-strip.png"
           alt="Children learning outdoors"
-          style={{ width: "1200x", maxWidth: "none", height: "auto", display: "block" }}
+          style={{ width: "1000px", maxWidth: "none", height: "auto", display: "block" }}
         />
       </section>
 
@@ -532,7 +532,7 @@ export default function Home() {
             {[
               { name: "Compass", price: "$0", period: "/ forever", features: ["Full Compass Quiz + archetype discovery", "3 lesson generations per month", "Top curriculum matches for your philosophy"], cta: "Start Free →", featured: false },
               { name: "Homestead", price: "$17.99", period: "/ month", badge: "Most Popular", features: ["30 lessons per month (unlimited annually)", "Up to 4 children, multi-child differentiation", "Full standards tracking across all 50 states", "Private community access"], cta: "Start Homestead →", featured: true },
-              { name: "Homeschool", price: "$24.99", period: "/ month", features: ["Unlimited lessons, up to 6 children", "Full standards coverage reports", "Monthly AMA with the founder"], cta: "Start Homeschool →", featured: false },
+              { name: "Schoolhouse", price: "$24.99", period: "/ month", features: ["Unlimited lessons, up to 6 children", "Full standards coverage reports", "Monthly AMA with the founder"], cta: "Start Homeschool →", featured: false },
             ].map(({ name, price, period, badge, features, cta, featured }) => (
               <div key={name} style={{
                 padding: featured ? "2.25rem 1.75rem" : "1.75rem 1.5rem",

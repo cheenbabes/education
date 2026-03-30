@@ -125,12 +125,21 @@ export function PrintLesson({ lesson }: { lesson: LessonPlan }) {
     printWindow.document.close();
   };
 
+  const btnStyle: React.CSSProperties = {
+    background: "rgba(255,255,255,0.68)",
+    backdropFilter: "blur(10px)",
+    border: "1px solid rgba(255,255,255,0.45)",
+    borderRadius: "8px",
+    fontSize: "0.75rem",
+    padding: "0.4rem 0.8rem",
+    fontWeight: 500,
+    color: "#5A5A5A",
+    cursor: "pointer",
+  };
+
   return (
     <div className="flex gap-2">
-      <button
-        onClick={handlePrint}
-        className="px-3 py-1.5 bg-white border border-gray-300 text-gray-700 rounded text-sm hover:bg-gray-50 dark:hover:bg-gray-800 dark:bg-gray-900"
-      >
+      <button onClick={handlePrint} style={btnStyle}>
         Print / PDF
       </button>
       <button
@@ -146,7 +155,7 @@ export function PrintLesson({ lesson }: { lesson: LessonPlan }) {
           a.click();
           URL.revokeObjectURL(url);
         }}
-        className="px-3 py-1.5 bg-white border border-gray-300 text-gray-700 rounded text-sm hover:bg-gray-50 dark:hover:bg-gray-800 dark:bg-gray-900"
+        style={btnStyle}
       >
         Download JSON
       </button>

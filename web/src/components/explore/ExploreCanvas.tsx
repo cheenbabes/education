@@ -248,7 +248,7 @@ function ResponsiveZoom({ controlsRef, embedMode }: { controlsRef: MutableRefObj
     const ortho = camera as THREE.OrthographicCamera;
     const shortest = Math.min(size.width, size.height);
     const targetZoom = embedMode
-      ? THREE.MathUtils.clamp(shortest / 80, 6, 16)
+      ? THREE.MathUtils.clamp(shortest / 120, 6, 16)
       : THREE.MathUtils.clamp(shortest / 26, 24, 62);
     ortho.zoom = targetZoom;
     ortho.updateProjectionMatrix();

@@ -5,6 +5,8 @@ import { PrintLesson } from "@/components/print-lesson";
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
+import { PHILOSOPHY_LABELS } from "@/lib/compass/scoring";
+import type { PhilosophyKey } from "@/lib/compass/questions";
 
 interface LessonDetail {
   id: string;
@@ -201,7 +203,7 @@ export default function LessonDetailPage() {
       <div className="max-w-5xl space-y-6">
         {/* Back + Print row */}
         <div className="flex items-center justify-between">
-          <Link href="/lessons" style={{ color: "#6E6E9E", fontSize: "0.875rem", textDecoration: "none" }} className="hover:underline">
+          <Link href="/lessons" style={{ color: "#6E6E9E", fontSize: "0.8rem", textDecoration: "none", fontWeight: 500 }} className="hover:underline">
             &larr; All lessons
           </Link>
           {lessonSections.length > 0 && <PrintLesson lesson={printableLesson} />}
@@ -211,32 +213,35 @@ export default function LessonDetailPage() {
         <div style={frostCard} className="space-y-5">
           {/* Header */}
           <div>
-            <h1 className="font-cormorant-sc" style={{ fontSize: "1.75rem", color: "#0B2E4A", marginBottom: "0.5rem" }}>
+            {/* Philosophy + metadata row */}
+            <div className="flex items-center gap-2 flex-wrap" style={{ marginBottom: "0.5rem" }}>
+              <span
+                style={{
+                  ...frostPillBase,
+                  color: philoColor,
+                  background: `${philoColor}15`,
+                  border: `1px solid ${philoColor}30`,
+                }}
+              >
+                {PHILOSOPHY_LABELS[lesson.philosophy as PhilosophyKey] || lesson.philosophy.replace(/_/g, " ")}
+              </span>
+              {scheduledDate && (
+                <span style={{ ...frostPillBase, color: "#5A5A5A" }}>
+                  {new Date(scheduledDate + "T12:00:00").toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
+                </span>
+              )}
+              {estimatedDuration && (
+                <span style={{ ...frostPillBase, color: "#5A5A5A" }}>
+                  {estimatedDuration} min
+                </span>
+              )}
+            </div>
+
+            <h1 className="font-cormorant-sc" style={{ fontSize: "1.75rem", color: "#0B2E4A", lineHeight: 1.2, marginBottom: "0.75rem" }}>
               {lesson.title}
             </h1>
 
-            {/* Philosophy pill */}
-            <span
-              style={{
-                ...frostPillBase,
-                color: philoColor,
-                marginBottom: "0.5rem",
-              }}
-            >
-              {lesson.philosophy.replace(/_/g, " ")}
-            </span>
-
-            {scheduledDate && (
-              <p style={{ fontSize: "0.875rem", color: "#5A5A5A", marginTop: "0.25rem" }}>
-                Scheduled: {scheduledDate}
-              </p>
-            )}
-            {estimatedDuration && (
-              <p style={{ fontSize: "0.875rem", color: "#5A5A5A" }}>
-                {estimatedDuration} minutes
-              </p>
-            )}
-            <div className="flex gap-1.5 mt-2 flex-wrap">
+            <div className="flex gap-1.5 flex-wrap">
               {lesson.subjects.map((s) => (
                 <span key={s} style={{ ...frostPillBase, color: "#6E6E9E" }}>{s}</span>
               ))}
@@ -263,7 +268,7 @@ export default function LessonDetailPage() {
                 className="font-cormorant-sc"
                 style={{ fontSize: "0.8rem", letterSpacing: "0.06em", color: philoColor, marginBottom: "0.4rem", textTransform: "uppercase" }}
               >
-                Philosophy: {lesson.philosophy.replace(/_/g, " ")}
+                Philosophy: {PHILOSOPHY_LABELS[lesson.philosophy as PhilosophyKey] || lesson.philosophy.replace(/_/g, " ")}
               </h3>
               <p style={{ fontSize: "0.875rem", color: "#5A5A5A" }}>{philosophySummary}</p>
             </div>
@@ -460,8 +465,16 @@ export default function LessonDetailPage() {
                 Lesson Plan
               </h3>
               <div className="space-y-4">
-                {lessonSections.map((section, i) => (
-                  <div key={i} style={frostCard}>
+                {lessonSections.map((section, i) => {
+                  const ioConfig: Record<string, { color: string; bg: string; icon: string }> = {
+                    outdoor: { color: "#3D7E5A", bg: "rgba(61,126,90,0.12)", icon: "\uD83C\uDF3F" },
+                    indoor:  { color: "#5A7FA0", bg: "rgba(90,127,160,0.12)", icon: "\uD83C\uDFE0" },
+                    both:    { color: "#7D6B9E", bg: "rgba(125,107,158,0.12)", icon: "\u2728" },
+                  };
+                  const io = ioConfig[section.indoor_outdoor] || ioConfig.both;
+
+                  return (
+                  <div key={i} style={{ ...frostCard, borderLeft: `3px solid ${io.color}30` }}>
                     <div className="flex items-center justify-between mb-2">
                       <h4
                         className="font-cormorant-sc"
@@ -475,17 +488,15 @@ export default function LessonDetailPage() {
                         </span>
                         <span style={{
                           ...frostPillBase,
-                          color: section.indoor_outdoor === "outdoor"
-                            ? "#5A947A"
-                            : section.indoor_outdoor === "indoor"
-                            ? "#5A7FA0"
-                            : "#7D6B9E",
+                          color: io.color,
+                          background: io.bg,
+                          border: `1px solid ${io.color}25`,
                         }}>
-                          {section.indoor_outdoor}
+                          {io.icon} {section.indoor_outdoor}
                         </span>
                       </div>
                     </div>
-                    <div style={{ fontSize: "0.875rem", color: "#5A5A5A", whiteSpace: "pre-line" }}>
+                    <div style={{ fontSize: "0.875rem", color: "#5A5A5A", whiteSpace: "pre-line", lineHeight: 1.7 }}>
                       {section.instructions}
                     </div>
 
@@ -493,14 +504,14 @@ export default function LessonDetailPage() {
                     {section.philosophy_connection && (
                       <div
                         style={{
-                          ...frostCard,
-                          borderLeft: "3px solid #9B7E8E",
+                          borderLeft: `3px solid ${philoColor}40`,
                           borderRadius: "0 8px 8px 0",
                           padding: "0.6rem 1rem",
                           marginTop: "0.75rem",
                           fontSize: "0.8rem",
                           color: "#767676",
                           fontStyle: "italic",
+                          background: `${philoColor}08`,
                         }}
                       >
                         {section.philosophy_connection}
@@ -509,26 +520,41 @@ export default function LessonDetailPage() {
 
                     {/* Tips */}
                     {section.tips?.length > 0 && (
-                      <div className="mt-2 flex flex-wrap gap-1.5">
-                        <span style={{ fontSize: "0.7rem", fontWeight: 600, color: "#5A5A5A", alignSelf: "center" }}>Tips:</span>
-                        {section.tips.map((tip, j) => (
-                          <span key={j} style={{ ...frostPillBase, color: "#5A5A5A", fontSize: "0.68rem" }}>{tip}</span>
-                        ))}
+                      <div style={{
+                        marginTop: "0.75rem",
+                        padding: "0.6rem 0.75rem",
+                        background: "rgba(196,152,61,0.06)",
+                        borderRadius: "8px",
+                        borderLeft: "3px solid rgba(196,152,61,0.3)",
+                      }}>
+                        <p style={{ fontSize: "0.68rem", fontWeight: 600, color: "#B08A2E", textTransform: "uppercase", letterSpacing: "0.05em", marginBottom: "0.35rem" }}>Tips</p>
+                        <div className="space-y-1">
+                          {section.tips.map((tip, j) => (
+                            <p key={j} style={{ fontSize: "0.8rem", color: "#5A5A5A", lineHeight: 1.5 }}>{tip}</p>
+                          ))}
+                        </div>
                       </div>
                     )}
 
                     {section.extensions?.length > 0 && (
-                      <div className="mt-2">
-                        <p style={{ fontSize: "0.7rem", fontWeight: 600, color: "#5A5A5A" }}>Extensions:</p>
-                        <ul style={{ listStyle: "disc", paddingLeft: "1.25rem" }}>
+                      <div style={{
+                        marginTop: "0.5rem",
+                        padding: "0.6rem 0.75rem",
+                        background: "rgba(90,127,160,0.06)",
+                        borderRadius: "8px",
+                        borderLeft: "3px solid rgba(90,127,160,0.3)",
+                      }}>
+                        <p style={{ fontSize: "0.68rem", fontWeight: 600, color: "#5A7FA0", textTransform: "uppercase", letterSpacing: "0.05em", marginBottom: "0.35rem" }}>Extensions</p>
+                        <ul style={{ listStyle: "disc", paddingLeft: "1.25rem" }} className="space-y-0.5">
                           {section.extensions.map((ext, j) => (
-                            <li key={j} style={{ fontSize: "0.75rem", color: "#767676" }}>{ext}</li>
+                            <li key={j} style={{ fontSize: "0.8rem", color: "#5A5A5A", lineHeight: 1.5 }}>{ext}</li>
                           ))}
                         </ul>
                       </div>
                     )}
                   </div>
-                ))}
+                  );
+                })}
               </div>
             </div>
           )}

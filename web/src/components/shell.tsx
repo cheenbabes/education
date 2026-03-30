@@ -2,7 +2,7 @@ import { Nav } from "./nav";
 
 type PageHue =
   | "home" | "compass" | "results" | "generate" | "lessons"
-  | "dashboard" | "children" | "calendar" | "standards" | "archetypes";
+  | "dashboard" | "children" | "calendar" | "standards" | "archetypes" | "audit";
 
 interface ShellProps {
   children: React.ReactNode;

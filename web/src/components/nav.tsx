@@ -27,30 +27,31 @@ export function Nav() {
       WebkitBackdropFilter: 'blur(12px)',
       borderBottom: '1px solid rgba(0,0,0,0.07)',
     }}>
-      <div className="max-w-5xl mx-auto px-4">
+      <div className="mx-auto px-4" style={{ maxWidth: "90rem" }}>
         <div className="flex items-center justify-between h-14">
           {/* Wordmark */}
           <Link
             href="/"
-            className="font-cormorant-sc tracking-wide text-lg"
-            style={{ color: 'var(--night)', letterSpacing: '0.06em' }}
+            className="font-cormorant-sc tracking-wide text-lg shrink-0"
+            style={{ color: 'var(--night)', letterSpacing: '0.06em', whiteSpace: 'nowrap' }}
           >
             The Sage&rsquo;s Compass
           </Link>
 
-          {/* Desktop nav */}
-          <div className="hidden md:flex gap-0.5 items-center">
+          {/* Desktop nav — scrollable at tight widths */}
+          <div className="hidden lg:flex items-center overflow-x-auto" style={{ gap: "2px", scrollbarWidth: "none" }}>
             {navItems.map((item) => {
               const active = pathname.startsWith(item.href);
               return (
                 <Link
                   key={item.href}
                   href={item.href}
-                  className="px-3 py-1.5 rounded-lg text-sm transition-colors"
+                  className="px-2.5 py-1.5 rounded-lg text-sm transition-colors shrink-0"
                   style={{
                     color: active ? 'var(--night)' : 'var(--text-secondary)',
                     background: active ? 'rgba(110,110,158,0.1)' : 'transparent',
                     fontWeight: active ? 500 : 400,
+                    whiteSpace: 'nowrap',
                   }}
                 >
                   {item.label}
@@ -62,7 +63,7 @@ export function Nav() {
           {/* Mobile hamburger */}
           <button
             onClick={() => setOpen(!open)}
-            className="md:hidden p-2 rounded-lg"
+            className="lg:hidden p-2 rounded-lg"
             style={{ color: 'var(--text-secondary)' }}
             aria-label="Toggle menu"
           >
@@ -77,7 +78,7 @@ export function Nav() {
 
       {/* Mobile dropdown */}
       {open && (
-        <div className="md:hidden px-4 py-2 space-y-0.5" style={{ borderTop: '1px solid rgba(0,0,0,0.06)' }}>
+        <div className="lg:hidden px-4 py-2 space-y-0.5" style={{ borderTop: '1px solid rgba(0,0,0,0.06)' }}>
           {navItems.map((item) => {
             const active = pathname.startsWith(item.href);
             return (

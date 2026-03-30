@@ -298,7 +298,16 @@ function QuizPageInner() {
                   setCurrentQ(currentQ - 1);
                   setSelectedChoice(null);
                 }}
-                className="text-sm text-gray-400 hover:text-gray-600"
+                className="text-sm transition-all duration-150"
+                style={{
+                  background: "rgba(255,255,255,0.55)",
+                  backdropFilter: "blur(8px)",
+                  border: "1px solid rgba(255,255,255,0.45)",
+                  borderRadius: "8px",
+                  padding: "0.4rem 0.85rem",
+                  color: "rgba(27,26,23,0.65)",
+                  cursor: "pointer",
+                }}
               >
                 &#8592; Previous question
               </button>
@@ -310,7 +319,22 @@ function QuizPageInner() {
         {phase === "compass-reveal" && compassResult && (
           <div className="space-y-8 animate-fadeIn">
             <div className="text-center space-y-3">
-              <p className="text-4xl">{compassResult.archetype.icon}</p>
+              <div className="flex items-end justify-center">
+                <img
+                  src={compassResult.archetype.imagePath}
+                  alt={compassResult.archetype.name}
+                  className="object-contain"
+                  style={{ height: "200px", width: "auto" }}
+                />
+                {compassResult.secondaryArchetype && (
+                  <img
+                    src={compassResult.secondaryArchetype.toolPath}
+                    alt={compassResult.secondaryArchetype.name}
+                    className="object-contain opacity-70"
+                    style={{ height: "110px", width: "auto", marginLeft: "-12px" }}
+                  />
+                )}
+              </div>
               <h2 className="font-cormorant-sc text-3xl text-gray-900">
                 {compassResult.archetype.name}
               </h2>
@@ -326,14 +350,16 @@ function QuizPageInner() {
 
             {/* Dimension bars */}
             <div
+              className="space-y-5"
               style={{
                 background: "rgba(255,255,255,0.72)",
-                backdropFilter: "blur(12px)",
-                border: "1px solid rgba(255,255,255,0.5)",
+                backdropFilter: "blur(24px)",
+                WebkitBackdropFilter: "blur(24px)",
+                border: "1px solid rgba(255,255,255,0.6)",
                 borderRadius: "12px",
                 padding: "1.25rem",
+                boxShadow: "0 2px 12px rgba(0,0,0,0.06)",
               }}
-              className="space-y-5"
             >
               <h3 className="font-semibold text-gray-900">
                 Your Five Dimensions
@@ -358,14 +384,16 @@ function QuizPageInner() {
 
             {/* Philosophy pie chart */}
             <div
+              className="space-y-4"
               style={{
                 background: "rgba(255,255,255,0.72)",
-                backdropFilter: "blur(12px)",
-                border: "1px solid rgba(255,255,255,0.5)",
+                backdropFilter: "blur(24px)",
+                WebkitBackdropFilter: "blur(24px)",
+                border: "1px solid rgba(255,255,255,0.6)",
                 borderRadius: "12px",
                 padding: "1.25rem",
+                boxShadow: "0 2px 12px rgba(0,0,0,0.06)",
               }}
-              className="space-y-4"
             >
               <h3 className="font-semibold text-gray-900">
                 Your Philosophy Blend
@@ -464,7 +492,22 @@ function QuizPageInner() {
         {phase === "teaser" && compassResult && (
           <div className="space-y-8 animate-fadeIn">
             <div className="text-center space-y-3">
-              <p className="text-5xl">{compassResult.archetype.icon}</p>
+              <div className="flex items-end justify-center">
+                <img
+                  src={compassResult.archetype.imagePath}
+                  alt={compassResult.archetype.name}
+                  className="object-contain"
+                  style={{ height: "200px", width: "auto" }}
+                />
+                {compassResult.secondaryArchetype && (
+                  <img
+                    src={compassResult.secondaryArchetype.toolPath}
+                    alt={compassResult.secondaryArchetype.name}
+                    className="object-contain opacity-70"
+                    style={{ height: "110px", width: "auto", marginLeft: "-12px" }}
+                  />
+                )}
+              </div>
               <h2 className="font-cormorant-sc text-2xl text-gray-900">
                 You&apos;re {compassResult.archetype.name}
               </h2>
@@ -480,9 +523,9 @@ function QuizPageInner() {
 
             <div
               style={{
-                background: "rgba(255,255,255,0.72)",
-                backdropFilter: "blur(12px)",
-                border: "1px solid rgba(255,255,255,0.5)",
+                background: "rgba(255,255,255,0.85)",
+                backdropFilter: "blur(18px)",
+                border: "1px solid rgba(255,255,255,0.6)",
                 borderRadius: "12px",
                 padding: "1.25rem",
               }}
@@ -529,6 +572,7 @@ function QuizPageInner() {
                     "compass_result",
                     JSON.stringify({
                       archetype: compassResult.archetype.id,
+                      secondaryArchetype: compassResult.secondaryArchetype?.id || null,
                       dimensions: compassResult.dimensions,
                       philosophies: compassResult.philosophies,
                       structureFlowSplit: compassResult.structureFlowSplit,
@@ -770,7 +814,7 @@ function Part2QuestionView({
       </div>
 
       {question.type === "multi" && (
-        <p className="text-xs text-gray-400 text-center">
+        <p className="text-xs text-center" style={{ color: "rgba(27,26,23,0.5)" }}>
           Select all that apply
         </p>
       )}
@@ -779,7 +823,16 @@ function Part2QuestionView({
         {onBack ? (
           <button
             onClick={onBack}
-            className="text-sm text-gray-400 hover:text-gray-600"
+            className="text-sm transition-all duration-150"
+            style={{
+              background: "rgba(255,255,255,0.55)",
+              backdropFilter: "blur(8px)",
+              border: "1px solid rgba(255,255,255,0.45)",
+              borderRadius: "8px",
+              padding: "0.4rem 0.85rem",
+              color: "rgba(27,26,23,0.65)",
+              cursor: "pointer",
+            }}
           >
             &#8592; Back
           </button>
