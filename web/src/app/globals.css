@@ -89,7 +89,7 @@
   --phil-project: #5A7FA0;
   --phil-nature: #5A947A;
   --phil-unschooling: #C07A42;
-  --phil-adaptive: #8A8A7E;
+  --phil-adaptive: #7c2946;
 
   /* Archetype accent colors */
   --arch-guide: #5B5E8A;
@@ -99,7 +99,7 @@
   --arch-storyteller: #B07A8A;
   --arch-architect: #5A7FA0;
   --arch-freespirit: #C07A42;
-  --arch-weaver: #8A8A7E;
+  --arch-weaver: #7c2946;
 }
 
 /* ─── Base reset ─────────────────────────────────────────────────────────── */
@@ -386,4 +386,80 @@
   .bg-parchment { background-color: var(--parchment); }
   .bg-night { background-color: var(--night); }
   .border-default { border-color: var(--border-default); }
+}
+
+/* ─── Mobile responsiveness ─────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  /* Stack all 2-column grids */
+  section [style*="gridTemplateColumns"] {
+    grid-template-columns: 1fr !important;
+    gap: 1.5rem !important;
+  }
+
+  /* Hero and section padding */
+  section {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
+
+  /* Pricing cards stack vertically */
+  section > div > div[style*="grid-template-columns: 1fr 1.1fr 1fr"] {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Nav adjustments */
+  nav {
+    padding-left: 0.75rem !important;
+    padding-right: 0.75rem !important;
+  }
+
+  /* Archetype ring — hide on very small screens, show on medium */
+  .archetype-ring-container {
+    display: none;
+  }
+
+  /* Lesson cards — full width pills */
+  .flex.gap-1\.5.flex-wrap {
+    gap: 0.35rem;
+  }
+
+  /* Font size adjustments */
+  h1 {
+    font-size: clamp(1.5rem, 6vw, 2.5rem) !important;
+  }
+
+  h2 {
+    font-size: clamp(1.25rem, 5vw, 2rem) !important;
+  }
+
+  /* Ensure images don't overflow */
+  img, iframe {
+    max-width: 100%;
+    height: auto;
+  }
+
+  /* Shell content padding */
+  .shell-content {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Extra small screens */
+  section {
+    padding-left: 0.75rem !important;
+    padding-right: 0.75rem !important;
+  }
+
+  /* Reduce card padding */
+  .frost-card {
+    padding: 0.75rem;
+  }
+
+  /* Smaller pills */
+  .frost-pill {
+    font-size: 0.6rem;
+    padding: 0.2rem 0.4rem;
+  }
 }

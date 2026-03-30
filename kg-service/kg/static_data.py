@@ -82,7 +82,7 @@ PHILOSOPHIES = [
         "disclaimer": None,
     },
     {
-        "name": "waldorf-adjacent",
+        "name": "waldorf-inspired",
         "description": (
             "Inspired by Waldorf/Steiner principles including imagination-led "
             "learning, artistic integration, and developmental stage awareness. "

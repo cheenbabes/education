@@ -10,6 +10,7 @@ export async function POST(req: NextRequest) {
     childIds,
     scheduledDate,
     userId = "demo-user", // TODO: replace with auth
+    subjectNames = [],
   } = body;
 
   // Create the lesson
@@ -20,6 +21,7 @@ export async function POST(req: NextRequest) {
       interest: lesson.theme,
       philosophy: lesson.philosophy,
       subjects: lesson.standards_addressed?.map((s: { code: string }) => s.code) || [],
+      subjectNames,
       multiSubjectOptimized: false,
       content: lesson,
       contentHash:

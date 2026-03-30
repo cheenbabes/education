@@ -172,14 +172,14 @@ export default function CurriculumMoon({
       <Text
         ref={labelRef}
         position={[0, -0.28, 0]}
-        fontSize={0.16}
+        fontSize={0.22}
         color="#FFB400"
         anchorX="center"
         anchorY="top"
         fillOpacity={0}
         outlineOpacity={0}
         letterSpacing={0.03}
-        outlineWidth={0.08}
+        outlineWidth={0.09}
         outlineColor="#1d1710"
         maxWidth={14}
         font="/fonts/CormorantSC-SemiBold.ttf"

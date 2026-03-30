@@ -37,6 +37,7 @@ export default function Home() {
               letterSpacing: "0.12em",
               textTransform: "uppercase",
               color: "var(--accent-primary)",
+              whiteSpace: "nowrap",
             }}>
               Designed by a Master Educator. Built for Your Teaching Style.
             </p>
@@ -118,8 +119,8 @@ export default function Home() {
         }}>
           {[
             { stat: "363,000+", desc: "State Standards Integrated." },
-            { stat: "29 Foundational Texts", desc: "A library of materials supporting each pedagogy." },
-            { stat: "100+ Curricula", desc: "Matched to Your Philosophy." },
+            { stat: "Based on Foundational Texts", desc: "A library of materials supporting each pedagogy." },
+            { stat: "70+ Curricula", desc: "Matched to Your Philosophy." },
           ].map(({ stat, desc }) => (
             <div key={stat}>
               <div className="font-cormorant-sc" style={{ fontSize: "1.6rem", fontWeight: 600, color: "var(--ink)" }}>
@@ -196,7 +197,7 @@ export default function Home() {
           <p className="font-cormorant" style={{ fontSize: "1rem", fontStyle: "italic", color: "var(--ink)", lineHeight: 1.6, marginBottom: "0.5rem" }}>
             &ldquo;Great education starts with knowing yourself as a teacher&rdquo;
           </p>
-          <p style={{ fontSize: "0.78rem", color: "var(--text-tertiary)" }}>— Founder, M.Ed., EdD Student</p>
+          <p style={{ fontSize: "0.78rem", color: "var(--text-tertiary)" }}>— Founder</p>
         </div>
 
         <div style={{ textAlign: "center", marginTop: "2rem" }}>
@@ -245,7 +246,7 @@ export default function Home() {
               },
               {
                 num: "02",
-                heading: "Type a Topic. Pick a Subject. Hit Generate.",
+                heading: "Type a Topic. Pick a Subject. Hit Create.",
                 body: "Type anything: 'frogs,' 'the American Revolution,' 'fractions.' Select the subject and grade. We handle the philosophy, standards, and structure.",
                 preview: (
                   <div className="wc-card wc-card-parchment" style={{ borderRadius: "10px", padding: "1rem", fontSize: "0.72rem" }}>
@@ -283,7 +284,7 @@ export default function Home() {
                         ))}
                       </div>
                     </div>
-                    <div style={{ background: "var(--night)", color: "var(--parchment)", borderRadius: "8px", padding: "0.5rem", textAlign: "center", fontWeight: 500 }}>Generate Lesson</div>
+                    <div style={{ background: "var(--night)", color: "var(--parchment)", borderRadius: "8px", padding: "0.5rem", textAlign: "center", fontWeight: 500 }}>Create Lesson</div>
                   </div>
                 ),
               },
@@ -340,14 +341,14 @@ export default function Home() {
 
         <div style={{ display: "flex", flexDirection: "column", gap: "4rem" }}>
           {[
+            /* 1. Philosophy-driven lessons */
             {
               right: true,
-              headline: "Every lesson reflects your unique teaching philosophy",
+              headline: "Every Lesson Reflects Your Unique Teaching Philosophy",
               body: "Montessori math doesn't just include manipulatives. It follows Maria Montessori's concrete-to-abstract sequence, extracted from her original writings. Charlotte Mason lessons use living books, short sessions, and narration. Classical lessons build on critical thinking. 29 foundational texts, a library of materials for each pedagogy — that's what powers every lesson.",
               note: undefined,
               visual: (
                 <div className="wc-card wc-card-sage frost-card" style={{ borderRadius: "14px", padding: "1.25rem", display: "flex", flexDirection: "column", gap: "0.6rem" }}>
-                  {/* Sample lesson card */}
                   <div className="font-cormorant-sc" style={{ fontSize: "1rem", color: "var(--ink)" }}>The Life Cycle of a Butterfly</div>
                   <div style={{ display: "flex", gap: "0.4rem", flexWrap: "wrap" }}>
                     {[
@@ -360,7 +361,7 @@ export default function Home() {
                   {[
                     { type: "Nature Observation", desc: "Go outside and look for caterpillars or chrysalises. Sketch what you find in your nature journal." },
                     { type: "Living Book", desc: "Read aloud from a picture book about metamorphosis. Ask your child to narrate it back in their own words." },
-                    { type: "Handicraft", desc: "Create a watercolor lifecycle diagram — egg, caterpillar, chrysalis, butterfly." },
+                    { type: "Handwork", desc: "Create a watercolor lifecycle diagram — egg, caterpillar, chrysalis, butterfly." },
                   ].map(({ type, desc }) => (
                     <div key={type} style={{ background: "rgba(255,255,255,0.75)", borderRadius: "8px", padding: "0.6rem 0.75rem" }}>
                       <div style={{ fontSize: "0.58rem", fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "#B07A8A", marginBottom: "0.25rem" }}>{type}</div>
@@ -373,10 +374,65 @@ export default function Home() {
                 </div>
               ),
             },
+            /* 2. Any of 8 philosophies — nobody else does this */
+            {
+              right: false,
+              headline: "Create Lessons in Any of Eight Philosophies. On Demand.",
+              body: "You're not locked into one approach. Your Compass Quiz reveals your archetype, but you can create lessons in any philosophy — Montessori, Charlotte Mason, Classical, Waldorf, Project-Based, Nature-Based, Unschooling, or Adaptive — and switch between them freely. Every philosophy is built from primary sources and real pedagogical frameworks. No other tool generates consistent, high-quality lessons across all eight.",
+              note: "8 philosophies · Switch freely · Every lesson grounded in real pedagogy",
+              visual: (
+                <div className="wc-card wc-card-lavender frost-card" style={{ borderRadius: "14px", padding: "1.25rem", display: "flex", flexDirection: "column", gap: "0.5rem" }}>
+                  <div style={{ fontSize: "0.58rem", fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--text-tertiary)", marginBottom: "0.25rem" }}>Same topic, different philosophy</div>
+                  <div className="font-cormorant-sc" style={{ fontSize: "0.95rem", color: "var(--ink)", marginBottom: "0.15rem" }}>Fractions — Grade 3</div>
+                  {[
+                    { phil: "Montessori", color: "#7D6B9E", activity: "Fraction circles and bead chains — concrete to abstract" },
+                    { phil: "Charlotte Mason", color: "#B07A8A", activity: "Halve a recipe together, then narrate the math" },
+                    { phil: "Classical", color: "#5B5E8A", activity: "Chant fraction families, then solve word problems" },
+                    { phil: "Project-Based", color: "#5A7FA0", activity: "Design a pizza menu with fractional toppings" },
+                  ].map(({ phil, color, activity }) => (
+                    <div key={phil} style={{ background: "rgba(255,255,255,0.75)", borderRadius: "8px", padding: "0.5rem 0.65rem", borderLeft: `3px solid ${color}40` }}>
+                      <div style={{ display: "flex", alignItems: "center", gap: "0.4rem", marginBottom: "0.15rem" }}>
+                        <span style={{ fontSize: "0.6rem", fontWeight: 600, color, padding: "0.1rem 0.4rem", borderRadius: "4px", background: `${color}12`, border: `1px solid ${color}25` }}>{phil}</span>
+                      </div>
+                      <div style={{ fontSize: "0.68rem", color: "var(--text-secondary)", lineHeight: 1.4 }}>{activity}</div>
+                    </div>
+                  ))}
+                </div>
+              ),
+            },
+            /* 3. Multi-age differentiation */
+            {
+              right: true,
+              headline: "One Lesson, Multiple Ages. Differentiated Automatically.",
+              body: "Teaching a 5-year-old and a 9-year-old at the same time? Select both children, and every lesson is automatically differentiated — age-appropriate activities, separate standards, and tailored expectations — all woven into one cohesive lesson you teach together.",
+              note: "Multi-age · Per-child differentiation · One lesson, every child challenged",
+              visual: (
+                <div className="wc-card wc-card-sage frost-card" style={{ borderRadius: "14px", padding: "1.25rem", display: "flex", flexDirection: "column", gap: "0.5rem" }}>
+                  <div className="font-cormorant-sc" style={{ fontSize: "1rem", color: "var(--ink)" }}>Exploring Ecosystems</div>
+                  <div style={{ display: "flex", gap: "0.4rem", flexWrap: "wrap" }}>
+                    <span style={{ fontSize: "0.65rem", padding: "0.2rem 0.5rem", borderRadius: "5px", background: "rgba(90,148,122,0.15)", color: "#5A947A", border: "1px solid rgba(90,148,122,0.25)" }}>Science</span>
+                    <span style={{ fontSize: "0.65rem", padding: "0.2rem 0.5rem", borderRadius: "5px", background: "rgba(255,255,255,0.7)", color: "var(--text-tertiary)", border: "1px solid rgba(0,0,0,0.06)" }}>Multi-Age</span>
+                  </div>
+                  {[
+                    { name: "Emma (Age 5)", note: "Draw the animals you see. Count how many legs each one has.", grade: "K" },
+                    { name: "Jack (Age 9)", note: "Create a food web diagram showing predator-prey relationships.", grade: "4" },
+                  ].map(({ name, note: n, grade }) => (
+                    <div key={name} style={{ background: "rgba(255,255,255,0.75)", borderRadius: "8px", padding: "0.5rem 0.65rem" }}>
+                      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "0.2rem" }}>
+                        <span style={{ fontSize: "0.68rem", fontWeight: 600, color: "var(--ink)" }}>{name}</span>
+                        <span style={{ fontSize: "0.55rem", padding: "0.15rem 0.35rem", borderRadius: "4px", background: "rgba(110,110,158,0.1)", color: "var(--accent-primary)" }}>Grade {grade}</span>
+                      </div>
+                      <div style={{ fontSize: "0.68rem", color: "var(--text-secondary)", lineHeight: 1.4 }}>{n}</div>
+                    </div>
+                  ))}
+                </div>
+              ),
+            },
+            /* 4. State standards quietly */
             {
               right: false,
               headline: "Your State's Standards. Quietly, Behind Every Lesson.",
-              body: "363,000+ standards across all 50 states, mapped to the K-12 scope. You choose the philosophy. We make sure the standards are covered — without turning your lesson into a worksheet. Standards alignment is a quiet background guarantee, not the whole point.",
+              body: "363,000+ standards across all 50 states, mapped to the K-12 scope. You choose the philosophy. We make sure the standards are covered — without turning your lesson into a worksheet. Standards alignment is a quiet background guarantee, not the center of the lesson.",
               note: "All 50 states · 363,000+ standards · Automatically updated",
               visual: (
                 <div className="wc-card wc-card-parchment frost-card" style={{ borderRadius: "12px", padding: "1.25rem", display: "flex", flexWrap: "wrap", gap: "0.5rem", alignItems: "center" }}>
@@ -386,10 +442,39 @@ export default function Home() {
                 </div>
               ),
             },
+            /* 5. Per-child progress tracking */
             {
               right: true,
+              headline: "Track Every Child's Progress Across Standards",
+              body: "Every completed lesson automatically tracks which standards each child has covered. See gaps at a glance, know exactly where they are in the scope and sequence, and never wonder 'have we covered this?' again.",
+              note: "Per-child tracking · Visual progress · Gaps identified automatically",
+              visual: (
+                <div className="wc-card wc-card-parchment frost-card" style={{ borderRadius: "14px", padding: "1.25rem", display: "flex", flexDirection: "column", gap: "0.6rem" }}>
+                  <div className="font-cormorant-sc" style={{ fontSize: "0.9rem", color: "var(--ink)", marginBottom: "0.25rem" }}>Jack&apos;s Progress — Grade 4 Math</div>
+                  {[
+                    { domain: "Operations & Algebraic Thinking", pct: 72 },
+                    { domain: "Number & Base Ten", pct: 45 },
+                    { domain: "Fractions", pct: 20 },
+                    { domain: "Measurement & Data", pct: 60 },
+                  ].map(({ domain, pct }) => (
+                    <div key={domain}>
+                      <div style={{ display: "flex", justifyContent: "space-between", fontSize: "0.68rem", color: "var(--text-secondary)", marginBottom: "0.2rem" }}>
+                        <span>{domain}</span>
+                        <span style={{ fontWeight: 600 }}>{pct}%</span>
+                      </div>
+                      <div style={{ height: "6px", borderRadius: "3px", background: "rgba(0,0,0,0.06)" }}>
+                        <div style={{ height: "100%", borderRadius: "3px", width: `${pct}%`, background: pct > 60 ? "#5A947A" : pct > 30 ? "#C4983D" : "#C07A42" }} />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ),
+            },
+            /* 6. Explore map — last */
+            {
+              right: false,
               headline: "Explore the Universe of Educational Philosophy",
-              body: "The Explore map lets you navigate 100+ curricula scored against your archetype, the 8 philosophy models, and the principles that connect them. It's not a dropdown list — it's a visual space for discovery. Find the curriculum that actually fits your family.",
+              body: "The Explore map is a visual space for discovery. Find the curriculum that fits your family.",
               note: "Paired with the Compass Quiz, it answers the question every new homeschool parent has: where do I even begin?",
               visual: (
                 <div style={{ position: "relative", borderRadius: "14px", overflow: "hidden", height: "400px", boxShadow: "0 8px 32px rgba(0,0,0,0.18)", border: "2px solid rgba(196,152,61,0.4)" }}>
@@ -407,7 +492,6 @@ export default function Home() {
                       display: "block",
                     }}
                   />
-                  {/* Gradient overlay + CTA */}
                   <div style={{
                     position: "absolute",
                     inset: 0,
@@ -501,13 +585,11 @@ export default function Home() {
               I&apos;ve Spent 14 Years Learning What You&apos;re Trying to Figure Out.
             </h2>
             <p className="font-cormorant" style={{ fontSize: "1rem", fontStyle: "italic", color: "var(--text-secondary)", lineHeight: 1.75, marginBottom: "1.5rem" }}>
-              Every week, lesson planning took hours — not from ignorance. I had a master&apos;s degree in education. It was hard because matching the right activity to the right child, the right philosophy to the right standard, is genuinely hard. I taught across three states, in my own home, in micro schools and co-ops.
-              <br /><br />
-              I spent years studying the philosophies I now build into every lesson. Eventually I stopped wishing for a better tool and built one.
+              I&apos;ve spent 14 years learning what you&apos;re trying to figure out. Every week, lesson planning took hours. Matching the right activity to the right child, the right philosophy to the right standard, is genuinely hard. I taught across three states in my own home and in micro schools, schools, and co-ops, and finally found a method that works.
             </p>
 
             <div style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem", marginBottom: "1.25rem" }}>
-              {["M.Ed. in Education", "EdD Student", "14 Years Teaching", "Homeschooled Own Children", "Ran Micro Schools", "Taught Across 3 States"].map((chip) => (
+              {["M.Ed. in Education", "14 Years Teaching", "Homeschooled Own Children", "Directed Micro School Projects", "Taught Across 3 States"].map((chip) => (
                 <span key={chip} style={{ fontSize: "0.72rem", padding: "0.3rem 0.65rem", borderRadius: "8px", background: "rgba(255,255,255,0.65)", border: "1px solid rgba(0,0,0,0.07)", color: "var(--text-secondary)", boxShadow: "0 1px 2px rgba(0,0,0,0.04)" }}>
                   {chip}
                 </span>
@@ -542,7 +624,7 @@ export default function Home() {
             {[
               { name: "Compass", price: "$0", period: "/ forever", features: ["Full Compass Quiz + archetype discovery", "3 lesson generations per month", "Top curriculum matches for your philosophy"], cta: "Start Free →", featured: false },
               { name: "Homestead", price: "$17.99", period: "/ month", badge: "Most Popular", features: ["30 lessons per month (unlimited annually)", "Up to 4 children, multi-child differentiation", "Full standards tracking across all 50 states", "Private community access"], cta: "Start Homestead →", featured: true },
-              { name: "Schoolhouse", price: "$24.99", period: "/ month", features: ["Unlimited lessons, up to 6 children", "Full standards coverage reports", "Monthly AMA with the founder"], cta: "Start Homeschool →", featured: false },
+              { name: "Schoolhouse", price: "$24.99", period: "/ month", features: ["Up to 100 lessons, up to 6 children", "Full standards coverage reports", "Access to teacher education modules"], cta: "Start Schoolhouse →", featured: false },
             ].map(({ name, price, period, badge, features, cta, featured }) => (
               <div key={name} style={{
                 padding: featured ? "2.25rem 1.75rem" : "1.75rem 1.5rem",
@@ -606,7 +688,7 @@ export default function Home() {
             <br />You don&apos;t have to anymore.
           </h2>
           <p className="font-cormorant" style={{ fontSize: "1.15rem", fontStyle: "italic", color: "var(--text-secondary)", marginBottom: "2rem", lineHeight: 1.6 }}>
-            Take the free Compass Quiz. Find your teaching archetype. Generate your first lesson in two minutes.
+            Take the free Compass Quiz. Find your teaching archetype. Create your first lesson in two minutes.
           </p>
           <Link href="/compass" className="btn-night" style={{ fontSize: "1.05rem", padding: "0.9rem 2.5rem", borderRadius: "12px" }}>
             Take the Compass Quiz — It&apos;s Free
@@ -616,7 +698,7 @@ export default function Home() {
           </p>
           <p style={{ fontSize: "0.75rem", color: "var(--text-tertiary)", marginTop: "0.5rem" }}>
             Already know your philosophy?{" "}
-            <Link href="/generate" style={{ color: "var(--accent-primary)" }}>
+            <Link href="/create" style={{ color: "var(--accent-primary)" }}>
               Jump straight to lesson generation →
             </Link>
           </p>
@@ -636,7 +718,7 @@ export default function Home() {
           </div>
           <div>
             <div style={{ fontSize: "0.65rem", fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "rgba(249,246,239,0.45)", marginBottom: "0.75rem" }}>Product</div>
-            {[["Compass Quiz", "/compass"], ["Archetypes", "/archetypes"], ["Generate Lessons", "/generate"], ["Explore Map", "/explore"]].map(([label, href]) => (
+            {[["Compass Quiz", "/compass"], ["Archetypes", "/archetypes"], ["Create Lessons", "/create"], ["Explore Map", "/explore"]].map(([label, href]) => (
               <Link key={label} href={href} style={{ display: "block", fontSize: "0.85rem", color: "rgba(249,246,239,0.65)", marginBottom: "0.4rem", textDecoration: "none" }}>{label}</Link>
             ))}
           </div>

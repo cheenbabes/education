@@ -7,13 +7,15 @@ import { useState } from "react";
 const navItems = [
   { href: "/dashboard", label: "Dashboard" },
   { href: "/children", label: "Children" },
-  { href: "/generate", label: "Generate" },
+  { href: "/create", label: "Create" },
   { href: "/compass", label: "Compass" },
   { href: "/archetypes", label: "Archetypes" },
   { href: "/calendar", label: "Calendar" },
   { href: "/lessons", label: "Lessons" },
   { href: "/standards", label: "Standards" },
   { href: "/explore", label: "Explore" },
+  { href: "/about", label: "About" },
+  { href: "/contact", label: "Contact" },
 ];
 
 export function Nav() {

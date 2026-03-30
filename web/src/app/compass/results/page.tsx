@@ -451,7 +451,7 @@ export default function ResultsPage() {
             {archetype.appPitch.body}
           </p>
           <Link
-            href="/generate"
+            href="/create"
             className="inline-block text-sm font-medium hover:opacity-90 transition-opacity"
             style={{
               background: "var(--parchment)",
@@ -754,7 +754,7 @@ export default function ResultsPage() {
             Ready to start building lessons that match your {archetype.name} style?
           </p>
           <Link
-            href="/generate"
+            href="/create"
             className="inline-block text-sm font-medium hover:opacity-90 transition-opacity"
             style={{
               background: "var(--night)",

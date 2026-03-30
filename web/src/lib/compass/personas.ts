@@ -45,7 +45,7 @@ export const PERSONAS: Persona[] = [
   },
   {
     name: "Charlotte Mason Claire",
-    description: "Living books, narration, nature study, short lessons. Values beauty in education. Does copywork, keeps a Book of Centuries. Afternoon handicrafts.",
+    description: "Living books, narration, nature study, short lessons. Values beauty in education. Does copywork, keeps a Book of Centuries. Afternoon handwork.",
     expectedArchetype: "the-storyteller",
     philosophyWeights: { charlotte_mason: 1.0, place_nature: 0.3, classical: 0.2, waldorf: 0.2 },
     dimensionBiases: { modality: 0.4, structure: -0.3, direction: -0.2 },

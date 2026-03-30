@@ -15,7 +15,7 @@ export const PHILOSOPHIES = [
   { id: "place-nature-based", label: "Place/Nature-Based", description: "Outdoor learning, local environment, natural materials" },
   { id: "unschooling", label: "Unschooling", description: "Child-led, interest-driven learning through everyday life and play" },
   { id: "charlotte-mason", label: "Charlotte Mason", description: "Living books, narration, nature study, and short focused lessons" },
-  { id: "classical", label: "Classical", description: "Trivium-based: memorization, logic, and rhetoric through Great Books and structured study" },
+  { id: "classical", label: "Classical", description: "Critical thinking through memorization, logic, and rhetoric via Great Books and structured study" },
 ] as const;
 
 export type PhilosophyId = (typeof PHILOSOPHIES)[number]["id"];

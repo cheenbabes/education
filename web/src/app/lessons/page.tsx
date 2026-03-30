@@ -3,8 +3,7 @@
 import { Shell } from "@/components/shell";
 import Link from "next/link";
 import { useState, useEffect, useMemo } from "react";
-import { PHILOSOPHY_LABELS, PHILOSOPHY_COLORS } from "@/lib/compass/scoring";
-import type { PhilosophyKey } from "@/lib/compass/questions";
+import { PHILOSOPHY_LABELS, PHILOSOPHY_COLORS, resolvePhilosophyKey } from "@/lib/compass/scoring";
 
 // ── Types ────────────────────────────────────────────────────────────────────
 
@@ -13,6 +12,7 @@ interface LessonData {
   title: string;
   interest: string;
   subjects: string[];
+  subjectNames: string[];
   philosophy: string;
   favorite: boolean;
   content: Record<string, unknown>;
@@ -158,6 +158,7 @@ export default function LessonsPage() {
   const [childFilter, setChildFilter] = useState<string>("all");
   const [searchTerm, setSearchTerm] = useState("");
   const [philFilter, setPhilFilter] = useState<Set<string>>(new Set());
+  const [subjectFilter, setSubjectFilter] = useState<Set<string>>(new Set());
   const [sortKey, setSortKey] = useState<SortKey>("newest");
 
   useEffect(() => {
@@ -174,6 +175,12 @@ export default function LessonsPage() {
   // Distinct philosophies present in lessons
   const availablePhilosophies = useMemo(() => {
     const set = new Set(lessons.map((l) => l.philosophy));
+    return Array.from(set).sort();
+  }, [lessons]);
+
+  // Distinct subject names present in lessons
+  const availableSubjects = useMemo(() => {
+    const set = new Set(lessons.flatMap((l) => l.subjectNames || []));
     return Array.from(set).sort();
   }, [lessons]);
 
@@ -196,14 +203,21 @@ export default function LessonsPage() {
       result = result.filter((l) => philFilter.has(l.philosophy));
     }
 
+    // Subject
+    if (subjectFilter.size > 0) {
+      result = result.filter((l) => (l.subjectNames || []).some((s) => subjectFilter.has(s)));
+    }
+
     // Search
     if (searchTerm.trim()) {
       const q = searchTerm.toLowerCase();
       result = result.filter((l) => {
-        const philLabel = (PHILOSOPHY_LABELS[l.philosophy as PhilosophyKey] || l.philosophy).toLowerCase();
+        const philKey = resolvePhilosophyKey(l.philosophy);
+        const philLabel = PHILOSOPHY_LABELS[philKey].toLowerCase();
         return (
           l.title.toLowerCase().includes(q) ||
           l.interest.toLowerCase().includes(q) ||
+          (l.subjectNames || []).join(" ").toLowerCase().includes(q) ||
           l.subjects.join(" ").toLowerCase().includes(q) ||
           philLabel.includes(q) ||
           l.lessonChildren.some((lc) => lc.child.name.toLowerCase().includes(q))
@@ -215,7 +229,7 @@ export default function LessonsPage() {
     result = sortLessons(result, sortKey);
 
     return result;
-  }, [lessons, statusFilter, childFilter, philFilter, searchTerm, sortKey]);
+  }, [lessons, statusFilter, childFilter, philFilter, subjectFilter, searchTerm, sortKey]);
 
   // Group by time period
   const grouped = useMemo(() => {
@@ -259,6 +273,16 @@ export default function LessonsPage() {
       const next = new Set(prev);
       if (next.has(phil)) next.delete(phil);
       else next.add(phil);
+      return next;
+    });
+  };
+
+  // Toggle subject filter
+  const toggleSubject = (subject: string) => {
+    setSubjectFilter((prev) => {
+      const next = new Set(prev);
+      if (next.has(subject)) next.delete(subject);
+      else next.add(subject);
       return next;
     });
   };
@@ -358,8 +382,9 @@ export default function LessonsPage() {
               <div className="flex gap-1 flex-wrap">
                 {availablePhilosophies.map((phil) => {
                   const active = philFilter.has(phil);
-                  const color = PHILOSOPHY_COLORS[phil as PhilosophyKey] || "#6E6E9E";
-                  const label = (PHILOSOPHY_LABELS[phil as PhilosophyKey] || phil).split(/[\s/]/)[0];
+                  const key = resolvePhilosophyKey(phil);
+                  const color = PHILOSOPHY_COLORS[key] || "#6E6E9E";
+                  const label = PHILOSOPHY_LABELS[key].split(/[\s/]/)[0];
                   return (
                     <button
                       key={phil}
@@ -387,6 +412,40 @@ export default function LessonsPage() {
                 )}
               </div>
             )}
+
+            {/* Subject filter pills */}
+            {availableSubjects.length > 0 && (
+              <div className="flex gap-1 flex-wrap">
+                {availableSubjects.map((subject) => {
+                  const active = subjectFilter.has(subject);
+                  const color = "#4A8B6E";
+                  return (
+                    <button
+                      key={subject}
+                      onClick={() => toggleSubject(subject)}
+                      style={{
+                        ...frostPill,
+                        cursor: "pointer",
+                        color: active ? "#fff" : color,
+                        background: active ? color : `${color}10`,
+                        border: `1px solid ${active ? color : `${color}30`}`,
+                        fontSize: "0.65rem",
+                      }}
+                    >
+                      {subject}
+                    </button>
+                  );
+                })}
+                {subjectFilter.size > 0 && (
+                  <button
+                    onClick={() => setSubjectFilter(new Set())}
+                    style={{ ...frostPill, cursor: "pointer", color: "#999", fontSize: "0.6rem" }}
+                  >
+                    Clear
+                  </button>
+                )}
+              </div>
+            )}
           </div>
         </div>
 
@@ -401,7 +460,7 @@ export default function LessonsPage() {
                 {group.lessons.map((lesson) => {
                   const isCompleted = lesson.completions.length > 0;
                   const rating = lesson.completions[0]?.starRating;
-                  const philKey = lesson.philosophy as PhilosophyKey;
+                  const philKey = resolvePhilosophyKey(lesson.philosophy);
                   const philoColor = PHILOSOPHY_COLORS[philKey] || "#6E6E9E";
                   const philoLabel = PHILOSOPHY_LABELS[philKey] || lesson.philosophy.replace(/_/g, " ");
                   const duration = getDuration(lesson);
@@ -490,6 +549,19 @@ export default function LessonsPage() {
                                   {lc.child.name}
                                 </span>
                               ))}
+
+                              {/* Subjects */}
+                              {(lesson.subjectNames || []).map((s) => (
+                                <span key={s} style={{
+                                  ...frostPill,
+                                  color: "#4A8B6E",
+                                  background: "rgba(74,139,110,0.08)",
+                                  border: "1px solid rgba(74,139,110,0.2)",
+                                  fontSize: "0.65rem",
+                                }}>
+                                  {s}
+                                </span>
+                              ))}
                             </div>
 
                             {/* Standards — compact line */}
@@ -533,9 +605,9 @@ export default function LessonsPage() {
 
         {/* CTA */}
         <div className="flex justify-end pt-2">
-          <Link href="/generate">
+          <Link href="/create">
             <button style={{ background: "#0B2E4A", color: "#F9F6EF", borderRadius: "10px", padding: "0.6rem 1.4rem", border: "none", cursor: "pointer" }} className="text-sm font-medium">
-              + Generate Lesson
+              + Create Lesson
             </button>
           </Link>
         </div>

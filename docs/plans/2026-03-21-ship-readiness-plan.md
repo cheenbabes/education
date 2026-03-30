@@ -154,7 +154,7 @@ Each card has prework identified so we can kick them off quickly.
 - Add example seeds as clickable chips/suggestions
 - Possibly add seed categories: interest, theme, standard, skill gap
 
-**Prework:** Input field is at `web/src/app/generate/page.tsx` line ~168. Simple UI change.
+**Prework:** Input field is at `web/src/app/create/page.tsx` line ~168. Simple UI change.
 
 ---
 

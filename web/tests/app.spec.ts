@@ -5,10 +5,10 @@ import { test, expect } from "@playwright/test";
 // ---------------------------------------------------------------------------
 
 test.describe("Navigation", () => {
-  test("landing page loads and has Get Started link", async ({ page }) => {
+  test("landing page loads and has Compass Quiz CTA", async ({ page }) => {
     await page.goto("/");
-    await expect(page.getByText("EduApp")).toBeVisible();
-    await expect(page.getByText("Get Started")).toBeVisible();
+    await expect(page.getByText("The Sage's Compass").first()).toBeVisible();
+    await expect(page.getByText(/Take the Compass Quiz/i).first()).toBeVisible();
   });
 
   test("nav bar links work", async ({ page }) => {
@@ -18,8 +18,8 @@ test.describe("Navigation", () => {
     await page.getByRole("link", { name: "Children" }).click();
     await expect(page.getByRole("heading", { name: /Children/i })).toBeVisible();
 
-    await page.getByRole("link", { name: "Generate Lesson" }).click();
-    await expect(page.getByRole("heading", { name: "Generate a Lesson" })).toBeVisible();
+    await page.getByRole("link", { name: "Create" }).click();
+    await expect(page.getByRole("heading", { name: "Create a Lesson" })).toBeVisible();
 
     await page.getByRole("link", { name: "Calendar" }).click();
     await expect(page.getByRole("heading", { name: "Calendar" })).toBeVisible();
@@ -47,9 +47,9 @@ test.describe("Dashboard", () => {
     await expect(page.getByText("Grade 4")).toBeVisible();
   });
 
-  test("has generate lesson button", async ({ page }) => {
+  test("has create lesson button", async ({ page }) => {
     await page.goto("/dashboard");
-    await expect(page.getByRole("link", { name: "Generate Lesson" })).toBeVisible();
+    await expect(page.getByRole("link", { name: "Create Lesson" })).toBeVisible();
   });
 });
 
@@ -85,19 +85,19 @@ test.describe("Children", () => {
 });
 
 // ---------------------------------------------------------------------------
-// Generate Lesson
+// Create Lesson
 // ---------------------------------------------------------------------------
 
-test.describe("Generate Lesson", () => {
+test.describe("Create Lesson", () => {
   test("shows child selection buttons from database", async ({ page }) => {
-    await page.goto("/generate");
+    await page.goto("/create");
     await page.waitForSelector("text=Emma", { timeout: 10000 });
     await expect(page.getByText("Emma (Grade 2)")).toBeVisible();
     await expect(page.getByText("Jack (Grade 4)")).toBeVisible();
   });
 
   test("has interest text input", async ({ page }) => {
-    await page.goto("/generate");
+    await page.goto("/create");
     const input = page.getByPlaceholder(/dinosaurs/i);
     await expect(input).toBeVisible();
     await input.fill("fire trucks");
@@ -105,7 +105,7 @@ test.describe("Generate Lesson", () => {
   });
 
   test("has subject buttons", async ({ page }) => {
-    await page.goto("/generate");
+    await page.goto("/create");
     await expect(page.getByRole("button", { name: "Math" })).toBeVisible();
     await expect(page.getByRole("button", { name: "Science" })).toBeVisible();
     await expect(page.getByRole("button", { name: "Language Arts" })).toBeVisible();
@@ -113,28 +113,28 @@ test.describe("Generate Lesson", () => {
   });
 
   test("has philosophy radio options", async ({ page }) => {
-    await page.goto("/generate");
+    await page.goto("/create");
     await expect(page.getByText("Adaptive")).toBeVisible();
-    await expect(page.getByText("Waldorf-Adjacent")).toBeVisible();
+    await expect(page.getByText("Waldorf-Inspired")).toBeVisible();
     await expect(page.getByText("Montessori-Inspired")).toBeVisible();
     await expect(page.getByText("Project-Based Learning")).toBeVisible();
     await expect(page.getByText("Place/Nature-Based")).toBeVisible();
   });
 
   test("Waldorf disclaimer shows when selected", async ({ page }) => {
-    await page.goto("/generate");
-    await page.getByText("Waldorf-Adjacent").click();
+    await page.goto("/create");
+    await page.getByText("Waldorf-Inspired").click();
     await expect(page.getByText(/may not align exactly/i)).toBeVisible();
   });
 
   test("generate button disabled without selections", async ({ page }) => {
-    await page.goto("/generate");
-    const btn = page.getByRole("button", { name: "Generate Lesson" });
+    await page.goto("/create");
+    const btn = page.getByRole("button", { name: "Create Lesson" });
     await expect(btn).toBeDisabled();
   });
 
   test("generate button enabled with all selections", async ({ page }) => {
-    await page.goto("/generate");
+    await page.goto("/create");
     await page.waitForSelector("text=Emma", { timeout: 10000 });
 
     // Select child
@@ -144,12 +144,12 @@ test.describe("Generate Lesson", () => {
     // Select subject
     await page.getByRole("button", { name: "Science" }).click();
 
-    const btn = page.getByRole("button", { name: "Generate Lesson" });
+    const btn = page.getByRole("button", { name: "Create Lesson" });
     await expect(btn).toBeEnabled();
   });
 
   test("multi-age shows message when two children selected", async ({ page }) => {
-    await page.goto("/generate");
+    await page.goto("/create");
     await page.waitForSelector("text=Emma", { timeout: 10000 });
     await page.getByText("Emma (Grade 2)").click();
     await page.getByText("Jack (Grade 4)").click();
@@ -159,7 +159,7 @@ test.describe("Generate Lesson", () => {
   test("full generation flow works end-to-end", async ({ page }) => {
     test.setTimeout(90_000); // generation takes time
 
-    await page.goto("/generate");
+    await page.goto("/create");
     await page.waitForSelector("text=Emma", { timeout: 10000 });
 
     // Select child
@@ -171,27 +171,23 @@ test.describe("Generate Lesson", () => {
     // Select philosophy
     await page.getByText("Place/Nature-Based").click();
 
-    // Generate
-    await page.getByRole("button", { name: "Generate Lesson" }).click();
+    // Create
+    await page.getByRole("button", { name: "Create Lesson" }).click();
 
     // Should show progress
-    await expect(page.getByText(/Generating your lesson/i)).toBeVisible();
+    await expect(page.getByText(/Creating your lesson/i)).toBeVisible();
     await expect(page.getByText(/Looking up state standards/i)).toBeVisible();
 
-    // Wait for result (up to 60 seconds for GPT-5.2)
-    await page.waitForSelector("text=Print / PDF", { timeout: 60_000 });
+    // Should redirect to lesson detail page (up to 90 seconds for generation + save)
+    await page.waitForURL(/\/lessons\//, { timeout: 90_000 });
 
-    // Lesson should have key sections
+    // Lesson detail page should have key sections
     await expect(page.getByText(/Standards Addressed/i)).toBeVisible();
     await expect(page.getByText(/Materials Needed/i)).toBeVisible();
     await expect(page.getByText(/Lesson Plan/i)).toBeVisible();
-    await expect(page.getByText(/Assessment/i)).toBeVisible();
 
     // Print button should be visible
     await expect(page.getByText("Print / PDF")).toBeVisible();
-
-    // Generate another button should work
-    await expect(page.getByText(/Generate another/i)).toBeVisible();
   });
 });
 
@@ -224,9 +220,9 @@ test.describe("Calendar", () => {
     await expect(page.getByText("Next")).toBeVisible();
   });
 
-  test("has generate new lesson button", async ({ page }) => {
+  test("has create new lesson button", async ({ page }) => {
     await page.goto("/calendar");
-    await expect(page.getByRole("link", { name: /Generate New Lesson/i })).toBeVisible();
+    await expect(page.getByRole("link", { name: /Create New Lesson/i })).toBeVisible();
   });
 });
 
@@ -244,7 +240,10 @@ test.describe("Lessons List", () => {
 
   test("has child filter dropdown", async ({ page }) => {
     await page.goto("/lessons");
-    await expect(page.locator("select")).toBeVisible();
+    await page.waitForSelector("h1", { timeout: 10000 });
+    // Wait for lessons to load (selects appear after data loads)
+    await page.waitForTimeout(2000);
+    await expect(page.locator("select").first()).toBeVisible();
   });
 });
 

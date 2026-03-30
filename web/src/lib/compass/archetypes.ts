@@ -164,7 +164,7 @@ export const ARCHETYPES: Archetype[] = [
       unschooling: 0.0,
       adaptive: 0.05,
     },
-    dimensionTendencies: { modality: 65, structure: 45 },
+    dimensionTendencies: { modality: 65, structure: 35 },
   },
   {
     id: "the-architect",
@@ -226,7 +226,7 @@ export const ARCHETYPES: Archetype[] = [
     icon: "\uD83E\uDDF6",
     imagePath: "/archetypes/weaver.png",
     toolPath: "/archetypes/tools/yarn.png",
-    color: "#8A8A7E",
+    color: "#7c2946",
     description:
       "You draw from many traditions, adapting your approach to each child, each subject, and each season of life. Your strength is flexibility — you're not committed to one method but to what works. You pick and choose the best from every philosophy.",
     typicalPairings: "Adaptive + any combination, balanced across philosophies",

@@ -361,8 +361,8 @@ export default function CalendarPage() {
         )}
 
         <div className="flex justify-center pt-2">
-          <Link href="/generate" style={{ ...nightButton, display: "inline-block" }}>
-            + Generate New Lesson
+          <Link href="/create" style={{ ...nightButton, display: "inline-block" }}>
+            + Create New Lesson
           </Link>
         </div>
       </div>

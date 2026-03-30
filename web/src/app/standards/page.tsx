@@ -60,6 +60,12 @@ export default function StandardsPage() {
   const [data, setData] = useState<StandardsData | null>(null);
   const [loading, setLoading] = useState(true);
   const [loadingStandards, setLoadingStandards] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [collapsedSections, setCollapsedSections] = useState<Record<string, boolean>>({});
+
+  const toggleSection = (subject: string) => {
+    setCollapsedSections((prev) => ({ ...prev, [subject]: !prev[subject] }));
+  };
 
   // Load children
   useEffect(() => {
@@ -198,6 +204,29 @@ export default function StandardsPage() {
           </div>
         </div>
 
+        {/* Search bar */}
+        {!loadingStandards && progress.length > 0 && (
+          <div>
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Search standards in natural language..."
+              style={{
+                background: "rgba(255,255,255,0.72)",
+                backdropFilter: "blur(12px)",
+                border: "1px solid rgba(255,255,255,0.5)",
+                borderRadius: "8px",
+                padding: "0.45rem 0.75rem",
+                fontSize: "0.8rem",
+                color: "#0B2E4A",
+                width: "100%",
+                outline: "none",
+              }}
+            />
+          </div>
+        )}
+
         {loadingStandards ? (
           <div className="flex items-center justify-center py-12">
             <p style={{ color: "#5A5A5A" }}>Loading standards...</p>
@@ -232,75 +261,128 @@ export default function StandardsPage() {
             </div>
 
             {/* Detailed checklists */}
-            {progress.map((sp) => (
-              <div key={sp.subject} style={{ ...frostCard, padding: 0, overflow: "hidden" }}>
-                <div style={{ padding: "1rem 1.25rem", borderBottom: "1px solid rgba(0,0,0,0.06)" }}>
-                  <h2 className="font-cormorant-sc" style={{ fontSize: "1rem", color: "#0B2E4A" }}>
-                    {sp.subject} — {sp.covered}/{sp.total} covered
-                  </h2>
-                </div>
-                <div>
-                  {sp.standards.map((std) => (
-                    <div
-                      key={std.code}
+            {progress.map((sp) => {
+              const query = searchQuery.toLowerCase().trim();
+              const filteredStandards = query
+                ? sp.standards.filter(
+                    (std) =>
+                      std.description.toLowerCase().includes(query) ||
+                      std.code.toLowerCase().includes(query) ||
+                      (std.lessonTitle && std.lessonTitle.toLowerCase().includes(query))
+                  )
+                : sp.standards;
+              const filteredCovered = filteredStandards.filter((s) => s.covered).length;
+              const isCollapsed = collapsedSections[sp.subject] ?? false;
+
+              if (query && filteredStandards.length === 0) return null;
+
+              return (
+                <div key={sp.subject} style={{ ...frostCard, padding: 0, overflow: "hidden" }}>
+                  <button
+                    type="button"
+                    onClick={() => toggleSection(sp.subject)}
+                    style={{
+                      padding: "1rem 1.25rem",
+                      borderBottom: isCollapsed ? "none" : "1px solid rgba(0,0,0,0.06)",
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "0.5rem",
+                      width: "100%",
+                      background: "transparent",
+                      border: "none",
+                      borderBottomStyle: isCollapsed ? "none" : "solid",
+                      borderBottomWidth: isCollapsed ? 0 : "1px",
+                      borderBottomColor: "rgba(0,0,0,0.06)",
+                      cursor: "pointer",
+                      textAlign: "left",
+                    }}
+                  >
+                    <svg
+                      width="12"
+                      height="12"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="#767676"
+                      strokeWidth="2.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
                       style={{
-                        padding: "0.75rem 1.25rem",
-                        display: "flex",
-                        alignItems: "flex-start",
-                        gap: "0.75rem",
-                        borderBottom: "1px solid rgba(0,0,0,0.04)",
-                        background: std.covered ? "rgba(122,158,138,0.1)" : "transparent",
+                        transform: isCollapsed ? "rotate(-90deg)" : "rotate(0deg)",
+                        transition: "transform 0.2s ease",
+                        flexShrink: 0,
                       }}
                     >
-                      {/* Checkbox */}
-                      <div
-                        style={{
-                          marginTop: "0.125rem",
-                          width: "1.25rem",
-                          height: "1.25rem",
-                          borderRadius: "4px",
-                          border: std.covered ? "none" : "1px solid rgba(0,0,0,0.2)",
-                          background: std.covered ? "#7A9E8A" : "transparent",
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          flexShrink: 0,
-                          color: "#fff",
-                          fontSize: "0.7rem",
-                        }}
-                      >
-                        {std.covered && <span>&#10003;</span>}
-                      </div>
-
-                      <div style={{ flex: 1 }}>
-                        <div className="flex items-center gap-2 flex-wrap">
-                          <span
+                      <polyline points="6 9 12 15 18 9" />
+                    </svg>
+                    <h2 className="font-cormorant-sc" style={{ fontSize: "1rem", color: "#0B2E4A", flex: 1 }}>
+                      {sp.subject} — {query ? `${filteredCovered}/${filteredStandards.length} shown` : `${sp.covered}/${sp.total} covered`}
+                    </h2>
+                  </button>
+                  {!isCollapsed && (
+                    <div>
+                      {filteredStandards.map((std) => (
+                        <div
+                          key={std.code}
+                          style={{
+                            padding: "0.75rem 1.25rem",
+                            display: "flex",
+                            alignItems: "flex-start",
+                            gap: "0.75rem",
+                            borderBottom: "1px solid rgba(0,0,0,0.04)",
+                            background: std.covered ? "rgba(122,158,138,0.1)" : "transparent",
+                          }}
+                        >
+                          {/* Checkbox */}
+                          <div
                             style={{
-                              fontFamily: "monospace",
+                              marginTop: "0.125rem",
+                              width: "1.25rem",
+                              height: "1.25rem",
+                              borderRadius: "4px",
+                              border: std.covered ? "none" : "1px solid rgba(0,0,0,0.2)",
+                              background: std.covered ? "#7A9E8A" : "transparent",
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "center",
+                              flexShrink: 0,
+                              color: "#fff",
                               fontSize: "0.7rem",
-                              color: "#767676",
                             }}
                           >
-                            {std.code}
-                          </span>
-                          {std.covered && std.lessonTitle && (
-                            <span style={{ ...frostPillBase, color: "#5A947A", background: "rgba(122,158,138,0.15)", border: "1px solid rgba(122,158,138,0.3)", fontSize: "0.65rem" }}>
-                              via: {std.lessonTitle}
-                            </span>
-                          )}
+                            {std.covered && <span>&#10003;</span>}
+                          </div>
+
+                          <div style={{ flex: 1 }}>
+                            <div className="flex items-center gap-2 flex-wrap">
+                              <span
+                                style={{
+                                  fontFamily: "monospace",
+                                  fontSize: "0.7rem",
+                                  color: "#767676",
+                                }}
+                              >
+                                {std.code}
+                              </span>
+                              {std.covered && std.lessonTitle && (
+                                <span style={{ ...frostPillBase, color: "#5A947A", background: "rgba(122,158,138,0.15)", border: "1px solid rgba(122,158,138,0.3)", fontSize: "0.65rem" }}>
+                                  via: {std.lessonTitle}
+                                </span>
+                              )}
+                            </div>
+                            <p style={{ fontSize: "0.875rem", color: "#5A5A5A", marginTop: "0.125rem" }}>{std.description}</p>
+                          </div>
                         </div>
-                        <p style={{ fontSize: "0.875rem", color: "#5A5A5A", marginTop: "0.125rem" }}>{std.description}</p>
-                      </div>
-                    </div>
-                  ))}
-                  {sp.standards.length === 0 && (
-                    <div style={{ padding: "1rem", textAlign: "center", fontSize: "0.875rem", color: "#767676" }}>
-                      No standards found for this subject and grade.
+                      ))}
+                      {filteredStandards.length === 0 && !query && (
+                        <div style={{ padding: "1rem", textAlign: "center", fontSize: "0.875rem", color: "#767676" }}>
+                          No standards found for this subject and grade.
+                        </div>
+                      )}
                     </div>
                   )}
                 </div>
-              </div>
-            ))}
+              );
+            })}
 
             {progress.length === 0 && (
               <div style={{ textAlign: "center", padding: "2rem 0", color: "#5A5A5A" }}>

@@ -136,10 +136,10 @@ export default function DashboardPage() {
         <div className="flex items-center justify-between">
           <h1 className="font-cormorant-sc text-3xl text-gray-900">Dashboard</h1>
           <Link
-            href="/generate"
+            href="/create"
             style={nightButton}
           >
-            Generate Lesson
+            Create Lesson
           </Link>
         </div>
 
@@ -206,8 +206,8 @@ export default function DashboardPage() {
             {upcoming.length === 0 && (
               <div className="p-4 text-center text-gray-500 text-sm">
                 No upcoming lessons scheduled.{" "}
-                <Link href="/generate" className="hover:underline" style={{ color: "#6E6E9E" }}>
-                  Generate one
+                <Link href="/create" className="hover:underline" style={{ color: "#6E6E9E" }}>
+                  Create one
                 </Link>
               </div>
             )}

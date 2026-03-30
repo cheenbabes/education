@@ -570,7 +570,7 @@ export const PART1_QUESTIONS: Part1Question[] = [
         philosophies: { waldorf: 3 },
       },
       {
-        text: "Short lessons in the morning with defined subjects, then free time for nature study and handicrafts",
+        text: "Short lessons in the morning with defined subjects, then free time for nature study and handwork",
         dimensions: { structure: -1, modality: 0 },
         philosophies: { charlotte_mason: 3 },
       },

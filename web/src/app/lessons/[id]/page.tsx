@@ -5,8 +5,7 @@ import { PrintLesson } from "@/components/print-lesson";
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import { PHILOSOPHY_LABELS } from "@/lib/compass/scoring";
-import type { PhilosophyKey } from "@/lib/compass/questions";
+import { PHILOSOPHY_LABELS, PHILOSOPHY_COLORS as SCORING_COLORS, resolvePhilosophyKey } from "@/lib/compass/scoring";
 
 interface LessonDetail {
   id: string;
@@ -14,6 +13,7 @@ interface LessonDetail {
   interest: string;
   philosophy: string;
   subjects: string[];
+  subjectNames: string[];
   content: Record<string, unknown>;
   lessonChildren: { child: { id: string; name: string; gradeLevel: string } }[];
   completions: { childId: string; starRating: number; notes: string | null; child: { name: string } }[];
@@ -21,20 +21,12 @@ interface LessonDetail {
   createdAt: string;
 }
 
-const PHILOSOPHY_COLORS: Record<string, string> = {
-  classical: "#5B5E8A",
-  charlotte_mason: "#B07A8A",
-  waldorf: "#C4983D",
-  montessori: "#7D6B9E",
-  project_based: "#5A7FA0",
-  place_nature: "#5A947A",
-  unschooling: "#C07A42",
-  adaptive: "#8A8A7E",
-};
-
 function getPhilosophyColor(philosophy: string): string {
-  return PHILOSOPHY_COLORS[philosophy] ?? "#6E6E9E";
+  const key = resolvePhilosophyKey(philosophy);
+  return SCORING_COLORS[key] ?? "#6E6E9E";
 }
+
+/* ---------- design tokens ---------- */
 
 const frostCard: React.CSSProperties = {
   background: "rgba(255,255,255,0.72)",
@@ -79,6 +71,167 @@ const ghostButton: React.CSSProperties = {
   border: "1px solid rgba(0,0,0,0.15)",
 };
 
+const sectionHeadingStyle: React.CSSProperties = {
+  fontSize: "0.8rem",
+  letterSpacing: "0.06em",
+  color: "#0B2E4A",
+  textTransform: "uppercase",
+};
+
+/* ---------- standard color-coding ---------- */
+
+type SubjectArea = "math" | "ela" | "science" | "social" | "other";
+
+const SUBJECT_COLORS: Record<SubjectArea, { color: string; bg: string; border: string }> = {
+  math:    { color: "#2563EB", bg: "rgba(37,99,235,0.08)",  border: "rgba(37,99,235,0.25)" },
+  ela:     { color: "#7C3AED", bg: "rgba(124,58,237,0.08)", border: "rgba(124,58,237,0.25)" },
+  science: { color: "#059669", bg: "rgba(5,150,105,0.08)",  border: "rgba(5,150,105,0.25)" },
+  social:  { color: "#D97706", bg: "rgba(217,119,6,0.08)",  border: "rgba(217,119,6,0.25)" },
+  other:   { color: "#767676", bg: "rgba(122,158,138,0.1)", border: "rgba(122,158,138,0.25)" },
+};
+
+function classifyStandard(code: string): SubjectArea {
+  const upper = code.toUpperCase();
+  if (upper.includes("MATH") || /^\d+\.OA|^\d+\.NBT|^\d+\.NF|^\d+\.MD|^\d+\.G\b|^EE\.\d+\.OA|^EE\.\d+\.NBT|^EE\.\d+\.NF|^EE\.\d+\.MD|^EE\.\d+\.G\b/.test(upper)) return "math";
+  if (upper.includes("ELA") || upper.includes("LITERACY") || upper.includes("RF") || upper.includes("RL") || upper.includes("RI") || upper.includes("W.") || upper.includes("SL.") || upper.includes("L.")) return "ela";
+  if (upper.includes("SCIENCE") || /^\d+-[A-Z]S\d/i.test(code) || /^\d+-LS|^\d+-PS|^\d+-ESS|^\d+-ETS/.test(upper)) return "science";
+  if (upper.includes("SOCIAL") || upper.includes("HISTORY") || /^\d+-G\d+\.\d+/.test(code)) return "social";
+  return "other";
+}
+
+function parseGradeFromCode(code: string): string | null {
+  // K-5.P2.1 => "K-5"
+  const kRange = code.match(/^(K-\d+)/i);
+  if (kRange) return kRange[1].toUpperCase();
+
+  // CCSS.Math.Content.4.OA.A.2 => "4"
+  const ccssMatch = code.match(/CCSS\.(?:Math\.Content|ELA-Literacy)\.\w+\.(\d+)/i);
+  if (ccssMatch) return ccssMatch[1];
+
+  // CCSS.ELA-Literacy.W.4.3 => "4"  (alt pattern)
+  const ccssAlt = code.match(/CCSS\.ELA-Literacy\.\w+\.(\d+)/i);
+  if (ccssAlt) return ccssAlt[1];
+
+  // EE.4.OA.1-2 => "4"
+  const eeMatch = code.match(/^EE\.(\d+)\./);
+  if (eeMatch) return eeMatch[1];
+
+  // 4-LS1-1 or 4-G5.0.1 => "4"
+  const leadingGrade = code.match(/^(\d+)-/);
+  if (leadingGrade) return leadingGrade[1];
+
+  // Generic: first standalone digit
+  const genericDigit = code.match(/\.(\d+)\./);
+  if (genericDigit) return genericDigit[1];
+
+  return null;
+}
+
+/* ---------- ChevronToggle ---------- */
+
+function ChevronToggle({ open, label }: { open: boolean; onClick?: () => void; label?: string }) {
+  return (
+    <span
+      style={{
+        display: "inline-flex",
+        alignItems: "center",
+        gap: "0.35rem",
+        color: "#5A5A5A",
+        fontSize: "0.75rem",
+        fontWeight: 500,
+      }}
+    >
+      <svg
+        width="14"
+        height="14"
+        viewBox="0 0 14 14"
+        fill="none"
+        style={{
+          transform: open ? "rotate(90deg)" : "rotate(0deg)",
+          transition: "transform 0.2s ease",
+        }}
+      >
+        <path d="M5 3L9 7L5 11" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+      {label && <span>{label}</span>}
+    </span>
+  );
+}
+
+/* ---------- Structured instructions ---------- */
+
+function StructuredInstructions({ text }: { text: string }) {
+  // Break long instruction text into paragraphs separated by double newlines,
+  // or numbered/bulleted steps. If the text has numbered steps (1. 2. 3.),
+  // render them as distinct styled blocks.
+  const lines = text.split(/\n+/).filter((l) => l.trim());
+
+  if (lines.length <= 1) {
+    return <p style={{ fontSize: "0.875rem", color: "#5A5A5A", lineHeight: 1.7 }}>{text}</p>;
+  }
+
+  // Detect numbered steps
+  const hasNumberedSteps = lines.some((l) => /^\d+[\.\)]\s/.test(l.trim()));
+
+  if (hasNumberedSteps) {
+    return (
+      <div className="space-y-2">
+        {lines.map((line, i) => {
+          const stepMatch = line.trim().match(/^(\d+)[\.\)]\s*(.*)/);
+          if (stepMatch) {
+            return (
+              <div
+                key={i}
+                style={{
+                  display: "flex",
+                  gap: "0.75rem",
+                  alignItems: "flex-start",
+                }}
+              >
+                <span
+                  style={{
+                    ...frostPillBase,
+                    background: "rgba(11,46,74,0.06)",
+                    border: "1px solid rgba(11,46,74,0.12)",
+                    color: "#0B2E4A",
+                    fontSize: "0.65rem",
+                    fontWeight: 700,
+                    minWidth: "1.5rem",
+                    justifyContent: "center",
+                    flexShrink: 0,
+                    marginTop: "0.15rem",
+                  }}
+                >
+                  {stepMatch[1]}
+                </span>
+                <p style={{ fontSize: "0.875rem", color: "#5A5A5A", lineHeight: 1.7, flex: 1 }}>{stepMatch[2]}</p>
+              </div>
+            );
+          }
+          return (
+            <p key={i} style={{ fontSize: "0.875rem", color: "#5A5A5A", lineHeight: 1.7 }}>
+              {line}
+            </p>
+          );
+        })}
+      </div>
+    );
+  }
+
+  // Paragraph mode
+  return (
+    <div className="space-y-2">
+      {lines.map((line, i) => (
+        <p key={i} style={{ fontSize: "0.875rem", color: "#5A5A5A", lineHeight: 1.7 }}>
+          {line}
+        </p>
+      ))}
+    </div>
+  );
+}
+
+/* ---------- Main page ---------- */
+
 export default function LessonDetailPage() {
   const params = useParams();
   const lessonId = params.id as string;
@@ -91,6 +244,39 @@ export default function LessonDetailPage() {
   const [selectedStar, setSelectedStar] = useState(0);
   const [notes, setNotes] = useState("");
   const [submitting, setSubmitting] = useState(false);
+
+  // Collapsible section state
+  const [standardsOpen, setStandardsOpen] = useState(false);
+  const [materialsOpen, setMaterialsOpen] = useState(true);
+  const [assessmentOpen, setAssessmentOpen] = useState(true);
+  const [nextLessonOpen, setNextLessonOpen] = useState(true);
+  const [sectionOpenMap, setSectionOpenMap] = useState<Record<number, boolean>>({});
+  const [scheduleDate, setScheduleDate] = useState("");
+  const [scheduling, setScheduling] = useState(false);
+
+  const handleSchedule = async () => {
+    if (!lesson || !scheduleDate) return;
+    setScheduling(true);
+    try {
+      await fetch(`/api/lessons/${lesson.id}/schedule`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ date: scheduleDate, userId: "demo-user" }),
+      });
+      setLesson((prev) => prev ? {
+        ...prev,
+        calendarEntries: [...prev.calendarEntries, { scheduledDate: scheduleDate + "T12:00:00" }],
+      } : prev);
+      setScheduleDate("");
+    } finally {
+      setScheduling(false);
+    }
+  };
+
+  const toggleSection = (idx: number) => {
+    setSectionOpenMap((prev) => ({ ...prev, [idx]: !(prev[idx] ?? true) }));
+  };
+  const isSectionOpen = (idx: number) => sectionOpenMap[idx] ?? true;
 
   useEffect(() => {
     fetch(`/api/lessons/${lessonId}`)
@@ -161,7 +347,7 @@ export default function LessonDetailPage() {
     );
   }
 
-  // Extract content — it could be the KG-generated format or any JSON
+  // Extract content
   const content = lesson.content as Record<string, unknown>;
   const children = lesson.lessonChildren.map((lc) => lc.child);
   const scheduledDate = lesson.calendarEntries[0]?.scheduledDate?.split("T")[0];
@@ -178,7 +364,7 @@ export default function LessonDetailPage() {
 
   const philoColor = getPhilosophyColor(lesson.philosophy);
 
-  // For PrintLesson, pass the content directly if it has the right shape
+  // For PrintLesson
   const printableLesson = {
     title: lesson.title,
     theme: lesson.interest,
@@ -200,13 +386,44 @@ export default function LessonDetailPage() {
 
   return (
     <Shell hue="lessons">
-      <div className="max-w-5xl space-y-6">
+      <div className="max-w-6xl space-y-6">
         {/* Back + Print row */}
         <div className="flex items-center justify-between">
           <Link href="/lessons" style={{ color: "#6E6E9E", fontSize: "0.8rem", textDecoration: "none", fontWeight: 500 }} className="hover:underline">
             &larr; All lessons
           </Link>
-          {lessonSections.length > 0 && <PrintLesson lesson={printableLesson} />}
+          <div className="flex gap-2 items-center">
+            {lessonSections.length > 0 && <PrintLesson lesson={printableLesson} />}
+            {!scheduledDate && (
+              <div className="flex gap-1.5 items-center">
+                <input
+                  type="date"
+                  value={scheduleDate}
+                  onChange={(e) => setScheduleDate(e.target.value)}
+                  style={{
+                    background: "rgba(255,255,255,0.72)",
+                    border: "1px solid rgba(255,255,255,0.5)",
+                    borderRadius: "8px",
+                    padding: "0.3rem 0.5rem",
+                    fontSize: "0.75rem",
+                    color: "#0B2E4A",
+                  }}
+                />
+                <button
+                  onClick={handleSchedule}
+                  disabled={!scheduleDate || scheduling}
+                  style={{
+                    ...nightButton,
+                    padding: "0.35rem 0.75rem",
+                    fontSize: "0.75rem",
+                    opacity: !scheduleDate || scheduling ? 0.5 : 1,
+                  }}
+                >
+                  {scheduling ? "Saving..." : "Add to Calendar"}
+                </button>
+              </div>
+            )}
+          </div>
         </div>
 
         {/* Main lesson card */}
@@ -223,7 +440,7 @@ export default function LessonDetailPage() {
                   border: `1px solid ${philoColor}30`,
                 }}
               >
-                {PHILOSOPHY_LABELS[lesson.philosophy as PhilosophyKey] || lesson.philosophy.replace(/_/g, " ")}
+                {PHILOSOPHY_LABELS[resolvePhilosophyKey(lesson.philosophy)] || lesson.philosophy.replace(/_/g, " ")}
               </span>
               {scheduledDate && (
                 <span style={{ ...frostPillBase, color: "#5A5A5A" }}>
@@ -242,8 +459,8 @@ export default function LessonDetailPage() {
             </h1>
 
             <div className="flex gap-1.5 flex-wrap">
-              {lesson.subjects.map((s) => (
-                <span key={s} style={{ ...frostPillBase, color: "#6E6E9E" }}>{s}</span>
+              {(lesson.subjectNames?.length > 0 ? lesson.subjectNames : []).map((s) => (
+                <span key={s} style={{ ...frostPillBase, color: "#4A8B6E", background: "rgba(74,139,110,0.08)", border: "1px solid rgba(74,139,110,0.2)" }}>{s}</span>
               ))}
               <span style={{ ...frostPillBase, color: "#9B7E8E" }}>{lesson.interest}</span>
               {children.map((c) => (
@@ -268,7 +485,7 @@ export default function LessonDetailPage() {
                 className="font-cormorant-sc"
                 style={{ fontSize: "0.8rem", letterSpacing: "0.06em", color: philoColor, marginBottom: "0.4rem", textTransform: "uppercase" }}
               >
-                Philosophy: {PHILOSOPHY_LABELS[lesson.philosophy as PhilosophyKey] || lesson.philosophy.replace(/_/g, " ")}
+                Philosophy: {PHILOSOPHY_LABELS[resolvePhilosophyKey(lesson.philosophy)] || lesson.philosophy.replace(/_/g, " ")}
               </h3>
               <p style={{ fontSize: "0.875rem", color: "#5A5A5A" }}>{philosophySummary}</p>
             </div>
@@ -279,7 +496,7 @@ export default function LessonDetailPage() {
             <div style={frostCard}>
               <h3
                 className="font-cormorant-sc"
-                style={{ fontSize: "0.8rem", letterSpacing: "0.06em", color: "#0B2E4A", marginBottom: "0.5rem", textTransform: "uppercase" }}
+                style={{ ...sectionHeadingStyle, marginBottom: "0.5rem" }}
               >
                 Differentiation
               </h3>
@@ -297,7 +514,7 @@ export default function LessonDetailPage() {
           <div style={{ ...frostCard, padding: "1rem" }} className="space-y-3">
             <h3
               className="font-cormorant-sc"
-              style={{ fontSize: "0.8rem", letterSpacing: "0.06em", color: "#0B2E4A", textTransform: "uppercase" }}
+              style={{ ...sectionHeadingStyle }}
             >
               Completion
             </h3>
@@ -409,58 +626,131 @@ export default function LessonDetailPage() {
             })}
           </div>
 
-          {/* Standards */}
+          {/* Standards — collapsed by default */}
           {standardsAddressed.length > 0 && (
             <div style={frostCard}>
-              <h3
-                className="font-cormorant-sc"
-                style={{ fontSize: "0.8rem", letterSpacing: "0.06em", color: "#0B2E4A", marginBottom: "0.75rem", textTransform: "uppercase" }}
+              <div
+                className="flex items-center justify-between"
+                style={{ cursor: "pointer" }}
+                onClick={() => setStandardsOpen((v) => !v)}
               >
-                Standards Addressed ({standardsAddressed.length})
-              </h3>
-              <div className="space-y-2">
-                {standardsAddressed.map((s, i) => (
-                  <div key={i} style={{ fontSize: "0.875rem", borderLeft: "2px solid #7A9E8A", paddingLeft: "0.75rem" }}>
-                    <div className="flex items-center gap-2 flex-wrap">
-                      <span style={{ fontFamily: "monospace", fontSize: "0.7rem", color: "#767676", background: "rgba(122,158,138,0.1)", padding: "0.125rem 0.375rem", borderRadius: "4px" }}>{s.code}</span>
-                      <span style={{ color: "#5A5A5A" }}>{s.description_plain}</span>
-                    </div>
-                    <p style={{ fontSize: "0.7rem", color: "#767676", marginTop: "0.125rem" }}>{s.how_addressed}</p>
-                  </div>
-                ))}
+                <div className="flex items-center gap-2">
+                  <ChevronToggle open={standardsOpen} />
+                  <h3
+                    className="font-cormorant-sc"
+                    style={{ ...sectionHeadingStyle, margin: 0 }}
+                  >
+                    Standards Addressed
+                  </h3>
+                </div>
+                {!standardsOpen && (
+                  <span style={{ ...frostPillBase, color: "#767676" }}>
+                    {standardsAddressed.length} standard{standardsAddressed.length !== 1 ? "s" : ""}
+                  </span>
+                )}
               </div>
+              {standardsOpen && (
+                <div className="space-y-2" style={{ marginTop: "0.75rem" }}>
+                  {standardsAddressed.map((s, i) => {
+                    const subject = classifyStandard(s.code);
+                    const colors = SUBJECT_COLORS[subject];
+                    const grade = parseGradeFromCode(s.code);
+
+                    return (
+                      <div
+                        key={i}
+                        style={{
+                          fontSize: "0.875rem",
+                          borderLeft: `2px solid ${colors.border}`,
+                          paddingLeft: "0.75rem",
+                        }}
+                      >
+                        <div className="flex items-center gap-2 flex-wrap">
+                          <span
+                            style={{
+                              fontFamily: "monospace",
+                              fontSize: "0.7rem",
+                              color: colors.color,
+                              background: colors.bg,
+                              border: `1px solid ${colors.border}`,
+                              padding: "0.125rem 0.375rem",
+                              borderRadius: "4px",
+                            }}
+                          >
+                            {s.code}
+                          </span>
+                          {grade && (
+                            <span
+                              style={{
+                                ...frostPillBase,
+                                fontSize: "0.6rem",
+                                padding: "0.125rem 0.4rem",
+                                color: colors.color,
+                                background: colors.bg,
+                                border: `1px solid ${colors.border}`,
+                                borderRadius: "9999px",
+                                fontWeight: 600,
+                              }}
+                            >
+                              Grade {grade}
+                            </span>
+                          )}
+                          <span style={{ color: "#5A5A5A" }}>{s.description_plain}</span>
+                        </div>
+                        <p style={{ fontSize: "0.7rem", color: "#767676", marginTop: "0.125rem" }}>{s.how_addressed}</p>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
             </div>
           )}
 
-          {/* Materials */}
+          {/* Materials — collapsible */}
           {materialsNeeded.length > 0 && (
             <div style={frostCard}>
-              <h3
-                className="font-cormorant-sc"
-                style={{ fontSize: "0.8rem", letterSpacing: "0.06em", color: "#0B2E4A", marginBottom: "0.5rem", textTransform: "uppercase" }}
+              <div
+                className="flex items-center justify-between"
+                style={{ cursor: "pointer" }}
+                onClick={() => setMaterialsOpen((v) => !v)}
               >
-                Materials Needed
-              </h3>
-              <div className="space-y-1">
-                {materialsNeeded.map((m, i) => (
-                  <div key={i} style={{ fontSize: "0.875rem", color: "#5A5A5A" }}>
-                    <span style={{ fontWeight: 600 }}>{m.name}</span>
-                    {m.optional && <span style={{ fontSize: "0.7rem", color: "#767676", marginLeft: "0.25rem" }}>(optional)</span>}
-                    {m.household_alternative && (
-                      <span style={{ color: "#767676" }}> — or: {m.household_alternative}</span>
-                    )}
-                  </div>
-                ))}
+                <div className="flex items-center gap-2">
+                  <ChevronToggle open={materialsOpen} />
+                  <h3
+                    className="font-cormorant-sc"
+                    style={{ ...sectionHeadingStyle, margin: 0 }}
+                  >
+                    Materials Needed
+                  </h3>
+                </div>
+                {!materialsOpen && (
+                  <span style={{ ...frostPillBase, color: "#767676" }}>
+                    {materialsNeeded.length} material{materialsNeeded.length !== 1 ? "s" : ""}
+                  </span>
+                )}
               </div>
+              {materialsOpen && (
+                <div className="space-y-1" style={{ marginTop: "0.5rem" }}>
+                  {materialsNeeded.map((m, i) => (
+                    <div key={i} style={{ fontSize: "0.875rem", color: "#5A5A5A" }}>
+                      <span style={{ fontWeight: 600 }}>{m.name}</span>
+                      {m.optional && <span style={{ fontSize: "0.7rem", color: "#767676", marginLeft: "0.25rem" }}>(optional)</span>}
+                      {m.household_alternative && (
+                        <span style={{ color: "#767676" }}> — or: {m.household_alternative}</span>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           )}
 
-          {/* Lesson Sections */}
+          {/* Lesson Sections — each individually collapsible, expanded by default */}
           {lessonSections.length > 0 && (
             <div>
               <h3
                 className="font-cormorant-sc"
-                style={{ fontSize: "0.8rem", letterSpacing: "0.06em", color: "#0B2E4A", marginBottom: "0.75rem", textTransform: "uppercase" }}
+                style={{ ...sectionHeadingStyle, marginBottom: "0.75rem" }}
               >
                 Lesson Plan
               </h3>
@@ -472,124 +762,175 @@ export default function LessonDetailPage() {
                     both:    { color: "#7D6B9E", bg: "rgba(125,107,158,0.12)", icon: "\u2728" },
                   };
                   const io = ioConfig[section.indoor_outdoor] || ioConfig.both;
+                  const open = isSectionOpen(i);
 
                   return (
-                  <div key={i} style={{ ...frostCard, borderLeft: `3px solid ${io.color}30` }}>
-                    <div className="flex items-center justify-between mb-2">
-                      <h4
-                        className="font-cormorant-sc"
-                        style={{ fontSize: "0.85rem", letterSpacing: "0.04em", color: "#0B2E4A" }}
-                      >
-                        {section.title}
-                      </h4>
-                      <div className="flex gap-1.5">
-                        <span style={{ ...frostPillBase, color: "#5A5A5A" }}>
-                          {section.duration_minutes} min
-                        </span>
-                        <span style={{
-                          ...frostPillBase,
-                          color: io.color,
-                          background: io.bg,
-                          border: `1px solid ${io.color}25`,
-                        }}>
-                          {io.icon} {section.indoor_outdoor}
-                        </span>
-                      </div>
-                    </div>
-                    <div style={{ fontSize: "0.875rem", color: "#5A5A5A", whiteSpace: "pre-line", lineHeight: 1.7 }}>
-                      {section.instructions}
-                    </div>
-
-                    {/* Philosophy Connection block */}
-                    {section.philosophy_connection && (
+                    <div key={i} style={{ ...frostCard, borderLeft: `3px solid ${io.color}30` }}>
                       <div
-                        style={{
-                          borderLeft: `3px solid ${philoColor}40`,
-                          borderRadius: "0 8px 8px 0",
-                          padding: "0.6rem 1rem",
-                          marginTop: "0.75rem",
-                          fontSize: "0.8rem",
-                          color: "#767676",
-                          fontStyle: "italic",
-                          background: `${philoColor}08`,
-                        }}
+                        className="flex items-center justify-between"
+                        style={{ cursor: "pointer" }}
+                        onClick={() => toggleSection(i)}
                       >
-                        {section.philosophy_connection}
-                      </div>
-                    )}
-
-                    {/* Tips */}
-                    {section.tips?.length > 0 && (
-                      <div style={{
-                        marginTop: "0.75rem",
-                        padding: "0.6rem 0.75rem",
-                        background: "rgba(196,152,61,0.06)",
-                        borderRadius: "8px",
-                        borderLeft: "3px solid rgba(196,152,61,0.3)",
-                      }}>
-                        <p style={{ fontSize: "0.68rem", fontWeight: 600, color: "#B08A2E", textTransform: "uppercase", letterSpacing: "0.05em", marginBottom: "0.35rem" }}>Tips</p>
-                        <div className="space-y-1">
-                          {section.tips.map((tip, j) => (
-                            <p key={j} style={{ fontSize: "0.8rem", color: "#5A5A5A", lineHeight: 1.5 }}>{tip}</p>
-                          ))}
+                        <div className="flex items-center gap-2">
+                          <ChevronToggle open={open} />
+                          <h4
+                            className="font-cormorant-sc"
+                            style={{ fontSize: "0.85rem", letterSpacing: "0.04em", color: "#0B2E4A", margin: 0 }}
+                          >
+                            {section.title}
+                          </h4>
+                        </div>
+                        <div className="flex gap-1.5">
+                          <span style={{ ...frostPillBase, color: "#5A5A5A" }}>
+                            {section.duration_minutes} min
+                          </span>
+                          <span style={{
+                            ...frostPillBase,
+                            color: io.color,
+                            background: io.bg,
+                            border: `1px solid ${io.color}25`,
+                          }}>
+                            {io.icon} {section.indoor_outdoor}
+                          </span>
                         </div>
                       </div>
-                    )}
 
-                    {section.extensions?.length > 0 && (
-                      <div style={{
-                        marginTop: "0.5rem",
-                        padding: "0.6rem 0.75rem",
-                        background: "rgba(90,127,160,0.06)",
-                        borderRadius: "8px",
-                        borderLeft: "3px solid rgba(90,127,160,0.3)",
-                      }}>
-                        <p style={{ fontSize: "0.68rem", fontWeight: 600, color: "#5A7FA0", textTransform: "uppercase", letterSpacing: "0.05em", marginBottom: "0.35rem" }}>Extensions</p>
-                        <ul style={{ listStyle: "disc", paddingLeft: "1.25rem" }} className="space-y-0.5">
-                          {section.extensions.map((ext, j) => (
-                            <li key={j} style={{ fontSize: "0.8rem", color: "#5A5A5A", lineHeight: 1.5 }}>{ext}</li>
-                          ))}
-                        </ul>
-                      </div>
-                    )}
-                  </div>
+                      {open && (
+                        <div style={{ marginTop: "0.75rem" }}>
+                          <StructuredInstructions text={section.instructions} />
+
+                          {/* Philosophy Connection block */}
+                          {section.philosophy_connection && (
+                            <div
+                              style={{
+                                borderLeft: `3px solid ${philoColor}40`,
+                                borderRadius: "0 8px 8px 0",
+                                padding: "0.6rem 1rem",
+                                marginTop: "0.75rem",
+                                fontSize: "0.8rem",
+                                color: "#767676",
+                                fontStyle: "italic",
+                                background: `${philoColor}08`,
+                              }}
+                            >
+                              {section.philosophy_connection}
+                            </div>
+                          )}
+
+                          {/* Tips */}
+                          {section.tips?.length > 0 && (
+                            <div style={{
+                              marginTop: "0.75rem",
+                              padding: "0.6rem 0.75rem",
+                              background: "rgba(196,152,61,0.06)",
+                              borderRadius: "8px",
+                              borderLeft: "3px solid rgba(196,152,61,0.3)",
+                            }}>
+                              <p style={{ fontSize: "0.68rem", fontWeight: 600, color: "#B08A2E", textTransform: "uppercase", letterSpacing: "0.05em", marginBottom: "0.35rem" }}>Tips</p>
+                              <div className="space-y-1">
+                                {section.tips.map((tip, j) => (
+                                  <p key={j} style={{ fontSize: "0.8rem", color: "#5A5A5A", lineHeight: 1.5 }}>{tip}</p>
+                                ))}
+                              </div>
+                            </div>
+                          )}
+
+                          {section.extensions?.length > 0 && (
+                            <div style={{
+                              marginTop: "0.5rem",
+                              padding: "0.6rem 0.75rem",
+                              background: "rgba(90,127,160,0.06)",
+                              borderRadius: "8px",
+                              borderLeft: "3px solid rgba(90,127,160,0.3)",
+                            }}>
+                              <p style={{ fontSize: "0.68rem", fontWeight: 600, color: "#5A7FA0", textTransform: "uppercase", letterSpacing: "0.05em", marginBottom: "0.35rem" }}>Extensions</p>
+                              <ul style={{ listStyle: "disc", paddingLeft: "1.25rem" }} className="space-y-0.5">
+                                {section.extensions.map((ext, j) => (
+                                  <li key={j} style={{ fontSize: "0.8rem", color: "#5A5A5A", lineHeight: 1.5 }}>{ext}</li>
+                                ))}
+                              </ul>
+                            </div>
+                          )}
+                        </div>
+                      )}
+                    </div>
                   );
                 })}
               </div>
             </div>
           )}
 
-          {/* Assessment */}
+          {/* Assessment — collapsible */}
           {assessmentSuggestions.length > 0 && (
             <div style={frostCard}>
-              <h3
-                className="font-cormorant-sc"
-                style={{ fontSize: "0.8rem", letterSpacing: "0.06em", color: "#0B2E4A", marginBottom: "0.5rem", textTransform: "uppercase" }}
+              <div
+                className="flex items-center justify-between"
+                style={{ cursor: "pointer" }}
+                onClick={() => setAssessmentOpen((v) => !v)}
               >
-                Assessment
-              </h3>
-              <ul style={{ listStyle: "disc", paddingLeft: "1.25rem" }} className="space-y-1">
-                {assessmentSuggestions.map((a, i) => (
-                  <li key={i} style={{ fontSize: "0.875rem", color: "#5A5A5A" }}>{a}</li>
-                ))}
-              </ul>
+                <div className="flex items-center gap-2">
+                  <ChevronToggle open={assessmentOpen} />
+                  <h3
+                    className="font-cormorant-sc"
+                    style={{ ...sectionHeadingStyle, margin: 0 }}
+                  >
+                    Assessment
+                  </h3>
+                </div>
+                {!assessmentOpen && (
+                  <span style={{ ...frostPillBase, color: "#767676" }}>
+                    {assessmentSuggestions.length} suggestion{assessmentSuggestions.length !== 1 ? "s" : ""}
+                  </span>
+                )}
+              </div>
+              {assessmentOpen && (
+                <ul style={{ listStyle: "disc", paddingLeft: "1.25rem", marginTop: "0.5rem" }} className="space-y-1">
+                  {assessmentSuggestions.map((a, i) => (
+                    <li key={i} style={{ fontSize: "0.875rem", color: "#5A5A5A" }}>{a}</li>
+                  ))}
+                </ul>
+              )}
             </div>
           )}
 
-          {/* Next lesson ideas */}
+          {/* Next lesson ideas — collapsible */}
           {nextLessonSeeds.length > 0 && (
             <div style={{ ...frostCard, background: "rgba(255,255,255,0.55)" }}>
-              <h3
-                className="font-cormorant-sc"
-                style={{ fontSize: "0.8rem", letterSpacing: "0.06em", color: "#0B2E4A", marginBottom: "0.5rem", textTransform: "uppercase" }}
+              <div
+                className="flex items-center justify-between"
+                style={{ cursor: "pointer" }}
+                onClick={() => setNextLessonOpen((v) => !v)}
               >
-                Ideas for Next Lesson
-              </h3>
-              <ul style={{ listStyle: "disc", paddingLeft: "1.25rem" }} className="space-y-1">
-                {nextLessonSeeds.map((seed, i) => (
-                  <li key={i} style={{ fontSize: "0.875rem", color: "#5A5A5A" }}>{seed}</li>
-                ))}
-              </ul>
+                <div className="flex items-center gap-2">
+                  <ChevronToggle open={nextLessonOpen} />
+                  <h3
+                    className="font-cormorant-sc"
+                    style={{ ...sectionHeadingStyle, margin: 0 }}
+                  >
+                    Ideas for Next Lesson
+                  </h3>
+                </div>
+                {!nextLessonOpen && (
+                  <span style={{ ...frostPillBase, color: "#767676" }}>
+                    {nextLessonSeeds.length} idea{nextLessonSeeds.length !== 1 ? "s" : ""}
+                  </span>
+                )}
+              </div>
+              {nextLessonOpen && (
+                <ul style={{ listStyle: "disc", paddingLeft: "1.25rem", marginTop: "0.5rem" }} className="space-y-1">
+                  {nextLessonSeeds.map((seed, i) => (
+                    <li key={i} style={{ fontSize: "0.875rem" }}>
+                      <Link
+                        href={`/create?interest=${encodeURIComponent(seed)}`}
+                        style={{ color: "#5A7FA0", textDecoration: "none", borderBottom: "1px dashed rgba(90,127,160,0.3)" }}
+                        className="hover:opacity-80"
+                      >
+                        {seed} →
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              )}
             </div>
           )}
         </div>

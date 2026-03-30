@@ -344,5 +344,28 @@ export const PHILOSOPHY_COLORS: Record<PhilosophyKey, string> = {
   classical: "#6366F1",
   charlotte_mason: "#EC4899",
   unschooling: "#F97316",
-  adaptive: "#6B7280",
+  adaptive: "#7c2946",
 };
+
+/** Map DB philosophy IDs (from types.ts PHILOSOPHIES) to scoring keys */
+export const DB_PHILOSOPHY_KEY: Record<string, PhilosophyKey> = {
+  "montessori-inspired": "montessori",
+  "waldorf-adjacent": "waldorf",
+  "project-based-learning": "project_based",
+  "place-nature-based": "place_nature",
+  "charlotte-mason": "charlotte_mason",
+  classical: "classical",
+  unschooling: "unschooling",
+  adaptive: "adaptive",
+  // Also accept scoring keys directly
+  montessori: "montessori",
+  waldorf: "waldorf",
+  project_based: "project_based",
+  place_nature: "place_nature",
+  charlotte_mason: "charlotte_mason",
+};
+
+/** Resolve a DB philosophy ID to a PhilosophyKey */
+export function resolvePhilosophyKey(dbId: string): PhilosophyKey {
+  return DB_PHILOSOPHY_KEY[dbId] || "adaptive";
+}

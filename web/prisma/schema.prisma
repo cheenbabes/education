@@ -89,7 +89,8 @@ model Lesson {
   title                  String
   interest               String
   philosophy             String   // adaptive, waldorf-adjacent, montessori-inspired, project-based, place-nature-based
-  subjects               String[] // array of subject names
+  subjects               String[] // standards codes (e.g. CCSS.Math.Content.4.OA.A.2)
+  subjectNames           String[] @default([]) // human-readable (e.g. Math, Language Arts)
   multiSubjectOptimized  Boolean  @default(false)
   content                Json     // full lesson plan JSON
   contentHash            String   // for dedup detection
