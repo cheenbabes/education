@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { Suspense, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import dynamic from "next/dynamic";
 import { GraphData, CurriculumPlacement } from "@/components/explore/types";
@@ -23,6 +23,14 @@ const ExploreCanvas = dynamic(
 );
 
 export default function ExplorePage() {
+  return (
+    <Suspense fallback={<div style={{ width: "100vw", height: "100vh", background: "#0B2E4A" }} />}>
+      <ExplorePageInner />
+    </Suspense>
+  );
+}
+
+function ExplorePageInner() {
   const searchParams = useSearchParams();
   const embedMode = searchParams.get("embed") === "true";
   const [data, setData] = useState<GraphData | null>(null);
