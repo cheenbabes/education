@@ -377,6 +377,11 @@
 }
 .btn-accent:hover { opacity: 0.88; }
 
+/* ─── Keyframe animations ────────────────────────────────────────────────── */
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
 /* ─── Misc utilities ─────────────────────────────────────────────────────── */
 @layer utilities {
   .text-balance { text-wrap: balance; }

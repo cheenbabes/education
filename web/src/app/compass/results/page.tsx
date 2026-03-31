@@ -739,6 +739,21 @@ export default function ResultsPage() {
             ))}
         </div>
 
+        {/* Suggest a curriculum */}
+        <p className="text-center">
+          <Link
+            href="/contact?subject=curriculum-suggestion"
+            className="hover:underline"
+            style={{
+              fontSize: "0.8rem",
+              color: "var(--text-tertiary)",
+              textDecoration: "none",
+            }}
+          >
+            Missing your favorite curriculum? Let us know &rarr;
+          </Link>
+        </p>
+
         {/* Bottom CTA */}
         <div
           className="rounded-xl p-4 text-center space-y-2"

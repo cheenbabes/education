@@ -1,7 +1,8 @@
 "use client";
 
 import { Shell } from "@/components/shell";
-import { useState, FormEvent } from "react";
+import { Suspense, useState, useEffect, FormEvent } from "react";
+import { useSearchParams } from "next/navigation";
 
 const frostCard: React.CSSProperties = {
   background: "rgba(255,255,255,0.72)",
@@ -24,15 +25,35 @@ const nightButton: React.CSSProperties = {
 
 const subjects = ["General", "Curriculum Suggestion", "Bug Report", "Partnership"] as const;
 
+const SUBJECT_PARAM_MAP: Record<string, string> = {
+  "curriculum-suggestion": "Curriculum Suggestion",
+};
+
 type Status = "idle" | "sending" | "success" | "error";
 
 export default function ContactPage() {
+  return (
+    <Suspense fallback={null}>
+      <ContactPageInner />
+    </Suspense>
+  );
+}
+
+function ContactPageInner() {
+  const searchParams = useSearchParams();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [subject, setSubject] = useState<string>(subjects[0]);
   const [message, setMessage] = useState("");
   const [status, setStatus] = useState<Status>("idle");
   const [errorMsg, setErrorMsg] = useState("");
+
+  useEffect(() => {
+    const subjectParam = searchParams.get("subject");
+    if (subjectParam && SUBJECT_PARAM_MAP[subjectParam]) {
+      setSubject(SUBJECT_PARAM_MAP[subjectParam]);
+    }
+  }, [searchParams]);
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
@@ -64,9 +85,9 @@ export default function ContactPage() {
 
   return (
     <Shell hue="compass">
-      <div className="max-w-xl mx-auto space-y-8 py-4">
+      <div className="max-w-xl mx-auto space-y-8" style={{ paddingTop: "4rem", paddingBottom: "4rem" }}>
         {/* Header */}
-        <div className="space-y-2">
+        <div className="space-y-2 text-center">
           <h1
             className="font-cormorant-sc text-4xl"
             style={{ color: "#0B2E4A" }}
@@ -162,24 +183,36 @@ export default function ContactPage() {
             >
               Subject
             </label>
-            <select
-              id="subject"
-              required
-              value={subject}
-              onChange={(e) => setSubject(e.target.value)}
-              className="w-full text-sm px-3 py-2 rounded-lg outline-none transition-colors"
-              style={{
-                background: "rgba(255,255,255,0.6)",
-                border: "1px solid rgba(11,46,74,0.15)",
-                color: "#0B2E4A",
-              }}
-            >
-              {subjects.map((s) => (
-                <option key={s} value={s}>
-                  {s}
-                </option>
-              ))}
-            </select>
+            <div style={{ position: "relative" }}>
+              <select
+                id="subject"
+                required
+                value={subject}
+                onChange={(e) => setSubject(e.target.value)}
+                className="w-full text-sm px-3 py-2 rounded-lg outline-none transition-colors"
+                style={{
+                  background: "rgba(255,255,255,0.6)",
+                  border: "1px solid rgba(11,46,74,0.15)",
+                  color: "#0B2E4A",
+                  appearance: "none",
+                  WebkitAppearance: "none",
+                  paddingRight: "2rem",
+                  cursor: "pointer",
+                }}
+              >
+                {subjects.map((s) => (
+                  <option key={s} value={s}>
+                    {s}
+                  </option>
+                ))}
+              </select>
+              <svg
+                style={{ position: "absolute", right: "0.75rem", top: "50%", transform: "translateY(-50%)", pointerEvents: "none" }}
+                width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#5A5A5A" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
+              >
+                <polyline points="6 9 12 15 18 9" />
+              </svg>
+            </div>
           </div>
 
           {/* Message */}

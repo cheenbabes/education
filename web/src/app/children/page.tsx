@@ -84,8 +84,8 @@ export default function ChildrenPage() {
 
   useEffect(() => {
     Promise.all([
-      fetch("/api/children?userId=demo-user").then((r) => r.json()),
-      fetch("/api/user?userId=demo-user").then((r) => r.json()),
+      fetch("/api/children").then((r) => r.json()),
+      fetch("/api/user").then((r) => r.json()),
     ]).then(([childrenData, userData]) => {
       setChildren(
         childrenData.map((c: { id: string; name: string; dateOfBirth: string; gradeLevel: string; standardsOptIn: boolean }) => ({
@@ -124,7 +124,7 @@ export default function ChildrenPage() {
         const res = await fetch("/api/children", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ ...form, userId: "demo-user" }),
+          body: JSON.stringify(form),
         });
         const created = await res.json();
         setChildren((prev) => [
@@ -186,7 +186,7 @@ export default function ChildrenPage() {
               const newState = e.target.value;
               setState(newState);
               setSavingState(true);
-              fetch("/api/user?userId=demo-user", {
+              fetch("/api/user", {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ state: newState }),

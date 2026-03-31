@@ -98,6 +98,36 @@ def get_all_standards_for_grade(
     return by_subject
 
 
+def lookup_standards_by_codes(
+    codes: list[str], conn: kuzu.Connection | None = None
+) -> list[dict]:
+    """Look up standards by their codes. Returns code + description for each match."""
+    if not codes:
+        return []
+    conn = conn or _get_connection()
+    results = []
+    for code in codes:
+        result = conn.execute(
+            """
+            MATCH (s:Standard)
+            WHERE s.code = $code
+            RETURN s.code AS code,
+                   s.description AS description,
+                   s.description_plain AS description_plain
+            LIMIT 1
+            """,
+            parameters={"code": code},
+        )
+        if result.has_next():
+            row = result.get_next()
+            results.append({
+                "code": row[0],
+                "description": row[1],
+                "description_plain": row[2],
+            })
+    return results
+
+
 def get_philosophy_context(philosophy: str, conn: kuzu.Connection | None = None) -> dict:
     """Return philosophy info, principles, activity types, and materials."""
     conn = conn or _get_connection()

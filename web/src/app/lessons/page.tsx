@@ -163,8 +163,8 @@ export default function LessonsPage() {
 
   useEffect(() => {
     Promise.all([
-      fetch("/api/lessons?userId=demo-user").then((r) => r.json()),
-      fetch("/api/children?userId=demo-user").then((r) => r.json()),
+      fetch("/api/lessons").then((r) => r.json()),
+      fetch("/api/children").then((r) => r.json()),
     ]).then(([lessonsData, childrenData]) => {
       setLessons(lessonsData);
       setChildren(childrenData);

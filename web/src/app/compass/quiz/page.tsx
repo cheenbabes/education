@@ -1,7 +1,8 @@
 "use client";
 
-import { useState, useMemo, useCallback, Suspense } from "react";
+import { useState, useEffect, useMemo, useCallback, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { SignInButton, SignUpButton, useUser } from "@clerk/nextjs";
 import { Shell } from "@/components/shell";
 import { PART1_QUESTIONS, PART2_QUESTIONS, Part2Question } from "@/lib/compass/questions";
 import {
@@ -33,6 +34,10 @@ function QuizPageInner() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const debug = searchParams.get("debug") === "true"; // debug off by default, enable with ?debug=true
+  const { isSignedIn } = useUser();
+
+  // Resume after auth redirect
+  const resuming = searchParams.get("resume") === "true";
 
   // Part 1 state
   const [part1Answers, setPart1Answers] = useState<Record<string, number>>({});
@@ -47,12 +52,25 @@ function QuizPageInner() {
   const [part2Answers, setPart2Answers] = useState<Record<string, string | string[]>>({});
   const [currentP2, setCurrentP2] = useState(0);
 
-  // Email gate
-  const [email, setEmail] = useState("");
-  const [submitting, setSubmitting] = useState(false);
-
   // Phase management
   const [phase, setPhase] = useState<QuizPhase>("part1");
+
+  // Resume after auth: restore part1 answers, re-score, jump to compass-reveal
+  useEffect(() => {
+    if (!resuming) return;
+    try {
+      const saved = sessionStorage.getItem("compass_part1_answers");
+      if (saved) {
+        const answers = JSON.parse(saved) as Record<string, number>;
+        setPart1Answers(answers);
+        const result = scoreCompass(answers);
+        setCompassResult(result);
+        setPhase("compass-reveal");
+        sessionStorage.removeItem("compass_part1_answers");
+      }
+    } catch { /* ignore */ }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [resuming]);
 
   const totalPart1 = PART1_QUESTIONS.length;
 
@@ -119,52 +137,41 @@ function QuizPageInner() {
       setCurrentP2(currentP2 + 1);
       window.scrollTo({ top: 0, behavior: "smooth" });
     } else {
-      setPhase("teaser");
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    }
-  }, [currentP2, visiblePart2Questions.length]);
+      // Part 2 complete — save everything to database and go to results
+      if (compassResult) {
+        // Save to sessionStorage for the results page
+        sessionStorage.setItem(
+          "compass_result",
+          JSON.stringify({
+            archetype: compassResult.archetype.id,
+            secondaryArchetype: compassResult.secondaryArchetype?.id || null,
+            dimensions: compassResult.dimensions,
+            philosophies: compassResult.philosophies,
+            structureFlowSplit: compassResult.structureFlowSplit,
+            part2Preferences: part2Answers,
+          })
+        );
 
-  const handleEmailSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!email.trim() || !compassResult) return;
-    setSubmitting(true);
-
-    // Save results to sessionStorage for the results page
-    sessionStorage.setItem(
-      "compass_result",
-      JSON.stringify({
-        archetype: compassResult.archetype.id,
-        secondaryArchetype: compassResult.secondaryArchetype?.id || null,
-        dimensions: compassResult.dimensions,
-        philosophies: compassResult.philosophies,
-        structureFlowSplit: compassResult.structureFlowSplit,
-        part2Preferences: part2Answers,
-      })
-    );
-
-    try {
-      const res = await fetch("/api/compass/submit", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          email,
-          archetype: compassResult.archetype.id,
-          dimensionScores: compassResult.dimensions,
-          philosophyBlend: compassResult.philosophies,
-          part2Preferences: part2Answers,
-        }),
-      });
-
-      if (res.ok) {
-        const data = await res.json();
-        router.push(`/compass/results?id=${data.id}`);
-      } else {
-        router.push("/compass/results");
+        // Save to database (fire and forget)
+        fetch("/api/compass/submit", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            archetype: compassResult.archetype.id,
+            secondaryArchetype: compassResult.secondaryArchetype?.id || null,
+            dimensionScores: compassResult.dimensions,
+            philosophyBlend: compassResult.philosophies,
+            part2Preferences: part2Answers,
+            quizAnswers: {
+              part1: part1Answers,
+              part2: part2Answers,
+            },
+          }),
+        }).catch(() => { /* silent — results page still works from sessionStorage */ });
       }
-    } catch {
       router.push("/compass/results");
     }
-  };
+  }, [currentP2, visiblePart2Questions.length, compassResult, part1Answers, part2Answers, router]);
 
   // ------- Render helpers -------
 
@@ -344,66 +351,72 @@ function QuizPageInner() {
                 </p>
               )}
               <p className="text-gray-600 max-w-md mx-auto">
-                {compassResult.archetype.description}
+                {isSignedIn
+                  ? compassResult.archetype.description
+                  : compassResult.archetype.description.split(".")[0] + "."}
               </p>
             </div>
 
-            {/* Dimension bars */}
-            <div
-              className="space-y-5"
-              style={{
-                background: "rgba(255,255,255,0.72)",
-                backdropFilter: "blur(24px)",
-                WebkitBackdropFilter: "blur(24px)",
-                border: "1px solid rgba(255,255,255,0.6)",
-                borderRadius: "12px",
-                padding: "1.25rem",
-                boxShadow: "0 2px 12px rgba(0,0,0,0.06)",
-              }}
-            >
-              <h3 className="font-semibold text-gray-900">
-                Your Five Dimensions
-              </h3>
-              {(Object.keys(DIMENSION_LABELS) as Array<keyof typeof DIMENSION_LABELS>).map(
-                (dim) => (
-                  <DimensionBar
-                    key={dim}
-                    label={DIMENSION_LABELS[dim].name}
-                    leftLabel={DIMENSION_LABELS[dim].left}
-                    rightLabel={DIMENSION_LABELS[dim].right}
-                    value={compassResult.dimensions[dim]}
-                    callout={
-                      dim === "structure" && compassResult.structureFlowSplit.hasSplit
-                        ? compassResult.structureFlowSplit.message
-                        : undefined
-                    }
-                  />
-                )
-              )}
-            </div>
+            {/* Dimension bars — only show when signed in */}
+            {isSignedIn && (
+              <div
+                className="space-y-5"
+                style={{
+                  background: "rgba(255,255,255,0.72)",
+                  backdropFilter: "blur(24px)",
+                  WebkitBackdropFilter: "blur(24px)",
+                  border: "1px solid rgba(255,255,255,0.6)",
+                  borderRadius: "12px",
+                  padding: "1.25rem",
+                  boxShadow: "0 2px 12px rgba(0,0,0,0.06)",
+                }}
+              >
+                <h3 className="font-semibold text-gray-900">
+                  Your Five Dimensions
+                </h3>
+                {(Object.keys(DIMENSION_LABELS) as Array<keyof typeof DIMENSION_LABELS>).map(
+                  (dim) => (
+                    <DimensionBar
+                      key={dim}
+                      label={DIMENSION_LABELS[dim].name}
+                      leftLabel={DIMENSION_LABELS[dim].left}
+                      rightLabel={DIMENSION_LABELS[dim].right}
+                      value={compassResult.dimensions[dim]}
+                      callout={
+                        dim === "structure" && compassResult.structureFlowSplit.hasSplit
+                          ? compassResult.structureFlowSplit.message
+                          : undefined
+                      }
+                    />
+                  )
+                )}
+              </div>
+            )}
 
-            {/* Philosophy pie chart */}
-            <div
-              className="space-y-4"
-              style={{
-                background: "rgba(255,255,255,0.72)",
-                backdropFilter: "blur(24px)",
-                WebkitBackdropFilter: "blur(24px)",
-                border: "1px solid rgba(255,255,255,0.6)",
-                borderRadius: "12px",
-                padding: "1.25rem",
-                boxShadow: "0 2px 12px rgba(0,0,0,0.06)",
-              }}
-            >
-              <h3 className="font-semibold text-gray-900">
-                Your Philosophy Blend
-              </h3>
-              <PhilosophyChart philosophies={compassResult.philosophies} />
-              <p className="text-xs text-gray-400 text-center italic">
-                Most educators are a blend — your compass reflects your natural
-                tendencies, not a rigid category.
-              </p>
-            </div>
+            {/* Philosophy pie chart — only show when signed in */}
+            {isSignedIn && (
+              <div
+                className="space-y-4"
+                style={{
+                  background: "rgba(255,255,255,0.72)",
+                  backdropFilter: "blur(24px)",
+                  WebkitBackdropFilter: "blur(24px)",
+                  border: "1px solid rgba(255,255,255,0.6)",
+                  borderRadius: "12px",
+                  padding: "1.25rem",
+                  boxShadow: "0 2px 12px rgba(0,0,0,0.06)",
+                }}
+              >
+                <h3 className="font-semibold text-gray-900">
+                  Your Philosophy Blend
+                </h3>
+                <PhilosophyChart philosophies={compassResult.philosophies} />
+                <p className="text-xs text-gray-400 text-center italic">
+                  Most educators are a blend — your compass reflects your natural
+                  tendencies, not a rigid category.
+                </p>
+              </div>
+            )}
 
             {/* Debug panel — archetype scoring breakdown */}
             {debug && compassResult.archetypeScores && (
@@ -445,28 +458,90 @@ function QuizPageInner() {
               </div>
             )}
 
-            <div className="text-center">
-              <button
-                onClick={() => {
-                  setPhase("part2");
-                  setCurrentP2(0);
-                }}
-                style={{
-                  background: "#0B2E4A",
-                  color: "#F9F6EF",
-                  borderRadius: "10px",
-                  padding: "0.6rem 1.4rem",
-                  fontSize: "0.85rem",
-                  border: "none",
-                  cursor: "pointer",
-                }}
-              >
-                Continue to Curriculum Matching
-              </button>
-              <p className="text-xs mt-2" style={{ color: "var(--text-secondary)" }}>
-                {visiblePart2Questions.length} quick questions about your
-                practical needs
-              </p>
+            <div className="text-center space-y-3">
+              {isSignedIn ? (
+                <>
+                  <button
+                    onClick={() => {
+                      setPhase("part2");
+                      setCurrentP2(0);
+                    }}
+                    style={{
+                      background: "#0B2E4A",
+                      color: "#F9F6EF",
+                      borderRadius: "10px",
+                      padding: "0.6rem 1.4rem",
+                      fontSize: "0.85rem",
+                      border: "none",
+                      cursor: "pointer",
+                    }}
+                  >
+                    Continue to Curriculum Matching
+                  </button>
+                  <p className="text-xs mt-2" style={{ color: "var(--text-secondary)" }}>
+                    {visiblePart2Questions.length} quick questions about your
+                    practical needs
+                  </p>
+                </>
+              ) : (
+                <div
+                  style={{
+                    background: "rgba(255,255,255,0.85)",
+                    backdropFilter: "blur(18px)",
+                    border: "1px solid rgba(255,255,255,0.6)",
+                    borderRadius: "12px",
+                    padding: "1.25rem",
+                  }}
+                  className="space-y-4 max-w-md mx-auto"
+                >
+                  <p className="text-center text-gray-700">
+                    Create a free account to continue — unlock your full dimension breakdown,
+                    philosophy blend, and personalized curriculum recommendations.
+                  </p>
+                  <div className="space-y-2">
+                    <SignUpButton mode="redirect" forceRedirectUrl="/compass/quiz?resume=true">
+                      <button
+                        onClick={() => {
+                          // Save quiz state so we can resume after auth
+                          sessionStorage.setItem("compass_part1_answers", JSON.stringify(part1Answers));
+                        }}
+                        className="w-full transition-colors"
+                        style={{
+                          background: "#0B2E4A",
+                          color: "#F9F6EF",
+                          borderRadius: "10px",
+                          padding: "0.6rem 1.4rem",
+                          fontSize: "0.85rem",
+                          border: "none",
+                          cursor: "pointer",
+                        }}
+                      >
+                        Create Free Account to Continue
+                      </button>
+                    </SignUpButton>
+                    <SignInButton mode="redirect" forceRedirectUrl="/compass/quiz?resume=true">
+                      <button
+                        onClick={() => {
+                          // Save quiz state so we can resume after auth
+                          sessionStorage.setItem("compass_part1_answers", JSON.stringify(part1Answers));
+                        }}
+                        className="w-full transition-colors"
+                        style={{
+                          background: "transparent",
+                          color: "#5A5A5A",
+                          borderRadius: "10px",
+                          padding: "0.5rem 1.4rem",
+                          fontSize: "0.8rem",
+                          border: "1px solid rgba(0,0,0,0.15)",
+                          cursor: "pointer",
+                        }}
+                      >
+                        Already have an account? Sign in
+                      </button>
+                    </SignInButton>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         )}
@@ -532,60 +607,75 @@ function QuizPageInner() {
               className="space-y-4"
             >
               <p className="text-center text-gray-700">
-                Enter your email to unlock your full Education Compass —
+                Sign in to unlock your full Education Compass —
                 detailed dimension breakdown, philosophy blend, and
                 personalized curriculum recommendations.
               </p>
-              <form onSubmit={handleEmailSubmit} className="space-y-3">
-                <input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="your@email.com"
-                  required
-                  className="w-full px-4 py-3 border border-gray-300 rounded text-gray-900 bg-white focus:ring-2 focus:outline-none"
-                  style={{ focusRingColor: "#6E6E9E" } as React.CSSProperties}
-                />
-                <button
-                  type="submit"
-                  disabled={submitting || !email.trim()}
-                  className="w-full disabled:opacity-50 transition-colors"
-                  style={{
-                    background: "#0B2E4A",
-                    color: "#F9F6EF",
-                    borderRadius: "10px",
-                    padding: "0.6rem 1.4rem",
-                    fontSize: "0.85rem",
-                    border: "none",
-                    cursor: submitting || !email.trim() ? "not-allowed" : "pointer",
-                  }}
-                >
-                  {submitting ? "Unlocking..." : "Unlock My Full Results"}
-                </button>
-              </form>
+              <div className="space-y-2">
+                <SignUpButton mode="redirect" forceRedirectUrl="/compass/quiz?resume=true">
+                  <button
+                    onClick={() => {
+                      if (compassResult) {
+                        sessionStorage.setItem(
+                          "compass_result",
+                          JSON.stringify({
+                            archetype: compassResult.archetype.id,
+                            secondaryArchetype: compassResult.secondaryArchetype?.id || null,
+                            dimensions: compassResult.dimensions,
+                            philosophies: compassResult.philosophies,
+                            structureFlowSplit: compassResult.structureFlowSplit,
+                            part2Preferences: part2Answers,
+                          })
+                        );
+                      }
+                    }}
+                    className="w-full transition-colors"
+                    style={{
+                      background: "#0B2E4A",
+                      color: "#F9F6EF",
+                      borderRadius: "10px",
+                      padding: "0.6rem 1.4rem",
+                      fontSize: "0.85rem",
+                      border: "none",
+                      cursor: "pointer",
+                    }}
+                  >
+                    Create Account to See Full Results
+                  </button>
+                </SignUpButton>
+                <SignInButton mode="redirect" forceRedirectUrl="/compass/quiz?resume=true">
+                  <button
+                    onClick={() => {
+                      if (compassResult) {
+                        sessionStorage.setItem(
+                          "compass_result",
+                          JSON.stringify({
+                            archetype: compassResult.archetype.id,
+                            secondaryArchetype: compassResult.secondaryArchetype?.id || null,
+                            dimensions: compassResult.dimensions,
+                            philosophies: compassResult.philosophies,
+                            structureFlowSplit: compassResult.structureFlowSplit,
+                            part2Preferences: part2Answers,
+                          })
+                        );
+                      }
+                    }}
+                    className="w-full transition-colors"
+                    style={{
+                      background: "transparent",
+                      color: "#5A5A5A",
+                      borderRadius: "10px",
+                      padding: "0.5rem 1.4rem",
+                      fontSize: "0.8rem",
+                      border: "1px solid rgba(0,0,0,0.15)",
+                      cursor: "pointer",
+                    }}
+                  >
+                    Already have an account? Sign in
+                  </button>
+                </SignInButton>
+              </div>
             </div>
-
-            <button
-              onClick={() => {
-                if (compassResult) {
-                  sessionStorage.setItem(
-                    "compass_result",
-                    JSON.stringify({
-                      archetype: compassResult.archetype.id,
-                      secondaryArchetype: compassResult.secondaryArchetype?.id || null,
-                      dimensions: compassResult.dimensions,
-                      philosophies: compassResult.philosophies,
-                      structureFlowSplit: compassResult.structureFlowSplit,
-                      part2Preferences: part2Answers,
-                    })
-                  );
-                }
-                router.push("/compass/results");
-              }}
-              className="block mx-auto text-sm text-gray-400 hover:text-gray-600"
-            >
-              Skip for now
-            </button>
           </div>
         )}
       </div>

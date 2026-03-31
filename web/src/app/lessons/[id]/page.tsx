@@ -2,6 +2,7 @@
 
 import { Shell } from "@/components/shell";
 import { PrintLesson } from "@/components/print-lesson";
+import { Unauthorized } from "@/components/unauthorized";
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
@@ -261,7 +262,7 @@ export default function LessonDetailPage() {
       await fetch(`/api/lessons/${lesson.id}/schedule`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ date: scheduleDate, userId: "demo-user" }),
+        body: JSON.stringify({ date: scheduleDate }),
       });
       setLesson((prev) => prev ? {
         ...prev,
@@ -281,6 +282,7 @@ export default function LessonDetailPage() {
   useEffect(() => {
     fetch(`/api/lessons/${lessonId}`)
       .then((r) => {
+        if (r.status === 401) throw new Error("unauthorized");
         if (!r.ok) throw new Error("Lesson not found");
         return r.json();
       })
@@ -330,6 +332,14 @@ export default function LessonDetailPage() {
         <div className="flex items-center justify-center py-12">
           <p style={{ color: "#5A5A5A" }}>Loading...</p>
         </div>
+      </Shell>
+    );
+  }
+
+  if (error === "unauthorized") {
+    return (
+      <Shell hue="lessons">
+        <Unauthorized message="This lesson belongs to another account." />
       </Shell>
     );
   }
@@ -919,15 +929,7 @@ export default function LessonDetailPage() {
               {nextLessonOpen && (
                 <ul style={{ listStyle: "disc", paddingLeft: "1.25rem", marginTop: "0.5rem" }} className="space-y-1">
                   {nextLessonSeeds.map((seed, i) => (
-                    <li key={i} style={{ fontSize: "0.875rem" }}>
-                      <Link
-                        href={`/create?interest=${encodeURIComponent(seed)}`}
-                        style={{ color: "#5A7FA0", textDecoration: "none", borderBottom: "1px dashed rgba(90,127,160,0.3)" }}
-                        className="hover:opacity-80"
-                      >
-                        {seed} →
-                      </Link>
-                    </li>
+                    <li key={i} style={{ fontSize: "0.875rem", color: "#5A5A5A" }}>{seed}</li>
                   ))}
                 </ul>
               )}

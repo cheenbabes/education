@@ -1,11 +1,17 @@
 import { prisma } from "@/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
+import { auth } from "@clerk/nextjs/server";
 
 const KG_SERVICE_URL = process.env.KG_SERVICE_URL || process.env.NEXT_PUBLIC_KG_SERVICE_URL || "http://localhost:8000";
 
 // GET /api/standards?childId=xxx
 // Returns standards per subject with coverage from completed lessons
 export async function GET(req: NextRequest) {
+  const { userId } = await auth();
+  if (!userId) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
   const childId = req.nextUrl.searchParams.get("childId");
   if (!childId) {
     return NextResponse.json({ error: "childId required" }, { status: 400 });

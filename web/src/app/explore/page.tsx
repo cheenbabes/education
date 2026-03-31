@@ -248,6 +248,21 @@ function ExplorePageInner() {
           </a>
         </div>
 
+        <div className="fixed right-3 bottom-14 z-40 pointer-events-auto">
+          <a
+            href="/contact?subject=curriculum-suggestion"
+            className="hover:underline"
+            style={{
+              fontSize: "11px",
+              color: "rgba(249,246,239,0.5)",
+              textDecoration: "none",
+              letterSpacing: "0.03em",
+            }}
+          >
+            Don&apos;t see your curriculum? Suggest one &rarr;
+          </a>
+        </div>
+
         {/* DOM overlays */}
         <InfoPanel
           focusedNode={focusedNode}

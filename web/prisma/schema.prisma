@@ -166,9 +166,11 @@ model CompassResult {
   id               String   @id @default(uuid())
   email            String
   archetype        String
+  secondaryArchetype String?
   dimensionScores  Json     // {structure: 72, modality: 35, ...}
   philosophyBlend  Json     // {montessori: 0.45, waldorf: 0.20, ...}
   part2Preferences Json     // {subjects, prep_level, budget, ...}
+  quizAnswers      Json?    // {part1: {q1: 2, q2: 0, ...}, part2: {p2_subjects: [...], ...}}
   accountId        String?
 
   account          User?    @relation(fields: [accountId], references: [id], onDelete: SetNull)

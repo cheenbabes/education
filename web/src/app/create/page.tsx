@@ -50,6 +50,36 @@ export default function GeneratePageWrapper() {
   );
 }
 
+/** Detect subjects from standard code patterns */
+function detectSubjectsFromStandards(codes: string[]): string[] {
+  const subjects = new Set<string>();
+  for (const code of codes) {
+    const upper = code.toUpperCase();
+    if (
+      upper.startsWith("CCSS.MATH") ||
+      upper.includes(".OA.") ||
+      upper.includes(".NBT.")
+    ) {
+      subjects.add("Math");
+    }
+    if (
+      upper.startsWith("CCSS.ELA-LITERACY") ||
+      upper.includes(".RL.") ||
+      upper.includes(".W.")
+    ) {
+      subjects.add("Language Arts");
+    }
+    if (
+      upper.includes("-LS") ||
+      upper.includes("-PS") ||
+      upper.includes("-ESS")
+    ) {
+      subjects.add("Science");
+    }
+  }
+  return Array.from(subjects);
+}
+
 function GeneratePage() {
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -66,10 +96,58 @@ function GeneratePage() {
   const [error, setError] = useState<string | null>(null);
   const [userState, setUserState] = useState("MI");
 
+  // Standards from query param
+  const standardsParam = searchParams.get("standards") || "";
+  const [requiredStandards, setRequiredStandards] = useState<string[]>(() =>
+    standardsParam ? standardsParam.split(",").filter(Boolean) : []
+  );
+  const [standardDescriptions, setStandardDescriptions] = useState<Record<string, string>>({});
+
+  // Load descriptions: try sessionStorage first, then fetch from API
+  useEffect(() => {
+    if (requiredStandards.length === 0) return;
+
+    // Try sessionStorage first
+    try {
+      const stored = sessionStorage.getItem("standardDescriptions");
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        if (requiredStandards.every((c) => parsed[c])) {
+          setStandardDescriptions(parsed);
+          return;
+        }
+      }
+    } catch { /* ignore */ }
+
+    // Fetch from API
+    fetch(`/api/standards/lookup?codes=${encodeURIComponent(requiredStandards.join(","))}`)
+      .then((r) => r.json())
+      .then((data) => setStandardDescriptions(data))
+      .catch(() => { /* silent */ });
+  }, [requiredStandards]);
+
+  const removeRequiredStandard = (code: string) => {
+    setRequiredStandards((prev) => prev.filter((c) => c !== code));
+  };
+
+  // Auto-detect subjects from standards on mount
+  useEffect(() => {
+    if (requiredStandards.length > 0) {
+      const detected = detectSubjectsFromStandards(requiredStandards);
+      if (detected.length > 0) {
+        setSelectedSubjects((prev) => {
+          const merged = new Set([...prev, ...detected]);
+          return Array.from(merged);
+        });
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   useEffect(() => {
     Promise.all([
-      fetch("/api/children?userId=demo-user").then((r) => r.json()),
-      fetch("/api/user?userId=demo-user").then((r) => r.json()),
+      fetch("/api/children").then((r) => r.json()),
+      fetch("/api/user").then((r) => r.json()),
     ]).then(([childrenData, userData]) => {
       setChildren(childrenData);
       if (userData.state) setUserState(userData.state);
@@ -151,6 +229,7 @@ function GeneratePage() {
           state: userState,
           multi_subject_optimize: multiSubject,
           past_lesson_hashes: [],
+          required_standards: requiredStandards.length > 0 ? requiredStandards : undefined,
         }),
       });
 
@@ -169,7 +248,6 @@ function GeneratePage() {
           lesson: data.lesson,
           childIds: selectedChildren,
           scheduledDate: null,
-          userId: "demo-user",
           subjectNames: selectedSubjects,
         }),
       });
@@ -340,6 +418,70 @@ function GeneratePage() {
                 </p>
               )}
             </div>
+
+            {/* Required Standards (from standards page) */}
+            {requiredStandards.length > 0 && (
+              <>
+                <div className="border-t border-gray-100" />
+                <div className="space-y-3">
+                  <h2 className="font-medium text-gray-900">
+                    <span style={{ fontSize: "0.7rem", fontVariant: "small-caps", letterSpacing: "0.05em", color: "#C4983D", textTransform: "uppercase", marginRight: "0.5rem" }}>
+                      Required
+                    </span>
+                    Standards to cover
+                  </h2>
+                  <div className="flex gap-2 flex-wrap">
+                    {requiredStandards.map((code) => (
+                      <div
+                        key={code}
+                        title={standardDescriptions[code] || code}
+                        style={{
+                          background: "rgba(196,152,61,0.08)",
+                          border: "1px solid rgba(196,152,61,0.25)",
+                          borderRadius: "8px",
+                          padding: "0.4rem 0.6rem",
+                          display: "flex",
+                          alignItems: "flex-start",
+                          gap: "0.5rem",
+                          maxWidth: "100%",
+                        }}
+                      >
+                        <div style={{ flex: 1, minWidth: 0 }}>
+                          <span style={{ fontFamily: "monospace", fontSize: "0.7rem", color: "#C4983D", fontWeight: 600 }}>{code}</span>
+                          {standardDescriptions[code] && (
+                            <p style={{ fontSize: "0.7rem", color: "#5A5A5A", marginTop: "0.15rem", lineHeight: 1.4 }}>
+                              {standardDescriptions[code]}
+                            </p>
+                          )}
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => removeRequiredStandard(code)}
+                          style={{
+                            background: "none",
+                            border: "none",
+                            cursor: "pointer",
+                            color: "#767676",
+                            fontSize: "0.85rem",
+                            lineHeight: 1,
+                            padding: "0 0.1rem",
+                            display: "inline-flex",
+                            alignItems: "center",
+                            flexShrink: 0,
+                          }}
+                          aria-label={`Remove ${code}`}
+                        >
+                          &times;
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                  <p className="text-xs text-gray-500">
+                    The generated lesson will specifically address these standards. Click &times; to remove any.
+                  </p>
+                </div>
+              </>
+            )}
 
             <div className="border-t border-gray-100" />
 

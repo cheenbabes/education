@@ -1,37 +1,50 @@
 import { prisma } from "@/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
+import { auth } from "@clerk/nextjs/server";
 
 // POST /api/compass/submit — save compass quiz results
 export async function POST(req: NextRequest) {
-  const body = await req.json();
-  const { email, archetype, dimensionScores, philosophyBlend, part2Preferences } = body;
+  const { userId } = await auth();
+  if (!userId) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
 
-  if (!email || !archetype || !dimensionScores || !philosophyBlend) {
+  const body = await req.json();
+  const {
+    archetype,
+    secondaryArchetype,
+    dimensionScores,
+    philosophyBlend,
+    part2Preferences,
+    quizAnswers, // { part1: {q1: 2, ...}, part2: {p2_subjects: [...], ...} }
+  } = body;
+
+  if (!archetype || !dimensionScores || !philosophyBlend) {
     return NextResponse.json(
-      { error: "Missing required fields: email, archetype, dimensionScores, philosophyBlend" },
+      { error: "Missing required fields: archetype, dimensionScores, philosophyBlend" },
       { status: 400 },
     );
   }
 
-  // If email matches an existing account, link it
-  let accountId: string | null = null;
-  const existingUser = await prisma.user.findUnique({ where: { email } });
-  if (existingUser) {
-    accountId = existingUser.id;
-  }
+  // Ensure user exists
+  await prisma.user.upsert({
+    where: { id: userId },
+    update: {},
+    create: { id: userId, email: `${userId}@clerk.placeholder` },
+  });
 
   const result = await prisma.compassResult.create({
     data: {
-      email,
+      email: userId, // placeholder — Clerk manages email
       archetype,
+      secondaryArchetype: secondaryArchetype || null,
       dimensionScores,
       philosophyBlend,
       part2Preferences: part2Preferences ?? {},
-      ...(accountId && { accountId }),
+      quizAnswers: quizAnswers ?? {},
+      accountId: userId,
     },
   });
-
-  // TODO: trigger results email (e.g., via Resend/SendGrid transactional email)
 
   return NextResponse.json({ id: result.id });
 }

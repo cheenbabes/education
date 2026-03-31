@@ -3,24 +3,29 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
+import { UserButton, SignInButton, useUser } from "@clerk/nextjs";
 
-const navItems = [
-  { href: "/dashboard", label: "Dashboard" },
-  { href: "/children", label: "Children" },
-  { href: "/create", label: "Create" },
+const publicNavItems = [
   { href: "/compass", label: "Compass" },
   { href: "/archetypes", label: "Archetypes" },
-  { href: "/calendar", label: "Calendar" },
-  { href: "/lessons", label: "Lessons" },
-  { href: "/standards", label: "Standards" },
   { href: "/explore", label: "Explore" },
   { href: "/about", label: "About" },
   { href: "/contact", label: "Contact" },
 ];
 
+const authNavItems = [
+  { href: "/dashboard", label: "Dashboard" },
+  { href: "/create", label: "Create" },
+  { href: "/lessons", label: "Lessons" },
+  { href: "/children", label: "Children" },
+  { href: "/calendar", label: "Calendar" },
+  { href: "/standards", label: "Standards" },
+];
+
 export function Nav() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+  const { isSignedIn } = useUser();
 
   return (
     <nav style={{
@@ -42,7 +47,7 @@ export function Nav() {
 
           {/* Desktop nav — scrollable at tight widths */}
           <div className="hidden lg:flex items-center overflow-x-auto" style={{ gap: "2px", scrollbarWidth: "none" }}>
-            {navItems.map((item) => {
+            {[...(isSignedIn ? authNavItems : []), ...publicNavItems].map((item) => {
               const active = pathname.startsWith(item.href);
               return (
                 <Link
@@ -60,6 +65,26 @@ export function Nav() {
                 </Link>
               );
             })}
+            <div className="ml-2 shrink-0">
+              {isSignedIn ? (
+                <UserButton />
+              ) : (
+                <SignInButton mode="redirect">
+                  <button
+                    className="px-3 py-1.5 rounded-lg text-sm transition-colors"
+                    style={{
+                      background: 'var(--night, #0B2E4A)',
+                      color: '#F9F6EF',
+                      border: 'none',
+                      cursor: 'pointer',
+                      fontWeight: 500,
+                    }}
+                  >
+                    Sign In
+                  </button>
+                </SignInButton>
+              )}
+            </div>
           </div>
 
           {/* Mobile hamburger */}
@@ -81,7 +106,7 @@ export function Nav() {
       {/* Mobile dropdown */}
       {open && (
         <div className="lg:hidden px-4 py-2 space-y-0.5" style={{ borderTop: '1px solid rgba(0,0,0,0.06)' }}>
-          {navItems.map((item) => {
+          {[...(isSignedIn ? authNavItems : []), ...publicNavItems].map((item) => {
             const active = pathname.startsWith(item.href);
             return (
               <Link
@@ -99,6 +124,26 @@ export function Nav() {
               </Link>
             );
           })}
+          <div className="px-3 py-2">
+            {isSignedIn ? (
+              <UserButton />
+            ) : (
+              <SignInButton mode="redirect">
+                <button
+                  className="px-3 py-1.5 rounded-lg text-sm transition-colors"
+                  style={{
+                    background: 'var(--night, #0B2E4A)',
+                    color: '#F9F6EF',
+                    border: 'none',
+                    cursor: 'pointer',
+                    fontWeight: 500,
+                  }}
+                >
+                  Sign In
+                </button>
+              </SignInButton>
+            )}
+          </div>
         </div>
       )}
     </nav>

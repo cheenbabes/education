@@ -442,9 +442,51 @@ export default function Home() {
                 </div>
               ),
             },
-            /* 5. Per-child progress tracking */
+            /* 5. Search standards + create targeted lessons */
             {
               right: true,
+              headline: "Search Any Standard. Create a Lesson From It.",
+              body: "Type what you want to teach in plain language — 'fractions,' 'animal habitats,' 'writing persuasive essays' — and our AI-powered search finds the exact standards across your state's framework. Select the ones you want, hit create, and get a lesson built specifically around those standards. No more guessing whether you've covered it.",
+              note: "Natural language search · 363,000+ standards · Select and create in seconds",
+              visual: (
+                <div className="wc-card wc-card-parchment frost-card" style={{ borderRadius: "14px", padding: "1.25rem", display: "flex", flexDirection: "column", gap: "0.6rem" }}>
+                  {/* Search bar mockup */}
+                  <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", background: "rgba(255,255,255,0.8)", border: "1px solid rgba(0,0,0,0.08)", borderRadius: "8px", padding: "0.5rem 0.65rem" }}>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#767676" strokeWidth="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                    <span style={{ fontSize: "0.72rem", color: "var(--ink)" }}>animal habitats</span>
+                    <span style={{ marginLeft: "auto", fontSize: "0.55rem", color: "#C4983D", fontWeight: 600, letterSpacing: "0.05em" }}>AI SEARCH</span>
+                  </div>
+
+                  {/* Results with checkboxes */}
+                  {[
+                    { code: "2-LS4-1", desc: "Your child observes living things in different places and compares what she finds.", score: 95, checked: true },
+                    { code: "2-ESS2-1", desc: "Your child can compare different ways people try to stop wind or water from changing the land.", score: 88, checked: true },
+                    { code: "K-2-ETS1-2", desc: "Your child can draw or build a simple model to show how shape helps something do its job.", score: 72, checked: false },
+                  ].map(({ code, desc, score, checked }) => (
+                    <div key={code} style={{ display: "flex", gap: "0.5rem", alignItems: "flex-start", background: checked ? "rgba(196,152,61,0.06)" : "rgba(255,255,255,0.6)", borderRadius: "8px", padding: "0.45rem 0.6rem", border: checked ? "1px solid rgba(196,152,61,0.2)" : "1px solid rgba(0,0,0,0.04)" }}>
+                      <div style={{ width: "16px", height: "16px", borderRadius: "4px", border: checked ? "2px solid #C4983D" : "2px solid rgba(0,0,0,0.15)", background: checked ? "#C4983D" : "transparent", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, marginTop: "0.1rem" }}>
+                        {checked && <span style={{ color: "#fff", fontSize: "0.6rem", fontWeight: 700 }}>✓</span>}
+                      </div>
+                      <div style={{ flex: 1, minWidth: 0 }}>
+                        <div style={{ display: "flex", alignItems: "center", gap: "0.35rem" }}>
+                          <span style={{ fontFamily: "monospace", fontSize: "0.6rem", color: "#059669", fontWeight: 600 }}>{code}</span>
+                          <span style={{ fontSize: "0.5rem", padding: "0.1rem 0.3rem", borderRadius: "4px", background: "rgba(5,150,105,0.1)", color: "#059669" }}>{score}%</span>
+                        </div>
+                        <p style={{ fontSize: "0.62rem", color: "var(--text-secondary)", lineHeight: 1.35, marginTop: "0.1rem" }}>{desc}</p>
+                      </div>
+                    </div>
+                  ))}
+
+                  {/* Create button mockup */}
+                  <div style={{ background: "var(--night)", color: "var(--parchment)", borderRadius: "8px", padding: "0.45rem", textAlign: "center", fontWeight: 500, fontSize: "0.7rem" }}>
+                    Create lesson covering 2 standards →
+                  </div>
+                </div>
+              ),
+            },
+            /* 6. Per-child progress tracking */
+            {
+              right: false,
               headline: "Track Every Child's Progress Across Standards",
               body: "Every completed lesson automatically tracks which standards each child has covered. See gaps at a glance, know exactly where they are in the scope and sequence, and never wonder 'have we covered this?' again.",
               note: "Per-child tracking · Visual progress · Gaps identified automatically",
@@ -470,9 +512,9 @@ export default function Home() {
                 </div>
               ),
             },
-            /* 6. Explore map — last */
+            /* 7. Explore map — last */
             {
-              right: false,
+              right: true,
               headline: "Explore the Universe of Educational Philosophy",
               body: "The Explore map is a visual space for discovery. Find the curriculum that fits your family.",
               note: "Paired with the Compass Quiz, it answers the question every new homeschool parent has: where do I even begin?",
@@ -718,7 +760,7 @@ export default function Home() {
           </div>
           <div>
             <div style={{ fontSize: "0.65rem", fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "rgba(249,246,239,0.45)", marginBottom: "0.75rem" }}>Product</div>
-            {[["Compass Quiz", "/compass"], ["Archetypes", "/archetypes"], ["Create Lessons", "/create"], ["Explore Map", "/explore"]].map(([label, href]) => (
+            {[["Compass Quiz", "/compass"], ["Archetypes", "/archetypes"], ["Create Lessons", "/create"], ["Explore Map", "/explore"], ["Suggest a Curriculum", "/contact?subject=curriculum-suggestion"]].map(([label, href]) => (
               <Link key={label} href={href} style={{ display: "block", fontSize: "0.85rem", color: "rgba(249,246,239,0.65)", marginBottom: "0.4rem", textDecoration: "none" }}>{label}</Link>
             ))}
           </div>

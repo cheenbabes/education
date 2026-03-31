@@ -28,9 +28,19 @@ function normalizePhilKey(key: string): string {
   return map[key] || key;
 }
 
-/** Format philosophy name for display: "place-nature-based" -> "Place Nature Based" */
+const PHILOSOPHY_DISPLAY_NAMES: Record<string, string> = {
+  "waldorf-adjacent": "Waldorf-Inspired",
+  "montessori-inspired": "Montessori-Inspired",
+  "project-based-learning": "Project-Based Learning",
+  "place-nature-based": "Place/Nature-Based",
+  "charlotte-mason": "Charlotte Mason",
+  "classical": "Classical",
+  "unschooling": "Unschooling / Child-Led",
+  "adaptive": "Adaptive",
+};
+
 function displayName(name: string): string {
-  return name
+  return PHILOSOPHY_DISPLAY_NAMES[name] || name
     .split("-")
     .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
     .join(" ");

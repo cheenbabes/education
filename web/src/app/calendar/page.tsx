@@ -70,7 +70,7 @@ export default function CalendarPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("/api/lessons?userId=demo-user")
+    fetch("/api/lessons")
       .then((r) => r.json())
       .then((lessons: LessonData[]) => {
         const byDate: Record<string, CalendarLesson[]> = {};

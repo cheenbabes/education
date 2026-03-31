@@ -141,6 +141,83 @@ export default function AboutPage() {
           </div>
         </section>
 
+        {/* Consultation booking */}
+        <section className="space-y-4">
+          <h2
+            className="font-cormorant-sc text-2xl"
+            style={{ color: "#0B2E4A" }}
+          >
+            Book a Consultation
+          </h2>
+          <div
+            style={{
+              ...frostCard,
+              borderLeft: "3px solid #C4983D",
+              display: "flex",
+              gap: "1.5rem",
+              alignItems: "center",
+            }}
+          >
+            {/* Photo placeholder */}
+            <div
+              style={{
+                width: "80px",
+                height: "80px",
+                borderRadius: "50%",
+                background: "rgba(196,152,61,0.12)",
+                border: "2px solid rgba(196,152,61,0.3)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                flexShrink: 0,
+              }}
+            >
+              <span style={{ fontSize: "1.5rem", color: "#C4983D" }}>JA</span>
+            </div>
+            <div style={{ flex: 1 }}>
+              <h3
+                className="font-cormorant-sc"
+                style={{ fontSize: "1.1rem", color: "#0B2E4A", marginBottom: "0.35rem" }}
+              >
+                1-on-1 with the Founder
+              </h3>
+              <p
+                className="text-sm"
+                style={{ color: "var(--text-secondary)", lineHeight: 1.6, marginBottom: "0.75rem" }}
+              >
+                Book a one-hour consultation with Jane to go deep on philosophy
+                selection, curriculum planning, teaching strategies, or
+                multi-age differentiation. Whether you&apos;re just starting out or
+                rethinking your approach mid-year, get personalized guidance from
+                a master educator with 15 years of experience across Montessori,
+                Classical, Charlotte Mason, and more.
+              </p>
+              <div style={{ display: "flex", alignItems: "center", gap: "1rem", flexWrap: "wrap" }}>
+                <a
+                  href="https://calendly.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    background: "#0B2E4A",
+                    color: "#F9F6EF",
+                    borderRadius: "10px",
+                    padding: "0.5rem 1.2rem",
+                    fontSize: "0.85rem",
+                    fontWeight: 500,
+                    textDecoration: "none",
+                    display: "inline-block",
+                  }}
+                >
+                  Book a Call
+                </a>
+                <span style={{ fontSize: "0.8rem", color: "var(--text-tertiary)" }}>
+                  $160 / hour &middot; Philosophy, curriculum &amp; teaching strategy
+                </span>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* Values section */}
         <section className="space-y-4 pb-8">
           <h2

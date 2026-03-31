@@ -1,11 +1,17 @@
 import { prisma } from "@/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
+import { auth } from "@clerk/nextjs/server";
 
 // POST /api/lessons/[id]/complete — rate and complete a lesson for a child
 export async function POST(
   req: NextRequest,
   { params }: { params: { id: string } }
 ) {
+  const { userId } = await auth();
+  if (!userId) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
   const { childId, starRating, notes } = await req.json();
 
   const completion = await prisma.completion.upsert({

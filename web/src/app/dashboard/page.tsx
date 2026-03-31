@@ -56,8 +56,8 @@ export default function DashboardPage() {
 
   useEffect(() => {
     Promise.all([
-      fetch("/api/children?userId=demo-user").then((r) => r.json()),
-      fetch("/api/lessons?userId=demo-user").then((r) => r.json()),
+      fetch("/api/children").then((r) => r.json()),
+      fetch("/api/lessons").then((r) => r.json()),
     ]).then(([childrenData, lessonsData]) => {
       setChildren(childrenData);
       setLessons(lessonsData);

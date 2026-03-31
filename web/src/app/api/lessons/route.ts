@@ -1,15 +1,20 @@
 import { prisma } from "@/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
+import { auth } from "@clerk/nextjs/server";
 import crypto from "crypto";
 
 // POST /api/lessons — save a generated lesson
 export async function POST(req: NextRequest) {
+  const { userId } = await auth();
+  if (!userId) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
   const body = await req.json();
   const {
     lesson,
     childIds,
     scheduledDate,
-    userId = "demo-user", // TODO: replace with auth
     subjectNames = [],
   } = body;
 
@@ -58,8 +63,18 @@ export async function POST(req: NextRequest) {
 }
 
 // GET /api/lessons — list all lessons for a user
-export async function GET(req: NextRequest) {
-  const userId = req.nextUrl.searchParams.get("userId") || "demo-user";
+export async function GET() {
+  const { userId } = await auth();
+  if (!userId) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  // Auto-create User record on first API call
+  await prisma.user.upsert({
+    where: { id: userId },
+    update: {},
+    create: { id: userId, email: `${userId}@clerk.placeholder` },
+  });
 
   const lessons = await prisma.lesson.findMany({
     where: { userId },
