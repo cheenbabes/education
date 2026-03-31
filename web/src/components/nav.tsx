@@ -20,10 +20,6 @@ const publicNavItems = [
   { href: "/contact",    label: "Contact"    },
 ];
 
-const authNavItems = [
-  { href: "/create",  label: "Create"  },
-  { href: "/account", label: "Account" },
-];
 
 export function Nav() {
   const pathname = usePathname();

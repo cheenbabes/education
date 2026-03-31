@@ -105,7 +105,6 @@ function GeneratePage() {
   const [freeState, setFreeState] = useState("");
   const [showLimitOverlay, setShowLimitOverlay] = useState(false);
   const [archetypePhilosophyIds, setArchetypePhilosophyIds] = useState<string[]>([]);
-  const [archetypeResultId, setArchetypeResultId] = useState<string | null>(null);
 
   // Standards from query param
   const standardsParam = searchParams.get("standards") || "";
@@ -179,7 +178,7 @@ function GeneratePage() {
       if (tierData.resetsAt) setResetsAt(tierData.resetsAt);
       if (archetypeData) {
         setArchetypePhilosophyIds(archetypeData.topPhilosophyIds ?? []);
-        setArchetypeResultId(archetypeData.resultId ?? null);
+
       }
       setLoadingChildren(false);
     });
