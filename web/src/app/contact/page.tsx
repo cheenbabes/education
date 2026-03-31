@@ -23,10 +23,11 @@ const nightButton: React.CSSProperties = {
   width: "100%",
 };
 
-const subjects = ["General", "Curriculum Suggestion", "Bug Report", "Partnership"] as const;
+const subjects = ["General", "Curriculum Suggestion", "Bug Report", "Lesson Issue", "Partnership"] as const;
 
 const SUBJECT_PARAM_MAP: Record<string, string> = {
   "curriculum-suggestion": "Curriculum Suggestion",
+  "lesson-issue": "Lesson Issue",
 };
 
 type Status = "idle" | "sending" | "success" | "error";
@@ -52,6 +53,15 @@ function ContactPageInner() {
     const subjectParam = searchParams.get("subject");
     if (subjectParam && SUBJECT_PARAM_MAP[subjectParam]) {
       setSubject(SUBJECT_PARAM_MAP[subjectParam]);
+    }
+    const lessonId = searchParams.get("lessonId");
+    const userId = searchParams.get("userId");
+    if (lessonId || userId) {
+      const parts: string[] = [];
+      if (lessonId) parts.push(`Lesson ID: ${lessonId}`);
+      if (userId) parts.push(`User ID: ${userId}`);
+      parts.push("", "Issue description:");
+      setMessage(parts.join("\n"));
     }
   }, [searchParams]);
 

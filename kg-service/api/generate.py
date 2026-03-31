@@ -22,6 +22,27 @@ from prompts.validate_lesson import (
 
 router = APIRouter()
 
+def _calc_cost(model: str, input_tokens: int, output_tokens: int) -> float:
+    """Calculate cost using litellm's live pricing table (no hardcoded rates)."""
+    try:
+        import litellm
+        mc = litellm.model_cost.get(model, {})
+        if mc:
+            return (
+                mc.get("input_cost_per_token", 0) * input_tokens
+                + mc.get("output_cost_per_token", 0) * output_tokens
+            )
+    except Exception:
+        pass
+    # Fallback if model not in litellm or litellm unavailable
+    if "haiku" in model:
+        return (input_tokens * 0.80 + output_tokens * 4.0) / 1_000_000
+    if "opus" in model:
+        return (input_tokens * 15.0 + output_tokens * 75.0) / 1_000_000
+    if "mini" in model:
+        return (input_tokens * 0.40 + output_tokens * 1.60) / 1_000_000
+    return (input_tokens * 3.0 + output_tokens * 15.0) / 1_000_000
+
 
 # ---------- Request / Response Models ----------
 
@@ -106,11 +127,12 @@ class ValidationResult(BaseModel):
 class GenerateLessonResponse(BaseModel):
     lesson: LessonPlan
     validation: ValidationResult
+    generation_cost_usd: float = 0.0
 
 
 # ---------- LLM Helpers ----------
 
-def _call_openai(model: str, system: str, user: str, max_tokens: int = 4096, call_type: str = "unknown") -> str:
+def _call_openai(model: str, system: str, user: str, max_tokens: int = 4096, call_type: str = "unknown") -> tuple[str, float]:
     from openai import OpenAI
     client = OpenAI(api_key=settings.openai_api_key)
     # GPT-5+ uses max_completion_tokens instead of max_tokens
@@ -140,10 +162,11 @@ def _call_openai(model: str, system: str, user: str, max_tokens: int = 4096, cal
         raw = raw.split("\n", 1)[1]
     if raw.endswith("```"):
         raw = raw.rsplit("```", 1)[0]
-    return raw
+    cost = _calc_cost(model, response.usage.prompt_tokens, response.usage.completion_tokens)
+    return raw, cost
 
 
-def _call_anthropic(model: str, system: str, user: str, max_tokens: int = 4096) -> str:
+def _call_anthropic(model: str, system: str, user: str, max_tokens: int = 4096) -> tuple[str, float]:
     import anthropic
     client = anthropic.Anthropic(api_key=settings.anthropic_api_key)
     message = client.messages.create(
@@ -157,10 +180,11 @@ def _call_anthropic(model: str, system: str, user: str, max_tokens: int = 4096) 
         raw = raw.split("\n", 1)[1]
     if raw.endswith("```"):
         raw = raw.rsplit("```", 1)[0]
-    return raw
+    cost = _calc_cost(model, message.usage.input_tokens, message.usage.output_tokens)
+    return raw, cost
 
 
-def _call_llm(model: str, system: str, user: str, max_tokens: int = 4096, call_type: str = "unknown") -> str:
+def _call_llm(model: str, system: str, user: str, max_tokens: int = 4096, call_type: str = "unknown") -> tuple[str, float]:
     if settings.generation_provider == "openai":
         return _call_openai(model, system, user, max_tokens, call_type=call_type)
     return _call_anthropic(model, system, user, max_tokens)
@@ -225,7 +249,7 @@ async def generate_lesson(req: GenerateLessonRequest):
     # 3. Generate lesson
     gen_model = _get_generation_model()
     try:
-        lesson_raw = _call_llm(gen_model, GEN_SYSTEM, user_prompt, call_type="lesson_generation")
+        lesson_raw, gen_cost = _call_llm(gen_model, GEN_SYSTEM, user_prompt, call_type="lesson_generation")
         lesson_data = json.loads(lesson_raw)
     except json.JSONDecodeError as exc:
         raise HTTPException(
@@ -247,12 +271,14 @@ async def generate_lesson(req: GenerateLessonRequest):
     )
 
     try:
-        val_raw = _call_llm(val_model, VAL_SYSTEM, val_prompt, max_tokens=2048, call_type="lesson_validation")
+        val_raw, val_cost = _call_llm(val_model, VAL_SYSTEM, val_prompt, max_tokens=2048, call_type="lesson_validation")
         val_data = json.loads(val_raw)
     except Exception:
+        val_cost = 0.0
         val_data = {"valid": True, "issues": [], "suggestions": ["Validation skipped due to error."]}
 
     return GenerateLessonResponse(
         lesson=LessonPlan(**lesson_data),
         validation=ValidationResult(**val_data),
+        generation_cost_usd=round(gen_cost + val_cost, 6),
     )

@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Nav } from "@/components/nav";
 import { ARCHETYPES } from "@/lib/compass/archetypes";
+import { PricingSection } from "@/components/pricing-section";
 
 // Archetype ring order: Weaver at top (12 o'clock), Storyteller upper-right, Guide upper-left (last)
 const RING_ORDER = [
@@ -87,8 +88,8 @@ export default function Home() {
             </Link>
           </div>
 
-          {/* Right: archetype ring */}
-          <div style={{ position: "relative", display: "flex", flexDirection: "column", alignItems: "center", gap: "1rem" }}>
+          {/* Right: archetype ring — hidden on mobile via .archetype-ring-container */}
+          <div className="archetype-ring-container" style={{ position: "relative", display: "flex", flexDirection: "column", alignItems: "center", gap: "1rem" }}>
             <ArchetypeRing archetypes={ringArchetypes} />
             <p style={{
               fontSize: "0.78rem",
@@ -112,11 +113,8 @@ export default function Home() {
         <div style={{
           maxWidth: "1100px",
           margin: "0 auto",
-          display: "grid",
-          gridTemplateColumns: "repeat(3, 1fr)",
-          gap: "2rem",
-          textAlign: "center",
-        }}>
+        }}
+          className="home-stats-grid">
           {[
             { stat: "363,000+", desc: "State Standards Integrated." },
             { stat: "Based on Foundational Texts", desc: "A library of materials supporting each pedagogy." },
@@ -148,12 +146,8 @@ export default function Home() {
           </p>
         </div>
 
-        {/* 8-column grid — all cards in one line, no scrollbar */}
-        <div style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(8, 1fr)",
-          gap: "0.6rem",
-        }}>
+        {/* 8-column grid — responsive via .home-archetype-grid */}
+        <div className="home-archetype-grid">
           {ARCHETYPES.map((a) => (
             <div key={a.id} style={{
               background: "rgba(255,255,255,0.72)",
@@ -224,7 +218,7 @@ export default function Home() {
             </h2>
           </div>
 
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "2rem", alignItems: "stretch" }}>
+          <div className="home-how-grid">
             {[
               {
                 num: "01",
@@ -524,6 +518,7 @@ export default function Home() {
                     src="/explore?embed=true"
                     title="Explore the curriculum map"
                     scrolling="no"
+                    className="home-explore-iframe"
                     style={{
                       border: "none",
                       width: "250%",
@@ -590,12 +585,40 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ── Audience row ──────────────────────────────────────────────────── */}
+      <section style={{ padding: "3rem 1.5rem", maxWidth: "1100px", margin: "0 auto" }}>
+        <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "1.5rem" }}>
+          {[
+            { label: "Homeschool Families", desc: "The core of what we built this for.", color: "var(--accent-primary)" },
+            { label: "Micro School & Co-ops", desc: "One curriculum engine, many students.", color: "var(--accent-secondary)" },
+            { label: "Worldschooling Families", desc: "Philosophy-first learning works anywhere.", color: "var(--accent-tertiary)" },
+            { label: "2E & Diverse Learners", desc: "Adaptive philosophy, built on UDL principles.", color: "#C4983D" },
+          ].map(({ label, desc, color }) => (
+            <div key={label} style={{
+              background: "rgba(255,255,255,0.65)",
+              backdropFilter: "blur(10px)",
+              border: "1px solid rgba(0,0,0,0.06)",
+              borderTop: `3px solid ${color}`,
+              borderRadius: "12px",
+              padding: "1rem 1.25rem",
+              textAlign: "center",
+              minWidth: "200px",
+              flex: "1 1 200px",
+              maxWidth: "240px",
+            }}>
+              <div style={{ fontSize: "0.82rem", fontWeight: 600, color: "var(--ink)", marginBottom: "0.35rem" }}>{label}</div>
+              <div style={{ fontSize: "0.74rem", color: "var(--text-secondary)", lineHeight: 1.5 }}>{desc}</div>
+            </div>
+          ))}
+        </div>
+      </section>
+
       {/* ── Section 6: Full-width image ─────────────────────────────────── */}
-      <section style={{ padding: "2rem 0", display: "flex", justifyContent: "center" }}>
+      <section style={{ padding: "2rem 0", display: "flex", justifyContent: "center", overflow: "hidden" }}>
         <img
           src="/kids-strip.png"
           alt="Children learning outdoors"
-          style={{ width: "1000px", maxWidth: "none", height: "auto", display: "block" }}
+          style={{ width: "100%", maxWidth: "1000px", height: "auto", display: "block" }}
         />
       </section>
 
@@ -643,84 +666,7 @@ export default function Home() {
       </section>
 
       {/* ── Section 8: Pricing ─────────────────────────────────────────── */}
-      <section style={{
-        padding: "5rem 1.5rem",
-        background: "rgba(255,255,255,0.35)",
-        borderTop: "1px solid rgba(0,0,0,0.05)",
-        borderBottom: "1px solid rgba(0,0,0,0.05)",
-      }}>
-        <div style={{ maxWidth: "900px", margin: "0 auto" }}>
-          <div style={{ textAlign: "center", marginBottom: "2.5rem" }}>
-            <p style={{ fontSize: "0.7rem", fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: "var(--accent-primary)", marginBottom: "0.5rem" }}>
-              Simple, Fair Pricing
-            </p>
-            <h2 className="font-cormorant-sc" style={{ fontSize: "2rem", fontWeight: 700, letterSpacing: "0.05em", color: "var(--ink)", marginBottom: "0.75rem" }}>
-              Start Free. Upgrade When You&apos;re Ready.
-            </h2>
-            <p className="font-cormorant" style={{ fontSize: "1.05rem", fontStyle: "italic", color: "var(--text-secondary)" }}>
-              The Compass Quiz and your first three lessons are completely free. No credit card. No trial countdown.
-            </p>
-          </div>
-
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1.1fr 1fr", gap: "1.25rem", alignItems: "stretch" }}>
-            {[
-              { name: "Compass", price: "$0", period: "/ forever", features: ["Full Compass Quiz + archetype discovery", "3 lesson generations per month", "Top curriculum matches for your philosophy"], cta: "Start Free →", featured: false },
-              { name: "Homestead", price: "$17.99", period: "/ month", badge: "Most Popular", features: ["30 lessons per month (unlimited annually)", "Up to 4 children, multi-child differentiation", "Full standards tracking across all 50 states", "Private community access"], cta: "Start Homestead →", featured: true },
-              { name: "Schoolhouse", price: "$24.99", period: "/ month", features: ["Up to 100 lessons, up to 6 children", "Full standards coverage reports", "Access to teacher education modules"], cta: "Start Schoolhouse →", featured: false },
-            ].map(({ name, price, period, badge, features, cta, featured }) => (
-              <div key={name} style={{
-                padding: featured ? "2.25rem 1.75rem" : "1.75rem 1.5rem",
-                margin: featured ? "-1.25rem 0" : "0",
-                borderRadius: "14px",
-                border: featured ? "none" : "1px solid rgba(255,255,255,0.5)",
-                boxShadow: featured ? "0 12px 40px rgba(0,0,0,0.18)" : "0 2px 10px rgba(0,0,0,0.04)",
-                background: featured ? "var(--night)" : "rgba(255,255,255,0.72)",
-                backdropFilter: featured ? "none" : "blur(12px)",
-                WebkitBackdropFilter: featured ? "none" : "blur(12px)",
-                display: "flex",
-                flexDirection: "column",
-                position: "relative" as const,
-                zIndex: featured ? 1 : 0,
-              }}>
-                {badge && (
-                  <div style={{ fontSize: "0.65rem", fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "#D4AF37", marginBottom: "0.6rem" }}>{badge}</div>
-                )}
-                <div className="font-cormorant-sc" style={{ fontSize: "1.2rem", fontWeight: 600, color: featured ? "var(--parchment)" : "var(--ink)", marginBottom: "0.25rem" }}>{name}</div>
-                <div style={{ marginBottom: "1.25rem" }}>
-                  <span className="font-cormorant-sc" style={{ fontSize: "1.75rem", fontWeight: 700, color: featured ? "var(--parchment)" : "var(--ink)" }}>{price}</span>
-                  <span style={{ fontSize: "0.82rem", color: featured ? "rgba(249,246,239,0.5)" : "var(--text-tertiary)" }}> {period}</span>
-                </div>
-                <ul style={{ listStyle: "none", padding: 0, margin: "0 0 1.5rem", display: "flex", flexDirection: "column", gap: "0.6rem", flex: 1 }}>
-                  {features.map((f) => (
-                    <li key={f} style={{ fontSize: "0.82rem", color: featured ? "rgba(249,246,239,0.75)" : "var(--text-secondary)", display: "flex", gap: "0.5rem" }}>
-                      <span style={{ color: featured ? "#D4AF37" : "var(--accent-secondary)", flexShrink: 0 }}>✓</span> {f}
-                    </li>
-                  ))}
-                </ul>
-                <Link href="/compass" style={{
-                  display: "block",
-                  width: "100%",
-                  textAlign: "center",
-                  fontSize: "0.85rem",
-                  padding: "0.75rem",
-                  borderRadius: "10px",
-                  background: featured ? "rgba(212,175,55,0.9)" : "var(--night)",
-                  color: featured ? "var(--night)" : "var(--parchment)",
-                  fontWeight: 600,
-                  textDecoration: "none",
-                  letterSpacing: "0.02em",
-                }}>
-                  {cta}
-                </Link>
-              </div>
-            ))}
-          </div>
-
-          <p style={{ textAlign: "center", fontSize: "0.8rem", color: "var(--text-tertiary)", marginTop: "1.5rem" }}>
-            All plans include all 8 teaching philosophies, the full Compass Quiz, and the Explore star map. Cancel anytime.
-          </p>
-        </div>
-      </section>
+      <PricingSection />
 
       {/* ── Section 9: Final CTA ───────────────────────────────────────── */}
       <section style={{ padding: "6rem 1.5rem", textAlign: "center" }}>
@@ -748,8 +694,8 @@ export default function Home() {
       </section>
 
       {/* ── Footer ─────────────────────────────────────────────────────── */}
-      <footer style={{ background: "var(--night)", color: "var(--parchment)", padding: "3rem 1.5rem" }}>
-        <div style={{ maxWidth: "1100px", margin: "0 auto", display: "grid", gridTemplateColumns: "1.5fr 1fr 1fr", gap: "3rem" }}>
+      <footer style={{ background: "#082f4e", color: "var(--parchment)", padding: "3rem 1.5rem" }}>
+        <div className="home-footer-grid" style={{ maxWidth: "1100px", margin: "0 auto" }}>
           <div>
             <div className="font-cormorant-sc" style={{ fontSize: "1.1rem", letterSpacing: "0.06em", marginBottom: "0.75rem" }}>
               The Sage&apos;s Compass
@@ -767,6 +713,12 @@ export default function Home() {
           <div>
             <div style={{ fontSize: "0.65rem", fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "rgba(249,246,239,0.45)", marginBottom: "0.75rem" }}>Account</div>
             {[["Dashboard", "/dashboard"], ["Lessons", "/lessons"], ["Calendar", "/calendar"], ["Standards", "/standards"]].map(([label, href]) => (
+              <Link key={label} href={href} style={{ display: "block", fontSize: "0.85rem", color: "rgba(249,246,239,0.65)", marginBottom: "0.4rem", textDecoration: "none" }}>{label}</Link>
+            ))}
+          </div>
+          <div>
+            <div style={{ fontSize: "0.65rem", fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "rgba(249,246,239,0.45)", marginBottom: "0.75rem" }}>Legal</div>
+            {[["Privacy Policy", "/privacy"], ["Terms of Use", "/terms"], ["Contact", "/contact"]].map(([label, href]) => (
               <Link key={label} href={href} style={{ display: "block", fontSize: "0.85rem", color: "rgba(249,246,239,0.65)", marginBottom: "0.4rem", textDecoration: "none" }}>{label}</Link>
             ))}
           </div>

@@ -43,10 +43,15 @@ export default function PhilosophyStar({
   const groupRef = useRef<THREE.Group>(null);
   const constellationRef = useRef<THREE.Group>(null);
   const focusRingRef = useRef<THREE.Mesh>(null);
+  const archetypeGlowRef = useRef<THREE.Mesh>(null);
   const labelShadowRef = useRef<THREE.Mesh>(null);
   const labelMainRef = useRef<THREE.Mesh>(null);
   const hitRef = useRef<THREE.Mesh>(null);
-  const { focusedNode, setFocusedNode, searchTerm, graphData, layoutPositions } = useExploreState();
+  const { focusedNode, setFocusedNode, searchTerm, graphData, layoutPositions, archetypePhilosophyIds } = useExploreState();
+
+  // 0 = no match, 1 = primary archetype philosophy, 2 = secondary
+  const archetypeMatchRank = archetypePhilosophyIds.indexOf(philosophy.name) + 1; // 0 if not found
+  const isArchetypeMatch = archetypeMatchRank > 0;
 
   const isFocused =
     focusedNode?.type === "philosophy" && focusedNode.id === philosophy.name;
@@ -112,7 +117,7 @@ export default function PhilosophyStar({
     return displayName.toLowerCase().includes(searchTerm.toLowerCase());
   }, [searchTerm, displayName]);
 
-  const targetOpacity = !matchesSearch ? 0.12 : otherFocused ? 0.6 : highlightedByContext ? 0.95 : 1;
+  const targetOpacity = !matchesSearch ? 0.12 : otherFocused ? (isArchetypeMatch ? 0.75 : 0.6) : highlightedByContext ? 0.95 : 1;
   const constellationLineOpacity = !matchesSearch
     ? 0.08
     : otherFocused
@@ -168,6 +173,18 @@ export default function PhilosophyStar({
       const next = current + (target - current) * 0.12;
       constellationRef.current.scale.set(next, next, 1);
     }
+    // Archetype glow — soft warm pulse, independent of focus state
+    if (archetypeGlowRef.current && isArchetypeMatch) {
+      const mat = archetypeGlowRef.current.material as THREE.MeshBasicMaterial;
+      const baseOpacity = archetypeMatchRank === 1 ? 0.22 : 0.13;
+      const pulseAmt = archetypeMatchRank === 1 ? 0.1 : 0.06;
+      const speed = archetypeMatchRank === 1 ? 1.1 : 0.85;
+      const target = baseOpacity + pulseAmt * Math.sin(t * speed + phaseOffset);
+      mat.opacity += (target - mat.opacity) * 0.06;
+      const scaleTarget = 1 + (archetypeMatchRank === 1 ? 0.06 : 0.04) * Math.sin(t * speed * 0.7 + phaseOffset);
+      archetypeGlowRef.current.scale.setScalar(scaleTarget);
+    }
+
     if (focusRingRef.current) {
       const mat = focusRingRef.current.material as THREE.MeshBasicMaterial;
       const goal = isFocused ? 0.72 + Math.sin(t * 1.8 + phaseOffset) * 0.09 : 0;
@@ -224,6 +241,20 @@ export default function PhilosophyStar({
           toneMapped={false}
         />
       </mesh>
+
+      {/* Archetype glow — warm gold halo for user's matched philosophies */}
+      {isArchetypeMatch && (
+        <mesh ref={archetypeGlowRef} position={[0, 0, 0.01]}>
+          <circleGeometry args={[baseScale * (archetypeMatchRank === 1 ? 0.95 : 0.78), 48]} />
+          <meshBasicMaterial
+            color={archetypeMatchRank === 1 ? "#d4af37" : "#c8a87a"}
+            transparent
+            opacity={0}
+            depthWrite={false}
+            toneMapped={false}
+          />
+        </mesh>
+      )}
 
       <mesh ref={focusRingRef} position={[0, 0, 0.032]}>
         <ringGeometry args={[baseScale * 0.52, baseScale * 0.58, 64]} />

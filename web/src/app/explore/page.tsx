@@ -36,6 +36,7 @@ function ExplorePageInner() {
   const [data, setData] = useState<GraphData | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [focusedNode, setFocusedNode] = useState<FocusedNode | null>(null);
+  const [archetypePhilosophyIds, setArchetypePhilosophyIds] = useState<string[]>([]);
   const [visibleLayers, setVisibleLayers] = useState<VisibleLayers>(
     DEFAULT_VISIBLE_LAYERS,
   );
@@ -83,9 +84,10 @@ function ExplorePageInner() {
             searchTerm,
             setSearchTerm,
             layoutPositions,
+            archetypePhilosophyIds,
           }
         : null,
-    [focusedNode, data, visibleLayers, searchTerm, layoutPositions],
+    [focusedNode, data, visibleLayers, searchTerm, layoutPositions, archetypePhilosophyIds],
   );
 
   useEffect(() => {
@@ -96,6 +98,12 @@ function ExplorePageInner() {
       })
       .then(setData)
       .catch((err) => setError(err.message));
+
+    // Fetch archetype silently — fails gracefully if not logged in
+    fetch("/api/user/archetype")
+      .then((r) => r.ok ? r.json() : null)
+      .then((d) => { if (d?.topPhilosophyIds) setArchetypePhilosophyIds(d.topPhilosophyIds); })
+      .catch(() => {});
   }, []);
 
   const handleClosePanel = useCallback(() => {
@@ -226,6 +234,7 @@ function ExplorePageInner() {
           placementPositions={placementPositions}
           zoomRef={zoomRef}
           embedMode={embedMode}
+          archetypePhilosophyIds={archetypePhilosophyIds}
         />
 
         {data.dataIntegrity?.missingPhilosophies?.length ? (

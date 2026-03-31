@@ -24,11 +24,29 @@ export async function GET() {
   return NextResponse.json(children);
 }
 
+const CHILD_LIMITS: Record<string, number> = {
+  compass: 0,
+  homestead: 4,
+  schoolhouse: 8,
+};
+
 // POST /api/children — create a child profile
 export async function POST(req: NextRequest) {
   const { userId } = await auth();
   if (!userId) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  // Enforce tier child limit
+  const user = await prisma.user.findUnique({ where: { id: userId } });
+  const tier = user?.tier || "compass";
+  const limit = CHILD_LIMITS[tier] ?? 0;
+  const current = await prisma.child.count({ where: { userId } });
+  if (current >= limit) {
+    return NextResponse.json(
+      { error: "child_limit", tier, limit, current },
+      { status: 429 },
+    );
   }
 
   const body = await req.json();

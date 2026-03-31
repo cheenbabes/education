@@ -55,6 +55,10 @@ model User {
   password      String?
   image         String?
   state         String?   // US state abbreviation for standards
+  tier              String    @default("compass")  // compass | homestead | schoolhouse
+  tierExpiresAt     DateTime?
+  worksheetsUsed    Int       @default(0)
+  worksheetsResetAt DateTime?
 
   accounts       Account[]
   sessions       Session[]
@@ -94,6 +98,7 @@ model Lesson {
   multiSubjectOptimized  Boolean  @default(false)
   content                Json     // full lesson plan JSON
   contentHash            String   // for dedup detection
+  generationCostUsd      Float?   // AI generation cost in USD, internal metrics only
   favorite               Boolean  @default(false)
 
   user             User              @relation(fields: [userId], references: [id], onDelete: Cascade)

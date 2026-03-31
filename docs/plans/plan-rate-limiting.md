@@ -2,11 +2,11 @@
 
 ## Tier Definitions
 
-| Tier | Price | Lessons/Month | Children | Features |
-|------|-------|---------------|----------|----------|
-| Compass (free) | $0 | 3 | None (grade-only mode) | Quiz + archetype, create lessons with grade selection, view created lessons |
-| Homestead | $17.99/mo | 30 (unlimited annually) | Up to 4 | Dashboard, children profiles, calendar, standards tracking, multi-child differentiation, community |
-| Schoolhouse | $24.99/mo | 100 | Up to 6 | Full standards coverage reports, teacher education modules |
+| Tier | Price | Lessons/Month | Worksheets/Month | Children | Features |
+|------|-------|---------------|------------------|----------|----------|
+| Compass (free) | $0 | 3 | 0 | None (grade-only mode) | Quiz + archetype, create lessons with grade selection, view created lessons |
+| Homestead | $21.99/mo · $199/yr | 30 | 5 | Up to 4 | Dashboard, children profiles, calendar, standards tracking, multi-child differentiation, community |
+| Schoolhouse | $29.99/mo · $279/yr | 60 | 15 | Up to 8 | All Homestead features + priority support |
 
 ## Page Access by Tier
 
@@ -33,7 +33,7 @@ When on the free tier (`tier === "compass"`), the create page changes:
 - **No child selection section** — instead show a simple grade dropdown (K-12)
 - **No multi-age toggle** — single grade only
 - **Shows remaining lessons**: "Free tier: 2 of 3 lessons remaining this month"
-- **Upgrade banner** at top: "Upgrade to Homestead to unlock per-child differentiation, multi-age lessons, and 30 lessons per month"
+- **Upgrade banner** at top: "Upgrade to Homestead to unlock per-child differentiation, multi-age lessons, and 30 lessons + 5 worksheets per month"
 
 ### What stays the same:
 - Interest/topic input
@@ -63,7 +63,7 @@ When a free-tier user navigates to Dashboard, Children, Calendar, or Standards, 
 │     ✓ Monitor standards coverage            │
 │     ✓ 30 lessons per month                  │
 │                                             │
-│     [ Upgrade to Homestead — $17.99/mo ]    │
+│     [ Upgrade to Homestead — $21.99/mo ]    │
 │                                             │
 │     Already have a plan? Restore purchase   │
 │                                             │
@@ -101,7 +101,7 @@ const monthlyCount = await prisma.lesson.count({
   where: { userId, createdAt: { gte: startOfMonth } },
 });
 
-const limits = { compass: 3, homestead: 30, schoolhouse: 100 };
+const limits = { compass: 3, homestead: 30, schoolhouse: 60 };
 const tier = user?.tier || "compass";
 const limit = limits[tier] || 3;
 
@@ -112,7 +112,7 @@ if (monthlyCount >= limit) {
 
 ### 2. Children Limit (`POST /api/children`)
 ```ts
-const childLimits = { compass: 0, homestead: 4, schoolhouse: 6 };
+const childLimits = { compass: 0, homestead: 4, schoolhouse: 8 };
 // compass: 0 — free tier can't create children at all
 ```
 
@@ -143,6 +143,7 @@ Reusable wrapper component:
 Shows on create page and in nav for paid tiers:
 - "2 of 3 lessons remaining" (free)
 - "28 of 30 lessons this month" (homestead, shown when >50% used)
+- "58 of 60 lessons this month" (schoolhouse, shown when >50% used)
 
 ### Upgrade prompt on 429
 When create page gets 429 from API:
@@ -151,12 +152,28 @@ When create page gets 429 from API:
 - "Resets on [1st of next month]"
 - Don't lose form state
 
-## Clerk Billing Integration
-- Configure plans in Clerk dashboard (Compass free, Homestead $17.99/mo, Schoolhouse $24.99/mo)
-- Read tier from Clerk session claims or `user.publicMetadata.tier`
-- API side: `const { userId, sessionClaims } = await auth()` → get tier
-- Sync tier to DB via Clerk webhook (`user.updated`) for fast lookups
-- Clerk handles checkout, payment, downgrades, cancellations
+## Billing Provider: Clerk Billing (not Stripe)
+
+Clerk has built-in subscription management — single provider for auth + billing. No separate Stripe dashboard.
+
+### Phase 1 — No billing config needed (ship now)
+All enforcement uses the `tier` DB field defaulting to `"compass"`. Free users are gated immediately. Paid users get manually bumped in DB until Phase 2 is live.
+
+1. Add `tier` + `worksheetsUsed` to User model (default `"compass"`)
+2. `GET /api/user/tier` endpoint
+3. `<TierGate>` component with frosted upgrade prompt
+4. Lock Dashboard / Children / Calendar / Standards
+5. Free-tier create page (grade dropdown, usage badge)
+6. Enforce lesson limit `POST /api/lessons` → 429
+7. Enforce child limit `POST /api/children` → 429
+8. 429 overlay on create page
+
+### Phase 2 — Clerk Billing config
+- Configure plans in Clerk dashboard: Compass (free), Homestead ($21.99/mo · $199/yr), Schoolhouse ($29.99/mo · $279/yr)
+- Read tier from Clerk session: `sessionClaims?.metadata?.tier` or `user.publicMetadata.tier`
+- API: `const { userId, sessionClaims } = await auth()` → tier
+- Clerk webhook (`user.updated`) syncs tier to DB for enforcement
+- Clerk handles checkout UI, upgrades, downgrades, cancellations, receipts
 
 ## API: Get User Tier & Usage (`GET /api/user/tier`)
 Returns current tier info for frontend:
@@ -187,7 +204,8 @@ Called on page load by create page and nav (cached client-side).
 11. **KG service rate limiting** — concurrent + per-IP limits
 
 ## Edge Cases
-- **Annual Homestead**: unlimited lessons — set limit to 9999 or flag
+- **Annual Homestead**: set lesson limit to 9999 (no hard cap — annual commitment, cost absorbed)
+- **Annual Schoolhouse**: same, set to 9999
 - **Tier downgrade mid-month**: Don't delete existing lessons/children, just prevent new ones
 - **Grace period**: 3 days after payment failure before downgrade
 - **Existing demo users**: All get "compass" tier by default

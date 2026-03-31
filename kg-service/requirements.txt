@@ -3,6 +3,7 @@ uvicorn>=0.34.0
 kuzu>=0.8.0
 anthropic>=0.42.0
 openai>=1.60.0
+litellm>=1.56.0
 requests>=2.32.0
 pymupdf>=1.25.0
 pydantic>=2.10.0

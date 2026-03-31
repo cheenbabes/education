@@ -6,6 +6,7 @@ import { Unauthorized } from "@/components/unauthorized";
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
+import { useUser } from "@clerk/nextjs";
 import { PHILOSOPHY_LABELS, PHILOSOPHY_COLORS as SCORING_COLORS, resolvePhilosophyKey } from "@/lib/compass/scoring";
 
 interface LessonDetail {
@@ -236,6 +237,7 @@ function StructuredInstructions({ text }: { text: string }) {
 export default function LessonDetailPage() {
   const params = useParams();
   const lessonId = params.id as string;
+  const { user } = useUser();
 
   const [lesson, setLesson] = useState<LessonDetail | null>(null);
   const [loading, setLoading] = useState(true);
@@ -404,7 +406,30 @@ export default function LessonDetailPage() {
           </Link>
           <div className="flex gap-2 items-center">
             {lessonSections.length > 0 && <PrintLesson lesson={printableLesson} />}
-            {!scheduledDate && (
+            {lesson.lessonChildren.length === 0 ? (
+              /* Compass / free-tier upsell */
+              <Link
+                href="/#pricing"
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: "0.35rem",
+                  fontSize: "0.75rem",
+                  padding: "0.35rem 0.75rem",
+                  borderRadius: "8px",
+                  border: "1px solid rgba(110,110,158,0.3)",
+                  color: "var(--accent-primary)",
+                  background: "rgba(110,110,158,0.06)",
+                  textDecoration: "none",
+                  fontWeight: 500,
+                }}
+              >
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                </svg>
+                Add to Calendar — Upgrade to Homestead
+              </Link>
+            ) : !scheduledDate ? (
               <div className="flex gap-1.5 items-center">
                 <input
                   type="date"
@@ -432,7 +457,7 @@ export default function LessonDetailPage() {
                   {scheduling ? "Saving..." : "Add to Calendar"}
                 </button>
               </div>
-            )}
+            ) : null}
           </div>
         </div>
 
@@ -935,6 +960,26 @@ export default function LessonDetailPage() {
               )}
             </div>
           )}
+
+          {/* Issue report */}
+          <div style={{ marginTop: "2rem", paddingTop: "1.5rem", borderTop: "1px solid rgba(0,0,0,0.06)", textAlign: "center" }}>
+            <Link
+              href={`/contact?subject=lesson-issue&lessonId=${lesson.id}&userId=${user?.id ?? ""}`}
+              style={{
+                fontSize: "0.78rem",
+                color: "var(--text-tertiary)",
+                textDecoration: "none",
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "0.35rem",
+              }}
+            >
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+              </svg>
+              Issues with this lesson? Contact us
+            </Link>
+          </div>
         </div>
       </div>
     </Shell>

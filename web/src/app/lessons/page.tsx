@@ -289,7 +289,7 @@ export default function LessonsPage() {
 
   if (loading) {
     return (
-      <Shell hue="lessons">
+      <Shell hue="lessons" fullWidth>
         <div className="flex items-center justify-center py-12">
           <p style={{ color: "#5A5A5A" }}>Loading...</p>
         </div>
@@ -298,8 +298,8 @@ export default function LessonsPage() {
   }
 
   return (
-    <Shell hue="lessons">
-      <div className="space-y-4">
+    <Shell hue="lessons" fullWidth>
+      <div className="space-y-4" style={{ maxWidth: "1100px", margin: "0 auto", padding: "2rem 1.5rem" }}>
         <h1 className="font-cormorant-sc text-3xl" style={{ color: "#0B2E4A" }}>
           All Lessons
         </h1>

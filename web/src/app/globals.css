@@ -393,76 +393,199 @@
   .border-default { border-color: var(--border-default); }
 }
 
+/* ─── Pricing grid ───────────────────────────────────────────────────────── */
+.pricing-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.05fr 1.05fr 1fr;
+  gap: 1.25rem;
+  align-items: stretch;
+}
+
+.pricing-card-featured {
+  margin: -1.25rem 0;
+  position: relative;
+  z-index: 1;
+}
+
+/* ─── Homepage responsive layout classes ─────────────────────────────────── */
+.home-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  text-align: center;
+}
+
+.home-archetype-grid {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  gap: 0.6rem;
+}
+
+.home-how-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  align-items: stretch;
+}
+
+.home-feature-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  align-items: center;
+}
+
+.home-founder-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  gap: 4rem;
+  align-items: start;
+}
+
+.home-footer-grid {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr 1fr;
+  gap: 3rem;
+}
+
 /* ─── Mobile responsiveness ─────────────────────────────────────────────── */
-@media (max-width: 768px) {
-  /* Stack all 2-column grids */
-  section [style*="gridTemplateColumns"] {
-    grid-template-columns: 1fr !important;
-    gap: 1.5rem !important;
+
+/* Tablet: 901–1100px */
+@media (max-width: 1100px) {
+  .home-archetype-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.5rem;
   }
 
-  /* Hero and section padding */
+  .pricing-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .pricing-card-featured {
+    margin: 0;
+  }
+}
+
+/* Mobile: ≤768px */
+@media (max-width: 768px) {
+  /* Section padding */
   section {
     padding-left: 1rem !important;
     padding-right: 1rem !important;
   }
 
-  /* Pricing cards stack vertically */
-  section > div > div[style*="grid-template-columns: 1fr 1.1fr 1fr"] {
-    grid-template-columns: 1fr !important;
-  }
-
-  /* Nav adjustments */
+  /* Nav */
   nav {
     padding-left: 0.75rem !important;
     padding-right: 0.75rem !important;
   }
 
-  /* Archetype ring — hide on very small screens, show on medium */
-  .archetype-ring-container {
-    display: none;
-  }
-
-  /* Lesson cards — full width pills */
-  .flex.gap-1\.5.flex-wrap {
-    gap: 0.35rem;
-  }
-
-  /* Font size adjustments */
+  /* Font scaling */
   h1 {
     font-size: clamp(1.5rem, 6vw, 2.5rem) !important;
   }
-
   h2 {
     font-size: clamp(1.25rem, 5vw, 2rem) !important;
   }
 
-  /* Ensure images don't overflow */
-  img, iframe {
+  /* Images & iframes */
+  img {
+    max-width: 100% !important;
+    height: auto !important;
+  }
+  iframe {
     max-width: 100%;
-    height: auto;
   }
 
-  /* Shell content padding */
+  /* Shell */
   .shell-content {
     padding-left: 1rem;
     padding-right: 1rem;
   }
+
+  /* Homepage layout classes */
+  .home-stats-grid {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  .home-archetype-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.45rem;
+  }
+
+  .home-how-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .home-feature-row {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .home-founder-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .home-footer-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+  }
+
+  /* Archetype ring: hide on mobile, hero stacks to single column */
+  .archetype-ring-container {
+    display: none;
+  }
+
+  /* Explore iframe preview: hide on mobile, show CTA only */
+  .home-explore-iframe {
+    display: none;
+  }
+
+  /* Pricing: single column on mobile */
+  .pricing-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .pricing-card-featured {
+    margin: 0;
+  }
+
+  /* Inline-style grids that aren't covered by classes */
+  section [style*="gridTemplateColumns"] {
+    grid-template-columns: 1fr !important;
+    gap: 1.5rem !important;
+  }
+
+  /* Lesson cards */
+  .flex.gap-1\.5.flex-wrap {
+    gap: 0.35rem;
+  }
 }
 
+/* Extra small: ≤480px */
 @media (max-width: 480px) {
-  /* Extra small screens */
   section {
     padding-left: 0.75rem !important;
     padding-right: 0.75rem !important;
   }
 
-  /* Reduce card padding */
+  .home-archetype-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.4rem;
+  }
+
+  .home-footer-grid {
+    grid-template-columns: 1fr;
+  }
+
   .frost-card {
     padding: 0.75rem;
   }
 
-  /* Smaller pills */
   .frost-pill {
     font-size: 0.6rem;
     padding: 0.2rem 0.4rem;

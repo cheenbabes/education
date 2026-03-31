@@ -1,6 +1,7 @@
 "use client";
 
 import { Shell } from "@/components/shell";
+import { TierGate } from "@/components/tier-gate";
 import { useState, useEffect, useRef, useCallback } from "react";
 import Link from "next/link";
 
@@ -66,6 +67,16 @@ const frostPillBase: React.CSSProperties = {
 const MAX_SELECTED_STANDARDS = 7;
 
 export default function StandardsPage() {
+  return (
+    <Shell hue="standards">
+      <TierGate requiredTier="homestead" pageName="Standards" description="Track which standards each child has covered and identify gaps">
+        <StandardsContent />
+      </TierGate>
+    </Shell>
+  );
+}
+
+function StandardsContent() {
   const [children, setChildren] = useState<ChildData[]>([]);
   const [selectedChild, setSelectedChild] = useState<string>("");
   const [data, setData] = useState<StandardsData | null>(null);
@@ -190,45 +201,39 @@ export default function StandardsPage() {
 
   if (loading) {
     return (
-      <Shell hue="standards">
-        <div className="flex items-center justify-center py-12">
-          <p style={{ color: "#5A5A5A" }}>Loading...</p>
-        </div>
-      </Shell>
+      <div className="flex items-center justify-center py-12">
+        <p style={{ color: "#5A5A5A" }}>Loading...</p>
+      </div>
     );
   }
 
   if (children.filter((c) => c.standardsOptIn).length === 0) {
     return (
-      <Shell hue="standards">
-        <div className="text-center py-12" style={{ color: "#5A5A5A" }}>
-          <p style={{ fontSize: "1.125rem", fontWeight: 500 }}>No children have standards tracking enabled</p>
-          <p style={{ fontSize: "0.875rem", marginTop: "0.5rem" }}>
-            Enable it in the{" "}
-            <Link href="/children" style={{ color: "#6E6E9E" }} className="hover:underline">
-              Children settings
-            </Link>{" "}
-            page.
-          </p>
-        </div>
-      </Shell>
+      <div className="text-center py-12" style={{ color: "#5A5A5A" }}>
+        <p style={{ fontSize: "1.125rem", fontWeight: 500 }}>No children have standards tracking enabled</p>
+        <p style={{ fontSize: "0.875rem", marginTop: "0.5rem" }}>
+          Enable it in the{" "}
+          <Link href="/children" style={{ color: "#6E6E9E" }} className="hover:underline">
+            Children settings
+          </Link>{" "}
+          page.
+        </p>
+      </div>
     );
   }
 
   if (child && !child.standardsOptIn) {
     return (
-      <Shell hue="standards">
-        <div className="text-center py-12" style={{ color: "#5A5A5A" }}>
-          <p style={{ fontSize: "1.125rem", fontWeight: 500 }}>Standards tracking is off for {child.name}</p>
-          <p style={{ fontSize: "0.875rem", marginTop: "0.5rem" }}>
-            You can enable it in the{" "}
-            <Link href="/children" style={{ color: "#6E6E9E" }} className="hover:underline">
-              Children settings
-            </Link>{" "}
-            page.
-          </p>
-        </div>
-      </Shell>
+      <div className="text-center py-12" style={{ color: "#5A5A5A" }}>
+        <p style={{ fontSize: "1.125rem", fontWeight: 500 }}>Standards tracking is off for {child.name}</p>
+        <p style={{ fontSize: "0.875rem", marginTop: "0.5rem" }}>
+          You can enable it in the{" "}
+          <Link href="/children" style={{ color: "#6E6E9E" }} className="hover:underline">
+            Children settings
+          </Link>{" "}
+          page.
+        </p>
+      </div>
     );
   }
 
@@ -237,7 +242,7 @@ export default function StandardsPage() {
   const totalCovered = progress.reduce((sum, sp) => sum + sp.covered, 0);
 
   return (
-    <Shell hue="standards">
+    <>
       <div className="space-y-6">
         {/* Header */}
         <div className="flex items-center justify-between flex-wrap gap-3">
@@ -700,6 +705,6 @@ export default function StandardsPage() {
           </Link>
         </div>
       )}
-    </Shell>
+    </>
   );
 }

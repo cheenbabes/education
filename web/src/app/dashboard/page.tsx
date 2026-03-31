@@ -1,6 +1,7 @@
 "use client";
 
 import { Shell } from "@/components/shell";
+import { TierGate } from "@/components/tier-gate";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 
@@ -53,14 +54,17 @@ export default function DashboardPage() {
   const [children, setChildren] = useState<Child[]>([]);
   const [lessons, setLessons] = useState<LessonData[]>([]);
   const [loading, setLoading] = useState(true);
+  const [archetype, setArchetype] = useState<{ archetype: string; secondaryArchetype: string | null; resultId: string; topPhilosophyIds: string[] } | null>(null);
 
   useEffect(() => {
     Promise.all([
       fetch("/api/children").then((r) => r.json()),
       fetch("/api/lessons").then((r) => r.json()),
-    ]).then(([childrenData, lessonsData]) => {
+      fetch("/api/user/archetype").then((r) => r.json()),
+    ]).then(([childrenData, lessonsData, archetypeData]) => {
       setChildren(childrenData);
       setLessons(lessonsData);
+      if (archetypeData) setArchetype(archetypeData);
       setLoading(false);
     });
   }, []);
@@ -122,7 +126,7 @@ export default function DashboardPage() {
 
   if (loading) {
     return (
-      <Shell hue="dashboard">
+      <Shell hue="dashboard" fullWidth>
         <div className="flex items-center justify-center py-12">
           <p className="text-gray-500">Loading...</p>
         </div>
@@ -131,8 +135,9 @@ export default function DashboardPage() {
   }
 
   return (
-    <Shell hue="dashboard">
-      <div className="space-y-6">
+    <Shell hue="dashboard" fullWidth>
+      <TierGate requiredTier="homestead" pageName="Dashboard" description="See your children's progress, upcoming lessons, and track your teaching journey">
+      <div className="space-y-6" style={{ maxWidth: "1100px", margin: "0 auto", padding: "2rem 1.5rem" }}>
         <div className="flex items-center justify-between">
           <h1 className="font-cormorant-sc text-3xl text-gray-900">Dashboard</h1>
           <Link
@@ -142,6 +147,49 @@ export default function DashboardPage() {
             Create Lesson
           </Link>
         </div>
+
+        {/* Archetype card */}
+        {archetype ? (
+          <div style={{ ...frostCard, display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "1rem" }}>
+            <div>
+              <p style={{ fontSize: "0.65rem", fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--text-tertiary)", marginBottom: "0.35rem" }}>
+                Your Teaching Archetype
+              </p>
+              <div style={{ display: "flex", alignItems: "center", gap: "0.6rem", flexWrap: "wrap" }}>
+                <span className="font-cormorant-sc" style={{ fontSize: "1.1rem", fontWeight: 600, color: "var(--ink)", textTransform: "capitalize" }}>
+                  {archetype.archetype.replace("the-", "The ")}
+                </span>
+                {archetype.secondaryArchetype && (
+                  <span style={{ fontSize: "0.8rem", color: "var(--text-secondary)", textTransform: "capitalize" }}>
+                    + {archetype.secondaryArchetype.replace("the-", "The ")}
+                  </span>
+                )}
+                {archetype.topPhilosophyIds.map((id) => (
+                  <span key={id} style={{
+                    fontSize: "0.68rem", padding: "0.15rem 0.45rem", borderRadius: "5px",
+                    background: "rgba(110,110,158,0.1)", color: "var(--accent-primary)",
+                    border: "1px solid rgba(110,110,158,0.2)",
+                  }}>
+                    {id.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase())}
+                  </span>
+                ))}
+              </div>
+            </div>
+            <Link href={`/compass/results?id=${archetype.resultId}`}
+              style={{ fontSize: "0.78rem", color: "var(--accent-primary)", textDecoration: "none" }}>
+              View full results →
+            </Link>
+          </div>
+        ) : (
+          <div style={{ ...frostCard, display: "flex", alignItems: "center", justifyContent: "space-between", gap: "1rem" }}>
+            <p style={{ fontSize: "0.85rem", color: "var(--text-secondary)" }}>
+              Discover your teaching archetype to personalize your lessons.
+            </p>
+            <Link href="/compass" className="btn-night" style={{ fontSize: "0.8rem", padding: "0.45rem 1rem", textDecoration: "none", whiteSpace: "nowrap" }}>
+              Take the Compass Quiz →
+            </Link>
+          </div>
+        )}
 
         {/* Children summary */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -333,6 +381,7 @@ export default function DashboardPage() {
           </div>
         </div>
       </div>
+      </TierGate>
     </Shell>
   );
 }

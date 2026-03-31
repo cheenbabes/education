@@ -25,7 +25,10 @@ class Settings(BaseSettings):
     kuzu_db_path: Path = Path(__file__).resolve().parent / "db"
     extracted_path: Path = Path(__file__).resolve().parent / "extracted"
 
-    model_config = {"env_file": ".env", "env_file_encoding": "utf-8"}
+    model_config = {
+        "env_file": str(Path(__file__).resolve().parent / ".env"),
+        "env_file_encoding": "utf-8",
+    }
 
 
 settings = Settings()

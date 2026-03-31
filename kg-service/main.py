@@ -1,12 +1,24 @@
 """FastAPI application for the Education Knowledge Graph service."""
 
 import os
+from pathlib import Path
 from contextlib import asynccontextmanager
+
+# Load .env from the kg-service directory into os.environ before any other imports
+# so that all SDK clients (OpenAI, Anthropic) can find their API keys.
+_env_file = Path(__file__).resolve().parent / ".env"
+if _env_file.exists():
+    for _line in _env_file.read_text().splitlines():
+        _line = _line.strip()
+        if _line and not _line.startswith("#") and "=" in _line:
+            _key, _, _val = _line.partition("=")
+            os.environ.setdefault(_key.strip(), _val.strip())
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from api.generate import router as generate_router
+from api.moderation import router as moderation_router
 from api.standards import router as standards_router
 from api.progress import router as progress_router
 from api.graph_export import router as graph_export_router
@@ -45,6 +57,7 @@ app.add_middleware(
 )
 
 app.include_router(generate_router, tags=["Lesson Generation"])
+app.include_router(moderation_router, tags=["Moderation"])
 app.include_router(standards_router, tags=["Standards"])
 app.include_router(progress_router, tags=["Progress"])
 app.include_router(graph_export_router, tags=["Graph Export"])

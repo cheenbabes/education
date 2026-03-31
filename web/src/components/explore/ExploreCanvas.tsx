@@ -350,6 +350,7 @@ export interface ExploreCanvasProps {
   placementPositions: Record<string, [number, number]>;
   zoomRef?: MutableRefObject<{ zoomIn: () => void; zoomOut: () => void }>;
   embedMode?: boolean;
+  archetypePhilosophyIds?: string[];
 }
 
 export default function ExploreCanvas({
@@ -364,6 +365,7 @@ export default function ExploreCanvas({
   placementPositions,
   zoomRef,
   embedMode,
+  archetypePhilosophyIds = [],
 }: ExploreCanvasProps) {
   const defaultZoomRef = useRef({ zoomIn: () => {}, zoomOut: () => {} });
   const controlsRef = useRef<OrbitControlsImpl | null>(null);
@@ -382,8 +384,9 @@ export default function ExploreCanvas({
       searchTerm,
       setSearchTerm,
       layoutPositions,
+      archetypePhilosophyIds,
     }),
-    [focusedNode, setFocusedNode, data, visibleLayers, setVisibleLayers, searchTerm, setSearchTerm, layoutPositions],
+    [focusedNode, setFocusedNode, data, visibleLayers, setVisibleLayers, searchTerm, setSearchTerm, layoutPositions, archetypePhilosophyIds],
   );
 
   return (

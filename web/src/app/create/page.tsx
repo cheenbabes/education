@@ -1,7 +1,8 @@
 "use client";
 
+import Link from "next/link";
 import { Shell } from "@/components/shell";
-import { SUBJECTS, PHILOSOPHIES } from "@/lib/types";
+import { SUBJECTS, PHILOSOPHIES, GRADES, US_STATES } from "@/lib/types";
 import { useState, useEffect, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 
@@ -88,13 +89,23 @@ function GeneratePage() {
   const [selectedChildren, setSelectedChildren] = useState<string[]>([]);
   const [interest, setInterest] = useState(searchParams.get("interest") || "");
   const [selectedSubjects, setSelectedSubjects] = useState<string[]>([]);
-  const [philosophy, setPhilosophy] = useState("adaptive");
+  const [philosophy, setPhilosophy] = useState("");
   const [multiSubject, setMultiSubject] = useState(false);
   const [generating, setGenerating] = useState(false);
+  const [topicError, setTopicError] = useState<string | null>(null);
   const [generatingStep, setGeneratingStep] = useState(0);
   const [elapsedSeconds, setElapsedSeconds] = useState(0);
   const [error, setError] = useState<string | null>(null);
   const [userState, setUserState] = useState("MI");
+  const [tier, setTier] = useState<string | null>(null);
+  const [lessonsUsed, setLessonsUsed] = useState(0);
+  const [lessonsLimit, setLessonsLimit] = useState(3);
+  const [resetsAt, setResetsAt] = useState<string | null>(null);
+  const [freeGrade, setFreeGrade] = useState("K");
+  const [freeState, setFreeState] = useState("");
+  const [showLimitOverlay, setShowLimitOverlay] = useState(false);
+  const [archetypePhilosophyIds, setArchetypePhilosophyIds] = useState<string[]>([]);
+  const [archetypeResultId, setArchetypeResultId] = useState<string | null>(null);
 
   // Standards from query param
   const standardsParam = searchParams.get("standards") || "";
@@ -144,13 +155,32 @@ function GeneratePage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const gradeToAge = (grade: string): number => {
+    if (grade === "K") return 5;
+    const n = parseInt(grade, 10);
+    return isNaN(n) ? 5 : n + 5;
+  };
+
   useEffect(() => {
     Promise.all([
       fetch("/api/children").then((r) => r.json()),
       fetch("/api/user").then((r) => r.json()),
-    ]).then(([childrenData, userData]) => {
+      fetch("/api/user/tier").then((r) => r.json()),
+      fetch("/api/user/archetype").then((r) => r.json()),
+    ]).then(([childrenData, userData, tierData, archetypeData]) => {
       setChildren(childrenData);
-      if (userData.state) setUserState(userData.state);
+      if (userData.state) {
+        setUserState(userData.state);
+        setFreeState((prev) => prev || userData.state);
+      }
+      setTier(tierData.tier);
+      setLessonsUsed(tierData.lessonsUsed);
+      setLessonsLimit(tierData.lessonsLimit);
+      if (tierData.resetsAt) setResetsAt(tierData.resetsAt);
+      if (archetypeData) {
+        setArchetypePhilosophyIds(archetypeData.topPhilosophyIds ?? []);
+        setArchetypeResultId(archetypeData.resultId ?? null);
+      }
       setLoadingChildren(false);
     });
   }, []);
@@ -176,10 +206,12 @@ function GeneratePage() {
     );
   };
 
+  const isCompass = tier === "compass";
   const canGenerate =
-    selectedChildren.length > 0 &&
+    (isCompass || selectedChildren.length > 0) &&
     interest.trim().length > 0 &&
-    selectedSubjects.length > 0;
+    selectedSubjects.length > 0 &&
+    philosophy.length > 0;
 
   const GENERATION_STEPS = [
     "Looking up state standards...",
@@ -192,6 +224,15 @@ function GeneratePage() {
   ];
 
   const handleGenerate = async () => {
+    // content check first
+    const check = await fetch("/api/lessons/check-topic", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ interest }) })
+    const checkData = await check.json()
+    if (!checkData.safe) {
+      setTopicError("This topic isn't appropriate for a children's lesson. Please choose a different subject.")
+      return
+    }
+    setTopicError(null)
+
     setGenerating(true);
     setError(null);
     setGeneratingStep(0);
@@ -206,16 +247,18 @@ function GeneratePage() {
       setGeneratingStep((prev) => Math.min(prev + 1, GENERATION_STEPS.length - 1));
     }, 2500);
 
-    const childPayload = selectedChildren.map((id) => {
-      const child = children.find((c) => c.id === id)!;
-      return {
-        id: child.id,
-        name: child.name,
-        grade: child.gradeLevel,
-        age: getAge(child.dateOfBirth),
-        standards_opt_in: child.standardsOptIn,
-      };
-    });
+    const childPayload = isCompass
+      ? [{ id: "free-tier-student", name: "Student", grade: freeGrade, age: gradeToAge(freeGrade), standards_opt_in: !!(freeState || userState) }]
+      : selectedChildren.map((id) => {
+          const child = children.find((c) => c.id === id)!;
+          return {
+            id: child.id,
+            name: child.name,
+            grade: child.gradeLevel,
+            age: getAge(child.dateOfBirth),
+            standards_opt_in: child.standardsOptIn,
+          };
+        });
 
     try {
       const res = await fetch(`${KG_SERVICE_URL}/generate-lesson`, {
@@ -226,7 +269,7 @@ function GeneratePage() {
           interest,
           subjects: selectedSubjects,
           philosophy,
-          state: userState,
+          state: isCompass ? (freeState || userState) : userState,
           multi_subject_optimize: multiSubject,
           past_lesson_hashes: [],
           required_standards: requiredStandards.length > 0 ? requiredStandards : undefined,
@@ -246,11 +289,16 @@ function GeneratePage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           lesson: data.lesson,
-          childIds: selectedChildren,
+          childIds: isCompass ? [] : selectedChildren,
           scheduledDate: null,
           subjectNames: selectedSubjects,
+          generationCostUsd: data.generation_cost_usd ?? null,
         }),
       });
+      if (saveRes.status === 429) {
+        setShowLimitOverlay(true);
+        return;
+      }
       const saveData = await saveRes.json();
       router.push(`/lessons/${saveData.id}`);
     } catch (e) {
@@ -271,41 +319,123 @@ function GeneratePage() {
         <h1 className="font-cormorant-sc text-3xl text-gray-900">Create a Lesson</h1>
 
           <div style={frostCard} className="space-y-6">
-            {/* Step 1: Select children */}
+            {/* Step 1: Select children or grade */}
             <div className="space-y-3">
-              <h2 className="font-medium text-gray-900">Who is this lesson for?</h2>
-              {loadingChildren ? (
-                <p className="text-sm text-gray-500">Loading children...</p>
-              ) : children.length === 0 ? (
-                <p className="text-sm text-gray-500">
-                  No children added yet.{" "}
-                  <a href="/children" className="hover:underline" style={{ color: "#6E6E9E" }}>
-                    Add a child
-                  </a>{" "}
-                  first.
-                </p>
+              {isCompass ? (
+                <>
+                  <div style={{ display: "flex", gap: "1.25rem", flexWrap: "wrap", alignItems: "flex-end" }}>
+                    {/* Grade dropdown */}
+                    <div>
+                      <label style={{ display: "block", fontSize: "0.8rem", fontWeight: 600, letterSpacing: "0.06em", textTransform: "uppercase", color: "var(--text-tertiary)", marginBottom: "0.4rem" }}>
+                        Grade Level
+                      </label>
+                      <div style={{ position: "relative", width: "13rem" }}>
+                        <select
+                          value={freeGrade}
+                          onChange={(e) => setFreeGrade(e.target.value)}
+                          style={{
+                            width: "100%",
+                            background: "rgba(255,255,255,0.72)",
+                            backdropFilter: "blur(12px)",
+                            border: "1px solid rgba(255,255,255,0.5)",
+                            borderRadius: "10px",
+                            padding: "0.55rem 2rem 0.55rem 0.75rem",
+                            fontSize: "0.875rem",
+                            color: "var(--ink)",
+                            outline: "none",
+                            appearance: "none",
+                            WebkitAppearance: "none",
+                            cursor: "pointer",
+                            boxShadow: "0 2px 10px rgba(0,0,0,0.04)",
+                          }}
+                        >
+                          {GRADES.map((g) => (
+                            <option key={g} value={g}>
+                              {g === "K" ? "Kindergarten" : `Grade ${g}`}
+                            </option>
+                          ))}
+                        </select>
+                        <svg style={{ position: "absolute", right: "0.65rem", top: "50%", transform: "translateY(-50%)", pointerEvents: "none" }} width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--text-tertiary)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                          <polyline points="6 9 12 15 18 9" />
+                        </svg>
+                      </div>
+                    </div>
+
+                    {/* State dropdown */}
+                    <div>
+                      <label style={{ display: "block", fontSize: "0.8rem", fontWeight: 600, letterSpacing: "0.06em", textTransform: "uppercase", color: "var(--text-tertiary)", marginBottom: "0.4rem" }}>
+                        State Standards
+                      </label>
+                      <div style={{ position: "relative", width: "13rem" }}>
+                        <select
+                          value={freeState || userState}
+                          onChange={(e) => setFreeState(e.target.value)}
+                          style={{
+                            width: "100%",
+                            background: "rgba(255,255,255,0.72)",
+                            backdropFilter: "blur(12px)",
+                            border: "1px solid rgba(255,255,255,0.5)",
+                            borderRadius: "10px",
+                            padding: "0.55rem 2rem 0.55rem 0.75rem",
+                            fontSize: "0.875rem",
+                            color: "var(--ink)",
+                            outline: "none",
+                            appearance: "none",
+                            WebkitAppearance: "none",
+                            cursor: "pointer",
+                            boxShadow: "0 2px 10px rgba(0,0,0,0.04)",
+                          }}
+                        >
+                          {US_STATES.map((s) => (
+                            <option key={s.abbr} value={s.abbr}>
+                              {s.name}
+                            </option>
+                          ))}
+                        </select>
+                        <svg style={{ position: "absolute", right: "0.65rem", top: "50%", transform: "translateY(-50%)", pointerEvents: "none" }} width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--text-tertiary)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                          <polyline points="6 9 12 15 18 9" />
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
+                </>
               ) : (
-                <div className="flex gap-2 flex-wrap">
-                  {children.map((child) => (
-                    <button
-                      key={child.id}
-                      onClick={() => toggleChild(child.id)}
-                      className="text-sm transition-colors"
-                      style={
-                        selectedChildren.includes(child.id)
-                          ? { ...nightButton, padding: "0.4rem 0.8rem" }
-                          : { ...frostPill, fontSize: "0.8rem", padding: "0.4rem 0.8rem", color: "#374151" }
-                      }
-                    >
-                      {child.name} (Grade {child.gradeLevel})
-                    </button>
-                  ))}
-                </div>
-              )}
-              {selectedChildren.length > 1 && (
-                <p className="text-xs text-green-600">
-                  Multi-age lesson — each child will get objectives at their grade level.
-                </p>
+                <>
+                  <h2 className="font-medium text-gray-900">Who is this lesson for?</h2>
+                  {loadingChildren ? (
+                    <p className="text-sm text-gray-500">Loading children...</p>
+                  ) : children.length === 0 ? (
+                    <p className="text-sm text-gray-500">
+                      No children added yet.{" "}
+                      <a href="/children" className="hover:underline" style={{ color: "#6E6E9E" }}>
+                        Add a child
+                      </a>{" "}
+                      first.
+                    </p>
+                  ) : (
+                    <div className="flex gap-2 flex-wrap">
+                      {children.map((child) => (
+                        <button
+                          key={child.id}
+                          onClick={() => toggleChild(child.id)}
+                          className="text-sm transition-colors"
+                          style={
+                            selectedChildren.includes(child.id)
+                              ? { ...nightButton, padding: "0.4rem 0.8rem" }
+                              : { ...frostPill, fontSize: "0.8rem", padding: "0.4rem 0.8rem", color: "#374151" }
+                          }
+                        >
+                          {child.name} (Grade {child.gradeLevel})
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                  {selectedChildren.length > 1 && (
+                    <p className="text-xs text-green-600">
+                      Multi-age lesson — each child will get objectives at their grade level.
+                    </p>
+                  )}
+                </>
               )}
             </div>
 
@@ -315,21 +445,45 @@ function GeneratePage() {
             <div className="space-y-3">
               <h2 className="font-medium text-gray-900">
                 <span style={{ fontSize: "0.7rem", fontVariant: "small-caps", letterSpacing: "0.05em", color: "#6E6E9E", textTransform: "uppercase", marginRight: "0.5rem" }}>
-                  Interest
+                  Lesson Seed
                 </span>
                 What is your child curious about?
               </h2>
               <input
                 type="text"
                 value={interest}
-                onChange={(e) => setInterest(e.target.value)}
+                onChange={(e) => { setInterest(e.target.value); setTopicError(null); }}
+                maxLength={200}
                 className="border border-gray-300 rounded px-3 py-2 text-sm w-full text-gray-900 bg-white/70 focus:outline-none focus:ring-2"
                 style={{ focusRingColor: "#6E6E9E" } as React.CSSProperties}
                 placeholder="e.g., dinosaurs, fire trucks, trees, outer space, cooking..."
               />
-              <p className="text-xs text-gray-500">
-                This will be the theme of the lesson. Follow your child&apos;s curiosity!
-              </p>
+              <div className="flex items-start justify-between gap-2">
+                <p className="text-xs text-gray-500">
+                  This will be the theme of the lesson. Follow your child&apos;s curiosity!
+                </p>
+                <p className="text-xs text-gray-400 shrink-0">{interest.length}/200</p>
+              </div>
+              {topicError && (
+                <p className="text-xs" style={{ color: "#DC2626" }}>{topicError}</p>
+              )}
+              {isCompass && tier !== null && (
+                <div style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: "0.35rem",
+                  background: "rgba(255,255,255,0.68)",
+                  backdropFilter: "blur(10px)",
+                  border: `1px solid ${lessonsUsed >= lessonsLimit ? "rgba(220,38,38,0.3)" : lessonsUsed >= lessonsLimit - 1 ? "rgba(196,152,61,0.3)" : "rgba(255,255,255,0.45)"}`,
+                  borderRadius: "6px",
+                  fontSize: "0.75rem",
+                  padding: "0.3rem 0.7rem",
+                  fontWeight: 500,
+                  color: lessonsUsed >= lessonsLimit ? "#DC2626" : lessonsUsed >= lessonsLimit - 1 ? "#B08A2E" : "#5A5A5A",
+                }}>
+                  {lessonsUsed} of {lessonsLimit} free lessons used this month
+                </div>
+              )}
             </div>
 
             <div className="border-t border-gray-100" />
@@ -372,45 +526,58 @@ function GeneratePage() {
 
             {/* Step 4: Philosophy */}
             <div className="space-y-3">
-              <h2 className="font-medium text-gray-900">Educational approach</h2>
+              <div className="flex items-center justify-between flex-wrap gap-1">
+                <h2 className="font-medium text-gray-900">Educational approach</h2>
+                {archetypePhilosophyIds.length > 0 ? (
+                  <span style={{ fontSize: "0.7rem", color: "var(--accent-primary)" }}>
+                    ✦ Highlighted match your archetype
+                  </span>
+                ) : (
+                  <Link href="/compass" style={{ fontSize: "0.7rem", color: "var(--accent-primary)", textDecoration: "none" }}>
+                    Take the Compass Quiz to find your match →
+                  </Link>
+                )}
+              </div>
               <div className="space-y-2">
-                {PHILOSOPHIES.map((p) => (
+                {PHILOSOPHIES.map((p) => {
+                  const isMatch = archetypePhilosophyIds.includes(p.id);
+                  const isSelected = philosophy === p.id;
+                  return (
                   <label
                     key={p.id}
                     className="flex items-start gap-3 p-3 rounded cursor-pointer transition-colors"
                     style={
-                      philosophy === p.id
-                        ? {
-                            background: "#0B2E4A",
-                            color: "#F9F6EF",
-                            borderRadius: "8px",
-                            border: "none",
-                          }
-                        : {
-                            background: "rgba(255,255,255,0.5)",
-                            border: "1px solid rgba(255,255,255,0.4)",
-                            borderRadius: "8px",
-                          }
+                      isSelected
+                        ? { background: "#082f4e", color: "#F9F6EF", borderRadius: "8px", border: "none" }
+                        : isMatch
+                        ? { background: "rgba(110,110,158,0.08)", border: "1px solid rgba(110,110,158,0.3)", borderRadius: "8px" }
+                        : { background: "rgba(255,255,255,0.5)", border: "1px solid rgba(255,255,255,0.4)", borderRadius: "8px" }
                     }
                   >
                     <input
                       type="radio"
                       name="philosophy"
                       value={p.id}
-                      checked={philosophy === p.id}
+                      checked={isSelected}
                       onChange={(e) => setPhilosophy(e.target.value)}
                       className="mt-0.5"
                     />
-                    <div>
-                      <p className={`text-sm font-medium ${philosophy === p.id ? "text-[#F9F6EF]" : "text-gray-900"}`}>
-                        {p.label}
-                      </p>
-                      <p className={`text-xs ${philosophy === p.id ? "text-[#F9F6EF]/70" : "text-gray-500"}`}>
+                    <div style={{ flex: 1 }}>
+                      <div style={{ display: "flex", alignItems: "center", gap: "0.4rem" }}>
+                        <p className={`text-sm font-medium ${isSelected ? "text-[#F9F6EF]" : "text-gray-900"}`}>
+                          {p.label}
+                        </p>
+                        {isMatch && !isSelected && (
+                          <span style={{ fontSize: "0.6rem", color: "var(--accent-primary)", fontWeight: 600 }}>✦</span>
+                        )}
+                      </div>
+                      <p className={`text-xs ${isSelected ? "text-[#F9F6EF]/70" : "text-gray-500"}`}>
                         {p.description}
                       </p>
                     </div>
                   </label>
-                ))}
+                  );
+                })}
               </div>
               {selectedPhilosophy && "disclaimer" in selectedPhilosophy && selectedPhilosophy.disclaimer && (
                 <p className="text-xs text-amber-600 bg-amber-50 p-2 rounded">
@@ -545,6 +712,90 @@ function GeneratePage() {
             )}
           </div>
       </div>
+
+      {/* 429 limit overlay */}
+      {showLimitOverlay && (
+        <div style={{
+          position: "fixed",
+          inset: 0,
+          zIndex: 100,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          background: "rgba(249,246,239,0.6)",
+          backdropFilter: "blur(8px)",
+          WebkitBackdropFilter: "blur(8px)",
+        }}>
+          <div
+            className="frost-card"
+            style={{
+              maxWidth: "440px",
+              width: "90%",
+              padding: "2.5rem 2rem",
+              textAlign: "center",
+              background: "rgba(255,255,255,0.85)",
+              backdropFilter: "blur(16px)",
+              border: "1px solid rgba(255,255,255,0.6)",
+              borderRadius: "14px",
+              boxShadow: "0 12px 40px rgba(0,0,0,0.12)",
+            }}
+          >
+            <div style={{ fontSize: "2rem", marginBottom: "0.75rem" }}>
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="var(--ink)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ margin: "0 auto" }}>
+                <circle cx="12" cy="12" r="10" />
+                <line x1="12" y1="8" x2="12" y2="12" />
+                <line x1="12" y1="16" x2="12.01" y2="16" />
+              </svg>
+            </div>
+            <h2 className="font-cormorant-sc" style={{
+              fontSize: "1.4rem",
+              fontWeight: 700,
+              color: "var(--ink)",
+              marginBottom: "0.5rem",
+            }}>
+              {"You've used all "}{lessonsLimit}{" lessons this month"}
+            </h2>
+            {resetsAt && (
+              <p style={{ fontSize: "0.85rem", color: "#5A5A5A", marginBottom: "1.25rem" }}>
+                Resets {new Date(resetsAt).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}
+              </p>
+            )}
+            <a
+              href="/compass"
+              style={{
+                display: "block",
+                width: "100%",
+                textAlign: "center",
+                padding: "0.75rem",
+                borderRadius: "10px",
+                background: "var(--night)",
+                color: "var(--parchment)",
+                fontSize: "0.9rem",
+                fontWeight: 600,
+                textDecoration: "none",
+                letterSpacing: "0.02em",
+                boxSizing: "border-box",
+              }}
+            >
+              Upgrade to Homestead — $21.99/mo
+            </a>
+            <button
+              onClick={() => setShowLimitOverlay(false)}
+              style={{
+                display: "inline-block",
+                marginTop: "0.75rem",
+                fontSize: "0.78rem",
+                color: "#999",
+                background: "none",
+                border: "none",
+                cursor: "pointer",
+              }}
+            >
+              Dismiss
+            </button>
+          </div>
+        </div>
+      )}
     </Shell>
   );
 }

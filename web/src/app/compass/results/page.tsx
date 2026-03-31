@@ -1,6 +1,7 @@
 "use client";
 
-import { useMemo, useState, useEffect, useCallback } from "react";
+import { useMemo, useState, useEffect, useCallback, Suspense } from "react";
+import { useSearchParams, useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { Shell } from "@/components/shell";
@@ -126,70 +127,111 @@ function mapPart2Preferences(raw: Record<string, string | string[]>) {
 }
 
 export default function ResultsPage() {
-  const result = useMemo(() => {
+  return (
+    <Suspense fallback={<div style={{ width: "100vw", height: "100vh", background: "var(--hue-results)" }} />}>
+      <ResultsPageInner />
+    </Suspense>
+  );
+}
+
+function ResultsPageInner() {
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const resultId = searchParams.get("id");
+
+  // Result from sessionStorage (set right after quiz completion)
+  const sessionResult = useMemo(() => {
     if (typeof window === "undefined") return null;
     try {
       const stored = sessionStorage.getItem("compass_result");
       if (stored) return JSON.parse(stored);
-    } catch {
-      // ignore
-    }
+    } catch { /* ignore */ }
     return null;
   }, []);
 
-  const data = result || DEMO_RESULT;
+  // Result loaded from DB when ?id= is provided (e.g. from Account page)
+  const [dbResult, setDbResult] = useState<Record<string, unknown> | null>(null);
+  const [loadingDb, setLoadingDb] = useState(!!resultId && !sessionResult);
 
-  const archetype =
-    ARCHETYPES.find((a) => a.id === data.archetype) || ARCHETYPES[0];
-  const secondaryArchetype = data.secondaryArchetype
-    ? ARCHETYPES.find((a) => a.id === data.secondaryArchetype) || null
-    : null;
-  const dimensions: DimensionScores = data.dimensions || data.dimensionScores;
-  const philosophies: Record<PhilosophyKey, number> =
-    data.philosophies || data.philosophyBlend;
-  const structureSplit = data.structureFlowSplit;
+  useEffect(() => {
+    if (!resultId || sessionResult) return; // session takes priority when fresh
+    fetch(`/api/compass/results/${resultId}`)
+      .then((r) => r.ok ? r.json() : null)
+      .then((d) => { if (d) setDbResult(d); })
+      .catch(() => {})
+      .finally(() => setLoadingDb(false));
+  }, [resultId, sessionResult]);
 
-  // Curriculum matching state
+  // All hooks must be declared before any early returns
   const [matchOutput, setMatchOutput] = useState<MatchOutput | null>(null);
   const [matchLoading, setMatchLoading] = useState(false);
   const [matchError, setMatchError] = useState<string | null>(null);
 
+  const rawData = loadingDb ? null : (sessionResult || dbResult || DEMO_RESULT);
+  const data = rawData ? {
+    ...rawData,
+    dimensions: (rawData as Record<string, unknown>).dimensions || (rawData as Record<string, unknown>).dimensionScores,
+    philosophies: (rawData as Record<string, unknown>).philosophies || (rawData as Record<string, unknown>).philosophyBlend,
+  } : null;
+
+  const philosophies = (data?.philosophies ?? {}) as Record<PhilosophyKey, number>;
+
   const fetchMatches = useCallback(async () => {
+    if (!data) return;
     setMatchLoading(true);
     setMatchError(null);
     try {
-      // Convert philosophy percentages (0-100) to weights (0-1) for the matching API
       const normalizedPhilosophies: Record<string, number> = {};
       for (const [key, value] of Object.entries(philosophies)) {
         normalizedPhilosophies[key] = (value as number) / 100;
       }
-
-      const prefs = data.part2Preferences
-        ? mapPart2Preferences(data.part2Preferences)
+      const prefs = (data as Record<string, unknown>).part2Preferences
+        ? mapPart2Preferences((data as Record<string, unknown>).part2Preferences as Record<string, string | string[]>)
         : {};
-
       const res = await fetch("/api/compass/match", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          philosophyBlend: normalizedPhilosophies,
-          part2Preferences: prefs,
-        }),
+        body: JSON.stringify({ philosophyBlend: normalizedPhilosophies, part2Preferences: prefs }),
       });
-
       if (!res.ok) throw new Error(`API error: ${res.status}`);
-      const output: MatchOutput = await res.json();
-      setMatchOutput(output);
+      setMatchOutput(await res.json());
     } catch (e) {
       setMatchError(e instanceof Error ? e.message : "Failed to load recommendations");
     } finally {
       setMatchLoading(false);
     }
-  }, [philosophies, data.part2Preferences]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data]);
 
   useEffect(() => {
-    fetchMatches();
-  }, [fetchMatches]);
+    // Don't fetch curriculum matches until Part 2 is complete
+    const part2Done = data &&
+      Object.keys(((data as Record<string, unknown>).part2Preferences as Record<string, unknown>) ?? {}).length > 0;
+    if (part2Done) fetchMatches();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [!!data]);
+
+  // Early return after all hooks
+  if (loadingDb || !data) {
+    return (
+      <Shell hue="results">
+        <div className="flex items-center justify-center py-20">
+          <p style={{ color: "var(--text-secondary)", fontSize: "0.9rem" }}>Loading your results…</p>
+        </div>
+      </Shell>
+    );
+  }
+
+  const isPartialResult = dbResult && !sessionResult &&
+    Object.keys(((dbResult as Record<string, unknown>).part2Preferences as Record<string, unknown>) ?? {}).length === 0;
+
+  const d = data as Record<string, unknown>;
+  const archetype = ARCHETYPES.find((a) => a.id === d.archetype) || ARCHETYPES[0];
+  const secondaryArchetype = d.secondaryArchetype
+    ? ARCHETYPES.find((a) => a.id === d.secondaryArchetype) || null
+    : null;
+  const dimensions = d.dimensions as DimensionScores;
+  const structureSplit = d.structureFlowSplit as { hasSplit?: boolean; message?: string } | undefined;
 
   const philosophyData = (Object.keys(philosophies) as PhilosophyKey[])
     .filter((key) => philosophies[key] > 0)
@@ -217,6 +259,37 @@ export default function ResultsPage() {
             Retake quiz
           </Link>
         </div>
+
+        {/* Part 2 nudge — shown when viewing a Part 1-only result */}
+        {isPartialResult && (
+          <div style={{
+            background: "rgba(196,152,61,0.08)",
+            border: "1px solid rgba(196,152,61,0.3)",
+            borderRadius: "12px",
+            padding: "1rem 1.25rem",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            gap: "1rem",
+            flexWrap: "wrap",
+          }}>
+            <div>
+              <p style={{ fontSize: "0.85rem", fontWeight: 600, color: "#9a7530", marginBottom: "0.2rem" }}>
+                Curriculum recommendations are based on your philosophy profile only
+              </p>
+              <p style={{ fontSize: "0.78rem", color: "var(--text-secondary)" }}>
+                Complete Part 2 to refine matches by subject, prep level, budget, and learning needs.
+              </p>
+            </div>
+            <Link href="/compass/quiz" style={{
+              fontSize: "0.8rem", fontWeight: 600, padding: "0.45rem 1rem",
+              borderRadius: "8px", background: "#082f4e", color: "#F9F6EF",
+              textDecoration: "none", whiteSpace: "nowrap",
+            }}>
+              Complete Part 2 →
+            </Link>
+          </div>
+        )}
 
         {/* Archetype — frost card with character image */}
         <div
@@ -464,6 +537,49 @@ export default function ResultsPage() {
           </Link>
         </div>
 
+        {/* Gate curriculum section on Part 2 completion */}
+        {isPartialResult ? (
+          <div style={{
+            background: "rgba(255,255,255,0.72)",
+            backdropFilter: "blur(12px)",
+            border: "1px solid rgba(255,255,255,0.5)",
+            borderRadius: "16px",
+            padding: "2.5rem 2rem",
+            textAlign: "center",
+          }}>
+            <div className="font-cormorant-sc" style={{ fontSize: "1.25rem", color: "var(--ink)", marginBottom: "0.75rem" }}>
+              Curriculum Recommendations
+            </div>
+            <p style={{ fontSize: "0.9rem", color: "var(--text-secondary)", maxWidth: "420px", margin: "0 auto 1.5rem", lineHeight: 1.65 }}>
+              To recommend the right curricula, we need to know your subject priorities, grade levels, budget, and learning needs. That&apos;s what Part 2 is for — it only takes a few minutes.
+            </p>
+            <button
+              onClick={() => {
+                // Save current result to sessionStorage so the quiz can skip Part 1
+                try {
+                  sessionStorage.setItem("compass_result", JSON.stringify({
+                    archetype: d.archetype,
+                    secondaryArchetype: d.secondaryArchetype || null,
+                    dimensions: dimensions,
+                    philosophies: philosophies,
+                    structureFlowSplit: d.structureFlowSplit,
+                    part2Preferences: {},
+                  }));
+                } catch { /* ignore */ }
+                router.push("/compass/quiz?skipToP2=true");
+              }}
+              style={{
+                background: "#082f4e", color: "#F9F6EF",
+                borderRadius: "10px", padding: "0.7rem 1.75rem",
+                fontSize: "0.9rem", fontWeight: 600, border: "none",
+                cursor: "pointer",
+              }}
+            >
+              Complete Part 2 to See Your Recommendations →
+            </button>
+          </div>
+        ) : (
+          <>
         {/* Curriculum note */}
         <p className="text-xs italic" style={{ color: "var(--text-tertiary)" }}>
           Below are curriculum recommendations for your foundational subjects. Many published curricula lean toward classical structure — we&apos;ve found the best matches for your philosophy.
@@ -781,6 +897,8 @@ export default function ResultsPage() {
             {archetype.appPitch.cta} &rarr;
           </Link>
         </div>
+          </>
+        )}
       </div>
     </Shell>
   );

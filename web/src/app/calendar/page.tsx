@@ -1,6 +1,7 @@
 "use client";
 
 import { Shell } from "@/components/shell";
+import { TierGate } from "@/components/tier-gate";
 import { useState, useMemo, useEffect } from "react";
 import Link from "next/link";
 
@@ -132,7 +133,7 @@ export default function CalendarPage() {
 
   if (loading) {
     return (
-      <Shell hue="calendar">
+      <Shell hue="calendar" fullWidth>
         <div className="flex items-center justify-center py-12">
           <p style={{ color: "#5A5A5A" }}>Loading...</p>
         </div>
@@ -141,8 +142,9 @@ export default function CalendarPage() {
   }
 
   return (
-    <Shell hue="calendar">
-      <div className="space-y-4">
+    <Shell hue="calendar" fullWidth>
+      <TierGate requiredTier="homestead" pageName="Calendar" description="Schedule lessons, see your week at a glance, and stay organized">
+      <div className="space-y-4" style={{ maxWidth: "1100px", margin: "0 auto", padding: "2rem 1.5rem" }}>
         {/* Header */}
         <div className="flex items-center justify-between">
           <h1 className="font-cormorant-sc text-3xl" style={{ color: "#0B2E4A" }}>Calendar</h1>
@@ -366,6 +368,7 @@ export default function CalendarPage() {
           </Link>
         </div>
       </div>
+      </TierGate>
     </Shell>
   );
 }

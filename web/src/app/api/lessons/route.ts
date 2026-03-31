@@ -3,11 +3,33 @@ import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs/server";
 import crypto from "crypto";
 
+const LESSON_LIMITS: Record<string, number> = {
+  compass: 3,
+  homestead: 30,
+  schoolhouse: 60,
+};
+
 // POST /api/lessons — save a generated lesson
 export async function POST(req: NextRequest) {
   const { userId } = await auth();
   if (!userId) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  // Enforce tier lesson limit
+  const user = await prisma.user.findUnique({ where: { id: userId } });
+  const tier = user?.tier || "compass";
+  const limit = LESSON_LIMITS[tier] ?? 3;
+  const now = new Date();
+  const startOfMonth = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), 1));
+  const used = await prisma.lesson.count({
+    where: { userId, createdAt: { gte: startOfMonth } },
+  });
+  if (used >= limit) {
+    return NextResponse.json(
+      { error: "monthly_limit", tier, limit, used },
+      { status: 429 },
+    );
   }
 
   const body = await req.json();
@@ -16,6 +38,7 @@ export async function POST(req: NextRequest) {
     childIds,
     scheduledDate,
     subjectNames = [],
+    generationCostUsd,
   } = body;
 
   // Create the lesson
@@ -32,6 +55,7 @@ export async function POST(req: NextRequest) {
       contentHash:
         lesson.content_hash ||
         crypto.createHash("sha256").update(JSON.stringify(lesson)).digest("hex").slice(0, 12),
+      generationCostUsd: typeof generationCostUsd === "number" ? generationCostUsd : null,
       lessonChildren: {
         create: childIds.map((childId: string) => ({ childId })),
       },

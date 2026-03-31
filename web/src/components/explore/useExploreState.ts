@@ -34,6 +34,8 @@ export interface ExploreState {
   searchTerm: string;
   setSearchTerm: (term: string) => void;
   layoutPositions: LayoutPositions;
+  /** User's top philosophy IDs from their compass result — [primary, secondary] */
+  archetypePhilosophyIds: string[];
 }
 
 export const ExploreContext = createContext<ExploreState | null>(null);

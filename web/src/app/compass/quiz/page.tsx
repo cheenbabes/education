@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { SignInButton, SignUpButton, useUser } from "@clerk/nextjs";
 import { Shell } from "@/components/shell";
 import { PART1_QUESTIONS, PART2_QUESTIONS, Part2Question } from "@/lib/compass/questions";
+import { ARCHETYPES } from "@/lib/compass/archetypes";
 import {
   scoreCompass,
   CompassResult,
@@ -54,6 +55,34 @@ function QuizPageInner() {
 
   // Phase management
   const [phase, setPhase] = useState<QuizPhase>("part1");
+
+  const skipToP2 = searchParams.get("skipToP2") === "true";
+
+  // Skip straight to Part 2 when coming from the results page
+  useEffect(() => {
+    if (!skipToP2) return;
+    try {
+      const saved = sessionStorage.getItem("compass_result");
+      if (saved) {
+        const stored = JSON.parse(saved);
+        // Reconstruct a CompassResult-compatible object from stored data
+        const archObj = ARCHETYPES?.find?.((a: { id: string }) => a.id === stored.archetype);
+        if (archObj) {
+          setCompassResult({
+            archetype: archObj,
+            secondaryArchetype: stored.secondaryArchetype
+              ? ARCHETYPES?.find?.((a: { id: string }) => a.id === stored.secondaryArchetype) ?? null
+              : null,
+            dimensions: stored.dimensions || stored.dimensionScores || {},
+            philosophies: stored.philosophies || stored.philosophyBlend || {},
+            structureFlowSplit: stored.structureFlowSplit,
+          } as Parameters<typeof setCompassResult>[0]);
+        }
+        setPhase("part2");
+      }
+    } catch { /* ignore */ }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [skipToP2]);
 
   // Resume after auth: restore part1 answers, re-score, jump to compass-reveal
   useEffect(() => {
@@ -108,6 +137,21 @@ function QuizPageInner() {
           setCompassResult(result);
           setPhase("compass-reveal");
           window.scrollTo({ top: 0, behavior: "smooth" });
+          // Save Part 1 result immediately — if user doesn't complete Part 2,
+          // their archetype is still persisted. Part 2 completion creates a newer
+          // record with preferences, which GET /api/user/archetype returns instead.
+          fetch("/api/compass/submit", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              archetype: result.archetype.id,
+              secondaryArchetype: result.secondaryArchetype?.id || null,
+              dimensionScores: result.dimensions,
+              philosophyBlend: result.philosophies,
+              part2Preferences: {},
+              quizAnswers: { part1: newAnswers, part2: {} },
+            }),
+          }).catch(() => {});
         }
         setAnimating(false);
       }, 400);
