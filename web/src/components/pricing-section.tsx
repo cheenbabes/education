@@ -5,6 +5,8 @@ import Link from "next/link";
 
 type BillingPeriod = "annual" | "monthly";
 
+type CheckoutablePlan = "homestead" | "schoolhouse";
+
 interface Plan {
   name: string;
   price: string | null;
@@ -17,6 +19,7 @@ interface Plan {
   features: string[];
   cta: string;
   ctaHref: string;
+  planKey?: CheckoutablePlan;
 }
 
 const CHECKOUT_HOMESTEAD = "/pricing";
@@ -57,6 +60,7 @@ const PLANS: Plan[] = [
     ],
     cta: "Start Homestead →",
     ctaHref: CHECKOUT_HOMESTEAD,
+    planKey: "homestead" as CheckoutablePlan,
   },
   {
     name: "Schoolhouse",
@@ -75,6 +79,7 @@ const PLANS: Plan[] = [
     ],
     cta: "Start Schoolhouse →",
     ctaHref: CHECKOUT_SCHOOLHOUSE,
+    planKey: "schoolhouse" as CheckoutablePlan,
   },
   {
     name: "Co-op",
@@ -94,7 +99,11 @@ const PLANS: Plan[] = [
   },
 ];
 
-export function PricingSection() {
+interface PricingSectionProps {
+  onSelectPlan?: (planKey: CheckoutablePlan, isAnnual: boolean) => void;
+}
+
+export function PricingSection({ onSelectPlan }: PricingSectionProps = {}) {
   const [billing, setBilling] = useState<BillingPeriod>("annual");
   const isAnnual = billing === "annual";
 
@@ -153,7 +162,7 @@ export function PricingSection() {
 
         {/* Cards grid */}
         <div className="pricing-grid">
-          {PLANS.map(({ name, price, annualPrice, annualBilled, period, badge, featured, descriptor, features, cta, ctaHref }) => (
+          {PLANS.map(({ name, price, annualPrice, annualBilled, period, badge, featured, descriptor, features, cta, ctaHref, planKey }) => (
             <div
               key={name}
               className={`pricing-card${featured ? " pricing-card-featured" : ""}`}
@@ -231,26 +240,49 @@ export function PricingSection() {
               </ul>
 
               {/* CTA */}
-              <Link
-                href={ctaHref}
-                style={{
-                  display: "block",
-                  width: "100%",
-                  textAlign: "center",
-                  fontSize: "0.85rem",
-                  padding: "0.75rem",
-                  borderRadius: "10px",
-                  background: featured ? "rgba(212,175,55,0.9)" : name === "Co-op" ? "transparent" : "var(--night)",
-                  color: featured ? "var(--night)" : name === "Co-op" ? "var(--accent-primary)" : "var(--parchment)",
-                  border: name === "Co-op" ? "1px solid rgba(110,110,158,0.3)" : "none",
-                  fontWeight: 600,
-                  textDecoration: "none",
-                  letterSpacing: "0.02em",
-                  boxSizing: "border-box",
-                }}
-              >
-                {cta}
-              </Link>
+              {planKey && onSelectPlan ? (
+                <button
+                  onClick={() => onSelectPlan(planKey, isAnnual)}
+                  style={{
+                    display: "block",
+                    width: "100%",
+                    textAlign: "center",
+                    fontSize: "0.85rem",
+                    padding: "0.75rem",
+                    borderRadius: "10px",
+                    background: featured ? "rgba(212,175,55,0.9)" : "var(--night)",
+                    color: featured ? "var(--night)" : "var(--parchment)",
+                    border: "none",
+                    fontWeight: 600,
+                    letterSpacing: "0.02em",
+                    boxSizing: "border-box",
+                    cursor: "pointer",
+                  }}
+                >
+                  {cta}
+                </button>
+              ) : (
+                <Link
+                  href={ctaHref}
+                  style={{
+                    display: "block",
+                    width: "100%",
+                    textAlign: "center",
+                    fontSize: "0.85rem",
+                    padding: "0.75rem",
+                    borderRadius: "10px",
+                    background: featured ? "rgba(212,175,55,0.9)" : name === "Co-op" ? "transparent" : "var(--night)",
+                    color: featured ? "var(--night)" : name === "Co-op" ? "var(--accent-primary)" : "var(--parchment)",
+                    border: name === "Co-op" ? "1px solid rgba(110,110,158,0.3)" : "none",
+                    fontWeight: 600,
+                    textDecoration: "none",
+                    letterSpacing: "0.02em",
+                    boxSizing: "border-box",
+                  }}
+                >
+                  {cta}
+                </Link>
+              )}
             </div>
           ))}
         </div>
