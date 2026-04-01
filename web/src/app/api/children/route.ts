@@ -59,6 +59,7 @@ export async function POST(req: NextRequest) {
       dateOfBirth: new Date(dateOfBirth),
       gradeLevel,
       standardsOptIn,
+      learningNotes: body.learningNotes || null,
     },
   });
 

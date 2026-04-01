@@ -86,6 +86,27 @@ export default function Home() {
             }}>
               See how it works →
             </Link>
+
+            <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", flexWrap: "wrap" }}>
+              <span style={{ fontSize: "0.7rem", color: "var(--text-tertiary)", fontWeight: 500, letterSpacing: "0.06em", textTransform: "uppercase" }}>Built for</span>
+              {[
+                { label: "Homeschool Families", color: "var(--accent-primary)" },
+                { label: "Micro Schools & Co-ops", color: "var(--accent-secondary)" },
+                { label: "Worldschooling Families", color: "var(--accent-tertiary)" },
+              ].map(({ label, color }) => (
+                <span key={label} style={{
+                  fontSize: "0.7rem",
+                  padding: "0.2rem 0.55rem",
+                  borderRadius: "6px",
+                  background: "rgba(255,255,255,0.65)",
+                  border: `1px solid ${color}40`,
+                  color: "var(--text-secondary)",
+                  fontWeight: 500,
+                }}>
+                  {label}
+                </span>
+              ))}
+            </div>
           </div>
 
           {/* Right: archetype ring — hidden on mobile via .archetype-ring-container */}
@@ -509,6 +530,47 @@ export default function Home() {
             /* 7. Explore map — last */
             {
               right: true,
+              headline: "Every Child Learns Differently. Now You Can Say Exactly How.",
+              body: "Add a learning note to any child's profile — their preferences, accommodations, or anything you know about how they learn best. Every lesson we generate adapts around it. Not a rigid filter. Not a separate mode. Just a quiet, intelligent consideration woven into the lesson alongside your philosophy and their interests.",
+              note: "Works especially well for 2E learners, ADHD, sensory differences, and any child who doesn't fit the standard mold.",
+              visual: (
+                <div className="wc-card wc-card-lavender frost-card" style={{ borderRadius: "14px", padding: "1.25rem", display: "flex", flexDirection: "column", gap: "0.75rem" }}>
+                  {/* Child profile card */}
+                  <div style={{ background: "rgba(255,255,255,0.8)", borderRadius: "10px", padding: "0.75rem 1rem" }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", marginBottom: "0.5rem" }}>
+                      <span className="font-cormorant-sc" style={{ fontSize: "0.9rem", color: "var(--ink)" }}>Elias</span>
+                      <span style={{ fontSize: "0.65rem", padding: "0.15rem 0.4rem", borderRadius: "5px", background: "rgba(110,110,158,0.1)", color: "var(--accent-primary)" }}>Grade 3</span>
+                    </div>
+                    <div style={{ fontSize: "0.62rem", fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: "var(--text-tertiary)", marginBottom: "0.3rem" }}>
+                      Learning notes
+                    </div>
+                    <div style={{ fontSize: "0.75rem", color: "var(--text-secondary)", lineHeight: 1.55, fontStyle: "italic", background: "rgba(196,152,61,0.06)", borderRadius: "6px", padding: "0.5rem 0.65rem", border: "1px solid rgba(196,152,61,0.18)" }}>
+                      &ldquo;Learns best with hands-on activities. Has ADHD — short bursts work better than one long session. Loves animals and anything he can build.&rdquo;
+                    </div>
+                  </div>
+                  {/* Arrow */}
+                  <div style={{ textAlign: "center", fontSize: "0.7rem", color: "var(--text-tertiary)" }}>↓ every generated lesson</div>
+                  {/* Lesson output card */}
+                  <div style={{ background: "rgba(255,255,255,0.8)", borderRadius: "10px", padding: "0.75rem 1rem" }}>
+                    <div style={{ fontSize: "0.62rem", fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: "var(--accent-secondary)", marginBottom: "0.4rem" }}>
+                      Adapted for Elias
+                    </div>
+                    {[
+                      "Break the observation activity into two 10-minute segments with a movement break between them.",
+                      "Let him handle the materials himself — resist the urge to demonstrate first.",
+                      "Connect the building extension to something he can construct at home.",
+                    ].map((tip) => (
+                      <div key={tip} style={{ display: "flex", gap: "0.4rem", marginBottom: "0.3rem" }}>
+                        <span style={{ color: "var(--accent-secondary)", flexShrink: 0, fontSize: "0.7rem", marginTop: "0.1rem" }}>✓</span>
+                        <span style={{ fontSize: "0.7rem", color: "var(--text-secondary)", lineHeight: 1.45 }}>{tip}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ),
+            },
+            {
+              right: false,
               headline: "Explore the Universe of Educational Philosophy",
               body: "The Explore map is a visual space for discovery. Find the curriculum that fits your family.",
               note: "Paired with the Compass Quiz, it answers the question every new homeschool parent has: where do I even begin?",
@@ -580,34 +642,6 @@ export default function Home() {
                   </div>
                 </>
               )}
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* ── Audience row ──────────────────────────────────────────────────── */}
-      <section style={{ padding: "3rem 1.5rem", maxWidth: "1100px", margin: "0 auto" }}>
-        <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "1.5rem" }}>
-          {[
-            { label: "Homeschool Families", desc: "The core of what we built this for.", color: "var(--accent-primary)" },
-            { label: "Micro School & Co-ops", desc: "One curriculum engine, many students.", color: "var(--accent-secondary)" },
-            { label: "Worldschooling Families", desc: "Philosophy-first learning works anywhere.", color: "var(--accent-tertiary)" },
-            { label: "2E & Diverse Learners", desc: "Adaptive philosophy, built on UDL principles.", color: "#C4983D" },
-          ].map(({ label, desc, color }) => (
-            <div key={label} style={{
-              background: "rgba(255,255,255,0.65)",
-              backdropFilter: "blur(10px)",
-              border: "1px solid rgba(0,0,0,0.06)",
-              borderTop: `3px solid ${color}`,
-              borderRadius: "12px",
-              padding: "1rem 1.25rem",
-              textAlign: "center",
-              minWidth: "200px",
-              flex: "1 1 200px",
-              maxWidth: "240px",
-            }}>
-              <div style={{ fontSize: "0.82rem", fontWeight: 600, color: "var(--ink)", marginBottom: "0.35rem" }}>{label}</div>
-              <div style={{ fontSize: "0.74rem", color: "var(--text-secondary)", lineHeight: 1.5 }}>{desc}</div>
             </div>
           ))}
         </div>

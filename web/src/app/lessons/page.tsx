@@ -4,6 +4,7 @@ import { Shell } from "@/components/shell";
 import Link from "next/link";
 import { useState, useEffect, useMemo } from "react";
 import { PHILOSOPHY_LABELS, PHILOSOPHY_COLORS, resolvePhilosophyKey } from "@/lib/compass/scoring";
+import { printWorksheet } from "@/lib/printWorksheet";
 
 // ── Types ────────────────────────────────────────────────────────────────────
 
@@ -25,6 +26,18 @@ interface LessonData {
 interface ChildData {
   id: string;
   name: string;
+}
+
+interface WorksheetListItem {
+  id: string;
+  lessonId: string;
+  childName: string | null;
+  grade: string;
+  philosophy: string;
+  costUsd: number | null;
+  content: { title: string; sections: Array<{ type: string; title: string; instructions: string }> };
+  createdAt: string;
+  lesson: { id: string; title: string; philosophy: string };
 }
 
 // ── Styles ───────────────────────────────────────────────────────────────────
@@ -151,9 +164,11 @@ function Chevron() {
 export default function LessonsPage() {
   const [lessons, setLessons] = useState<LessonData[]>([]);
   const [children, setChildren] = useState<ChildData[]>([]);
+  const [worksheets, setWorksheets] = useState<WorksheetListItem[]>([]);
   const [loading, setLoading] = useState(true);
 
   // Filters
+  const [activeTab, setActiveTab] = useState<"all" | "pending" | "completed" | "saved" | "worksheets">("all");
   const [statusFilter, setStatusFilter] = useState<"all" | "pending" | "completed" | "saved">("all");
   const [childFilter, setChildFilter] = useState<string>("all");
   const [searchTerm, setSearchTerm] = useState("");
@@ -165,9 +180,11 @@ export default function LessonsPage() {
     Promise.all([
       fetch("/api/lessons").then((r) => r.json()),
       fetch("/api/children").then((r) => r.json()),
-    ]).then(([lessonsData, childrenData]) => {
+      fetch("/api/worksheets").then((r) => r.json()).catch(() => []),
+    ]).then(([lessonsData, childrenData, worksheetsData]) => {
       setLessons(lessonsData);
       setChildren(childrenData);
+      setWorksheets(Array.isArray(worksheetsData) ? worksheetsData : []);
       setLoading(false);
     });
   }, []);
@@ -287,6 +304,19 @@ export default function LessonsPage() {
     });
   };
 
+  // Group worksheets by lesson
+  const worksheetsByLesson = useMemo(() => {
+    const map = new Map<string, { lesson: WorksheetListItem["lesson"]; items: WorksheetListItem[] }>();
+    for (const ws of worksheets) {
+      if (!map.has(ws.lessonId)) {
+        map.set(ws.lessonId, { lesson: ws.lesson, items: [] });
+      }
+      map.get(ws.lessonId)!.items.push(ws);
+    }
+    return Array.from(map.values());
+  }, [worksheets]);
+
+
   if (loading) {
     return (
       <Shell hue="lessons" fullWidth>
@@ -360,13 +390,13 @@ export default function LessonsPage() {
           {/* Status tabs + philosophy pills */}
           <div className="flex gap-3 flex-wrap items-center">
             {/* Status tabs */}
-            <div className="flex gap-1">
+            <div className="flex gap-1 flex-wrap">
               {(["all", "pending", "completed", "saved"] as const).map((f) => (
                 <button
                   key={f}
-                  onClick={() => setStatusFilter(f)}
+                  onClick={() => { setActiveTab(f); setStatusFilter(f); }}
                   style={
-                    statusFilter === f
+                    activeTab === f
                       ? { ...frostPill, background: "#0B2E4A", color: "#F9F6EF", border: "1px solid #0B2E4A", cursor: "pointer" }
                       : { ...frostPill, cursor: "pointer", color: "#5A5A5A" }
                   }
@@ -375,6 +405,19 @@ export default function LessonsPage() {
                   {f === "saved" && " \u2661"}
                 </button>
               ))}
+              <button
+                onClick={() => setActiveTab("worksheets")}
+                style={
+                  activeTab === "worksheets"
+                    ? { ...frostPill, background: "#0B2E4A", color: "#F9F6EF", border: "1px solid #0B2E4A", cursor: "pointer" }
+                    : { ...frostPill, cursor: "pointer", color: "#5A5A5A" }
+                }
+              >
+                Worksheets
+                {worksheets.length > 0 && (
+                  <span style={{ marginLeft: "0.3rem", fontSize: "0.6rem", opacity: 0.8 }}>({worksheets.length})</span>
+                )}
+              </button>
             </div>
 
             {/* Philosophy filter pills */}
@@ -449,7 +492,80 @@ export default function LessonsPage() {
           </div>
         </div>
 
+        {/* ── Worksheets view ──────────────────────────────────────────── */}
+        {activeTab === "worksheets" && (
+          <div className="space-y-6">
+            {worksheetsByLesson.length === 0 ? (
+              <div className="py-10 text-center">
+                <p className="font-cormorant-sc" style={{ fontSize: "1.25rem", color: "#767676", fontStyle: "italic" }}>
+                  No worksheets yet. Generate one from a lesson.
+                </p>
+              </div>
+            ) : (
+              worksheetsByLesson.map(({ lesson, items }) => (
+                <div key={lesson.id}>
+                  <Link href={`/lessons/${lesson.id}`} style={{ textDecoration: "none" }}>
+                    <h3
+                      className="font-cormorant-sc"
+                      style={{
+                        fontSize: "1rem",
+                        color: "#0B2E4A",
+                        marginBottom: "0.5rem",
+                        borderBottom: "1px solid rgba(11,46,74,0.1)",
+                        paddingBottom: "0.35rem",
+                      }}
+                    >
+                      {lesson.title}
+                    </h3>
+                  </Link>
+                  <div className="space-y-2">
+                    {items.map((ws) => (
+                      <div key={ws.id} style={{ ...frostCard, padding: "0.9rem" }}>
+                        <div className="flex items-start justify-between gap-3">
+                          <div className="flex-1 min-w-0">
+                            <p style={{ fontSize: "0.875rem", fontWeight: 600, color: "#0B2E4A", marginBottom: "0.35rem" }}>
+                              {ws.content.title}
+                            </p>
+                            <div className="flex gap-1.5 flex-wrap">
+                              {ws.childName && (
+                                <span style={{ ...frostPill, color: "#5A5A5A", fontSize: "0.65rem" }}>{ws.childName}</span>
+                              )}
+                              <span style={{ ...frostPill, color: "#5A7FA0", background: "rgba(90,127,160,0.08)", border: "1px solid rgba(90,127,160,0.2)", fontSize: "0.65rem" }}>
+                                Grade {ws.grade}
+                              </span>
+                              <span style={{ ...frostPill, color: "#999", fontSize: "0.6rem" }}>
+                                {new Date(ws.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric" })}
+                              </span>
+                            </div>
+                          </div>
+                          <button
+                            onClick={() => printWorksheet(ws)}
+                            style={{
+                              background: "transparent",
+                              color: "#5A5A5A",
+                              borderRadius: "8px",
+                              padding: "0.3rem 0.65rem",
+                              cursor: "pointer",
+                              fontSize: "0.75rem",
+                              fontWeight: 500,
+                              border: "1px solid rgba(0,0,0,0.15)",
+                              flexShrink: 0,
+                            }}
+                          >
+                            Print
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ))
+            )}
+          </div>
+        )}
+
         {/* ── Grouped lesson list ───────────────────────────────────────── */}
+        {activeTab !== "worksheets" && (
         <div className="space-y-5">
           {grouped.map((group) => (
             <div key={group.label}>
@@ -602,6 +718,7 @@ export default function LessonsPage() {
             </div>
           )}
         </div>
+        )}
 
         {/* CTA */}
         <div className="flex justify-end pt-2">

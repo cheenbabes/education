@@ -8,6 +8,7 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useUser } from "@clerk/nextjs";
 import { PHILOSOPHY_LABELS, PHILOSOPHY_COLORS as SCORING_COLORS, resolvePhilosophyKey } from "@/lib/compass/scoring";
+import { printWorksheet } from "@/lib/printWorksheet";
 
 interface LessonDetail {
   id: string;
@@ -20,6 +21,24 @@ interface LessonDetail {
   lessonChildren: { child: { id: string; name: string; gradeLevel: string } }[];
   completions: { childId: string; starRating: number; notes: string | null; child: { name: string } }[];
   calendarEntries: { scheduledDate: string }[];
+  createdAt: string;
+}
+
+interface WorksheetData {
+  id: string;
+  childName: string | null;
+  grade: string;
+  philosophy: string;
+  content: {
+    title: string;
+    sections: Array<{
+      type: string;
+      title: string;
+      instructions: string;
+      lines?: number;
+      drawing_space?: boolean;
+    }>;
+  };
   createdAt: string;
 }
 
@@ -248,6 +267,13 @@ export default function LessonDetailPage() {
   const [notes, setNotes] = useState("");
   const [submitting, setSubmitting] = useState(false);
 
+  // Worksheet state
+  const [worksheets, setWorksheets] = useState<WorksheetData[]>([]);
+  const [worksheetLoading, setWorksheetLoading] = useState(false);
+  const [showChildPicker, setShowChildPicker] = useState(false);
+  const [worksheetError, setWorksheetError] = useState<string | null>(null);
+  const [userTier, setUserTier] = useState<string>("compass");
+
   // Collapsible section state
   const [standardsOpen, setStandardsOpen] = useState(false);
   const [materialsOpen, setMaterialsOpen] = useState(true);
@@ -296,6 +322,16 @@ export default function LessonDetailPage() {
         setError(e.message);
         setLoading(false);
       });
+
+    fetch(`/api/lessons/${lessonId}/worksheet`)
+      .then((r) => r.json())
+      .then(setWorksheets)
+      .catch(() => {});
+
+    fetch("/api/user/tier")
+      .then((r) => r.json())
+      .then((d) => { if (d.tier) setUserTier(d.tier); })
+      .catch(() => {});
   }, [lessonId]);
 
   const handleRate = async (childId: string) => {
@@ -327,6 +363,32 @@ export default function LessonDetailPage() {
       setSubmitting(false);
     }
   };
+
+  const generateWorksheet = async (childId: string | null, childName: string, grade: string) => {
+    setWorksheetLoading(true);
+    setWorksheetError(null);
+    setShowChildPicker(false);
+    try {
+      const res = await fetch(`/api/lessons/${lessonId}/worksheet`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ childId, childName, grade }),
+      });
+      if (res.status === 429) {
+        const data = await res.json();
+        setWorksheetError(`Worksheet limit reached (${data.used}/${data.limit} this month). Upgrade to generate more.`);
+        return;
+      }
+      if (!res.ok) throw new Error("Failed to generate worksheet");
+      const ws = await res.json();
+      setWorksheets((prev) => [ws, ...prev]);
+    } catch {
+      setWorksheetError("Failed to generate worksheet. Please try again.");
+    } finally {
+      setWorksheetLoading(false);
+    }
+  };
+
 
   if (loading) {
     return (
@@ -960,6 +1022,156 @@ export default function LessonDetailPage() {
               )}
             </div>
           )}
+
+          {/* ── Worksheets ─────────────────────────────────────────────── */}
+          <div style={{ marginTop: "0.5rem", paddingTop: "1.5rem", borderTop: "1px solid rgba(0,0,0,0.06)" }}>
+            <h3
+              className="font-cormorant-sc"
+              style={{ ...sectionHeadingStyle, marginBottom: "0.75rem" }}
+            >
+              Worksheets
+            </h3>
+
+            {/* Generate button / child picker */}
+            {userTier === "compass" ? (
+              <p style={{ fontSize: "0.8rem", color: "#767676" }}>
+                Worksheet generation is available on Homestead and above.{" "}
+                <a href="/account" style={{ color: "#0B2E4A", fontWeight: 600, textDecoration: "underline" }}>Upgrade →</a>
+              </p>
+            ) : !showChildPicker ? (
+              <div>
+                {children.length === 0 && (
+                  <button
+                    onClick={() => {
+                      const grade = lessonChildren[0]?.grade || "K";
+                      generateWorksheet(null, "Student", grade);
+                    }}
+                    disabled={worksheetLoading}
+                    style={{ ...nightButton, opacity: worksheetLoading ? 0.5 : 1 }}
+                  >
+                    {worksheetLoading ? "Generating..." : "Generate Worksheet"}
+                  </button>
+                )}
+                {children.length === 1 && (
+                  <button
+                    onClick={() => {
+                      const child = children[0];
+                      const grade = lessonChildren.find((lc) => lc.child_id === child.id)?.grade || child.gradeLevel || "K";
+                      generateWorksheet(child.id, child.name, grade);
+                    }}
+                    disabled={worksheetLoading}
+                    style={{ ...nightButton, opacity: worksheetLoading ? 0.5 : 1 }}
+                  >
+                    {worksheetLoading ? "Generating..." : `Generate Worksheet for ${children[0].name}`}
+                  </button>
+                )}
+                {children.length > 1 && (
+                  <button
+                    onClick={() => setShowChildPicker(true)}
+                    disabled={worksheetLoading}
+                    style={{ ...nightButton, opacity: worksheetLoading ? 0.5 : 1 }}
+                  >
+                    {worksheetLoading ? "Generating..." : "Generate Worksheet"}
+                  </button>
+                )}
+              </div>
+            ) : (
+              <div style={{ ...frostCard, padding: "1rem" }}>
+                <p style={{ fontSize: "0.8rem", color: "#5A5A5A", marginBottom: "0.6rem" }}>Choose a child:</p>
+                <div className="flex gap-2 flex-wrap">
+                  {children.map((child) => {
+                    const grade = lessonChildren.find((lc) => lc.child_id === child.id)?.grade || child.gradeLevel || "K";
+                    return (
+                      <button
+                        key={child.id}
+                        onClick={() => generateWorksheet(child.id, child.name, grade)}
+                        style={{
+                          ...frostPillBase,
+                          cursor: "pointer",
+                          color: "#0B2E4A",
+                          background: "rgba(11,46,74,0.06)",
+                          border: "1px solid rgba(11,46,74,0.15)",
+                          fontSize: "0.8rem",
+                          padding: "0.4rem 0.9rem",
+                        }}
+                      >
+                        {child.name}
+                      </button>
+                    );
+                  })}
+                  <button
+                    onClick={() => setShowChildPicker(false)}
+                    style={{ ...frostPillBase, cursor: "pointer", color: "#999", fontSize: "0.75rem" }}
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            ) : null}
+
+            {/* Error message */}
+            {worksheetError && (
+              <p style={{ fontSize: "0.8rem", color: "#B04040", marginTop: "0.5rem" }}>{worksheetError}</p>
+            )}
+
+            {/* Loading indicator */}
+            {worksheetLoading && (
+              <p style={{ fontSize: "0.8rem", color: "#767676", marginTop: "0.5rem", fontStyle: "italic" }}>
+                Generating worksheet...
+              </p>
+            )}
+
+            {/* Existing worksheets */}
+            {worksheets.length > 0 && (
+              <div className="space-y-3" style={{ marginTop: "1rem" }}>
+                {worksheets.map((ws) => (
+                  <div key={ws.id} style={{ ...frostCard, padding: "1rem" }}>
+                    <div className="flex items-start justify-between gap-3">
+                      <div className="flex-1 min-w-0">
+                        <p style={{ fontSize: "0.9rem", fontWeight: 600, color: "#0B2E4A", marginBottom: "0.4rem" }}>
+                          {ws.content.title}
+                        </p>
+                        <div className="flex gap-1.5 flex-wrap" style={{ marginBottom: "0.5rem" }}>
+                          {ws.childName && (
+                            <span style={{ ...frostPillBase, color: "#5A5A5A", fontSize: "0.65rem" }}>{ws.childName}</span>
+                          )}
+                          <span style={{ ...frostPillBase, color: "#5A7FA0", background: "rgba(90,127,160,0.08)", border: "1px solid rgba(90,127,160,0.2)", fontSize: "0.65rem" }}>
+                            Grade {ws.grade}
+                          </span>
+                          <span style={{ ...frostPillBase, color: philoColor, background: `${philoColor}10`, border: `1px solid ${philoColor}25`, fontSize: "0.65rem" }}>
+                            {ws.philosophy.replace(/_/g, " ")}
+                          </span>
+                          <span style={{ ...frostPillBase, color: "#999", fontSize: "0.6rem" }}>
+                            {new Date(ws.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric" })}
+                          </span>
+                        </div>
+                        <div className="space-y-1">
+                          {ws.content.sections.slice(0, 3).map((sec, i) => (
+                            <p key={i} style={{ fontSize: "0.75rem", color: "#5A5A5A" }}>
+                              <span style={{ fontWeight: 600 }}>{sec.title}</span>
+                              {" — "}
+                              {sec.instructions.slice(0, 60)}{sec.instructions.length > 60 ? "…" : ""}
+                            </p>
+                          ))}
+                        </div>
+                      </div>
+                      <button
+                        onClick={() => printWorksheet(ws)}
+                        style={{
+                          ...ghostButton,
+                          padding: "0.35rem 0.75rem",
+                          fontSize: "0.75rem",
+                          flexShrink: 0,
+                        }}
+                      >
+                        Print Worksheet
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
 
           {/* Issue report */}
           <div style={{ marginTop: "2rem", paddingTop: "1.5rem", borderTop: "1px solid rgba(0,0,0,0.06)", textAlign: "center" }}>

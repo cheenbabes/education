@@ -8,7 +8,6 @@ import { UserButton, SignInButton, useUser } from "@clerk/nextjs";
 const plannerItems = [
   { href: "/dashboard", label: "Dashboard" },
   { href: "/lessons",   label: "Lessons"   },
-  { href: "/calendar",  label: "Calendar"  },
   { href: "/standards", label: "Standards" },
 ];
 

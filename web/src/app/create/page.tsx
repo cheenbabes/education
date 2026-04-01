@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { Shell } from "@/components/shell";
 import { SUBJECTS, PHILOSOPHIES, GRADES, US_STATES } from "@/lib/types";
-import { useState, useEffect, Suspense } from "react";
+import { useState, useEffect, useRef, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 
 const KG_SERVICE_URL = process.env.NEXT_PUBLIC_KG_SERVICE_URL || "http://localhost:8000";
@@ -14,6 +14,7 @@ interface ChildData {
   gradeLevel: string;
   dateOfBirth: string;
   standardsOptIn: boolean;
+  learningNotes?: string | null;
 }
 
 
@@ -105,6 +106,7 @@ function GeneratePage() {
   const [freeState, setFreeState] = useState("");
   const [showLimitOverlay, setShowLimitOverlay] = useState(false);
   const [archetypePhilosophyIds, setArchetypePhilosophyIds] = useState<string[]>([]);
+  const generatingRef = useRef(false);
 
   // Standards from query param
   const standardsParam = searchParams.get("standards") || "";
@@ -223,11 +225,15 @@ function GeneratePage() {
   ];
 
   const handleGenerate = async () => {
+    if (generatingRef.current) return; // prevent double-trigger
+    generatingRef.current = true;
+
     // content check first
     const check = await fetch("/api/lessons/check-topic", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ interest }) })
     const checkData = await check.json()
     if (!checkData.safe) {
       setTopicError("This topic isn't appropriate for a children's lesson. Please choose a different subject.")
+      generatingRef.current = false;
       return
     }
     setTopicError(null)
@@ -256,6 +262,7 @@ function GeneratePage() {
             grade: child.gradeLevel,
             age: getAge(child.dateOfBirth),
             standards_opt_in: child.standardsOptIn,
+            learning_notes: child.learningNotes || null,
           };
         });
 
@@ -306,6 +313,7 @@ function GeneratePage() {
       clearInterval(timer);
       clearInterval(stepTimer);
       setGenerating(false);
+      generatingRef.current = false;
     }
   };
 

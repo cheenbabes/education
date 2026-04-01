@@ -16,6 +16,7 @@ export async function PUT(
       ...(dateOfBirth !== undefined && { dateOfBirth: new Date(dateOfBirth) }),
       ...(gradeLevel !== undefined && { gradeLevel }),
       ...(standardsOptIn !== undefined && { standardsOptIn }),
+      learningNotes: body.learningNotes || null,
     },
   });
 

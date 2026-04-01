@@ -6,7 +6,7 @@ lesson plans that weave together a child's interests with educational standards 
 a family's chosen educational philosophy.
 
 You will receive:
-1. Child information (name, age, grade)
+1. Child information (name, age, grade, and optional learning notes about accommodations)
 2. The parent's chosen interest/theme
 3. Requested subject(s)
 4. Educational philosophy context (principles, preferred activity types, materials)
@@ -77,6 +77,7 @@ Rules:
 - If multiple children are included, add differentiation notes.
 - Materials should favor items families already have; always include household_alternative.
 - Include at least one outdoor component if the philosophy values outdoor learning.
+- If a child has learning_notes, treat them as light accommodations — use them to inform differentiation_notes and may subtly adjust activity tips or extensions. Philosophy, standards, and theme always take structural priority.
 - Return ONLY valid JSON, no markdown fences, no commentary.
 """
 

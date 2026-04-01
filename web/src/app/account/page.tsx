@@ -12,6 +12,7 @@ interface ChildProfile {
   dateOfBirth: string;
   gradeLevel: string;
   standardsOptIn: boolean;
+  learningNotes: string;
 }
 
 interface TierData {
@@ -123,8 +124,9 @@ export default function AccountPage() {
   const [editing, setEditing] = useState<string | null>(null);
   const [showAdd, setShowAdd] = useState(false);
   const [saving, setSaving] = useState(false);
+  const [childError, setChildError] = useState<string | null>(null);
   const [form, setForm] = useState<Omit<ChildProfile, "id">>({
-    name: "", dateOfBirth: "", gradeLevel: "K", standardsOptIn: true,
+    name: "", dateOfBirth: "", gradeLevel: "K", standardsOptIn: true, learningNotes: "",
   });
 
   useEffect(() => {
@@ -145,16 +147,22 @@ export default function AccountPage() {
     });
   }, []);
 
-  const resetForm = () => setForm({ name: "", dateOfBirth: "", gradeLevel: "K", standardsOptIn: true });
+  const resetForm = () => setForm({ name: "", dateOfBirth: "", gradeLevel: "K", standardsOptIn: true, learningNotes: "" });
 
   const handleSave = async () => {
     setSaving(true);
+    setChildError(null);
     try {
       if (editing) {
         const res = await fetch(`/api/children/${editing}`, {
           method: "PUT", headers: { "Content-Type": "application/json" },
           body: JSON.stringify(form),
         });
+        if (!res.ok) {
+          const data = await res.json();
+          setChildError(data.error === "child_limit" ? `You've reached the child limit for your plan (${data.limit}).` : "Failed to save. Please try again.");
+          return;
+        }
         const updated = await res.json();
         setChildren((prev) => prev.map((c) =>
           c.id === editing ? { ...updated, dateOfBirth: updated.dateOfBirth.split("T")[0] } : c
@@ -165,6 +173,11 @@ export default function AccountPage() {
           method: "POST", headers: { "Content-Type": "application/json" },
           body: JSON.stringify(form),
         });
+        if (!res.ok) {
+          const data = await res.json();
+          setChildError(data.error === "child_limit" ? `You've reached the child limit for your plan (${data.limit}). Upgrade to add more children.` : "Failed to save. Please try again.");
+          return;
+        }
         const created = await res.json();
         setChildren((prev) => [...prev, { ...created, dateOfBirth: created.dateOfBirth.split("T")[0] }]);
         setShowAdd(false);
@@ -176,7 +189,7 @@ export default function AccountPage() {
   };
 
   const handleEdit = (child: ChildProfile) => {
-    setForm({ name: child.name, dateOfBirth: child.dateOfBirth, gradeLevel: child.gradeLevel, standardsOptIn: child.standardsOptIn });
+    setForm({ name: child.name, dateOfBirth: child.dateOfBirth, gradeLevel: child.gradeLevel, standardsOptIn: child.standardsOptIn, learningNotes: child.learningNotes ?? "" });
     setEditing(child.id);
     setShowAdd(true);
   };
@@ -372,6 +385,11 @@ export default function AccountPage() {
                     <p style={{ fontSize: "0.8rem", color: "#767676", marginTop: "0.2rem" }}>
                       Standards tracking: {child.standardsOptIn ? "on" : "off"}
                     </p>
+                    {child.learningNotes && (
+                      <p style={{ fontSize: "0.8rem", color: "#767676", marginTop: "0.1rem", fontStyle: "italic" }}>
+                        {child.learningNotes.length > 60 ? child.learningNotes.slice(0, 60) + "…" : child.learningNotes}
+                      </p>
+                    )}
                   </div>
                   <div className="flex gap-3">
                     <button onClick={() => handleEdit(child)}
@@ -417,12 +435,41 @@ export default function AccountPage() {
                       Lessons will align with your state&apos;s learning objectives and progress will be tracked.
                     </p>
                   </div>
+                  <div>
+                    <label style={{ display: "block", fontSize: "0.875rem", fontWeight: 500, color: "#5A5A5A", marginBottom: "0.25rem" }}>
+                      Learning notes <span style={{ fontWeight: 400, color: "#767676" }}>(optional)</span>
+                    </label>
+                    <p style={{ fontSize: "0.75rem", color: "#767676", marginBottom: "0.35rem" }}>
+                      Describe how this child learns best — preferences, accommodations, or anything the lesson generator should keep in mind.
+                    </p>
+                    <textarea
+                      value={form.learningNotes}
+                      onChange={(e) => setForm({ ...form, learningNotes: e.target.value })}
+                      rows={3}
+                      placeholder="e.g. Learns best with hands-on activities, needs movement breaks, strong visual learner"
+                      style={{
+                        background: "rgba(255,255,255,0.6)",
+                        border: "1px solid rgba(0,0,0,0.1)",
+                        borderRadius: "8px",
+                        padding: "0.45rem 0.6rem",
+                        fontSize: "0.875rem",
+                        color: "#0B2E4A",
+                        width: "100%",
+                        maxWidth: "100%",
+                        outline: "none",
+                        resize: "vertical",
+                      }}
+                    />
+                  </div>
+                  {childError && (
+                    <p style={{ fontSize: "0.8rem", color: "#B04040" }}>{childError}</p>
+                  )}
                   <div className="flex gap-2">
                     <button onClick={handleSave} disabled={!form.name || !form.dateOfBirth || saving}
                       style={{ ...nightButton, opacity: !form.name || !form.dateOfBirth || saving ? 0.5 : 1 }}>
                       {saving ? "Saving..." : editing ? "Save Changes" : "Add Child"}
                     </button>
-                    <button onClick={() => { setShowAdd(false); setEditing(null); resetForm(); }} style={ghostButton}>
+                    <button onClick={() => { setShowAdd(false); setEditing(null); resetForm(); setChildError(null); }} style={ghostButton}>
                       Cancel
                     </button>
                   </div>

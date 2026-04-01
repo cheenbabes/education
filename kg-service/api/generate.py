@@ -52,6 +52,7 @@ class ChildInput(BaseModel):
     grade: int | str
     age: int
     standards_opt_in: bool = True
+    learning_notes: str | None = None
 
 
 class GenerateLessonRequest(BaseModel):
@@ -232,7 +233,13 @@ async def generate_lesson(req: GenerateLessonRequest):
 
     # 2. Build generation prompt
     children_data = [
-        {"child_id": c.id, "name": c.name, "grade": str(c.grade), "age": c.age}
+        {
+            "child_id": c.id,
+            "name": c.name,
+            "grade": str(c.grade),
+            "age": c.age,
+            **({"learning_notes": c.learning_notes} if c.learning_notes else {}),
+        }
         for c in req.children
     ]
 
