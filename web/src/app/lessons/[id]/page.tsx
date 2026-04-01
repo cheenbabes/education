@@ -1107,7 +1107,7 @@ export default function LessonDetailPage() {
                   </button>
                 </div>
               </div>
-            ) : null}
+            )}
 
             {/* Error message */}
             {worksheetError && (
