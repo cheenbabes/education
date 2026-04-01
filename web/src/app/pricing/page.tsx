@@ -1,5 +1,3 @@
-"use client";
-
 import { PricingTable } from "@clerk/nextjs";
 import { Nav } from "@/components/nav";
 import Link from "next/link";
@@ -55,26 +53,11 @@ export default function PricingPage() {
             appearance={{
               variables: {
                 colorPrimary: "#0B2E4A",
-                colorBackground: "rgba(249,246,239,0.82)",
+                colorBackground: "rgba(249,246,239,0.85)",
                 colorText: "#1a1a2e",
                 colorTextSecondary: "#5A5A7A",
                 fontFamily: '"Inter", sans-serif',
                 borderRadius: "12px",
-              },
-              elements: {
-                pricingTableRoot: {
-                  background: "transparent",
-                },
-                planCard: {
-                  background: "rgba(255,255,255,0.72)",
-                  backdropFilter: "blur(12px)",
-                  border: "1px solid rgba(255,255,255,0.55)",
-                  boxShadow: "0 2px 12px rgba(0,0,0,0.05)",
-                },
-                planCardActiveBadge: {
-                  background: "#0B2E4A",
-                  color: "#F9F6EF",
-                },
               },
             }}
           />
