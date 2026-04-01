@@ -63,7 +63,7 @@ Generate a complete lesson plan as a JSON object matching this schema:
   "next_lesson_seeds": [
     "Ideas for follow-up lessons that build on today's learning"
   ],
-  "philosophy_summary": "2-3 sentences explaining why this lesson fits within the chosen educational philosophy. Reference specific principles or methods. Omit if philosophy is 'adaptive'.",
+  "philosophy_summary": "2-3 sentences explaining why this lesson fits within the chosen educational philosophy. Reference specific principles or methods. Use empty string if philosophy is 'adaptive'.",
   "content_hash": null
 }
 ```

@@ -209,6 +209,7 @@ function GeneratePage() {
 
   const isCompass = tier === "compass";
   const canGenerate =
+    !generating &&
     (isCompass || selectedChildren.length > 0) &&
     interest.trim().length > 0 &&
     selectedSubjects.length > 0 &&
@@ -227,6 +228,8 @@ function GeneratePage() {
   const handleGenerate = async () => {
     if (generatingRef.current) return; // prevent double-trigger
     generatingRef.current = true;
+    setGenerating(true);
+    setError(null);
 
     // content check first
     const check = await fetch("/api/lessons/check-topic", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ interest }) })
@@ -234,12 +237,11 @@ function GeneratePage() {
     if (!checkData.safe) {
       setTopicError("This topic isn't appropriate for a children's lesson. Please choose a different subject.")
       generatingRef.current = false;
+      setGenerating(false);
       return
     }
     setTopicError(null)
 
-    setGenerating(true);
-    setError(null);
     setGeneratingStep(0);
     setElapsedSeconds(0);
 

@@ -31,8 +31,11 @@ export async function GET() {
   // First day of next month (UTC)
   const resetsAt = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth() + 1, 1));
 
-  const [lessonsUsed, childrenCount] = await Promise.all([
+  const [lessonsUsed, worksheetsUsed, childrenCount] = await Promise.all([
     prisma.lesson.count({
+      where: { userId, createdAt: { gte: startOfMonth } },
+    }),
+    prisma.worksheet.count({
       where: { userId, createdAt: { gte: startOfMonth } },
     }),
     prisma.child.count({ where: { userId } }),
@@ -42,7 +45,7 @@ export async function GET() {
     tier,
     lessonsUsed,
     lessonsLimit: LIMITS.lessons[tier],
-    worksheetsUsed: user.worksheetsUsed,
+    worksheetsUsed,
     worksheetsLimit: LIMITS.worksheets[tier],
     childrenCount,
     childrenLimit: LIMITS.children[tier],

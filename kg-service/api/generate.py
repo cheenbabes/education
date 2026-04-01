@@ -269,6 +269,11 @@ async def generate_lesson(req: GenerateLessonRequest):
     # Add content hash
     lesson_data["content_hash"] = _content_hash(lesson_raw)
 
+    # Coerce nullable string fields the LLM sometimes returns as null
+    for _field in ("philosophy_summary", "cleanup_notes"):
+        if lesson_data.get(_field) is None:
+            lesson_data[_field] = ""
+
     # 4. Validate
     val_model = _get_validation_model()
     val_prompt = VAL_USER.format(
