@@ -7,7 +7,9 @@ import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import {
   __experimental_CheckoutProvider as CheckoutProvider,
+  __experimental_PaymentElementProvider as PaymentElementProvider,
   __experimental_PaymentElement as PaymentElement,
+  __experimental_useCheckout as useCheckout,
   __experimental_usePaymentElement as usePaymentElement,
 } from "@clerk/react";
 
@@ -41,22 +43,12 @@ interface SelectedPlan {
   period: "month" | "annual";
 }
 
-// Separated so hooks aren't called conditionally
-function CheckoutDrawer({
-  plan,
-  onClose,
-  onSuccess,
-}: {
-  plan: SelectedPlan;
-  onClose: () => void;
-  onSuccess: () => void;
-}) {
+// Inner form — must live inside PaymentElementProvider for usePaymentElement to work
+function PaymentForm({ planName, onSuccess }: { planName: string; onSuccess: () => void }) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const { submit, isFormReady } = (usePaymentElement as any)();
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const display = PLAN_DISPLAY[plan.key];
-  const priceInfo = plan.period === "annual" ? display.annual : display.monthly;
 
   const handleSubmit = async () => {
     setSubmitting(true);
@@ -70,6 +62,50 @@ function CheckoutDrawer({
       onSuccess();
     }
   };
+
+  return (
+    <>
+      <PaymentElement />
+      {error && <p style={{ fontSize: "0.8rem", color: "#B04040", margin: 0 }}>{error}</p>}
+      <button
+        onClick={handleSubmit}
+        disabled={!isFormReady || submitting}
+        style={{
+          background: "#0B2E4A",
+          color: "#F9F6EF",
+          border: "none",
+          borderRadius: "10px",
+          padding: "0.85rem",
+          fontSize: "0.9rem",
+          fontWeight: 600,
+          cursor: isFormReady && !submitting ? "pointer" : "not-allowed",
+          opacity: isFormReady && !submitting ? 1 : 0.5,
+          width: "100%",
+        }}
+      >
+        {submitting ? "Processing…" : `Subscribe to ${planName}`}
+      </button>
+      <p style={{ fontSize: "0.72rem", color: "#8a8a8a", textAlign: "center", margin: 0 }}>
+        Cancel anytime · Secure payment via Stripe
+      </p>
+    </>
+  );
+}
+
+// Checkout drawer — uses useCheckout to get resource, passes it to PaymentElementProvider
+function CheckoutDrawer({
+  plan,
+  onClose,
+  onSuccess,
+}: {
+  plan: SelectedPlan;
+  onClose: () => void;
+  onSuccess: () => void;
+}) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const checkout = (useCheckout as any)();
+  const display = PLAN_DISPLAY[plan.key];
+  const priceInfo = plan.period === "annual" ? display.annual : display.monthly;
 
   return (
     <>
@@ -98,11 +134,7 @@ function CheckoutDrawer({
         boxShadow: "-4px 0 32px rgba(0,0,0,0.2)",
       }}>
         {/* Dark navy header */}
-        <div style={{
-          background: "#0B2E4A",
-          padding: "1.5rem 1.75rem",
-          flexShrink: 0,
-        }}>
+        <div style={{ background: "#0B2E4A", padding: "1.5rem 1.75rem", flexShrink: 0 }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
             <div>
               <h2
@@ -147,7 +179,7 @@ function CheckoutDrawer({
           </div>
         </div>
 
-        {/* Payment form body */}
+        {/* Payment form body — PaymentElementProvider provides context for usePaymentElement */}
         <div style={{
           flex: 1,
           overflowY: "auto",
@@ -157,34 +189,9 @@ function CheckoutDrawer({
           flexDirection: "column",
           gap: "1.25rem",
         }}>
-          <PaymentElement />
-
-          {error && (
-            <p style={{ fontSize: "0.8rem", color: "#B04040", margin: 0 }}>{error}</p>
-          )}
-
-          <button
-            onClick={handleSubmit}
-            disabled={!isFormReady || submitting}
-            style={{
-              background: "#0B2E4A",
-              color: "#F9F6EF",
-              border: "none",
-              borderRadius: "10px",
-              padding: "0.85rem",
-              fontSize: "0.9rem",
-              fontWeight: 600,
-              cursor: isFormReady && !submitting ? "pointer" : "not-allowed",
-              opacity: isFormReady && !submitting ? 1 : 0.5,
-              width: "100%",
-            }}
-          >
-            {submitting ? "Processing…" : `Subscribe to ${display.name}`}
-          </button>
-
-          <p style={{ fontSize: "0.72rem", color: "#8a8a8a", textAlign: "center", margin: 0 }}>
-            Cancel anytime · Secure payment via Stripe
-          </p>
+          <PaymentElementProvider checkout={checkout}>
+            <PaymentForm planName={display.name} onSuccess={onSuccess} />
+          </PaymentElementProvider>
         </div>
       </div>
     </>
