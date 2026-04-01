@@ -214,6 +214,7 @@ export default function AccountPage() {
   const resetsAt = tierData?.resetsAt
     ? new Date(tierData.resetsAt).toLocaleDateString("en-US", { month: "long", day: "numeric" })
     : null;
+  const atChildLimit = !!tierData && tierData.childrenCount >= tierData.childrenLimit;
 
   return (
     <Shell hue="children">
@@ -473,6 +474,24 @@ export default function AccountPage() {
                       Cancel
                     </button>
                   </div>
+                </div>
+              ) : atChildLimit ? (
+                <div style={{
+                  ...frostCard, width: "100%", border: "1px dashed rgba(110,110,158,0.3)",
+                  display: "flex", alignItems: "center", justifyContent: "space-between",
+                  flexWrap: "wrap", gap: "0.75rem", background: "rgba(255,255,255,0.5)",
+                }}>
+                  <span style={{ fontSize: "0.8rem", color: "#767676" }}>
+                    {tierData!.childrenCount}/{tierData!.childrenLimit} children — limit reached
+                  </span>
+                  <a href="/#pricing" style={{
+                    fontSize: "0.8rem", fontWeight: 600, color: "#9a7530",
+                    padding: "0.35rem 0.85rem", borderRadius: "8px",
+                    background: "rgba(196,152,61,0.1)", border: "1px solid rgba(196,152,61,0.25)",
+                    textDecoration: "none",
+                  }}>
+                    Upgrade for more →
+                  </a>
                 </div>
               ) : (
                 <button onClick={() => { resetForm(); setShowAdd(true); }} style={{

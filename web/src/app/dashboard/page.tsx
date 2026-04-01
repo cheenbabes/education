@@ -93,6 +93,7 @@ export default function DashboardPage() {
   const [lessons, setLessons] = useState<LessonData[]>([]);
   const [loading, setLoading] = useState(true);
   const [archetype, setArchetype] = useState<{ archetype: string; secondaryArchetype: string | null; resultId: string; topPhilosophyIds: string[] } | null>(null);
+  const [tierData, setTierData] = useState<{ tier: string; childrenCount: number; childrenLimit: number; lessonsUsed: number; lessonsLimit: number; resetsAt: string } | null>(null);
 
   // Calendar state
   const [currentDate, setCurrentDate] = useState(new Date());
@@ -103,15 +104,19 @@ export default function DashboardPage() {
       fetch("/api/children").then((r) => r.json()),
       fetch("/api/lessons").then((r) => r.json()),
       fetch("/api/user/archetype").then((r) => r.json()),
-    ]).then(([childrenData, lessonsData, archetypeData]) => {
+      fetch("/api/user/tier").then((r) => r.json()),
+    ]).then(([childrenData, lessonsData, archetypeData, tierDataRes]) => {
       setChildren(childrenData);
       setLessons(lessonsData);
       if (archetypeData) setArchetype(archetypeData);
+      setTierData(tierDataRes);
       setLoading(false);
     });
   }, []);
 
   const today = new Date().toISOString().split("T")[0];
+  const atChildLimit = !!tierData && tierData.childrenCount >= tierData.childrenLimit;
+  const atLessonLimit = !!tierData && tierData.lessonsUsed >= tierData.lessonsLimit;
 
   // Upcoming: lessons with calendar entries in the future (or today) that have no completions
   const upcoming = lessons
@@ -240,12 +245,17 @@ export default function DashboardPage() {
       <div className="space-y-6" style={{ maxWidth: "1100px", margin: "0 auto", padding: "2rem 1.5rem" }}>
         <div className="flex items-center justify-between">
           <h1 className="font-cormorant-sc text-3xl text-gray-900">Dashboard</h1>
-          <Link
-            href="/create"
-            style={nightButton}
-          >
-            Create Lesson
-          </Link>
+          {atLessonLimit ? (
+            <a href="/#pricing" style={{
+              ...nightButton, textDecoration: "none", opacity: 0.75, fontSize: "0.85rem",
+            }}>
+              {tierData!.lessonsUsed}/{tierData!.lessonsLimit} lessons · Upgrade →
+            </a>
+          ) : (
+            <Link href="/create" style={nightButton}>
+              Create Lesson
+            </Link>
+          )}
         </div>
 
         {/* ── OVERVIEW SECTION ── */}
@@ -318,18 +328,42 @@ export default function DashboardPage() {
               )}
             </div>
           ))}
-          <Link
-            href="/children"
-            className="rounded flex items-center justify-center text-gray-500 hover:text-gray-600"
-            style={{
-              background: "rgba(255,255,255,0.4)",
-              border: "1px dashed rgba(255,255,255,0.6)",
-              borderRadius: "12px",
-              padding: "1.25rem",
-            }}
-          >
-            + Add child
-          </Link>
+          {atChildLimit ? (
+            <div className="rounded flex items-center justify-between"
+              style={{
+                background: "rgba(255,255,255,0.4)",
+                border: "1px dashed rgba(255,255,255,0.6)",
+                borderRadius: "12px",
+                padding: "1.25rem",
+                gap: "0.75rem",
+                flexWrap: "wrap",
+              }}
+            >
+              <span style={{ fontSize: "0.8rem", color: "#767676" }}>
+                {tierData!.childrenCount}/{tierData!.childrenLimit} children
+              </span>
+              <a href="/#pricing" style={{
+                fontSize: "0.78rem", fontWeight: 600, color: "#9a7530", textDecoration: "none",
+                padding: "0.25rem 0.65rem", borderRadius: "6px",
+                background: "rgba(196,152,61,0.1)", border: "1px solid rgba(196,152,61,0.25)",
+              }}>
+                Upgrade →
+              </a>
+            </div>
+          ) : (
+            <Link
+              href="/account"
+              className="rounded flex items-center justify-center text-gray-500 hover:text-gray-600"
+              style={{
+                background: "rgba(255,255,255,0.4)",
+                border: "1px dashed rgba(255,255,255,0.6)",
+                borderRadius: "12px",
+                padding: "1.25rem",
+              }}
+            >
+              + Add child
+            </Link>
+          )}
         </div>
 
         {/* Upcoming lessons */}

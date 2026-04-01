@@ -166,6 +166,7 @@ export default function LessonsPage() {
   const [children, setChildren] = useState<ChildData[]>([]);
   const [worksheets, setWorksheets] = useState<WorksheetListItem[]>([]);
   const [loading, setLoading] = useState(true);
+  const [tierData, setTierData] = useState<{ lessonsUsed: number; lessonsLimit: number; resetsAt: string } | null>(null);
 
   // Filters
   const [activeTab, setActiveTab] = useState<"all" | "pending" | "completed" | "saved" | "worksheets">("all");
@@ -181,10 +182,12 @@ export default function LessonsPage() {
       fetch("/api/lessons").then((r) => r.json()),
       fetch("/api/children").then((r) => r.json()),
       fetch("/api/worksheets").then((r) => r.json()).catch(() => []),
-    ]).then(([lessonsData, childrenData, worksheetsData]) => {
+      fetch("/api/user/tier").then((r) => r.json()).catch(() => null),
+    ]).then(([lessonsData, childrenData, worksheetsData, tierDataRes]) => {
       setLessons(lessonsData);
       setChildren(childrenData);
       setWorksheets(Array.isArray(worksheetsData) ? worksheetsData : []);
+      setTierData(tierDataRes);
       setLoading(false);
     });
   }, []);
@@ -722,11 +725,27 @@ export default function LessonsPage() {
 
         {/* CTA */}
         <div className="flex justify-end pt-2">
-          <Link href="/create">
-            <button style={{ background: "#0B2E4A", color: "#F9F6EF", borderRadius: "10px", padding: "0.6rem 1.4rem", border: "none", cursor: "pointer" }} className="text-sm font-medium">
-              + Create Lesson
-            </button>
-          </Link>
+          {tierData && tierData.lessonsUsed >= tierData.lessonsLimit ? (
+            <div style={{ textAlign: "right" }}>
+              <p style={{ fontSize: "0.78rem", color: "#767676", marginBottom: "0.35rem" }}>
+                {tierData.lessonsUsed}/{tierData.lessonsLimit} lessons this month
+                {tierData.resetsAt && ` · resets ${new Date(tierData.resetsAt).toLocaleDateString("en-US", { month: "short", day: "numeric" })}`}
+              </p>
+              <a href="/#pricing" style={{
+                fontSize: "0.85rem", fontWeight: 600, color: "#9a7530", textDecoration: "none",
+                padding: "0.6rem 1.4rem", borderRadius: "10px", display: "inline-block",
+                background: "rgba(196,152,61,0.1)", border: "1px solid rgba(196,152,61,0.25)",
+              }}>
+                Upgrade for more lessons →
+              </a>
+            </div>
+          ) : (
+            <Link href="/create">
+              <button style={{ background: "#0B2E4A", color: "#F9F6EF", borderRadius: "10px", padding: "0.6rem 1.4rem", border: "none", cursor: "pointer" }} className="text-sm font-medium">
+                + Create Lesson
+              </button>
+            </Link>
+          )}
         </div>
       </div>
 

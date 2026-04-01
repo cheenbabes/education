@@ -273,6 +273,7 @@ export default function LessonDetailPage() {
   const [showChildPicker, setShowChildPicker] = useState(false);
   const [worksheetError, setWorksheetError] = useState<string | null>(null);
   const [userTier, setUserTier] = useState<string>("compass");
+  const [worksheetTierData, setWorksheetTierData] = useState<{ worksheetsUsed: number; worksheetsLimit: number } | null>(null);
 
   // Collapsible section state
   const [standardsOpen, setStandardsOpen] = useState(false);
@@ -330,7 +331,10 @@ export default function LessonDetailPage() {
 
     fetch("/api/user/tier")
       .then((r) => r.json())
-      .then((d) => { if (d.tier) setUserTier(d.tier); })
+      .then((d) => {
+        if (d.tier) setUserTier(d.tier);
+        setWorksheetTierData({ worksheetsUsed: d.worksheetsUsed ?? 0, worksheetsLimit: d.worksheetsLimit ?? 0 });
+      })
       .catch(() => {});
   }, [lessonId]);
 
@@ -365,6 +369,10 @@ export default function LessonDetailPage() {
   };
 
   const generateWorksheet = async (childId: string | null, childName: string, grade: string) => {
+    if (worksheetTierData && worksheetTierData.worksheetsUsed >= worksheetTierData.worksheetsLimit) {
+      setWorksheetError(`You've used all ${worksheetTierData.worksheetsLimit} worksheets this month. Upgrade or wait until next month.`);
+      return;
+    }
     setWorksheetLoading(true);
     setWorksheetError(null);
     setShowChildPicker(false);
@@ -1107,6 +1115,13 @@ export default function LessonDetailPage() {
                   </button>
                 </div>
               </div>
+            )}
+
+            {/* Remaining worksheet count for paid users */}
+            {worksheetTierData && userTier !== "compass" && !worksheetError && (
+              <p style={{ fontSize: "0.72rem", color: "#999", marginTop: "0.4rem" }}>
+                {worksheetTierData.worksheetsUsed}/{worksheetTierData.worksheetsLimit} worksheets this month
+              </p>
             )}
 
             {/* Error message */}
