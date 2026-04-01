@@ -52,10 +52,13 @@ export async function POST(req: Request) {
 
   try {
     if (type === "subscription.created" || type === "subscription.updated") {
-      // Find the active item's plan slug — payload has items[], each with status + plan.slug
+      // Find the current plan — prefer "active", fall back to "upcoming"
+      // "upcoming" means paid but not yet started (e.g. upgrading mid annual cycle)
       const items = (data.items as Array<{ status: string; plan: { slug?: string } }> | undefined) ?? [];
-      const activeItem = items.find((i) => i.status === "active");
-      const planKey = activeItem?.plan?.slug;
+      const currentItem =
+        items.find((i) => i.status === "active") ??
+        items.find((i) => i.status === "upcoming");
+      const planKey = currentItem?.plan?.slug;
       const tier = planKey ? (PLAN_TO_TIER[planKey] ?? "compass") : "compass";
       await prisma.user.upsert({
         where: { id: userId },
