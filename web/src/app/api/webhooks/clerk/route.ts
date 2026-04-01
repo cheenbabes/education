@@ -43,14 +43,19 @@ export async function POST(req: Request) {
   const { type, data } = evt;
   console.log(`[clerk webhook] ${type}`, JSON.stringify(data, null, 2));
 
-  const userId = data.user_id as string | undefined;
+  // user_id lives at data.payer.user_id in Clerk's billing payload
+  const userId = (data.payer as { user_id?: string } | undefined)?.user_id;
   if (!userId) {
+    console.error("[clerk webhook] No user_id found in payload");
     return NextResponse.json({ error: "No user_id in payload" }, { status: 400 });
   }
 
   try {
     if (type === "subscription.created" || type === "subscription.updated") {
-      const planKey = (data.plan as { slug?: string } | undefined)?.slug;
+      // Find the active item's plan slug — payload has items[], each with status + plan.slug
+      const items = (data.items as Array<{ status: string; plan: { slug?: string } }> | undefined) ?? [];
+      const activeItem = items.find((i) => i.status === "active");
+      const planKey = activeItem?.plan?.slug;
       const tier = planKey ? (PLAN_TO_TIER[planKey] ?? "compass") : "compass";
       await prisma.user.upsert({
         where: { id: userId },
@@ -65,8 +70,6 @@ export async function POST(req: Request) {
       });
       console.log(`[clerk webhook] Downgraded user=${userId} to compass`);
     } else if (type === "subscription.past_due") {
-      // Payment failed — Clerk/Stripe will retry automatically.
-      // Only downgrade if subscription.deleted fires after all retries fail.
       console.log(`[clerk webhook] past_due for user=${userId} — no action, awaiting retry`);
     }
     // All other subscription.* events are intentionally ignored
