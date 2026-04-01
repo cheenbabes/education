@@ -19,8 +19,8 @@ interface Plan {
   ctaHref: string;
 }
 
-const CHECKOUT_HOMESTEAD = process.env.NEXT_PUBLIC_CHECKOUT_HOMESTEAD ?? "/#pricing";
-const CHECKOUT_SCHOOLHOUSE = process.env.NEXT_PUBLIC_CHECKOUT_SCHOOLHOUSE ?? "/#pricing";
+const CHECKOUT_HOMESTEAD = "/pricing";
+const CHECKOUT_SCHOOLHOUSE = "/pricing";
 
 const PLANS: Plan[] = [
   {
