@@ -700,7 +700,9 @@ export default function Home() {
       </section>
 
       {/* ── Section 8: Pricing ─────────────────────────────────────────── */}
-      <PricingSection />
+      <div id="pricing">
+        <PricingSection />
+      </div>
 
       {/* ── Section 9: Final CTA ───────────────────────────────────────── */}
       <section style={{ padding: "6rem 1.5rem", textAlign: "center" }}>

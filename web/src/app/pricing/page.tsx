@@ -10,11 +10,15 @@ export default function PricingPage() {
     >
       <Nav />
 
-      <main style={{ flex: 1, padding: "3rem 1.5rem 4rem" }}>
-        <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
+      <style>{`
+        .pricing-main { padding: 3rem 1.5rem 4rem; }
+        @media (min-width: 1024px) { .pricing-main { padding-right: 440px; } }
+      `}</style>
+      <main className="pricing-main" style={{ flex: 1 }}>
+        <div style={{ maxWidth: "860px", margin: "0 auto" }}>
 
           {/* Header */}
-          <div style={{ textAlign: "center", marginBottom: "2.5rem", maxWidth: "860px", margin: "0 auto 2.5rem" }}>
+          <div style={{ textAlign: "center", marginBottom: "2.5rem" }}>
             <p style={{
               fontFamily: "'Inter', sans-serif",
               fontSize: "0.72rem",
@@ -105,33 +109,6 @@ export default function PricingPage() {
         </div>
       </main>
 
-      {/* Minimal inline footer — doesn't clip Clerk's side panel */}
-      <footer style={{
-        background: "#082f4e",
-        padding: "1rem 1.5rem",
-        flexShrink: 0,
-      }}>
-        <div style={{
-          maxWidth: "64rem",
-          margin: "0 auto",
-          display: "flex",
-          flexWrap: "wrap",
-          alignItems: "center",
-          justifyContent: "space-between",
-          gap: "0.5rem",
-          fontSize: "0.75rem",
-          color: "rgba(249,246,239,0.4)",
-        }}>
-          <span>© {new Date().getFullYear()} The Sage&apos;s Compass</span>
-          <div style={{ display: "flex", gap: "1.25rem" }}>
-            {([["Privacy", "/privacy"], ["Terms", "/terms"], ["Contact", "/contact"]] as const).map(([label, href]) => (
-              <Link key={label} href={href} style={{ color: "rgba(249,246,239,0.4)", textDecoration: "none" }}>
-                {label}
-              </Link>
-            ))}
-          </div>
-        </div>
-      </footer>
     </div>
   );
 }

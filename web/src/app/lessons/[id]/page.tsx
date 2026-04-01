@@ -1041,13 +1041,13 @@ export default function LessonDetailPage() {
               Worksheets
             </h3>
 
-            {/* Generate button / child picker */}
+            {/* Create button / child picker */}
             {userTier === "compass" ? (
               <p style={{ fontSize: "0.8rem", color: "#767676" }}>
                 Worksheet generation is available on Homestead and above.{" "}
                 <a href="/account" style={{ color: "#0B2E4A", fontWeight: 600, textDecoration: "underline" }}>Upgrade →</a>
               </p>
-            ) : !showChildPicker ? (
+            ) : worksheets.length === 0 && !showChildPicker ? (
               <div>
                 {children.length === 0 && (
                   <button
@@ -1058,7 +1058,7 @@ export default function LessonDetailPage() {
                     disabled={worksheetLoading}
                     style={{ ...nightButton, opacity: worksheetLoading ? 0.5 : 1 }}
                   >
-                    {worksheetLoading ? "Generating..." : "Generate Worksheet"}
+                    {worksheetLoading ? "Generating..." : "Create Worksheet"}
                   </button>
                 )}
                 {children.length === 1 && (
@@ -1071,7 +1071,7 @@ export default function LessonDetailPage() {
                     disabled={worksheetLoading}
                     style={{ ...nightButton, opacity: worksheetLoading ? 0.5 : 1 }}
                   >
-                    {worksheetLoading ? "Generating..." : `Generate Worksheet for ${children[0].name}`}
+                    {worksheetLoading ? "Generating..." : `Create Worksheet for ${children[0].name}`}
                   </button>
                 )}
                 {children.length > 1 && (
@@ -1080,7 +1080,7 @@ export default function LessonDetailPage() {
                     disabled={worksheetLoading}
                     style={{ ...nightButton, opacity: worksheetLoading ? 0.5 : 1 }}
                   >
-                    {worksheetLoading ? "Generating..." : "Generate Worksheet"}
+                    {worksheetLoading ? "Generating..." : "Create Worksheet"}
                   </button>
                 )}
               </div>
