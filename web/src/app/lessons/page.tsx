@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useState, useEffect, useMemo } from "react";
 import { PHILOSOPHY_LABELS, PHILOSOPHY_COLORS, resolvePhilosophyKey } from "@/lib/compass/scoring";
 import { printWorksheet } from "@/lib/printWorksheet";
+import { UPGRADE_URL } from "@/lib/upgradeUrl";
 
 // ── Types ────────────────────────────────────────────────────────────────────
 
@@ -731,7 +732,7 @@ export default function LessonsPage() {
                 {tierData.lessonsUsed}/{tierData.lessonsLimit} lessons this month
                 {tierData.resetsAt && ` · resets ${new Date(tierData.resetsAt).toLocaleDateString("en-US", { month: "short", day: "numeric" })}`}
               </p>
-              <a href="/#pricing" style={{
+              <a href={UPGRADE_URL} style={{
                 fontSize: "0.85rem", fontWeight: 600, color: "#9a7530", textDecoration: "none",
                 padding: "0.6rem 1.4rem", borderRadius: "10px", display: "inline-block",
                 background: "rgba(196,152,61,0.1)", border: "1px solid rgba(196,152,61,0.25)",

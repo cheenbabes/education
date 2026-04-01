@@ -4,6 +4,7 @@ import { Shell } from "@/components/shell";
 import { TierGate } from "@/components/tier-gate";
 import Link from "next/link";
 import { useState, useEffect, useMemo } from "react";
+import { UPGRADE_URL } from "@/lib/upgradeUrl";
 
 interface Child {
   id: string;
@@ -246,7 +247,7 @@ export default function DashboardPage() {
         <div className="flex items-center justify-between">
           <h1 className="font-cormorant-sc text-3xl text-gray-900">Dashboard</h1>
           {atLessonLimit ? (
-            <a href="/#pricing" style={{
+            <a href={UPGRADE_URL} style={{
               ...nightButton, textDecoration: "none", opacity: 0.75, fontSize: "0.85rem",
             }}>
               {tierData!.lessonsUsed}/{tierData!.lessonsLimit} lessons · Upgrade →
@@ -342,7 +343,7 @@ export default function DashboardPage() {
               <span style={{ fontSize: "0.8rem", color: "#767676" }}>
                 {tierData!.childrenCount}/{tierData!.childrenLimit} children
               </span>
-              <a href="/#pricing" style={{
+              <a href={UPGRADE_URL} style={{
                 fontSize: "0.78rem", fontWeight: 600, color: "#9a7530", textDecoration: "none",
                 padding: "0.25rem 0.65rem", borderRadius: "6px",
                 background: "rgba(196,152,61,0.1)", border: "1px solid rgba(196,152,61,0.25)",

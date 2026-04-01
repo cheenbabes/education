@@ -5,6 +5,7 @@ import { TierGate } from "@/components/tier-gate";
 import { GRADES, US_STATES } from "@/lib/types";
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { UPGRADE_URL } from "@/lib/upgradeUrl";
 
 interface ChildProfile {
   id: string;
@@ -293,7 +294,7 @@ export default function AccountPage() {
             </div>
 
             {tier === "compass" ? (
-              <Link href="/#pricing" style={{
+              <Link href={UPGRADE_URL} style={{
                 ...nightButton,
                 display: "inline-flex", alignItems: "center", gap: "0.4rem",
                 padding: "0.5rem 1rem", fontSize: "0.82rem", textDecoration: "none",
@@ -301,9 +302,14 @@ export default function AccountPage() {
                 Upgrade to Homestead — $21.99/mo
               </Link>
             ) : (
-              <span style={{ fontSize: "0.78rem", color: "var(--text-tertiary)" }}>
-                Billing managed via your account — Phase 2
-              </span>
+              <a
+                href={process.env.NEXT_PUBLIC_BILLING_PORTAL_URL ?? UPGRADE_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ fontSize: "0.78rem", color: "#5A5A5A", textDecoration: "underline" }}
+              >
+                Manage billing, invoices &amp; cancellation →
+              </a>
             )}
           </div>
 
@@ -484,7 +490,7 @@ export default function AccountPage() {
                   <span style={{ fontSize: "0.8rem", color: "#767676" }}>
                     {tierData!.childrenCount}/{tierData!.childrenLimit} children — limit reached
                   </span>
-                  <a href="/#pricing" style={{
+                  <a href={UPGRADE_URL} style={{
                     fontSize: "0.8rem", fontWeight: 600, color: "#9a7530",
                     padding: "0.35rem 0.85rem", borderRadius: "8px",
                     background: "rgba(196,152,61,0.1)", border: "1px solid rgba(196,152,61,0.25)",

@@ -19,6 +19,9 @@ interface Plan {
   ctaHref: string;
 }
 
+const CHECKOUT_HOMESTEAD = process.env.NEXT_PUBLIC_CHECKOUT_HOMESTEAD ?? "/#pricing";
+const CHECKOUT_SCHOOLHOUSE = process.env.NEXT_PUBLIC_CHECKOUT_SCHOOLHOUSE ?? "/#pricing";
+
 const PLANS: Plan[] = [
   {
     name: "Compass",
@@ -53,7 +56,7 @@ const PLANS: Plan[] = [
       "Private community access",
     ],
     cta: "Start Homestead →",
-    ctaHref: "/compass",
+    ctaHref: CHECKOUT_HOMESTEAD,
   },
   {
     name: "Schoolhouse",
@@ -71,7 +74,7 @@ const PLANS: Plan[] = [
       "Priority support",
     ],
     cta: "Start Schoolhouse →",
-    ctaHref: "/compass",
+    ctaHref: CHECKOUT_SCHOOLHOUSE,
   },
   {
     name: "Co-op",

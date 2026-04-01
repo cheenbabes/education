@@ -9,6 +9,7 @@ import { useParams } from "next/navigation";
 import { useUser } from "@clerk/nextjs";
 import { PHILOSOPHY_LABELS, PHILOSOPHY_COLORS as SCORING_COLORS, resolvePhilosophyKey } from "@/lib/compass/scoring";
 import { printWorksheet } from "@/lib/printWorksheet";
+import { UPGRADE_URL } from "@/lib/upgradeUrl";
 
 interface LessonDetail {
   id: string;
@@ -479,7 +480,7 @@ export default function LessonDetailPage() {
             {lesson.lessonChildren.length === 0 ? (
               /* Compass / free-tier upsell */
               <Link
-                href="/#pricing"
+                href={UPGRADE_URL}
                 style={{
                   display: "inline-flex",
                   alignItems: "center",

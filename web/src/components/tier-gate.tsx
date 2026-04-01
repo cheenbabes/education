@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { UPGRADE_URL } from "@/lib/upgradeUrl";
 
 type Tier = "compass" | "homestead" | "schoolhouse";
 
@@ -117,7 +118,7 @@ export function TierGate({ requiredTier, pageName, description, children }: Tier
 
         {/* CTA button */}
         <a
-          href="/#pricing"
+          href={UPGRADE_URL}
           className="btn-night"
           style={{
             display: "block",
