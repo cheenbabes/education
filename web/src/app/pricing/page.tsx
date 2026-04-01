@@ -11,10 +11,10 @@ export default function PricingPage() {
       <Nav />
 
       <main style={{ flex: 1, padding: "3rem 1.5rem 4rem" }}>
-        <div style={{ maxWidth: "860px", margin: "0 auto" }}>
+        <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
 
           {/* Header */}
-          <div style={{ textAlign: "center", marginBottom: "2.5rem" }}>
+          <div style={{ textAlign: "center", marginBottom: "2.5rem", maxWidth: "860px", margin: "0 auto 2.5rem" }}>
             <p style={{
               fontFamily: "'Inter', sans-serif",
               fontSize: "0.72rem",
@@ -69,6 +69,9 @@ export default function PricingPage() {
             gap: "2rem",
             flexWrap: "wrap",
             marginTop: "1.75rem",
+            maxWidth: "860px",
+            marginLeft: "auto",
+            marginRight: "auto",
           }}>
             {[
               "No commitment — cancel any time",
@@ -89,7 +92,7 @@ export default function PricingPage() {
           </div>
 
           {/* Back link */}
-          <div style={{ textAlign: "center", marginTop: "1.75rem" }}>
+          <div style={{ textAlign: "center", marginTop: "1.75rem", maxWidth: "860px", marginLeft: "auto", marginRight: "auto" }}>
             <Link href="/#pricing" style={{
               fontSize: "0.8rem",
               color: "var(--text-tertiary)",
