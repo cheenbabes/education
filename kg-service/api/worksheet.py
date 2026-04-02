@@ -36,7 +36,7 @@ Math notation: Use LaTeX notation for all mathematical expressions within instru
 - Write fractions AS LaTeX, not as "3/4" or "three-fourths" in math contexts
 - Example instruction: "Solve: $$\\frac{2}{3} + \\frac{1}{6} = ?$$ Show your work on the lines below."
 
-Visual section types (add a `visual` field for math manipulatives when subject warrants it):
+Visual section types — Math manipulatives (K–5):
   "type": "fraction_bars"        → visual: { "type": "fraction_bar",   "params": { "numerator": 3, "denominator": 4 } }
   "type": "number_line"          → visual: { "type": "number_line",    "params": { "start": 0, "end": 10, "marked": [3, 7] } }
   "type": "ten_frame"            → visual: { "type": "ten_frame",      "params": { "filled": 7 } }
@@ -45,18 +45,32 @@ Visual section types (add a `visual` field for math manipulatives when subject w
   "type": "coordinate_grid"      → visual: { "type": "coordinate_grid","params": { "quadrant": 1, "points": [{"x": 2, "y": 3}] } }  (K–5 only)
   "type": "analog_clock"         → visual: { "type": "analog_clock",   "params": { "hour": 3, "minute": 30 } }
 
-Advanced visual section types (USE THESE for Grades 6–8 math instead of coordinate_grid):
+Visual section types — Advanced math (Grades 6–8, USE THESE instead of coordinate_grid):
   "type": "coordinate_plane_problem" → visual: { "type": "mafs_coordinate_plane", "params": { "xRange": [-5, 5], "yRange": [-5, 5], "points": [{"x": 2, "y": 3}] } }
   "type": "function_graph"           → visual: { "type": "mafs_function",         "params": { "fn": "2*x + 1" } }
   "type": "geometry_figure"          → visual: { "type": "mafs_polygon",          "params": { "vertices": [[0,0],[3,0],[1.5,2.6]] } }
 
+Visual section types — Graphic organizers (ALL subjects, use freely):
+  "type": "compare_contrast"     → visual: { "type": "venn_diagram",   "params": { "label1": "Frogs", "label2": "Toads", "overlap_label": "Both" } }
+  "type": "kwl_activity"         → visual: { "type": "kwl_chart",      "params": { "topic": "Animal Habitats" } }
+  "type": "t_chart"              → visual: { "type": "t_chart",        "params": { "left_label": "Fiction", "right_label": "Non-Fiction", "rows": 5 } }
+  "type": "observation_table"    → visual: { "type": "data_table",     "params": { "headers": ["What I Observed", "What I Think It Means"], "rows": 4 } }
+  "type": "timeline_activity"    → visual: { "type": "timeline",       "params": { "events": ["Event 1", "Event 2", "Event 3"], "orientation": "horizontal" } }
+  "type": "story_structure"      → visual: { "type": "story_map",      "params": {} }
+
+Visual section types — Science diagrams (use when topic matches):
+  "type": "plant_labeling"       → visual: { "type": "plant_diagram",  "params": {} }
+  "type": "food_chain_activity"  → visual: { "type": "food_chain",     "params": { "organisms": ["Grass", "Grasshopper", "Frog", "Hawk"] } }
+
 Rules for using visual sections:
 - For MATH worksheets: include at least one visual section when the topic involves fractions, multiplication, counting, coordinates, or time
-- For Grades 6–8 MATH: ALWAYS use the advanced visual types (mafs_coordinate_plane, mafs_function, mafs_polygon) instead of coordinate_grid. Use coordinate_plane_problem for plotting points, function_graph for graphing equations, geometry_figure for polygons/triangles
-- For SCIENCE worksheets: visual sections are optional; only use if the visual directly supports the activity
-- NEVER add a math visual (ten_frame, fraction_bar, number_line, etc.) to vocabulary, writing, narration, copywork, or labeling sections — those do not involve math manipulatives
-- NEVER add a visual to a section whose type is: memory_work, copywork, narration_prompt, short_essay, grammar_work, artistic_response, imagination_prompt, free_exploration, interest_map, or field_notes
-- Always write instructions to reference the visual: "Look at the fraction bar above. How many parts are shaded?"
+- For Grades 6–8 MATH: ALWAYS use the advanced visual types (mafs_coordinate_plane, mafs_function, mafs_polygon) instead of coordinate_grid
+- For SCIENCE worksheets: use plant_diagram for plant topics, food_chain for food web/chain topics, observation_table for experiment/nature observation sections, kwl_activity for introduction sections
+- For LANGUAGE ARTS: use story_structure for narrative writing sections, t_chart for compare/contrast, venn_diagram for comparing two things
+- For HISTORY/SOCIAL STUDIES: use timeline_activity for sequence of events, t_chart for cause/effect or compare/contrast
+- NEVER add a math manipulative (ten_frame, fraction_bar, number_line, etc.) to vocabulary, writing, narration, or science sections
+- NEVER add a visual to: memory_work, copywork, narration_prompt, short_essay, grammar_work, artistic_response, imagination_prompt, free_exploration, interest_map, field_notes
+- Always write instructions to reference the visual: "Use the Venn diagram above to record your comparisons."
 - The `visual` field is optional — only include it when it genuinely adds value
 
 Return ONLY valid JSON: { "sections": [...] }"""

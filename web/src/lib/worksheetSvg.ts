@@ -156,6 +156,194 @@ export function analogClock(hour: number, minute: number): string {
   return `<svg width="${cx * 2}" height="${cy * 2}" viewBox="0 0 ${cx * 2} ${cy * 2}" xmlns="http://www.w3.org/2000/svg">${content}</svg>`;
 }
 
+// ── Graphic organizers ────────────────────────────────────────────────────────
+
+export function vennDiagram(label1 = "A", label2 = "B", overlapLabel = "Both"): string {
+  const W = 480, H = 220, r = 130, cx1 = 170, cx2 = 310, cy = 110, overlap = 90;
+  // Two overlapping circles
+  const circles = `
+    <circle cx="${cx1}" cy="${cy}" r="${r}" fill="rgb(220,235,255)" fill-opacity="0.55" stroke="${STROKE}" stroke-width="1.5"/>
+    <circle cx="${cx2}" cy="${cy}" r="${r}" fill="rgb(220,255,220)" fill-opacity="0.55" stroke="${STROKE}" stroke-width="1.5"/>`;
+  // Section labels
+  const labels = `
+    <text x="${cx1 - overlap / 2}" y="28" text-anchor="middle" font-family="Georgia,serif" font-size="13" font-weight="600" fill="${STROKE}">${label1}</text>
+    <text x="${cx2 + overlap / 2}" y="28" text-anchor="middle" font-family="Georgia,serif" font-size="13" font-weight="600" fill="${STROKE}">${label2}</text>
+    <text x="${(cx1 + cx2) / 2}" y="28" text-anchor="middle" font-family="Georgia,serif" font-size="11" fill="rgb(100,100,100)">${overlapLabel}</text>`;
+  return `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">${circles}${labels}</svg>`;
+}
+
+export function kwlChart(topic = ""): string {
+  const W = 560, H = 220, cols = [0, 186, 373, 560], rowH = 40;
+  const headers = ["K — What I Know", "W — What I Want to Know", "L — What I Learned"];
+  let content = `<rect x="0" y="0" width="${W}" height="${H}" fill="rgb(255,255,255)" stroke="${STROKE}" stroke-width="1.5"/>`;
+  // Column dividers
+  for (let i = 1; i < 3; i++) {
+    content += `<line x1="${cols[i]}" y1="0" x2="${cols[i]}" y2="${H}" stroke="${STROKE}" stroke-width="1"/>`;
+  }
+  // Header row background
+  content += `<rect x="0" y="0" width="${W}" height="${rowH}" fill="rgb(220,230,245)"/>`;
+  content += `<line x1="0" y1="${rowH}" x2="${W}" y2="${rowH}" stroke="${STROKE}" stroke-width="1"/>`;
+  // Header text
+  headers.forEach((h, i) => {
+    content += `<text x="${(cols[i] + cols[i + 1]) / 2}" y="${rowH / 2 + 5}" text-anchor="middle" font-family="Georgia,serif" font-size="11" font-weight="600" fill="${STROKE}">${h}</text>`;
+  });
+  if (topic) {
+    content += `<text x="${W / 2}" y="${H + 18}" text-anchor="middle" font-family="Georgia,serif" font-size="12" fill="rgb(120,120,120)">Topic: ${topic}</text>`;
+  }
+  return `<svg width="${W}" height="${topic ? H + 24 : H}" viewBox="0 0 ${W} ${topic ? H + 24 : H}" xmlns="http://www.w3.org/2000/svg">${content}</svg>`;
+}
+
+export function tChart(leftLabel = "A", rightLabel = "B", rows = 5): string {
+  const W = 480, rowH = 36, headerH = 38, H = headerH + rows * rowH;
+  const mid = W / 2;
+  let content = `<rect x="0" y="0" width="${W}" height="${H}" fill="rgb(255,255,255)" stroke="${STROKE}" stroke-width="1.5"/>`;
+  // Header background
+  content += `<rect x="0" y="0" width="${W}" height="${headerH}" fill="rgb(220,230,245)"/>`;
+  content += `<line x1="0" y1="${headerH}" x2="${W}" y2="${headerH}" stroke="${STROKE}" stroke-width="1"/>`;
+  // Center divider
+  content += `<line x1="${mid}" y1="0" x2="${mid}" y2="${H}" stroke="${STROKE}" stroke-width="1.5"/>`;
+  // Header labels
+  content += `<text x="${mid / 2}" y="${headerH / 2 + 5}" text-anchor="middle" font-family="Georgia,serif" font-size="13" font-weight="600" fill="${STROKE}">${leftLabel}</text>`;
+  content += `<text x="${mid + mid / 2}" y="${headerH / 2 + 5}" text-anchor="middle" font-family="Georgia,serif" font-size="13" font-weight="600" fill="${STROKE}">${rightLabel}</text>`;
+  // Row lines
+  for (let i = 1; i <= rows; i++) {
+    const y = headerH + i * rowH;
+    content += `<line x1="0" y1="${y}" x2="${W}" y2="${y}" stroke="rgb(200,200,200)" stroke-width="0.8"/>`;
+  }
+  return `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">${content}</svg>`;
+}
+
+export function dataTable(headers: string[], rows = 4): string {
+  const colW = Math.min(160, Math.max(80, Math.floor(520 / headers.length)));
+  const W = colW * headers.length, rowH = 36, headerH = 40, H = headerH + rows * rowH;
+  let content = `<rect x="0" y="0" width="${W}" height="${H}" fill="rgb(255,255,255)" stroke="${STROKE}" stroke-width="1.5"/>`;
+  content += `<rect x="0" y="0" width="${W}" height="${headerH}" fill="rgb(220,230,245)"/>`;
+  content += `<line x1="0" y1="${headerH}" x2="${W}" y2="${headerH}" stroke="${STROKE}" stroke-width="1"/>`;
+  // Column headers + dividers
+  headers.forEach((h, i) => {
+    const x = i * colW;
+    if (i > 0) content += `<line x1="${x}" y1="0" x2="${x}" y2="${H}" stroke="${STROKE}" stroke-width="1"/>`;
+    content += `<text x="${x + colW / 2}" y="${headerH / 2 + 5}" text-anchor="middle" font-family="Georgia,serif" font-size="11" font-weight="600" fill="${STROKE}">${h}</text>`;
+  });
+  // Row lines
+  for (let i = 1; i <= rows; i++) {
+    content += `<line x1="0" y1="${headerH + i * rowH}" x2="${W}" y2="${headerH + i * rowH}" stroke="rgb(200,200,200)" stroke-width="0.8"/>`;
+  }
+  return `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">${content}</svg>`;
+}
+
+export function timeline(events: string[], orientation: "horizontal" | "vertical" = "horizontal"): string {
+  const count = Math.max(events.length, 3);
+  if (orientation === "vertical") {
+    const boxH = 44, gap = 16, pad = 20, W = 340, H = pad * 2 + count * (boxH + gap);
+    let content = "";
+    // Vertical spine
+    content += `<line x1="60" y1="${pad}" x2="60" y2="${H - pad}" stroke="${STROKE}" stroke-width="2"/>`;
+    events.forEach((e, i) => {
+      const y = pad + i * (boxH + gap) + boxH / 2;
+      content += `<circle cx="60" cy="${y}" r="7" fill="rgb(60,100,160)" stroke="${STROKE}" stroke-width="1.5"/>`;
+      content += `<rect x="80" y="${pad + i * (boxH + gap)}" width="${W - 100}" height="${boxH}" rx="5" fill="rgb(245,248,255)" stroke="${STROKE}" stroke-width="1"/>`;
+      if (e) content += `<text x="${80 + (W - 100) / 2}" y="${pad + i * (boxH + gap) + boxH / 2 + 5}" text-anchor="middle" font-family="Georgia,serif" font-size="12" fill="${STROKE}">${e}</text>`;
+    });
+    return `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">${content}</svg>`;
+  }
+  // Horizontal
+  const boxW = 90, boxH = 56, gap = 24, pad = 20, W = pad * 2 + count * (boxW + gap), H = 130;
+  const lineY = 52;
+  let content = `<line x1="${pad}" y1="${lineY}" x2="${W - pad}" y2="${lineY}" stroke="${STROKE}" stroke-width="2"/>`;
+  events.forEach((e, i) => {
+    const x = pad + i * (boxW + gap) + boxW / 2;
+    content += `<circle cx="${x}" cy="${lineY}" r="7" fill="rgb(60,100,160)" stroke="${STROKE}" stroke-width="1.5"/>`;
+    content += `<rect x="${x - boxW / 2}" y="${lineY + 16}" width="${boxW}" height="${boxH}" rx="5" fill="rgb(245,248,255)" stroke="${STROKE}" stroke-width="1"/>`;
+    if (e) {
+      const words = e.split(" ");
+      const line1 = words.slice(0, 2).join(" "), line2 = words.slice(2).join(" ");
+      content += `<text x="${x}" y="${lineY + 36}" text-anchor="middle" font-family="Georgia,serif" font-size="11" fill="${STROKE}">${line1}</text>`;
+      if (line2) content += `<text x="${x}" y="${lineY + 50}" text-anchor="middle" font-family="Georgia,serif" font-size="11" fill="${STROKE}">${line2}</text>`;
+    }
+  });
+  return `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">${content}</svg>`;
+}
+
+// ── Science diagram templates (static SVG outlines) ───────────────────────────
+
+export function plantDiagram(): string {
+  // Simplified plant cross-section with label lines for: flower, leaf, stem, roots
+  const W = 320, H = 300;
+  const content = `
+    <!-- Roots -->
+    <path d="M160,240 Q140,265 125,285 M160,240 Q160,270 155,290 M160,240 Q178,262 195,282"
+      stroke="${STROKE}" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <!-- Stem -->
+    <rect x="154" y="130" width="12" height="115" fill="rgb(120,180,80)" stroke="${STROKE}" stroke-width="1.5" rx="4"/>
+    <!-- Left leaf -->
+    <ellipse cx="125" cy="175" rx="38" ry="16" fill="rgb(150,210,100)" stroke="${STROKE}" stroke-width="1.5" transform="rotate(-30 125 175)"/>
+    <!-- Right leaf -->
+    <ellipse cx="195" cy="195" rx="38" ry="16" fill="rgb(150,210,100)" stroke="${STROKE}" stroke-width="1.5" transform="rotate(30 195 195)"/>
+    <!-- Flower -->
+    ${[0,60,120,180,240,300].map(a => `<ellipse cx="${160 + 24 * Math.cos(a * Math.PI / 180)}" cy="${110 + 24 * Math.sin(a * Math.PI / 180)}" rx="16" ry="10" fill="rgb(255,200,100)" stroke="${STROKE}" stroke-width="1" transform="rotate(${a} ${160 + 24 * Math.cos(a * Math.PI / 180)} ${110 + 24 * Math.sin(a * Math.PI / 180)})"/>`).join("")}
+    <circle cx="160" cy="110" r="16" fill="rgb(255,160,50)" stroke="${STROKE}" stroke-width="1.5"/>
+    <!-- Label lines + blanks -->
+    <line x1="160" y1="95" x2="80" y2="60" stroke="rgb(150,150,150)" stroke-width="1" stroke-dasharray="3"/>
+    <line x1="80" y1="60" x2="40" y2="60" stroke="${STROKE}" stroke-width="1"/>
+    <text x="38" y="57" text-anchor="end" font-family="Georgia,serif" font-size="11" fill="rgb(150,150,150)">___________</text>
+    <line x1="125" y1="175" x2="55" y2="155" stroke="rgb(150,150,150)" stroke-width="1" stroke-dasharray="3"/>
+    <line x1="55" y1="155" x2="15" y2="155" stroke="${STROKE}" stroke-width="1"/>
+    <text x="13" y="152" text-anchor="end" font-family="Georgia,serif" font-size="11" fill="rgb(150,150,150)">___________</text>
+    <line x1="160" y1="200" x2="250" y2="200" stroke="rgb(150,150,150)" stroke-width="1" stroke-dasharray="3"/>
+    <line x1="250" y1="200" x2="290" y2="200" stroke="${STROKE}" stroke-width="1"/>
+    <text x="292" y="203" font-family="Georgia,serif" font-size="11" fill="rgb(150,150,150)">___________</text>
+    <line x1="160" y1="270" x2="250" y2="270" stroke="rgb(150,150,150)" stroke-width="1" stroke-dasharray="3"/>
+    <line x1="250" y1="270" x2="290" y2="270" stroke="${STROKE}" stroke-width="1"/>
+    <text x="292" y="273" font-family="Georgia,serif" font-size="11" fill="rgb(150,150,150)">___________</text>`;
+  return `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">${content}</svg>`;
+}
+
+export function foodChain(organisms: string[]): string {
+  const count = organisms.length || 4;
+  const items = organisms.length > 0 ? organisms : ["", "", "", ""];
+  const boxW = 100, boxH = 46, gap = 50, pad = 20;
+  const W = pad * 2 + count * boxW + (count - 1) * gap, H = 120;
+  const y = 37;
+  let content = "";
+  items.forEach((org, i) => {
+    const x = pad + i * (boxW + gap);
+    content += `<rect x="${x}" y="${y - boxH / 2}" width="${boxW}" height="${boxH}" rx="8" fill="rgb(240,248,240)" stroke="${STROKE}" stroke-width="1.5"/>`;
+    content += `<text x="${x + boxW / 2}" y="${y + 5}" text-anchor="middle" font-family="Georgia,serif" font-size="12" fill="${STROKE}">${org}</text>`;
+    if (i < items.length - 1) {
+      const ax = x + boxW + 8, ay = y;
+      content += `<line x1="${ax}" y1="${ay}" x2="${ax + gap - 16}" y2="${ay}" stroke="${STROKE}" stroke-width="2"/>`;
+      content += `<polygon points="${ax + gap - 16},${ay - 5} ${ax + gap - 4},${ay} ${ax + gap - 16},${ay + 5}" fill="${STROKE}"/>`;
+    }
+  });
+  // Energy label
+  content += `<text x="${W / 2}" y="${H - 8}" text-anchor="middle" font-family="Georgia,serif" font-size="10" fill="rgb(150,150,150)" font-style="italic">Energy flows in the direction of the arrows</text>`;
+  return `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">${content}</svg>`;
+}
+
+export function storyMap(): string {
+  // Beginning / Middle / End organizer with character, setting, problem, solution boxes
+  const W = 520, H = 260;
+  const sections = [
+    { label: "Beginning", x: 10, w: 155 },
+    { label: "Middle", x: 183, w: 155 },
+    { label: "End", x: 355, w: 155 },
+  ];
+  let content = "";
+  sections.forEach(({ label, x, w }) => {
+    content += `<rect x="${x}" y="10" width="${w}" height="220" rx="8" fill="rgb(250,250,255)" stroke="${STROKE}" stroke-width="1.5"/>`;
+    content += `<rect x="${x}" y="10" width="${w}" height="36" rx="8" fill="rgb(200,215,245)"/>`;
+    content += `<rect x="${x}" y="34" width="${w}" height="12" fill="rgb(200,215,245)"/>`;
+    content += `<text x="${x + w / 2}" y="33" text-anchor="middle" font-family="Georgia,serif" font-size="13" font-weight="600" fill="${STROKE}">${label}</text>`;
+    // Writing lines
+    for (let i = 0; i < 5; i++) {
+      const ly = 72 + i * 30;
+      content += `<line x1="${x + 12}" y1="${ly}" x2="${x + w - 12}" y2="${ly}" stroke="rgb(200,200,200)" stroke-width="0.8"/>`;
+    }
+  });
+  return `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">${content}</svg>`;
+}
+
 // Dispatcher: given a visual type and params, return the SVG string
 export function renderVisual(type: string, params: Record<string, unknown>): string | null {
   switch (type) {
@@ -166,6 +354,16 @@ export function renderVisual(type: string, params: Record<string, unknown>): str
     case "multiplication_array": return multiplicationArray(params.rows as number, params.cols as number);
     case "coordinate_grid": return coordinateGrid(params.quadrant as 1 | 4, params.points as Array<{x:number;y:number;label?:string}> | undefined, params.size as number | undefined);
     case "analog_clock":    return analogClock(params.hour as number, params.minute as number);
+    // Graphic organizers
+    case "venn_diagram":    return vennDiagram(params.label1 as string, params.label2 as string, params.overlap_label as string);
+    case "kwl_chart":       return kwlChart(params.topic as string);
+    case "t_chart":         return tChart(params.left_label as string, params.right_label as string, params.rows as number);
+    case "data_table":      return dataTable(params.headers as string[] ?? ["Observation", "Result"], params.rows as number);
+    case "timeline":        return timeline(params.events as string[] ?? [], params.orientation as "horizontal" | "vertical");
+    // Science diagrams
+    case "plant_diagram":   return plantDiagram();
+    case "food_chain":      return foodChain(params.organisms as string[] ?? []);
+    case "story_map":       return storyMap();
     default:                return null;
   }
 }
