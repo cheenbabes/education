@@ -1,3 +1,5 @@
+import { renderVisual } from "@/lib/worksheetSvg";
+
 interface PrintableSection {
   title: string;
   instructions: string;
@@ -16,14 +18,21 @@ interface PrintableWorksheet {
 export function printWorksheet(ws: PrintableWorksheet) {
   const win = window.open("", "_blank");
   if (!win) return;
-  const sectionsHtml = ws.content.sections.map((s) => `
+  const sectionsHtml = ws.content.sections.map((s) => {
+    const svgHtml = s.visual ? (() => {
+      const svg = renderVisual(s.visual.type, s.visual.params);
+      return svg ? `<div style="margin:12px 0; page-break-inside:avoid;">${svg}</div>` : "";
+    })() : "";
+    return `
     <div style="margin-bottom:32px; page-break-inside:avoid;">
       <h3 style="font-size:14px; font-weight:600; margin-bottom:8px; text-transform:uppercase; letter-spacing:0.05em;">${s.title}</h3>
       <p style="font-size:13px; color:#333; margin-bottom:12px;">${s.instructions}</p>
+      ${svgHtml}
       ${s.drawing_space ? '<div style="border:1px solid #ccc; height:180px; border-radius:4px; margin-bottom:8px;"></div>' : ""}
       ${s.lines ? Array.from({ length: s.lines }, () => '<div style="border-bottom:1px solid #ddd; margin-bottom:20px; height:24px;"></div>').join("") : ""}
     </div>
-  `).join("");
+  `;
+  }).join("");
   win.document.write(`<!DOCTYPE html><html><head><title>${ws.content.title}</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>

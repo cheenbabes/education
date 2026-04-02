@@ -26,7 +26,7 @@ Philosophy-appropriate section types:
 - waldorf-adjacent: artistic_response (draw/paint/describe aesthetically), rhythm_activity, imagination_prompt
 - adaptive: mixed_modalities (visual + written + hands-on options)
 
-Each section has: { "type": string, "title": string, "instructions": string, "lines": number (optional), "drawing_space": boolean (optional) }
+Each section has: { "type": string, "title": string, "instructions": string, "lines": number (optional), "drawing_space": boolean (optional), "visual": { "type": string, "params": {...} } (optional) }
 
 If the child has learning_notes, add subtle accommodations in instructions (shorter prompts, visual options, movement suggestions) without changing the philosophy structure.
 
@@ -35,6 +35,21 @@ Math notation: Use LaTeX notation for all mathematical expressions within instru
 - Display math (standalone problem): $$\\frac{3}{4} + \\frac{1}{4} = ?$$
 - Write fractions AS LaTeX, not as "3/4" or "three-fourths" in math contexts
 - Example instruction: "Solve: $$\\frac{2}{3} + \\frac{1}{6} = ?$$ Show your work on the lines below."
+
+Visual section types (add a `visual` field for math manipulatives when subject warrants it):
+  "type": "fraction_bars"        → visual: { "type": "fraction_bar",   "params": { "numerator": 3, "denominator": 4 } }
+  "type": "number_line"          → visual: { "type": "number_line",    "params": { "start": 0, "end": 10, "marked": [3, 7] } }
+  "type": "ten_frame"            → visual: { "type": "ten_frame",      "params": { "filled": 7 } }
+  "type": "fraction_circle"      → visual: { "type": "fraction_circle","params": { "numerator": 2, "denominator": 3 } }
+  "type": "multiplication_array" → visual: { "type": "multiplication_array", "params": { "rows": 3, "cols": 4 } }
+  "type": "coordinate_grid"      → visual: { "type": "coordinate_grid","params": { "quadrant": 1, "points": [{"x": 2, "y": 3}] } }
+  "type": "analog_clock"         → visual: { "type": "analog_clock",   "params": { "hour": 3, "minute": 30 } }
+
+Rules for using visual sections:
+- For MATH worksheets: include at least one visual section when the topic involves fractions, multiplication, counting, coordinates, or time
+- For SCIENCE worksheets: visual sections are optional; only use if the visual directly supports the activity
+- Always write instructions to reference the visual: "Look at the fraction bar above. How many parts are shaded?"
+- The `visual` field is optional — only include it when it genuinely adds value
 
 Return ONLY valid JSON: { "sections": [...] }"""
 

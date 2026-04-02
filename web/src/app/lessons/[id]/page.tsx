@@ -9,6 +9,7 @@ import { useParams } from "next/navigation";
 import { useUser } from "@clerk/nextjs";
 import { PHILOSOPHY_LABELS, PHILOSOPHY_COLORS as SCORING_COLORS, resolvePhilosophyKey } from "@/lib/compass/scoring";
 import { printWorksheet } from "@/lib/printWorksheet";
+import { renderVisual } from "@/lib/worksheetSvg";
 import { UPGRADE_URL } from "@/lib/upgradeUrl";
 
 interface LessonDetail {
@@ -1164,11 +1165,19 @@ export default function LessonDetailPage() {
                         </div>
                         <div className="space-y-1">
                           {ws.content.sections.slice(0, 3).map((sec, i) => (
-                            <p key={i} style={{ fontSize: "0.75rem", color: "#5A5A5A" }}>
-                              <span style={{ fontWeight: 600 }}>{sec.title}</span>
-                              {" — "}
-                              {sec.instructions.slice(0, 60)}{sec.instructions.length > 60 ? "…" : ""}
-                            </p>
+                            <div key={i}>
+                              <p style={{ fontSize: "0.75rem", color: "#5A5A5A" }}>
+                                <span style={{ fontWeight: 600 }}>{sec.title}</span>
+                                {" — "}
+                                {sec.instructions.slice(0, 60)}{sec.instructions.length > 60 ? "…" : ""}
+                              </p>
+                              {sec.visual && (
+                                <div
+                                  style={{ marginTop: "0.35rem", opacity: 0.7, maxWidth: "120px" }}
+                                  dangerouslySetInnerHTML={{ __html: renderVisual(sec.visual.type, sec.visual.params) ?? "" }}
+                                />
+                              )}
+                            </div>
                           ))}
                         </div>
                       </div>
