@@ -3,13 +3,14 @@
 import { Shell } from "@/components/shell";
 import { PrintLesson } from "@/components/print-lesson";
 import { Unauthorized } from "@/components/unauthorized";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useUser } from "@clerk/nextjs";
 import { PHILOSOPHY_LABELS, PHILOSOPHY_COLORS as SCORING_COLORS, resolvePhilosophyKey } from "@/lib/compass/scoring";
 import { printWorksheet } from "@/lib/printWorksheet";
 import { renderVisual } from "@/lib/worksheetSvg";
+import { WorksheetMafsVisual } from "@/components/WorksheetMafsVisual";
 import { UPGRADE_URL } from "@/lib/upgradeUrl";
 
 interface LessonDetail {
@@ -286,6 +287,7 @@ export default function LessonDetailPage() {
   const [sectionOpenMap, setSectionOpenMap] = useState<Record<number, boolean>>({});
   const [scheduleDate, setScheduleDate] = useState("");
   const [scheduling, setScheduling] = useState(false);
+  const mafsRefs = useRef<Record<string, Record<number, string>>>({});
 
   const handleSchedule = async () => {
     if (!lesson || !scheduleDate) return;
@@ -1164,17 +1166,27 @@ export default function LessonDetailPage() {
                           </span>
                         </div>
                         <div className="space-y-1">
-                          {ws.content.sections.slice(0, 3).map((sec, i) => (
-                            <div key={i}>
+                          {ws.content.sections.slice(0, 3).map((sec, idx) => (
+                            <div key={idx}>
                               <p style={{ fontSize: "0.75rem", color: "#5A5A5A" }}>
                                 <span style={{ fontWeight: 600 }}>{sec.title}</span>
                                 {" — "}
                                 {sec.instructions.slice(0, 60)}{sec.instructions.length > 60 ? "…" : ""}
                               </p>
-                              {sec.visual && (
+                              {sec.visual && !sec.visual.type.startsWith("mafs_") && (
                                 <div
                                   style={{ marginTop: "0.35rem", opacity: 0.7, maxWidth: "120px" }}
                                   dangerouslySetInnerHTML={{ __html: renderVisual(sec.visual.type, sec.visual.params) ?? "" }}
+                                />
+                              )}
+                              {sec.visual?.type.startsWith("mafs_") && (
+                                <WorksheetMafsVisual
+                                  type={sec.visual.type}
+                                  params={sec.visual.params}
+                                  onSvgReady={(svg) => {
+                                    mafsRefs.current[ws.id] = mafsRefs.current[ws.id] ?? {};
+                                    mafsRefs.current[ws.id][idx] = svg;
+                                  }}
                                 />
                               )}
                             </div>
@@ -1182,7 +1194,7 @@ export default function LessonDetailPage() {
                         </div>
                       </div>
                       <button
-                        onClick={() => printWorksheet(ws)}
+                        onClick={() => printWorksheet(ws, mafsRefs.current[ws.id] ?? {})}
                         style={{
                           ...ghostButton,
                           padding: "0.35rem 0.75rem",

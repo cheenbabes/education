@@ -15,14 +15,23 @@ interface PrintableWorksheet {
   philosophy: string;
 }
 
-export function printWorksheet(ws: PrintableWorksheet) {
+export function printWorksheet(
+  ws: PrintableWorksheet,
+  prerenderedSvgs: Record<number, string> = {}
+) {
   const win = window.open("", "_blank");
   if (!win) return;
-  const sectionsHtml = ws.content.sections.map((s) => {
-    const svgHtml = s.visual ? (() => {
-      const svg = renderVisual(s.visual.type, s.visual.params);
-      return svg ? `<div style="margin:12px 0; page-break-inside:avoid;">${svg}</div>` : "";
-    })() : "";
+  const sectionsHtml = ws.content.sections.map((s, idx) => {
+    const svgHtml = (() => {
+      if (prerenderedSvgs[idx]) {
+        return `<div style="margin:12px 0; page-break-inside:avoid;">${prerenderedSvgs[idx]}</div>`;
+      }
+      if (s.visual && !s.visual.type.startsWith("mafs_")) {
+        const svg = renderVisual(s.visual.type, s.visual.params);
+        return svg ? `<div style="margin:12px 0; page-break-inside:avoid;">${svg}</div>` : "";
+      }
+      return "";
+    })();
     return `
     <div style="margin-bottom:32px; page-break-inside:avoid;">
       <h3 style="font-size:14px; font-weight:600; margin-bottom:8px; text-transform:uppercase; letter-spacing:0.05em;">${s.title}</h3>
