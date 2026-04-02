@@ -42,11 +42,17 @@ Visual section types (add a `visual` field for math manipulatives when subject w
   "type": "ten_frame"            → visual: { "type": "ten_frame",      "params": { "filled": 7 } }
   "type": "fraction_circle"      → visual: { "type": "fraction_circle","params": { "numerator": 2, "denominator": 3 } }
   "type": "multiplication_array" → visual: { "type": "multiplication_array", "params": { "rows": 3, "cols": 4 } }
-  "type": "coordinate_grid"      → visual: { "type": "coordinate_grid","params": { "quadrant": 1, "points": [{"x": 2, "y": 3}] } }
+  "type": "coordinate_grid"      → visual: { "type": "coordinate_grid","params": { "quadrant": 1, "points": [{"x": 2, "y": 3}] } }  (K–5 only)
   "type": "analog_clock"         → visual: { "type": "analog_clock",   "params": { "hour": 3, "minute": 30 } }
+
+Advanced visual section types (USE THESE for Grades 6–8 math instead of coordinate_grid):
+  "type": "coordinate_plane_problem" → visual: { "type": "mafs_coordinate_plane", "params": { "xRange": [-5, 5], "yRange": [-5, 5], "points": [{"x": 2, "y": 3}] } }
+  "type": "function_graph"           → visual: { "type": "mafs_function",         "params": { "fn": "2*x + 1" } }
+  "type": "geometry_figure"          → visual: { "type": "mafs_polygon",          "params": { "vertices": [[0,0],[3,0],[1.5,2.6]] } }
 
 Rules for using visual sections:
 - For MATH worksheets: include at least one visual section when the topic involves fractions, multiplication, counting, coordinates, or time
+- For Grades 6–8 MATH: ALWAYS use the advanced visual types (mafs_coordinate_plane, mafs_function, mafs_polygon) instead of coordinate_grid. Use coordinate_plane_problem for plotting points, function_graph for graphing equations, geometry_figure for polygons/triangles
 - For SCIENCE worksheets: visual sections are optional; only use if the visual directly supports the activity
 - Always write instructions to reference the visual: "Look at the fraction bar above. How many parts are shaded?"
 - The `visual` field is optional — only include it when it genuinely adds value
