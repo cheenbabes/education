@@ -352,7 +352,7 @@ function StandardsContent() {
                 <line x1="10" y1="24" x2="14" y2="24" />
               </svg>
               <span style={{ fontSize: "0.65rem", color: "#C4983D", fontWeight: 500, letterSpacing: "0.02em" }}>
-                AI-powered search — understands synonyms and related concepts
+                Search understands synonyms and related concepts
               </span>
               {searchQuery.trim() && searchMode === "fallback" && !searching && (
                 <span style={{ fontSize: "0.6rem", color: "#767676", marginLeft: "0.25rem" }}>

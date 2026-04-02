@@ -360,7 +360,7 @@ export default function Home() {
             {
               right: true,
               headline: "Every Lesson Reflects Your Unique Teaching Philosophy",
-              body: "Montessori math doesn't just include manipulatives. It follows Maria Montessori's concrete-to-abstract sequence, extracted from her original writings. Charlotte Mason lessons use living books, short sessions, and narration. Classical lessons build on critical thinking. 29 foundational texts, a library of materials for each pedagogy — that's what powers every lesson.",
+              body: "Montessori math doesn't just include manipulatives. It follows Maria Montessori's concrete-to-abstract sequence, extracted from her original writings. Charlotte Mason lessons use living books, short sessions, and narration. Classical lessons build on critical thinking. A library of materials for each pedagogy — that's what powers every lesson.",
               note: undefined,
               visual: (
                 <div className="wc-card wc-card-sage frost-card" style={{ borderRadius: "14px", padding: "1.25rem", display: "flex", flexDirection: "column", gap: "0.6rem" }}>
@@ -461,7 +461,7 @@ export default function Home() {
             {
               right: true,
               headline: "Search Any Standard. Create a Lesson From It.",
-              body: "Type what you want to teach in plain language — 'fractions,' 'animal habitats,' 'writing persuasive essays' — and our AI-powered search finds the exact standards across your state's framework. Select the ones you want, hit create, and get a lesson built specifically around those standards. No more guessing whether you've covered it.",
+              body: "Type what you want to teach in plain language — 'fractions,' 'animal habitats,' 'writing persuasive essays' — and find the exact standards across your state's framework. Select the ones you want, hit create, and get a lesson built specifically around those standards and your philosophy. No more guessing whether you've covered it.",
               note: "Natural language search · 363,000+ standards · Select and create in seconds",
               visual: (
                 <div className="wc-card wc-card-parchment frost-card" style={{ borderRadius: "14px", padding: "1.25rem", display: "flex", flexDirection: "column", gap: "0.6rem" }}>
@@ -684,7 +684,7 @@ export default function Home() {
               I&apos;ve Spent 14 Years Learning What You&apos;re Trying to Figure Out.
             </h2>
             <p className="font-cormorant" style={{ fontSize: "1rem", fontStyle: "italic", color: "var(--text-secondary)", lineHeight: 1.75, marginBottom: "1.5rem" }}>
-              I&apos;ve spent 14 years learning what you&apos;re trying to figure out. Every week, lesson planning took hours. Matching the right activity to the right child, the right philosophy to the right standard, is genuinely hard. I taught across three states in my own home and in micro schools, schools, and co-ops, and finally found a method that works.
+              Every week, lesson planning took hours. Matching the right activity to the right child, the right philosophy to the right standard, is genuinely hard. I taught across three states in my own home and in micro schools, schools, and co-ops, and finally found a method that works.
             </p>
 
             <div style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem", marginBottom: "1.25rem" }}>
@@ -853,10 +853,10 @@ function archetypeHook(id: string): string {
     "the-explorer": "The world is the classroom. It always has been",
     "the-cultivator": "Prepare the environment and let the child choose. Trust the process",
     "the-naturalist": "Seasons, soil, and sky teach better than any textbook",
-    "the-storyteller": "Living books, narration, the beauty of the world, and great ideas",
+    "the-storyteller": "Living books, narration, the beauty and the beauty of great ideas",
     "the-architect": "Learning means building something real",
     "the-free-spirit": "Trust. Curiosity. Freedom. Children know what they need",
-    "the-weaver": "I adapt and value all the tools I have in my teaching toolbox",
+    "the-weaver": "Adapting, blending, and drawing from every tool the teaching world offers",
   };
   return hooks[id] ?? "";
 }
