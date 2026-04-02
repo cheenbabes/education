@@ -68,10 +68,13 @@ Rules for using visual sections:
 - For SCIENCE worksheets: use plant_diagram for plant topics, food_chain for food web/chain topics, observation_table for experiment/nature observation sections, kwl_activity for introduction sections
 - For LANGUAGE ARTS: use story_structure for narrative writing sections, t_chart for compare/contrast, venn_diagram for comparing two things
 - For HISTORY/SOCIAL STUDIES: use timeline_activity for sequence of events, t_chart for cause/effect or compare/contrast
-- NEVER add a math manipulative (ten_frame, fraction_bar, number_line, etc.) to vocabulary, writing, narration, or science sections
-- NEVER add a visual to: memory_work, copywork, narration_prompt, short_essay, grammar_work, artistic_response, imagination_prompt, free_exploration, interest_map, field_notes
-- Always write instructions to reference the visual: "Use the Venn diagram above to record your comparisons."
-- The `visual` field is optional — only include it when it genuinely adds value
+- For MATH worksheets on fractions, multiplication, or counting: ALWAYS include at least one section with a math visual (fraction_bar, fraction_circle, multiplication_array, ten_frame) — add it to the most hands-on or activity-focused section, even if it's an observation, hands_on_record, or sketch section
+- For SCIENCE worksheets: use plant_diagram for plant topics, food_chain for food web topics, observation_table for experiment sections, kwl_chart for intro/preview sections
+- For ELA worksheets: use story_map for narrative writing, venn_diagram for compare/contrast, t_chart for two-sided analysis
+- NEVER add a visual to: memory_work, copywork, short_essay, grammar_work, artistic_response, imagination_prompt, free_exploration, interest_map, rhythm_activity
+- These section types CAN have a supporting visual if it genuinely helps: observation, hands_on_record, sorting_activity, sketch, planning_grid, nature_journal, reflection, connection, checklist
+- Always write instructions to reference the visual: "Use the fraction bar above to show your answer."
+- The `visual` field is optional for most sections — but REQUIRED for at least one section in any fractions, multiplication, or counting math worksheet
 
 Return ONLY valid JSON: { "sections": [...] }"""
 
