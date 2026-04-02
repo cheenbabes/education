@@ -5,6 +5,7 @@ import { TierGate } from "@/components/tier-gate";
 import Link from "next/link";
 import { useState, useEffect, useMemo } from "react";
 import { UPGRADE_URL } from "@/lib/upgradeUrl";
+import { printWorksheet } from "@/lib/printWorksheet";
 
 interface Child {
   id: string;
@@ -23,6 +24,17 @@ interface LessonData {
   calendarEntries: { scheduledDate: string }[];
   completions: { childId: string; starRating: number; completedAt: string; child: { name: string } }[];
   createdAt: string;
+}
+
+interface WorksheetItem {
+  id: string;
+  lessonId: string;
+  childName: string | null;
+  grade: string;
+  philosophy: string;
+  content: { title: string; sections: Array<{ type: string; title: string; instructions: string }> };
+  createdAt: string;
+  lesson: { id: string; title: string; philosophy: string };
 }
 
 interface CalendarLesson {
@@ -94,7 +106,8 @@ export default function DashboardPage() {
   const [lessons, setLessons] = useState<LessonData[]>([]);
   const [loading, setLoading] = useState(true);
   const [archetype, setArchetype] = useState<{ archetype: string; secondaryArchetype: string | null; resultId: string; topPhilosophyIds: string[] } | null>(null);
-  const [tierData, setTierData] = useState<{ tier: string; childrenCount: number; childrenLimit: number; lessonsUsed: number; lessonsLimit: number; resetsAt: string } | null>(null);
+  const [tierData, setTierData] = useState<{ tier: string; childrenCount: number; childrenLimit: number; lessonsUsed: number; lessonsLimit: number; worksheetsUsed: number; worksheetsLimit: number; resetsAt: string } | null>(null);
+  const [worksheets, setWorksheets] = useState<WorksheetItem[]>([]);
 
   // Calendar state
   const [currentDate, setCurrentDate] = useState(new Date());
@@ -106,11 +119,13 @@ export default function DashboardPage() {
       fetch("/api/lessons").then((r) => r.json()),
       fetch("/api/user/archetype").then((r) => r.json()),
       fetch("/api/user/tier").then((r) => r.json()),
-    ]).then(([childrenData, lessonsData, archetypeData, tierDataRes]) => {
+      fetch("/api/worksheets").then((r) => r.json()).catch(() => []),
+    ]).then(([childrenData, lessonsData, archetypeData, tierDataRes, worksheetsData]) => {
       setChildren(childrenData);
       setLessons(lessonsData);
       if (archetypeData) setArchetype(archetypeData);
       setTierData(tierDataRes);
+      setWorksheets(Array.isArray(worksheetsData) ? worksheetsData.slice(0, 5) : []);
       setLoading(false);
     });
   }, []);
@@ -259,6 +274,59 @@ export default function DashboardPage() {
           )}
         </div>
 
+        {/* ── USAGE SNAPSHOT ── */}
+        {tierData && (
+          <div style={{ ...frostCard, padding: "1rem 1.25rem" }}>
+            <div style={{ display: "flex", gap: "1.5rem", flexWrap: "wrap", alignItems: "center" }}>
+              {/* Lessons bar */}
+              <div style={{ flex: "1", minWidth: "120px" }}>
+                <p style={{ fontSize: "0.62rem", fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: "#999", marginBottom: "0.3rem" }}>Lessons</p>
+                <div style={{ background: "rgba(0,0,0,0.06)", borderRadius: "4px", height: "5px", overflow: "hidden", marginBottom: "0.25rem" }}>
+                  <div style={{
+                    height: "100%", borderRadius: "4px",
+                    width: `${Math.min(100, (tierData.lessonsUsed / (tierData.lessonsLimit || 1)) * 100)}%`,
+                    background: tierData.lessonsUsed / tierData.lessonsLimit >= 0.9 ? "#B04040"
+                      : tierData.lessonsUsed / tierData.lessonsLimit >= 0.6 ? "#C4983D"
+                      : "#4a8b6e",
+                  }} />
+                </div>
+                <p style={{ fontSize: "0.7rem", color: "#5A5A5A" }}>{tierData.lessonsUsed} / {tierData.lessonsLimit}</p>
+              </div>
+              {/* Worksheets bar (paid only) */}
+              {tierData.tier !== "compass" && (
+                <div style={{ flex: "1", minWidth: "120px" }}>
+                  <p style={{ fontSize: "0.62rem", fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: "#999", marginBottom: "0.3rem" }}>Worksheets</p>
+                  <div style={{ background: "rgba(0,0,0,0.06)", borderRadius: "4px", height: "5px", overflow: "hidden", marginBottom: "0.25rem" }}>
+                    <div style={{
+                      height: "100%", borderRadius: "4px",
+                      width: `${Math.min(100, (tierData.worksheetsUsed / (tierData.worksheetsLimit || 1)) * 100)}%`,
+                      background: tierData.worksheetsUsed / tierData.worksheetsLimit >= 0.9 ? "#B04040"
+                        : tierData.worksheetsUsed / tierData.worksheetsLimit >= 0.6 ? "#C4983D"
+                        : "#4a8b6e",
+                    }} />
+                  </div>
+                  <p style={{ fontSize: "0.7rem", color: "#5A5A5A" }}>{tierData.worksheetsUsed} / {tierData.worksheetsLimit}</p>
+                </div>
+              )}
+              {/* Tier badge + reset */}
+              <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: "0.3rem", flexShrink: 0 }}>
+                <span style={{
+                  fontSize: "0.62rem", fontWeight: 600, padding: "0.2rem 0.55rem", borderRadius: "5px",
+                  background: "rgba(212,175,55,0.12)", color: "#9a7530", border: "1px solid rgba(212,175,55,0.25)",
+                  textTransform: "capitalize",
+                }}>
+                  {tierData.tier}
+                </span>
+                {tierData.resetsAt && (
+                  <p style={{ fontSize: "0.62rem", color: "#999" }}>
+                    resets {new Date(tierData.resetsAt).toLocaleDateString("en-US", { month: "short", day: "numeric" })}
+                  </p>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* ── OVERVIEW SECTION ── */}
 
         {/* Archetype card */}
@@ -381,7 +449,23 @@ export default function DashboardPage() {
               overflow: "hidden",
             }}
           >
-            {upcoming.length === 0 && (
+            {upcoming.length === 0 && lessons.length === 0 && (
+              <div style={{ padding: "2rem 1.5rem", textAlign: "center" }}>
+                <p className="font-cormorant-sc" style={{ fontSize: "1rem", color: "#0B2E4A", marginBottom: "0.5rem" }}>
+                  Ready to create your first lesson?
+                </p>
+                <p style={{ fontSize: "0.8rem", color: "#767676", marginBottom: "1.25rem", lineHeight: 1.6 }}>
+                  Take the Compass Quiz to discover your teaching style, then generate a lesson tailored to your philosophy and your child&apos;s interests.
+                </p>
+                <Link href="/create" style={{
+                  background: "#0B2E4A", color: "#F9F6EF", borderRadius: "10px",
+                  padding: "0.55rem 1.4rem", textDecoration: "none", fontSize: "0.85rem", fontWeight: 500,
+                }}>
+                  Create My First Lesson
+                </Link>
+              </div>
+            )}
+            {upcoming.length === 0 && lessons.length > 0 && (
               <div className="p-4 text-center text-gray-500 text-sm">
                 No upcoming lessons scheduled.{" "}
                 <Link href="/create" className="hover:underline" style={{ color: "#6E6E9E" }}>
@@ -510,6 +594,65 @@ export default function DashboardPage() {
             ))}
           </div>
         </div>
+
+        {/* ── RECENT WORKSHEETS ── */}
+        {worksheets.length > 0 && (
+          <div>
+            <div className="flex items-center justify-between mb-3">
+              <h2 className="font-cormorant-sc text-xl text-gray-900">Recent Worksheets</h2>
+              <Link href="/lessons?tab=worksheets" className="text-sm hover:underline" style={{ color: "#6E6E9E" }}>
+                View all
+              </Link>
+            </div>
+            <div style={{ display: "flex", gap: "0.75rem", overflowX: "auto", paddingBottom: "0.5rem" }}>
+              {worksheets.map((ws) => (
+                <div key={ws.id} style={{
+                  flex: "0 0 200px",
+                  background: "rgba(255,255,255,0.82)",
+                  backdropFilter: "blur(12px)",
+                  border: "1px solid rgba(255,255,255,0.5)",
+                  borderRadius: "10px",
+                  padding: "0.875rem",
+                  boxShadow: "0 1px 6px rgba(0,0,0,0.04)",
+                }}>
+                  <p style={{ fontSize: "0.78rem", color: "#0B2E4A", fontWeight: 600, marginBottom: "0.3rem", lineHeight: 1.35 }}>
+                    {ws.lesson.title}
+                  </p>
+                  <p style={{ fontSize: "0.65rem", color: "#767676", marginBottom: "0.6rem" }}>
+                    {ws.childName ? `${ws.childName} · ` : ""}Grade {ws.grade} · {new Date(ws.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric" })}
+                  </p>
+                  <button
+                    onClick={() => printWorksheet(ws)}
+                    style={{
+                      fontSize: "0.65rem", color: "#6E6E9E",
+                      background: "transparent", border: "1px solid rgba(110,110,158,0.2)",
+                      borderRadius: "5px", padding: "0.2rem 0.5rem", cursor: "pointer",
+                    }}
+                  >
+                    Print
+                  </button>
+                </div>
+              ))}
+              <Link href="/lessons" style={{
+                flex: "0 0 160px",
+                background: "rgba(255,255,255,0.35)",
+                border: "1px dashed rgba(110,110,158,0.2)",
+                borderRadius: "10px",
+                padding: "0.875rem",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                textAlign: "center",
+                textDecoration: "none",
+                fontSize: "0.72rem",
+                color: "#9999BB",
+                lineHeight: 1.5,
+              }}>
+                Generate worksheet<br />from any lesson
+              </Link>
+            </div>
+          </div>
+        )}
 
         {/* ── SECTION DIVIDER ── */}
         <div style={{ borderTop: "1px solid rgba(0,0,0,0.08)", paddingTop: "1.5rem" }}>
