@@ -30,6 +30,12 @@ Each section has: { "type": string, "title": string, "instructions": string, "li
 
 If the child has learning_notes, add subtle accommodations in instructions (shorter prompts, visual options, movement suggestions) without changing the philosophy structure.
 
+Math notation: Use LaTeX notation for all mathematical expressions within instructions:
+- Inline math: $\\frac{3}{4}$, $2^3$, $\\sqrt{16}$, $4 \\times 3$
+- Display math (standalone problem): $$\\frac{3}{4} + \\frac{1}{4} = ?$$
+- Write fractions AS LaTeX, not as "3/4" or "three-fourths" in math contexts
+- Example instruction: "Solve: $$\\frac{2}{3} + \\frac{1}{6} = ?$$ Show your work on the lines below."
+
 Return ONLY valid JSON: { "sections": [...] }"""
 
 WORKSHEET_USER_TEMPLATE = """Lesson: {lesson_title}
