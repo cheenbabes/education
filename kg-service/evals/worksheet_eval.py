@@ -32,6 +32,7 @@ from pathlib import Path
 
 from config import settings
 from api.generate import _call_llm, _calc_cost
+from api.worksheet import WORKSHEET_SYSTEM_PROMPT
 
 # ── Test matrix ──────────────────────────────────────────────────────────────
 
@@ -168,17 +169,8 @@ Respond with JSON only:
 
 # ── Worksheet generation ──────────────────────────────────────────────────────
 
-WORKSHEET_SYSTEM = """\
-You are an expert homeschool educator creating a printable worksheet that accompanies a lesson.
-Generate a worksheet with 3-4 sections appropriate for the educational philosophy and grade level.
-
-Each section must have: { "type": string, "title": string, "instructions": string, "lines": number (optional), "drawing_space": boolean (optional) }
-
-CRITICAL: The worksheet MUST contain subject-specific content. For math: include actual problems,
-specific numbers, equations. For science: include specific organism names, processes, terminology.
-Do NOT generate generic observation prompts that could apply to any subject.
-
-Return ONLY valid JSON: { "sections": [...] }"""
+# Use the production prompt directly — stays in sync with api/worksheet.py automatically
+WORKSHEET_SYSTEM = WORKSHEET_SYSTEM_PROMPT
 
 
 def generate_worksheet(
