@@ -27,7 +27,7 @@ export default function Home() {
 
       {/* ── Section 1: Hero ────────────────────────────────────────────── */}
       <section style={{ padding: "5rem 1.5rem 4rem", maxWidth: "1100px", margin: "0 auto" }}>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "4rem", alignItems: "center" }}>
+        <div className="home-hero-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "4rem", alignItems: "center" }}>
 
           {/* Left: copy */}
           <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
@@ -622,7 +622,7 @@ export default function Home() {
               ),
             },
           ].map(({ right, headline, body, note, visual }) => (
-            <div key={headline} style={{ display: "grid", gridTemplateColumns: right ? "1fr 1fr" : "1fr 1fr", gap: "3rem", alignItems: "center" }}>
+            <div key={headline} className="home-feature-row" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "3rem", alignItems: "center" }}>
               {right ? (
                 <>
                   <div>

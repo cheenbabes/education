@@ -428,6 +428,13 @@
   align-items: stretch;
 }
 
+.home-hero-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+}
+
 .home-feature-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -520,9 +527,22 @@
     gap: 1.5rem;
   }
 
+  .home-hero-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
   .home-feature-row {
     grid-template-columns: 1fr;
     gap: 2rem;
+  }
+
+  /* Feature row: visual always after text on mobile regardless of right: flag */
+  .home-feature-row > :first-child:not(:only-child) {
+    order: 1;
+  }
+  .home-feature-row > :last-child:not(:only-child) {
+    order: 2;
   }
 
   .home-founder-grid {
@@ -535,9 +555,11 @@
     gap: 2rem;
   }
 
-  /* Archetype ring: hide on mobile, hero stacks to single column */
+  /* Archetype ring: show below hero text on mobile, centered */
   .archetype-ring-container {
-    display: none;
+    display: flex;
+    justify-content: center;
+    margin-top: 0.5rem;
   }
 
   /* Explore iframe preview: hide on mobile, show CTA only */
@@ -554,8 +576,8 @@
     margin: 0;
   }
 
-  /* Inline-style grids that aren't covered by classes */
-  section [style*="gridTemplateColumns"] {
+  /* Inline-style grids — must match kebab-case as rendered by React */
+  section [style*="grid-template-columns"] {
     grid-template-columns: 1fr !important;
     gap: 1.5rem !important;
   }
