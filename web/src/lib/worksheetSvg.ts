@@ -9,7 +9,9 @@ const DOT = "rgb(60, 100, 160)";       // dots/counters
 
 export function tenFrame(filled: number): string {
   // Two rows of 5 cells; first `filled` cells are shaded
-  const W = 220, H = 100, cw = 40, ch = 40, pad = 5;
+  const cw = 40, ch = 40, pad = 5;
+  const W = pad + 5 * (cw + pad); // 230 — exactly fits 5 columns with padding
+  const H = pad + 2 * (ch + pad); // 110 — exactly fits 2 rows with padding
   let cells = "";
   for (let i = 0; i < 10; i++) {
     const col = i % 5, row = Math.floor(i / 5);

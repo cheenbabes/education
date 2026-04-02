@@ -54,6 +54,8 @@ Rules for using visual sections:
 - For MATH worksheets: include at least one visual section when the topic involves fractions, multiplication, counting, coordinates, or time
 - For Grades 6–8 MATH: ALWAYS use the advanced visual types (mafs_coordinate_plane, mafs_function, mafs_polygon) instead of coordinate_grid. Use coordinate_plane_problem for plotting points, function_graph for graphing equations, geometry_figure for polygons/triangles
 - For SCIENCE worksheets: visual sections are optional; only use if the visual directly supports the activity
+- NEVER add a math visual (ten_frame, fraction_bar, number_line, etc.) to vocabulary, writing, narration, copywork, or labeling sections — those do not involve math manipulatives
+- NEVER add a visual to a section whose type is: memory_work, copywork, narration_prompt, short_essay, grammar_work, artistic_response, imagination_prompt, free_exploration, interest_map, or field_notes
 - Always write instructions to reference the visual: "Look at the fraction bar above. How many parts are shaded?"
 - The `visual` field is optional — only include it when it genuinely adds value
 
