@@ -648,7 +648,7 @@ export default function DashboardPage() {
                 color: "#9999BB",
                 lineHeight: 1.5,
               }}>
-                Generate worksheet<br />from any lesson
+                Create a worksheet<br />from any lesson
               </Link>
             </div>
           </div>

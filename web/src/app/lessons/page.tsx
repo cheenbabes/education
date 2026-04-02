@@ -502,7 +502,7 @@ export default function LessonsPage() {
             {worksheetsByLesson.length === 0 ? (
               <div className="py-10 text-center">
                 <p className="font-cormorant-sc" style={{ fontSize: "1.25rem", color: "#767676", fontStyle: "italic" }}>
-                  No worksheets yet. Generate one from a lesson.
+                  No worksheets yet. Create one from a lesson.
                 </p>
               </div>
             ) : (

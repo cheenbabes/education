@@ -1059,7 +1059,7 @@ export default function LessonDetailPage() {
                     disabled={worksheetLoading}
                     style={{ ...nightButton, opacity: worksheetLoading ? 0.5 : 1 }}
                   >
-                    {worksheetLoading ? "Generating..." : "Create Worksheet"}
+                    {worksheetLoading ? "Creating..." : "Create Worksheet"}
                   </button>
                 )}
                 {children.length === 1 && (
@@ -1072,7 +1072,7 @@ export default function LessonDetailPage() {
                     disabled={worksheetLoading}
                     style={{ ...nightButton, opacity: worksheetLoading ? 0.5 : 1 }}
                   >
-                    {worksheetLoading ? "Generating..." : `Create Worksheet for ${children[0].name}`}
+                    {worksheetLoading ? "Creating..." : `Create Worksheet for ${children[0].name}`}
                   </button>
                 )}
                 {children.length > 1 && (
@@ -1081,7 +1081,7 @@ export default function LessonDetailPage() {
                     disabled={worksheetLoading}
                     style={{ ...nightButton, opacity: worksheetLoading ? 0.5 : 1 }}
                   >
-                    {worksheetLoading ? "Generating..." : "Create Worksheet"}
+                    {worksheetLoading ? "Creating..." : "Create Worksheet"}
                   </button>
                 )}
               </div>
@@ -1134,7 +1134,7 @@ export default function LessonDetailPage() {
             {/* Loading indicator */}
             {worksheetLoading && (
               <p style={{ fontSize: "0.8rem", color: "#767676", marginTop: "0.5rem", fontStyle: "italic" }}>
-                Generating worksheet...
+                Creating worksheet...
               </p>
             )}
 
