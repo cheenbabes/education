@@ -38,6 +38,7 @@ interface WorksheetData {
       instructions: string;
       lines?: number;
       drawing_space?: boolean;
+      visual?: { type: string; params: Record<string, unknown> };
     }>;
   };
   createdAt: string;

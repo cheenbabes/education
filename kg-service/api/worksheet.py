@@ -77,6 +77,11 @@ class GenerateWorksheetRequest(BaseModel):
     learning_notes: Optional[str] = None
 
 
+class WorksheetVisual(BaseModel):
+    type: str
+    params: dict = Field(default_factory=dict)
+
+
 class WorksheetSection(BaseModel):
     model_config = {"extra": "ignore"}
     type: str
@@ -84,6 +89,7 @@ class WorksheetSection(BaseModel):
     instructions: str
     lines: Optional[int] = None
     drawing_space: Optional[bool] = None
+    visual: Optional[WorksheetVisual] = None
 
 
 class WorksheetContent(BaseModel):
