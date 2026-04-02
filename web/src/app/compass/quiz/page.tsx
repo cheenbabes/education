@@ -5,6 +5,41 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { SignInButton, SignUpButton, useUser } from "@clerk/nextjs";
 import { Shell } from "@/components/shell";
 import { PART1_QUESTIONS, PART2_QUESTIONS, Part2Question } from "@/lib/compass/questions";
+
+// Enriches raw answer indices with question text and selected answer text
+// so stored results are human-readable without needing to re-import question data
+function buildRichAnswers(
+  part1Answers: Record<string, number>,
+  part2Answers: Record<string, string | string[]>
+) {
+  const richPart1 = PART1_QUESTIONS.map((q) => ({
+    questionId: q.id,
+    theme: q.theme,
+    question: q.scenario,
+    selectedIndex: part1Answers[q.id] ?? null,
+    selectedText: part1Answers[q.id] != null
+      ? (q.choices[part1Answers[q.id]]?.text ?? null)
+      : null,
+  }));
+
+  const richPart2 = PART2_QUESTIONS
+    .filter((q) => part2Answers[q.id] !== undefined)
+    .map((q) => {
+      const raw = part2Answers[q.id];
+      const selectedValues = Array.isArray(raw) ? raw : [raw];
+      const selectedLabels = selectedValues.map(
+        (v) => q.choices.find((c) => c.value === v)?.label ?? v
+      );
+      return {
+        questionId: q.id,
+        question: q.question,
+        selectedValues,
+        selectedLabels,
+      };
+    });
+
+  return { part1: richPart1, part2: richPart2 };
+}
 import { ARCHETYPES } from "@/lib/compass/archetypes";
 import {
   scoreCompass,
@@ -149,7 +184,7 @@ function QuizPageInner() {
               dimensionScores: result.dimensions,
               philosophyBlend: result.philosophies,
               part2Preferences: {},
-              quizAnswers: { part1: newAnswers, part2: {} },
+              quizAnswers: buildRichAnswers(newAnswers, {}),
             }),
           }).catch(() => {});
         }
@@ -206,10 +241,7 @@ function QuizPageInner() {
             dimensionScores: compassResult.dimensions,
             philosophyBlend: compassResult.philosophies,
             part2Preferences: part2Answers,
-            quizAnswers: {
-              part1: part1Answers,
-              part2: part2Answers,
-            },
+            quizAnswers: buildRichAnswers(part1Answers, part2Answers),
           }),
         }).catch(() => { /* silent — results page still works from sessionStorage */ });
       }

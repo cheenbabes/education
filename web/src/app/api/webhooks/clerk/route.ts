@@ -43,8 +43,11 @@ export async function POST(req: Request) {
   const { type, data } = evt;
   console.log(`[clerk webhook] ${type}`, JSON.stringify(data, null, 2));
 
-  // user_id lives at data.payer.user_id in Clerk's billing payload
-  const userId = (data.payer as { user_id?: string } | undefined)?.user_id;
+  // Billing events: data.payer.user_id — User events: data.id
+  const userId =
+    (data.payer as { user_id?: string } | undefined)?.user_id ??
+    (data.id as string | undefined);
+
   if (!userId) {
     console.error("[clerk webhook] No user_id found in payload");
     return NextResponse.json({ error: "No user_id in payload" }, { status: 400 });
@@ -74,8 +77,21 @@ export async function POST(req: Request) {
       console.log(`[clerk webhook] Downgraded user=${userId} to compass`);
     } else if (type === "subscription.past_due") {
       console.log(`[clerk webhook] past_due for user=${userId} — no action, awaiting retry`);
+    } else if (type === "user.created" || type === "user.updated") {
+      // Sync real email to DB whenever Clerk fires a user event
+      const emailAddresses = data.email_addresses as Array<{ id: string; email_address: string }> | undefined;
+      const primaryId = data.primary_email_address_id as string | undefined;
+      const email = emailAddresses?.find((e) => e.id === primaryId)?.email_address;
+      if (email) {
+        await prisma.user.upsert({
+          where: { id: userId },
+          update: { email },
+          create: { id: userId, email },
+        });
+        console.log(`[clerk webhook] Synced email for user=${userId}`);
+      }
     }
-    // All other subscription.* events are intentionally ignored
+    // All other events are intentionally ignored
   } catch (err) {
     console.error("[clerk webhook] DB error:", err);
     return NextResponse.json({ error: "DB error" }, { status: 500 });

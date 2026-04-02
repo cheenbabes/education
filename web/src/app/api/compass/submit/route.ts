@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs/server";
+import { getOrCreateUser } from "@/lib/getOrCreateUser";
 
 // POST /api/compass/submit — save compass quiz results
 export async function POST(req: NextRequest) {
@@ -26,12 +27,7 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  // Ensure user exists
-  await prisma.user.upsert({
-    where: { id: userId },
-    update: {},
-    create: { id: userId, email: `${userId}@clerk.placeholder` },
-  });
+  await getOrCreateUser(userId);
 
   const result = await prisma.compassResult.create({
     data: {

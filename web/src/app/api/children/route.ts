@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs/server";
+import { getOrCreateUser } from "@/lib/getOrCreateUser";
 
 // GET /api/children — list children for a user
 export async function GET() {
@@ -9,12 +10,7 @@ export async function GET() {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  // Auto-create User record on first API call
-  await prisma.user.upsert({
-    where: { id: userId },
-    update: {},
-    create: { id: userId, email: `${userId}@clerk.placeholder` },
-  });
+  await getOrCreateUser(userId);
 
   const children = await prisma.child.findMany({
     where: { userId },

@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs/server";
+import { getOrCreateUser } from "@/lib/getOrCreateUser";
 
 const LIMITS = {
   lessons:    { compass: 3,  homestead: 30, schoolhouse: 60 },
@@ -16,11 +17,7 @@ export async function GET() {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const user = await prisma.user.upsert({
-    where: { id: userId },
-    update: {},
-    create: { id: userId, email: `${userId}@clerk.placeholder` },
-  });
+  const user = await getOrCreateUser(userId);
 
   const tier = (user.tier || "compass") as Tier;
 

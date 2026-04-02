@@ -2,6 +2,7 @@ import { prisma } from "@/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs/server";
 import crypto from "crypto";
+import { getOrCreateUser } from "@/lib/getOrCreateUser";
 
 const LESSON_LIMITS: Record<string, number> = {
   compass: 3,
@@ -93,12 +94,7 @@ export async function GET() {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  // Auto-create User record on first API call
-  await prisma.user.upsert({
-    where: { id: userId },
-    update: {},
-    create: { id: userId, email: `${userId}@clerk.placeholder` },
-  });
+  await getOrCreateUser(userId);
 
   const lessons = await prisma.lesson.findMany({
     where: { userId },

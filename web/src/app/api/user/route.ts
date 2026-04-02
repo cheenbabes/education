@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs/server";
+import { getOrCreateUser } from "@/lib/getOrCreateUser";
 
 // GET /api/user — get current user profile
 export async function GET() {
@@ -9,12 +10,7 @@ export async function GET() {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  // Auto-create User record if needed
-  const user = await prisma.user.upsert({
-    where: { id: userId },
-    update: {},
-    create: { id: userId, email: `${userId}@clerk.placeholder` },
-  });
+  const user = await getOrCreateUser(userId);
   return NextResponse.json(user);
 }
 
