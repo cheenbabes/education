@@ -320,7 +320,7 @@ export const DIMENSION_LABELS: Record<
     left: "Teacher-directed",
     right: "Child-directed",
   },
-  social: { name: "Social", left: "Community", right: "Individual" },
+  social: { name: "Social", left: "Collaborative", right: "Individual" },
 };
 
 /** Human-readable labels for philosophies */

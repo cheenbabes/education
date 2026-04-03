@@ -60,7 +60,7 @@ const DIMENSION_NAMES: Record<string, { name: string; low: string; high: string 
   modality:        { name: "Modality",          low: "Hands-on",         high: "Books-first" },
   subjectApproach: { name: "Subject Approach",  low: "Integrated",       high: "Subject-focused" },
   direction:       { name: "Direction",         low: "Teacher-directed", high: "Child-directed" },
-  social:          { name: "Social",            low: "Community",        high: "Individual" },
+  social:          { name: "Social",            low: "Collaborative",    high: "Individual" },
 };
 
 // ── Stopwords ────────────────────────────────────────────────────────────────

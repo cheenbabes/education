@@ -355,7 +355,7 @@ function QuizPageInner() {
                               modality: ["Hands-on", "Books"],
                               subjectApproach: ["Integrated", "Separate"],
                               direction: ["Teacher-led", "Child-led"],
-                              social: ["Community", "Individual"],
+                              social: ["Collaborative", "Individual"],
                             };
                             const [left, right] = pole[dim] || ["−", "+"];
                             const arrow = val < 0 ? `← ${left}` : `→ ${right}`;
