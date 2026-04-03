@@ -23,6 +23,7 @@ from api.standards import router as standards_router
 from api.progress import router as progress_router
 from api.graph_export import router as graph_export_router
 from api.worksheet import router as worksheet_router
+from api.standard_worksheet import router as standard_worksheet_router
 from config import settings
 
 
@@ -63,6 +64,7 @@ app.include_router(standards_router, tags=["Standards"])
 app.include_router(progress_router, tags=["Progress"])
 app.include_router(graph_export_router, tags=["Graph Export"])
 app.include_router(worksheet_router, tags=["Worksheet Generation"])
+app.include_router(standard_worksheet_router, tags=["Standard Worksheets"])
 
 
 @app.get("/health")

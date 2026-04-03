@@ -1,0 +1,179 @@
+"""POST /generate-standard-worksheet — generates structured, grade-appropriate
+worksheet problems for a topic cluster, keyed by (grade, subject, standards).
+
+Unlike the philosophy worksheet endpoint, this generates problem-based exercises
+with answer keys, not philosophy-aligned sections.
+"""
+from __future__ import annotations
+import json
+from typing import Literal, Optional
+from fastapi import APIRouter, HTTPException
+from pydantic import BaseModel, Field
+from config import settings
+from api.generate import _call_llm
+
+router = APIRouter()
+
+PROBLEM_TYPES = {
+    "identify": ["identify_visual", "multiple_choice", "label_diagram", "match"],
+    "practice": ["fill_in", "compute", "short_answer", "order_sequence"],
+    "extend":   ["short_answer", "word_problem", "create_example", "explain"],
+}
+
+SYSTEM_PROMPT = """You are an expert K-12 curriculum designer creating printable worksheet problems.
+
+Generate exactly {num_problems} problems for a {worksheet_type} worksheet.
+
+WORKSHEET TYPE DEFINITIONS:
+- "identify": Recognition and identification tasks. Students identify, match, label, or select from options.
+  Good problem types: multiple_choice (4 options), identify_visual (write what they see), label_diagram, match_columns
+- "practice": Application of the concept. Students compute, fill in, sequence, or write short answers.
+  Good problem types: fill_in (blank to complete), compute (show work), short_answer (1-3 sentences), order_sequence
+- "extend": Challenge and creative application. Word problems, real-world scenarios, create-your-own.
+  Good problem types: word_problem, create_example, explain_your_thinking, short_answer
+
+GRADE CALIBRATION for Grade {grade}:
+{grade_context}
+
+PROBLEM STRUCTURE:
+Each problem MUST have:
+- "id": integer (1-based)
+- "type": one of the types above
+- "prompt": the question/instruction text (clear, grade-appropriate, parent-friendly)
+- "answer": the correct answer (string)
+- "answerLines": number of lines to provide for written responses (1-4)
+
+Optional fields:
+- "options": array of 4 strings for multiple_choice (include exactly 1 correct answer)
+- "visual": {{ "type": "...", "params": {{...}} }} — use our SVG library when it helps:
+    Math: fraction_circle, fraction_bar, number_line, ten_frame, bar_graph, ruler, number_bonds, multiplication_array
+    Science: plant_diagram, food_chain
+    ELA/General: venn_diagram, t_chart, word_web, cause_effect, timeline
+
+IMPORTANT:
+- Problems must be appropriate for Grade {grade} — not too easy, not too hard
+- Use concrete, real-world contexts the child will relate to
+- Write prompts in second person ("Write the fraction..." not "Students will write...")
+- Multiple choice: make distractors plausible (not obviously wrong)
+- Short answers need clear criteria for correctness
+- Vary problem types within the worksheet
+
+Return ONLY valid JSON: {{ "problems": [...], "answerKey": [{{"problemId": 1, "answer": "..."}}] }}"""
+
+GRADE_CONTEXT = {
+    "K":  "Kindergartners: count to 20, recognize shapes, sort objects, trace letters, understand beginning/middle/end. Simple vocabulary. Very short sentences.",
+    "1":  "Grade 1: add/subtract to 20, measure with non-standard units, write simple sentences, identify main idea in short texts.",
+    "2":  "Grade 2: add/subtract to 100, measure with rulers, write opinion sentences, compare texts.",
+    "3":  "Grade 3: multiply/divide within 100, understand fractions 1/2-1/8, write paragraphs, identify text structure.",
+    "4":  "Grade 4: multi-digit multiplication, equivalent fractions, compare fractions, write multi-paragraph essays.",
+    "5":  "Grade 5: fraction operations (add/subtract/multiply), decimal place value, analyze author's purpose.",
+    "6":  "Grade 6: ratios and proportions, negative numbers, expressions, analyze informational text structure.",
+    "7":  "Grade 7: proportional relationships, probability, linear expressions, compare multiple texts.",
+    "8":  "Grade 8: linear equations, functions, transformations, analyze argument and evidence.",
+    "9":  "Grade 9: algebraic functions, quadratic equations, literary analysis with textual evidence.",
+    "10": "Grade 10: geometric proofs, logarithms, synthesis across multiple sources.",
+    "11": "Grade 11: statistics, pre-calculus, evaluate rhetoric and argument in complex texts.",
+    "12": "Grade 12: calculus concepts, complex analysis, research writing with citations.",
+}
+
+USER_TEMPLATE = """Topic: {title}
+Grade: {grade}
+Subject: {subject}
+Worksheet Type: {worksheet_type} (problems {num_problems} of this type)
+
+Standards covered:
+{standards_text}
+
+Generate {num_problems} worksheet problems of type "{worksheet_type}"."""
+
+
+class StandardWorksheetRequest(BaseModel):
+    cluster_key: str
+    cluster_title: str
+    grade: str
+    subject: str
+    worksheet_type: Literal["identify", "practice", "extend"]
+    standard_codes: list[str] = Field(default_factory=list)
+    standard_descriptions: list[str] = Field(default_factory=list)
+    num_problems: int = 6
+    context_paragraph: Optional[str] = None  # If None, LLM generates it
+
+
+class WorksheetProblem(BaseModel):
+    model_config = {"extra": "allow"}
+    id: int
+    type: str
+    prompt: str
+    answer: str
+    answerLines: int = 2
+    options: Optional[list[str]] = None
+    visual: Optional[dict] = None
+
+
+class StandardWorksheetResponse(BaseModel):
+    cluster_key: str
+    grade: str
+    subject: str
+    worksheet_type: str
+    context: str
+    problems: list[WorksheetProblem]
+    answer_key: list[dict]
+    cost_usd: float = 0.0
+
+
+@router.post("/generate-standard-worksheet", response_model=StandardWorksheetResponse)
+async def generate_standard_worksheet(req: StandardWorksheetRequest):
+    grade_context = GRADE_CONTEXT.get(req.grade, f"Grade {req.grade} student.")
+    standards_text = "\n".join(
+        f"- {code}: {desc}"
+        for code, desc in zip(req.standard_codes[:5], req.standard_descriptions[:5])
+    ) or "See topic title."
+
+    system = SYSTEM_PROMPT.format(
+        num_problems=req.num_problems,
+        worksheet_type=req.worksheet_type,
+        grade=req.grade,
+        grade_context=grade_context,
+    )
+    user = USER_TEMPLATE.format(
+        title=req.cluster_title,
+        grade=req.grade,
+        subject=req.subject,
+        worksheet_type=req.worksheet_type,
+        num_problems=req.num_problems,
+        standards_text=standards_text,
+    )
+
+    # Generate context paragraph if not provided
+    context = req.context_paragraph
+    if not context:
+        ctx_system = f"Write a 2-3 sentence context paragraph for a Grade {req.grade} {req.subject} worksheet about: {req.cluster_title}. Use simple, clear language. Explain the key concept in words a {req.grade}th grader and their parent will understand. Return only the paragraph text, no JSON."
+        ctx_raw, _ = _call_llm(
+            settings.openai_validation_model,
+            ctx_system,
+            req.cluster_title,
+            max_tokens=200,
+            call_type="worksheet_context",
+        )
+        context = ctx_raw.strip()
+
+    # Generate problems
+    model = settings.openai_extraction_model  # gpt-4.1 for quality
+    raw, cost = _call_llm(model, system, user, max_tokens=3000, call_type="standard_worksheet")
+    if raw.strip().startswith("```"):
+        raw = raw.strip().split("\n", 1)[1].rsplit("```", 1)[0]
+
+    data = json.loads(raw)
+    problems = [WorksheetProblem(**p) for p in data.get("problems", [])]
+    answer_key = data.get("answerKey", [])
+
+    return StandardWorksheetResponse(
+        cluster_key=req.cluster_key,
+        grade=req.grade,
+        subject=req.subject,
+        worksheet_type=req.worksheet_type,
+        context=context,
+        problems=problems,
+        answer_key=answer_key,
+        cost_usd=round(cost, 6),
+    )
