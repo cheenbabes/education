@@ -48,8 +48,20 @@ export default function ArchetypesPage() {
                   borderLeft: `4px solid ${a.color}`,
                 }}
               >
-                {/* Top row: text left, character + tool right */}
-                <div className="flex items-start gap-3 p-4">
+                {/* Top row: stacked on mobile, side-by-side on sm+ */}
+                <div className="flex flex-col sm:flex-row items-start gap-3 p-4">
+                  {/* Character image — centered on mobile, right-aligned on sm+ */}
+                  <div className="relative flex-shrink-0 self-center sm:self-start sm:order-last">
+                    <Image
+                      src={a.imagePath}
+                      alt={a.name}
+                      width={160}
+                      height={160}
+                      className="object-contain h-[120px] w-auto sm:h-[160px]"
+                      style={{ transform: imageTransform, objectFit: 'cover', objectPosition: 'top' }}
+                    />
+                  </div>
+
                   {/* Text column */}
                   <div className="flex-1 min-w-0 space-y-1.5">
                     <h3
@@ -61,18 +73,6 @@ export default function ArchetypesPage() {
                     <p className="text-sm leading-relaxed" style={{ color: "var(--text-secondary)" }}>
                       {a.description}
                     </p>
-                  </div>
-
-                  {/* Character image */}
-                  <div className="relative flex-shrink-0 self-start">
-                    <Image
-                      src={a.imagePath}
-                      alt={a.name}
-                      width={160}
-                      height={160}
-                      className="object-contain"
-                      style={{ transform: imageTransform, objectFit: 'cover', objectPosition: 'top', height: "160px", width: "auto" }}
-                    />
                   </div>
                 </div>
 

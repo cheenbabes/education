@@ -537,11 +537,11 @@
     gap: 2rem;
   }
 
-  /* Feature row: visual always after text on mobile regardless of right: flag */
-  .home-feature-row > :first-child:not(:only-child) {
+  /* Feature row: text always before visual on mobile regardless of right: flag */
+  .home-feature-row .home-feature-text {
     order: 1;
   }
-  .home-feature-row > :last-child:not(:only-child) {
+  .home-feature-row .home-feature-visual {
     order: 2;
   }
 
@@ -555,11 +555,17 @@
     gap: 2rem;
   }
 
-  /* Archetype ring: show below hero text on mobile, centered */
+  /* Archetype ring: scale to fit mobile viewport */
   .archetype-ring-container {
     display: flex;
     justify-content: center;
     margin-top: 0.5rem;
+    max-width: 100%;
+    overflow: hidden;
+  }
+  .archetype-ring-container > * {
+    transform: scale(0.65);
+    transform-origin: top center;
   }
 
   /* Explore iframe preview: hide on mobile, show CTA only */

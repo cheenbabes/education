@@ -38,7 +38,7 @@ export default function Home() {
               letterSpacing: "0.12em",
               textTransform: "uppercase",
               color: "var(--accent-primary)",
-              whiteSpace: "nowrap",
+              whiteSpace: "normal",
             }}>
               Designed by a Master Educator. Built for Your Teaching Style.
             </p>
@@ -625,17 +625,17 @@ export default function Home() {
             <div key={headline} className="home-feature-row" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "3rem", alignItems: "center" }}>
               {right ? (
                 <>
-                  <div>
+                  <div className="home-feature-text">
                     <h3 className="font-cormorant-sc" style={{ fontSize: "1.4rem", fontWeight: 600, color: "var(--ink)", marginBottom: "1rem", letterSpacing: "0.03em" }}>{headline}</h3>
                     <p style={{ fontSize: "0.88rem", color: "var(--text-secondary)", lineHeight: 1.7, marginBottom: "0.75rem" }}>{body}</p>
                     {note && <p style={{ fontSize: "0.8rem", color: "var(--text-tertiary)", fontStyle: "italic" }}>{note}</p>}
                   </div>
-                  <div>{visual}</div>
+                  <div className="home-feature-visual">{visual}</div>
                 </>
               ) : (
                 <>
-                  <div>{visual}</div>
-                  <div>
+                  <div className="home-feature-visual">{visual}</div>
+                  <div className="home-feature-text">
                     <h3 className="font-cormorant-sc" style={{ fontSize: "1.4rem", fontWeight: 600, color: "var(--ink)", marginBottom: "1rem", letterSpacing: "0.03em" }}>{headline}</h3>
                     <p style={{ fontSize: "0.88rem", color: "var(--text-secondary)", lineHeight: 1.7, marginBottom: "0.75rem" }}>{body}</p>
                     {note && <p style={{ fontSize: "0.8rem", color: "var(--text-tertiary)", fontStyle: "italic" }}>{note}</p>}
