@@ -102,6 +102,7 @@ IMPORTANT:
 - Multiple choice: make distractors plausible (not obviously wrong)
 - Short answers need clear criteria for correctness
 - Vary problem types within the worksheet
+- CRITICAL JSON RULE: Do NOT use LaTeX backslash sequences (like \\frac, \\div, \\cdot, \\leq) anywhere inside the JSON "prompt", "answer", or "options" fields. These break JSON parsing. Instead write math as plain text: "3/4", "3 divided by 4", "2 x 3 = 6", "less than or equal to". Use the × character (not \times), the ÷ character (not \div), and / for fractions in JSON strings.
 
 Return ONLY valid JSON: {{ "problems": [...], "answerKey": [{{"problemId": 1, "answer": "..."}}] }}"""
 
@@ -208,7 +209,15 @@ async def generate_standard_worksheet(req: StandardWorksheetRequest):
     if raw.strip().startswith("```"):
         raw = raw.strip().split("\n", 1)[1].rsplit("```", 1)[0]
 
-    data = json.loads(raw)
+    # Fix invalid JSON escape sequences from LaTeX (e.g. \frac → \\frac)
+    import re as _re
+    clean = _re.sub(r'\\([^"\\/bfnrtu])', r'\\\\\1', raw)
+    try:
+        data = json.loads(clean)
+    except json.JSONDecodeError:
+        # Last resort: strip all backslash sequences that aren't valid JSON
+        clean2 = _re.sub(r'\\(?!["\\/bfnrtu])', r'', raw)
+        data = json.loads(clean2)
     problems = [WorksheetProblem(**p) for p in data.get("problems", [])]
     answer_key = data.get("answerKey", [])
 
