@@ -45,10 +45,55 @@ Each problem MUST have:
 
 Optional fields:
 - "options": array of 4 strings for multiple_choice (include exactly 1 correct answer)
-- "visual": {{ "type": "...", "params": {{...}} }} — use our SVG library when it helps:
-    Math: fraction_circle, fraction_bar, number_line, ten_frame, bar_graph, ruler, number_bonds, multiplication_array
-    Science: plant_diagram, food_chain
-    ELA/General: venn_diagram, t_chart, word_web, cause_effect, timeline
+- "visual": {{ "type": "...", "params": {{...}} }} — EXACT param schemas (use ONLY these, no other field names):
+
+MATH VISUALS — use these exact param names:
+  fraction_circle    → {{ "numerator": 3, "denominator": 4 }}          (one circle showing 3/4)
+  fraction_bar       → {{ "numerator": 3, "denominator": 8, "shaded": 3 }}  (bar divided in 8, 3 shaded)
+  fraction_grid      → {{ "fractions": [{{ "n": 1, "d": 4 }}, {{ "n": 2, "d": 4 }}, {{ "n": 3, "d": 4 }}, {{ "n": 1, "d": 2 }}] }}  (grid of 4 fraction circles for MC options A-D)
+  number_line        → {{ "start": 0, "end": 10, "marked": [3, 7] }}   (line from 0-10 with dots at 3 and 7)
+  ten_frame          → {{ "filled": 7 }}                                 (7 of 10 cells filled)
+  multiplication_array → {{ "rows": 3, "cols": 4 }}                    (3×4 dot grid)
+  number_bonds       → {{ "whole": 10, "part1": 6, "part2": null }}    (null = blank for student to fill)
+  place_value_chart  → {{ "columns": ["Hundreds","Tens","Ones"], "values": [1, 4, 7] }}
+  ruler              → {{ "length": 6, "unit": "in" }}
+  bar_graph          → {{ "labels": ["Mon","Tue","Wed"], "values": [4, 7, 2], "title": "Books Read" }}
+  area_grid          → {{ "rows": 4, "cols": 6, "shaded": 12 }}       (grid showing area)
+  thermometer        → {{ "current": 72, "min": 0, "max": 100 }}
+  analog_clock       → {{ "hour": 3, "minute": 30 }}
+  protractor         → {{}}
+  equation_balance   → {{ "left_side": "x + 3", "right_side": "7" }}
+  labeled_shape      → {{ "shape": "rectangle", "dimensions": ["6 cm", "4 cm"] }}  (shape: triangle/rectangle/square/circle)
+  number_grid        → {{ "highlight": [5, 10, 15, 20, 25] }}         (100-chart with highlighted cells)
+  base_ten_blocks    → {{ "hundreds": 1, "tens": 3, "ones": 7 }}
+
+SCIENCE VISUALS:
+  plant_diagram      → {{}}                                             (labeled plant for fill-in)
+  food_chain         → {{ "organisms": ["Grass","Rabbit","Fox","Eagle"] }}
+  lifecycle_diagram  → {{ "stages": ["Egg","Caterpillar","Chrysalis","Butterfly"] }}
+  earth_layers       → {{}}
+  atom_model         → {{ "protons": 6, "neutrons": 6, "electrons": 6 }}
+  weather_symbols    → {{ "symbols": ["sun","cloud","rain","snow"] }}
+  water_cycle        → {{}}
+  cell_diagram       → {{ "cell_type": "animal" }}
+  body_diagram       → {{}}
+
+ELA/GENERAL VISUALS:
+  venn_diagram       → {{ "label1": "Dogs", "label2": "Cats", "overlap_label": "Both" }}
+  t_chart            → {{ "left_label": "Fiction", "right_label": "Non-Fiction", "rows": 4 }}
+  word_web           → {{ "center_word": "Brave", "related_words": ["bold","fearless","daring"] }}
+  cause_effect       → {{ "cause": "It rained all day", "effect": "The game was cancelled" }}
+  timeline           → {{ "events": ["1776","1800","1850","1900"], "orientation": "horizontal" }}
+  sequence_arrows    → {{ "steps": 4, "labels": ["First","Next","Then","Finally"] }}
+  kwl_chart          → {{ "topic": "Fractions" }}
+  story_map          → {{}}
+  paragraph_organizer → {{}}
+
+RULES FOR VISUALS:
+- For fraction MC questions showing 4 different circles (A/B/C/D): use fraction_grid with 4 fractions
+- NEVER invent param names — use ONLY the exact names shown above
+- ONE visual per problem (not multiple)
+- The visual supports the question — prompt text must reference it ("Look at the fraction bar above...")
 
 IMPORTANT:
 - Problems must be appropriate for Grade {grade} — not too easy, not too hard

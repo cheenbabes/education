@@ -53,6 +53,34 @@ export function fractionCircle(numerator: number, denominator: number): string {
   return `<svg width="140" height="160" viewBox="0 0 140 160" xmlns="http://www.w3.org/2000/svg">${slices}${label}</svg>`;
 }
 
+// Grid of 2-4 fraction circles labeled A, B, C, D — for multiple choice questions
+export function fractionGrid(fractions: Array<{ n: number; d: number }>): string {
+  const size = Math.min(fractions.length, 4);
+  const cellW = 120, cellH = 140, cols = size <= 2 ? size : 2, rows = Math.ceil(size / 2);
+  const W = cols * cellW, H = rows * cellH;
+  const letters = ["A", "B", "C", "D"];
+  let content = "";
+  fractions.slice(0, 4).forEach(({ n, d }, i) => {
+    const col = i % cols, row = Math.floor(i / cols);
+    const ox = col * cellW, oy = row * cellH;
+    const cx = ox + 48, cy = oy + 52, r = 40;
+    // Circle slices
+    for (let s = 0; s < d; s++) {
+      const a1 = (s / d) * 2 * Math.PI - Math.PI / 2;
+      const a2 = ((s + 1) / d) * 2 * Math.PI - Math.PI / 2;
+      const x1 = cx + r * Math.cos(a1), y1 = cy + r * Math.sin(a1);
+      const x2 = cx + r * Math.cos(a2), y2 = cy + r * Math.sin(a2);
+      const lg = d === 1 ? 1 : 0;
+      content += `<path d="M${cx},${cy} L${x1.toFixed(1)},${y1.toFixed(1)} A${r},${r} 0 ${lg},1 ${x2.toFixed(1)},${y2.toFixed(1)} Z" fill="${s < n ? FILL : EMPTY}" stroke="${STROKE}" stroke-width="1.5"/>`;
+    }
+    // Letter label
+    content += `<text x="${ox + 10}" y="${oy + 18}" font-family="Georgia,serif" font-size="14" font-weight="700" fill="${STROKE}">${letters[i]})</text>`;
+    // Fraction label
+    content += `<text x="${cx}" y="${oy + 108}" text-anchor="middle" font-family="Georgia,serif" font-size="12" fill="${STROKE}">${n}/${d}</text>`;
+  });
+  return `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">${content}</svg>`;
+}
+
 export function numberLine(
   start: number, end: number,
   marked: number[] = [], labels: string[] = []
@@ -1059,6 +1087,7 @@ export function renderVisual(type: string, params: Record<string, unknown>): str
     case "ten_frame":       return tenFrame(params.filled as number ?? 0);
     case "fraction_bar":    return fractionBar(params.numerator as number, params.denominator as number, params.shaded as number | undefined);
     case "fraction_circle": return fractionCircle(params.numerator as number, params.denominator as number);
+    case "fraction_grid":   return fractionGrid(params.fractions as Array<{n:number;d:number}> ?? []);
     case "number_line":     return numberLine(params.start as number, params.end as number, params.marked as number[] | undefined, params.labels as string[] | undefined);
     case "multiplication_array": return multiplicationArray(params.rows as number, params.cols as number);
     case "coordinate_grid": return coordinateGrid(params.quadrant as 1 | 4, params.points as Array<{x:number;y:number;label?:string}> | undefined, params.size as number | undefined);
