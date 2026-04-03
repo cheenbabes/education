@@ -90,9 +90,9 @@
       "3.MD.G.1.BeB",
       "3.MD.G.1.P"
     ],
-    "canonical_name": "Grade 3 Math: Time \u2014 Reading Clocks and Solving Elapsed Time Problems",
+    "canonical_name": "Grade 3 Math: Measurement \u2014 Reading Clocks and Solving Time Problems",
     "coherence_score": 5,
-    "coherence_reason": "All standards focus on telling time and solving problems involving elapsed time, specifically with digital and analog clocks.",
+    "coherence_reason": "All standards focus on reading clocks (both analog and digital) and solving problems involving time intervals and elapsed time at the minute or five-minute level.",
     "split_topics": [],
     "merge_suggestion": null,
     "needs_review": false
@@ -102,7 +102,7 @@
     "grade": "3",
     "subject": "Math",
     "n_standards": 42,
-    "intra_coherence": 0.801,
+    "intra_coherence": 0.8,
     "sample_standards": [
       "Your child can identify the costs and benefits of planned and unplanned spending.",
       "Your child can explain how having more or fewer resources affects prices and costs.",
@@ -157,12 +157,12 @@
       "3.N.4.2",
       "3.GM.M.5"
     ],
-    "canonical_name": "Grade 3 Math: Financial Literacy \u2014 Money, Earning, and Spending",
-    "coherence_score": 3,
-    "coherence_reason": "The standards cover related financial literacy concepts but include two distinct sub-concepts: understanding and calculating money, and broader economic decision-making (spending, saving, earning, credit).",
+    "canonical_name": "Grade 3 Math: Financial Literacy \u2014 Money Management and Transactions",
+    "coherence_score": 4,
+    "coherence_reason": "All standards relate to financial literacy, but some focus on practical money calculations while others address broader financial concepts like saving, credit, and spending choices.",
     "split_topics": [
-      "Counting and Making Change",
-      "Personal Financial Decision-Making"
+      "Money calculation and transactions",
+      "Personal finance concepts (saving, spending, credit)"
     ],
     "merge_suggestion": null,
     "needs_review": true
@@ -397,11 +397,11 @@
       "3.MD.I.7.Ba.A"
     ],
     "canonical_name": "Grade 3 Math: Measurement \u2014 Area and Perimeter",
-    "coherence_score": 3,
-    "coherence_reason": "The standards cover both area and perimeter, which are related measurement concepts but distinct; some focus exclusively on area, others on perimeter.",
+    "coherence_score": 4,
+    "coherence_reason": "Most standards focus on area, its measurement, and its relationship to multiplication and addition, but several also include perimeter concepts and distinguishing between area and perimeter, indicating two closely related but distinct subtopics.",
     "split_topics": [
-      "Area concepts and calculation",
-      "Perimeter concepts and calculation"
+      "Area concepts and measurement",
+      "Perimeter concepts and comparison"
     ],
     "merge_suggestion": null,
     "needs_review": true
@@ -489,12 +489,12 @@
       "M-3.1",
       "M-3.3"
     ],
-    "canonical_name": "Grade 3 Math: Numbers and Operations \u2014 Counting, Comparing, and Grouping by Tens",
+    "canonical_name": "Grade 3 Math: Number Sense \u2014 Counting and Comparing Quantities",
     "coherence_score": 3,
-    "coherence_reason": "The standards address related but distinct sub-concepts: counting and comparing small quantities, recognizing numbers with models, and repeated addition/grouping by tens.",
+    "coherence_reason": "The standards mix basic counting, comparing quantities, recognizing number patterns, and repeated addition, which are related but distinct sub-concepts.",
     "split_topics": [
       "Counting and Comparing Quantities",
-      "Counting and Grouping by Tens/Repeated Addition"
+      "Repeated Addition and Number Patterns"
     ],
     "merge_suggestion": null,
     "needs_review": true
@@ -503,8 +503,8 @@
     "cluster_id": 4,
     "grade": "3",
     "subject": "Math",
-    "n_standards": 84,
-    "intra_coherence": 0.74,
+    "n_standards": 82,
+    "intra_coherence": 0.741,
     "sample_standards": [
       "Your child can think about math problems both in general ideas and with real numbers.",
       "Model with mathematics.",
@@ -549,7 +549,6 @@
       "3.PS.3",
       "3.OA.6.lp.h",
       "3.OA.1.lp.k",
-      "3.OA.4.lp.j",
       "3.PS.2",
       "3.OA.2.lp.e",
       "3.PS.1",
@@ -564,7 +563,6 @@
       "S.3.d",
       "PS.3",
       "S.3.e",
-      "S.3.h",
       "S.3.c",
       "S.3.g",
       "S.3.a",
@@ -603,10 +601,10 @@
     ],
     "canonical_name": "Grade 3 Math: Mathematical Practices \u2014 Problem Solving and Reasoning",
     "coherence_score": 3,
-    "coherence_reason": "The cluster includes both mathematical practices and unrelated reading comprehension skills; two main sub-concepts are present.",
+    "coherence_reason": "The standards contain both mathematical practices (problem solving, reasoning, modeling) and unrelated reading/language skills, so there are two distinct sub-concepts.",
     "split_topics": [
-      "Mathematical problem solving and reasoning",
-      "Reading comprehension strategies"
+      "Mathematical Problem Solving and Reasoning",
+      "Reading and Language Skills"
     ],
     "merge_suggestion": null,
     "needs_review": true
@@ -676,13 +674,12 @@
       "3.G.K.1.Ad",
       "3.G.K"
     ],
-    "canonical_name": "Grade 3 Math: Geometry \u2014 Shape Attributes and Classification",
+    "canonical_name": "Grade 3 Math: Geometry \u2014 Shape Attributes and Sorting",
     "coherence_score": 3,
-    "coherence_reason": "Most standards pertain to shapes, their attributes, and classification, but two standards are unrelated (about civic leaders and geographic regions).",
+    "coherence_reason": "Most standards focus on geometric shape attributes and sorting, but two standards are about social studies topics (leaders, geography) that do not belong in this cluster.",
     "split_topics": [
-      "Geometry \u2014 Shape Attributes and Classification",
-      "Civics \u2014 Local and State Leaders",
-      "Geography \u2014 Regions and Settlement"
+      "Geometry: Shape Attributes and Sorting",
+      "Social Studies: Local Government and Geography"
     ],
     "merge_suggestion": null,
     "needs_review": true
@@ -780,7 +777,7 @@
     ],
     "canonical_name": "Grade 3 Math: Geometry \u2014 Properties and Classification of Shapes",
     "coherence_score": 4,
-    "coherence_reason": "Most standards focus on identifying, describing, and classifying flat shapes (polygons, especially quadrilaterals), but one also mentions solid figures and another mentions circles, indicating minor variation in emphasis.",
+    "coherence_reason": "Most standards focus on recognizing, describing, and classifying shapes by their properties, but one includes solid figures, introducing a slight variation.",
     "split_topics": [],
     "merge_suggestion": null,
     "needs_review": false
@@ -851,19 +848,22 @@
       "3.MD.H.4.Ba",
       "3.MD.H.4.Ad"
     ],
-    "canonical_name": "Grade 3 Math: Measurement \u2014 Using Tools and Representing Lengths",
-    "coherence_score": 5,
-    "coherence_reason": "All standards focus on measuring lengths using standard tools and representing those measurements, sometimes with line plots.",
-    "split_topics": [],
+    "canonical_name": "Grade 3 Math: Measurement \u2014 Using Tools to Measure Length and Represent Data",
+    "coherence_score": 4,
+    "coherence_reason": "All standards focus on measuring length using standard and nonstandard tools, but some also emphasize representing data with line plots or direct comparison of lengths.",
+    "split_topics": [
+      "Measuring length with tools",
+      "Representing measurement data with line plots"
+    ],
     "merge_suggestion": null,
-    "needs_review": false
+    "needs_review": true
   },
   {
     "cluster_id": 8,
     "grade": "3",
     "subject": "Math",
-    "n_standards": 95,
-    "intra_coherence": 0.76,
+    "n_standards": 97,
+    "intra_coherence": 0.756,
     "sample_standards": [
       "Your child can compare different types of economies (like traditional, command, market, and mixed), and explain what makes each one good or bad.",
       "Your child can draw picture and bar graphs with correct scales to show data and solve simple problems about how many more or less.",
@@ -918,7 +918,9 @@
       "3.PS.1.e.iii",
       "PS.2",
       "3.PS.1.e",
+      "PS.1",
       "M-3.16",
+      "S.3.h",
       "3.PS.1.e.v",
       "3.PS.1.e.i",
       "3.PS.1.d",
@@ -971,13 +973,12 @@
       "3.MD.H.3.Ba",
       "3.MD.H.3.Ad"
     ],
-    "canonical_name": "Grade 3 Math: Data \u2014 Representing and Interpreting Data with Graphs",
+    "canonical_name": "Grade 3 Math: Data \u2014 Representing and Interpreting Graphs",
     "coherence_score": 4,
-    "coherence_reason": "Most standards focus on interpreting and representing data with graphs, but one standard is about economies and another about organizing events with timelines, which are only loosely related.",
+    "coherence_reason": "All but one standard are about representing and interpreting data using various graphs and tables; one standard about economies is unrelated but the rest form a cohesive group.",
     "split_topics": [
-      "Representing and Interpreting Data with Graphs",
-      "Comparing Types of Economies",
-      "Organizing Events with Timelines"
+      "Representing and interpreting data",
+      "Types of economies"
     ],
     "merge_suggestion": null,
     "needs_review": true
@@ -1027,15 +1028,12 @@
       "3.MD.1.lp.i",
       "LS.2"
     ],
-    "canonical_name": "Grade 3 Math: Mathematical Practices \u2014 Engagement and Participation",
+    "canonical_name": "Grade 3 Math: Mathematical Practice \u2014 Engagement and Participation",
     "coherence_score": 2,
-    "coherence_reason": "The standards group together general math engagement, social skills, mathematical practices, and several specific content areas, which are distinct topics.",
+    "coherence_reason": "The descriptions include both mathematical practices (like collaboration and precision) and specific content domains (like fractions, data, area), which are separate concepts.",
     "split_topics": [
-      "Mathematical Practices and Engagement",
-      "Measurement and Data",
-      "Fractions",
-      "Multiplication",
-      "Area"
+      "Mathematical Practice/Engagement",
+      "Specific Math Content Areas (Fractions, Area, Data, etc.)"
     ],
     "merge_suggestion": null,
     "needs_review": true
@@ -1093,7 +1091,7 @@
     ],
     "canonical_name": "Grade 3 Math: Place Value \u2014 Rounding Whole Numbers",
     "coherence_score": 5,
-    "coherence_reason": "All standards focus on rounding whole numbers using place value concepts, including using number lines, models, and estimation strategies.",
+    "coherence_reason": "All standards focus specifically on rounding whole numbers (to the nearest ten or hundred), including applications, models, and estimation.",
     "split_topics": [],
     "merge_suggestion": null,
     "needs_review": false
@@ -1161,15 +1159,99 @@
       "3.OA.A.1.BeB",
       "3.OA.A.1.Ad.B"
     ],
-    "canonical_name": "Grade 3 Math: Multiplication \u2014 Equal Groups, Repeated Addition, and Representations",
+    "canonical_name": "Grade 3 Math: Multiplication \u2014 Conceptual Understanding and Models",
     "coherence_score": 4,
-    "coherence_reason": "Most standards focus on understanding and representing multiplication through equal groups and repeated addition using multiple models, but one standard about the associative rule introduces a minor sub-concept.",
+    "coherence_reason": "Most standards focus on understanding multiplication as equal groups or repeated addition and representing it in different ways, though one standard (associative rule) introduces a property of multiplication that is somewhat distinct.",
+    "split_topics": [
+      "Multiplication concepts and models",
+      "Properties of multiplication (associative rule)"
+    ],
+    "merge_suggestion": null,
+    "needs_review": true
+  },
+  {
+    "cluster_id": 12,
+    "grade": "3",
+    "subject": "Math",
+    "n_standards": 56,
+    "intra_coherence": 0.821,
+    "sample_standards": [
+      "Your child understands how numbers are made up of tens and ones.",
+      "Your child understands how numbers work in the base-10 system up to the hundred-thousands place.",
+      "Your child can break apart and build numbers up to 100,000 by adding ten-thousands, thousands, hundreds, tens, and ones using objects, pictures, and numbers.",
+      "Your child can compare and put in order whole numbers up to 100,000 and use >, <, or = to show which numbers are bigger or smaller.",
+      "Your child can break apart and put together four-digit numbers in different ways using thousands, hundreds, tens, and ones, showing this with objects, drawings, or equations.",
+      "Your child can tell if a number from 1 to 100 is even or odd.",
+      "Your child can break apart and put together three-digit numbers using hundreds, tens, and ones with objects or drawings.",
+      "Your child can read and write numbers from 0 to 10,000 in regular numbers, expanded form, and words."
+    ],
+    "all_codes": [
+      "EE.3.NBT.2",
+      "3.2B",
+      "3.2A",
+      "3.2D",
+      "MA.3.NSO.1.2",
+      "MA.3.AR.3.AP.1",
+      "MA.3.NSO.1.AP.2",
+      "MA.3.NSO.1.1",
+      "MA.3.NSO.1.3",
+      "MA.3.NSO.1.AP.1",
+      "MA.3.NSO.1.AP.3",
+      "MA.3.AR.3.1",
+      "NY-3.NBT.4.b",
+      "NY-3.NBT.4.a",
+      "I.D",
+      "3.NBT.1c",
+      "3.NBT.1.lp.b",
+      "3.OA.9.lp.b",
+      "3.NBT.1.lp.g",
+      "3.NR.1.1",
+      "3.LP4.1.3",
+      "3.LP1.4.1",
+      "3.LP1.6.1",
+      "3.NR.1.2",
+      "3.LP1.3.2",
+      "3.LP1.1.1",
+      "3.NS.1.c",
+      "3.NS.2.a",
+      "3.NS.1.a",
+      "M-3.3.CC",
+      "3.NS.1",
+      "3.NS.1.b",
+      "3.NS.2.b",
+      "3.NS",
+      "3.1.1.2",
+      "3.1.1.5",
+      "3.1.1.3",
+      "3.1.1.1",
+      "3.NR.1.",
+      "3.N.1.2",
+      "3.N.1.1",
+      "3.N.1.4",
+      "3.N.1",
+      "3.N.1.3",
+      "3.NBT",
+      "3.NPV.2",
+      "3.NPV.B",
+      "3.NPV.3",
+      "3.NPV.4",
+      "3.NPV.A",
+      "3.N.1.a",
+      "3.N.1.b",
+      "M.3.11",
+      "M.3.10",
+      "3.NO.CC.1",
+      "3.NO.NBT.1"
+    ],
+    "canonical_name": "Grade 3 Math: Place Value \u2014 Composing, Decomposing, and Comparing Numbers",
+    "coherence_score": 4,
+    "coherence_reason": "Most standards focus on understanding place value, composing/decomposing, and comparing numbers, but the odd/even number standard is a minor variation.",
     "split_topics": [],
     "merge_suggestion": null,
     "needs_review": false
   },
   {
-    "cluster_id": 12,
+    "cluster_id": 13,
     "grade": "3",
     "subject": "Math",
     "n_standards": 63,
@@ -1249,18 +1331,18 @@
       "3.G.K.2.Ad",
       "3.NF.F.1.BeB"
     ],
-    "canonical_name": "Grade 3 Math: Fractions \u2014 Equal Parts and Area of Shapes",
-    "coherence_score": 3,
-    "coherence_reason": "The standards reference both the concept of dividing shapes into equal parts (fractions/geometry) and the concept of division as sharing/grouping, which are related but distinct sub-concepts.",
+    "canonical_name": "Grade 3 Math: Fractions \u2014 Equal Parts and Partitioning Shapes",
+    "coherence_score": 4,
+    "coherence_reason": "Most standards are about partitioning shapes into equal parts and recognizing fractions, but a couple mention division as sharing or grouping, which is related but could be considered a distinct sub-concept.",
     "split_topics": [
-      "Equal Parts and Fractions in Shapes",
-      "Division as Sharing/Grouping"
+      "Partitioning shapes into equal parts and recognizing fractions",
+      "Division as sharing or grouping objects"
     ],
     "merge_suggestion": null,
     "needs_review": true
   },
   {
-    "cluster_id": 13,
+    "cluster_id": 14,
     "grade": "3",
     "subject": "Math",
     "n_standards": 35,
@@ -1313,96 +1395,11 @@
       "3.NF.F.1"
     ],
     "canonical_name": "Grade 3 Math: Fractions \u2014 Unit Fractions and Fraction Sums",
-    "coherence_score": 4,
-    "coherence_reason": "All but one standard focus on understanding unit fractions and composing fractions from unit fractions; one unrelated standard about derivatives is present.",
+    "coherence_score": 3,
+    "coherence_reason": "Most statements describe understanding fractions as sums of unit fractions, but one standard about derivatives is unrelated and should be split.",
     "split_topics": [
-      "Understanding unit fractions",
-      "Composing fractions as sums of unit fractions",
-      "Definition of derivative (outlier)"
-    ],
-    "merge_suggestion": null,
-    "needs_review": true
-  },
-  {
-    "cluster_id": 14,
-    "grade": "3",
-    "subject": "Math",
-    "n_standards": 56,
-    "intra_coherence": 0.821,
-    "sample_standards": [
-      "Your child understands how numbers are made up of tens and ones.",
-      "Your child understands how numbers work in the base-10 system up to the hundred-thousands place.",
-      "Your child can break apart and build numbers up to 100,000 by adding ten-thousands, thousands, hundreds, tens, and ones using objects, pictures, and numbers.",
-      "Your child can compare and put in order whole numbers up to 100,000 and use >, <, or = to show which numbers are bigger or smaller.",
-      "Your child can break apart and put together four-digit numbers in different ways using thousands, hundreds, tens, and ones, showing this with objects, drawings, or equations.",
-      "Your child can tell if a number from 1 to 100 is even or odd.",
-      "Your child can break apart and put together three-digit numbers using hundreds, tens, and ones with objects or drawings.",
-      "Your child can read and write numbers from 0 to 10,000 in regular numbers, expanded form, and words."
-    ],
-    "all_codes": [
-      "EE.3.NBT.2",
-      "3.2B",
-      "3.2A",
-      "3.2D",
-      "MA.3.NSO.1.2",
-      "MA.3.AR.3.AP.1",
-      "MA.3.NSO.1.AP.2",
-      "MA.3.NSO.1.1",
-      "MA.3.NSO.1.3",
-      "MA.3.NSO.1.AP.1",
-      "MA.3.NSO.1.AP.3",
-      "MA.3.AR.3.1",
-      "NY-3.NBT.4.b",
-      "NY-3.NBT.4.a",
-      "I.D",
-      "3.NBT.1c",
-      "3.NBT.1.lp.b",
-      "3.OA.9.lp.b",
-      "3.NBT.1.lp.g",
-      "3.NR.1.1",
-      "3.LP4.1.3",
-      "3.LP1.4.1",
-      "3.LP1.6.1",
-      "3.NR.1.2",
-      "3.LP1.3.2",
-      "3.LP1.1.1",
-      "3.NS.1.c",
-      "3.NS.2.a",
-      "3.NS.1.a",
-      "M-3.3.CC",
-      "3.NS.1",
-      "3.NS.1.b",
-      "3.NS.2.b",
-      "3.NS",
-      "3.1.1.2",
-      "3.1.1.5",
-      "3.1.1.3",
-      "3.1.1.1",
-      "3.NR.1.",
-      "3.N.1.2",
-      "3.N.1.1",
-      "3.N.1.4",
-      "3.N.1",
-      "3.N.1.3",
-      "3.NBT",
-      "3.NPV.2",
-      "3.NPV.B",
-      "3.NPV.3",
-      "3.NPV.4",
-      "3.NPV.A",
-      "3.N.1.a",
-      "3.N.1.b",
-      "M.3.11",
-      "M.3.10",
-      "3.NO.CC.1",
-      "3.NO.NBT.1"
-    ],
-    "canonical_name": "Grade 3 Math: Place Value \u2014 Understanding and Composing Numbers",
-    "coherence_score": 4,
-    "coherence_reason": "Most standards focus on place value concepts and composing/decomposing numbers, but the inclusion of even/odd number identification introduces a minor variation.",
-    "split_topics": [
-      "Place Value and Number Composition",
-      "Even and Odd Numbers"
+      "Fractions as sums of unit fractions",
+      "Definition of a derivative (Calculus)"
     ],
     "merge_suggestion": null,
     "needs_review": true
@@ -1449,7 +1446,7 @@
     ],
     "canonical_name": "Grade 3 Math: Fractions \u2014 Whole Numbers as Fractions and Mixed Numbers",
     "coherence_score": 4,
-    "coherence_reason": "Most standards focus on expressing whole numbers as fractions and identifying fractions equal to whole numbers, but a few reference improper fractions and mixed numbers, slightly broadening the concept.",
+    "coherence_reason": "Most standards focus on representing whole numbers as fractions and finding equivalence, but some also include reading/writing fractions greater than one and mixed numbers, suggesting a minor variation in emphasis.",
     "split_topics": [],
     "merge_suggestion": null,
     "needs_review": false
@@ -1508,9 +1505,9 @@
       "3.NF.F.3.Ad",
       "3.NF.F.3.P.D"
     ],
-    "canonical_name": "Grade 3 Math: Fractions \u2014 Comparing Fractions with Like Numerators or Denominators",
+    "canonical_name": "Grade 3 Math: Fractions \u2014 Comparing Like Numerators or Denominators",
     "coherence_score": 5,
-    "coherence_reason": "All standards focus on comparing two fractions with either the same numerator or denominator, using reasoning, symbols, and explanations.",
+    "coherence_reason": "All standards are focused on comparing two fractions with either the same numerator or denominator, using reasoning, symbols, and explanations.",
     "split_topics": [],
     "merge_suggestion": null,
     "needs_review": false
@@ -1608,9 +1605,9 @@
       "3.NF.F.3.BeB.B",
       "3.NF.F.3"
     ],
-    "canonical_name": "Grade 3 Math: Fractions \u2014 Representing and Identifying Equivalent Fractions",
+    "canonical_name": "Grade 3 Math: Fractions \u2014 Representing and Understanding Equivalent Fractions",
     "coherence_score": 5,
-    "coherence_reason": "All standards focus on representing, identifying, and explaining equivalent fractions using models, pictures, and number lines with denominators 2, 3, 4, 6, and 8.",
+    "coherence_reason": "All standards focus on representing, identifying, and explaining equivalent fractions using models, pictures, and number lines.",
     "split_topics": [],
     "merge_suggestion": null,
     "needs_review": false
@@ -1681,12 +1678,12 @@
       "3.NF.F",
       "3.NF.F.2.BaeB"
     ],
-    "canonical_name": "Grade 3 Math: Fractions \u2014 Fractions as Numbers on the Number Line",
+    "canonical_name": "Grade 3 Math: Fractions \u2014 Number Line Representation",
     "coherence_score": 4,
-    "coherence_reason": "All but one standard focus on understanding and representing fractions as numbers on the number line; one standard introduces coordinate pairs, which is a related but distinct subtopic.",
+    "coherence_reason": "Most standards are about representing fractions as numbers on a number line, but one standard introduces coordinates, which is a distinct subtopic.",
     "split_topics": [
       "Fractions as numbers on the number line",
-      "Using number lines to identify coordinates"
+      "Using coordinates on number lines"
     ],
     "merge_suggestion": null,
     "needs_review": true
@@ -1725,7 +1722,7 @@
     ],
     "canonical_name": "Grade 3 Math: Fractions \u2014 Representing Fractions on the Number Line",
     "coherence_score": 5,
-    "coherence_reason": "All standards focus on representing fractions, specifically 1/b and a/b, on the number line by partitioning into equal parts and locating the fraction\u2019s position.",
+    "coherence_reason": "All standards are about representing unit and non-unit fractions on a number line by partitioning the interval from 0 to 1 into equal parts and locating fractions.",
     "split_topics": [],
     "merge_suggestion": null,
     "needs_review": false
@@ -1783,9 +1780,9 @@
       "3.NBT.E.3.Ba",
       "3.NBT.E.3.BeB"
     ],
-    "canonical_name": "Grade 3 Math: Multiplication \u2014 One-Digit Multipliers, Multiples of 10, and Two-Digit Numbers",
+    "canonical_name": "Grade 3 Math: Multiplication \u2014 One-Digit Multipliers and Place Value",
     "coherence_score": 4,
-    "coherence_reason": "All standards focus on multiplication involving one-digit multipliers, multiples of 10, and two-digit numbers, with minor variation in emphasis such as concrete models and properties.",
+    "coherence_reason": "All standards focus on multiplying one-digit numbers by two-digit numbers or multiples of 10 using properties of multiplication and place value, though a few specifically mention using objects or multiplying one-digit numbers only.",
     "split_topics": [],
     "merge_suggestion": null,
     "needs_review": false
@@ -1854,9 +1851,9 @@
       "3.OA.A.4.P",
       "3.OA.B.6.Ad"
     ],
-    "canonical_name": "Grade 3 Math: Multiplication and Division \u2014 Finding the Missing Number",
+    "canonical_name": "Grade 3 Math: Multiplication and Division \u2014 Finding Missing Numbers",
     "coherence_score": 5,
-    "coherence_reason": "All standards focus on students finding the missing number in multiplication and division equations with three numbers, with only minor wording differences.",
+    "coherence_reason": "All standards focus on finding a missing number in multiplication and division equations involving three numbers, with emphasis on the relationship between multiplication and division.",
     "split_topics": [],
     "merge_suggestion": null,
     "needs_review": false
@@ -1866,7 +1863,7 @@
     "grade": "3",
     "subject": "Math",
     "n_standards": 68,
-    "intra_coherence": 0.852,
+    "intra_coherence": 0.853,
     "sample_standards": [
       "Your child can solve addition and subtraction problems where the answer is up to 20.",
       "Your child can solve real-life problems in one step by adding or subtracting numbers up to 20.",
@@ -1947,12 +1944,12 @@
       "3.NBT.E.2.BeB",
       "3.NBT.E"
     ],
-    "canonical_name": "Grade 3 Math: Addition and Subtraction \u2014 Sums and Differences within 20",
+    "canonical_name": "Grade 3 Math: Addition and Subtraction \u2014 Within 20 and 1000",
     "coherence_score": 3,
-    "coherence_reason": "Most standards focus on addition and subtraction within 20, but some mention sums within 10 and others reference using place value strategies for numbers up to 1000, indicating two related but distinct sub-concepts.",
+    "coherence_reason": "The standards mix basic addition/subtraction within 10 or 20, one-step problems, and larger number operations using place value up to 1000, suggesting two related but distinct subtopics.",
     "split_topics": [
-      "Addition and subtraction within 10 or 20",
-      "Addition and subtraction of larger numbers using place value"
+      "Addition and Subtraction within 10/20",
+      "Addition and Subtraction within 1000 using Place Value"
     ],
     "merge_suggestion": null,
     "needs_review": true
@@ -2064,7 +2061,7 @@
     ],
     "canonical_name": "Grade 3 Math: Multiplication and Division \u2014 Facts and Problem Solving within 100",
     "coherence_score": 5,
-    "coherence_reason": "All standards focus on multiplication and division facts and problem solving with products and dividends up to 100, including quick recall and related division facts.",
+    "coherence_reason": "All standards focus on multiplication and division facts and solving related problems within 100, with minor variations in wording and emphasis on models or recall.",
     "split_topics": [],
     "merge_suggestion": null,
     "needs_review": false
@@ -2149,18 +2146,21 @@
       "3.OA.D.9.P"
     ],
     "canonical_name": "Grade 3 Math: Patterns \u2014 Number Patterns and Relationships",
-    "coherence_score": 4,
-    "coherence_reason": "Most standards focus on identifying, describing, and continuing number patterns, with minor inclusion of related ideas such as even/odd and relationships in tables.",
-    "split_topics": [],
+    "coherence_score": 3,
+    "coherence_reason": "Most standards focus on identifying and describing number patterns, but some address even/odd rules and table relationships, which are related but distinct sub-concepts.",
+    "split_topics": [
+      "Number patterns (skip counting, repeated addition, patterns in tables)",
+      "Even/odd and pairs of numbers in tables/relationships"
+    ],
     "merge_suggestion": null,
-    "needs_review": false
+    "needs_review": true
   },
   {
     "cluster_id": 25,
     "grade": "3",
     "subject": "Math",
-    "n_standards": 71,
-    "intra_coherence": 0.841,
+    "n_standards": 70,
+    "intra_coherence": 0.845,
     "sample_standards": [
       "Your child can pick the right tool, like a scale or ruler, to measure something when needed.",
       "Your child can choose the right tool to solve simple word problems about weight or liquid amounts.",
@@ -2211,7 +2211,6 @@
       "NC.3.MD.2",
       "3.MG.1.b.ii",
       "3.MG.1.b.iii",
-      "PS.1",
       "3.MG.1.c",
       "3.MG.1",
       "3.MG.1.a",
@@ -2244,9 +2243,9 @@
       "3.MD.G.2.Ad",
       "3.MD.G.2"
     ],
-    "canonical_name": "Grade 3 Math: Measurement \u2014 Tools, Units, and Problem Solving with Mass and Volume",
+    "canonical_name": "Grade 3 Math: Measurement \u2014 Tools, Units, and Problem Solving with Weight and Liquid Volume",
     "coherence_score": 5,
-    "coherence_reason": "All standards focus on selecting and using appropriate measurement tools and units for mass and volume, and applying these skills to solve problems.",
+    "coherence_reason": "All standards focus on selecting appropriate measurement tools, using standard units (grams, kilograms, liters), and solving problems involving weight and liquid volume.",
     "split_topics": [],
     "merge_suggestion": null,
     "needs_review": false
@@ -2255,8 +2254,8 @@
     "cluster_id": 26,
     "grade": "3",
     "subject": "Math",
-    "n_standards": 56,
-    "intra_coherence": 0.81,
+    "n_standards": 57,
+    "intra_coherence": 0.809,
     "sample_standards": [
       "Your child can solve two-step word problems using addition, subtraction, multiplication, or division and check if answers make sense.",
       "Your child can solve and make two-step word problems using addition, subtraction, multiplication, or division and check if answers make sense by estimating.",
@@ -2291,6 +2290,7 @@
       "3.OA.4.lp.a",
       "3.OA.8c",
       "3.NBT.2.lp.e",
+      "3.OA.4.lp.j",
       "3.OA.8.lp.c",
       "3.OA.8a",
       "3.OA.8.lp.h",
@@ -2325,16 +2325,12 @@
       "3.OA.D.8.P",
       "3.OA.D.8.Ad"
     ],
-    "canonical_name": "Grade 3 Math: Problem Solving \u2014 Two-Step Word Problems with the Four Operations",
+    "canonical_name": "Grade 3 Math: Word Problems \u2014 Operations and Measurement",
     "coherence_score": 4,
-    "coherence_reason": "All standards focus on solving one- and two-step problems with the four operations, but a few emphasize measurement contexts or the use of equations with variables, introducing minor variations.",
-    "split_topics": [
-      "Two-step word problems with four operations",
-      "Measurement word problems",
-      "Equations with unknowns"
-    ],
+    "coherence_reason": "Most standards focus on solving one- and two-step word problems using the four operations, often in measurement contexts, but one standard introduces writing equations with variables, which is a slight variation.",
+    "split_topics": [],
     "merge_suggestion": null,
-    "needs_review": true
+    "needs_review": false
   },
   {
     "cluster_id": 27,
@@ -2414,12 +2410,12 @@
       "3.OA.B.5.P",
       "3.OA.A.2.Ad.A"
     ],
-    "canonical_name": "Grade 3 Math: Multiplication and Division \u2014 Relationships and Problem Solving",
-    "coherence_score": 4,
-    "coherence_reason": "All standards except one focus on multiplication/division relationships and problem-solving; one standard about derivatives (chain rule) is unrelated but appears to be an error.",
+    "canonical_name": "Grade 3 Math: Multiplication and Division \u2014 Concepts and Problem Solving",
+    "coherence_score": 3,
+    "coherence_reason": "Most standards focus on multiplication and division concepts and problem solving, but one standard introduces calculus (chain rule and derivatives), which is unrelated and should be split.",
     "split_topics": [
-      "Multiplication and division relationships and problem solving",
-      "Chain rule and derivatives"
+      "Multiplication and Division in Grade 3",
+      "Chain Rule and Derivatives (Calculus)"
     ],
     "merge_suggestion": null,
     "needs_review": true
