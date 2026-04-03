@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Cluster Review Tool — The Sage's Compass</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Georgia', serif; background: #F5F3EF; color: #222; }
+  .header { background: #0B2E4A; color: #F9F6EF; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; }
+  .header h1 { font-size: 1.2rem; font-variant: small-caps; letter-spacing: 0.05em; }
+  .progress { font-size: 0.85rem; color: rgba(249,246,239,0.7); }
+  .controls { padding: 1rem 2rem; background: #fff; border-bottom: 1px solid #ddd; display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; }
+  select, input { padding: 0.4rem 0.6rem; border: 1px solid #ddd; border-radius: 6px; font-family: Georgia, serif; font-size: 0.85rem; }
+  .btn { padding: 0.4rem 1rem; border-radius: 6px; font-family: Georgia, serif; font-size: 0.85rem; cursor: pointer; border: none; }
+  .btn-export { background: #0B2E4A; color: #F9F6EF; }
+  .btn-load { background: #4a8b6e; color: #fff; }
+  .container { max-width: 1100px; margin: 0 auto; padding: 1.5rem; display: flex; flex-direction: column; gap: 1rem; }
+  .cluster-card { background: #fff; border-radius: 10px; padding: 1.25rem; border: 1px solid #e0e0e0; box-shadow: 0 1px 4px rgba(0,0,0,0.04); }
+  .cluster-card.approved { border-left: 4px solid #4a8b6e; }
+  .cluster-card.needs-review { border-left: 4px solid #C4983D; }
+  .cluster-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; margin-bottom: 0.75rem; }
+  .cluster-name { font-size: 1rem; font-variant: small-caps; color: #0B2E4A; font-weight: 600; }
+  .score-badge { font-size: 0.7rem; padding: 0.2rem 0.5rem; border-radius: 4px; white-space: nowrap; }
+  .score-5, .score-4 { background: #d4edda; color: #1a5c2a; }
+  .score-3 { background: #fff3cd; color: #7a5c00; }
+  .score-2, .score-1, .score-0 { background: #f8d7da; color: #7a1a1a; }
+  .samples { font-size: 0.78rem; color: #555; margin-bottom: 0.75rem; }
+  .samples li { margin-bottom: 0.2rem; padding-left: 0.5rem; border-left: 2px solid #ddd; }
+  .reason { font-size: 0.75rem; color: #888; font-style: italic; margin-bottom: 0.75rem; }
+  .split-alert { font-size: 0.75rem; background: #fff3cd; border: 1px solid #ffc107; border-radius: 4px; padding: 0.35rem 0.6rem; margin-bottom: 0.75rem; color: #7a5c00; }
+  .actions { display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: center; }
+  .name-input { flex: 1; min-width: 300px; padding: 0.4rem 0.6rem; border: 1px solid #ccc; border-radius: 6px; font-family: Georgia, serif; font-size: 0.9rem; }
+  .btn-approve { background: #4a8b6e; color: #fff; }
+  .btn-split { background: #C4983D; color: #fff; }
+  .btn-reject { background: #B04040; color: #fff; }
+  .btn-skip { background: #eee; color: #666; }
+  .pills { display: flex; gap: 0.35rem; flex-wrap: wrap; margin-bottom: 0.5rem; }
+  .pill { font-size: 0.65rem; padding: 0.15rem 0.45rem; border-radius: 4px; background: #eef; color: #44a; }
+  .empty-state { text-align: center; padding: 4rem; color: #888; }
+  .stats-row { display: flex; gap: 1.5rem; background: #fff; padding: 0.75rem 2rem; border-bottom: 1px solid #eee; font-size: 0.85rem; }
+  .stat { display: flex; flex-direction: column; }
+  .stat-n { font-size: 1.4rem; font-weight: 700; color: #0B2E4A; line-height: 1; }
+  .stat-label { font-size: 0.65rem; color: #888; text-transform: uppercase; letter-spacing: 0.06em; }
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>Cluster Review Tool · The Sage's Compass</h1>
+  <div class="progress" id="progress-text">Load a JSON file to begin</div>
+</div>
+
+<div class="controls">
+  <input type="file" id="file-input" accept=".json" style="display:none">
+  <button class="btn btn-load" onclick="document.getElementById('file-input').click()">Load JSON</button>
+  <select id="filter-grade"><option value="">All Grades</option></select>
+  <select id="filter-subject"><option value="">All Subjects</option></select>
+  <select id="filter-status">
+    <option value="needs_review">Needs Review First</option>
+    <option value="all">All Clusters</option>
+    <option value="approved">Approved Only</option>
+  </select>
+  <button class="btn btn-export" onclick="exportApproved()" id="export-btn" disabled>Export Approved JSON</button>
+  <button class="btn" style="background:#6E6E9E;color:#fff" onclick="approveAll()">Auto-Approve All ≥4</button>
+</div>
+
+<div class="stats-row" id="stats-row" style="display:none">
+  <div class="stat"><span class="stat-n" id="stat-total">0</span><span class="stat-label">Total</span></div>
+  <div class="stat"><span class="stat-n" id="stat-approved" style="color:#4a8b6e">0</span><span class="stat-label">Approved</span></div>
+  <div class="stat"><span class="stat-n" id="stat-review" style="color:#C4983D">0</span><span class="stat-label">Needs Review</span></div>
+  <div class="stat"><span class="stat-n" id="stat-rejected" style="color:#B04040">0</span><span class="stat-label">Rejected</span></div>
+</div>
+
+<div class="container" id="cluster-container">
+  <div class="empty-state">Load a JSON file from<br><code>kg-service/data/clusters/all_named_clusters.json</code></div>
+</div>
+
+<script>
+let clusters = [];
+let decisions = {};  // cluster_id+grade+subject → { action, name }
+
+document.getElementById('file-input').addEventListener('change', e => {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    clusters = JSON.parse(ev.target.result);
+    // Auto-approve high-confidence clusters
+    clusters.forEach(c => {
+      const key = clusterKey(c);
+      if (c.coherence_score >= 4 && !c.split_topics?.length) {
+        decisions[key] = { action: 'approved', name: c.canonical_name };
+      }
+    });
+    populateFilters();
+    updateStats();
+    render();
+    document.getElementById('export-btn').disabled = false;
+    document.getElementById('stats-row').style.display = 'flex';
+  };
+  reader.readAsText(file);
+});
+
+function clusterKey(c) {
+  return `${c.grade}__${c.subject}__${c.cluster_id}`;
+}
+
+function populateFilters() {
+  const grades = [...new Set(clusters.map(c => c.grade))].sort((a,b) => (parseInt(a)||0)-(parseInt(b)||0));
+  const subjects = [...new Set(clusters.map(c => c.subject))].sort();
+  const gSel = document.getElementById('filter-grade');
+  const sSel = document.getElementById('filter-subject');
+  grades.forEach(g => { const o = document.createElement('option'); o.value = g; o.text = g === 'K' ? 'Kindergarten' : 'Grade ' + g; gSel.appendChild(o); });
+  subjects.forEach(s => { const o = document.createElement('option'); o.value = s; o.text = s; sSel.appendChild(o); });
+  [gSel, sSel, document.getElementById('filter-status')].forEach(el => el.addEventListener('change', render));
+}
+
+function updateStats() {
+  const total = clusters.length;
+  const approved = Object.values(decisions).filter(d => d.action === 'approved').length;
+  const rejected = Object.values(decisions).filter(d => d.action === 'rejected').length;
+  const review = total - approved - rejected;
+  document.getElementById('stat-total').textContent = total;
+  document.getElementById('stat-approved').textContent = approved;
+  document.getElementById('stat-rejected').textContent = rejected;
+  document.getElementById('stat-review').textContent = review;
+  document.getElementById('progress-text').textContent = `${approved}/${total} approved · ${review} remaining`;
+}
+
+function approveAll() {
+  clusters.forEach(c => {
+    if (c.coherence_score >= 4) {
+      decisions[clusterKey(c)] = { action: 'approved', name: c.canonical_name };
+    }
+  });
+  updateStats(); render();
+}
+
+function render() {
+  const grade = document.getElementById('filter-grade').value;
+  const subject = document.getElementById('filter-subject').value;
+  const status = document.getElementById('filter-status').value;
+
+  let filtered = clusters.filter(c => {
+    if (grade && c.grade !== grade) return false;
+    if (subject && c.subject !== subject) return false;
+    const key = clusterKey(c);
+    const dec = decisions[key];
+    if (status === 'needs_review') return !dec;
+    if (status === 'approved') return dec?.action === 'approved';
+    return true;
+  });
+
+  // Sort: needs review first (by coherence score asc), then approved
+  filtered.sort((a, b) => {
+    const da = decisions[clusterKey(a)], db = decisions[clusterKey(b)];
+    if (!da && db) return -1;
+    if (da && !db) return 1;
+    return (a.coherence_score || 0) - (b.coherence_score || 0);
+  });
+
+  const container = document.getElementById('cluster-container');
+  if (!filtered.length) { container.innerHTML = '<div class="empty-state">No clusters match the current filter.</div>'; return; }
+
+  container.innerHTML = filtered.map(c => {
+    const key = clusterKey(c);
+    const dec = decisions[key];
+    const cardClass = dec ? (dec.action === 'approved' ? 'approved' : 'needs-review') : 'needs-review';
+    const currentName = dec?.name || c.canonical_name || '';
+    const splitAlert = c.split_topics?.length ? `<div class="split-alert">⚠ GPT-4.1 suggests splitting: ${c.split_topics.join(' / ')}</div>` : '';
+    const pills = `<div class="pills"><span class="pill">Grade ${c.grade}</span><span class="pill">${c.subject}</span><span class="pill">${c.n_standards} standards</span>${c.merge_suggestion ? '<span class="pill" style="background:#ffe;color:#880">Merge?</span>' : ''}</div>`;
+    const samples = c.sample_standards?.slice(0, 5).map(s => `<li>${s.length > 100 ? s.slice(0, 97) + '...' : s}</li>`).join('') || '';
+    const scoreClass = `score-${Math.max(0, Math.min(5, c.coherence_score || 0))}`;
+    const decBadge = dec ? (dec.action === 'approved' ? '<span style="color:#4a8b6e;font-size:0.75rem;font-weight:600">✓ APPROVED</span>' : '<span style="color:#B04040;font-size:0.75rem;font-weight:600">✗ REJECTED</span>') : '';
+    return `<div class="cluster-card ${cardClass}" id="card-${key.replace(/[^a-zA-Z0-9]/g,'_')}">
+      <div class="cluster-header">
+        <div>
+          ${pills}
+          <div class="cluster-name">${c.canonical_name || 'Unnamed'}</div>
+        </div>
+        <div style="display:flex;gap:0.4rem;align-items:center;flex-shrink:0">
+          ${decBadge}
+          <span class="score-badge ${scoreClass}">${c.coherence_score || '?'}/5</span>
+        </div>
+      </div>
+      ${c.coherence_reason ? `<div class="reason">${c.coherence_reason}</div>` : ''}
+      ${splitAlert}
+      <ul class="samples">${samples}</ul>
+      <div class="actions">
+        <input type="text" class="name-input" id="name-${key.replace(/[^a-zA-Z0-9]/g,'_')}" value="${currentName}" placeholder="Canonical name...">
+        <button class="btn btn-approve" onclick="decide('${key}', 'approved')">✓ Approve</button>
+        <button class="btn btn-reject" onclick="decide('${key}', 'rejected')">✗ Reject</button>
+        <button class="btn btn-skip" onclick="decide('${key}', null)">↩ Reset</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function decide(key, action) {
+  const inputId = 'name-' + key.replace(/[^a-zA-Z0-9]/g,'_');
+  const nameEl = document.getElementById(inputId);
+  if (action) {
+    decisions[key] = { action, name: nameEl ? nameEl.value : '' };
+  } else {
+    delete decisions[key];
+  }
+  updateStats(); render();
+}
+
+function exportApproved() {
+  const approved = clusters
+    .filter(c => decisions[clusterKey(c)]?.action === 'approved')
+    .map(c => ({
+      ...c,
+      canonical_name: decisions[clusterKey(c)].name || c.canonical_name,
+      review_status: 'approved',
+    }));
+  const blob = new Blob([JSON.stringify(approved, null, 2)], { type: 'application/json' });
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+  a.download = 'canonical_clusters_approved.json'; a.click();
+  alert(`Exported ${approved.length} approved clusters.`);
+}
+</script>
+</body>
+</html>
