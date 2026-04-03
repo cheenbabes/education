@@ -205,10 +205,11 @@ def process_cell(grade: str, subject: str, skip_embed: bool = False) -> list[dic
     # Step 3: Cluster -- auto-tune min_cluster_size
     # Target: 8-20 clusters per cell. Start at floor(sqrt(n_stds)) and adjust.
     n = len(stds)
-    target_clusters = max(5, min(20, n // 15))  # aim for n/15 clusters
-    min_cs = max(4, n // (target_clusters * 2))
+    target_clusters = max(8, min(20, n // 15))  # aim for n/15 clusters
+    min_cs = max(4, min(15, n // (target_clusters * 6)))
     print(f"  Clustering (n={n}, min_cluster_size={min_cs}, target~{target_clusters})...")
-    labels = cluster_embeddings(embeddings, min_cluster_size=min_cs)
+    min_samp = 2
+    labels = cluster_embeddings(embeddings, min_cluster_size=min_cs, min_samples=min_samp)
     labels = assign_noise_to_nearest(embeddings, labels)
     n_clusters = len(set(labels))
     print(f"  Got {n_clusters} clusters")
@@ -224,7 +225,7 @@ def process_cell(grade: str, subject: str, skip_embed: bool = False) -> list[dic
         sims = cosine_similarity(cluster_embeddings_subset, centroid.reshape(1, -1)).flatten()
         intra_coherence = float(sims.mean())
         clusters.append({
-            "cluster_id": cluster_id,
+            "cluster_id": int(cluster_id),
             "grade": grade,
             "subject": subject,
             "n_standards": int(mask.sum()),
