@@ -134,6 +134,24 @@ model Worksheet {
   @@index([userId])
 }
 
+model StandardWorksheet {
+  id             String   @id @default(cuid())
+  clusterKey     String
+  clusterTitle   String
+  grade          String
+  subject        String
+  worksheetNum   Int
+  worksheetType  String
+  title          String
+  standardCodes  String[]
+  content        Json
+  createdAt      DateTime @default(now())
+
+  @@unique([clusterKey, worksheetNum])
+  @@index([grade, subject])
+  @@index([clusterKey])
+}
+
 model LessonChild {
   id       String @id @default(cuid())
   lessonId String
