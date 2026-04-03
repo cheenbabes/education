@@ -1,0 +1,184 @@
+[
+  {
+    "visual_type": "bar_graph",
+    "needed_for": ["grade3-math-bar-graphs", "grade6-math-ratios", "grade7-math-statistics", "grade5-science-water-cycle", "grade5-social-studies-economics"],
+    "description": "Vertical bar chart with labeled x-axis categories, y-axis with numeric scale, and colored bars. Supports customizable bar count, labels, and values. Optional gridlines.",
+    "complexity": "medium",
+    "implementation": "Parameterized SVG: takes categories[], values[], yMax. Draw y-axis with tick marks, x-axis with category labels, filled rectangles for each bar. Similar structure to existing dataTable but vertical bars instead of rows."
+  },
+  {
+    "visual_type": "number_bonds",
+    "needed_for": ["grade1-math-addition-within-20", "grade1-math-subtraction-within-20"],
+    "description": "Three circles connected by lines: one large 'whole' circle at top, two smaller 'part' circles at bottom. Shows part-part-whole relationship for addition/subtraction.",
+    "complexity": "small",
+    "implementation": "Three circles with connecting lines. Top circle (whole) connected to two bottom circles (parts). Text labels in each circle. Simple SVG with circles and lines."
+  },
+  {
+    "visual_type": "place_value_chart",
+    "needed_for": ["grade1-math-place-value", "grade2-math-addition-subtraction-100", "grade4-math-multi-digit-multiplication"],
+    "description": "Table-style chart with columns for ones, tens, hundreds, thousands. Header row with column labels, body rows for writing digits. Optional base-10 block icons in cells.",
+    "complexity": "small",
+    "implementation": "Grid similar to dataTable with fixed columns (Thousands|Hundreds|Tens|Ones). Header row with labels, empty cells below for student input. Parameterized by number of place value columns needed."
+  },
+  {
+    "visual_type": "base_ten_blocks",
+    "needed_for": ["grade1-math-place-value", "grade2-math-addition-subtraction-100"],
+    "description": "Visual representation of base-10 manipulatives: small unit cubes (1), vertical rods of 10 units, flat squares of 100 units. Used to represent multi-digit numbers concretely.",
+    "complexity": "medium",
+    "implementation": "Parameterized by number to represent. Draw flats (10x10 grids), rods (1x10 columns), and unit cubes arranged left-to-right. Each flat is a 10x10 grid of small squares, each rod is a 1x10 column, each unit is a single small square."
+  },
+  {
+    "visual_type": "number_grid",
+    "needed_for": ["gradeK-math-counting-to-20", "grade3-math-multiplication-facts"],
+    "description": "A 10x10 grid (100-chart) numbered 1-100, with optional highlighting of specific numbers or patterns. Used for counting, skip-counting, and finding multiplication patterns.",
+    "complexity": "medium",
+    "implementation": "10x10 grid of cells, each containing a number 1-100. Parameterized by highlighted cells (array of numbers to shade). Similar to tenFrame but 10x10 with numbers in each cell."
+  },
+  {
+    "visual_type": "area_grid",
+    "needed_for": ["grade3-math-area", "grade4-math-multi-digit-multiplication"],
+    "description": "Rectangular grid of unit squares with configurable rows and columns. Some squares can be shaded to show area. Labels for width and height dimensions.",
+    "complexity": "small",
+    "implementation": "Parameterized by rows, cols, and shaded count. Draw grid of small squares, shade specified number. Add dimension labels on sides. Very similar to tenFrame but configurable dimensions."
+  },
+  {
+    "visual_type": "labeled_shapes",
+    "needed_for": ["gradeK-math-shapes", "grade3-math-area", "grade4-math-angles", "grade8-math-pythagorean-theorem"],
+    "description": "Common geometric shapes (triangle, rectangle, square, circle, pentagon, hexagon) with labeled sides, angles, and dimensions. Supports showing angle marks and measurement labels.",
+    "complexity": "medium",
+    "implementation": "Shape dispatcher: takes shape type and labels. For triangles: draw 3 vertices with side length labels and angle arc marks. For rectangles: draw with width/height labels. For circles: draw with radius/diameter line. Use dashed lines for internal measurements."
+  },
+  {
+    "visual_type": "ruler",
+    "needed_for": ["grade2-math-measurement-ruler"],
+    "description": "A horizontal ruler showing inches (with 1/2 and 1/4 inch marks) or centimeters (with millimeter marks). Numbers at each inch/cm mark. Object to measure can be placed above.",
+    "complexity": "small",
+    "implementation": "Horizontal rectangle with tick marks at regular intervals. Major ticks (labeled) at each inch/cm, medium ticks at 1/2, small ticks at 1/4 or mm. Numbers below major ticks. Parameterized by unit type and length."
+  },
+  {
+    "visual_type": "protractor",
+    "needed_for": ["grade4-math-angles"],
+    "description": "Semi-circular protractor showing degree markings from 0 to 180. Numbered at 10-degree intervals, tick marks at every degree. Center point and baseline clearly marked.",
+    "complexity": "medium",
+    "implementation": "Semi-circle with arc. Tick marks along the arc: major every 10 degrees (with number label), minor every 5 degrees, tiny every degree. Center point dot at bottom center. Baseline along the diameter."
+  },
+  {
+    "visual_type": "equation_balance",
+    "needed_for": ["grade6-math-expressions-equations"],
+    "description": "Balance scale / beam balance showing two sides of an equation. Triangular fulcrum at center, horizontal beam, two pans. Items or expressions shown on each side. Beam can be level (equal) or tilted.",
+    "complexity": "medium",
+    "implementation": "Triangular fulcrum at bottom center, horizontal beam on top. Two hanging pans (trapezoid shapes) on each end connected by lines. Text labels on each pan for the expressions. Optional tilt parameter to show inequality."
+  },
+  {
+    "visual_type": "thermometer",
+    "needed_for": ["grade6-math-negative-numbers", "grade3-science-states-of-matter"],
+    "description": "Vertical thermometer with scale from below-zero to above-zero. Bulb at bottom, graduated scale with negative and positive numbers. Mercury/fill level configurable.",
+    "complexity": "small",
+    "implementation": "Vertical rectangle (tube) with rounded bottom (bulb). Scale marks along the side with number labels. Filled rectangle from bottom up to the temperature value. Red fill for mercury. Parameterized by min, max, and current temperature."
+  },
+  {
+    "visual_type": "word_web",
+    "needed_for": ["gradeK-ela-sight-words", "grade4-ela-figurative-language"],
+    "description": "Central circle with a main word/concept, connected by lines to 4-6 surrounding circles for related words, synonyms, examples, or associations.",
+    "complexity": "small",
+    "implementation": "Central circle with text, surrounded by 4-6 smaller circles evenly spaced around it, connected by lines. Parameterized by center word and number of branches. Similar to a simplified mind map."
+  },
+  {
+    "visual_type": "cause_effect",
+    "needed_for": ["grade3-ela-text-structure"],
+    "description": "Two-column organizer with 'Cause' boxes on the left connected by arrows to 'Effect' boxes on the right. 3-4 rows of cause-effect pairs.",
+    "complexity": "small",
+    "implementation": "Left column of labeled boxes ('Cause'), right column of boxes ('Effect'), horizontal arrows connecting each pair. Similar to tChart but with explicit arrow connections between rows. Parameterized by number of rows."
+  },
+  {
+    "visual_type": "sequence_arrows",
+    "needed_for": ["grade3-ela-text-structure"],
+    "description": "4-6 connected boxes in a horizontal or vertical flow, with arrows between them showing sequential order. Numbered steps. Each box has space for writing.",
+    "complexity": "small",
+    "implementation": "Series of rounded rectangles connected by arrows, each with a step number. Similar to horizontal timeline but without the central line — just boxes and directional arrows. Parameterized by step count."
+  },
+  {
+    "visual_type": "paragraph_organizer",
+    "needed_for": ["grade1-ela-main-idea", "grade5-ela-opinion-writing"],
+    "description": "Structured writing template: Topic Sentence box at top, 3 Detail/Reason boxes in the middle (with supporting evidence lines), Conclusion box at bottom. Arrows showing flow.",
+    "complexity": "medium",
+    "implementation": "Vertical stack of labeled boxes: 'Topic Sentence' (full width), then 3 narrower 'Detail/Reason' boxes side by side or stacked, then 'Conclusion' (full width). Vertical arrows between sections. Lines inside each box for writing."
+  },
+  {
+    "visual_type": "abc_chart",
+    "needed_for": ["gradeK-ela-letters-sounds"],
+    "description": "Grid showing all 26 letters A-Z, each in its own cell with space below for writing the letter or an associated word. Upper and lowercase versions.",
+    "complexity": "small",
+    "implementation": "Grid layout: 6 columns x 5 rows (26 cells, last 4 empty or used for extras). Each cell has the uppercase letter at top, lowercase below, and a dotted writing line for practice. Simple grid similar to dataTable."
+  },
+  {
+    "visual_type": "weather_symbols",
+    "needed_for": ["gradeK-science-seasons-weather"],
+    "description": "Chart showing common weather symbols: sun, cloud, rain, snow, wind, storm. Each symbol in a labeled cell. Can be used as a legend or for a weekly weather tracking chart.",
+    "complexity": "medium",
+    "implementation": "Grid of cells, each containing a simple weather icon (sun = circle with rays, cloud = overlapping ellipses, rain = cloud + droplets, snow = cloud + asterisks, wind = wavy lines). SVG paths for each icon. 7-column calendar row option for weekly tracking."
+  },
+  {
+    "visual_type": "lifecycle_diagram",
+    "needed_for": ["grade2-science-life-cycles"],
+    "description": "Circular diagram showing stages of a life cycle (e.g., egg → larva → pupa → adult) with curved arrows connecting each stage in a loop. Labeled stages with space for drawing or writing.",
+    "complexity": "medium",
+    "implementation": "Circular arrangement of 3-5 labeled boxes/circles, connected by curved arrows going clockwise. Center label for the organism. Parameterized by stage names. Use SVG arc paths for the curved arrows between stages."
+  },
+  {
+    "visual_type": "water_cycle",
+    "needed_for": ["grade5-science-water-cycle"],
+    "description": "Landscape diagram showing: sun at top, clouds, evaporation arrows rising from water, condensation in clouds, precipitation (rain) falling, collection in river/lake. Labels for each process.",
+    "complexity": "large",
+    "implementation": "Static SVG landscape: mountain/ground shape at bottom, lake/ocean area, sun in corner, cloud shapes. Upward wavy arrows (evaporation), horizontal arrows in cloud (condensation), downward lines (precipitation), ground-level arrows (runoff/collection). Label lines with blanks like plantDiagram."
+  },
+  {
+    "visual_type": "body_diagram",
+    "needed_for": ["grade5-science-body-systems"],
+    "description": "Simple outline of a human body (front view) with label lines pointing to major organs or body systems (heart, lungs, brain, stomach, bones). Blank labels for students to fill in.",
+    "complexity": "large",
+    "implementation": "SVG path for simplified body outline (head, torso, arms, legs). Internal organ outlines positioned approximately correctly. Dashed label lines extending to blank text areas, similar to plantDiagram's labeling approach."
+  },
+  {
+    "visual_type": "cell_diagram",
+    "needed_for": ["grade6-science-cells"],
+    "description": "Cross-section of an animal or plant cell showing cell membrane, nucleus, cytoplasm, mitochondria, and other organelles. Label lines with blanks.",
+    "complexity": "large",
+    "implementation": "Large oval (cell membrane) containing smaller shapes: circle (nucleus) with inner circle (nucleolus), bean-shapes (mitochondria), wavy lines (ER), small circles (ribosomes). Dashed label lines to blank text areas. Plant cell variant adds rectangular cell wall and chloroplasts."
+  },
+  {
+    "visual_type": "circuit_diagram",
+    "needed_for": ["grade4-science-electricity"],
+    "description": "Simple electrical circuit showing battery, wires, switch, and light bulb. Can show open or closed circuit. Labels for each component.",
+    "complexity": "medium",
+    "implementation": "Rectangular wire path connecting: battery symbol (long/short parallel lines), switch (gap with pivot), light bulb (circle with filament). Standard circuit diagram symbols. Parameterized by open/closed state."
+  },
+  {
+    "visual_type": "earth_layers",
+    "needed_for": ["grade7-science-earth-layers"],
+    "description": "Cross-section of Earth showing concentric layers: inner core, outer core, mantle, crust. Each layer a different shade, with label lines.",
+    "complexity": "medium",
+    "implementation": "Concentric circles (or semi-circle cross-section): outermost thin ring (crust), thick ring (mantle), medium ring (outer core), center circle (inner core). Different fill colors for each layer. Label lines extending to the right with blank text."
+  },
+  {
+    "visual_type": "rock_cycle",
+    "needed_for": ["grade7-science-earth-layers"],
+    "description": "Triangular/circular diagram showing the three rock types (igneous, sedimentary, metamorphic) connected by process arrows (weathering, heat/pressure, melting/cooling).",
+    "complexity": "medium",
+    "implementation": "Three labeled boxes/circles arranged in a triangle, connected by directional arrows. Each arrow labeled with the transformation process. Similar to lifecycle_diagram but with 3 nodes and bidirectional process labels."
+  },
+  {
+    "visual_type": "atom_model",
+    "needed_for": ["grade8-science-chemistry-basics"],
+    "description": "Simplified Bohr model of an atom: central nucleus (protons + neutrons) with 1-3 electron shell rings containing electron dots. Labels for each component.",
+    "complexity": "medium",
+    "implementation": "Central filled circle (nucleus) with concentric ring paths (electron shells). Small dots on each ring (electrons). Parameterized by number of shells and electrons per shell. Label lines for nucleus, electrons, shells."
+  },
+  {
+    "visual_type": "compass_rose",
+    "needed_for": ["grade3-social-studies-map-skills"],
+    "description": "Four-pointed or eight-pointed star compass rose showing N, S, E, W (and optionally NE, NW, SE, SW). Decorative center point.",
+    "complexity": "small",
+    "implementation": "Central point with four main directional points (N/S/E/W) as elongated triangles/arrows. Letter labels at each cardinal point. Optional intermediate direction markers. Simple rotational SVG geometry."
+  }
+]

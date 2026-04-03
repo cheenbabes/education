@@ -1,0 +1,666 @@
+[
+  {
+    "cluster_key": "gradeK-math-counting-to-20",
+    "grade": "K",
+    "subject": "Math",
+    "title": "Grade K Math: Counting to 20",
+    "standard_codes": ["K.CC.A.1", "K.CC.A.2", "K.CC.A.3", "K.CC.B.4", "K.CC.B.5"],
+    "standard_descriptions": [
+      "Count to 100 by ones and by tens",
+      "Count forward beginning from a given number",
+      "Write numbers from 0 to 20",
+      "Understand the relationship between numbers and quantities",
+      "Count to answer 'how many?' questions about as many as 20 things"
+    ],
+    "visual_types_needed": ["ten_frame", "number_line", "number_grid"],
+    "worksheet_types": ["identify", "practice", "extend"]
+  },
+  {
+    "cluster_key": "gradeK-math-shapes",
+    "grade": "K",
+    "subject": "Math",
+    "title": "Grade K Math: 2D and 3D Shapes",
+    "standard_codes": ["K.G.A.1", "K.G.A.2", "K.G.A.3", "K.G.B.4"],
+    "standard_descriptions": [
+      "Describe objects in the environment using names of shapes",
+      "Correctly name shapes regardless of their orientations or overall size",
+      "Identify shapes as two-dimensional or three-dimensional"
+    ],
+    "visual_types_needed": ["labeled_shapes"],
+    "worksheet_types": ["identify", "practice", "extend"]
+  },
+  {
+    "cluster_key": "grade1-math-addition-within-20",
+    "grade": "1",
+    "subject": "Math",
+    "title": "Grade 1 Math: Addition Within 20",
+    "standard_codes": ["1.OA.A.1", "1.OA.B.3", "1.OA.C.5", "1.OA.C.6"],
+    "standard_descriptions": [
+      "Use addition to solve word problems within 20",
+      "Apply properties of operations as strategies to add",
+      "Relate counting to addition",
+      "Add within 20 fluently"
+    ],
+    "visual_types_needed": ["number_bonds", "ten_frame", "number_line"],
+    "worksheet_types": ["identify", "practice", "extend"]
+  },
+  {
+    "cluster_key": "grade1-math-subtraction-within-20",
+    "grade": "1",
+    "subject": "Math",
+    "title": "Grade 1 Math: Subtraction Within 20",
+    "standard_codes": ["1.OA.A.1", "1.OA.B.4", "1.OA.C.6"],
+    "standard_descriptions": [
+      "Use subtraction to solve word problems within 20",
+      "Understand subtraction as an unknown-addend problem",
+      "Subtract within 20 fluently"
+    ],
+    "visual_types_needed": ["number_bonds", "ten_frame", "number_line"],
+    "worksheet_types": ["identify", "practice", "extend"]
+  },
+  {
+    "cluster_key": "grade1-math-place-value",
+    "grade": "1",
+    "subject": "Math",
+    "title": "Grade 1 Math: Place Value — Tens and Ones",
+    "standard_codes": ["1.NBT.B.2", "1.NBT.B.3", "1.NBT.C.4"],
+    "standard_descriptions": [
+      "Understand that the two digits of a two-digit number represent amounts of tens and ones",
+      "Compare two two-digit numbers based on meanings of the tens and ones digits"
+    ],
+    "visual_types_needed": ["place_value_chart", "base_ten_blocks"],
+    "worksheet_types": ["identify", "practice", "extend"]
+  },
+  {
+    "cluster_key": "grade2-math-addition-subtraction-100",
+    "grade": "2",
+    "subject": "Math",
+    "title": "Grade 2 Math: Addition and Subtraction Within 100",
+    "standard_codes": ["2.NBT.B.5", "2.NBT.B.6", "2.NBT.B.7"],
+    "standard_descriptions": [
+      "Fluently add and subtract within 100",
+      "Add up to four two-digit numbers",
+      "Add and subtract within 1000 using concrete models"
+    ],
+    "visual_types_needed": ["number_line", "base_ten_blocks", "place_value_chart"],
+    "worksheet_types": ["identify", "practice", "extend"]
+  },
+  {
+    "cluster_key": "grade2-math-measurement-ruler",
+    "grade": "2",
+    "subject": "Math",
+    "title": "Grade 2 Math: Measurement With a Ruler",
+    "standard_codes": ["2.MD.A.1", "2.MD.A.3", "2.MD.A.4"],
+    "standard_descriptions": [
+      "Measure the length of an object by selecting and using appropriate tools",
+      "Estimate lengths using units of inches, feet, centimeters, and meters"
+    ],
+    "visual_types_needed": ["ruler"],
+    "worksheet_types": ["identify", "practice", "extend"]
+  },
+  {
+    "cluster_key": "grade2-math-arrays-intro",
+    "grade": "2",
+    "subject": "Math",
+    "title": "Grade 2 Math: Introduction to Arrays",
+    "standard_codes": ["2.OA.C.4"],
+    "standard_descriptions": [
+      "Use addition to find the total number of objects arranged in rectangular arrays with up to 5 rows and up to 5 columns"
+    ],
+    "visual_types_needed": ["multiplication_array"],
+    "worksheet_types": ["identify", "practice", "extend"]
+  },
+  {
+    "cluster_key": "grade3-math-fractions-parts",
+    "grade": "3",
+    "subject": "Math",
+    "title": "Grade 3 Math: Fractions — Parts of a Whole",
+    "standard_codes": ["3.NF.A.1", "3.NF.A.2", "3.NF.A.3"],
+    "standard_descriptions": [
+      "Understand a fraction 1/b as the quantity formed by 1 part when a whole is partitioned into b equal parts",
+      "Understand a fraction as a number on the number line",
+      "Explain equivalence of fractions and compare fractions by reasoning about their size"
+    ],
+    "visual_types_needed": ["fraction_circle", "fraction_bar", "number_line"],
+    "worksheet_types": ["identify", "practice", "extend"]
+  },
+  {
+    "cluster_key": "grade3-math-multiplication-facts",
+    "grade": "3",
+    "subject": "Math",
+    "title": "Grade 3 Math: Multiplication Facts",
+    "standard_codes": ["3.OA.A.1", "3.OA.C.7"],
+    "standard_descriptions": [
+      "Interpret products of whole numbers",
+      "Fluently multiply within 100"
+    ],
+    "visual_types_needed": ["multiplication_array", "number_grid"],
+    "worksheet_types": ["identify", "practice", "extend"]
+  },
+  {
+    "cluster_key": "grade3-math-area",
+    "grade": "3",
+    "subject": "Math",
+    "title": "Grade 3 Math: Area and Perimeter",
+    "standard_codes": ["3.MD.C.5", "3.MD.C.6", "3.MD.C.7", "3.MD.D.8"],
+    "standard_descriptions": [
+      "Recognize area as an attribute of plane figures",
+      "Measure areas by counting unit squares",
+      "Relate area to multiplication and addition",
+      "Solve problems involving perimeters of polygons"
+    ],
+    "visual_types_needed": ["area_grid", "labeled_shapes"],
+    "worksheet_types": ["identify", "practice", "extend"]
+  },
+  {
+    "cluster_key": "grade3-math-bar-graphs",
+    "grade": "3",
+    "subject": "Math",
+    "title": "Grade 3 Math: Bar Graphs and Pictographs",
+    "standard_codes": ["3.MD.B.3"],
+    "standard_descriptions": [
+      "Draw a scaled picture graph and a scaled bar graph to represent a data set with several categories"
+    ],
+    "visual_types_needed": ["bar_graph", "data_table"],
+    "worksheet_types": ["identify", "practice", "extend"]
+  },
+  {
+    "cluster_key": "grade4-math-equivalent-fractions",
+    "grade": "4",
+    "subject": "Math",
+    "title": "Grade 4 Math: Equivalent Fractions",
+    "standard_codes": ["4.NF.A.1", "4.NF.A.2"],
+    "standard_descriptions": [
+      "Explain why a fraction a/b is equivalent to a fraction (n × a)/(n × b)",
+      "Compare two fractions with different numerators and different denominators"
+    ],
+    "visual_types_needed": ["fraction_bar", "fraction_circle", "number_line"],
+    "worksheet_types": ["identify", "practice", "extend"]
+  },
+  {
+    "cluster_key": "grade4-math-multi-digit-multiplication",
+    "grade": "4",
+    "subject": "Math",
+    "title": "Grade 4 Math: Multi-Digit Multiplication",
+    "standard_codes": ["4.NBT.B.5"],
+    "standard_descriptions": [
+      "Multiply a whole number of up to four digits by a one-digit whole number, and multiply two two-digit numbers"
+    ],
+    "visual_types_needed": ["place_value_chart", "area_grid"],
+    "worksheet_types": ["identify", "practice", "extend"]
+  },
+  {
+    "cluster_key": "grade4-math-angles",
+    "grade": "4",
+    "subject": "Math",
+    "title": "Grade 4 Math: Measuring Angles",
+    "standard_codes": ["4.MD.C.5", "4.MD.C.6", "4.MD.C.7"],
+    "standard_descriptions": [
+      "Recognize angles as geometric shapes formed wherever two rays share a common endpoint",
+      "Measure angles in whole-number degrees using a protractor"
+    ],
+    "visual_types_needed": ["protractor", "labeled_shapes"],
+    "worksheet_types": ["identify", "practice", "extend"]
+  },
+  {
+    "cluster_key": "grade5-math-fraction-operations",
+    "grade": "5",
+    "subject": "Math",
+    "title": "Grade 5 Math: Fraction Addition and Subtraction",
+    "standard_codes": ["5.NF.A.1", "5.NF.A.2"],
+    "standard_descriptions": [
+      "Add and subtract fractions with unlike denominators",
+      "Solve word problems involving addition and subtraction of fractions"
+    ],
+    "visual_types_needed": ["fraction_bar", "number_line"],
+    "worksheet_types": ["identify", "practice", "extend"]
+  },
+  {
+    "cluster_key": "grade5-math-coordinate-geometry",
+    "grade": "5",
+    "subject": "Math",
+    "title": "Grade 5 Math: Coordinate Plane",
+    "standard_codes": ["5.G.A.1", "5.G.A.2"],
+    "standard_descriptions": [
+      "Use a pair of perpendicular number lines (axes) to define a coordinate system",
+      "Represent real-world and mathematical problems by graphing points in the first quadrant"
+    ],
+    "visual_types_needed": ["coordinate_grid"],
+    "worksheet_types": ["identify", "practice", "extend"]
+  },
+  {
+    "cluster_key": "grade6-math-ratios",
+    "grade": "6",
+    "subject": "Math",
+    "title": "Grade 6 Math: Ratios and Proportional Relationships",
+    "standard_codes": ["6.RP.A.1", "6.RP.A.2", "6.RP.A.3"],
+    "standard_descriptions": [
+      "Understand the concept of a ratio",
+      "Understand the concept of a unit rate",
+      "Use ratio and rate reasoning to solve real-world problems"
+    ],
+    "visual_types_needed": ["bar_graph", "data_table", "number_line"],
+    "worksheet_types": ["identify", "practice", "extend"]
+  },
+  {
+    "cluster_key": "grade6-math-negative-numbers",
+    "grade": "6",
+    "subject": "Math",
+    "title": "Grade 6 Math: Negative Numbers and the Number Line",
+    "standard_codes": ["6.NS.C.5", "6.NS.C.6", "6.NS.C.7"],
+    "standard_descriptions": [
+      "Understand that positive and negative numbers describe quantities having opposite directions",
+      "Understand a rational number as a point on the number line",
+      "Understand ordering and absolute value of rational numbers"
+    ],
+    "visual_types_needed": ["number_line", "thermometer"],
+    "worksheet_types": ["identify", "practice", "extend"]
+  },
+  {
+    "cluster_key": "grade6-math-expressions-equations",
+    "grade": "6",
+    "subject": "Math",
+    "title": "Grade 6 Math: Expressions and Equations",
+    "standard_codes": ["6.EE.A.1", "6.EE.A.2", "6.EE.B.5", "6.EE.B.7"],
+    "standard_descriptions": [
+      "Write and evaluate numerical expressions involving whole-number exponents",
+      "Write, read, and evaluate expressions in which letters stand for numbers",
+      "Understand solving an equation as finding values that make it true"
+    ],
+    "visual_types_needed": ["equation_balance"],
+    "worksheet_types": ["identify", "practice", "extend"]
+  },
+  {
+    "cluster_key": "grade7-math-proportional-relationships",
+    "grade": "7",
+    "subject": "Math",
+    "title": "Grade 7 Math: Proportional Relationships",
+    "standard_codes": ["7.RP.A.1", "7.RP.A.2"],
+    "standard_descriptions": [
+      "Compute unit rates associated with ratios of fractions",
+      "Recognize and represent proportional relationships between quantities"
+    ],
+    "visual_types_needed": ["coordinate_grid", "data_table"],
+    "worksheet_types": ["identify", "practice", "extend"]
+  },
+  {
+    "cluster_key": "grade7-math-statistics",
+    "grade": "7",
+    "subject": "Math",
+    "title": "Grade 7 Math: Statistics — Sampling and Inference",
+    "standard_codes": ["7.SP.A.1", "7.SP.A.2", "7.SP.B.3"],
+    "standard_descriptions": [
+      "Understand that statistics can be used to gain information about a population",
+      "Use data from a random sample to draw inferences about a population"
+    ],
+    "visual_types_needed": ["bar_graph", "data_table"],
+    "worksheet_types": ["identify", "practice", "extend"]
+  },
+  {
+    "cluster_key": "grade8-math-linear-equations",
+    "grade": "8",
+    "subject": "Math",
+    "title": "Grade 8 Math: Linear Equations and Functions",
+    "standard_codes": ["8.EE.B.5", "8.EE.B.6", "8.F.A.1", "8.F.A.3"],
+    "standard_descriptions": [
+      "Graph proportional relationships interpreting the unit rate as the slope",
+      "Understand that a function is a rule that assigns to each input exactly one output",
+      "Interpret the equation y = mx + b as defining a linear function"
+    ],
+    "visual_types_needed": ["coordinate_grid", "data_table"],
+    "worksheet_types": ["identify", "practice", "extend"]
+  },
+  {
+    "cluster_key": "grade8-math-pythagorean-theorem",
+    "grade": "8",
+    "subject": "Math",
+    "title": "Grade 8 Math: Pythagorean Theorem",
+    "standard_codes": ["8.G.B.6", "8.G.B.7", "8.G.B.8"],
+    "standard_descriptions": [
+      "Explain a proof of the Pythagorean Theorem",
+      "Apply the Pythagorean Theorem to determine unknown side lengths in right triangles"
+    ],
+    "visual_types_needed": ["labeled_shapes", "coordinate_grid"],
+    "worksheet_types": ["identify", "practice", "extend"]
+  },
+  {
+    "cluster_key": "gradeK-science-seasons-weather",
+    "grade": "K",
+    "subject": "Science",
+    "title": "Grade K Science: Seasons and Weather",
+    "standard_codes": ["K-ESS2-1", "K-PS3-1"],
+    "standard_descriptions": [
+      "Use and share observations of local weather conditions to describe patterns over time",
+      "Make observations to determine the effect of sunlight on Earth's surface"
+    ],
+    "visual_types_needed": ["weather_symbols", "data_table"],
+    "worksheet_types": ["identify", "practice", "extend"]
+  },
+  {
+    "cluster_key": "gradeK-science-plants",
+    "grade": "K",
+    "subject": "Science",
+    "title": "Grade K Science: Plants and What They Need",
+    "standard_codes": ["K-LS1-1", "K-ESS3-1"],
+    "standard_descriptions": [
+      "Use observations to describe patterns of what plants need to survive",
+      "Use a model to represent the relationship between the needs of different plants"
+    ],
+    "visual_types_needed": ["plant_diagram"],
+    "worksheet_types": ["identify", "practice", "extend"]
+  },
+  {
+    "cluster_key": "grade2-science-life-cycles",
+    "grade": "2",
+    "subject": "Science",
+    "title": "Grade 2 Science: Life Cycles",
+    "standard_codes": ["2-LS4-1", "3-LS1-1"],
+    "standard_descriptions": [
+      "Make observations of plants and animals to compare the diversity of life in different habitats",
+      "Develop models to describe that organisms have unique and diverse life cycles"
+    ],
+    "visual_types_needed": ["lifecycle_diagram"],
+    "worksheet_types": ["identify", "practice", "extend"]
+  },
+  {
+    "cluster_key": "grade2-science-habitats",
+    "grade": "2",
+    "subject": "Science",
+    "title": "Grade 2 Science: Habitats and Ecosystems",
+    "standard_codes": ["2-LS4-1", "2-LS2-2"],
+    "standard_descriptions": [
+      "Make observations of plants and animals to compare the diversity of life in different habitats",
+      "Develop a simple model that mimics the function of an animal in dispersing seeds"
+    ],
+    "visual_types_needed": ["food_chain", "venn_diagram"],
+    "worksheet_types": ["identify", "practice", "extend"]
+  },
+  {
+    "cluster_key": "grade3-science-food-chains",
+    "grade": "3",
+    "subject": "Science",
+    "title": "Grade 3 Science: Food Chains and Energy",
+    "standard_codes": ["3-LS4-3", "3-LS4-4"],
+    "standard_descriptions": [
+      "Construct an argument with evidence that in a particular habitat some organisms can survive well, some survive less well, and some cannot survive at all",
+      "Make a claim about the merit of a solution to a problem caused when the environment changes"
+    ],
+    "visual_types_needed": ["food_chain", "data_table"],
+    "worksheet_types": ["identify", "practice", "extend"]
+  },
+  {
+    "cluster_key": "grade3-science-states-of-matter",
+    "grade": "3",
+    "subject": "Science",
+    "title": "Grade 3 Science: States of Matter",
+    "standard_codes": ["2-PS1-1", "2-PS1-4"],
+    "standard_descriptions": [
+      "Plan and conduct an investigation to describe and classify different kinds of materials by their observable properties",
+      "Construct an argument with evidence that some changes caused by heating or cooling can be reversed and some cannot"
+    ],
+    "visual_types_needed": ["t_chart", "data_table", "thermometer"],
+    "worksheet_types": ["identify", "practice", "extend"]
+  },
+  {
+    "cluster_key": "grade4-science-electricity",
+    "grade": "4",
+    "subject": "Science",
+    "title": "Grade 4 Science: Electricity and Circuits",
+    "standard_codes": ["4-PS3-2", "4-PS3-4"],
+    "standard_descriptions": [
+      "Make observations to provide evidence that energy can be transferred from place to place by electric currents",
+      "Apply scientific ideas to design, test, and refine a device that converts energy from one form to another"
+    ],
+    "visual_types_needed": ["circuit_diagram", "data_table"],
+    "worksheet_types": ["identify", "practice", "extend"]
+  },
+  {
+    "cluster_key": "grade5-science-ecosystems",
+    "grade": "5",
+    "subject": "Science",
+    "title": "Grade 5 Science: Ecosystems — Matter and Energy",
+    "standard_codes": ["5-LS2-1", "5-PS3-1"],
+    "standard_descriptions": [
+      "Develop a model to describe the movement of matter among plants, animals, decomposers, and the environment",
+      "Use models to describe that energy in animals' food was once energy from the sun"
+    ],
+    "visual_types_needed": ["food_chain", "venn_diagram"],
+    "worksheet_types": ["identify", "practice", "extend"]
+  },
+  {
+    "cluster_key": "grade5-science-water-cycle",
+    "grade": "5",
+    "subject": "Science",
+    "title": "Grade 5 Science: Water Cycle and Earth's Systems",
+    "standard_codes": ["5-ESS2-1", "5-ESS2-2"],
+    "standard_descriptions": [
+      "Develop a model using an example to describe ways the geosphere, biosphere, hydrosphere, and atmosphere interact",
+      "Describe and graph the amounts and percentages of water and fresh water in various reservoirs"
+    ],
+    "visual_types_needed": ["water_cycle", "bar_graph"],
+    "worksheet_types": ["identify", "practice", "extend"]
+  },
+  {
+    "cluster_key": "grade5-science-body-systems",
+    "grade": "5",
+    "subject": "Science",
+    "title": "Grade 5 Science: Human Body Systems",
+    "standard_codes": ["4-LS1-1", "4-LS1-2"],
+    "standard_descriptions": [
+      "Construct an argument that plants and animals have internal and external structures that function to support survival",
+      "Use a model to describe that animals receive different types of information through their senses"
+    ],
+    "visual_types_needed": ["body_diagram", "t_chart"],
+    "worksheet_types": ["identify", "practice", "extend"]
+  },
+  {
+    "cluster_key": "grade6-science-cells",
+    "grade": "6",
+    "subject": "Science",
+    "title": "Grade 6 Science: Cells — Structure and Function",
+    "standard_codes": ["MS-LS1-1", "MS-LS1-2"],
+    "standard_descriptions": [
+      "Conduct an investigation to provide evidence that living things are made of cells",
+      "Develop and use a model to describe the function of a cell as a whole and ways the parts of cells contribute to the function"
+    ],
+    "visual_types_needed": ["cell_diagram", "venn_diagram"],
+    "worksheet_types": ["identify", "practice", "extend"]
+  },
+  {
+    "cluster_key": "grade7-science-genetics",
+    "grade": "7",
+    "subject": "Science",
+    "title": "Grade 7 Science: Genetics — Inherited Traits",
+    "standard_codes": ["MS-LS3-1", "MS-LS3-2"],
+    "standard_descriptions": [
+      "Develop and use a model to describe why structural changes to genes (mutations) may result in harmful, beneficial, or neutral effects",
+      "Develop and use a model to describe why asexual reproduction results in offspring with identical genetic information"
+    ],
+    "visual_types_needed": ["data_table", "t_chart"],
+    "worksheet_types": ["identify", "practice", "extend"]
+  },
+  {
+    "cluster_key": "grade7-science-earth-layers",
+    "grade": "7",
+    "subject": "Science",
+    "title": "Grade 7 Science: Earth's Layers, Rock Cycle, and Plate Tectonics",
+    "standard_codes": ["MS-ESS2-1", "MS-ESS2-2", "MS-ESS2-3", "4-ESS1-1"],
+    "standard_descriptions": [
+      "Develop a model to describe the cycling of Earth's materials and the flow of energy that drives this process",
+      "Construct an explanation based on evidence for how geoscience processes have changed Earth's surface",
+      "Identify evidence from patterns in rock formations"
+    ],
+    "visual_types_needed": ["earth_layers", "rock_cycle", "data_table"],
+    "worksheet_types": ["identify", "practice", "extend"]
+  },
+  {
+    "cluster_key": "grade8-science-chemistry-basics",
+    "grade": "8",
+    "subject": "Science",
+    "title": "Grade 8 Science: Chemistry — Atoms and Molecules",
+    "standard_codes": ["MS-PS1-1", "MS-PS1-4", "MS-PS1-5"],
+    "standard_descriptions": [
+      "Develop models to describe the atomic composition of simple molecules",
+      "Develop a model that predicts and describes changes in particle motion, temperature, and state of a pure substance"
+    ],
+    "visual_types_needed": ["atom_model", "data_table"],
+    "worksheet_types": ["identify", "practice", "extend"]
+  },
+  {
+    "cluster_key": "gradeK-ela-letters-sounds",
+    "grade": "K",
+    "subject": "Language Arts",
+    "title": "Grade K ELA: Letters and Sounds",
+    "standard_codes": ["RF.K.1", "RF.K.2", "RF.K.3"],
+    "standard_descriptions": [
+      "Demonstrate understanding of the organization and basic features of print",
+      "Demonstrate understanding of spoken words, syllables, and sounds",
+      "Know and apply grade-level phonics and word analysis skills in decoding words"
+    ],
+    "visual_types_needed": ["abc_chart"],
+    "worksheet_types": ["identify", "practice", "extend"]
+  },
+  {
+    "cluster_key": "gradeK-ela-sight-words",
+    "grade": "K",
+    "subject": "Language Arts",
+    "title": "Grade K ELA: Sight Words",
+    "standard_codes": ["RF.K.3.C", "L.K.2"],
+    "standard_descriptions": [
+      "Read common high-frequency words by sight",
+      "Demonstrate command of the conventions of standard English capitalization, punctuation, and spelling when writing"
+    ],
+    "visual_types_needed": ["word_web"],
+    "worksheet_types": ["identify", "practice", "extend"]
+  },
+  {
+    "cluster_key": "grade1-ela-main-idea",
+    "grade": "1",
+    "subject": "Language Arts",
+    "title": "Grade 1 ELA: Main Idea and Key Details",
+    "standard_codes": ["RI.1.2", "RI.1.1"],
+    "standard_descriptions": [
+      "Identify the main topic and retell key details of a text",
+      "Ask and answer questions about key details in a text"
+    ],
+    "visual_types_needed": ["kwl_chart", "paragraph_organizer"],
+    "worksheet_types": ["identify", "practice", "extend"]
+  },
+  {
+    "cluster_key": "grade1-ela-story-elements",
+    "grade": "1",
+    "subject": "Language Arts",
+    "title": "Grade 1 ELA: Story Elements",
+    "standard_codes": ["RL.1.2", "RL.1.3", "RL.1.7"],
+    "standard_descriptions": [
+      "Retell stories including key details and demonstrate understanding of their central message",
+      "Describe characters, settings, and major events in a story"
+    ],
+    "visual_types_needed": ["story_map"],
+    "worksheet_types": ["identify", "practice", "extend"]
+  },
+  {
+    "cluster_key": "grade3-ela-text-structure",
+    "grade": "3",
+    "subject": "Language Arts",
+    "title": "Grade 3 ELA: Text Structure — Cause and Effect",
+    "standard_codes": ["RI.3.8", "RI.3.3"],
+    "standard_descriptions": [
+      "Describe the logical connection between particular sentences and paragraphs in a text",
+      "Describe the relationship between a series of historical events, scientific ideas, or steps in technical procedures"
+    ],
+    "visual_types_needed": ["cause_effect", "sequence_arrows"],
+    "worksheet_types": ["identify", "practice", "extend"]
+  },
+  {
+    "cluster_key": "grade4-ela-figurative-language",
+    "grade": "4",
+    "subject": "Language Arts",
+    "title": "Grade 4 ELA: Figurative Language",
+    "standard_codes": ["L.4.5", "RL.4.4"],
+    "standard_descriptions": [
+      "Demonstrate understanding of figurative language, word relationships, and nuances in word meanings",
+      "Determine the meaning of words and phrases as they are used in a text, including figurative language"
+    ],
+    "visual_types_needed": ["word_web", "t_chart"],
+    "worksheet_types": ["identify", "practice", "extend"]
+  },
+  {
+    "cluster_key": "grade5-ela-opinion-writing",
+    "grade": "5",
+    "subject": "Language Arts",
+    "title": "Grade 5 ELA: Opinion Writing",
+    "standard_codes": ["W.5.1", "W.5.1.A", "W.5.1.B"],
+    "standard_descriptions": [
+      "Write opinion pieces on topics or texts, supporting a point of view with reasons and information",
+      "Introduce a topic clearly, state an opinion, and create an organizational structure"
+    ],
+    "visual_types_needed": ["paragraph_organizer"],
+    "worksheet_types": ["identify", "practice", "extend"]
+  },
+  {
+    "cluster_key": "grade2-social-studies-communities",
+    "grade": "2",
+    "subject": "Social Studies",
+    "title": "Grade 2 Social Studies: Communities — Rural, Suburban, Urban",
+    "standard_codes": ["SS.2.G.1", "SS.2.C.1"],
+    "standard_descriptions": [
+      "Distinguish between urban, suburban, and rural communities",
+      "Describe the roles and responsibilities of community members"
+    ],
+    "visual_types_needed": ["venn_diagram", "t_chart"],
+    "worksheet_types": ["identify", "practice", "extend"]
+  },
+  {
+    "cluster_key": "grade3-social-studies-map-skills",
+    "grade": "3",
+    "subject": "Social Studies",
+    "title": "Grade 3 Social Studies: Map Skills",
+    "standard_codes": ["SS.3.G.1", "SS.3.G.2"],
+    "standard_descriptions": [
+      "Use geographic tools to locate and describe places",
+      "Identify the four cardinal directions and use them to describe relative locations"
+    ],
+    "visual_types_needed": ["compass_rose", "data_table"],
+    "worksheet_types": ["identify", "practice", "extend"]
+  },
+  {
+    "cluster_key": "grade4-social-studies-timeline",
+    "grade": "4",
+    "subject": "Social Studies",
+    "title": "Grade 4 Social Studies: Historical Timeline — Early America",
+    "standard_codes": ["SS.4.H.1", "SS.4.H.2"],
+    "standard_descriptions": [
+      "Identify key historical events and their chronological order",
+      "Compare and contrast different perspectives on historical events"
+    ],
+    "visual_types_needed": ["timeline"],
+    "worksheet_types": ["identify", "practice", "extend"]
+  },
+  {
+    "cluster_key": "grade4-social-studies-government",
+    "grade": "4",
+    "subject": "Social Studies",
+    "title": "Grade 4 Social Studies: Government — Branches and Roles",
+    "standard_codes": ["SS.4.C.1", "SS.4.C.2"],
+    "standard_descriptions": [
+      "Describe the structure and functions of the three branches of government",
+      "Identify the roles and responsibilities of elected officials"
+    ],
+    "visual_types_needed": ["t_chart", "data_table"],
+    "worksheet_types": ["identify", "practice", "extend"]
+  },
+  {
+    "cluster_key": "grade5-social-studies-economics",
+    "grade": "5",
+    "subject": "Social Studies",
+    "title": "Grade 5 Social Studies: Economics — Supply, Demand, and Trade",
+    "standard_codes": ["SS.5.E.1", "SS.5.E.2"],
+    "standard_descriptions": [
+      "Explain the concept of supply and demand and how it affects prices",
+      "Describe how trade benefits individuals, businesses, and countries"
+    ],
+    "visual_types_needed": ["bar_graph", "data_table"],
+    "worksheet_types": ["identify", "practice", "extend"]
+  }
+]
