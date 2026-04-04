@@ -10,7 +10,7 @@ from typing import Literal, Optional
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel, Field
 from config import settings
-from api.generate import _call_llm
+from api.generate import _call_llm, _call_anthropic
 
 router = APIRouter()
 
@@ -194,18 +194,21 @@ async def generate_standard_worksheet(req: StandardWorksheetRequest):
     context = req.context_paragraph
     if not context:
         ctx_system = f"Write a 2-3 sentence context paragraph for a Grade {req.grade} {req.subject} worksheet about: {req.cluster_title}. Use simple, clear language. Explain the key concept in words a {req.grade}th grader and their parent will understand. Return only the paragraph text, no JSON."
-        ctx_raw, _ = _call_llm(
-            settings.openai_validation_model,
+        ctx_raw, _ = _call_anthropic(
+            "claude-haiku-4-5-20251001",
             ctx_system,
             req.cluster_title,
             max_tokens=200,
-            call_type="worksheet_context",
         )
         context = ctx_raw.strip()
 
-    # Generate problems
-    model = settings.openai_extraction_model  # gpt-4.1 for quality
-    raw, cost = _call_llm(model, system, user, max_tokens=3000, call_type="standard_worksheet")
+    # Generate problems — use Claude Sonnet 4.6 via Netflix proxy
+    raw, cost = _call_anthropic(
+        "claude-sonnet-4-6",
+        system,
+        user,
+        max_tokens=3000,
+    )
     if raw.strip().startswith("```"):
         raw = raw.strip().split("\n", 1)[1].rsplit("```", 1)[0]
 
