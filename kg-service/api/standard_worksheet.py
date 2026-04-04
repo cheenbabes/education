@@ -93,7 +93,9 @@ RULES FOR VISUALS:
 - For fraction MC questions showing 4 different circles (A/B/C/D): use fraction_grid with 4 fractions
 - NEVER invent param names — use ONLY the exact names shown above
 - ONE visual per problem (not multiple)
-- The visual supports the question — prompt text must reference it ("Look at the fraction bar above...")
+- The visual renders ABOVE the prompt text on the page. For identify_visual and label_diagram types, ALWAYS say "above" (e.g., "Look at the clock above." "Look at the fraction bar above.")
+- For multiple_choice problems with a visual: say "Look at the [visual] above. Which answer is correct?" — do NOT repeat the visual content in the options text
+- NEVER embed a list or schedule as bullet points (•) inside the prompt text. If a problem needs a list/schedule/table, use a data_table visual instead and reference it: "Use the table above to answer the question."
 
 IMPORTANT:
 - Problems must be appropriate for Grade {grade} — not too easy, not too hard

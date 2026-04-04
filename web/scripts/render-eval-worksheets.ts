@@ -35,6 +35,7 @@ const data = JSON.parse(fs.readFileSync(inputFile, "utf8")) as Array<{
       lines?: number;
       drawing_space?: boolean;
       visual?: { type: string; params: Record<string, unknown> };
+      options?: string[];
     }>;
   };
   scores?: {
@@ -62,7 +63,7 @@ for (const entry of data) {
 
   const sections = worksheet.sections ?? [];
 
-  const sectionsHtml = sections.map((s) => {
+  const sectionsHtml = sections.map((s, idx) => {
     const svgHtml = (() => {
       if (s.visual) {
         const svg = renderVisual(s.visual.type, s.visual.params);
@@ -73,24 +74,49 @@ for (const entry of data) {
       return "";
     })();
 
+    // Multiple choice options — A/B/C/D with circle bubbles
+    const mcHtml = s.type === "multiple_choice" && s.options?.length
+      ? `<div style="margin:10px 0 4px;">${s.options.map((opt, j) =>
+          `<div style="display:flex;align-items:flex-start;gap:10px;margin-bottom:8px;">
+            <div style="width:20px;height:20px;border:1.5px solid #555;border-radius:50%;flex-shrink:0;margin-top:1px;"></div>
+            <span style="font-size:13px;color:#333;line-height:1.5;"><strong>${"ABCD"[j]})</strong> ${opt}</span>
+          </div>`
+        ).join("")}</div>`
+      : "";
+
     const drawingBox = s.drawing_space
       ? `<div style="border:1px solid #ccc;height:180px;border-radius:4px;margin-bottom:8px;background:#fafafa;"></div>`
       : "";
 
-    const lines = s.lines
+    // Only show lines if it's not MC (MC options replace blank lines)
+    const lines = !mcHtml && s.lines
       ? Array.from({ length: s.lines }, () =>
           `<div style="border-bottom:1px solid #ddd;margin-bottom:20px;height:24px;"></div>`
         ).join("")
       : "";
 
+    // Convert inline bullet points (•) to an HTML list for readability
+    const formattedInstructions = s.instructions.includes("•")
+      ? (() => {
+          const parts = s.instructions.split("•").map(p => p.trim()).filter(Boolean);
+          const intro = parts[0].endsWith(":") || parts[0].length < 80 ? parts[0] : "";
+          const items = intro ? parts.slice(1) : parts;
+          return `${intro ? `<span>${intro}</span>` : ""}<ul style="margin:6px 0 6px 1.2rem;padding:0;">${items.map(i => `<li style="margin-bottom:3px;">${i}</li>`).join("")}</ul>`;
+        })()
+      : s.instructions;
+
+    // For identify_visual / label_diagram: show visual FIRST (instruction says "above")
+    const visualFirst = ["identify_visual", "label_diagram"].includes(s.type);
+
     return `
-      <div style="margin-bottom:32px;page-break-inside:avoid;">
-        <h3 style="font-size:13px;font-weight:700;margin-bottom:6px;text-transform:uppercase;letter-spacing:0.06em;color:#333;">
-          ${s.title}
-          <span style="font-size:10px;font-weight:400;color:#999;text-transform:none;letter-spacing:0;margin-left:8px;">[${s.type}]</span>
-        </h3>
-        <p style="font-size:13px;color:#444;margin-bottom:10px;line-height:1.6;">${s.instructions}</p>
-        ${svgHtml}
+      <div style="margin-bottom:28px;page-break-inside:avoid;">
+        <p style="font-size:12px;font-weight:700;color:#0B2E4A;margin-bottom:5px;">
+          ${idx + 1}. <span style="font-size:10px;font-weight:400;color:#aaa;">[${s.type}]</span>
+        </p>
+        ${visualFirst ? svgHtml : ""}
+        <p style="font-size:13px;color:#333;margin-bottom:8px;line-height:1.6;">${formattedInstructions}</p>
+        ${visualFirst ? "" : svgHtml}
+        ${mcHtml}
         ${drawingBox}
         ${lines}
       </div>`;
