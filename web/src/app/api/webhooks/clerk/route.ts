@@ -55,7 +55,7 @@ export async function POST(req: Request) {
   }
 
   try {
-    if (type === "subscription.created" || type === "subscription.updated") {
+    if (type === "subscription.created" || type === "subscription.active" || type === "subscription.updated") {
       // Find the current plan — prefer "active", fall back to "upcoming"
       // "upcoming" means paid but not yet started (e.g. upgrading mid annual cycle)
       const items = (data.items as Array<{
@@ -83,7 +83,7 @@ export async function POST(req: Request) {
         data: { tier: "compass", billingCycleStart: null, tierExpiresAt: null },
       });
       console.log(`[clerk webhook] Downgraded user=${userId} to compass`);
-    } else if (type === "subscription.past_due") {
+    } else if (type === "subscription.pastDue") {
       console.log(`[clerk webhook] past_due for user=${userId} — no action, awaiting retry`);
     } else if (type === "user.created" || type === "user.updated") {
       // Sync real email to DB whenever Clerk fires a user event

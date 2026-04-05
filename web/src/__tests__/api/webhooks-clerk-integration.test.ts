@@ -149,12 +149,12 @@ describe("subscription.updated", () => {
   });
 });
 
-describe("subscription.past_due", () => {
+describe("subscription.pastDue", () => {
   it("takes no action, returns 200 (grace period)", async () => {
     const before = await prisma.user.findUnique({ where: { id: TEST_USER_ID } });
 
     const { status, body } = await send({
-      type: "subscription.past_due",
+      type: "subscription.pastDue",
       data: { payer: { user_id: TEST_USER_ID } },
     });
 

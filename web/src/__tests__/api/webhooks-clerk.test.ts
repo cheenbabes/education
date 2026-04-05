@@ -84,6 +84,27 @@ beforeEach(() => {
   mockSvixHeaders();
 });
 
+describe("subscription.active", () => {
+  it("sets tier and billing dates (same logic as created)", async () => {
+    const payload = {
+      type: "subscription.active",
+      data: {
+        payer: { user_id: "user_123" },
+        items: [HOMESTEAD_ITEM],
+      },
+    };
+    mockVerify.mockReturnValue(payload);
+
+    const res = await POST(makeRequest(payload));
+    expect(res.status).toBe(200);
+    expect(mockUpsert).toHaveBeenCalledWith(
+      expect.objectContaining({
+        update: expect.objectContaining({ tier: "homestead" }),
+      })
+    );
+  });
+});
+
 describe("subscription.created", () => {
   it("sets tier and billing dates from active item", async () => {
     const payload = {
@@ -192,10 +213,10 @@ describe("subscription.deleted", () => {
   });
 });
 
-describe("subscription.past_due", () => {
+describe("subscription.pastDue", () => {
   it("takes no action (grace period — intentional)", async () => {
     const payload = {
-      type: "subscription.past_due",
+      type: "subscription.pastDue",
       data: { payer: { user_id: "user_123" } },
     };
     mockVerify.mockReturnValue(payload);
