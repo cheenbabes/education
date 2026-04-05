@@ -2,6 +2,7 @@ import { Webhook } from "svix";
 import { headers } from "next/headers";
 import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
+import { sendWelcomeEmail } from "@/lib/email";
 
 // Maps Clerk plan keys → our tier values
 const PLAN_TO_TIER: Record<string, string> = {
@@ -82,6 +83,7 @@ export async function POST(req: Request) {
       const emailAddresses = data.email_addresses as Array<{ id: string; email_address: string }> | undefined;
       const primaryId = data.primary_email_address_id as string | undefined;
       const email = emailAddresses?.find((e) => e.id === primaryId)?.email_address;
+      const firstName = (data.first_name as string | undefined) ?? "";
       if (email) {
         await prisma.user.upsert({
           where: { id: userId },
@@ -89,6 +91,10 @@ export async function POST(req: Request) {
           create: { id: userId, email },
         });
         console.log(`[clerk webhook] Synced email for user=${userId}`);
+        // Send welcome email only on user creation
+        if (type === "user.created") {
+          await sendWelcomeEmail(email, firstName).catch(err => console.error("[welcome email]", err));
+        }
       }
     }
     // All other events are intentionally ignored
