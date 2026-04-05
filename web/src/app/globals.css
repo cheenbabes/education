@@ -555,18 +555,9 @@
     gap: 2rem;
   }
 
-  /* Archetype ring: scale + clip the blank space the transform leaves behind */
+  /* Archetype ring: hide on mobile — decorative only, archetype grid below covers it */
   .archetype-ring-container {
-    display: flex;
-    justify-content: center;
-    margin-top: 0.5rem;
-    max-width: 100%;
-    overflow: hidden;
-    max-height: 240px; /* clips dead space from transform: scale(0.65) */
-  }
-  .archetype-ring-container > * {
-    transform: scale(0.65);
-    transform-origin: top center;
+    display: none !important;
   }
 
   /* Hero section: reduce top padding on mobile so compass peeks above fold */
