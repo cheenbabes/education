@@ -555,22 +555,56 @@
     gap: 2rem;
   }
 
-  /* Archetype ring: scale to fit mobile viewport */
+  /* Archetype ring: scale + clip the blank space the transform leaves behind */
   .archetype-ring-container {
     display: flex;
     justify-content: center;
     margin-top: 0.5rem;
     max-width: 100%;
     overflow: hidden;
+    max-height: 240px; /* clips dead space from transform: scale(0.65) */
   }
   .archetype-ring-container > * {
     transform: scale(0.65);
     transform-origin: top center;
   }
 
-  /* Explore iframe preview: hide on mobile, show CTA only */
+  /* Hero section: reduce top padding on mobile so compass peeks above fold */
+  .home-hero-section {
+    padding-top: 1.75rem !important;
+    padding-bottom: 1.5rem !important;
+  }
+
+  /* Explore card: dark teal background + shorter height on mobile */
+  .home-explore-card {
+    height: 260px !important;
+    background-color: #0a1e2e;
+    background-image: url('/explore/watercolor-bg-teal.png');
+    background-size: cover;
+    background-position: center;
+  }
+
+  /* Explore iframe: needs !important to override inline display: block */
   .home-explore-iframe {
-    display: none;
+    display: none !important;
+  }
+
+  /* Founder photo: replace tall oval with compact circle on mobile */
+  .home-founder-photo {
+    aspect-ratio: auto !important;
+    height: auto;
+  }
+  .home-founder-photo > div {
+    width: 140px !important;
+    aspect-ratio: 1 !important;
+    border-radius: 50% !important;
+    margin: 0 auto 1rem;
+  }
+
+  /* Founder section: reduce large vertical padding on mobile */
+  .home-founder-section {
+    padding-top: 2.5rem !important;
+    padding-bottom: 2rem !important;
   }
 
   /* Pricing: single column on mobile */

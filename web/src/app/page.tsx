@@ -26,7 +26,7 @@ export default function Home() {
       <Nav />
 
       {/* ── Section 1: Hero ────────────────────────────────────────────── */}
-      <section style={{ padding: "5rem 1.5rem 4rem", maxWidth: "1100px", margin: "0 auto" }}>
+      <section className="home-hero-section" style={{ padding: "5rem 1.5rem 4rem", maxWidth: "1100px", margin: "0 auto" }}>
         <div className="home-hero-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "4rem", alignItems: "center" }}>
 
           {/* Left: copy */}
@@ -393,7 +393,7 @@ export default function Home() {
             {
               right: false,
               headline: "Create Lessons in Any of Eight Philosophies. On Demand.",
-              body: "You're not locked into one approach. Your Compass Quiz reveals your archetype, but you can create lessons in any philosophy — Montessori, Charlotte Mason, Classical, Waldorf, Project-Based, Nature-Based, Unschooling, or Adaptive — and switch between them freely. Every philosophy is built from primary sources and real pedagogical frameworks. No other tool generates consistent, high-quality lessons across all eight.",
+              body: "You're not locked into one approach. Your Compass Quiz reveals your archetype, but you can create lessons rooted in any philosophy — Montessori, Charlotte Mason, Classical, Waldorf, Project-Based, Nature-Based, Unschooling, or Adaptive — and switch between them freely. Every philosophy is built from primary sources and real pedagogical frameworks. No other tool generates consistent, high-quality lessons across all eight.",
               note: "8 philosophies · Switch freely · Every lesson grounded in real pedagogy",
               visual: (
                 <div className="wc-card wc-card-lavender frost-card" style={{ borderRadius: "14px", padding: "1.25rem", display: "flex", flexDirection: "column", gap: "0.5rem" }}>
@@ -443,26 +443,12 @@ export default function Home() {
                 </div>
               ),
             },
-            /* 4. State standards quietly */
+            /* 4. Standards — find, align, trust (merged) */
             {
               right: false,
-              headline: "Your State's Standards. Quietly, Behind Every Lesson.",
-              body: "363,000+ standards across all 50 states, mapped to the K-12 scope. You choose the philosophy. We make sure the standards are covered — without turning your lesson into a worksheet. Standards alignment is a quiet background guarantee, not the center of the lesson.",
-              note: "All 50 states · 363,000+ standards · Automatically updated",
-              visual: (
-                <div className="wc-card wc-card-parchment frost-card" style={{ borderRadius: "12px", padding: "1.25rem", display: "flex", flexWrap: "wrap", gap: "0.5rem", alignItems: "center" }}>
-                  {["2.OA.1 — Operations & Algebraic Thinking", "NGSS-LS1.A — Life Science", "CCSS.ELA.RI.3.1 — Reading Informational", "MI.SS.3.H1 — History & Geography", "2.MD.5 — Measurement"].map((s) => (
-                    <span key={s} style={{ fontSize: "0.68rem", padding: "0.25rem 0.55rem", borderRadius: "6px", background: "rgba(110,110,158,0.1)", color: "var(--accent-primary)", border: "1px solid rgba(110,110,158,0.2)" }}>{s}</span>
-                  ))}
-                </div>
-              ),
-            },
-            /* 5. Search standards + create targeted lessons */
-            {
-              right: true,
-              headline: "Search Any Standard. Create a Lesson From It.",
-              body: "Type what you want to teach in plain language — 'fractions,' 'animal habitats,' 'writing persuasive essays' — and find the exact standards across your state's framework. Select the ones you want, hit create, and get a lesson built specifically around those standards and your philosophy. No more guessing whether you've covered it.",
-              note: "Natural language search · 363,000+ standards · Select and create in seconds",
+              headline: "363,000 Standards. Search Them. Every Lesson Covers Them.",
+              body: "Every lesson is automatically aligned to your state's standards — quietly, in the background, without turning it into a worksheet. But when you want control, type what you want to teach in plain language and find the exact standards across your state's framework. Select the ones you want, hit create, and get a lesson built around them. Standards alignment is both a guarantee and a tool.",
+              note: "All 50 states · Natural language search · Automatic alignment",
               visual: (
                 <div className="wc-card wc-card-parchment frost-card" style={{ borderRadius: "14px", padding: "1.25rem", display: "flex", flexDirection: "column", gap: "0.6rem" }}>
                   {/* Search bar mockup */}
@@ -492,9 +478,54 @@ export default function Home() {
                     </div>
                   ))}
 
-                  {/* Create button mockup */}
-                  <div style={{ background: "var(--night)", color: "var(--parchment)", borderRadius: "8px", padding: "0.45rem", textAlign: "center", fontWeight: 500, fontSize: "0.7rem" }}>
-                    Create lesson covering 2 standards →
+                  {/* Standard pills */}
+                  <div style={{ display: "flex", flexWrap: "wrap", gap: "0.35rem" }}>
+                    {["2.OA.1", "NGSS-LS1.A", "CCSS.ELA.RI.3.1", "MI.SS.3.H1"].map((s) => (
+                      <span key={s} style={{ fontSize: "0.58rem", padding: "0.2rem 0.45rem", borderRadius: "5px", background: "rgba(110,110,158,0.1)", color: "var(--accent-primary)", border: "1px solid rgba(110,110,158,0.18)" }}>{s}</span>
+                    ))}
+                  </div>
+                </div>
+              ),
+            },
+            /* 5. Standards-aligned worksheets */
+            {
+              right: true,
+              headline: "Worksheets That Actually Test What You Taught",
+              body: "Every lesson can generate a beautifully formatted, printable worksheet — not generic busywork, but questions and activities built directly from the standards covered in that specific lesson. Math visuals, reading comprehension, vocabulary, narration prompts — each one crafted to reinforce exactly what your child just learned.",
+              note: "Standards-aligned · Philosophy-aware · Print-ready PDF",
+              visual: (
+                <div className="wc-card wc-card-parchment frost-card" style={{ borderRadius: "14px", padding: "1.25rem", display: "flex", flexDirection: "column", gap: "0.6rem" }}>
+                  <div className="font-cormorant-sc" style={{ fontSize: "1rem", color: "var(--ink)", marginBottom: "0.15rem" }}>Fractions Worksheet</div>
+                  <div style={{ display: "flex", gap: "0.4rem", flexWrap: "wrap" }}>
+                    <span style={{ fontSize: "0.65rem", padding: "0.2rem 0.5rem", borderRadius: "5px", background: "rgba(125,107,158,0.15)", color: "#7D6B9E", border: "1px solid rgba(125,107,158,0.25)" }}>Montessori</span>
+                    <span style={{ fontSize: "0.65rem", padding: "0.2rem 0.5rem", borderRadius: "5px", background: "rgba(255,255,255,0.7)", color: "var(--text-tertiary)", border: "1px solid rgba(0,0,0,0.06)" }}>Grade 3 · Math</span>
+                  </div>
+
+                  {/* Question mockups */}
+                  {[
+                    { num: "1", q: "Color \u00BE of the fraction circle. How many parts did you color?", type: "Visual" },
+                    { num: "2", q: "You have 8 beads. Put them in 4 equal groups. How many in each group?", type: "Hands-on" },
+                    { num: "3", q: "Which fraction is greater: \u00BD or \u2153? Draw a picture to show your answer.", type: "Reasoning" },
+                  ].map(({ num, q, type }) => (
+                    <div key={num} style={{ background: "rgba(255,255,255,0.75)", borderRadius: "8px", padding: "0.55rem 0.7rem" }}>
+                      <div style={{ display: "flex", alignItems: "center", gap: "0.4rem", marginBottom: "0.2rem" }}>
+                        <span style={{ fontSize: "0.6rem", fontWeight: 700, color: "var(--ink)", background: "rgba(110,110,158,0.1)", borderRadius: "50%", width: "18px", height: "18px", display: "flex", alignItems: "center", justifyContent: "center" }}>{num}</span>
+                        <span style={{ fontSize: "0.55rem", fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: "#7D6B9E" }}>{type}</span>
+                      </div>
+                      <div style={{ fontSize: "0.7rem", color: "var(--text-secondary)", lineHeight: 1.45 }}>{q}</div>
+                    </div>
+                  ))}
+
+                  {/* Standards footer */}
+                  <div style={{ display: "flex", gap: "0.4rem", flexWrap: "wrap" }}>
+                    <span style={{ fontSize: "0.6rem", padding: "0.2rem 0.45rem", borderRadius: "5px", background: "rgba(110,110,158,0.08)", color: "var(--accent-primary)", border: "1px solid rgba(110,110,158,0.15)" }}>✓ 3.NF.A.1</span>
+                    <span style={{ fontSize: "0.6rem", padding: "0.2rem 0.45rem", borderRadius: "5px", background: "rgba(110,110,158,0.08)", color: "var(--accent-primary)", border: "1px solid rgba(110,110,158,0.15)" }}>✓ 3.NF.A.3</span>
+                  </div>
+
+                  {/* Print button mockup */}
+                  <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "0.4rem", background: "var(--night)", color: "var(--parchment)", borderRadius: "8px", padding: "0.4rem", fontSize: "0.7rem", fontWeight: 500 }}>
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+                    Print Worksheet
                   </div>
                 </div>
               ),
@@ -527,7 +558,7 @@ export default function Home() {
                 </div>
               ),
             },
-            /* 7. Explore map — last */
+            /* 7. Learning notes */
             {
               right: true,
               headline: "Every Child Learns Differently. Now You Can Say Exactly How.",
@@ -569,13 +600,14 @@ export default function Home() {
                 </div>
               ),
             },
+            /* 8. Explore map — last */
             {
               right: false,
               headline: "Explore the Universe of Educational Philosophy",
               body: "The Explore map is a visual space for discovery. Find the curriculum that fits your family.",
               note: "Paired with the Compass Quiz, it answers the question every new homeschool parent has: where do I even begin?",
               visual: (
-                <div style={{ position: "relative", borderRadius: "14px", overflow: "hidden", height: "400px", boxShadow: "0 8px 32px rgba(0,0,0,0.18)", border: "2px solid rgba(196,152,61,0.4)" }}>
+                <div className="home-explore-card" style={{ position: "relative", borderRadius: "14px", overflow: "hidden", height: "400px", boxShadow: "0 8px 32px rgba(0,0,0,0.18)", border: "2px solid rgba(196,152,61,0.4)" }}>
                   <iframe
                     src="/explore?embed=true"
                     title="Explore the curriculum map"
@@ -657,10 +689,10 @@ export default function Home() {
       </section>
 
       {/* ── Section 7: Founder ─────────────────────────────────────────── */}
-      <section style={{ padding: "5rem 1.5rem", maxWidth: "1100px", margin: "0 auto" }}>
+      <section className="home-founder-section" style={{ padding: "5rem 1.5rem", maxWidth: "1100px", margin: "0 auto" }}>
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1.4fr", gap: "4rem", alignItems: "start" }}>
           {/* Founder photo – decorative oval frame */}
-          <div style={{ aspectRatio: "3/4", display: "flex", alignItems: "center", justifyContent: "center" }}>
+          <div className="home-founder-photo" style={{ aspectRatio: "3/4", display: "flex", alignItems: "center", justifyContent: "center" }}>
             <div style={{
               width: "90%",
               aspectRatio: "3/4",
@@ -684,7 +716,7 @@ export default function Home() {
               I&apos;ve Spent 14 Years Learning What You&apos;re Trying to Figure Out.
             </h2>
             <p className="font-cormorant" style={{ fontSize: "1rem", fontStyle: "italic", color: "var(--text-secondary)", lineHeight: 1.75, marginBottom: "1.5rem" }}>
-              Every week, lesson planning took hours. Matching the right activity to the right child, the right philosophy to the right standard, is genuinely hard. I taught across three states in my own home and in micro schools, schools, and co-ops, and finally found a method that works.
+              Every week, lesson planning took hours. Matching the right activity to the right child, the right philosophy to the right standard, is genuinely hard. I taught across three states in my own home, in micro schools, and co-ops, and finally found a method that works.
             </p>
 
             <div style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem", marginBottom: "1.25rem" }}>
@@ -853,7 +885,7 @@ function archetypeHook(id: string): string {
     "the-explorer": "The world is the classroom. It always has been",
     "the-cultivator": "Prepare the environment and let the child choose. Trust the process",
     "the-naturalist": "Seasons, soil, and sky teach better than any textbook",
-    "the-storyteller": "Living books, narration, the beauty and the beauty of great ideas",
+    "the-storyteller": "Living books, narration, and the beauty of great ideas",
     "the-architect": "Learning means building something real",
     "the-free-spirit": "Trust. Curiosity. Freedom. Children know what they need",
     "the-weaver": "Adapting, blending, and drawing from every tool the teaching world offers",
