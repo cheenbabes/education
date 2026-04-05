@@ -12,6 +12,7 @@ import { printWorksheet } from "@/lib/printWorksheet";
 import { renderVisual } from "@/lib/worksheetSvg";
 import { WorksheetMafsVisual } from "@/components/WorksheetMafsVisual";
 import { UPGRADE_URL } from "@/lib/upgradeUrl";
+import { useFeatureFlagEnabled } from "posthog-js/react";
 
 interface LessonDetail {
   id: string;
@@ -258,6 +259,7 @@ function StructuredInstructions({ text }: { text: string }) {
 /* ---------- Main page ---------- */
 
 export default function LessonDetailPage() {
+  const worksheetsEnabled = useFeatureFlagEnabled("worksheets_enabled");
   const params = useParams();
   const lessonId = params.id as string;
   const { user } = useUser();
@@ -1036,7 +1038,8 @@ export default function LessonDetailPage() {
             </div>
           )}
 
-          {/* ── Worksheets ─────────────────────────────────────────────── */}
+          {/* ── Worksheets (feature-flagged) ────────────────────────── */}
+          {worksheetsEnabled && (
           <div style={{ marginTop: "0.5rem", paddingTop: "1.5rem", borderTop: "1px solid rgba(0,0,0,0.06)" }}>
             <h3
               className="font-cormorant-sc"
@@ -1210,6 +1213,7 @@ export default function LessonDetailPage() {
               </div>
             )}
           </div>
+          )}
 
           {/* Issue report */}
           <div style={{ marginTop: "2rem", paddingTop: "1.5rem", borderTop: "1px solid rgba(0,0,0,0.06)", textAlign: "center" }}>

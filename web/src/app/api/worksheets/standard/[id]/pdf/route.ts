@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { isWorksheetsEnabled } from "@/lib/featureFlags";
 
 // PDF rendering will be fully implemented in Phase 4 after @react-pdf/renderer template is built.
 // For now, returns a placeholder response confirming the route works.
@@ -7,6 +8,10 @@ export async function GET(
   _req: NextRequest,
   { params }: { params: { id: string } }
 ) {
+  if (!(await isWorksheetsEnabled("system"))) {
+    return NextResponse.json({ error: "Not found" }, { status: 404 });
+  }
+
   const ws = await prisma.standardWorksheet.findUnique({
     where: { id: params.id },
   });

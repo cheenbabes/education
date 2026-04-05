@@ -6,6 +6,7 @@ import { GRADES, US_STATES } from "@/lib/types";
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { UPGRADE_URL } from "@/lib/upgradeUrl";
+import { useFeatureFlagEnabled } from "posthog-js/react";
 
 interface ChildProfile {
   id: string;
@@ -116,6 +117,7 @@ function UsageBar({ used, limit, label }: { used: number; limit: number; label: 
 
 /* ── Page ──────────────────────────────────────────────────────────────────── */
 export default function AccountPage() {
+  const worksheetsEnabled = useFeatureFlagEnabled("worksheets_enabled");
   const [tierData, setTierData] = useState<TierData | null>(null);
   const [archetypeData, setArchetypeData] = useState<ArchetypeData | null>(null);
   const [children, setChildren] = useState<ChildProfile[]>([]);
@@ -317,7 +319,7 @@ export default function AccountPage() {
           {tierData && (
             <div>
               <UsageBar used={tierData.lessonsUsed} limit={tierData.lessonsLimit} label="Lessons this month" />
-              {tier !== "compass" && (
+              {worksheetsEnabled && tier !== "compass" && (
                 <UsageBar used={tierData.worksheetsUsed} limit={tierData.worksheetsLimit} label="Worksheets this month" />
               )}
               {resetsAt && (
@@ -331,7 +333,7 @@ export default function AccountPage() {
               background: "rgba(110,110,158,0.06)", border: "1px solid rgba(110,110,158,0.15)",
               borderRadius: "8px", padding: "0.75rem 1rem", fontSize: "0.8rem", color: "var(--text-secondary)",
             }}>
-              Upgrade to unlock child profiles, standards tracking, calendar scheduling, and 30 lessons + 5 worksheets per month.
+              Upgrade to unlock child profiles, standards tracking, calendar scheduling, and 30 lessons per month.
             </div>
           )}
         </div>

@@ -262,10 +262,12 @@ function ExplorePageInner() {
             href="/contact?subject=curriculum-suggestion"
             className="hover:underline"
             style={{
-              fontSize: "11px",
-              color: "rgba(249,246,239,0.5)",
+              fontSize: "0.95rem",
+              color: "rgba(255,255,255,0.75)",
               textDecoration: "none",
-              letterSpacing: "0.03em",
+              fontStyle: "italic",
+              letterSpacing: "0.02em",
+              transition: "color 0.2s",
             }}
           >
             Don&apos;t see your curriculum? Suggest one &rarr;

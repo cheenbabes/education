@@ -1,12 +1,17 @@
 import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs/server";
+import { isWorksheetsEnabled } from "@/lib/featureFlags";
 
 // GET /api/worksheets — list all worksheets for the current user with lesson info
 export async function GET() {
   const { userId } = await auth();
   if (!userId) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  if (!(await isWorksheetsEnabled(userId))) {
+    return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
 
   const worksheets = await prisma.worksheet.findMany({

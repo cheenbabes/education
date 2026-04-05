@@ -52,11 +52,9 @@ const PLANS: Plan[] = [
     featured: true,
     features: [
       "30 lessons per month",
-      "5 worksheets per month",
       "Up to 4 children with full profiles",
       "Full curriculum matching (70+ curricula)",
       "State standards tracking, all 50 states",
-      "Private community access",
     ],
     cta: "Start Homestead →",
     ctaHref: CHECKOUT_HOMESTEAD,
@@ -70,8 +68,7 @@ const PLANS: Plan[] = [
     period: "/ month",
     featured: false,
     features: [
-      "60 lessons per month",
-      "15 worksheets per month",
+      "60 lessons per month \u2014 double the capacity",
       "Up to 8 children with full profiles",
       "Full curriculum matching (70+ curricula)",
       "State standards tracking, all 50 states",
@@ -288,8 +285,7 @@ export function PricingSection({ onSelectPlan }: PricingSectionProps = {}) {
         </div>
 
         <p style={{ textAlign: "center", fontSize: "0.8rem", color: "var(--text-tertiary)", marginTop: "1.5rem" }}>
-          All plans include all 8 teaching philosophies, the full Compass Quiz, and the interactive Explore star map.
-          Worksheets available on Homestead and Schoolhouse plans. Cancel anytime.
+          All plans include all 8 teaching philosophies, the full Compass Quiz, and the interactive Explore star map. Cancel anytime.
         </p>
       </div>
     </section>

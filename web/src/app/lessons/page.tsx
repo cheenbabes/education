@@ -6,6 +6,7 @@ import { useState, useEffect, useMemo } from "react";
 import { PHILOSOPHY_LABELS, PHILOSOPHY_COLORS, resolvePhilosophyKey } from "@/lib/compass/scoring";
 import { printWorksheet } from "@/lib/printWorksheet";
 import { UPGRADE_URL } from "@/lib/upgradeUrl";
+import { useFeatureFlagEnabled } from "posthog-js/react";
 
 // ── Types ────────────────────────────────────────────────────────────────────
 
@@ -163,6 +164,7 @@ function Chevron() {
 // ── Main Page ────────────────────────────────────────────────────────────────
 
 export default function LessonsPage() {
+  const worksheetsEnabled = useFeatureFlagEnabled("worksheets_enabled");
   const [lessons, setLessons] = useState<LessonData[]>([]);
   const [children, setChildren] = useState<ChildData[]>([]);
   const [worksheets, setWorksheets] = useState<WorksheetListItem[]>([]);
@@ -409,19 +411,21 @@ export default function LessonsPage() {
                   {f === "saved" && " \u2661"}
                 </button>
               ))}
-              <button
-                onClick={() => setActiveTab("worksheets")}
-                style={
-                  activeTab === "worksheets"
-                    ? { ...frostPill, background: "#0B2E4A", color: "#F9F6EF", border: "1px solid #0B2E4A", cursor: "pointer" }
-                    : { ...frostPill, cursor: "pointer", color: "#5A5A5A" }
-                }
-              >
-                Worksheets
-                {worksheets.length > 0 && (
-                  <span style={{ marginLeft: "0.3rem", fontSize: "0.6rem", opacity: 0.8 }}>({worksheets.length})</span>
-                )}
-              </button>
+              {worksheetsEnabled && (
+                <button
+                  onClick={() => setActiveTab("worksheets")}
+                  style={
+                    activeTab === "worksheets"
+                      ? { ...frostPill, background: "#0B2E4A", color: "#F9F6EF", border: "1px solid #0B2E4A", cursor: "pointer" }
+                      : { ...frostPill, cursor: "pointer", color: "#5A5A5A" }
+                  }
+                >
+                  Worksheets
+                  {worksheets.length > 0 && (
+                    <span style={{ marginLeft: "0.3rem", fontSize: "0.6rem", opacity: 0.8 }}>({worksheets.length})</span>
+                  )}
+                </button>
+              )}
             </div>
 
             {/* Philosophy filter pills */}
@@ -496,8 +500,8 @@ export default function LessonsPage() {
           </div>
         </div>
 
-        {/* ── Worksheets view ──────────────────────────────────────────── */}
-        {activeTab === "worksheets" && (
+        {/* ── Worksheets view (feature-flagged) ──────────────────────── */}
+        {worksheetsEnabled && activeTab === "worksheets" && (
           <div className="space-y-6">
             {worksheetsByLesson.length === 0 ? (
               <div className="py-10 text-center">

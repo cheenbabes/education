@@ -6,6 +6,7 @@ import Link from "next/link";
 import { useState, useEffect, useMemo } from "react";
 import { UPGRADE_URL } from "@/lib/upgradeUrl";
 import { printWorksheet } from "@/lib/printWorksheet";
+import { useFeatureFlagEnabled } from "posthog-js/react";
 
 interface Child {
   id: string;
@@ -102,6 +103,7 @@ function formatDate(d: Date): string {
 const DAY_NAMES = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
 export default function DashboardPage() {
+  const worksheetsEnabled = useFeatureFlagEnabled("worksheets_enabled");
   const [children, setChildren] = useState<Child[]>([]);
   const [lessons, setLessons] = useState<LessonData[]>([]);
   const [loading, setLoading] = useState(true);
@@ -292,8 +294,8 @@ export default function DashboardPage() {
                 </div>
                 <p style={{ fontSize: "0.7rem", color: "#5A5A5A" }}>{tierData.lessonsUsed} / {tierData.lessonsLimit}</p>
               </div>
-              {/* Worksheets bar (paid only) */}
-              {tierData.tier !== "compass" && (
+              {/* Worksheets bar (paid only, feature-flagged) */}
+              {worksheetsEnabled && tierData.tier !== "compass" && (
                 <div style={{ flex: "1", minWidth: "120px" }}>
                   <p style={{ fontSize: "0.62rem", fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: "#999", marginBottom: "0.3rem" }}>Worksheets</p>
                   <div style={{ background: "rgba(0,0,0,0.06)", borderRadius: "4px", height: "5px", overflow: "hidden", marginBottom: "0.25rem" }}>
@@ -595,8 +597,8 @@ export default function DashboardPage() {
           </div>
         </div>
 
-        {/* ── RECENT WORKSHEETS ── */}
-        {worksheets.length > 0 && (
+        {/* ── RECENT WORKSHEETS (feature-flagged) ── */}
+        {worksheetsEnabled && worksheets.length > 0 && (
           <div>
             <div className="flex items-center justify-between mb-3">
               <h2 className="font-cormorant-sc text-xl text-gray-900">Recent Worksheets</h2>

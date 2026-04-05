@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs/server";
+import { isWorksheetsEnabled } from "@/lib/featureFlags";
 
 const KG_SERVICE_URL = process.env.KG_SERVICE_URL || process.env.NEXT_PUBLIC_KG_SERVICE_URL || "http://127.0.0.1:8000";
 
@@ -18,6 +19,10 @@ export async function POST(
   const { userId } = await auth();
   if (!userId) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  if (!(await isWorksheetsEnabled(userId))) {
+    return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
 
   // Load lesson and verify ownership
@@ -130,6 +135,10 @@ export async function GET(
   const { userId } = await auth();
   if (!userId) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  if (!(await isWorksheetsEnabled(userId))) {
+    return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
 
   const worksheets = await prisma.worksheet.findMany({

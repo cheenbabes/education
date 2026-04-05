@@ -487,52 +487,10 @@ export default function Home() {
                 </div>
               ),
             },
-            /* 5. Standards-aligned worksheets */
-            {
-              right: true,
-              headline: "Worksheets That Actually Test What You Taught",
-              body: "Every lesson can generate a beautifully formatted, printable worksheet — not generic busywork, but questions and activities built directly from the standards covered in that specific lesson. Math visuals, reading comprehension, vocabulary, narration prompts — each one crafted to reinforce exactly what your child just learned.",
-              note: "Standards-aligned · Philosophy-aware · Print-ready PDF",
-              visual: (
-                <div className="wc-card wc-card-parchment frost-card" style={{ borderRadius: "14px", padding: "1.25rem", display: "flex", flexDirection: "column", gap: "0.6rem" }}>
-                  <div className="font-cormorant-sc" style={{ fontSize: "1rem", color: "var(--ink)", marginBottom: "0.15rem" }}>Fractions Worksheet</div>
-                  <div style={{ display: "flex", gap: "0.4rem", flexWrap: "wrap" }}>
-                    <span style={{ fontSize: "0.65rem", padding: "0.2rem 0.5rem", borderRadius: "5px", background: "rgba(125,107,158,0.15)", color: "#7D6B9E", border: "1px solid rgba(125,107,158,0.25)" }}>Montessori</span>
-                    <span style={{ fontSize: "0.65rem", padding: "0.2rem 0.5rem", borderRadius: "5px", background: "rgba(255,255,255,0.7)", color: "var(--text-tertiary)", border: "1px solid rgba(0,0,0,0.06)" }}>Grade 3 · Math</span>
-                  </div>
-
-                  {/* Question mockups */}
-                  {[
-                    { num: "1", q: "Color \u00BE of the fraction circle. How many parts did you color?", type: "Visual" },
-                    { num: "2", q: "You have 8 beads. Put them in 4 equal groups. How many in each group?", type: "Hands-on" },
-                    { num: "3", q: "Which fraction is greater: \u00BD or \u2153? Draw a picture to show your answer.", type: "Reasoning" },
-                  ].map(({ num, q, type }) => (
-                    <div key={num} style={{ background: "rgba(255,255,255,0.75)", borderRadius: "8px", padding: "0.55rem 0.7rem" }}>
-                      <div style={{ display: "flex", alignItems: "center", gap: "0.4rem", marginBottom: "0.2rem" }}>
-                        <span style={{ fontSize: "0.6rem", fontWeight: 700, color: "var(--ink)", background: "rgba(110,110,158,0.1)", borderRadius: "50%", width: "18px", height: "18px", display: "flex", alignItems: "center", justifyContent: "center" }}>{num}</span>
-                        <span style={{ fontSize: "0.55rem", fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: "#7D6B9E" }}>{type}</span>
-                      </div>
-                      <div style={{ fontSize: "0.7rem", color: "var(--text-secondary)", lineHeight: 1.45 }}>{q}</div>
-                    </div>
-                  ))}
-
-                  {/* Standards footer */}
-                  <div style={{ display: "flex", gap: "0.4rem", flexWrap: "wrap" }}>
-                    <span style={{ fontSize: "0.6rem", padding: "0.2rem 0.45rem", borderRadius: "5px", background: "rgba(110,110,158,0.08)", color: "var(--accent-primary)", border: "1px solid rgba(110,110,158,0.15)" }}>✓ 3.NF.A.1</span>
-                    <span style={{ fontSize: "0.6rem", padding: "0.2rem 0.45rem", borderRadius: "5px", background: "rgba(110,110,158,0.08)", color: "var(--accent-primary)", border: "1px solid rgba(110,110,158,0.15)" }}>✓ 3.NF.A.3</span>
-                  </div>
-
-                  {/* Print button mockup */}
-                  <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "0.4rem", background: "var(--night)", color: "var(--parchment)", borderRadius: "8px", padding: "0.4rem", fontSize: "0.7rem", fontWeight: 500 }}>
-                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
-                    Print Worksheet
-                  </div>
-                </div>
-              ),
-            },
+            /* 5. Worksheets — hidden behind feature flag, will re-add when ready */
             /* 6. Per-child progress tracking */
             {
-              right: false,
+              right: true,
               headline: "Track Every Child's Progress Across Standards",
               body: "Every completed lesson automatically tracks which standards each child has covered. See gaps at a glance, know exactly where they are in the scope and sequence, and never wonder 'have we covered this?' again.",
               note: "Per-child tracking · Visual progress · Gaps identified automatically",
@@ -560,7 +518,7 @@ export default function Home() {
             },
             /* 7. Learning notes */
             {
-              right: true,
+              right: false,
               headline: "Every Child Learns Differently. Now You Can Say Exactly How.",
               body: "Add a learning note to any child's profile — their preferences, accommodations, or anything you know about how they learn best. Every lesson we generate adapts around it. Not a rigid filter. Not a separate mode. Just a quiet, intelligent consideration woven into the lesson alongside your philosophy and their interests.",
               note: "Works especially well for 2E learners, ADHD, sensory differences, and any child who doesn't fit the standard mold.",
@@ -602,7 +560,7 @@ export default function Home() {
             },
             /* 8. Explore map — last */
             {
-              right: false,
+              right: true,
               headline: "Explore the Universe of Educational Philosophy",
               body: "The Explore map is a visual space for discovery. Find the curriculum that fits your family.",
               note: "Paired with the Compass Quiz, it answers the question every new homeschool parent has: where do I even begin?",

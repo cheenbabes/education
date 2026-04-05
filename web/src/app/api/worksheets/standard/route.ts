@@ -1,7 +1,12 @@
 import { prisma } from "@/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
+import { isWorksheetsEnabled } from "@/lib/featureFlags";
 
 export async function POST(req: NextRequest) {
+  if (!(await isWorksheetsEnabled("system"))) {
+    return NextResponse.json({ error: "Not found" }, { status: 404 });
+  }
+
   const body = await req.json();
   const ws = await prisma.standardWorksheet.upsert({
     where: {
@@ -27,6 +32,10 @@ export async function POST(req: NextRequest) {
 }
 
 export async function GET(req: NextRequest) {
+  if (!(await isWorksheetsEnabled("system"))) {
+    return NextResponse.json({ error: "Not found" }, { status: 404 });
+  }
+
   const { searchParams } = new URL(req.url);
   const clusterKey = searchParams.get("clusterKey");
   const grade = searchParams.get("grade");
