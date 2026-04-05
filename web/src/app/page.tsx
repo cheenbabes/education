@@ -1,9 +1,16 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import { Nav } from "@/components/nav";
 import { ARCHETYPES } from "@/lib/compass/archetypes";
 import { PricingSection } from "@/components/pricing-section";
 import { ArchetypeRingResponsive } from "@/components/archetype-ring-responsive";
+
+export const metadata: Metadata = {
+  title: "The Sage's Compass — Homeschool Curriculum for Your Family",
+  description:
+    "Discover your teaching archetype and generate personalized, standards-aligned lesson plans matched to your philosophy and your child's interests.",
+};
 
 // Archetype ring order: Weaver at top (12 o'clock), Storyteller upper-right, Guide upper-left (last)
 const RING_ORDER = [

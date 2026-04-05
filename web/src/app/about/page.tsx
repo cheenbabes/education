@@ -1,6 +1,13 @@
+import type { Metadata } from "next";
 import { Shell } from "@/components/shell";
 import Image from "next/image";
 import Link from "next/link";
+
+export const metadata: Metadata = {
+  title: "About Us",
+  description:
+    "Meet the founders of The Sage's Compass — a master educator and engineer building personalized homeschool curriculum tools for families.",
+};
 
 // ── Design tokens (match app palette) ────────────────────────────────────────
 const frostCard: React.CSSProperties = {
@@ -12,24 +19,27 @@ const frostCard: React.CSSProperties = {
   boxShadow: "0 2px 12px rgba(0,0,0,0.05)",
 };
 
-// ── Founder data — fill in placeholders ──────────────────────────────────────
+// ── Founder data ─────────────────────────────────────────────────────────────
 const FOUNDERS = [
   {
-    name: "[FOUNDER NAME]",
-    title: "[FOUNDER TITLE]",
-    blurb: "[FOUNDER BLURB — replace with real copy about their background, mission, and what drove them to build The Sage's Compass]",
+    name: "Audarya Baibourine",
+    title: "Co-Founder & Education Director",
+    blurb: "Audarya has over 14 years of teaching experience across Montessori and Waldorf schools. She founded and directed a nature-based micro-school in North Carolina, where she taught for five years. She has also homeschooled her own children and currently teaches them, along with other students, in a learning pod.\n\nShe holds a master\u2019s degree in Foundations of Education, with a focus on evidence-based alternative teaching practices, and is currently pursuing her Doctorate in Education.\n\nHer dream is to help communities and parents find the teaching pathway that fits them and their students. She believes there is no single \u201Cright\u201D way to teach\u200A\u2014\u200Aand that leaning into your strengths, and your students\u2019 propensities, is the key to great learning.",
   },
   {
-    name: "[CO-FOUNDER NAME]",
-    title: "[CO-FOUNDER TITLE]",
-    blurb: "[CO-FOUNDER BLURB — replace with real copy]",
+    name: "Eugene Baibourine",
+    title: "Co-Founder & Engineering",
+    blurb: "[Eugene\u2019s bio coming soon]",
   },
 ];
 
 const FAMILY_PHOTOS = [
-  { src: "/team/family-1.jpg", alt: "Founders with family" },
-  { src: "/team/family-2.jpg", alt: "Family learning together" },
-  { src: "/team/family-3.jpg", alt: "Homeschool life" },
+  { src: "/team/family-1.jpg", alt: "Eugene and Audarya at the beach" },
+  { src: "/team/family-7.jpg", alt: "Kids playing in the park" },
+  { src: "/team/family-2.jpg", alt: "Eugene and Audarya on the farm" },
+  { src: "/team/family-4.jpg", alt: "Family looking out over the lake" },
+  { src: "/team/family-5.jpg", alt: "Hiking with the family" },
+  { src: "/team/family-6.jpg", alt: "Kids exploring by the water" },
 ];
 
 export default function AboutPage() {
@@ -38,35 +48,33 @@ export default function AboutPage() {
       <div style={{ maxWidth: "900px", margin: "0 auto", padding: "3rem 0 5rem" }}>
 
         {/* ── Mission header ── */}
-        <div style={{ textAlign: "center", marginBottom: "4rem" }}>
+        <div style={{ textAlign: "center", marginBottom: "3rem" }}>
           <p style={{ fontSize: "0.72rem", fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: "var(--accent-primary)", marginBottom: "0.75rem" }}>
             Our Story
           </p>
           <h1 className="font-cormorant-sc" style={{ fontSize: "clamp(2rem, 4vw, 3rem)", fontWeight: 700, color: "var(--ink)", lineHeight: 1.2, marginBottom: "1.25rem" }}>
             Built by educators, for families.
           </h1>
-          <p className="font-cormorant" style={{ fontSize: "1.15rem", fontStyle: "italic", color: "var(--text-secondary)", lineHeight: 1.7, maxWidth: "560px", margin: "0 auto" }}>
-            The Sage&apos;s Compass started with a simple question: why is it so hard to plan a lesson that actually fits your child, your values, and your life?
-          </p>
         </div>
 
-        {/* ── Combined founders photo ── */}
-        <div style={{ marginBottom: "3rem" }}>
+        {/* ── Intro text + founders photo side by side ── */}
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "2.5rem", alignItems: "center", marginBottom: "4rem" }}>
+          <p className="font-cormorant" style={{ fontSize: "1.15rem", fontStyle: "italic", color: "var(--text-secondary)", lineHeight: 1.7 }}>
+            Eugene and Audarya have been married for 14 years and have four children. For over a decade, they have collaborated on educational projects, exploring ways to support children and families in learning. Recently, they combined their unique skills&mdash;Eugene&apos;s expertise as a software engineer and Audarya&apos;s passion for teaching&mdash;to create an app designed to empower families and communities to take an active role in their children&apos;s education.
+          </p>
           <div style={{
             position: "relative",
             width: "100%",
-            maxWidth: "600px",
-            margin: "0 auto",
-            aspectRatio: "3/2",
+            aspectRatio: "4/5",
             borderRadius: "14px",
             overflow: "hidden",
             background: "rgba(0,0,0,0.06)",
           }}>
             <Image
               src="/team/founders.jpg"
-              alt="The founders of The Sage's Compass"
+              alt="Eugene and Audarya Baibourine"
               fill
-              style={{ objectFit: "cover" }}
+              style={{ objectFit: "cover", objectPosition: "top" }}
             />
           </div>
         </div>
@@ -81,9 +89,11 @@ export default function AboutPage() {
               <h2 className="font-cormorant-sc" style={{ fontSize: "1.5rem", color: "var(--ink)", marginBottom: "1rem", letterSpacing: "0.03em" }}>
                 {founder.name}
               </h2>
-              <p style={{ fontSize: "0.9rem", color: "var(--text-secondary)", lineHeight: 1.75 }}>
-                {founder.blurb}
-              </p>
+              <div style={{ fontSize: "0.9rem", color: "var(--text-secondary)", lineHeight: 1.75, display: "flex", flexDirection: "column", gap: "0.75rem" }}>
+                {founder.blurb.split("\n\n").map((para, i) => (
+                  <p key={i} style={{ margin: 0 }}>{para}</p>
+                ))}
+              </div>
             </div>
           ))}
         </div>
@@ -114,7 +124,7 @@ export default function AboutPage() {
             What We Believe
           </h2>
           <p style={{ fontSize: "0.9rem", color: "var(--text-secondary)", lineHeight: 1.8, maxWidth: "620px", margin: "0 auto 1.5rem" }}>
-            Every family has a unique teaching philosophy, and every child learns differently. Curriculum should serve your values — not the other way around. We built The Sage&apos;s Compass so that creating a lesson that&apos;s perfectly matched to your child, your philosophy, and your standards takes minutes, not hours.
+            Every family has a unique teaching philosophy, and every child learns differently. Curriculum should serve your values&mdash;not the other way around. We built The Sage&apos;s Compass so that creating a lesson perfectly matched to your child, your philosophy, and your standards takes minutes, not hours. Beyond their work, Eugene and Audarya love adventuring in nature, gardening, and tackling projects together&mdash;bringing creativity, curiosity, and a sense of wonder into both their family life and their educational endeavors.
           </p>
           <Link href="/compass" style={{ display: "inline-block", background: "#0B2E4A", color: "#F9F6EF", borderRadius: "10px", padding: "0.65rem 1.75rem", textDecoration: "none", fontSize: "0.875rem", fontWeight: 600 }}>
             Find Your Teaching Archetype

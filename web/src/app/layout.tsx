@@ -5,11 +5,17 @@ import { FeedbackButton } from "@/components/FeedbackButton";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "The Sage's Compass — Homeschool Curriculum for Your Family",
-  description: "Discover your teaching archetype, then generate custom lesson plans matched to your philosophy, your child's interests, and your state's standards.",
+  metadataBase: new URL("https://thesagescompass.com"),
+  title: {
+    default: "The Sage's Compass — Homeschool Curriculum for Your Family",
+    template: "%s | The Sage's Compass",
+  },
+  description:
+    "Discover your teaching archetype, then generate custom lesson plans matched to your philosophy, your child's interests, and your state's standards.",
   openGraph: {
     title: "The Sage's Compass — Homeschool Curriculum for Your Family",
-    description: "Discover your teaching archetype, then generate custom lesson plans matched to your philosophy, your child's interests, and your state's standards.",
+    description:
+      "Discover your teaching archetype, then generate custom lesson plans matched to your philosophy, your child's interests, and your state's standards.",
     siteName: "The Sage's Compass",
     locale: "en_US",
     type: "website",
@@ -17,7 +23,8 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "The Sage's Compass — Homeschool Curriculum for Your Family",
-    description: "Discover your teaching archetype, then generate custom lesson plans matched to your philosophy, your child's interests, and your state's standards.",
+    description:
+      "Discover your teaching archetype, then generate custom lesson plans matched to your philosophy, your child's interests, and your state's standards.",
   },
 };
 
@@ -29,6 +36,32 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en">
+        <head>
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{
+              __html: JSON.stringify({
+                "@context": "https://schema.org",
+                "@graph": [
+                  {
+                    "@type": "Organization",
+                    name: "The Sage's Compass",
+                    url: "https://thesagescompass.com",
+                    logo: "https://thesagescompass.com/icon.png",
+                    description:
+                      "Homeschool curriculum platform that matches lesson plans to your teaching philosophy, your child's interests, and your state's standards.",
+                    email: "hello@sagescompass.com",
+                  },
+                  {
+                    "@type": "WebSite",
+                    name: "The Sage's Compass",
+                    url: "https://thesagescompass.com",
+                  },
+                ],
+              }),
+            }}
+          />
+        </head>
         <body className="antialiased min-h-screen">
           <PHProvider>
             {children}

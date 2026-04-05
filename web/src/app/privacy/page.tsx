@@ -1,4 +1,11 @@
+import type { Metadata } from "next";
 import { Nav } from "@/components/nav";
+
+export const metadata: Metadata = {
+  title: "Privacy Policy",
+  description:
+    "How The Sage's Compass collects, uses, and protects your personal information. COPPA-compliant and designed for family privacy.",
+};
 
 export default function PrivacyPage() {
   return (

@@ -1,4 +1,11 @@
+import type { Metadata } from "next";
 import { Nav } from "@/components/nav";
+
+export const metadata: Metadata = {
+  title: "Terms of Service",
+  description:
+    "Terms and conditions for using The Sage's Compass homeschool curriculum platform.",
+};
 
 export default function TermsPage() {
   return (
