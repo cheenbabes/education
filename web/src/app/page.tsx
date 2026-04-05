@@ -3,6 +3,7 @@ import Image from "next/image";
 import { Nav } from "@/components/nav";
 import { ARCHETYPES } from "@/lib/compass/archetypes";
 import { PricingSection } from "@/components/pricing-section";
+import { ArchetypeRingResponsive } from "@/components/archetype-ring-responsive";
 
 // Archetype ring order: Weaver at top (12 o'clock), Storyteller upper-right, Guide upper-left (last)
 const RING_ORDER = [
@@ -109,9 +110,9 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Right: archetype ring — hidden on mobile via .archetype-ring-container */}
-          <div className="archetype-ring-container" style={{ position: "relative", display: "flex", flexDirection: "column", alignItems: "center", gap: "1rem" }}>
-            <ArchetypeRing archetypes={ringArchetypes} />
+          {/* Right: archetype ring — responsive size via client component */}
+          <div className="archetype-ring-container" style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "1rem" }}>
+            <ArchetypeRingResponsive archetypes={ringArchetypes} />
             <p style={{
               fontSize: "0.78rem",
               color: "var(--text-tertiary)",
@@ -753,85 +754,6 @@ export default function Home() {
           © {new Date().getFullYear()} The Sage&apos;s Compass. All rights reserved.
         </div>
       </footer>
-    </div>
-  );
-}
-
-// ── Archetype ring component ─────────────────────────────────────────────────
-// Characters that naturally face left — don't auto-flip even when on right side of ring
-const NO_AUTO_FLIP = new Set(["the-free-spirit", "the-architect", "the-storyteller"]);
-
-// Per-character crop offsets (top/left as % of nodeSize, negative = shift up/left)
-// top: how far down to start the crop (negative = shift image up, showing more of top)
-// left: horizontal offset (negative = shift image left; positive = shift right)
-const CROP_OFFSET: Record<string, { top?: string; left?: string; width?: string }> = {
-  "the-weaver":    { top: "-30%" },          // show upper body clearly
-  "the-architect": { top: "5%", left: "18%" }, // centre her horizontally in the circle
-};
-
-function ArchetypeRing({ archetypes }: { archetypes: typeof ARCHETYPES }) {
-  const size = 540;
-  const center = size / 2;
-  const radius = 178;
-  const nodeSize = 112;
-  const compassSize = 325;
-
-  return (
-    <div style={{ position: "relative", width: size, height: size }}>
-      {/* Center compass — no circle, image floats freely over transparent bg */}
-      <div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", zIndex: 2 }}>
-        <Image src="/archetypes/tools/compass.png" alt="Compass" width={compassSize} height={compassSize} style={{ objectFit: "contain", display: "block" }} />
-      </div>
-
-      {/* Character nodes */}
-      {archetypes.map((a, i) => {
-        const angle = (i / archetypes.length) * 2 * Math.PI - Math.PI / 2;
-        const x = center + radius * Math.cos(angle);
-        const y = center + radius * Math.sin(angle);
-        const autoFlip = Math.cos(angle) > 0.1 && !NO_AUTO_FLIP.has(a.id);
-        const crop = CROP_OFFSET[a.id] ?? {};
-        return (
-          <div
-            key={a.id}
-            title={a.name}
-            style={{
-              position: "absolute",
-              left: x,
-              top: y,
-              transform: autoFlip
-                ? "translate(-50%, -50%) scaleX(-1)"
-                : "translate(-50%, -50%)",
-              width: `${nodeSize}px`,
-              height: `${nodeSize}px`,
-              borderRadius: "50%",
-              overflow: "hidden",
-              border: `2px solid ${a.color}`,
-              boxShadow: `0 2px 12px rgba(0,0,0,0.12)`,
-              zIndex: 1,
-            }}
-          >
-            {/* img inside div: top/left move which part of the image is visible */}
-            {/* top: 0 = show from very top; top: -20% = shift image up 20% of nodeSize */}
-            {/* left: 0 = left-aligned; left: 10% = shift image right */}
-            <img
-              src={a.imagePath}
-              alt={a.name}
-              style={{
-                position: "absolute",
-                width: "100%",   // fills circle width; height auto-scales (taller = crops bottom)
-                height: "auto",
-                top: crop.top ?? "0%",
-                left: crop.left ?? "0%",
-              }}
-            />
-          </div>
-        );
-      })}
-
-      {/* Connecting ring guide */}
-      <svg style={{ position: "absolute", inset: 0, pointerEvents: "none" }} width={size} height={size}>
-        <circle cx={center} cy={center} r={radius} fill="none" stroke="rgba(110,110,158,0.1)" strokeWidth="1" strokeDasharray="3 8" />
-      </svg>
     </div>
   );
 }
