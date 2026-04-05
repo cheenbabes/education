@@ -247,7 +247,7 @@ export default function PhilosophyStar({
         <mesh ref={archetypeGlowRef} position={[0, 0, 0.01]}>
           <circleGeometry args={[baseScale * (archetypeMatchRank === 1 ? 0.95 : 0.78), 48]} />
           <meshBasicMaterial
-            color={archetypeMatchRank === 1 ? "#6B3FA8" : "#B8A8D8"}
+            color={archetypeMatchRank === 1 ? "#7B2FD4" : "#A88FE8"}
             transparent
             opacity={0}
             depthWrite={false}
