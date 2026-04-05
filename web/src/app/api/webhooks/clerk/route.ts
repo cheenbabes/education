@@ -58,22 +58,29 @@ export async function POST(req: Request) {
     if (type === "subscription.created" || type === "subscription.updated") {
       // Find the current plan — prefer "active", fall back to "upcoming"
       // "upcoming" means paid but not yet started (e.g. upgrading mid annual cycle)
-      const items = (data.items as Array<{ status: string; plan: { slug?: string } }> | undefined) ?? [];
+      const items = (data.items as Array<{
+        status: string;
+        plan: { slug?: string };
+        period_start: number;
+        period_end: number | null;
+      }> | undefined) ?? [];
       const currentItem =
         items.find((i) => i.status === "active") ??
         items.find((i) => i.status === "upcoming");
       const planKey = currentItem?.plan?.slug;
       const tier = planKey ? (PLAN_TO_TIER[planKey] ?? "compass") : "compass";
+      const billingCycleStart = currentItem?.period_start ? new Date(currentItem.period_start) : null;
+      const tierExpiresAt = currentItem?.period_end ? new Date(currentItem.period_end) : null;
       await prisma.user.upsert({
         where: { id: userId },
-        update: { tier },
-        create: { id: userId, email: `${userId}@clerk.placeholder`, tier },
+        update: { tier, billingCycleStart, tierExpiresAt },
+        create: { id: userId, email: `${userId}@clerk.placeholder`, tier, billingCycleStart, tierExpiresAt },
       });
       console.log(`[clerk webhook] Set tier=${tier} for user=${userId}`);
     } else if (type === "subscription.deleted") {
       await prisma.user.update({
         where: { id: userId },
-        data: { tier: "compass" },
+        data: { tier: "compass", billingCycleStart: null, tierExpiresAt: null },
       });
       console.log(`[clerk webhook] Downgraded user=${userId} to compass`);
     } else if (type === "subscription.past_due") {

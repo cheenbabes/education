@@ -2,6 +2,7 @@ import { prisma } from "@/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs/server";
 import { isWorksheetsEnabled } from "@/lib/featureFlags";
+import { getUsagePeriodStart } from "@/lib/usage";
 
 const KG_SERVICE_URL = process.env.KG_SERVICE_URL || process.env.NEXT_PUBLIC_KG_SERVICE_URL || "http://127.0.0.1:8000";
 
@@ -38,14 +39,16 @@ export async function POST(
 
   try {
     // Load user tier
-    const user = await prisma.user.findUnique({ where: { id: userId } });
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+      select: { id: true, tier: true, billingCycleStart: true },
+    });
     const tier = user?.tier || "compass";
 
-    // Count worksheets generated this calendar month
-    const now = new Date();
-    const startOfMonth = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), 1));
+    // Count worksheets generated this billing period
+    const periodStart = getUsagePeriodStart({ tier, billingCycleStart: user?.billingCycleStart ?? null });
     const usedThisMonth = await prisma.worksheet.count({
-      where: { userId, createdAt: { gte: startOfMonth } },
+      where: { userId, createdAt: { gte: periodStart } },
     });
     const limit = WORKSHEET_LIMITS[tier] ?? 0;
     if (usedThisMonth >= limit) {

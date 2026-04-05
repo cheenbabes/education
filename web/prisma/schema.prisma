@@ -56,7 +56,8 @@ model User {
   image         String?
   state         String?   // US state abbreviation for standards
   tier              String    @default("compass")  // compass | homestead | schoolhouse
-  tierExpiresAt     DateTime?
+  tierExpiresAt     DateTime?                      // Clerk current_period_end (billing cycle end)
+  billingCycleStart DateTime?                      // Clerk current_period_start (billing cycle start)
   worksheetsUsed    Int       @default(0)
   worksheetsResetAt DateTime?
 

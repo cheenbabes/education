@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs/server";
 import crypto from "crypto";
 import { getOrCreateUser } from "@/lib/getOrCreateUser";
+import { getUsagePeriodStart } from "@/lib/usage";
 
 const LESSON_LIMITS: Record<string, number> = {
   compass: 3,
@@ -18,13 +19,15 @@ export async function POST(req: NextRequest) {
   }
 
   // Enforce tier lesson limit
-  const user = await prisma.user.findUnique({ where: { id: userId } });
+  const user = await prisma.user.findUnique({
+    where: { id: userId },
+    select: { id: true, tier: true, billingCycleStart: true },
+  });
   const tier = user?.tier || "compass";
   const limit = LESSON_LIMITS[tier] ?? 3;
-  const now = new Date();
-  const startOfMonth = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), 1));
+  const periodStart = getUsagePeriodStart({ tier, billingCycleStart: user?.billingCycleStart ?? null });
   const used = await prisma.lesson.count({
-    where: { userId, createdAt: { gte: startOfMonth } },
+    where: { userId, createdAt: { gte: periodStart } },
   });
   if (used >= limit) {
     return NextResponse.json(

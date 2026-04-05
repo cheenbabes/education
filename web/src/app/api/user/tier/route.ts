@@ -2,6 +2,7 @@ import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs/server";
 import { getOrCreateUser } from "@/lib/getOrCreateUser";
+import { getUsagePeriodStart, getUsageResetsAt } from "@/lib/usage";
 
 const LIMITS = {
   lessons:    { compass: 3,  homestead: 30, schoolhouse: 100 },
@@ -17,23 +18,23 @@ export async function GET() {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const user = await getOrCreateUser(userId);
+  // Ensure user exists in DB, then fetch with billing fields
+  await getOrCreateUser(userId);
+  const user = await prisma.user.findUnique({
+    where: { id: userId },
+    select: { tier: true, billingCycleStart: true, tierExpiresAt: true },
+  });
 
-  const tier = (user.tier || "compass") as Tier;
-
-  // Start of current month (UTC)
-  const now = new Date();
-  const startOfMonth = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), 1));
-
-  // First day of next month (UTC)
-  const resetsAt = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth() + 1, 1));
+  const tier = (user?.tier || "compass") as Tier;
+  const periodStart = getUsagePeriodStart({ tier, billingCycleStart: user?.billingCycleStart ?? null });
+  const resetsAt = getUsageResetsAt({ tier, tierExpiresAt: user?.tierExpiresAt ?? null });
 
   const [lessonsUsed, worksheetsUsed, childrenCount] = await Promise.all([
     prisma.lesson.count({
-      where: { userId, createdAt: { gte: startOfMonth } },
+      where: { userId, createdAt: { gte: periodStart } },
     }),
     prisma.worksheet.count({
-      where: { userId, createdAt: { gte: startOfMonth } },
+      where: { userId, createdAt: { gte: periodStart } },
     }),
     prisma.child.count({ where: { userId } }),
   ]);
