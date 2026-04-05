@@ -49,6 +49,7 @@ export default async function OGImage() {
           {/* Text */}
           <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
             <div style={{
+              display: "flex",
               fontSize: 18,
               fontWeight: 600,
               letterSpacing: "0.18em",
@@ -58,21 +59,23 @@ export default async function OGImage() {
               Homeschool · Curriculum · Archetypes
             </div>
             <div style={{
+              display: "flex",
               fontSize: 64,
               fontWeight: 700,
               letterSpacing: "0.03em",
               color: "#1a1208",
               lineHeight: 1.1,
             }}>
-              The Sage&apos;s<br />Compass
+              The Sage&apos;s Compass
             </div>
             <div style={{
+              display: "flex",
               fontSize: 22,
               color: "#5c4a2a",
               lineHeight: 1.5,
               maxWidth: 520,
             }}>
-              Discover your teaching archetype. Generate lessons matched to your philosophy, your child, and your state&apos;s standards.
+              Discover your teaching archetype. Create lessons matched to your philosophy, your child, and your state&apos;s standards.
             </div>
           </div>
         </div>
