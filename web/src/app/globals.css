@@ -644,3 +644,12 @@
     padding: 0.2rem 0.4rem;
   }
 }
+
+.social-icon-link {
+  color: rgba(249,246,239,0.35);
+  display: flex;
+  transition: color 0.15s;
+}
+.social-icon-link:hover {
+  color: rgba(249,246,239,0.75);
+}
