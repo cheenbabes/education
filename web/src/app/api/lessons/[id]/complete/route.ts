@@ -12,6 +12,12 @@ export async function POST(
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
+  // Verify lesson belongs to this user
+  const lesson = await prisma.lesson.findUnique({ where: { id: params.id }, select: { userId: true } });
+  if (!lesson || lesson.userId !== userId) {
+    return NextResponse.json({ error: "Not found" }, { status: 404 });
+  }
+
   const { childId, starRating, notes } = await req.json();
 
   const completion = await prisma.completion.upsert({

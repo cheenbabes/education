@@ -101,7 +101,7 @@ export function TierGate({ requiredTier, pageName, description, children }: Tier
             "Track up to 4 children",
             "Schedule lessons on the calendar",
             "Monitor standards coverage",
-            "30 lessons + 5 worksheets per month",
+            "30 lessons per month",
           ].map((benefit) => (
             <li key={benefit} style={{
               fontSize: "0.85rem",

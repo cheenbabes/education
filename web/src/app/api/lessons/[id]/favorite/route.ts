@@ -13,8 +13,8 @@ export async function POST(
   }
 
   const lesson = await prisma.lesson.findUnique({ where: { id: params.id } });
-  if (!lesson) {
-    return NextResponse.json({ error: "Lesson not found" }, { status: 404 });
+  if (!lesson || lesson.userId !== userId) {
+    return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
 
   const updated = await prisma.lesson.update({
