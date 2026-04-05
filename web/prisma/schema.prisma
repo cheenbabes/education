@@ -262,3 +262,16 @@ model CompassCurriculumPick {
   @@index([compassResultId])
   @@index([curriculumId])
 }
+
+model Feedback {
+  id        String   @id @default(cuid())
+  userId    String?
+  email     String
+  name      String?
+  plan      String?
+  message   String   @db.Text
+  category  String   // "bug" | "feature" | "general"
+  createdAt DateTime @default(now())
+
+  @@index([createdAt])
+}

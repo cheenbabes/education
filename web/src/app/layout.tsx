@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { ClerkProvider } from "@clerk/nextjs";
 import { PHProvider } from "./providers";
+import { FeedbackButton } from "@/components/FeedbackButton";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -19,6 +20,7 @@ export default function RootLayout({
         <body className="antialiased min-h-screen">
           <PHProvider>
             {children}
+            <FeedbackButton />
           </PHProvider>
         </body>
       </html>
