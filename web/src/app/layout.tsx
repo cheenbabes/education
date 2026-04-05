@@ -7,6 +7,18 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "The Sage's Compass — Homeschool Curriculum for Your Family",
   description: "Discover your teaching archetype, then generate custom lesson plans matched to your philosophy, your child's interests, and your state's standards.",
+  openGraph: {
+    title: "The Sage's Compass — Homeschool Curriculum for Your Family",
+    description: "Discover your teaching archetype, then generate custom lesson plans matched to your philosophy, your child's interests, and your state's standards.",
+    siteName: "The Sage's Compass",
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "The Sage's Compass — Homeschool Curriculum for Your Family",
+    description: "Discover your teaching archetype, then generate custom lesson plans matched to your philosophy, your child's interests, and your state's standards.",
+  },
 };
 
 export default function RootLayout({
