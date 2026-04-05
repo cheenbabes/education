@@ -68,7 +68,7 @@ const PLANS: Plan[] = [
     period: "/ month",
     featured: false,
     features: [
-      "60 lessons per month \u2014 double the capacity",
+      "100 lessons per month \u2014 double the capacity",
       "Up to 8 children with full profiles",
       "Full curriculum matching (70+ curricula)",
       "State standards tracking, all 50 states",

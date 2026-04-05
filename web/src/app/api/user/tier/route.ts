@@ -4,7 +4,7 @@ import { auth } from "@clerk/nextjs/server";
 import { getOrCreateUser } from "@/lib/getOrCreateUser";
 
 const LIMITS = {
-  lessons:    { compass: 3,  homestead: 30, schoolhouse: 60 },
+  lessons:    { compass: 3,  homestead: 30, schoolhouse: 100 },
   worksheets: { compass: 0,  homestead: 5,  schoolhouse: 15 },
   children:   { compass: 0,  homestead: 4,  schoolhouse: 8  },
 } as const;

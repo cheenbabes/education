@@ -7,7 +7,7 @@ import { getOrCreateUser } from "@/lib/getOrCreateUser";
 const LESSON_LIMITS: Record<string, number> = {
   compass: 3,
   homestead: 30,
-  schoolhouse: 60,
+  schoolhouse: 100,
 };
 
 // POST /api/lessons — save a generated lesson
