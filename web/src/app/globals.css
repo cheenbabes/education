@@ -555,9 +555,13 @@
     gap: 2rem;
   }
 
-  /* Archetype ring: hide on mobile — decorative only, archetype grid below covers it */
-  .archetype-ring-container {
-    display: none !important;
+  /* Archetype ring: scale down + collapse dead layout space from transform */
+  /* Ring is 540px, scale(0.65) makes visual ~351px wide, ~328px tall to bottom chars */
+  /* transform doesn't affect layout so element still takes 540px height — fix with negative margin */
+  .archetype-ring-container > div:first-child {
+    transform: scale(0.65);
+    transform-origin: top center;
+    margin-bottom: -212px; /* collapse: 540px layout - 328px visual bottom = 212px dead space */
   }
 
   /* Hero section: reduce top padding on mobile so compass peeks above fold */
