@@ -70,10 +70,9 @@ export async function POST(req: Request) {
       const tier = planKey ? (PLAN_TO_TIER[planKey] ?? "compass") : "compass";
       const billingCycleStart = currentItem?.period_start ? new Date(currentItem.period_start) : null;
       const tierExpiresAt = currentItem?.period_end ? new Date(currentItem.period_end) : null;
-      await prisma.user.upsert({
+      await prisma.user.update({
         where: { id: userId },
-        update: { tier, billingCycleStart, tierExpiresAt },
-        create: { id: userId, email: `${userId}@clerk.placeholder`, tier, billingCycleStart, tierExpiresAt },
+        data: { tier, billingCycleStart, tierExpiresAt },
       });
       console.log(`[clerk webhook] Set tier=${tier} for user=${userId}`);
 
@@ -87,10 +86,9 @@ export async function POST(req: Request) {
       const periodEnd = data.period_end as number | null | undefined;
       const billingCycleStart = periodStart ? new Date(periodStart) : null;
       const tierExpiresAt = periodEnd ? new Date(periodEnd) : null;
-      await prisma.user.upsert({
+      await prisma.user.update({
         where: { id: userId },
-        update: { tier, billingCycleStart, tierExpiresAt },
-        create: { id: userId, email: `${userId}@clerk.placeholder`, tier, billingCycleStart, tierExpiresAt },
+        data: { tier, billingCycleStart, tierExpiresAt },
       });
       console.log(`[clerk webhook] subscriptionItem → tier=${tier} for user=${userId}`);
 
