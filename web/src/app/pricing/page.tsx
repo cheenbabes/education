@@ -1,17 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Nav } from "@/components/nav";
 import { PricingSection } from "@/components/pricing-section";
 import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
-import {
-  __experimental_CheckoutProvider as CheckoutProvider,
-  __experimental_PaymentElementProvider as PaymentElementProvider,
-  __experimental_PaymentElement as PaymentElement,
-  __experimental_useCheckout as useCheckout,
-  __experimental_usePaymentElement as usePaymentElement,
-} from "@clerk/react";
+import { CheckoutButton } from "@clerk/react/experimental";
 
 type PlanKey = "homestead" | "schoolhouse";
 
@@ -37,189 +31,52 @@ const PLAN_DISPLAY: Record<PlanKey, {
   },
 };
 
-interface SelectedPlan {
-  key: PlanKey;
-  planId: string;
-  period: "month" | "annual";
-}
-
-// Inner form — must live inside PaymentElementProvider for usePaymentElement to work
-function PaymentForm({ planName, onSuccess }: { planName: string; onSuccess: () => void }) {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const { submit, isFormReady } = (usePaymentElement as any)();
-  const [submitting, setSubmitting] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-
-  const handleSubmit = async () => {
-    setSubmitting(true);
-    setError(null);
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const result: any = await submit();
-    if (result?.error) {
-      setError(result.error?.message ?? "Payment failed. Please try again.");
-      setSubmitting(false);
-    } else {
-      onSuccess();
-    }
-  };
-
-  return (
-    <>
-      <PaymentElement />
-      {error && <p style={{ fontSize: "0.8rem", color: "#B04040", margin: 0 }}>{error}</p>}
-      <button
-        onClick={handleSubmit}
-        disabled={!isFormReady || submitting}
-        style={{
-          background: "#0B2E4A",
-          color: "#F9F6EF",
-          border: "none",
-          borderRadius: "10px",
-          padding: "0.85rem",
-          fontSize: "0.9rem",
-          fontWeight: 600,
-          cursor: isFormReady && !submitting ? "pointer" : "not-allowed",
-          opacity: isFormReady && !submitting ? 1 : 0.5,
-          width: "100%",
-        }}
-      >
-        {submitting ? "Processing…" : `Subscribe to ${planName}`}
-      </button>
-      <p style={{ fontSize: "0.72rem", color: "#8a8a8a", textAlign: "center", margin: 0 }}>
-        Cancel anytime · Secure payment via Stripe
-      </p>
-    </>
-  );
-}
-
-// Checkout drawer — uses useCheckout to get resource, passes it to PaymentElementProvider
-function CheckoutDrawer({
-  plan,
-  onClose,
-  onSuccess,
-}: {
-  plan: SelectedPlan;
-  onClose: () => void;
-  onSuccess: () => void;
-}) {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const checkout = (useCheckout as any)();
-  const display = PLAN_DISPLAY[plan.key];
-  const priceInfo = plan.period === "annual" ? display.annual : display.monthly;
-
-  return (
-    <>
-      {/* Backdrop */}
-      <div
-        onClick={onClose}
-        style={{
-          position: "fixed",
-          inset: 0,
-          background: "rgba(11,46,74,0.45)",
-          backdropFilter: "blur(2px)",
-          zIndex: 40,
-        }}
-      />
-
-      {/* Drawer panel */}
-      <div style={{
-        position: "fixed",
-        top: 0,
-        right: 0,
-        bottom: 0,
-        width: "min(420px, 100vw)",
-        zIndex: 50,
-        display: "flex",
-        flexDirection: "column",
-        boxShadow: "-4px 0 32px rgba(0,0,0,0.2)",
-      }}>
-        {/* Dark navy header */}
-        <div style={{ background: "#0B2E4A", padding: "1.5rem 1.75rem", flexShrink: 0 }}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
-            <div>
-              <h2
-                className="font-cormorant-sc"
-                style={{ fontSize: "1.4rem", fontWeight: 700, color: "#F9F6EF", margin: 0, letterSpacing: "0.04em" }}
-              >
-                {display.name}
-              </h2>
-              <div style={{ marginTop: "0.4rem", display: "flex", alignItems: "baseline", gap: "0.35rem" }}>
-                <span className="font-cormorant-sc" style={{ fontSize: "1.5rem", fontWeight: 700, color: "#D4AF37" }}>
-                  {priceInfo.price}
-                </span>
-                <span style={{ fontSize: "0.8rem", color: "rgba(249,246,239,0.5)" }}>
-                  {priceInfo.period}
-                </span>
-              </div>
-              {"billed" in priceInfo && (
-                <p style={{ fontSize: "0.72rem", color: "rgba(249,246,239,0.4)", margin: "0.25rem 0 0" }}>
-                  {(priceInfo as { billed: string }).billed}
-                </p>
-              )}
-            </div>
-            <button
-              onClick={onClose}
-              style={{
-                background: "rgba(249,246,239,0.1)",
-                border: "none",
-                color: "rgba(249,246,239,0.6)",
-                cursor: "pointer",
-                borderRadius: "6px",
-                width: "30px",
-                height: "30px",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                fontSize: "1.1rem",
-                flexShrink: 0,
-              }}
-            >
-              ×
-            </button>
-          </div>
-        </div>
-
-        {/* Payment form body — PaymentElementProvider provides context for usePaymentElement */}
-        <div style={{
-          flex: 1,
-          overflowY: "auto",
-          background: "rgba(249,246,239,0.98)",
-          padding: "1.75rem",
-          display: "flex",
-          flexDirection: "column",
-          gap: "1.25rem",
-        }}>
-          <PaymentElementProvider checkout={checkout}>
-            <PaymentForm planName={display.name} onSuccess={onSuccess} />
-          </PaymentElementProvider>
-        </div>
-      </div>
-    </>
-  );
-}
+const DRAWER_WIDTH = 420;
 
 export default function PricingPage() {
   const { isSignedIn } = useUser();
   const router = useRouter();
-  const [selectedPlan, setSelectedPlan] = useState<SelectedPlan | null>(null);
-  const [success, setSuccess] = useState(false);
+  const [success, setSuccess] = useState<PlanKey | null>(null);
+  const [drawerOpen, setDrawerOpen] = useState(false);
+
+  // Detect when Clerk's checkout drawer closes (e.g. user clicks backdrop)
+  // by watching for its removal from the DOM
+  useEffect(() => {
+    if (!drawerOpen) return;
+    const observer = new MutationObserver(() => {
+      // Clerk renders its drawer in a portal — look for it
+      const drawer = document.querySelector("[data-clerk-portal], .cl-modalBackdrop, [role='dialog']");
+      if (!drawer) setDrawerOpen(false);
+    });
+    // Small delay to let Clerk render the drawer before observing
+    const timer = setTimeout(() => {
+      observer.observe(document.body, { childList: true, subtree: true });
+    }, 500);
+    return () => { clearTimeout(timer); observer.disconnect(); };
+  }, [drawerOpen]);
 
   const handleSelectPlan = (planKey: PlanKey, isAnnual: boolean) => {
     if (!isSignedIn) {
       router.push("/sign-up?redirect_url=/pricing");
       return;
     }
-    setSelectedPlan({
-      key: planKey,
-      planId: PLAN_IDS[planKey],
-      period: isAnnual ? "annual" : "month",
-    });
   };
+
+  const handleCheckoutClick = useCallback(() => {
+    // Small delay — Clerk opens the drawer after the click propagates
+    setTimeout(() => setDrawerOpen(true), 100);
+  }, []);
 
   return (
     <div
       className="watercolor-page hue-generate"
-      style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        minHeight: "100vh",
+        transition: "padding-right 0.3s ease",
+        paddingRight: drawerOpen ? `${DRAWER_WIDTH}px` : undefined,
+      }}
     >
       <Nav />
 
@@ -230,7 +87,7 @@ export default function PricingPage() {
               You&apos;re in
             </p>
             <h2 className="font-cormorant-sc" style={{ fontSize: "2.2rem", color: "var(--ink)", marginBottom: "0.75rem" }}>
-              Welcome to {selectedPlan ? PLAN_DISPLAY[selectedPlan.key].name : "your new plan"}
+              Welcome to {PLAN_DISPLAY[success].name}
             </h2>
             <p className="font-cormorant" style={{ fontSize: "1.1rem", fontStyle: "italic", color: "var(--text-secondary)", marginBottom: "2rem" }}>
               Your subscription is active. Start creating lessons for your family.
@@ -251,20 +108,41 @@ export default function PricingPage() {
             </a>
           </div>
         ) : (
-          <PricingSection onSelectPlan={handleSelectPlan} />
+          <PricingSection
+            onSelectPlan={handleSelectPlan}
+            renderCheckout={isSignedIn ? (planKey, isAnnual) => {
+              const featured = planKey === "homestead";
+              return (
+                <div onClick={handleCheckoutClick}>
+                  <CheckoutButton
+                    planId={PLAN_IDS[planKey]}
+                    planPeriod={isAnnual ? "annual" : "month"}
+                    onSubscriptionComplete={() => { setDrawerOpen(false); setSuccess(planKey); }}
+                  >
+                    <button
+                      style={{
+                        width: "100%",
+                        fontSize: "0.85rem",
+                        padding: "0.75rem",
+                        borderRadius: "10px",
+                        border: "none",
+                        cursor: "pointer",
+                        fontWeight: 600,
+                        letterSpacing: "0.02em",
+                        boxSizing: "border-box",
+                        background: featured ? "rgba(212,175,55,0.9)" : "var(--night)",
+                        color: featured ? "var(--night)" : "var(--parchment)",
+                      }}
+                    >
+                      Start {PLAN_DISPLAY[planKey].name}
+                    </button>
+                  </CheckoutButton>
+                </div>
+              );
+            } : undefined}
+          />
         )}
       </main>
-
-      {/* Checkout drawer — only mounted when a plan is selected */}
-      {selectedPlan && !success && (
-        <CheckoutProvider planId={selectedPlan.planId} planPeriod={selectedPlan.period}>
-          <CheckoutDrawer
-            plan={selectedPlan}
-            onClose={() => setSelectedPlan(null)}
-            onSuccess={() => setSuccess(true)}
-          />
-        </CheckoutProvider>
-      )}
     </div>
   );
 }

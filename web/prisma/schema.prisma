@@ -58,8 +58,6 @@ model User {
   tier              String    @default("compass")  // compass | homestead | schoolhouse
   tierExpiresAt     DateTime?                      // Clerk current_period_end (billing cycle end)
   billingCycleStart DateTime?                      // Clerk current_period_start (billing cycle start)
-  worksheetsUsed    Int       @default(0)
-  worksheetsResetAt DateTime?
 
   accounts       Account[]
   sessions       Session[]

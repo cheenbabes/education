@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 
 type BillingPeriod = "annual" | "monthly";
@@ -98,9 +98,10 @@ const PLANS: Plan[] = [
 
 interface PricingSectionProps {
   onSelectPlan?: (planKey: CheckoutablePlan, isAnnual: boolean) => void;
+  renderCheckout?: (planKey: CheckoutablePlan, isAnnual: boolean) => React.ReactNode;
 }
 
-export function PricingSection({ onSelectPlan }: PricingSectionProps = {}) {
+export function PricingSection({ onSelectPlan, renderCheckout }: PricingSectionProps = {}) {
   const [billing, setBilling] = useState<BillingPeriod>("annual");
   const isAnnual = billing === "annual";
 
@@ -237,7 +238,9 @@ export function PricingSection({ onSelectPlan }: PricingSectionProps = {}) {
               </ul>
 
               {/* CTA */}
-              {planKey && onSelectPlan ? (
+              {planKey && renderCheckout ? (
+                renderCheckout(planKey, isAnnual)
+              ) : planKey && onSelectPlan ? (
                 <button
                   onClick={() => onSelectPlan(planKey, isAnnual)}
                   style={{

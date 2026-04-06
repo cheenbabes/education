@@ -57,7 +57,6 @@ export async function POST(req: Request) {
   try {
     if (type === "subscription.created" || type === "subscription.active" || type === "subscription.updated") {
       // Find the current plan — prefer "active", fall back to "upcoming"
-      // "upcoming" means paid but not yet started (e.g. upgrading mid annual cycle)
       const items = (data.items as Array<{
         status: string;
         plan: { slug?: string };
@@ -77,13 +76,44 @@ export async function POST(req: Request) {
         create: { id: userId, email: `${userId}@clerk.placeholder`, tier, billingCycleStart, tierExpiresAt },
       });
       console.log(`[clerk webhook] Set tier=${tier} for user=${userId}`);
+
+    } else if (type === "subscriptionItem.active" || type === "subscriptionItem.updated") {
+      // subscriptionItem events fire when a PAID plan activates (free→paid upgrade)
+      // Plan is directly on data.plan, not nested in items[]
+      const plan = data.plan as { slug?: string } | undefined;
+      const planKey = plan?.slug;
+      const tier = planKey ? (PLAN_TO_TIER[planKey] ?? "compass") : "compass";
+      const periodStart = data.period_start as number | undefined;
+      const periodEnd = data.period_end as number | null | undefined;
+      const billingCycleStart = periodStart ? new Date(periodStart) : null;
+      const tierExpiresAt = periodEnd ? new Date(periodEnd) : null;
+      await prisma.user.upsert({
+        where: { id: userId },
+        update: { tier, billingCycleStart, tierExpiresAt },
+        create: { id: userId, email: `${userId}@clerk.placeholder`, tier, billingCycleStart, tierExpiresAt },
+      });
+      console.log(`[clerk webhook] subscriptionItem → tier=${tier} for user=${userId}`);
+
+    } else if (type === "subscriptionItem.canceled" || type === "subscriptionItem.ended") {
+      // Paid plan was canceled/ended — check if remaining items have a paid plan, else downgrade
+      const plan = data.plan as { slug?: string } | undefined;
+      const planKey = plan?.slug;
+      const wasPaid = planKey && planKey in PLAN_TO_TIER;
+      if (wasPaid) {
+        await prisma.user.update({
+          where: { id: userId },
+          data: { tier: "compass", billingCycleStart: null, tierExpiresAt: null },
+        });
+        console.log(`[clerk webhook] subscriptionItem canceled/ended → downgraded user=${userId} to compass`);
+      }
+
     } else if (type === "subscription.deleted") {
       await prisma.user.update({
         where: { id: userId },
         data: { tier: "compass", billingCycleStart: null, tierExpiresAt: null },
       });
       console.log(`[clerk webhook] Downgraded user=${userId} to compass`);
-    } else if (type === "subscription.pastDue") {
+    } else if (type === "subscription.pastDue" || type === "subscriptionItem.pastDue") {
       console.log(`[clerk webhook] past_due for user=${userId} — no action, awaiting retry`);
     } else if (type === "user.created" || type === "user.updated") {
       // Sync real email to DB whenever Clerk fires a user event
