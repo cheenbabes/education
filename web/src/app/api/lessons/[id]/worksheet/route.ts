@@ -2,15 +2,9 @@ import { prisma } from "@/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs/server";
 import { isWorksheetsEnabled } from "@/lib/featureFlags";
-import { getUsagePeriodStart } from "@/lib/usage";
+import { getTier, getLimits, getUsagePeriodStart } from "@/lib/tier";
 
 const KG_SERVICE_URL = process.env.KG_SERVICE_URL || process.env.NEXT_PUBLIC_KG_SERVICE_URL || "http://127.0.0.1:8000";
-
-const WORKSHEET_LIMITS: Record<string, number> = {
-  compass: 0,
-  homestead: 5,
-  schoolhouse: 15,
-};
 
 // POST /api/lessons/[id]/worksheet — generate and save a worksheet for a lesson
 export async function POST(
@@ -38,22 +32,18 @@ export async function POST(
   }
 
   try {
-    // Load user tier
-    const user = await prisma.user.findUnique({
-      where: { id: userId },
-      select: { id: true, tier: true, billingCycleStart: true },
-    });
-    const tier = user?.tier || "compass";
+    // Read tier from Clerk
+    const { tier, periodStart } = await getTier(userId);
+    const limits = getLimits(tier);
 
     // Count worksheets generated this billing period
-    const periodStart = getUsagePeriodStart({ tier, billingCycleStart: user?.billingCycleStart ?? null });
+    const usagePeriodStart = getUsagePeriodStart(tier, periodStart);
     const usedThisMonth = await prisma.worksheet.count({
-      where: { userId, createdAt: { gte: periodStart } },
+      where: { userId, createdAt: { gte: usagePeriodStart } },
     });
-    const limit = WORKSHEET_LIMITS[tier] ?? 0;
-    if (usedThisMonth >= limit) {
+    if (usedThisMonth >= limits.worksheets) {
       return NextResponse.json(
-        { error: "worksheet_limit", used: usedThisMonth, limit },
+        { error: "worksheet_limit", used: usedThisMonth, limit: limits.worksheets },
         { status: 429 }
       );
     }

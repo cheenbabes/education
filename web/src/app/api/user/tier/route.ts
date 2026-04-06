@@ -2,15 +2,7 @@ import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs/server";
 import { getOrCreateUser } from "@/lib/getOrCreateUser";
-import { getUsagePeriodStart, getUsageResetsAt } from "@/lib/usage";
-
-const LIMITS = {
-  lessons:    { compass: 3,  homestead: 30, schoolhouse: 100 },
-  worksheets: { compass: 0,  homestead: 5,  schoolhouse: 15 },
-  children:   { compass: 0,  homestead: 4,  schoolhouse: 8  },
-} as const;
-
-type Tier = keyof typeof LIMITS.lessons;
+import { getTier, getLimits, getUsagePeriodStart, getUsageResetsAt } from "@/lib/tier";
 
 export async function GET() {
   const { userId } = await auth();
@@ -18,23 +10,21 @@ export async function GET() {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  // Ensure user exists in DB, then fetch with billing fields
   await getOrCreateUser(userId);
-  const user = await prisma.user.findUnique({
-    where: { id: userId },
-    select: { tier: true, billingCycleStart: true, tierExpiresAt: true },
-  });
 
-  const tier = (user?.tier || "compass") as Tier;
-  const periodStart = getUsagePeriodStart({ tier, billingCycleStart: user?.billingCycleStart ?? null });
-  const resetsAt = getUsageResetsAt({ tier, tierExpiresAt: user?.tierExpiresAt ?? null });
+  // Read tier from Clerk (source of truth)
+  const { tier, periodStart, periodEnd } = await getTier(userId);
+  const limits = getLimits(tier);
+  const usagePeriodStart = getUsagePeriodStart(tier, periodStart);
+  const resetsAt = getUsageResetsAt(tier, periodEnd);
 
+  // Count usage from our DB
   const [lessonsUsed, worksheetsUsed, childrenCount] = await Promise.all([
     prisma.lesson.count({
-      where: { userId, createdAt: { gte: periodStart } },
+      where: { userId, createdAt: { gte: usagePeriodStart } },
     }),
     prisma.worksheet.count({
-      where: { userId, createdAt: { gte: periodStart } },
+      where: { userId, createdAt: { gte: usagePeriodStart } },
     }),
     prisma.child.count({ where: { userId } }),
   ]);
@@ -42,11 +32,11 @@ export async function GET() {
   return NextResponse.json({
     tier,
     lessonsUsed,
-    lessonsLimit: LIMITS.lessons[tier],
+    lessonsLimit: limits.lessons,
     worksheetsUsed,
-    worksheetsLimit: LIMITS.worksheets[tier],
+    worksheetsLimit: limits.worksheets,
     childrenCount,
-    childrenLimit: LIMITS.children[tier],
+    childrenLimit: limits.children,
     resetsAt: resetsAt.toISOString(),
   });
 }

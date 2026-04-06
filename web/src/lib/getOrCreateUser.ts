@@ -9,7 +9,7 @@ import { prisma } from "@/lib/prisma";
 export async function getOrCreateUser(userId: string) {
   const existing = await prisma.user.findUnique({
     where: { id: userId },
-    select: { id: true, email: true, tier: true },
+    select: { id: true, email: true },
   });
 
   if (existing && !existing.email.endsWith("@clerk.placeholder")) {

@@ -55,11 +55,8 @@ export default function PricingPage() {
     return () => { clearTimeout(timer); observer.disconnect(); };
   }, [drawerOpen]);
 
-  const handleSelectPlan = (planKey: PlanKey, isAnnual: boolean) => {
-    if (!isSignedIn) {
-      router.push("/sign-up?redirect_url=/pricing");
-      return;
-    }
+  const handleSelectPlan = () => {
+    if (!isSignedIn) router.push("/sign-up?redirect_url=/pricing");
   };
 
   const handleCheckoutClick = useCallback(() => {

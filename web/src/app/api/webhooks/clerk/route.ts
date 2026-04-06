@@ -4,12 +4,6 @@ import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 import { sendWelcomeEmail } from "@/lib/email";
 
-// Maps Clerk plan keys → our tier values
-const PLAN_TO_TIER: Record<string, string> = {
-  homestead_monthly: "homestead",
-  schoolhouse_monthly: "schoolhouse",
-};
-
 export async function POST(req: Request) {
   const WEBHOOK_SECRET = process.env.CLERK_WEBHOOK_SECRET;
   if (!WEBHOOK_SECRET) {
@@ -42,83 +36,22 @@ export async function POST(req: Request) {
   }
 
   const { type, data } = evt;
-  console.log(`[clerk webhook] ${type}`, JSON.stringify(data, null, 2));
+  console.log(`[clerk webhook] ${type}`);
 
-  // Billing events: data.payer.user_id — User events: data.id
-  const userId =
-    (data.payer as { user_id?: string } | undefined)?.user_id ??
-    (data.id as string | undefined);
+  // Only handle user events — billing state is read directly from Clerk API
+  if (type === "user.created" || type === "user.updated") {
+    const userId = data.id as string | undefined;
+    if (!userId) {
+      console.error("[clerk webhook] No user id in payload");
+      return NextResponse.json({ error: "No user_id in payload" }, { status: 400 });
+    }
 
-  if (!userId) {
-    console.error("[clerk webhook] No user_id found in payload");
-    return NextResponse.json({ error: "No user_id in payload" }, { status: 400 });
-  }
+    const emailAddresses = data.email_addresses as Array<{ id: string; email_address: string }> | undefined;
+    const primaryId = data.primary_email_address_id as string | undefined;
+    const email = emailAddresses?.find((e) => e.id === primaryId)?.email_address;
+    const firstName = (data.first_name as string | undefined) ?? "";
 
-  try {
-    if (type === "subscription.created" || type === "subscription.active" || type === "subscription.updated") {
-      // Find the current plan — prefer "active", fall back to "upcoming"
-      const items = (data.items as Array<{
-        status: string;
-        plan: { slug?: string };
-        period_start: number;
-        period_end: number | null;
-      }> | undefined) ?? [];
-      const currentItem =
-        items.find((i) => i.status === "active") ??
-        items.find((i) => i.status === "upcoming");
-      const planKey = currentItem?.plan?.slug;
-      const tier = planKey ? (PLAN_TO_TIER[planKey] ?? "compass") : "compass";
-      const billingCycleStart = currentItem?.period_start ? new Date(currentItem.period_start) : null;
-      const tierExpiresAt = currentItem?.period_end ? new Date(currentItem.period_end) : null;
-      await prisma.user.update({
-        where: { id: userId },
-        data: { tier, billingCycleStart, tierExpiresAt },
-      });
-      console.log(`[clerk webhook] Set tier=${tier} for user=${userId}`);
-
-    } else if (type === "subscriptionItem.active" || type === "subscriptionItem.updated") {
-      // subscriptionItem events fire when a PAID plan activates (free→paid upgrade)
-      // Plan is directly on data.plan, not nested in items[]
-      const plan = data.plan as { slug?: string } | undefined;
-      const planKey = plan?.slug;
-      const tier = planKey ? (PLAN_TO_TIER[planKey] ?? "compass") : "compass";
-      const periodStart = data.period_start as number | undefined;
-      const periodEnd = data.period_end as number | null | undefined;
-      const billingCycleStart = periodStart ? new Date(periodStart) : null;
-      const tierExpiresAt = periodEnd ? new Date(periodEnd) : null;
-      await prisma.user.update({
-        where: { id: userId },
-        data: { tier, billingCycleStart, tierExpiresAt },
-      });
-      console.log(`[clerk webhook] subscriptionItem → tier=${tier} for user=${userId}`);
-
-    } else if (type === "subscriptionItem.canceled" || type === "subscriptionItem.ended") {
-      // Paid plan was canceled/ended — check if remaining items have a paid plan, else downgrade
-      const plan = data.plan as { slug?: string } | undefined;
-      const planKey = plan?.slug;
-      const wasPaid = planKey && planKey in PLAN_TO_TIER;
-      if (wasPaid) {
-        await prisma.user.update({
-          where: { id: userId },
-          data: { tier: "compass", billingCycleStart: null, tierExpiresAt: null },
-        });
-        console.log(`[clerk webhook] subscriptionItem canceled/ended → downgraded user=${userId} to compass`);
-      }
-
-    } else if (type === "subscription.deleted") {
-      await prisma.user.update({
-        where: { id: userId },
-        data: { tier: "compass", billingCycleStart: null, tierExpiresAt: null },
-      });
-      console.log(`[clerk webhook] Downgraded user=${userId} to compass`);
-    } else if (type === "subscription.pastDue" || type === "subscriptionItem.pastDue") {
-      console.log(`[clerk webhook] past_due for user=${userId} — no action, awaiting retry`);
-    } else if (type === "user.created" || type === "user.updated") {
-      // Sync real email to DB whenever Clerk fires a user event
-      const emailAddresses = data.email_addresses as Array<{ id: string; email_address: string }> | undefined;
-      const primaryId = data.primary_email_address_id as string | undefined;
-      const email = emailAddresses?.find((e) => e.id === primaryId)?.email_address;
-      const firstName = (data.first_name as string | undefined) ?? "";
+    try {
       if (email) {
         await prisma.user.upsert({
           where: { id: userId },
@@ -126,16 +59,15 @@ export async function POST(req: Request) {
           create: { id: userId, email },
         });
         console.log(`[clerk webhook] Synced email for user=${userId}`);
-        // Send welcome email only on user creation
+
         if (type === "user.created") {
           await sendWelcomeEmail(email, firstName).catch(err => console.error("[welcome email]", err));
         }
       }
+    } catch (err) {
+      console.error("[clerk webhook] DB error:", err);
+      return NextResponse.json({ error: "DB error" }, { status: 500 });
     }
-    // All other events are intentionally ignored
-  } catch (err) {
-    console.error("[clerk webhook] DB error:", err);
-    return NextResponse.json({ error: "DB error" }, { status: 500 });
   }
 
   return NextResponse.json({ received: true });

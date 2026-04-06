@@ -3,13 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs/server";
 import crypto from "crypto";
 import { getOrCreateUser } from "@/lib/getOrCreateUser";
-import { getUsagePeriodStart } from "@/lib/usage";
-
-const LESSON_LIMITS: Record<string, number> = {
-  compass: 3,
-  homestead: 30,
-  schoolhouse: 100,
-};
+import { getTier, getLimits, getUsagePeriodStart } from "@/lib/tier";
 
 // POST /api/lessons — save a generated lesson
 export async function POST(req: NextRequest) {
@@ -18,20 +12,16 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  // Enforce tier lesson limit
-  const user = await prisma.user.findUnique({
-    where: { id: userId },
-    select: { id: true, tier: true, billingCycleStart: true },
-  });
-  const tier = user?.tier || "compass";
-  const limit = LESSON_LIMITS[tier] ?? 3;
-  const periodStart = getUsagePeriodStart({ tier, billingCycleStart: user?.billingCycleStart ?? null });
+  // Enforce tier lesson limit (tier read from Clerk)
+  const { tier, periodStart } = await getTier(userId);
+  const limits = getLimits(tier);
+  const usagePeriodStart = getUsagePeriodStart(tier, periodStart);
   const used = await prisma.lesson.count({
-    where: { userId, createdAt: { gte: periodStart } },
+    where: { userId, createdAt: { gte: usagePeriodStart } },
   });
-  if (used >= limit) {
+  if (used >= limits.lessons) {
     return NextResponse.json(
-      { error: "monthly_limit", tier, limit, used },
+      { error: "monthly_limit", tier, limit: limits.lessons, used },
       { status: 429 },
     );
   }

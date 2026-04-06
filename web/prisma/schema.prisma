@@ -55,9 +55,6 @@ model User {
   password      String?
   image         String?
   state         String?   // US state abbreviation for standards
-  tier              String    @default("compass")  // compass | homestead | schoolhouse
-  tierExpiresAt     DateTime?                      // Clerk current_period_end (billing cycle end)
-  billingCycleStart DateTime?                      // Clerk current_period_start (billing cycle start)
 
   accounts       Account[]
   sessions       Session[]

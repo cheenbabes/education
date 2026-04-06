@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { auth, currentUser } from "@clerk/nextjs/server";
 import { prisma } from "@/lib/prisma";
 import { sendEmail } from "@/lib/email";
+import { getTier } from "@/lib/tier";
 
 export async function POST(req: NextRequest) {
   const { userId } = await auth();
@@ -17,9 +18,10 @@ export async function POST(req: NextRequest) {
   const email = clerkUser?.emailAddresses?.find(e => e.id === clerkUser.primaryEmailAddressId)?.emailAddress ?? "anonymous";
   const name = clerkUser ? `${clerkUser.firstName ?? ""} ${clerkUser.lastName ?? ""}`.trim() : "Anonymous";
 
-  // Get plan from DB
-  const dbUser = userId ? await prisma.user.findUnique({ where: { id: userId }, select: { tier: true, createdAt: true } }) : null;
-  const plan = dbUser?.tier ?? "unknown";
+  // Get plan from Clerk + member tenure from DB
+  const tierResult = userId ? await getTier(userId) : null;
+  const plan = tierResult?.tier ?? "unknown";
+  const dbUser = userId ? await prisma.user.findUnique({ where: { id: userId }, select: { createdAt: true } }) : null;
   const memberSince = dbUser?.createdAt ? Math.floor((Date.now() - dbUser.createdAt.getTime()) / (1000 * 60 * 60 * 24)) + " days" : "unknown";
 
   // Save to DB
