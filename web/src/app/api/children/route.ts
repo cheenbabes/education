@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs/server";
 import { getOrCreateUser } from "@/lib/getOrCreateUser";
 import { getTier, getLimits } from "@/lib/tier";
+import { routeLogger } from "@/lib/logger";
 
 // GET /api/children — list children for a user
 export async function GET() {
@@ -10,6 +11,9 @@ export async function GET() {
   if (!userId) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
+
+  const log = routeLogger("GET /api/children", userId);
+  log.info("request received");
 
   await getOrCreateUser(userId);
 
@@ -39,8 +43,10 @@ export async function POST(req: NextRequest) {
     );
   }
 
+  const log = routeLogger("POST /api/children", userId);
   const body = await req.json();
   const { name, dateOfBirth, gradeLevel, standardsOptIn = true } = body;
+  log.info({ childName: name }, "request received");
 
   const child = await prisma.child.create({
     data: {
@@ -53,5 +59,6 @@ export async function POST(req: NextRequest) {
     },
   });
 
+  log.info({ childId: child.id }, "child created");
   return NextResponse.json(child);
 }

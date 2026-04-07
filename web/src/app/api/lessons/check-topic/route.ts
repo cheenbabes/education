@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs/server";
+import { routeLogger } from "@/lib/logger";
 
 const KG_SERVICE_URL = process.env.NEXT_PUBLIC_KG_SERVICE_URL || "http://localhost:8000";
 
@@ -8,6 +9,8 @@ export async function POST(req: NextRequest) {
   if (!userId) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
+
+  const log = routeLogger("POST /api/lessons/check-topic", userId);
 
   const { interest } = await req.json();
 
@@ -23,7 +26,7 @@ export async function POST(req: NextRequest) {
 
   if (!res.ok) {
     // KG service unavailable — fail open so generation isn't blocked
-    console.error(`check-topic: KG service returned ${res.status}`);
+    log.error({ status: res.status, interest }, "KG service error");
     return NextResponse.json({ safe: true });
   }
 

@@ -1,6 +1,9 @@
 import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 import type { CurriculumPlacement } from "@/components/explore/types";
+import { routeLogger } from "@/lib/logger";
+
+const log = routeLogger("GET /api/explore/graph");
 
 export const dynamic = "force-dynamic";
 
@@ -79,10 +82,10 @@ export async function GET() {
     if (kgRes.ok) {
       kgData = await kgRes.json();
     } else {
-      console.error(`[explore/graph] KG fetch failed: ${kgRes.status} ${kgRes.statusText}`);
+      log.error({ status: kgRes.status, statusText: kgRes.statusText }, "KG fetch failed");
     }
   } catch (err) {
-    console.error("[explore/graph] KG fetch error:", err);
+    log.error({ err }, "KG fetch error");
   }
 
   // Fetch curricula from Postgres

@@ -4,6 +4,7 @@ import { auth } from "@clerk/nextjs/server";
 import crypto from "crypto";
 import { getOrCreateUser } from "@/lib/getOrCreateUser";
 import { getTier, getLimits, getUsagePeriodStart } from "@/lib/tier";
+import { routeLogger } from "@/lib/logger";
 
 // POST /api/lessons — save a generated lesson
 export async function POST(req: NextRequest) {
@@ -26,6 +27,7 @@ export async function POST(req: NextRequest) {
     );
   }
 
+  const log = routeLogger("POST /api/lessons", userId);
   const body = await req.json();
   const {
     lesson,
@@ -34,6 +36,7 @@ export async function POST(req: NextRequest) {
     subjectNames = [],
     generationCostUsd,
   } = body;
+  log.info({ interest: lesson?.theme, subject: subjectNames, childIds }, "request received");
 
   // Create the lesson
   const saved = await prisma.lesson.create({
@@ -77,6 +80,7 @@ export async function POST(req: NextRequest) {
     },
   });
 
+  log.info({ lessonId: saved.id, status: 201 }, "lesson created");
   return NextResponse.json({ id: saved.id, saved: true });
 }
 
@@ -86,6 +90,9 @@ export async function GET() {
   if (!userId) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
+
+  const log = routeLogger("GET /api/lessons", userId);
+  log.info("request received");
 
   await getOrCreateUser(userId);
 

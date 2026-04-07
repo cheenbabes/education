@@ -10,6 +10,7 @@
  */
 
 import { clerkClient } from "@clerk/nextjs/server";
+import { logger } from "@/lib/logger";
 
 // ── Tier config (single source of truth) ─────────────────────────────────────
 
@@ -54,7 +55,7 @@ export async function getTier(userId: string): Promise<{
       };
     }
   } catch (err) {
-    console.error("[tier] Failed to read subscription from Clerk:", err);
+    logger.error({ err, userId }, "failed to read subscription from Clerk");
   }
 
   return { tier: "compass", periodStart: null, periodEnd: null };

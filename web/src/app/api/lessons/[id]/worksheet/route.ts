@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs/server";
 import { isWorksheetsEnabled } from "@/lib/featureFlags";
 import { getTier, getLimits, getUsagePeriodStart } from "@/lib/tier";
+import { routeLogger } from "@/lib/logger";
 
 const KG_SERVICE_URL = process.env.KG_SERVICE_URL || process.env.NEXT_PUBLIC_KG_SERVICE_URL || "http://127.0.0.1:8000";
 
@@ -15,6 +16,9 @@ export async function POST(
   if (!userId) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
+
+  const log = routeLogger("POST /api/lessons/[id]/worksheet", userId);
+  log.info({ lessonId: params.id }, "request received");
 
   if (!(await isWorksheetsEnabled(userId))) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
@@ -115,7 +119,7 @@ export async function POST(
 
     return NextResponse.json(saved, { status: 201 });
   } catch (err) {
-    console.error("[worksheet POST]", err);
+    log.error({ err, lessonId: params.id }, "worksheet generation failed");
     return NextResponse.json({ error: "internal_error", detail: String(err) }, { status: 500 });
   }
 }
@@ -129,6 +133,9 @@ export async function GET(
   if (!userId) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
+
+  const log = routeLogger("GET /api/lessons/[id]/worksheet", userId);
+  log.info({ lessonId: params.id }, "request received");
 
   if (!(await isWorksheetsEnabled(userId))) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });

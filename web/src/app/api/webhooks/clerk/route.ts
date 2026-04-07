@@ -3,11 +3,14 @@ import { headers } from "next/headers";
 import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 import { sendWelcomeEmail } from "@/lib/email";
+import { routeLogger } from "@/lib/logger";
+
+const log = routeLogger("POST /api/webhooks/clerk");
 
 export async function POST(req: Request) {
   const WEBHOOK_SECRET = process.env.CLERK_WEBHOOK_SECRET;
   if (!WEBHOOK_SECRET) {
-    console.error("[clerk webhook] Missing CLERK_WEBHOOK_SECRET");
+    log.error("missing CLERK_WEBHOOK_SECRET");
     return NextResponse.json({ error: "Missing webhook secret" }, { status: 500 });
   }
 
@@ -31,18 +34,18 @@ export async function POST(req: Request) {
       "svix-signature": svix_signature,
     }) as typeof evt;
   } catch (err) {
-    console.error("[clerk webhook] Invalid signature:", err);
+    log.error({ err }, "invalid signature");
     return NextResponse.json({ error: "Invalid signature" }, { status: 400 });
   }
 
   const { type, data } = evt;
-  console.log(`[clerk webhook] ${type}`);
+  log.info({ type }, "webhook received");
 
   // Only handle user events — billing state is read directly from Clerk API
   if (type === "user.created" || type === "user.updated") {
     const userId = data.id as string | undefined;
     if (!userId) {
-      console.error("[clerk webhook] No user id in payload");
+      log.error({ type }, "no user id in payload");
       return NextResponse.json({ error: "No user_id in payload" }, { status: 400 });
     }
 
@@ -58,14 +61,14 @@ export async function POST(req: Request) {
           update: { email },
           create: { id: userId, email },
         });
-        console.log(`[clerk webhook] Synced email for user=${userId}`);
+        log.info({ userId, email }, "synced user email");
 
         if (type === "user.created") {
-          await sendWelcomeEmail(email, firstName).catch(err => console.error("[welcome email]", err));
+          await sendWelcomeEmail(email, firstName).catch(err => log.error({ err, email }, "welcome email failed"));
         }
       }
     } catch (err) {
-      console.error("[clerk webhook] DB error:", err);
+      log.error({ err, userId }, "DB error");
       return NextResponse.json({ error: "DB error" }, { status: 500 });
     }
   }

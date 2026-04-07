@@ -3,11 +3,14 @@ import { auth, currentUser } from "@clerk/nextjs/server";
 import { prisma } from "@/lib/prisma";
 import { sendEmail } from "@/lib/email";
 import { getTier } from "@/lib/tier";
+import { routeLogger } from "@/lib/logger";
 
 export async function POST(req: NextRequest) {
   const { userId } = await auth();
   const body = await req.json();
   const { category, message } = body;
+  const log = routeLogger("POST /api/feedback", userId);
+  log.info({ type: category, message: message?.substring(0, 100) }, "request received");
 
   if (!message?.trim()) {
     return NextResponse.json({ error: "Message required" }, { status: 400 });
@@ -41,7 +44,9 @@ export async function POST(req: NextRequest) {
       <hr style="border:none;border-top:1px solid #eee;margin:16px 0;">
       <p style="white-space:pre-wrap;">${message}</p>
     </div>`,
-  }).catch(() => {}); // non-blocking
+  }).catch((err) => {
+    log.error({ err }, "failed to send feedback notification email");
+  });
 
   return NextResponse.json({ ok: true });
 }

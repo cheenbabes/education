@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs/server";
 import { getOrCreateUser } from "@/lib/getOrCreateUser";
 import { getTier, getLimits, getUsagePeriodStart, getUsageResetsAt } from "@/lib/tier";
+import { routeLogger } from "@/lib/logger";
 
 export async function GET() {
   const { userId } = await auth();
@@ -28,6 +29,9 @@ export async function GET() {
     }),
     prisma.child.count({ where: { userId } }),
   ]);
+
+  const log = routeLogger("GET /api/user/tier", userId);
+  log.info({ tier, lessonsUsed, lessonsLimit: limits.lessons }, "tier info served");
 
   return NextResponse.json({
     tier,
