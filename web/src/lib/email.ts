@@ -2,10 +2,14 @@ import { logger } from "@/lib/logger";
 
 const RESEND_API_KEY = process.env.RESEND_API_KEY;
 const FROM_EMAIL = process.env.RESEND_FROM_EMAIL ?? "hello@sagescompass.com";
-const ADMIN_EMAIL = process.env.RESEND_ADMIN_EMAIL ?? "hello@sagescompass.com";
+// Comma-separated list of admin emails for contact/feedback notifications
+const ADMIN_EMAILS = (process.env.RESEND_ADMIN_EMAILS ?? "hello@sagescompass.com")
+  .split(",")
+  .map((e) => e.trim())
+  .filter(Boolean);
 
 interface SendEmailOptions {
-  to: string;
+  to: string | string[];
   subject: string;
   html: string;
   replyTo?: string;
@@ -132,7 +136,7 @@ export async function sendWelcomeEmail(email: string, firstName: string) {
 
 export async function sendContactNotification(name: string, email: string, subject: string, message: string) {
   return sendEmail({
-    to: ADMIN_EMAIL,
+    to: ADMIN_EMAILS,
     subject: `[Contact] ${subject} — from ${name}`,
     html: contactNotificationHtml(name, email, subject, message),
     replyTo: email,

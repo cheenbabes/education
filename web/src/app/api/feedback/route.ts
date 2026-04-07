@@ -34,7 +34,7 @@ export async function POST(req: NextRequest) {
 
   // Send notification
   await sendEmail({
-    to: process.env.RESEND_ADMIN_EMAIL ?? "hello@sagescompass.com",
+    to: (process.env.RESEND_ADMIN_EMAILS ?? "hello@sagescompass.com").split(",").map(e => e.trim()).filter(Boolean),
     subject: `[Feedback] ${category ?? "general"} — ${name}`,
     html: `<div style="font-family:Georgia,serif;max-width:580px;margin:0 auto;padding:32px 20px;">
       <h2 style="color:#0B2E4A;">New Feedback</h2>

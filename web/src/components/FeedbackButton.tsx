@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import { useUser } from "@clerk/nextjs";
+import { usePathname } from "next/navigation";
 
 const CATEGORIES = [
   { value: "bug", label: "Something's broken" },
@@ -8,8 +9,12 @@ const CATEGORIES = [
   { value: "general", label: "General feedback" },
 ];
 
+// Only show on authenticated app pages, not public/marketing pages
+const HIDDEN_PATHS = ["/", "/contact", "/about", "/pricing", "/explore", "/archetypes", "/compass", "/privacy", "/terms", "/sign-in", "/sign-up"];
+
 export function FeedbackButton() {
   const { isSignedIn } = useUser();
+  const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [category, setCategory] = useState("general");
   const [message, setMessage] = useState("");
@@ -17,6 +22,7 @@ export function FeedbackButton() {
   const [submitted, setSubmitted] = useState(false);
 
   if (!isSignedIn) return null;
+  if (HIDDEN_PATHS.some(p => pathname === p || (p !== "/" && pathname.startsWith(p + "/")))) return null;
 
   const handleSubmit = async () => {
     if (!message.trim()) return;
