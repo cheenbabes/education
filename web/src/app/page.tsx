@@ -9,7 +9,7 @@ import { ArchetypeRingResponsive } from "@/components/archetype-ring-responsive"
 export const metadata: Metadata = {
   title: "The Sage's Compass — Homeschool Curriculum for Your Family",
   description:
-    "Discover your teaching archetype and generate personalized, standards-aligned lesson plans matched to your philosophy and your child's interests.",
+    "Discover your teaching archetype and create personalized, standards-aligned lesson plans matched to your philosophy and your child's interests.",
 };
 
 // Archetype ring order: Weaver at top (12 o'clock), Storyteller upper-right, Guide upper-left (last)
@@ -67,7 +67,7 @@ export default function Home() {
               color: "var(--text-secondary)",
               lineHeight: 1.6,
             }}>
-              Discover your teaching archetype, explore curricula, generate custom, standards-aligned lesson plans for any philosophy — Montessori, Charlotte Mason, Classical, and more — in two minutes.
+              Discover your teaching archetype, explore curricula, create custom, standards-aligned lesson plans for any philosophy — Montessori, Charlotte Mason, Classical, and more — in two minutes.
             </p>
 
             <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
@@ -358,7 +358,7 @@ export default function Home() {
             Built on Real Pedagogy
           </p>
           <h2 className="font-cormorant-sc" style={{ fontSize: "2rem", fontWeight: 700, letterSpacing: "0.05em", color: "var(--ink)" }}>
-            Lessons generated through a master educator&apos;s methodology.
+            Lessons created through a master educator&apos;s methodology.
           </h2>
         </div>
 
@@ -401,7 +401,7 @@ export default function Home() {
             {
               right: false,
               headline: "Create Lessons in Any of Eight Philosophies. On Demand.",
-              body: "You're not locked into one approach. Your Compass Quiz reveals your archetype, but you can create lessons rooted in any philosophy — Montessori, Charlotte Mason, Classical, Waldorf, Project-Based, Nature-Based, Unschooling, or Adaptive — and switch between them freely. Every philosophy is built from primary sources and real pedagogical frameworks. No other tool generates consistent, high-quality lessons across all eight.",
+              body: "You're not locked into one approach. Your Compass Quiz reveals your archetype, but you can create lessons rooted in any philosophy — Montessori, Charlotte Mason, Classical, Waldorf, Project-Based, Nature-Based, Unschooling, or Adaptive — and switch between them freely. Every philosophy is built from primary sources and real pedagogical frameworks. No other tool creates consistent, high-quality lessons across all eight.",
               note: "8 philosophies · Switch freely · Every lesson grounded in real pedagogy",
               visual: (
                 <div className="wc-card wc-card-lavender frost-card" style={{ borderRadius: "14px", padding: "1.25rem", display: "flex", flexDirection: "column", gap: "0.5rem" }}>
@@ -527,8 +527,8 @@ export default function Home() {
             /* 7. Learning notes */
             {
               right: false,
-              headline: "Every Child Learns Differently. Now You Can Say Exactly How.",
-              body: "Add a learning note to any child's profile — their preferences, accommodations, or anything you know about how they learn best. Every lesson we generate adapts around it. Not a rigid filter. Not a separate mode. Just a quiet, intelligent consideration woven into the lesson alongside your philosophy and their interests.",
+              headline: "Every Child Learns Differently. Now Your Lessons Can Reflect That.",
+              body: "Add a learning note to any child's profile — their preferences, accommodations, or anything you know about how they learn best. Every lesson we create adapts around it. Not a rigid filter. Not a separate mode. Just a quiet, intelligent consideration woven into the lesson alongside your philosophy and their interests.",
               note: "Works especially well for 2E learners, ADHD, sensory differences, and any child who doesn't fit the standard mold.",
               visual: (
                 <div className="wc-card wc-card-lavender frost-card" style={{ borderRadius: "14px", padding: "1.25rem", display: "flex", flexDirection: "column", gap: "0.75rem" }}>
@@ -546,7 +546,7 @@ export default function Home() {
                     </div>
                   </div>
                   {/* Arrow */}
-                  <div style={{ textAlign: "center", fontSize: "0.7rem", color: "var(--text-tertiary)" }}>↓ every generated lesson</div>
+                  <div style={{ textAlign: "center", fontSize: "0.7rem", color: "var(--text-tertiary)" }}>↓ every lesson created</div>
                   {/* Lesson output card */}
                   <div style={{ background: "rgba(255,255,255,0.8)", borderRadius: "10px", padding: "0.75rem 1rem" }}>
                     <div style={{ fontSize: "0.62rem", fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: "var(--accent-secondary)", marginBottom: "0.4rem" }}>
