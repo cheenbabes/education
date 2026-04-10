@@ -7,26 +7,26 @@ import "./globals.css";
 export const metadata: Metadata = {
   metadataBase: new URL("https://thesagescompass.com"),
   title: {
-    default: "The Sage's Compass — Homeschool Curriculum for Your Family",
-    template: "%s | The Sage's Compass",
+    default: "Sage's Compass — Find Your Teaching Archetype and Build Lessons That Match",
+    template: "%s | Sage's Compass",
   },
   description:
     "Discover your teaching archetype, then create custom lesson plans matched to your philosophy, your child's interests, and your state's standards.",
   openGraph: {
-    title: "The Sage's Compass — Homeschool Curriculum for Your Family",
+    title: "Sage's Compass — Find Your Teaching Archetype and Build Lessons That Match",
     description:
       "Discover your teaching archetype, then create custom lesson plans matched to your philosophy, your child's interests, and your state's standards.",
-    siteName: "The Sage's Compass",
+    siteName: "Sage's Compass",
     locale: "en_US",
     type: "website",
-    images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "Sage's Compass — Discover Your Teaching Archetype" }],
+    images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "Sage's Compass — Find Your Teaching Archetype and Build Lessons That Match" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "The Sage's Compass — Homeschool Curriculum for Your Family",
+    title: "Sage's Compass — Find Your Teaching Archetype and Build Lessons That Match",
     description:
       "Discover your teaching archetype, then create custom lesson plans matched to your philosophy, your child's interests, and your state's standards.",
-    images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "Sage's Compass — Discover Your Teaching Archetype" }],
+    images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "Sage's Compass — Find Your Teaching Archetype and Build Lessons That Match" }],
   },
 };
 
