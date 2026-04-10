@@ -538,7 +538,7 @@ function GeneratePage() {
               <div className="flex items-center justify-between flex-wrap gap-1">
                 <h2 className="font-medium text-gray-900">Educational approach</h2>
                 {archetypePhilosophyIds.length > 0 ? (
-                  <span style={{ fontSize: "0.7rem", color: "var(--accent-primary)" }}>
+                  <span style={{ fontSize: "14px", color: "#82284b" }}>
                     ✦ Highlighted match your archetype
                   </span>
                 ) : (
@@ -559,7 +559,7 @@ function GeneratePage() {
                       isSelected
                         ? { background: "#082f4e", color: "#F9F6EF", borderRadius: "8px", border: "none" }
                         : isMatch
-                        ? { background: "rgba(110,110,158,0.08)", border: "1px solid rgba(110,110,158,0.3)", borderRadius: "8px" }
+                        ? { background: "linear-gradient(135deg, rgba(130,40,75,0.08), rgba(253,181,192,0.15))", border: "1px solid rgba(130,40,75,0.25)", borderRadius: "8px" }
                         : { background: "rgba(255,255,255,0.5)", border: "1px solid rgba(255,255,255,0.4)", borderRadius: "8px" }
                     }
                   >
@@ -577,7 +577,7 @@ function GeneratePage() {
                           {p.label}
                         </p>
                         {isMatch && !isSelected && (
-                          <span style={{ fontSize: "0.6rem", color: "var(--accent-primary)", fontWeight: 600 }}>✦</span>
+                          <span style={{ fontSize: "0.6rem", color: "#82284b", fontWeight: 600 }}>✦</span>
                         )}
                       </div>
                       <p className={`text-xs ${isSelected ? "text-[#F9F6EF]/70" : "text-gray-500"}`}>

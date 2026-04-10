@@ -304,14 +304,14 @@ function ResultsPageInner() {
         >
           <div className="text-center space-y-3">
             {/* Primary character + secondary tool side by side */}
-            <div className="flex items-end justify-center">
+            <div className="flex items-end justify-center overflow-hidden px-4">
               <Image
                 src={archetype.imagePath}
                 alt={archetype.name}
                 width={220}
                 height={220}
-                className="object-contain"
-                style={{ height: "220px", width: "auto" }}
+                className="object-contain max-w-[55vw] sm:max-w-none"
+                style={{ height: "auto", maxHeight: "220px", width: "auto" }}
               />
               {secondaryArchetype && (
                 <Image
@@ -319,8 +319,8 @@ function ResultsPageInner() {
                   alt={secondaryArchetype.name}
                   width={120}
                   height={120}
-                  className="object-contain opacity-70"
-                  style={{ height: "120px", width: "auto", marginLeft: "-12px" }}
+                  className="object-contain opacity-70 max-w-[25vw] sm:max-w-none"
+                  style={{ height: "auto", maxHeight: "120px", width: "auto", marginLeft: "-12px" }}
                 />
               )}
             </div>
@@ -855,6 +855,24 @@ function ResultsPageInner() {
             ))}
         </div>
 
+        {/* Browse all */}
+        <div className="text-center">
+          <Link
+            href="/curriculum"
+            className="inline-block text-sm font-medium hover:opacity-90 transition-opacity"
+            style={{
+              background: "rgba(255,255,255,0.72)",
+              backdropFilter: "blur(12px)",
+              border: "1px solid rgba(255,255,255,0.5)",
+              borderRadius: "10px",
+              padding: "0.6rem 1.4rem",
+              color: "var(--ink)",
+            }}
+          >
+            Browse all curriculum matches &rarr;
+          </Link>
+        </div>
+
         {/* Suggest a curriculum */}
         <p className="text-center">
           <Link
@@ -882,7 +900,7 @@ function ResultsPageInner() {
           }}
         >
           <p className="text-sm" style={{ color: "var(--text-secondary)" }}>
-            Ready to start building lessons that match your {archetype.name} style?
+            Ready to start building lessons that match your {archetype.name.replace(/^The\s+/i, "")} style?
           </p>
           <Link
             href="/create"

@@ -46,7 +46,7 @@ export function welcomeEmailHtml(firstName: string): string {
         <!-- Header -->
         <tr><td style="background-color:#0B2E4A;border-radius:12px 12px 0 0;padding:28px 32px;text-align:center;">
           <p style="margin:0;font-family:'Cormorant SC',Georgia,serif;font-variant:small-caps;font-size:1.3rem;color:#F9F6EF;letter-spacing:0.06em;">
-            The Sage's Compass
+            Sage's Compass
           </p>
           <p style="margin:6px 0 0;font-family:Georgia,serif;font-size:0.78rem;color:rgba(249,246,239,0.5);letter-spacing:0.04em;">
             Curriculum matched to your teaching philosophy
@@ -61,7 +61,7 @@ export function welcomeEmailHtml(firstName: string): string {
           </h1>
 
           <p style="margin:0 0 20px;font-family:Georgia,serif;font-size:0.95rem;line-height:1.75;color:#444;">
-            We're so glad you're here. The Sage's Compass was built for families like yours &mdash; ones who care deeply about how their children learn and want curriculum that actually fits their values.
+            We're so glad you're here. Sage's Compass was built for educators like you who care about how children learn &mdash; and want curriculum that actually fits their values.
           </p>
 
           <!-- Action box -->
@@ -129,7 +129,7 @@ export function contactNotificationHtml(name: string, email: string, subject: st
 export async function sendWelcomeEmail(email: string, firstName: string) {
   return sendEmail({
     to: email,
-    subject: "Welcome to The Sage's Compass",
+    subject: "Welcome to Sage's Compass",
     html: welcomeEmailHtml(firstName),
   });
 }
