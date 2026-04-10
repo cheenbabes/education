@@ -32,7 +32,7 @@ export function Shell({ children, hue = "home", fullWidth = false }: ShellProps)
         }}>
           <span>© {new Date().getFullYear()} The Sage&apos;s Compass</span>
           <div style={{ display: "flex", gap: "1.25rem" }}>
-            {([["Privacy", "/privacy"], ["Terms", "/terms"], ["Contact", "/contact"]] as const).map(([label, href]) => (
+            {([["Privacy", "/privacy"], ["Terms", "/terms"], ["Data Deletion", "/data-deletion"], ["Contact", "/contact"]] as const).map(([label, href]) => (
               <Link key={label} href={href} style={{ color: "rgba(249,246,239,0.4)", textDecoration: "none" }}>
                 {label}
               </Link>
