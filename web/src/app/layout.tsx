@@ -11,11 +11,11 @@ export const metadata: Metadata = {
     template: "%s | The Sage's Compass",
   },
   description:
-    "Discover your teaching archetype, then generate custom lesson plans matched to your philosophy, your child's interests, and your state's standards.",
+    "Discover your teaching archetype, then create custom lesson plans matched to your philosophy, your child's interests, and your state's standards.",
   openGraph: {
     title: "The Sage's Compass — Homeschool Curriculum for Your Family",
     description:
-      "Discover your teaching archetype, then generate custom lesson plans matched to your philosophy, your child's interests, and your state's standards.",
+      "Discover your teaching archetype, then create custom lesson plans matched to your philosophy, your child's interests, and your state's standards.",
     siteName: "The Sage's Compass",
     locale: "en_US",
     type: "website",
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "The Sage's Compass — Homeschool Curriculum for Your Family",
     description:
-      "Discover your teaching archetype, then generate custom lesson plans matched to your philosophy, your child's interests, and your state's standards.",
+      "Discover your teaching archetype, then create custom lesson plans matched to your philosophy, your child's interests, and your state's standards.",
     images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "Sage's Compass — Discover Your Teaching Archetype" }],
   },
 };
