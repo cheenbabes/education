@@ -58,7 +58,7 @@ export default function AboutPage() {
         </div>
 
         {/* ── Intro text + founders photo side by side ── */}
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "2.5rem", alignItems: "center", marginBottom: "4rem" }}>
+        <div className="about-intro-grid" style={{ display: "grid", gap: "2.5rem", alignItems: "center", marginBottom: "4rem" }}>
           <p className="font-cormorant" style={{ fontSize: "1.15rem", fontStyle: "italic", color: "var(--text-secondary)", lineHeight: 1.7 }}>
             Eugene and Audarya have been married for 14 years and have four children. For over a decade, they have collaborated on educational projects, exploring ways to support children and families in learning. Recently, they combined their unique skills&mdash;Eugene&apos;s expertise as a software engineer and Audarya&apos;s passion for teaching&mdash;to create an app designed to empower families and communities to take an active role in their children&apos;s education.
           </p>
@@ -103,7 +103,7 @@ export default function AboutPage() {
           <p style={{ fontSize: "0.72rem", fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: "var(--text-tertiary)", textAlign: "center", marginBottom: "1.5rem" }}>
             Life behind the app
           </p>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "1rem" }}>
+          <div className="about-photo-grid" style={{ display: "grid", gap: "1rem" }}>
             {FAMILY_PHOTOS.map((photo, i) => (
               <div key={i} style={{
                 ...frostCard,
@@ -112,7 +112,7 @@ export default function AboutPage() {
                 aspectRatio: "4/3",
                 overflow: "hidden",
               }}>
-                <Image src={photo.src} alt={photo.alt} fill style={{ objectFit: "cover" }} />
+                <Image src={photo.src} alt={photo.alt} fill style={{ objectFit: "cover", objectPosition: "center 20%" }} />
               </div>
             ))}
           </div>

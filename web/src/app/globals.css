@@ -653,3 +653,30 @@
 .social-icon-link:hover {
   color: rgba(249,246,239,0.75);
 }
+
+.social-icon-nav {
+  color: var(--text-tertiary);
+  display: flex;
+  opacity: 0.5;
+  transition: opacity 0.15s;
+}
+.social-icon-nav:hover {
+  opacity: 0.85;
+}
+
+/* ─── About page responsive grids ──────────────────────────────────────── */
+.about-intro-grid {
+  grid-template-columns: 1fr 1fr;
+}
+.about-photo-grid {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+@media (max-width: 640px) {
+  .about-intro-grid {
+    grid-template-columns: 1fr;
+  }
+  .about-photo-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
