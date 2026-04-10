@@ -49,7 +49,11 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
-cors_origins = os.environ.get("CORS_ORIGINS", "http://localhost:3456,http://localhost:3000,http://localhost:3001").split(",")
+cors_origins = os.environ.get(
+    "CORS_ORIGINS",
+    "http://localhost:3456,http://localhost:3000,http://localhost:3001,"
+    "https://sagescompass.com,https://www.sagescompass.com,https://thesagescompass.com"
+).split(",")
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[o.strip() for o in cors_origins],
