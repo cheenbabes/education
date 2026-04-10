@@ -263,6 +263,18 @@ export default function PrivacyPage() {
             privacy@thesagescompass.com
           </a>
         </p>
+
+        {/* ── Third-Party Data Attributions ── */}
+        <h2 className="font-cormorant-sc" style={{ fontSize: "1.25rem", color: "var(--ink)", marginBottom: "1rem" }}>
+          Third-Party Data Attributions
+        </h2>
+        <p style={{ fontSize: "0.9rem", color: "var(--text-secondary)", lineHeight: 1.75, marginBottom: "3rem" }}>
+          The interactive Explore star map uses constellation line data from{" "}
+          <a href="https://zenodo.org/doi/10.5281/zenodo.10397192" target="_blank" rel="noopener noreferrer" style={{ color: "var(--ink)" }}>
+            ConstellationLines
+          </a>{" "}
+          (CC BY 4.0).
+        </p>
       </div>
     </div>
   );

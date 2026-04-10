@@ -244,19 +244,6 @@ function ExplorePageInner() {
           </div>
         ) : null}
 
-        <div className="fixed left-3 bottom-14 z-40 text-[10px] text-[#d4af37]/55 tracking-[0.06em] uppercase pointer-events-auto">
-          Constellation lines data:
-          {" "}
-          <a
-            href="https://zenodo.org/doi/10.5281/zenodo.10397192"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="underline decoration-[#d4af37]/35 hover:text-[#d4af37]/85"
-          >
-            ConstellationLines (CC BY 4.0)
-          </a>
-        </div>
-
         <div className="fixed right-3 bottom-14 z-40 pointer-events-auto">
           <a
             href="/contact?subject=curriculum-suggestion"
