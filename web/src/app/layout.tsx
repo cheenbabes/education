@@ -20,14 +20,14 @@ export const metadata: Metadata = {
     siteName: "Sage's Compass",
     locale: "en_US",
     type: "website",
-    images: [{ url: "/og-image.jpg", width: 1200, height: 630, alt: "Sage's Compass — Find Your Teaching Archetype and Build Lessons That Match" }],
+    images: [{ url: "/og.jpg", width: 1200, height: 630, alt: "Sage's Compass — Find Your Teaching Archetype and Build Lessons That Match" }],
   },
   twitter: {
     card: "summary_large_image",
     title: "Sage's Compass — Find Your Teaching Archetype and Build Lessons That Match",
     description:
       "Discover your teaching archetype, then create custom lesson plans matched to your philosophy, your child's interests, and your state's standards.",
-    images: [{ url: "/og-image.jpg", width: 1200, height: 630, alt: "Sage's Compass — Find Your Teaching Archetype and Build Lessons That Match" }],
+    images: [{ url: "/og.jpg", width: 1200, height: 630, alt: "Sage's Compass — Find Your Teaching Archetype and Build Lessons That Match" }],
   },
 };
 
