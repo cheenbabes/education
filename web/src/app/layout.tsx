@@ -16,6 +16,7 @@ export const metadata: Metadata = {
     title: "Sage's Compass — Find Your Teaching Archetype and Build Lessons That Match",
     description:
       "Discover your teaching archetype, then create custom lesson plans matched to your philosophy, your child's interests, and your state's standards.",
+    url: "https://thesagescompass.com",
     siteName: "Sage's Compass",
     locale: "en_US",
     type: "website",
