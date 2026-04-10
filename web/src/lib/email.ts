@@ -72,7 +72,7 @@ export function welcomeEmailHtml(firstName: string): string {
               </p>
               <table role="presentation" cellpadding="0" cellspacing="0" style="font-family:Georgia,serif;font-size:0.88rem;color:#444;line-height:1.8;">
                 <tr><td style="padding:3px 0;vertical-align:top;color:#6E6E9E;width:20px;">&#10003;</td>
-                    <td style="padding:3px 0 3px 8px;"><strong>Take the Compass Quiz</strong> &mdash; discover your teaching archetype in 5 minutes</td></tr>
+                    <td style="padding:3px 0 3px 8px;"><strong>Take the Compass Assessment</strong> &mdash; discover your teaching archetype in 5 minutes</td></tr>
                 <tr><td style="padding:3px 0;vertical-align:top;color:#7A9E8A;width:20px;">&#10003;</td>
                     <td style="padding:3px 0 3px 8px;"><strong>Explore curricula</strong> &mdash; browse 70+ matched to your philosophy</td></tr>
                 <tr><td style="padding:3px 0;vertical-align:top;color:#9B7E8E;width:20px;">&#10003;</td>
@@ -90,7 +90,7 @@ export function welcomeEmailHtml(firstName: string): string {
             <tr><td align="center" style="padding:4px 0 8px;">
               <a href="https://thesagescompass.com/compass"
                  style="display:inline-block;background-color:#0B2E4A;color:#F9F6EF;font-family:Georgia,serif;font-size:0.9rem;font-weight:600;text-decoration:none;padding:13px 32px;border-radius:10px;">
-                Take the Compass Quiz
+                Take the Compass Assessment
               </a>
             </td></tr>
           </table>

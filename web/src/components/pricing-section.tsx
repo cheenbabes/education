@@ -34,7 +34,7 @@ const PLANS: Plan[] = [
     period: "forever",
     featured: false,
     features: [
-      "Full Compass Quiz + archetype discovery",
+      "Full Compass Assessment + archetype discovery",
       "3 lesson generations per month",
       "Top 3 curriculum matches for your philosophy",
       "Interactive Explore star map",
@@ -123,7 +123,7 @@ export function PricingSection({ onSelectPlan, renderCheckout }: PricingSectionP
             Start Free. Upgrade When You&apos;re Ready.
           </h2>
           <p className="font-cormorant" style={{ fontSize: "1.05rem", fontStyle: "italic", color: "var(--text-secondary)" }}>
-            The Compass Quiz and your first three lessons are completely free. No credit card. No trial countdown.
+            The Compass Assessment and your first three lessons are completely free. No credit card. No trial countdown.
           </p>
         </div>
 
@@ -288,7 +288,7 @@ export function PricingSection({ onSelectPlan, renderCheckout }: PricingSectionP
         </div>
 
         <p style={{ textAlign: "center", fontSize: "0.8rem", color: "var(--text-tertiary)", marginTop: "1.5rem" }}>
-          All plans include all 8 teaching philosophies, the full Compass Quiz, and the interactive Explore star map. Cancel anytime.
+          All plans include all 8 teaching philosophies, the full Compass Assessment, and the interactive Explore star map. Cancel anytime.
         </p>
       </div>
     </section>

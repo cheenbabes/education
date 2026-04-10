@@ -256,7 +256,7 @@ function ResultsPageInner() {
             className="text-sm hover:underline"
             style={{ color: "var(--text-secondary)" }}
           >
-            Retake quiz
+            Retake assessment
           </Link>
         </div>
 
@@ -682,7 +682,7 @@ function ResultsPageInner() {
               <p className="text-sm" style={{ color: "var(--text-secondary)" }}>
                 No curriculum matches found for your filters. Try adjusting your preferences or{" "}
                 <Link href="/compass/quiz" className="hover:underline" style={{ color: "var(--accent-primary)" }}>
-                  retaking the quiz
+                  retaking the assessment
                 </Link>.
               </p>
             </div>

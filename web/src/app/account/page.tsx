@@ -270,10 +270,10 @@ export default function AccountPage() {
           ) : (
             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: "1rem" }}>
               <p style={{ fontSize: "0.85rem", color: "var(--text-secondary)" }}>
-                You haven&apos;t taken the Compass Quiz yet.
+                You haven&apos;t taken the Compass Assessment yet.
               </p>
               <Link href="/compass" className="btn-night" style={{ fontSize: "0.8rem", padding: "0.45rem 1rem", textDecoration: "none" }}>
-                Take the Quiz →
+                Take the Assessment →
               </Link>
             </div>
           )}

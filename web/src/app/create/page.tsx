@@ -543,7 +543,7 @@ function GeneratePage() {
                   </span>
                 ) : (
                   <Link href="/compass" style={{ fontSize: "0.7rem", color: "var(--accent-primary)", textDecoration: "none" }}>
-                    Take the Compass Quiz to find your match →
+                    Take the Compass Assessment to find your match →
                   </Link>
                 )}
               </div>

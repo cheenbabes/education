@@ -268,14 +268,14 @@ function CurriculumPageInner() {
             Curriculum Browser
           </h1>
           <p className="text-sm" style={{ color: "var(--text-secondary)", maxWidth: "400px", margin: "0 auto", lineHeight: 1.7 }}>
-            To see personalized curriculum recommendations, take the Compass Quiz first. It only takes about 5 minutes.
+            To see personalized curriculum recommendations, take the Compass Assessment first. It only takes about 5 minutes.
           </p>
           <Link
             href="/compass/quiz"
             className="inline-block text-sm font-medium hover:opacity-90 transition-opacity"
             style={{ background: "var(--night)", color: "var(--parchment)", borderRadius: "10px", padding: "0.7rem 1.6rem" }}
           >
-            Take the Compass Quiz &rarr;
+            Take the Compass Assessment &rarr;
           </Link>
         </div>
       </Shell>

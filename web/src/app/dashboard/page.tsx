@@ -369,7 +369,7 @@ export default function DashboardPage() {
               Discover your teaching archetype to personalize your lessons.
             </p>
             <Link href="/compass" className="btn-night" style={{ fontSize: "0.8rem", padding: "0.45rem 1rem", textDecoration: "none", whiteSpace: "nowrap" }}>
-              Take the Compass Quiz →
+              Take the Compass Assessment →
             </Link>
           </div>
         )}
@@ -457,7 +457,7 @@ export default function DashboardPage() {
                   Ready to create your first lesson?
                 </p>
                 <p style={{ fontSize: "0.8rem", color: "#767676", marginBottom: "1.25rem", lineHeight: 1.6 }}>
-                  Take the Compass Quiz to discover your teaching style, then generate a lesson tailored to your philosophy and your child&apos;s interests.
+                  Take the Compass Assessment to discover your teaching style, then generate a lesson tailored to your philosophy and your child&apos;s interests.
                 </p>
                 <Link href="/create" style={{
                   background: "#0B2E4A", color: "#F9F6EF", borderRadius: "10px",

@@ -77,7 +77,7 @@ export default function Home() {
                 borderRadius: "12px",
                 textAlign: "center",
               }}>
-                Take the Compass Quiz — It&apos;s Free
+                Take the Compass Assessment — It&apos;s Free
               </Link>
               <p style={{ fontSize: "0.78rem", color: "var(--text-tertiary)", textAlign: "center" }}>
                 No credit card required · 5 minutes · Discover your archetype
@@ -165,7 +165,7 @@ export default function Home() {
       <section style={{ padding: "5rem 1.5rem", maxWidth: "1100px", margin: "0 auto" }}>
         <div style={{ textAlign: "center", marginBottom: "2.5rem" }}>
           <p style={{ fontSize: "0.7rem", fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: "var(--accent-primary)", marginBottom: "0.5rem" }}>
-            The Compass Quiz
+            The Compass Assessment
           </p>
           <h2 className="font-cormorant-sc" style={{ fontSize: "2rem", fontWeight: 700, letterSpacing: "0.05em", color: "var(--ink)", marginBottom: "0.75rem" }}>
             Eight Ways to Teach. One That&apos;s Yours.
@@ -401,7 +401,7 @@ export default function Home() {
             {
               right: false,
               headline: "Create Lessons in Any of Eight Philosophies. On Demand.",
-              body: "You're not locked into one approach. Your Compass Quiz reveals your archetype, but you can create lessons rooted in any philosophy — Montessori, Charlotte Mason, Classical, Waldorf, Project-Based, Nature-Based, Unschooling, or Adaptive — and switch between them freely. Every philosophy is built from primary sources and real pedagogical frameworks. No other tool creates consistent, high-quality lessons across all eight.",
+              body: "You're not locked into one approach. Your Compass Assessment reveals your archetype, but you can create lessons rooted in any philosophy — Montessori, Charlotte Mason, Classical, Waldorf, Project-Based, Nature-Based, Unschooling, or Adaptive — and switch between them freely. Every philosophy is built from primary sources and real pedagogical frameworks. No other tool creates consistent, high-quality lessons across all eight.",
               note: "8 philosophies · Switch freely · Every lesson grounded in real pedagogy",
               visual: (
                 <div className="wc-card wc-card-lavender frost-card" style={{ borderRadius: "14px", padding: "1.25rem", display: "flex", flexDirection: "column", gap: "0.5rem" }}>
@@ -571,7 +571,7 @@ export default function Home() {
               right: true,
               headline: "Explore the Universe of Educational Philosophy",
               body: "The Explore map is a visual space for discovery. Find the curriculum that fits your family.",
-              note: "Paired with the Compass Quiz, it answers the question every new homeschool parent has: where do I even begin?",
+              note: "Paired with the Compass Assessment, it answers the question every new homeschool parent has: where do I even begin?",
               visual: (
                 <div className="home-explore-card" style={{ position: "relative", borderRadius: "14px", overflow: "hidden", height: "400px", boxShadow: "0 8px 32px rgba(0,0,0,0.18)", border: "2px solid rgba(196,152,61,0.4)" }}>
                   <iframe
@@ -710,10 +710,10 @@ export default function Home() {
             <br />You don&apos;t have to anymore.
           </h2>
           <p className="font-cormorant" style={{ fontSize: "1.15rem", fontStyle: "italic", color: "var(--text-secondary)", marginBottom: "2rem", lineHeight: 1.6 }}>
-            Take the free Compass Quiz. Find your teaching archetype. Create your first lesson in two minutes.
+            Take the free Compass Assessment. Find your teaching archetype. Create your first lesson in two minutes.
           </p>
           <Link href="/compass" className="btn-night" style={{ fontSize: "1.05rem", padding: "0.9rem 2.5rem", borderRadius: "12px" }}>
-            Take the Compass Quiz — It&apos;s Free
+            Take the Compass Assessment — It&apos;s Free
           </Link>
           <p style={{ fontSize: "0.78rem", color: "var(--text-tertiary)", marginTop: "0.75rem" }}>
             5 minutes · No credit card · Discover your archetype
@@ -740,7 +740,7 @@ export default function Home() {
           </div>
           <div>
             <div style={{ fontSize: "0.65rem", fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "rgba(249,246,239,0.45)", marginBottom: "0.75rem" }}>Product</div>
-            {[["Compass Quiz", "/compass"], ["Archetypes", "/archetypes"], ["Create Lessons", "/create"], ["Explore Map", "/explore"], ["Suggest a Curriculum", "/contact?subject=curriculum-suggestion"]].map(([label, href]) => (
+            {[["Compass Assessment", "/compass"], ["Archetypes", "/archetypes"], ["Create Lessons", "/create"], ["Explore Map", "/explore"], ["Suggest a Curriculum", "/contact?subject=curriculum-suggestion"]].map(([label, href]) => (
               <Link key={label} href={href} style={{ display: "block", fontSize: "0.85rem", color: "rgba(249,246,239,0.65)", marginBottom: "0.4rem", textDecoration: "none" }}>{label}</Link>
             ))}
           </div>
