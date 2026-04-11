@@ -18,7 +18,7 @@ export default function CompassPage() {
 
         <div className="space-y-4" style={{ fontSize: "0.92rem", lineHeight: 1.75, color: "var(--text-secondary)" }}>
           <p>
-            This quiz is designed to reveal your natural propensities as a teacher.
+            This assessment is designed to reveal your natural propensities as a teacher.
             You&apos;ll get the most accurate results by considering both what you feel
             is important <strong style={{ color: "var(--ink)", fontWeight: 500 }}>and</strong> how you naturally operate.
           </p>
