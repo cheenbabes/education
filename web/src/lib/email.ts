@@ -1,4 +1,5 @@
 import { logger } from "@/lib/logger";
+import { SITE_HOSTNAME, toSiteUrl } from "@/lib/site";
 
 const RESEND_API_KEY = process.env.RESEND_API_KEY;
 const FROM_EMAIL = process.env.RESEND_FROM_EMAIL ?? "hello@sagescompass.com";
@@ -88,7 +89,7 @@ export function welcomeEmailHtml(firstName: string): string {
           <!-- CTA button -->
           <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
             <tr><td align="center" style="padding:4px 0 8px;">
-              <a href="https://thesagescompass.com/compass"
+              <a href="${toSiteUrl("/compass")}"
                  style="display:inline-block;background-color:#0B2E4A;color:#F9F6EF;font-family:Georgia,serif;font-size:0.9rem;font-weight:600;text-decoration:none;padding:13px 32px;border-radius:10px;">
                 Take the Compass Assessment
               </a>
@@ -104,7 +105,7 @@ export function welcomeEmailHtml(firstName: string): string {
           </p>
           <p style="margin:0;font-family:Georgia,serif;font-size:0.72rem;color:#aaa;text-align:center;">
             &copy; The Sage's Compass &middot;
-            <a href="https://thesagescompass.com" style="color:#aaa;text-decoration:none;">thesagescompass.com</a>
+            <a href="${toSiteUrl("/")}" style="color:#aaa;text-decoration:none;">${SITE_HOSTNAME}</a>
           </p>
         </td></tr>
 

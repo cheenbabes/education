@@ -1,7 +1,8 @@
 import type { MetadataRoute } from "next";
+import { SITE_ORIGIN } from "@/lib/site";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const base = "https://thesagescompass.com";
+  const base = SITE_ORIGIN;
 
   return [
     { url: base, lastModified: new Date(), changeFrequency: "weekly", priority: 1.0 },

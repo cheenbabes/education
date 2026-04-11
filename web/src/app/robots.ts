@@ -1,4 +1,5 @@
 import type { MetadataRoute } from "next";
+import { toSiteUrl } from "@/lib/site";
 
 export default function robots(): MetadataRoute.Robots {
   return {
@@ -26,6 +27,6 @@ export default function robots(): MetadataRoute.Robots {
         ],
       },
     ],
-    sitemap: "https://thesagescompass.com/sitemap.xml",
+    sitemap: toSiteUrl("/sitemap.xml"),
   };
 }

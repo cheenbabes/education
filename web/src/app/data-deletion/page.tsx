@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Nav } from "@/components/nav";
+import { SITE_HOSTNAME, SITE_ORIGIN } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Data Deletion",
@@ -38,8 +39,8 @@ export default function DataDeletionPage() {
         <ol style={{ fontSize: "0.9rem", color: "var(--text-secondary)", lineHeight: 1.75, paddingLeft: "1.5rem", marginBottom: "1.5rem" }}>
           <li style={{ marginBottom: "0.5rem" }}>
             Sign in to your account at{" "}
-            <a href="https://thesagescompass.com" style={{ color: "var(--ink)" }}>
-              thesagescompass.com
+            <a href={SITE_ORIGIN} style={{ color: "var(--ink)" }}>
+              {SITE_HOSTNAME}
             </a>
           </li>
           <li style={{ marginBottom: "0.5rem" }}>
