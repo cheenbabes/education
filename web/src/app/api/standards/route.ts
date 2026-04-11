@@ -2,7 +2,7 @@ import { prisma } from "@/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs/server";
 
-const KG_SERVICE_URL = process.env.KG_SERVICE_URL || process.env.NEXT_PUBLIC_KG_SERVICE_URL || "http://localhost:8000";
+const KG_SERVICE_URL = process.env.KG_SERVICE_URL || "http://localhost:8000";
 
 // GET /api/standards?childId=xxx
 // Returns standards per subject with coverage from completed lessons

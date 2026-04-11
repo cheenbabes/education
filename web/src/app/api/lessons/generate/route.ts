@@ -10,24 +10,20 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const log = routeLogger("POST /api/lessons/check-topic", userId);
+  const log = routeLogger("POST /api/lessons/generate", userId);
 
-  const { interest } = await req.json();
+  const body = await req.json();
 
-  if (!interest || typeof interest !== "string") {
-    return NextResponse.json({ safe: false, reason: "No topic provided." }, { status: 400 });
-  }
-
-  const res = await fetch(`${KG_SERVICE_URL}/check-topic`, {
+  const res = await fetch(`${KG_SERVICE_URL}/generate-lesson`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ interest }),
+    body: JSON.stringify(body),
   });
 
   if (!res.ok) {
-    // KG service unavailable — fail open so generation isn't blocked
-    log.error({ status: res.status, interest }, "KG service error");
-    return NextResponse.json({ safe: true });
+    const detail = await res.text();
+    log.error({ status: res.status }, "kg-service error");
+    return NextResponse.json({ error: detail }, { status: res.status });
   }
 
   const data = await res.json();

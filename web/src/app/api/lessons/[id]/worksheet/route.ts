@@ -5,7 +5,7 @@ import { isWorksheetsEnabled } from "@/lib/featureFlags";
 import { getTier, getLimits, getUsagePeriodStart } from "@/lib/tier";
 import { routeLogger } from "@/lib/logger";
 
-const KG_SERVICE_URL = process.env.KG_SERVICE_URL || process.env.NEXT_PUBLIC_KG_SERVICE_URL || "http://127.0.0.1:8000";
+const KG_SERVICE_URL = process.env.KG_SERVICE_URL || "http://127.0.0.1:8000";
 
 // POST /api/lessons/[id]/worksheet — generate and save a worksheet for a lesson
 export async function POST(

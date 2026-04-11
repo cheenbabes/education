@@ -18,7 +18,7 @@ import type {
 
 export const dynamic = "force-dynamic";
 
-const KG_URL = process.env.KG_SERVICE_URL || process.env.NEXT_PUBLIC_KG_SERVICE_URL || "http://127.0.0.1:8000";
+const KG_URL = process.env.KG_SERVICE_URL || "http://127.0.0.1:8000";
 
 // ── Philosophy name mapping ──────────────────────────────────────────────────
 const KG_TO_COMPASS: Record<string, string> = {

@@ -7,7 +7,7 @@ const log = routeLogger("GET /api/explore/graph");
 
 export const dynamic = "force-dynamic";
 
-const KG_URL = process.env.NEXT_PUBLIC_KG_SERVICE_URL || "http://127.0.0.1:8000";
+const KG_URL = process.env.KG_SERVICE_URL || "http://127.0.0.1:8000";
 
 // Philosophy positions on dimension axes (0-100 scale)
 // structure: 0=child-led, 100=teacher-directed

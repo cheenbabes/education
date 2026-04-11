@@ -1,15 +1,18 @@
 import { prisma } from "@/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
+import { auth } from "@clerk/nextjs/server";
 
-const KG_SERVICE_URL =
-  process.env.KG_SERVICE_URL ||
-  process.env.NEXT_PUBLIC_KG_SERVICE_URL ||
-  "http://localhost:8000";
+const KG_SERVICE_URL = process.env.KG_SERVICE_URL || "http://localhost:8000";
 
 // POST /api/standards/search
 // Proxies to the KG service's semantic search endpoint and enriches
 // results with coverage data from the database.
 export async function POST(req: NextRequest) {
+  const { userId } = await auth();
+  if (!userId) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
   const body = await req.json();
   const { query, childId } = body as { query: string; childId: string };
 

@@ -6,7 +6,6 @@ import { SUBJECTS, PHILOSOPHIES, GRADES, US_STATES } from "@/lib/types";
 import { useState, useEffect, useRef, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 
-const KG_SERVICE_URL = process.env.NEXT_PUBLIC_KG_SERVICE_URL || "http://localhost:8000";
 
 interface ChildData {
   id: string;
@@ -269,7 +268,7 @@ function GeneratePage() {
         });
 
     try {
-      const res = await fetch(`${KG_SERVICE_URL}/generate-lesson`, {
+      const res = await fetch("/api/lessons/generate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

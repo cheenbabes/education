@@ -1,10 +1,16 @@
 import { NextRequest, NextResponse } from "next/server";
+import { auth } from "@clerk/nextjs/server";
 
-const KG_SERVICE_URL = process.env.NEXT_PUBLIC_KG_SERVICE_URL || process.env.KG_SERVICE_URL || "http://localhost:8000";
+const KG_SERVICE_URL = process.env.KG_SERVICE_URL || "http://localhost:8000";
 
 // GET /api/standards/lookup?codes=CODE1,CODE2,CODE3
 // Returns { [code]: description } map
 export async function GET(req: NextRequest) {
+  const { userId } = await auth();
+  if (!userId) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
   const codesParam = req.nextUrl.searchParams.get("codes") || "";
   const codes = codesParam.split(",").filter(Boolean);
 
