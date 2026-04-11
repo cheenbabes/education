@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs/server";
+import { findOwnedChild } from "@/lib/ownership";
 
 const KG_SERVICE_URL = process.env.KG_SERVICE_URL || "http://localhost:8000";
 
@@ -17,10 +18,7 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: "childId required" }, { status: 400 });
   }
 
-  const child = await prisma.child.findUnique({
-    where: { id: childId },
-    include: { user: true },
-  });
+  const child = await findOwnedChild(userId, childId);
   if (!child) {
     return NextResponse.json({ error: "Child not found" }, { status: 404 });
   }

@@ -284,8 +284,21 @@ function GeneratePage() {
       });
 
       if (!res.ok) {
-        const detail = await res.text();
-        throw new Error(`Server error ${res.status}: ${detail}`);
+        const data = await res.json().catch(() => null);
+        if (res.status === 429 && data?.error === "monthly_limit") {
+          setShowLimitOverlay(true);
+          return;
+        }
+
+        const messageByCode: Record<string, string> = {
+          generation_failed: "Lesson generation is temporarily unavailable. Please try again in a minute.",
+          invalid_generation_request: "This lesson request could not be processed. Please review your selections and try again.",
+          Unauthorized: "Your session expired. Please sign in again and try again.",
+        };
+        const message =
+          (data?.error && messageByCode[data.error]) ||
+          `Server error ${res.status}. Please try again.`;
+        throw new Error(message);
       }
 
       const data = await res.json();
@@ -305,6 +318,12 @@ function GeneratePage() {
       if (saveRes.status === 429) {
         setShowLimitOverlay(true);
         return;
+      }
+      if (!saveRes.ok) {
+        const saveError = await saveRes.json().catch(() => null);
+        throw new Error(saveError?.error === "monthly_limit"
+          ? "You've used all of your lesson generations for this month."
+          : "Saving the lesson failed. Please try again.");
       }
       const saveData = await saveRes.json();
       router.push(`/lessons/${saveData.id}`);

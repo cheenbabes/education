@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs/server";
 import crypto from "crypto";
 import { getOrCreateUser } from "@/lib/getOrCreateUser";
-import { getTier, getLimits, getUsagePeriodStart } from "@/lib/tier";
+import { getLessonQuotaStatus } from "@/lib/lessonQuota";
 import { routeLogger } from "@/lib/logger";
 
 // POST /api/lessons — save a generated lesson
@@ -13,16 +13,10 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  // Enforce tier lesson limit (tier read from Clerk)
-  const { tier, periodStart } = await getTier(userId);
-  const limits = getLimits(tier);
-  const usagePeriodStart = getUsagePeriodStart(tier, periodStart);
-  const used = await prisma.lesson.count({
-    where: { userId, createdAt: { gte: usagePeriodStart } },
-  });
-  if (used >= limits.lessons) {
+  const { tier, limit, used } = await getLessonQuotaStatus(userId);
+  if (used >= limit) {
     return NextResponse.json(
-      { error: "monthly_limit", tier, limit: limits.lessons, used },
+      { error: "monthly_limit", tier, limit, used },
       { status: 429 },
     );
   }
