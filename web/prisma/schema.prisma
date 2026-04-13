@@ -61,6 +61,7 @@ model User {
   children       Child[]
   lessons        Lesson[]
   compassResults CompassResult[]
+  standardWorksheetAccesses StandardWorksheetAccess[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -104,6 +105,7 @@ model Lesson {
   completions      Completion[]
   calendarEntries  CalendarEntry[]
   worksheets       Worksheet[]
+  standardWorksheetAccesses StandardWorksheetAccess[]
 
   createdAt DateTime @default(now())
 
@@ -142,10 +144,28 @@ model StandardWorksheet {
   standardCodes  String[]
   content        Json
   createdAt      DateTime @default(now())
+  accesses       StandardWorksheetAccess[]
 
   @@unique([clusterKey, worksheetNum])
   @@index([grade, subject])
   @@index([clusterKey])
+}
+
+model StandardWorksheetAccess {
+  id                  String   @id @default(cuid())
+  userId              String
+  standardWorksheetId String
+  lessonId            String?
+
+  user              User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  standardWorksheet StandardWorksheet @relation(fields: [standardWorksheetId], references: [id], onDelete: Cascade)
+  lesson            Lesson?           @relation(fields: [lessonId], references: [id], onDelete: SetNull)
+
+  createdAt DateTime @default(now())
+
+  @@index([userId, createdAt])
+  @@index([lessonId, createdAt])
+  @@index([standardWorksheetId, createdAt])
 }
 
 model LessonChild {

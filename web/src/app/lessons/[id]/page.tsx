@@ -3,14 +3,12 @@
 import { Shell } from "@/components/shell";
 import { PrintLesson } from "@/components/print-lesson";
 import { Unauthorized } from "@/components/unauthorized";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useUser } from "@clerk/nextjs";
 import { PHILOSOPHY_LABELS, PHILOSOPHY_COLORS as SCORING_COLORS, resolvePhilosophyKey } from "@/lib/compass/scoring";
-import { printWorksheet } from "@/lib/printWorksheet";
-import { renderVisual } from "@/lib/worksheetSvg";
-import { WorksheetMafsVisual } from "@/components/WorksheetMafsVisual";
+import { openStandardWorksheetPdf } from "@/lib/openStandardWorksheetPdf";
 import { UPGRADE_URL } from "@/lib/upgradeUrl";
 import { useFeatureFlagEnabled } from "posthog-js/react";
 
@@ -28,23 +26,41 @@ interface LessonDetail {
   createdAt: string;
 }
 
-interface WorksheetData {
+interface StandardWorksheetItem {
   id: string;
-  childName: string | null;
+  title: string;
+  worksheetNum: number;
+  worksheetType: string;
+  lastOpenedAt: string | null;
+}
+
+interface StandardWorksheetGroup {
+  clusterKey: string;
+  clusterTitle: string;
   grade: string;
-  philosophy: string;
-  content: {
-    title: string;
-    sections: Array<{
-      type: string;
-      title: string;
-      instructions: string;
-      lines?: number;
-      drawing_space?: boolean;
-      visual?: { type: string; params: Record<string, unknown> };
-    }>;
+  subject: string;
+  standardCodes: string[];
+  matchedStandards: Array<{
+    code: string;
+    descriptionPlain: string | null;
+  }>;
+  worksheets: StandardWorksheetItem[];
+}
+
+interface LessonStandardWorksheetData {
+  lessonId: string;
+  lessonTitle: string;
+  isUnlocked: boolean;
+  lockReason: string | null;
+  completion: {
+    completedChildren: number;
+    totalChildren: number;
   };
-  createdAt: string;
+  standards: Array<{
+    code: string;
+    descriptionPlain: string | null;
+  }>;
+  worksheetGroups: StandardWorksheetGroup[];
 }
 
 function getPhilosophyColor(philosophy: string): string {
@@ -274,9 +290,9 @@ export default function LessonDetailPage() {
   const [submitting, setSubmitting] = useState(false);
 
   // Worksheet state
-  const [worksheets, setWorksheets] = useState<WorksheetData[]>([]);
-  const [worksheetLoading, setWorksheetLoading] = useState(false);
-  const [showChildPicker, setShowChildPicker] = useState(false);
+  const [worksheetData, setWorksheetData] = useState<LessonStandardWorksheetData | null>(null);
+  const [worksheetsLoading, setWorksheetsLoading] = useState(false);
+  const [openingWorksheetId, setOpeningWorksheetId] = useState<string | null>(null);
   const [worksheetError, setWorksheetError] = useState<string | null>(null);
   const [userTier, setUserTier] = useState<string>("compass");
   const [worksheetTierData, setWorksheetTierData] = useState<{ worksheetsUsed: number; worksheetsLimit: number } | null>(null);
@@ -289,7 +305,23 @@ export default function LessonDetailPage() {
   const [sectionOpenMap, setSectionOpenMap] = useState<Record<number, boolean>>({});
   const [scheduleDate, setScheduleDate] = useState("");
   const [scheduling, setScheduling] = useState(false);
-  const mafsRefs = useRef<Record<string, Record<number, string>>>({});
+
+  const loadStandardWorksheets = async () => {
+    setWorksheetsLoading(true);
+    try {
+      const res = await fetch(`/api/lessons/${lessonId}/standard-worksheets`);
+      if (!res.ok) {
+        setWorksheetData(null);
+        return;
+      }
+      const data = (await res.json()) as LessonStandardWorksheetData;
+      setWorksheetData(data);
+    } catch {
+      setWorksheetData(null);
+    } finally {
+      setWorksheetsLoading(false);
+    }
+  };
 
   const handleSchedule = async () => {
     if (!lesson || !scheduleDate) return;
@@ -331,10 +363,7 @@ export default function LessonDetailPage() {
         setLoading(false);
       });
 
-    fetch(`/api/lessons/${lessonId}/worksheet`)
-      .then((r) => r.json())
-      .then(setWorksheets)
-      .catch(() => {});
+    loadStandardWorksheets();
 
     fetch("/api/user/tier")
       .then((r) => r.json())
@@ -370,37 +399,68 @@ export default function LessonDetailPage() {
       setShowRating(null);
       setSelectedStar(0);
       setNotes("");
+      await loadStandardWorksheets();
     } finally {
       setSubmitting(false);
     }
   };
 
-  const generateWorksheet = async (childId: string | null, childName: string, grade: string) => {
+  const handleOpenWorksheet = async (
+    worksheet: StandardWorksheetItem,
+    clusterKey: string,
+  ) => {
     if (worksheetTierData && worksheetTierData.worksheetsUsed >= worksheetTierData.worksheetsLimit) {
       setWorksheetError(`You've used all ${worksheetTierData.worksheetsLimit} worksheets this month. Upgrade or wait until next month.`);
       return;
     }
-    setWorksheetLoading(true);
+
+    if (!lesson) return;
+
+    setOpeningWorksheetId(worksheet.id);
     setWorksheetError(null);
-    setShowChildPicker(false);
     try {
-      const res = await fetch(`/api/lessons/${lessonId}/worksheet`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ childId, childName, grade }),
+      await openStandardWorksheetPdf({
+        worksheetId: worksheet.id,
+        lessonId: lesson.id,
+        filename: `${clusterKey}-${worksheet.worksheetNum}.pdf`,
       });
-      if (res.status === 429) {
-        const data = await res.json();
-        setWorksheetError(`Worksheet limit reached (${data.used}/${data.limit} this month). Upgrade to generate more.`);
-        return;
-      }
-      if (!res.ok) throw new Error("Failed to generate worksheet");
-      const ws = await res.json();
-      setWorksheets((prev) => [ws, ...prev]);
-    } catch {
-      setWorksheetError("Failed to generate worksheet. Please try again.");
+
+      setWorksheetTierData((prev) =>
+        prev
+          ? {
+              ...prev,
+              worksheetsUsed: Math.min(prev.worksheetsLimit, prev.worksheetsUsed + 1),
+            }
+          : prev,
+      );
+      setWorksheetData((prev) =>
+        prev
+          ? {
+              ...prev,
+              worksheetGroups: prev.worksheetGroups.map((group) =>
+                group.clusterKey !== clusterKey
+                  ? group
+                  : {
+                      ...group,
+                      worksheets: group.worksheets.map((item) =>
+                        item.id !== worksheet.id
+                          ? item
+                          : {
+                              ...item,
+                              lastOpenedAt: new Date().toISOString(),
+                            },
+                      ),
+                    },
+              ),
+            }
+          : prev,
+      );
+    } catch (err) {
+      setWorksheetError(
+        err instanceof Error ? err.message : "Failed to open worksheet.",
+      );
     } finally {
-      setWorksheetLoading(false);
+      setOpeningWorksheetId(null);
     }
   };
 
@@ -450,6 +510,9 @@ export default function LessonDetailPage() {
   const philosophySummary = content.philosophy_summary as string | undefined;
   const estimatedDuration = content.estimated_duration_minutes as number | undefined;
   const lessonChildren = (content.children as { child_id: string; name: string; grade: string; age: number; differentiation_notes: string }[]) || [];
+  const worksheetGroups = worksheetData?.worksheetGroups ?? [];
+  const worksheetsUnlocked =
+    worksheetData?.isUnlocked ?? (children.length === 0 || lesson.completions.length > 0);
 
   const philoColor = getPhilosophyColor(lesson.philosophy);
 
@@ -1048,169 +1111,141 @@ export default function LessonDetailPage() {
               Worksheets
             </h3>
 
-            {/* Create button / child picker */}
             {userTier === "compass" ? (
               <p style={{ fontSize: "0.8rem", color: "#767676" }}>
-                Worksheet generation is available on Homestead and above.{" "}
-                <a href="/account" style={{ color: "#0B2E4A", fontWeight: 600, textDecoration: "underline" }}>Upgrade →</a>
+                Standards-based worksheets are available on Homestead and above.{" "}
+                <a href={UPGRADE_URL} style={{ color: "#0B2E4A", fontWeight: 600, textDecoration: "underline" }}>Upgrade →</a>
               </p>
-            ) : worksheets.length === 0 && !showChildPicker ? (
-              <div>
-                {children.length === 0 && (
-                  <button
-                    onClick={() => {
-                      const grade = lessonChildren[0]?.grade || "K";
-                      generateWorksheet(null, "Student", grade);
-                    }}
-                    disabled={worksheetLoading}
-                    style={{ ...nightButton, opacity: worksheetLoading ? 0.5 : 1 }}
-                  >
-                    {worksheetLoading ? "Creating..." : "Create Worksheet"}
-                  </button>
-                )}
-                {children.length === 1 && (
-                  <button
-                    onClick={() => {
-                      const child = children[0];
-                      const grade = lessonChildren.find((lc) => lc.child_id === child.id)?.grade || child.gradeLevel || "K";
-                      generateWorksheet(child.id, child.name, grade);
-                    }}
-                    disabled={worksheetLoading}
-                    style={{ ...nightButton, opacity: worksheetLoading ? 0.5 : 1 }}
-                  >
-                    {worksheetLoading ? "Creating..." : `Create Worksheet for ${children[0].name}`}
-                  </button>
-                )}
-                {children.length > 1 && (
-                  <button
-                    onClick={() => setShowChildPicker(true)}
-                    disabled={worksheetLoading}
-                    style={{ ...nightButton, opacity: worksheetLoading ? 0.5 : 1 }}
-                  >
-                    {worksheetLoading ? "Creating..." : "Create Worksheet"}
-                  </button>
-                )}
-              </div>
             ) : (
-              <div style={{ ...frostCard, padding: "1rem" }}>
-                <p style={{ fontSize: "0.8rem", color: "#5A5A5A", marginBottom: "0.6rem" }}>Choose a child:</p>
-                <div className="flex gap-2 flex-wrap">
-                  {children.map((child) => {
-                    const grade = lessonChildren.find((lc) => lc.child_id === child.id)?.grade || child.gradeLevel || "K";
-                    return (
-                      <button
-                        key={child.id}
-                        onClick={() => generateWorksheet(child.id, child.name, grade)}
-                        style={{
-                          ...frostPillBase,
-                          cursor: "pointer",
-                          color: "#0B2E4A",
-                          background: "rgba(11,46,74,0.06)",
-                          border: "1px solid rgba(11,46,74,0.15)",
-                          fontSize: "0.8rem",
-                          padding: "0.4rem 0.9rem",
-                        }}
-                      >
-                        {child.name}
-                      </button>
-                    );
-                  })}
-                  <button
-                    onClick={() => setShowChildPicker(false)}
-                    style={{ ...frostPillBase, cursor: "pointer", color: "#999", fontSize: "0.75rem" }}
-                  >
-                    Cancel
-                  </button>
-                </div>
-              </div>
-            )}
+              <>
+                <p style={{ fontSize: "0.8rem", color: "#767676", marginBottom: "0.4rem" }}>
+                  Open the standards-aligned worksheet set for this lesson. Each successful PDF open uses one worksheet credit.
+                </p>
 
-            {/* Remaining worksheet count for paid users */}
-            {worksheetTierData && userTier !== "compass" && !worksheetError && (
-              <p style={{ fontSize: "0.72rem", color: "#999", marginTop: "0.4rem" }}>
-                {worksheetTierData.worksheetsUsed}/{worksheetTierData.worksheetsLimit} worksheets this month
-              </p>
-            )}
+                {worksheetTierData && !worksheetError && (
+                  <p style={{ fontSize: "0.72rem", color: "#999", marginTop: "0.4rem" }}>
+                    {worksheetTierData.worksheetsUsed}/{worksheetTierData.worksheetsLimit} worksheets this month
+                  </p>
+                )}
 
-            {/* Error message */}
-            {worksheetError && (
-              <p style={{ fontSize: "0.8rem", color: "#B04040", marginTop: "0.5rem" }}>{worksheetError}</p>
-            )}
+                {worksheetError && (
+                  <p style={{ fontSize: "0.8rem", color: "#B04040", marginTop: "0.5rem" }}>{worksheetError}</p>
+                )}
 
-            {/* Loading indicator */}
-            {worksheetLoading && (
-              <p style={{ fontSize: "0.8rem", color: "#767676", marginTop: "0.5rem", fontStyle: "italic" }}>
-                Creating worksheet...
-              </p>
-            )}
-
-            {/* Existing worksheets */}
-            {worksheets.length > 0 && (
-              <div className="space-y-3" style={{ marginTop: "1rem" }}>
-                {worksheets.map((ws) => (
-                  <div key={ws.id} style={{ ...frostCard, padding: "1rem" }}>
-                    <div className="flex items-start justify-between gap-3">
-                      <div className="flex-1 min-w-0">
-                        <p style={{ fontSize: "0.9rem", fontWeight: 600, color: "#0B2E4A", marginBottom: "0.4rem" }}>
-                          {ws.content.title}
-                        </p>
-                        <div className="flex gap-1.5 flex-wrap" style={{ marginBottom: "0.5rem" }}>
-                          {ws.childName && (
-                            <span style={{ ...frostPillBase, color: "#5A5A5A", fontSize: "0.65rem" }}>{ws.childName}</span>
-                          )}
-                          <span style={{ ...frostPillBase, color: "#5A7FA0", background: "rgba(90,127,160,0.08)", border: "1px solid rgba(90,127,160,0.2)", fontSize: "0.65rem" }}>
-                            Grade {ws.grade}
-                          </span>
-                          <span style={{ ...frostPillBase, color: philoColor, background: `${philoColor}10`, border: `1px solid ${philoColor}25`, fontSize: "0.65rem" }}>
-                            {ws.philosophy.replace(/_/g, " ")}
-                          </span>
-                          <span style={{ ...frostPillBase, color: "#999", fontSize: "0.6rem" }}>
-                            {new Date(ws.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric" })}
-                          </span>
-                        </div>
-                        <div className="space-y-1">
-                          {ws.content.sections.slice(0, 3).map((sec, idx) => (
-                            <div key={idx}>
-                              <p style={{ fontSize: "0.75rem", color: "#5A5A5A" }}>
-                                <span style={{ fontWeight: 600 }}>{sec.title}</span>
-                                {" — "}
-                                {sec.instructions.slice(0, 60)}{sec.instructions.length > 60 ? "…" : ""}
-                              </p>
-                              {sec.visual && !sec.visual.type.startsWith("mafs_") && (
-                                <div
-                                  style={{ marginTop: "0.35rem", opacity: 0.7, maxWidth: "120px" }}
-                                  dangerouslySetInnerHTML={{ __html: renderVisual(sec.visual.type, sec.visual.params) ?? "" }}
-                                />
-                              )}
-                              {sec.visual?.type.startsWith("mafs_") && (
-                                <WorksheetMafsVisual
-                                  type={sec.visual.type}
-                                  params={sec.visual.params}
-                                  onSvgReady={(svg) => {
-                                    mafsRefs.current[ws.id] = mafsRefs.current[ws.id] ?? {};
-                                    mafsRefs.current[ws.id][idx] = svg;
-                                  }}
-                                />
+                {worksheetsLoading && !worksheetData ? (
+                  <p style={{ fontSize: "0.8rem", color: "#767676", marginTop: "0.75rem", fontStyle: "italic" }}>
+                    Loading worksheets...
+                  </p>
+                ) : !worksheetsUnlocked ? (
+                  <div style={{ ...frostCard, padding: "1rem", marginTop: "0.9rem" }}>
+                    <p style={{ fontSize: "0.88rem", color: "#0B2E4A", fontWeight: 600, marginBottom: "0.35rem" }}>
+                      Complete this lesson to unlock worksheets
+                    </p>
+                    <p style={{ fontSize: "0.8rem", color: "#5A5A5A", lineHeight: 1.6 }}>
+                      {worksheetData?.lockReason ?? "Rate and complete this lesson for at least one child to open the aligned worksheet set."}
+                    </p>
+                    {worksheetData && worksheetData.completion.totalChildren > 0 && (
+                      <p style={{ fontSize: "0.72rem", color: "#999", marginTop: "0.5rem" }}>
+                        {worksheetData.completion.completedChildren}/{worksheetData.completion.totalChildren} children completed
+                      </p>
+                    )}
+                  </div>
+                ) : worksheetGroups.length === 0 ? (
+                  <div style={{ ...frostCard, padding: "1rem", marginTop: "0.9rem" }}>
+                    <p style={{ fontSize: "0.88rem", color: "#0B2E4A", fontWeight: 600, marginBottom: "0.35rem" }}>
+                      No matching worksheets yet
+                    </p>
+                    <p style={{ fontSize: "0.8rem", color: "#5A5A5A", lineHeight: 1.6 }}>
+                      This lesson is complete, but the standards worksheet library does not have a matching cluster for these lesson standards yet.
+                    </p>
+                  </div>
+                ) : (
+                  <div className="space-y-3" style={{ marginTop: "1rem" }}>
+                    {worksheetGroups.map((group) => (
+                      <div key={group.clusterKey} style={{ ...frostCard, padding: "1rem" }}>
+                        <div className="flex items-start justify-between gap-4 flex-wrap">
+                          <div className="flex-1 min-w-0">
+                            <p style={{ fontSize: "0.95rem", fontWeight: 600, color: "#0B2E4A", marginBottom: "0.35rem" }}>
+                              {group.clusterTitle}
+                            </p>
+                            <div className="flex gap-1.5 flex-wrap" style={{ marginBottom: "0.55rem" }}>
+                              <span style={{ ...frostPillBase, color: "#5A7FA0", background: "rgba(90,127,160,0.08)", border: "1px solid rgba(90,127,160,0.2)", fontSize: "0.65rem" }}>
+                                Grade {group.grade}
+                              </span>
+                              <span style={{ ...frostPillBase, color: "#4A8B6E", background: "rgba(74,139,110,0.08)", border: "1px solid rgba(74,139,110,0.2)", fontSize: "0.65rem" }}>
+                                {group.subject}
+                              </span>
+                              <span style={{ ...frostPillBase, color: "#999", fontSize: "0.6rem" }}>
+                                {group.worksheets.length} PDFs
+                              </span>
+                            </div>
+                            <div className="space-y-1">
+                              {group.matchedStandards.slice(0, 3).map((standard) => (
+                                <p key={standard.code} style={{ fontSize: "0.72rem", color: "#5A5A5A", lineHeight: 1.5 }}>
+                                  <span style={{ fontFamily: "monospace", color: "#0B2E4A" }}>{standard.code}</span>
+                                  {" — "}
+                                  {standard.descriptionPlain ?? "Aligned to this lesson standard."}
+                                </p>
+                              ))}
+                              {group.matchedStandards.length > 3 && (
+                                <p style={{ fontSize: "0.72rem", color: "#999" }}>
+                                  +{group.matchedStandards.length - 3} more matched standards
+                                </p>
                               )}
                             </div>
-                          ))}
+                          </div>
+
+                          <div className="flex gap-2 flex-wrap">
+                            {group.worksheets.map((worksheet) => (
+                              <button
+                                key={worksheet.id}
+                                onClick={() => handleOpenWorksheet(worksheet, group.clusterKey)}
+                                disabled={openingWorksheetId === worksheet.id}
+                                style={{
+                                  ...ghostButton,
+                                  color: "#0B2E4A",
+                                  border: "1px solid rgba(11,46,74,0.16)",
+                                  background: "rgba(11,46,74,0.04)",
+                                  opacity: openingWorksheetId === worksheet.id ? 0.6 : 1,
+                                  padding: "0.45rem 0.85rem",
+                                  fontSize: "0.76rem",
+                                  whiteSpace: "nowrap",
+                                }}
+                              >
+                                {openingWorksheetId === worksheet.id
+                                  ? "Opening..."
+                                  : worksheet.worksheetNum === 1
+                                    ? "Open Identify"
+                                    : worksheet.worksheetNum === 2
+                                      ? "Open Practice"
+                                      : "Open Extend"}
+                              </button>
+                            ))}
+                          </div>
                         </div>
+
+                        {group.worksheets.some((worksheet) => worksheet.lastOpenedAt) && (
+                          <div className="flex gap-1.5 flex-wrap" style={{ marginTop: "0.75rem" }}>
+                            {group.worksheets.map((worksheet) =>
+                              worksheet.lastOpenedAt ? (
+                                <span key={`${worksheet.id}-opened`} style={{ ...frostPillBase, color: "#999", fontSize: "0.62rem" }}>
+                                  {worksheet.worksheetNum === 1
+                                    ? "Identify"
+                                    : worksheet.worksheetNum === 2
+                                      ? "Practice"
+                                      : "Extend"}
+                                  {" · last opened "}
+                                  {new Date(worksheet.lastOpenedAt).toLocaleDateString("en-US", { month: "short", day: "numeric" })}
+                                </span>
+                              ) : null,
+                            )}
+                          </div>
+                        )}
                       </div>
-                      <button
-                        onClick={() => printWorksheet(ws, mafsRefs.current[ws.id] ?? {})}
-                        style={{
-                          ...ghostButton,
-                          padding: "0.35rem 0.75rem",
-                          fontSize: "0.75rem",
-                          flexShrink: 0,
-                        }}
-                      >
-                        Print Worksheet
-                      </button>
-                    </div>
+                    ))}
                   </div>
-                ))}
-              </div>
+                )}
+              </>
             )}
           </div>
           )}

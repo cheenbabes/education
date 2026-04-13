@@ -13,7 +13,7 @@ Current data counts:
 
 - `kg-service/data/topic_clusters.json`: 48,500 raw topic clusters
 - `kg-service/data/clusters/all_named_clusters.json`: 444 clustering outputs from the full K-8 run
-- `kg-service/data/canonical_clusters.json`: 589 canonical worksheet-generation clusters
+- `kg-service/data/canonical_clusters.json`: 588 canonical worksheet-generation clusters
 - `kg-service/data/sample_50_clusters.json`: 50-cluster validation set
 - `kg-service/data/standard_to_cluster.json`: standard code -> canonical cluster key map
 - local embedding cache: 36 cached embedding arrays, about 1.0 GB total, one per `(grade, subject)` cell

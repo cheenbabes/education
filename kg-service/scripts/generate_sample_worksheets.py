@@ -1,7 +1,7 @@
 """Generate standard worksheets from canonical clusters and save to DB.
 
 Usage:
-    # Full run — all 589 canonical clusters (1,767 worksheets, ~$32 via Claude)
+    # Full run — all 588 canonical clusters (1,764 worksheets, ~$32 via Claude)
     python -m scripts.generate_sample_worksheets
 
     # Dry run (no LLM calls)
@@ -33,6 +33,38 @@ def cluster_title(c: dict) -> str:
 
 def cluster_descriptions(c: dict) -> list:
     return c.get("sample_descriptions") or c.get("standard_descriptions") or []
+
+def dedupe_clusters(clusters: list[dict]) -> list[dict]:
+    deduped: dict[str, dict] = {}
+    duplicate_keys: set[str] = set()
+
+    for cluster in clusters:
+        key = cluster["cluster_key"]
+        existing = deduped.get(key)
+        if existing is None:
+            deduped[key] = cluster
+            continue
+
+        duplicate_keys.add(key)
+        merged_descriptions = []
+        for description in [*cluster_descriptions(existing), *cluster_descriptions(cluster)]:
+            if description and description not in merged_descriptions:
+                merged_descriptions.append(description)
+
+        merged = dict(existing)
+        if "sample_descriptions" in existing or "sample_descriptions" in cluster:
+            merged["sample_descriptions"] = merged_descriptions[:5]
+        elif "standard_descriptions" in existing or "standard_descriptions" in cluster:
+            merged["standard_descriptions"] = merged_descriptions[:5]
+        deduped[key] = merged
+
+    if duplicate_keys:
+        print(
+            "Deduped canonical cluster keys:",
+            ", ".join(sorted(duplicate_keys)),
+        )
+
+    return list(deduped.values())
 
 def save_to_db(cluster: dict, ws_type: str, ws_num: int, response_data: dict) -> dict:
     title = cluster_title(cluster)
@@ -108,6 +140,7 @@ def main():
 
     path = SAMPLE_PATH if args.use_sample else CANONICAL_PATH
     clusters = json.loads(path.read_text())
+    clusters = dedupe_clusters(clusters)
     print(f"Loaded {len(clusters)} clusters from {path.name}")
 
     if args.cluster_key:

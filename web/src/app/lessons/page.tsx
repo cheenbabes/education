@@ -3,8 +3,9 @@
 import { Shell } from "@/components/shell";
 import Link from "next/link";
 import { useState, useEffect, useMemo } from "react";
+import { useSearchParams } from "next/navigation";
 import { PHILOSOPHY_LABELS, PHILOSOPHY_COLORS, resolvePhilosophyKey } from "@/lib/compass/scoring";
-import { printWorksheet } from "@/lib/printWorksheet";
+import { openStandardWorksheetPdf } from "@/lib/openStandardWorksheetPdf";
 import { UPGRADE_URL } from "@/lib/upgradeUrl";
 import { useFeatureFlagEnabled } from "posthog-js/react";
 
@@ -32,14 +33,19 @@ interface ChildData {
 
 interface WorksheetListItem {
   id: string;
-  lessonId: string;
-  childName: string | null;
-  grade: string;
-  philosophy: string;
-  costUsd: number | null;
-  content: { title: string; sections: Array<{ type: string; title: string; instructions: string }> };
-  createdAt: string;
-  lesson: { id: string; title: string; philosophy: string };
+  openedAt: string;
+  lesson: { id: string; title: string } | null;
+  standardWorksheet: {
+    id: string;
+    title: string;
+    clusterKey: string;
+    clusterTitle: string;
+    grade: string;
+    subject: string;
+    worksheetNum: number;
+    worksheetType: string;
+    standardCodes: string[];
+  };
 }
 
 // ── Styles ───────────────────────────────────────────────────────────────────
@@ -165,14 +171,19 @@ function Chevron() {
 
 export default function LessonsPage() {
   const worksheetsEnabled = useFeatureFlagEnabled("worksheets_enabled");
+  const searchParams = useSearchParams();
   const [lessons, setLessons] = useState<LessonData[]>([]);
   const [children, setChildren] = useState<ChildData[]>([]);
   const [worksheets, setWorksheets] = useState<WorksheetListItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [tierData, setTierData] = useState<{ lessonsUsed: number; lessonsLimit: number; resetsAt: string } | null>(null);
+  const [worksheetError, setWorksheetError] = useState<string | null>(null);
+  const [openingWorksheetId, setOpeningWorksheetId] = useState<string | null>(null);
 
   // Filters
-  const [activeTab, setActiveTab] = useState<"all" | "pending" | "completed" | "saved" | "worksheets">("all");
+  const [activeTab, setActiveTab] = useState<"all" | "pending" | "completed" | "saved" | "worksheets">(
+    searchParams.get("tab") === "worksheets" && worksheetsEnabled ? "worksheets" : "all",
+  );
   const [statusFilter, setStatusFilter] = useState<"all" | "pending" | "completed" | "saved">("all");
   const [childFilter, setChildFilter] = useState<string>("all");
   const [searchTerm, setSearchTerm] = useState("");
@@ -184,7 +195,7 @@ export default function LessonsPage() {
     Promise.all([
       fetch("/api/lessons").then((r) => r.json()),
       fetch("/api/children").then((r) => r.json()),
-      fetch("/api/worksheets").then((r) => r.json()).catch(() => []),
+      fetch("/api/worksheets/standard/access").then((r) => r.json()).catch(() => []),
       fetch("/api/user/tier").then((r) => r.json()).catch(() => null),
     ]).then(([lessonsData, childrenData, worksheetsData, tierDataRes]) => {
       setLessons(lessonsData);
@@ -194,6 +205,32 @@ export default function LessonsPage() {
       setLoading(false);
     });
   }, []);
+
+  useEffect(() => {
+    if (searchParams.get("tab") === "worksheets" && worksheetsEnabled) {
+      setActiveTab("worksheets");
+      setStatusFilter("all");
+    }
+  }, [searchParams, worksheetsEnabled]);
+
+  const handleOpenWorksheet = async (worksheet: WorksheetListItem) => {
+    setWorksheetError(null);
+    setOpeningWorksheetId(worksheet.id);
+
+    try {
+      await openStandardWorksheetPdf({
+        worksheetId: worksheet.standardWorksheet.id,
+        lessonId: worksheet.lesson?.id ?? null,
+        filename: `${worksheet.standardWorksheet.clusterKey}-${worksheet.standardWorksheet.worksheetNum}.pdf`,
+      });
+    } catch (err) {
+      setWorksheetError(
+        err instanceof Error ? err.message : "Failed to open worksheet.",
+      );
+    } finally {
+      setOpeningWorksheetId(null);
+    }
+  };
 
   // Distinct philosophies present in lessons
   const availablePhilosophies = useMemo(() => {
@@ -314,10 +351,11 @@ export default function LessonsPage() {
   const worksheetsByLesson = useMemo(() => {
     const map = new Map<string, { lesson: WorksheetListItem["lesson"]; items: WorksheetListItem[] }>();
     for (const ws of worksheets) {
-      if (!map.has(ws.lessonId)) {
-        map.set(ws.lessonId, { lesson: ws.lesson, items: [] });
+      const key = ws.lesson?.id ?? `library:${ws.standardWorksheet.clusterKey}`;
+      if (!map.has(key)) {
+        map.set(key, { lesson: ws.lesson, items: [] });
       }
-      map.get(ws.lessonId)!.items.push(ws);
+      map.get(key)!.items.push(ws);
     }
     return Array.from(map.values());
   }, [worksheets]);
@@ -503,16 +541,34 @@ export default function LessonsPage() {
         {/* ── Worksheets view (feature-flagged) ──────────────────────── */}
         {worksheetsEnabled && activeTab === "worksheets" && (
           <div className="space-y-6">
+            {worksheetError && (
+              <p style={{ fontSize: "0.78rem", color: "#B04040" }}>{worksheetError}</p>
+            )}
             {worksheetsByLesson.length === 0 ? (
               <div className="py-10 text-center">
                 <p className="font-cormorant-sc" style={{ fontSize: "1.25rem", color: "#767676", fontStyle: "italic" }}>
-                  No worksheets yet. Create one from a lesson.
+                  No worksheet history yet. Open one from a completed lesson.
                 </p>
               </div>
             ) : (
               worksheetsByLesson.map(({ lesson, items }) => (
-                <div key={lesson.id}>
-                  <Link href={`/lessons/${lesson.id}`} style={{ textDecoration: "none" }}>
+                <div key={lesson?.id ?? `worksheet-group-${items[0]?.id}`}>
+                  {lesson ? (
+                    <Link href={`/lessons/${lesson.id}`} style={{ textDecoration: "none" }}>
+                      <h3
+                        className="font-cormorant-sc"
+                        style={{
+                          fontSize: "1rem",
+                          color: "#0B2E4A",
+                          marginBottom: "0.5rem",
+                          borderBottom: "1px solid rgba(11,46,74,0.1)",
+                          paddingBottom: "0.35rem",
+                        }}
+                      >
+                        {lesson.title}
+                      </h3>
+                    </Link>
+                  ) : (
                     <h3
                       className="font-cormorant-sc"
                       style={{
@@ -523,31 +579,32 @@ export default function LessonsPage() {
                         paddingBottom: "0.35rem",
                       }}
                     >
-                      {lesson.title}
+                      Worksheet Library
                     </h3>
-                  </Link>
+                  )}
                   <div className="space-y-2">
                     {items.map((ws) => (
                       <div key={ws.id} style={{ ...frostCard, padding: "0.9rem" }}>
                         <div className="flex items-start justify-between gap-3">
                           <div className="flex-1 min-w-0">
                             <p style={{ fontSize: "0.875rem", fontWeight: 600, color: "#0B2E4A", marginBottom: "0.35rem" }}>
-                              {ws.content.title}
+                              {ws.standardWorksheet.title}
                             </p>
                             <div className="flex gap-1.5 flex-wrap">
-                              {ws.childName && (
-                                <span style={{ ...frostPill, color: "#5A5A5A", fontSize: "0.65rem" }}>{ws.childName}</span>
-                              )}
                               <span style={{ ...frostPill, color: "#5A7FA0", background: "rgba(90,127,160,0.08)", border: "1px solid rgba(90,127,160,0.2)", fontSize: "0.65rem" }}>
-                                Grade {ws.grade}
+                                Grade {ws.standardWorksheet.grade}
+                              </span>
+                              <span style={{ ...frostPill, color: "#4A8B6E", background: "rgba(74,139,110,0.08)", border: "1px solid rgba(74,139,110,0.2)", fontSize: "0.65rem" }}>
+                                {ws.standardWorksheet.subject}
                               </span>
                               <span style={{ ...frostPill, color: "#999", fontSize: "0.6rem" }}>
-                                {new Date(ws.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric" })}
+                                {new Date(ws.openedAt).toLocaleDateString("en-US", { month: "short", day: "numeric" })}
                               </span>
                             </div>
                           </div>
                           <button
-                            onClick={() => printWorksheet(ws)}
+                            onClick={() => handleOpenWorksheet(ws)}
+                            disabled={openingWorksheetId === ws.id}
                             style={{
                               background: "transparent",
                               color: "#5A5A5A",
@@ -558,9 +615,10 @@ export default function LessonsPage() {
                               fontWeight: 500,
                               border: "1px solid rgba(0,0,0,0.15)",
                               flexShrink: 0,
+                              opacity: openingWorksheetId === ws.id ? 0.6 : 1,
                             }}
                           >
-                            Print
+                            {openingWorksheetId === ws.id ? "Opening..." : "Open PDF"}
                           </button>
                         </div>
                       </div>

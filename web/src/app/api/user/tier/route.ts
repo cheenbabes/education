@@ -4,6 +4,7 @@ import { auth } from "@clerk/nextjs/server";
 import { getOrCreateUser } from "@/lib/getOrCreateUser";
 import { getTier, getLimits, getUsagePeriodStart, getUsageResetsAt } from "@/lib/tier";
 import { routeLogger } from "@/lib/logger";
+import { getStandardWorksheetQuotaStatus } from "@/lib/standardWorksheetQuota";
 
 export async function GET() {
   const { userId } = await auth();
@@ -20,15 +21,14 @@ export async function GET() {
   const resetsAt = getUsageResetsAt(tier, periodEnd);
 
   // Count usage from our DB
-  const [lessonsUsed, worksheetsUsed, childrenCount] = await Promise.all([
+  const [lessonsUsed, worksheetQuota, childrenCount] = await Promise.all([
     prisma.lesson.count({
       where: { userId, createdAt: { gte: usagePeriodStart } },
     }),
-    prisma.worksheet.count({
-      where: { userId, createdAt: { gte: usagePeriodStart } },
-    }),
+    getStandardWorksheetQuotaStatus(userId),
     prisma.child.count({ where: { userId } }),
   ]);
+  const worksheetsUsed = worksheetQuota.used;
 
   const log = routeLogger("GET /api/user/tier", userId);
   log.info({ tier, lessonsUsed, lessonsLimit: limits.lessons }, "tier info served");

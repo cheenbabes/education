@@ -15,7 +15,15 @@ export async function POST(req: NextRequest) {
         worksheetNum: body.worksheetNum,
       },
     },
-    update: { content: body.content, title: body.title },
+    update: {
+      clusterTitle: body.clusterTitle,
+      grade: body.grade,
+      subject: body.subject,
+      worksheetType: body.worksheetType,
+      title: body.title,
+      standardCodes: body.standardCodes ?? [],
+      content: body.content,
+    },
     create: {
       clusterKey:    body.clusterKey,
       clusterTitle:  body.clusterTitle,

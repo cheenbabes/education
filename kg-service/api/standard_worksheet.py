@@ -8,6 +8,7 @@ from __future__ import annotations
 import json
 from typing import Literal, Optional
 from fastapi import APIRouter, HTTPException
+from fastapi.concurrency import run_in_threadpool
 from pydantic import BaseModel, Field
 from config import settings
 from api.generate import _call_llm, _call_anthropic
@@ -20,7 +21,7 @@ PROBLEM_TYPES = {
     "extend":   ["short_answer", "word_problem", "create_example", "explain"],
 }
 
-SYSTEM_PROMPT = """You are an expert K-12 curriculum designer creating printable worksheet problems.
+SYSTEM_PROMPT = r"""You are an expert K-12 curriculum designer creating printable worksheet problems.
 
 Generate exactly {num_problems} problems for a {worksheet_type} worksheet.
 
@@ -196,20 +197,22 @@ async def generate_standard_worksheet(req: StandardWorksheetRequest):
     context = req.context_paragraph
     if not context:
         ctx_system = f"Write a 2-3 sentence context paragraph for a Grade {req.grade} {req.subject} worksheet about: {req.cluster_title}. Use simple, clear language. Explain the key concept in words a {req.grade}th grader and their parent will understand. Return only the paragraph text, no JSON."
-        ctx_raw, _ = _call_anthropic(
+        ctx_raw, _ = await run_in_threadpool(
+            _call_anthropic,
             "claude-haiku-4-5-20251001",
             ctx_system,
             req.cluster_title,
-            max_tokens=200,
+            200,
         )
         context = ctx_raw.strip()
 
     # Generate problems — use Claude Sonnet 4.6 via Netflix proxy
-    raw, cost = _call_anthropic(
+    raw, cost = await run_in_threadpool(
+        _call_anthropic,
         "claude-sonnet-4-6",
         system,
         user,
-        max_tokens=3000,
+        3000,
     )
     if raw.strip().startswith("```"):
         raw = raw.strip().split("\n", 1)[1].rsplit("```", 1)[0]

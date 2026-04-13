@@ -4,8 +4,8 @@ import { Shell } from "@/components/shell";
 import { TierGate } from "@/components/tier-gate";
 import Link from "next/link";
 import { useState, useEffect, useMemo } from "react";
+import { openStandardWorksheetPdf } from "@/lib/openStandardWorksheetPdf";
 import { UPGRADE_URL } from "@/lib/upgradeUrl";
-import { printWorksheet } from "@/lib/printWorksheet";
 import { useFeatureFlagEnabled } from "posthog-js/react";
 
 interface Child {
@@ -29,13 +29,19 @@ interface LessonData {
 
 interface WorksheetItem {
   id: string;
-  lessonId: string;
-  childName: string | null;
-  grade: string;
-  philosophy: string;
-  content: { title: string; sections: Array<{ type: string; title: string; instructions: string }> };
-  createdAt: string;
-  lesson: { id: string; title: string; philosophy: string };
+  openedAt: string;
+  lesson: { id: string; title: string } | null;
+  standardWorksheet: {
+    id: string;
+    title: string;
+    clusterKey: string;
+    clusterTitle: string;
+    grade: string;
+    subject: string;
+    worksheetNum: number;
+    worksheetType: string;
+    standardCodes: string[];
+  };
 }
 
 interface CalendarLesson {
@@ -110,6 +116,8 @@ export default function DashboardPage() {
   const [archetype, setArchetype] = useState<{ archetype: string; secondaryArchetype: string | null; resultId: string; topPhilosophyIds: string[] } | null>(null);
   const [tierData, setTierData] = useState<{ tier: string; childrenCount: number; childrenLimit: number; lessonsUsed: number; lessonsLimit: number; worksheetsUsed: number; worksheetsLimit: number; resetsAt: string } | null>(null);
   const [worksheets, setWorksheets] = useState<WorksheetItem[]>([]);
+  const [worksheetError, setWorksheetError] = useState<string | null>(null);
+  const [openingWorksheetId, setOpeningWorksheetId] = useState<string | null>(null);
 
   // Calendar state
   const [currentDate, setCurrentDate] = useState(new Date());
@@ -121,16 +129,43 @@ export default function DashboardPage() {
       fetch("/api/lessons").then((r) => r.json()),
       fetch("/api/user/archetype").then((r) => r.json()),
       fetch("/api/user/tier").then((r) => r.json()),
-      fetch("/api/worksheets").then((r) => r.json()).catch(() => []),
+      fetch("/api/worksheets/standard/access?limit=5").then((r) => r.json()).catch(() => []),
     ]).then(([childrenData, lessonsData, archetypeData, tierDataRes, worksheetsData]) => {
       setChildren(childrenData);
       setLessons(lessonsData);
       if (archetypeData) setArchetype(archetypeData);
       setTierData(tierDataRes);
-      setWorksheets(Array.isArray(worksheetsData) ? worksheetsData.slice(0, 5) : []);
+      setWorksheets(Array.isArray(worksheetsData) ? worksheetsData : []);
       setLoading(false);
     });
   }, []);
+
+  const handleOpenWorksheet = async (worksheet: WorksheetItem) => {
+    setWorksheetError(null);
+    setOpeningWorksheetId(worksheet.id);
+
+    try {
+      await openStandardWorksheetPdf({
+        worksheetId: worksheet.standardWorksheet.id,
+        lessonId: worksheet.lesson?.id ?? null,
+        filename: `${worksheet.standardWorksheet.clusterKey}-${worksheet.standardWorksheet.worksheetNum}.pdf`,
+      });
+      setTierData((prev) =>
+        prev
+          ? {
+              ...prev,
+              worksheetsUsed: Math.min(prev.worksheetsLimit, prev.worksheetsUsed + 1),
+            }
+          : prev,
+      );
+    } catch (err) {
+      setWorksheetError(
+        err instanceof Error ? err.message : "Failed to open worksheet.",
+      );
+    } finally {
+      setOpeningWorksheetId(null);
+    }
+  };
 
   const today = new Date().toISOString().split("T")[0];
   const atChildLimit = !!tierData && tierData.childrenCount >= tierData.childrenLimit;
@@ -606,6 +641,11 @@ export default function DashboardPage() {
                 View all
               </Link>
             </div>
+            {worksheetError && (
+              <p style={{ fontSize: "0.75rem", color: "#B04040", marginBottom: "0.6rem" }}>
+                {worksheetError}
+              </p>
+            )}
             <div style={{ display: "flex", gap: "0.75rem", overflowX: "auto", paddingBottom: "0.5rem" }}>
               {worksheets.map((ws) => (
                 <div key={ws.id} style={{
@@ -618,20 +658,25 @@ export default function DashboardPage() {
                   boxShadow: "0 1px 6px rgba(0,0,0,0.04)",
                 }}>
                   <p style={{ fontSize: "0.78rem", color: "#0B2E4A", fontWeight: 600, marginBottom: "0.3rem", lineHeight: 1.35 }}>
-                    {ws.lesson.title}
+                    {ws.standardWorksheet.title}
                   </p>
                   <p style={{ fontSize: "0.65rem", color: "#767676", marginBottom: "0.6rem" }}>
-                    {ws.childName ? `${ws.childName} · ` : ""}Grade {ws.grade} · {new Date(ws.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric" })}
+                    Grade {ws.standardWorksheet.grade} · {ws.standardWorksheet.subject} · {new Date(ws.openedAt).toLocaleDateString("en-US", { month: "short", day: "numeric" })}
+                  </p>
+                  <p style={{ fontSize: "0.65rem", color: "#999", marginBottom: "0.6rem", lineHeight: 1.4 }}>
+                    {ws.lesson?.title ?? ws.standardWorksheet.clusterTitle}
                   </p>
                   <button
-                    onClick={() => printWorksheet(ws)}
+                    onClick={() => handleOpenWorksheet(ws)}
+                    disabled={openingWorksheetId === ws.id}
                     style={{
                       fontSize: "0.65rem", color: "#6E6E9E",
                       background: "transparent", border: "1px solid rgba(110,110,158,0.2)",
                       borderRadius: "5px", padding: "0.2rem 0.5rem", cursor: "pointer",
+                      opacity: openingWorksheetId === ws.id ? 0.6 : 1,
                     }}
                   >
-                    Print
+                    {openingWorksheetId === ws.id ? "Opening..." : "Open PDF"}
                   </button>
                 </div>
               ))}
@@ -650,7 +695,7 @@ export default function DashboardPage() {
                 color: "#9999BB",
                 lineHeight: 1.5,
               }}>
-                Create a worksheet<br />from any lesson
+                Open worksheets<br />from completed lessons
               </Link>
             </div>
           </div>

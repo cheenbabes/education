@@ -7492,12 +7492,14 @@
     "canonical_name": "Grade 8 Language Arts: Reading Comprehension \u2014 Citing Textual Evidence",
     "grade": "8",
     "subject": "Language Arts",
-    "n_standards": 34,
+    "n_standards": 63,
     "coherence_score": 5,
     "sample_descriptions": [
       "Your child can use information from stories or factual texts to support their writing, such as comparing characters or giving evidence for their ideas.",
       "Your child finds evidence from stories or informational texts to support their thoughts, reflections, and research.",
-      "Your child uses facts and information from nonfiction texts to support their thinking and research."
+      "Your child uses facts and information from nonfiction texts to support their thinking and research.",
+      "Your child can find and use the best evidence from a text to support what it says and what can be inferred.",
+      "Your child can support or disagree with an author's ideas by using evidence from the text."
     ]
   },
   {
@@ -7615,19 +7617,6 @@
       "Your child can explain how the author's point of view or purpose affects what is written and how it is written.",
       "Your child can explain what the author wants to say and why in a text.",
       "Your child can explain how the author\u2019s point of view or purpose affects what is written and how it is written."
-    ]
-  },
-  {
-    "cluster_key": "grade8-language-arts-reading-comprehension-citing-textual-evidence",
-    "canonical_name": "Grade 8 Language Arts: Reading Comprehension \u2014 Citing Textual Evidence",
-    "grade": "8",
-    "subject": "Language Arts",
-    "n_standards": 29,
-    "coherence_score": 5,
-    "sample_descriptions": [
-      "Your child can find and use the best evidence from a text to support what it says and what can be inferred.",
-      "Your child can find and use the best evidence from a story to support what it says and what can be inferred.",
-      "Your child can support or disagree with an author's ideas by using evidence from the text."
     ]
   },
   {
