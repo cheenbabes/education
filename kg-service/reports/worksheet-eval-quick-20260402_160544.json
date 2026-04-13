@@ -1,0 +1,964 @@
+[
+  {
+    "philosophy": "adaptive",
+    "grade_band": "K-3",
+    "subject": "math",
+    "lesson_title": "Introduction to Fractions",
+    "worksheet": {
+      "sections": [
+        {
+          "type": "mixed_modalities",
+          "title": "Understanding Halves and Quarters with Pizza",
+          "instructions": "Look at the pizza fraction bar below. It shows a pizza divided into 4 equal slices with 1 slice shaded. This means you have one quarter of the pizza. Think about when you share a pizza with friends. How many slices would each friend get if you share it equally with 2 friends? Write or draw your answer in the space below.",
+          "lines": 5,
+          "drawing_space": true,
+          "visual": {
+            "type": "fraction_bar",
+            "params": {
+              "numerator": 1,
+              "denominator": 4
+            }
+          }
+        },
+        {
+          "type": "mixed_modalities",
+          "title": "Copywork: Write the Fraction Sentence",
+          "instructions": "Copy this sentence carefully to practice your handwriting and fraction words: \"One quarter of the pizza is one slice out of four.\"",
+          "lines": 3
+        },
+        {
+          "type": "mixed_modalities",
+          "title": "Draw and Color Your Fraction",
+          "instructions": "Draw a circle like a pizza. Divide it into 2 equal parts (halves). Color one part to show the fraction \\(\\frac{1}{2}\\). You can use colors or patterns. Then, write the fraction \\(\\frac{1}{2}\\) under your drawing.",
+          "lines": 2,
+          "drawing_space": true
+        },
+        {
+          "type": "mixed_modalities",
+          "title": "Hands-On Fraction Practice",
+          "instructions": "Find something at home you can share with your family or friends, like a sandwich or a chocolate bar. Show how you would split it into equal halves or quarters. Draw a picture or write a few words about what you did.",
+          "lines": 4,
+          "drawing_space": true
+        }
+      ]
+    },
+    "scores": {
+      "scores": {
+        "subject_specificity": 5,
+        "philosophy_alignment": 5,
+        "grade_appropriateness": 5,
+        "practicality": 5,
+        "value_density": 5
+      },
+      "overall_score": 5.0,
+      "critical_issues": [],
+      "strengths": [
+        "Strong use of concrete, visual, and hands-on fraction representations.",
+        "Adaptive philosophy reflected in mixed modalities and student choice (draw/write).",
+        "All tasks use accessible materials (paper, crayons, household food).",
+        "Tasks are developmentally appropriate for K-3, with clear instructions and simple vocabulary.",
+        "Copywork integrates handwriting and math vocabulary."
+      ],
+      "weaknesses": [
+        "Could offer optional challenge for older or more advanced students within K-3.",
+        "Hands-on section assumes access to shareable food but is otherwise practical."
+      ]
+    },
+    "gen_cost_usd": 0.0011556,
+    "elapsed_s": 12.64
+  },
+  {
+    "philosophy": "adaptive",
+    "grade_band": "K-3",
+    "subject": "science",
+    "lesson_title": "Animal Habitats and Adaptations",
+    "worksheet": {
+      "sections": [
+        {
+          "type": "mixed_modalities",
+          "title": "Where Animals Live",
+          "instructions": "Read about four different habitats: forests, oceans, deserts, and grasslands. Write down one animal you might find in each habitat on the lines below. You may also draw your favorite animal from any of these habitats in the space provided.",
+          "lines": 8,
+          "drawing_space": true
+        },
+        {
+          "type": "mixed_modalities",
+          "title": "How Animals Survive",
+          "instructions": "Look at the pictures of animals with different adaptations (fur, fins, camouflage). Write a sentence or two explaining how one of these adaptations helps an animal survive in its habitat. You can also draw an animal showing its adaptation in the space below.",
+          "lines": 5,
+          "drawing_space": true
+        },
+        {
+          "type": "mixed_modalities",
+          "title": "Observation and Comparison",
+          "instructions": "Choose two habitats from the list: forests, oceans, deserts, or grasslands. Write down two differences and one similarity between the animals that live in these habitats. Use the lines below to record your observations.",
+          "lines": 6
+        },
+        {
+          "type": "mixed_modalities",
+          "title": "Animal Habitat Matching",
+          "instructions": "Match the animal to its habitat by drawing a line from the animal on the left to the correct habitat on the right. Then, write one fact about why the animal lives there.",
+          "lines": 6
+        }
+      ]
+    },
+    "scores": {
+      "scores": {
+        "subject_specificity": 5,
+        "philosophy_alignment": 5,
+        "grade_appropriateness": 5,
+        "practicality": 5,
+        "value_density": 5
+      },
+      "overall_score": 5.0,
+      "critical_issues": [],
+      "strengths": [
+        "Tasks are directly focused on animal habitats and adaptations, ensuring strong subject specificity.",
+        "Sections use mixed modalities (writing, drawing, matching) which supports adaptive learning and caters to different learning styles.",
+        "Complexity is well-matched to K-3: simple writing, drawing, observation, and comparison.",
+        "All materials needed are pencil, paper, and possibly printed pictures\u2014very practical for homeschool.",
+        "Multiple rich tasks encourage observation, analysis, and creative expression, providing high value density."
+      ],
+      "weaknesses": [
+        "Prompts could be further differentiated or scaffolded for struggling vs. advanced learners to better exemplify 'adaptive' philosophy.",
+        "Instructions assume the presence of animal pictures for the adaptations section, which may need to be provided or sourced by the parent."
+      ]
+    },
+    "gen_cost_usd": 0.0010156,
+    "elapsed_s": 8.17
+  },
+  {
+    "philosophy": "charlotte-mason",
+    "grade_band": "K-3",
+    "subject": "math",
+    "lesson_title": "Introduction to Fractions",
+    "worksheet": {
+      "sections": [
+        {
+          "type": "narration_prompt",
+          "title": "Tell Back in Your Own Words",
+          "instructions": "Imagine you have a pizza cut into 2 equal slices. Tell me in your own words what it means to have one half of the pizza.",
+          "lines": 5
+        },
+        {
+          "type": "copywork",
+          "title": "Copy This Sentence",
+          "instructions": "Copy the sentence carefully. \"A fraction shows how many parts of a whole we have when it is split equally.\"",
+          "lines": 3
+        },
+        {
+          "type": "nature_journal",
+          "title": "Draw Your Fraction",
+          "instructions": "Draw a circle like a pizza. Divide it into 4 equal parts (quarters). Color in 1 part to show one quarter.",
+          "drawing_space": true,
+          "lines": 3,
+          "visual": {
+            "type": "fraction_circle",
+            "params": {
+              "numerator": 1,
+              "denominator": 4
+            }
+          }
+        },
+        {
+          "type": "narration_prompt",
+          "title": "Describe Your Drawing",
+          "instructions": "Look at your drawing of the pizza divided into quarters. Tell what fraction you colored and explain why it is called a quarter.",
+          "lines": 4
+        }
+      ]
+    },
+    "scores": {
+      "scores": {
+        "subject_specificity": 5,
+        "philosophy_alignment": 5,
+        "grade_appropriateness": 5,
+        "practicality": 5,
+        "value_density": 5
+      },
+      "overall_score": 5,
+      "critical_issues": [],
+      "strengths": [
+        "Strong subject specificity\u2014focuses clearly on fractions using concrete examples.",
+        "Excellent alignment with Charlotte Mason methods (narration, copywork, nature journal-style drawing).",
+        "Tasks are age-appropriate and accessible for K-3 learners.",
+        "All activities require only pencil, paper, and coloring tools.",
+        "Multiple rich, meaningful tasks that encourage understanding, explanation, and visualization."
+      ],
+      "weaknesses": [
+        "No significant weaknesses; possible small improvement could be to include a real-life connection beyond pizza (e.g., fruit, objects), but this does not detract from the worksheet's effectiveness."
+      ]
+    },
+    "gen_cost_usd": 0.0009568,
+    "elapsed_s": 8.21
+  },
+  {
+    "philosophy": "charlotte-mason",
+    "grade_band": "K-3",
+    "subject": "science",
+    "lesson_title": "Animal Habitats and Adaptations",
+    "worksheet": {
+      "sections": [
+        {
+          "type": "narration_prompt",
+          "title": "Where Animals Live",
+          "instructions": "In your own words, tell me about the different places where animals live, such as forests, oceans, deserts, and grasslands. What makes each habitat special?",
+          "lines": 6
+        },
+        {
+          "type": "copywork",
+          "title": "Copy a Sentence About Habitats",
+          "instructions": "Copy the following sentence carefully. \"Animals live in many different habitats like forests, deserts, oceans, and grasslands.\"",
+          "lines": 3
+        },
+        {
+          "type": "nature_journal",
+          "title": "Draw an Animal and Its Habitat",
+          "instructions": "Draw your favorite animal and the place where it lives. Be sure to include details about its habitat that help the animal survive.",
+          "drawing_space": true
+        },
+        {
+          "type": "narration_prompt",
+          "title": "How Animals Survive",
+          "instructions": "Tell me how animals are able to live in their habitats. Think about things like fur, fins, or camouflage. How do these help the animals?",
+          "lines": 5
+        }
+      ]
+    },
+    "scores": {
+      "scores": {
+        "subject_specificity": 4,
+        "philosophy_alignment": 5,
+        "grade_appropriateness": 5,
+        "practicality": 5,
+        "value_density": 5
+      },
+      "overall_score": 4.8,
+      "critical_issues": [],
+      "strengths": [
+        "Strong alignment with Charlotte Mason philosophy: narration, copywork, and nature journaling are all present.",
+        "Tasks are highly accessible and require only basic materials (paper, pencil, coloring tools).",
+        "Clear focus on science content (animal habitats, adaptations) with specific vocabulary.",
+        "Tasks are developmentally appropriate for K-3 students, promoting both verbal and visual expression.",
+        "Worksheet offers multiple, meaningful opportunities for student engagement."
+      ],
+      "weaknesses": [
+        "Could be slightly more specific in the nature journaling prompt (e.g., suggest observing a real animal or reading a living book excerpt).",
+        "Subject content could be deepened further by prompting for named animals or explicit adaptation examples."
+      ]
+    },
+    "gen_cost_usd": 0.0009063999999999999,
+    "elapsed_s": 8.97
+  },
+  {
+    "philosophy": "classical",
+    "grade_band": "K-3",
+    "subject": "math",
+    "lesson_title": "Introduction to Fractions",
+    "worksheet": {
+      "sections": [
+        {
+          "type": "memory_work",
+          "title": "Recite the Fraction Definition",
+          "instructions": "Copy the definition of a fraction below in your neatest handwriting:\n\n\"A fraction 1/b is the quantity formed by 1 part when a whole is partitioned into b equal parts.\"",
+          "lines": 4
+        },
+        {
+          "type": "grammar_work",
+          "title": "Label the Fraction Parts",
+          "instructions": "Look at the sentence you copied. Identify and underline the numerator and denominator in the fraction 1/b. Write a sentence below explaining what each part means.",
+          "lines": 4
+        },
+        {
+          "type": "short_essay",
+          "title": "Explain Halves and Quarters Using Pizza",
+          "instructions": "Imagine you have a pizza. Describe how you would divide it into halves and quarters. Use the words numerator, denominator, and equal parts in your explanation.",
+          "lines": 6
+        },
+        {
+          "type": "copywork",
+          "title": "Draw and Color Fractions",
+          "instructions": "Draw a circle to look like a pizza. Divide it into 4 equal parts (quarters). Then shade 1 part to show the fraction \\( \\frac{1}{4} \\).",
+          "lines": 4,
+          "drawing_space": true,
+          "visual": {
+            "type": "fraction_circle",
+            "params": {
+              "numerator": 1,
+              "denominator": 4
+            }
+          }
+        }
+      ]
+    },
+    "scores": {
+      "scores": {
+        "subject_specificity": 5,
+        "philosophy_alignment": 5,
+        "grade_appropriateness": 5,
+        "practicality": 5,
+        "value_density": 5
+      },
+      "overall_score": 5,
+      "critical_issues": [],
+      "strengths": [
+        "All sections are directly about fractions and use appropriate mathematical vocabulary.",
+        "Memory work, grammar work, and copywork align well with the classical education philosophy.",
+        "Tasks are clear, concrete, and suitable for K-3 learners.",
+        "No special materials are required beyond pencil, paper, and coloring supplies.",
+        "Each section provides a meaningful, age-appropriate cognitive challenge."
+      ],
+      "weaknesses": [
+        "The vocabulary (numerator, denominator) may need brief review or support for students at the youngest end of K-3.",
+        "Some students may need guidance to complete the short essay if they are early writers."
+      ]
+    },
+    "gen_cost_usd": 0.0010276,
+    "elapsed_s": 7.15
+  },
+  {
+    "philosophy": "classical",
+    "grade_band": "K-3",
+    "subject": "science",
+    "lesson_title": "Animal Habitats and Adaptations",
+    "worksheet": {
+      "sections": [
+        {
+          "type": "memory_work",
+          "title": "Animal Habitats Vocabulary",
+          "instructions": "Copy the following words and their meanings carefully. Try to memorize what each habitat is called and a key feature.",
+          "lines": 6,
+          "visual": {
+            "type": "ten_frame",
+            "params": {
+              "filled": 0
+            }
+          }
+        },
+        {
+          "type": "grammar_work",
+          "title": "Sentence Parsing: Animal Habitats",
+          "instructions": "Read the sentence below and identify the noun (N), verb (V), and adjective (Adj). Write the parts of speech on the lines provided.\n\n\"The forest is home to many animals.\"",
+          "lines": 5
+        },
+        {
+          "type": "short_essay",
+          "title": "How Animals Survive in Their Habitats",
+          "instructions": "Write a short essay explaining how animals use their adaptations to live in different habitats like deserts, oceans, or forests. Use examples such as fur, fins, or camouflage.",
+          "lines": 8
+        },
+        {
+          "type": "memory_work",
+          "title": "Recite and Copy: Adaptations",
+          "instructions": "Copy the following sentences about animal adaptations neatly. When you finish, try to recite them aloud from memory.\n\n\"Animals have special features to live in their homes. Fur keeps animals warm. Fins help animals swim. Camouflage hides animals from danger.\"",
+          "lines": 6
+        }
+      ]
+    },
+    "scores": {
+      "scores": {
+        "subject_specificity": 5,
+        "philosophy_alignment": 5,
+        "grade_appropriateness": 5,
+        "practicality": 5,
+        "value_density": 5
+      },
+      "overall_score": 5,
+      "critical_issues": [],
+      "strengths": [
+        "Rich, subject-specific content on animal habitats and adaptations.",
+        "Section types (memory work, grammar work, copywork, short essay) are strongly aligned with classical philosophy.",
+        "Tasks are well-calibrated for K-3, with clear instructions and age-appropriate expectations.",
+        "No special equipment required; everything can be done with pencil and paper.",
+        "Multiple cognitively engaging tasks provide ample meaningful work."
+      ],
+      "weaknesses": [
+        "The 'ten_frame' visual in the vocabulary section is unclear in its relevance to the content; could be omitted or replaced with a more directly related visual (e.g., animal pictures or habitat scenes)."
+      ]
+    },
+    "gen_cost_usd": 0.0010172,
+    "elapsed_s": 8.48
+  },
+  {
+    "philosophy": "montessori-inspired",
+    "grade_band": "K-3",
+    "subject": "math",
+    "lesson_title": "Introduction to Fractions",
+    "worksheet": {
+      "sections": [
+        {
+          "type": "observation",
+          "title": "Observing Fractions in Baking",
+          "instructions": "Look at a pizza or pie and observe how it is divided. Write down how many equal parts you see and what fraction each part represents.",
+          "lines": 5
+        },
+        {
+          "type": "sorting_activity",
+          "title": "Sorting Halves and Quarters",
+          "instructions": "Sort these items into two groups: those divided into halves and those divided into quarters. Write the fraction for each group below.",
+          "lines": 4
+        },
+        {
+          "type": "hands_on_record",
+          "title": "Hands-On Fraction Activity",
+          "instructions": "Using a paper circle (like a pizza), fold or cut it to show halves and quarters. Describe how you made each fraction and how many parts the whole is divided into.",
+          "lines": 5
+        },
+        {
+          "type": "drawing_space",
+          "title": "Draw and Color Fractions",
+          "instructions": "Draw a circle to represent a whole pizza. Divide it into 4 equal parts. Then color in 1 part to show the fraction $\\frac{1}{4}$. Label your drawing.",
+          "drawing_space": true,
+          "lines": 2
+        }
+      ]
+    },
+    "scores": {
+      "scores": {
+        "subject_specificity": 5,
+        "philosophy_alignment": 5,
+        "grade_appropriateness": 5,
+        "practicality": 5,
+        "value_density": 5
+      },
+      "overall_score": 5,
+      "critical_issues": [],
+      "strengths": [
+        "All tasks are specifically focused on fractions, using math vocabulary and representations.",
+        "Section types (observation, sorting, hands-on, drawing) are strongly Montessori-aligned, promoting concrete and sensory exploration.",
+        "Tasks are simple and perfectly suited for K-3 learners, with clear, age-appropriate instructions.",
+        "All required materials (paper, pencil, common items) are easily available in any home.",
+        "Four meaningful, hands-on and reflective activities ensure strong cognitive engagement without filler."
+      ],
+      "weaknesses": [
+        "Could include optional extension for students ready for a greater challenge.",
+        "Instructions could be accompanied by simple example images for additional clarity, especially for pre-readers."
+      ]
+    },
+    "gen_cost_usd": 0.0009419999999999999,
+    "elapsed_s": 8.08
+  },
+  {
+    "philosophy": "montessori-inspired",
+    "grade_band": "K-3",
+    "subject": "science",
+    "lesson_title": "Animal Habitats and Adaptations",
+    "worksheet": {
+      "sections": [
+        {
+          "type": "observation",
+          "title": "Habitat Observation",
+          "instructions": "Look at pictures or books about forests, oceans, deserts, and grasslands. Write down or draw what you see in each habitat. What kinds of animals and plants live there? What is the weather like?",
+          "lines": 6,
+          "drawing_space": true
+        },
+        {
+          "type": "sorting_activity",
+          "title": "Sort Animals by Habitat",
+          "instructions": "Below are names of animals. Sort them into the correct habitat group: forest, ocean, desert, or grassland. You can write the animal names under each habitat.",
+          "lines": 8
+        },
+        {
+          "type": "hands_on_record",
+          "title": "How Animals Survive - Adaptations",
+          "instructions": "Think about how animals survive in their habitats. For example, some have thick fur for cold forests, fins for swimming in oceans, or camouflage to hide. Pick two animals and describe one adaptation for each that helps them live where they do.",
+          "lines": 6
+        },
+        {
+          "type": "observation",
+          "title": "Nature Walk Observation",
+          "instructions": "If you can, go outside and observe animals or signs of animals nearby. Record what you see and how the animals might be adapted to their habitat.",
+          "lines": 5,
+          "drawing_space": true
+        }
+      ]
+    },
+    "scores": {
+      "scores": {
+        "subject_specificity": 5,
+        "philosophy_alignment": 5,
+        "grade_appropriateness": 5,
+        "practicality": 5,
+        "value_density": 5
+      },
+      "overall_score": 5,
+      "critical_issues": [],
+      "strengths": [
+        "Tasks are highly specific to animal habitats and adaptations, including sorting animals and describing adaptations.",
+        "Sections include observation, drawing, and hands-on activities that are classic Montessori approaches.",
+        "All instructions and vocabulary are well-suited for K-3 learners, fostering observation and critical thinking.",
+        "No special materials required beyond books/pictures and the outdoors, making it very practical.",
+        "Four varied and meaningful activities offer rich opportunities for engagement and learning."
+      ],
+      "weaknesses": [
+        "Some families may need to supplement with picture books or online images if access to nature is limited.",
+        "The worksheet relies on student initiative for drawing/writing; some younger K students may need extra adult support."
+      ]
+    },
+    "gen_cost_usd": 0.0009843999999999999,
+    "elapsed_s": 11.38
+  },
+  {
+    "philosophy": "place-nature-based",
+    "grade_band": "K-3",
+    "subject": "math",
+    "lesson_title": "Introduction to Fractions",
+    "worksheet": {
+      "sections": [
+        {
+          "type": "field_notes",
+          "title": "Observing Fractions in Nature and Baking",
+          "instructions": "Go outside or look at a picture of a pie or pizza. Notice how it is cut into equal parts. Write what you see below and describe how the pieces are divided.",
+          "lines": 6
+        },
+        {
+          "type": "sketch",
+          "title": "Draw Your Own Fraction Pizza",
+          "instructions": "Draw a pizza or pie and divide it into equal parts. Color in some parts to show a fraction. For example, color 1 out of 4 slices to show \\( \\frac{1}{4} \\).",
+          "drawing_space": true
+        },
+        {
+          "type": "connection",
+          "title": "Fractions and Baking: Why It Matters",
+          "instructions": "Think about baking a real pizza or pie. How do you think fractions help when we share food? Write or draw your ideas below.",
+          "lines": 4,
+          "drawing_space": true
+        }
+      ]
+    },
+    "scores": {
+      "scores": {
+        "subject_specificity": 5,
+        "philosophy_alignment": 5,
+        "grade_appropriateness": 5,
+        "practicality": 5,
+        "value_density": 5
+      },
+      "overall_score": 5,
+      "critical_issues": [],
+      "strengths": [
+        "Concrete fraction examples using food and nature observations.",
+        "Tasks directly connect math concepts to real-world, nature-based experiences.",
+        "Developmentally appropriate instructions and open-ended prompts for K-3.",
+        "All tasks require only pencil, paper, and common items or imagination.",
+        "Multiple rich, meaningful, and engaging activities."
+      ],
+      "weaknesses": [
+        "Could include more explicit introduction to the term 'fraction' for absolute beginners.",
+        "May benefit from additional scaffolding for very young K students (e.g., sentence starters)."
+      ]
+    },
+    "gen_cost_usd": 0.0008592,
+    "elapsed_s": 6.56
+  },
+  {
+    "philosophy": "place-nature-based",
+    "grade_band": "K-3",
+    "subject": "science",
+    "lesson_title": "Animal Habitats and Adaptations",
+    "worksheet": {
+      "sections": [
+        {
+          "type": "field_notes",
+          "title": "Explore Animal Habitats",
+          "instructions": "Go outside or look through a book or video about different habitats like forests, oceans, deserts, and grasslands. Write down what you notice about the plants and animals that live there.",
+          "lines": 6,
+          "drawing_space": false
+        },
+        {
+          "type": "sketch",
+          "title": "Draw an Animal in Its Habitat",
+          "instructions": "Choose one habitat you learned about and draw an animal that lives there. Include details about the habitat around the animal, like trees, water, or sand.",
+          "drawing_space": true
+        },
+        {
+          "type": "connection",
+          "title": "Local Habitat Connection",
+          "instructions": "Think about the place where you live. What kind of habitat is it? Describe an animal you might see there and how it might be adapted to survive in your local environment.",
+          "lines": 5,
+          "drawing_space": false
+        },
+        {
+          "type": "field_notes",
+          "title": "How Animals Adapt",
+          "instructions": "Observe or think about how animals survive in their habitats. Write down some ways animals use their bodies or behaviors to stay safe, find food, or stay warm or cool.",
+          "lines": 6,
+          "drawing_space": false
+        }
+      ]
+    },
+    "scores": {
+      "scores": {
+        "subject_specificity": 4,
+        "philosophy_alignment": 5,
+        "grade_appropriateness": 5,
+        "practicality": 5,
+        "value_density": 5
+      },
+      "overall_score": 4.8,
+      "critical_issues": [],
+      "strengths": [
+        "Strong alignment with place-nature-based philosophy through field notes, local connections, and outdoor exploration.",
+        "Grade-appropriate language and tasks: observing, drawing, and simple written reflection.",
+        "No special equipment required; all tasks can be completed with common items.",
+        "Tasks are rich and meaningful, requiring observation, analysis, creativity, and personal connection."
+      ],
+      "weaknesses": [
+        "Some prompts (especially the drawing section) are not highly specific to science and could be used in other subjects, though context makes them relevant here.",
+        "No explicit mention of named animal species or precise scientific vocabulary, which could further increase subject specificity."
+      ]
+    },
+    "gen_cost_usd": 0.000964,
+    "elapsed_s": 11.59
+  },
+  {
+    "philosophy": "project-based-learning",
+    "grade_band": "K-3",
+    "subject": "math",
+    "lesson_title": "Introduction to Fractions",
+    "worksheet": {
+      "sections": [
+        {
+          "type": "planning_grid",
+          "title": "Planning Our Fraction Pizza Project",
+          "instructions": "List the steps you will take to create your fraction pizza. Think about how you will divide it into halves or quarters and what toppings (fractions) you will add to each part.",
+          "lines": 6
+        },
+        {
+          "type": "checklist",
+          "title": "Fraction Pizza Checklist",
+          "instructions": "Check off each step as you complete it while making your fraction pizza project.",
+          "lines": 8
+        },
+        {
+          "type": "reflection",
+          "title": "Reflection on My Fraction Pizza",
+          "instructions": "Write about what worked well when you divided your pizza into halves or quarters. What was easy or tricky? How did you decide which toppings to put on each fraction?",
+          "lines": 6
+        },
+        {
+          "type": "drawing_space",
+          "title": "Draw and Color Your Fraction Pizza",
+          "instructions": "Draw a circle to represent your pizza. Divide it into equal parts (halves or quarters) and color in the fraction parts with different toppings. Label each fraction part (for example, 1/2 or 1/4).",
+          "drawing_space": true,
+          "lines": 0
+        }
+      ]
+    },
+    "scores": {
+      "scores": {
+        "subject_specificity": 5,
+        "philosophy_alignment": 5,
+        "grade_appropriateness": 5,
+        "practicality": 5,
+        "value_density": 5
+      },
+      "overall_score": 5,
+      "critical_issues": [],
+      "strengths": [
+        "All sections are clearly rooted in the concept of fractions with direct, subject-specific instructions.",
+        "Project-based approach is well represented with planning, execution, and reflection stages.",
+        "Tasks are very age-appropriate for K-3 with simple language and accessible activities.",
+        "No special materials required beyond paper, coloring tools, and imagination.",
+        "Multiple varied tasks ensure strong cognitive engagement and hands-on learning."
+      ],
+      "weaknesses": [
+        "None noted; all major rubric dimensions are fully addressed."
+      ]
+    },
+    "gen_cost_usd": 0.0009436,
+    "elapsed_s": 7.54
+  },
+  {
+    "philosophy": "project-based-learning",
+    "grade_band": "K-3",
+    "subject": "science",
+    "lesson_title": "Animal Habitats and Adaptations",
+    "worksheet": {
+      "sections": [
+        {
+          "type": "planning_grid",
+          "title": "Plan Your Animal Habitat Project",
+          "instructions": "List the habitats you want to explore (forest, ocean, desert, grassland). For each habitat, write one animal that lives there and one special adaptation that helps it survive.",
+          "lines": 8
+        },
+        {
+          "type": "checklist",
+          "title": "Habitat Exploration Checklist",
+          "instructions": "Use this checklist as you learn about each habitat and animal adaptation. Check off each item when you finish it:",
+          "lines": 6
+        },
+        {
+          "type": "reflection",
+          "title": "Reflection: What I Learned About Animal Adaptations",
+          "instructions": "Think about the animals and habitats you studied. Write about one adaptation that you found very interesting and explain why it helps the animal survive in its environment.",
+          "lines": 6
+        }
+      ]
+    },
+    "scores": {
+      "scores": {
+        "subject_specificity": 4,
+        "philosophy_alignment": 4,
+        "grade_appropriateness": 5,
+        "practicality": 5,
+        "value_density": 4
+      },
+      "overall_score": 4.4,
+      "critical_issues": [],
+      "strengths": [
+        "Clear focus on science content with named habitats, animals, and adaptations.",
+        "Tasks encourage planning, observation, and personal reflection, which are well-suited to project-based learning.",
+        "All activities are age-appropriate and require only basic materials.",
+        "Multiple sections offer meaningful engagement and cognitive work."
+      ],
+      "weaknesses": [
+        "Prompts could be more specific about which animals and adaptations to ensure deeper subject specificity.",
+        "Checklist section is generic and could be enhanced with more detailed, content-driven steps.",
+        "Project-based philosophy could be strengthened further by including hands-on or creative project prompts (such as building a model or creating a poster)."
+      ]
+    },
+    "gen_cost_usd": 0.0008067999999999999,
+    "elapsed_s": 6.43
+  },
+  {
+    "philosophy": "unschooling",
+    "grade_band": "K-3",
+    "subject": "math",
+    "lesson_title": "Introduction to Fractions",
+    "worksheet": {
+      "sections": [
+        {
+          "type": "free_exploration",
+          "title": "What Do You Know About Fractions?",
+          "instructions": "Think about when you have shared a pizza or a cake with family or friends. What does it mean to split it into halves or quarters? Write or draw your ideas below.",
+          "lines": 6,
+          "drawing_space": true
+        },
+        {
+          "type": "interest_map",
+          "title": "Fractions in Baking",
+          "instructions": "List or draw things you know from baking that involve fractions, like cutting a cake, measuring ingredients, or sharing cookies. How do these fractions help in baking?",
+          "lines": 4,
+          "drawing_space": true
+        },
+        {
+          "type": "free_exploration",
+          "title": "Draw Your Own Fraction",
+          "instructions": "Draw a shape (like a pizza or pie) and divide it into equal parts. Color in some parts to show a fraction, like 1/2 or 1/4. Label your fraction. Use the space below.",
+          "lines": 4,
+          "drawing_space": true
+        },
+        {
+          "type": "free_exploration",
+          "title": "Sharing Is Caring",
+          "instructions": "Imagine you are sharing a chocolate bar with friends. How would you split it fairly? Write or draw your plan. What fraction does each friend get?",
+          "lines": 5,
+          "drawing_space": true
+        }
+      ]
+    },
+    "scores": {
+      "scores": {
+        "subject_specificity": 5,
+        "philosophy_alignment": 5,
+        "grade_appropriateness": 5,
+        "practicality": 5,
+        "value_density": 5
+      },
+      "overall_score": 5.0,
+      "critical_issues": [],
+      "strengths": [
+        "All sections are clearly about fractions with real-world, relatable scenarios.",
+        "Open-ended, exploratory tasks align well with unschooling philosophy.",
+        "Vocabulary and instructions are suitable for K-3 learners.",
+        "No special materials are required; pencil and paper suffice.",
+        "Four substantial tasks provide rich opportunities for engagement and cognitive development."
+      ],
+      "weaknesses": [
+        "Could include more explicit prompts for conversation or self-chosen exploration, but this is a minor point given the strong unschooling alignment."
+      ]
+    },
+    "gen_cost_usd": 0.0010027999999999999,
+    "elapsed_s": 6.68
+  },
+  {
+    "philosophy": "unschooling",
+    "grade_band": "K-3",
+    "subject": "science",
+    "lesson_title": "Animal Habitats and Adaptations",
+    "worksheet": {
+      "sections": [
+        {
+          "type": "free_exploration",
+          "title": "Where Do Animals Live?",
+          "instructions": "Think about the animals you know. Where do they live? Write or draw about one animal and its habitat. What makes that place a good home for it?",
+          "lines": 6,
+          "drawing_space": true
+        },
+        {
+          "type": "interest_map",
+          "title": "Animals and Their Habitats",
+          "instructions": "Make a map or list connecting animals to the places they live, like forests, oceans, deserts, or grasslands. You can draw lines, write words, or use colors to show your connections.",
+          "lines": 4,
+          "drawing_space": true
+        },
+        {
+          "type": "free_exploration",
+          "title": "How Do Animals Survive?",
+          "instructions": "Think about how animals stay safe and find food. What special things do they have, like fur, fins, or colors that help them blend in? Write or draw about an animal\u2019s special features.",
+          "lines": 5,
+          "drawing_space": true
+        },
+        {
+          "type": "reflection",
+          "title": "What Did You Discover?",
+          "instructions": "What did you find interesting about animal habitats and adaptations? Write or draw your favorite fact or idea from today\u2019s lesson.",
+          "lines": 4,
+          "drawing_space": true
+        }
+      ]
+    },
+    "scores": {
+      "scores": {
+        "subject_specificity": 4,
+        "philosophy_alignment": 5,
+        "grade_appropriateness": 5,
+        "practicality": 5,
+        "value_density": 5
+      },
+      "overall_score": 4.8,
+      "critical_issues": [],
+      "strengths": [
+        "All tasks are open-ended and invite curiosity, aligning well with unschooling philosophy.",
+        "Prompts are clearly science-focused, referencing habitats, adaptations, and real animal features.",
+        "Vocabulary and expectations are well-matched to K-3 learners.",
+        "Requires only drawing/writing materials, making it highly practical.",
+        "Multiple sections encourage meaningful engagement, creativity, and reflection."
+      ],
+      "weaknesses": [
+        "Most prompts require student-generated content and could be adapted for other subjects; a little more subject-specific detail (e.g., named animal examples) would raise subject specificity to a perfect score."
+      ]
+    },
+    "gen_cost_usd": 0.0009827999999999998,
+    "elapsed_s": 8.46
+  },
+  {
+    "philosophy": "waldorf-adjacent",
+    "grade_band": "K-3",
+    "subject": "math",
+    "lesson_title": "Introduction to Fractions",
+    "worksheet": {
+      "sections": [
+        {
+          "type": "imagination_prompt",
+          "title": "Imagine a Pizza",
+          "instructions": "Imagine you have a big pizza in front of you. You want to share it equally with your friend. How would you cut the pizza so you both get the same amount? Describe or draw how you would do it.",
+          "lines": 6,
+          "drawing_space": true
+        },
+        {
+          "type": "rhythm_activity",
+          "title": "Fraction Rhythm with Baking",
+          "instructions": "Clap your hands or tap on the table to a rhythm as you say these fractions: \"one half, one half\" then \"one quarter, one quarter, one quarter, one quarter.\" Repeat the rhythm and feel the parts of the whole in your movement.",
+          "lines": 0
+        },
+        {
+          "type": "artistic_response",
+          "title": "Draw Your Fraction Pizza",
+          "instructions": "Draw a circle like a pizza. Divide it into 4 equal parts (quarters). Color in 1 part to show \\(\\frac{1}{4}\\). Then color in 2 parts to show \\(\\frac{2}{4}\\).",
+          "lines": 0,
+          "drawing_space": true
+        },
+        {
+          "type": "artistic_response",
+          "title": "Draw Your Fraction Pie",
+          "instructions": "Draw a circle like a pie. Divide it into 2 equal parts (halves). Color in 1 part to show \\(\\frac{1}{2}\\).",
+          "lines": 0,
+          "drawing_space": true
+        }
+      ]
+    },
+    "scores": {
+      "scores": {
+        "subject_specificity": 5,
+        "philosophy_alignment": 5,
+        "grade_appropriateness": 5,
+        "practicality": 5,
+        "value_density": 5
+      },
+      "overall_score": 5,
+      "critical_issues": [],
+      "strengths": [
+        "All activities are clearly about fractions and use concrete, relatable examples (pizza, pie).",
+        "Sections include imagination, rhythm, and artistic tasks, which fit Waldorf-adjacent pedagogy.",
+        "Directions and tasks are very accessible for K-3 students.",
+        "No special materials required\u2014just paper and basic art supplies.",
+        "Multiple, varied activities provide rich opportunities for engagement."
+      ],
+      "weaknesses": []
+    },
+    "gen_cost_usd": 0.0010536,
+    "elapsed_s": 7.46
+  },
+  {
+    "philosophy": "waldorf-adjacent",
+    "grade_band": "K-3",
+    "subject": "science",
+    "lesson_title": "Animal Habitats and Adaptations",
+    "worksheet": {
+      "sections": [
+        {
+          "type": "imagination_prompt",
+          "title": "Imagine Your Own Animal",
+          "instructions": "Imagine an animal that lives in one of these habitats: forest, ocean, desert, or grassland. Think about how it looks and moves to survive there. Describe your animal and what special features it has.",
+          "lines": 6
+        },
+        {
+          "type": "artistic_response",
+          "title": "Draw Your Animal in Its Habitat",
+          "instructions": "Draw a picture of the animal you imagined in its home. Show the habitat around it, like trees, water, sand, or grass. Use colors and shapes to bring your drawing to life.",
+          "drawing_space": true,
+          "lines": 0
+        },
+        {
+          "type": "rhythm_activity",
+          "title": "Animal Movements and Sounds",
+          "instructions": "Pretend to be an animal from one of the habitats. Move and make sounds like it would. How does it move to stay safe or find food? Try this with a friend or family member and share what you notice.",
+          "lines": 2
+        },
+        {
+          "type": "artistic_response",
+          "title": "Describe How Animals Adapt",
+          "instructions": "Using words or a short poem, describe how animals use things like fur, fins, or camouflage to live well in their homes. You can also draw small pictures next to your words to show these adaptations.",
+          "lines": 4,
+          "drawing_space": true
+        }
+      ]
+    },
+    "scores": {
+      "scores": {
+        "subject_specificity": 4,
+        "philosophy_alignment": 5,
+        "grade_appropriateness": 5,
+        "practicality": 5,
+        "value_density": 5
+      },
+      "overall_score": 4.8,
+      "critical_issues": [],
+      "strengths": [
+        "Tasks are highly creative and rooted in sensory and imaginative engagement, matching Waldorf-adjacent philosophy.",
+        "Prompts encourage thinking about animal adaptations and habitats, specific to science.",
+        "Activities are age-appropriate and accessible for K-3 learners.",
+        "No special materials required beyond basic art supplies.",
+        "Multiple modalities (drawing, movement, creative writing) provide rich engagement."
+      ],
+      "weaknesses": [
+        "Worksheet could be slightly more specific about actual animal examples or names to further strengthen subject specificity.",
+        "Some prompts remain open-ended and could risk being generic if not guided (e.g., drawing an animal could be less science-focused without adult facilitation)."
+      ]
+    },
+    "gen_cost_usd": 0.0010144,
+    "elapsed_s": 7.75
+  }
+]

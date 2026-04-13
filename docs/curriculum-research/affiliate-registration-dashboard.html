@@ -1,0 +1,891 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sage's Compass — Affiliate Registration Dashboard</title>
+<style>
+  :root {
+    --bg: #0f1117;
+    --card: #1a1d27;
+    --card-done: #151820;
+    --border: #2a2d3a;
+    --accent: #6c8cff;
+    --accent2: #a78bfa;
+    --green: #34d399;
+    --yellow: #fbbf24;
+    --orange: #fb923c;
+    --red: #f87171;
+    --text: #e2e8f0;
+    --muted: #8892a8;
+    --dim: #4a5568;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    padding: 2rem;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  h1 { font-size: 1.8rem; font-weight: 700; margin-bottom: .25rem; }
+  .subtitle { color: var(--muted); margin-bottom: 2rem; font-size: .95rem; }
+
+  /* Progress bar */
+  .progress-bar-container {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+  .progress-header {
+    display: flex; justify-content: space-between; align-items: center; margin-bottom: .75rem;
+  }
+  .progress-header h2 { font-size: 1rem; font-weight: 600; }
+  .progress-stats { color: var(--muted); font-size: .85rem; }
+  .progress-stats span { color: var(--green); font-weight: 600; }
+  .progress-track { height: 8px; background: var(--border); border-radius: 4px; overflow: hidden; }
+  .progress-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--green)); border-radius: 4px; transition: width .4s ease; }
+
+  /* Export bar */
+  .export-bar {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1rem 1.5rem;
+    margin-bottom: 1.5rem;
+    display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap;
+  }
+  .export-bar p { color: var(--muted); font-size: .85rem; flex: 1; min-width: 200px; }
+  .export-bar .aff-count { color: var(--green); font-weight: 600; }
+
+  /* Boilerplate section */
+  .boilerplate {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+  .boilerplate h2 { font-size: 1.1rem; margin-bottom: .5rem; }
+  .boilerplate .hint { color: var(--muted); font-size: .85rem; margin-bottom: 1rem; }
+  .copy-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: .75rem;
+  }
+  .copy-item {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: .75rem 1rem;
+    display: flex; justify-content: space-between; align-items: center;
+    cursor: pointer; transition: border-color .2s;
+  }
+  .copy-item:hover { border-color: var(--accent); }
+  .copy-label { color: var(--muted); font-size: .72rem; text-transform: uppercase; letter-spacing: .05em; }
+  .copy-value { font-weight: 500; font-size: .93rem; margin-top: .1rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 220px; }
+  .copy-btn {
+    background: none; border: 1px solid var(--border); color: var(--muted);
+    padding: .25rem .55rem; border-radius: 6px; cursor: pointer; font-size: .72rem; transition: all .2s; white-space: nowrap; flex-shrink: 0;
+  }
+  .copy-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .copy-btn.copied { border-color: var(--green); color: var(--green); }
+
+  /* Filters */
+  .filters { display: flex; gap: .5rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+  .filter-btn {
+    padding: .35rem .75rem; border-radius: 20px; border: 1px solid var(--border);
+    background: transparent; color: var(--muted); cursor: pointer; font-size: .8rem; transition: all .2s;
+  }
+  .filter-btn:hover { border-color: var(--accent); color: var(--text); }
+  .filter-btn.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+  /* Section headers */
+  .section-header { display: flex; align-items: center; gap: .75rem; margin: 1.75rem 0 .75rem; }
+  .section-header h2 { font-size: 1.1rem; font-weight: 600; }
+  .section-badge { font-size: .72rem; padding: .18rem .55rem; border-radius: 20px; font-weight: 500; }
+  .badge-web { background: rgba(108,140,255,.15); color: var(--accent); }
+  .badge-network { background: rgba(167,139,250,.15); color: var(--accent2); }
+  .badge-email { background: rgba(251,191,36,.15); color: var(--yellow); }
+  .badge-other { background: rgba(248,113,113,.15); color: var(--red); }
+
+  /* Cards */
+  .card {
+    background: var(--card); border: 1px solid var(--border); border-radius: 12px;
+    padding: 1.15rem 1.4rem; margin-bottom: .65rem; transition: all .3s;
+  }
+  .card.done { background: var(--card-done); border-color: rgba(52,211,153,.2); opacity: .6; }
+  .card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; }
+  .card-left { flex: 1; min-width: 0; }
+  .card-name { font-weight: 600; font-size: 1.02rem; display: flex; align-items: center; gap: .5rem; }
+  .card-name .num { color: var(--dim); font-size: .78rem; font-weight: 400; }
+  .card-meta { color: var(--muted); font-size: .83rem; margin-top: .2rem; }
+  .commission { color: var(--green); font-weight: 500; }
+  .card-right { display: flex; align-items: center; gap: .5rem; flex-shrink: 0; }
+
+  /* Curricula tags */
+  .curricula-tags { display: flex; flex-wrap: wrap; gap: .35rem; margin-top: .5rem; }
+  .cur-tag {
+    font-size: .7rem; padding: .15rem .5rem; border-radius: 12px;
+    background: rgba(108,140,255,.1); color: var(--accent); border: 1px solid rgba(108,140,255,.2);
+  }
+
+  /* Buttons */
+  .btn {
+    display: inline-flex; align-items: center; gap: .3rem; padding: .4rem .8rem;
+    border-radius: 8px; font-size: .83rem; font-weight: 500; text-decoration: none;
+    cursor: pointer; border: 1px solid var(--border); transition: all .2s; white-space: nowrap;
+  }
+  .btn-primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .btn-primary:hover { opacity: .85; }
+  .btn-green { background: var(--green); border-color: var(--green); color: var(--bg); }
+  .btn-green:hover { opacity: .85; }
+  .btn-outline { background: transparent; color: var(--text); }
+  .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+  .checkbox-wrapper { display: flex; align-items: center; gap: .35rem; cursor: pointer; user-select: none; }
+  .checkbox-wrapper input[type=checkbox] { width: 18px; height: 18px; accent-color: var(--green); cursor: pointer; }
+  .checkbox-label { font-size: .78rem; color: var(--muted); }
+
+  /* Affiliate link input */
+  .aff-link-row {
+    margin-top: .6rem; display: flex; gap: .5rem; align-items: center;
+  }
+  .aff-link-row label { color: var(--muted); font-size: .78rem; white-space: nowrap; min-width: 85px; }
+  .aff-link-row input {
+    flex: 1; background: var(--bg); border: 1px solid var(--border); border-radius: 6px;
+    color: var(--text); padding: .4rem .65rem; font-size: .83rem; font-family: 'SF Mono', 'Fira Code', monospace;
+  }
+  .aff-link-row input:focus { outline: none; border-color: var(--accent); }
+  .aff-link-row input::placeholder { color: var(--dim); }
+  .aff-link-row input.has-value { border-color: rgba(52,211,153,.4); }
+
+  /* Notes */
+  .card-notes { margin-top: .5rem; }
+  .card-notes textarea {
+    width: 100%; background: var(--bg); border: 1px solid var(--border); border-radius: 6px;
+    color: var(--text); padding: .4rem .65rem; font-size: .82rem; font-family: inherit;
+    resize: vertical; min-height: 2.2rem;
+  }
+  .card-notes textarea:focus { outline: none; border-color: var(--accent); }
+  .card-notes textarea::placeholder { color: var(--dim); }
+
+  /* Hint text */
+  .hint-text { color: var(--dim); font-size: .78rem; margin-top: .3rem; }
+
+  /* Email template */
+  .email-toggle { margin-top: .6rem; }
+  .email-template {
+    background: var(--bg); border: 1px solid var(--border); border-radius: 8px;
+    padding: 1rem; margin-top: .5rem; position: relative;
+  }
+  .email-template pre { font-family: inherit; font-size: .82rem; white-space: pre-wrap; color: var(--text); line-height: 1.5; }
+  .email-template .copy-email-btn { position: absolute; top: .5rem; right: .5rem; }
+
+  /* Modal */
+  .modal-overlay {
+    display: none; position: fixed; inset: 0; background: rgba(0,0,0,.7); z-index: 100;
+    justify-content: center; align-items: center; padding: 2rem;
+  }
+  .modal-overlay.show { display: flex; }
+  .modal {
+    background: var(--card); border: 1px solid var(--border); border-radius: 16px;
+    padding: 2rem; max-width: 800px; width: 100%; max-height: 80vh; overflow-y: auto;
+  }
+  .modal h2 { margin-bottom: 1rem; }
+  .modal pre {
+    background: var(--bg); border: 1px solid var(--border); border-radius: 8px;
+    padding: 1rem; font-size: .8rem; overflow-x: auto; white-space: pre-wrap;
+    font-family: 'SF Mono', 'Fira Code', monospace; color: var(--green); max-height: 50vh; overflow-y: auto;
+  }
+  .modal-actions { display: flex; gap: .75rem; margin-top: 1.25rem; justify-content: flex-end; }
+
+  @media (max-width: 640px) {
+    body { padding: 1rem; }
+    .card-top { flex-direction: column; }
+    .card-right { width: 100%; justify-content: flex-end; }
+    .copy-grid { grid-template-columns: 1fr; }
+    .aff-link-row { flex-direction: column; align-items: stretch; }
+    .aff-link-row label { min-width: unset; }
+  }
+</style>
+</head>
+<body>
+
+<h1>Sage's Compass — Affiliate Registration</h1>
+<p class="subtitle">Register for each affiliate program, paste back your tracking link, then export to update the database.</p>
+
+<!-- Progress -->
+<div class="progress-bar-container">
+  <div class="progress-header">
+    <h2>Registration Progress</h2>
+    <div class="progress-stats"><span id="done-count">0</span> / <span id="total-count">0</span> registered</div>
+  </div>
+  <div class="progress-track"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
+</div>
+
+<!-- Export bar -->
+<div class="export-bar">
+  <p><span class="aff-count" id="link-count">0</span> affiliate links captured. Export to update <code>all-curricula.json</code> with your tracking links.</p>
+  <button class="btn btn-green" onclick="showExportModal()">Export JSON Patch</button>
+  <button class="btn btn-outline" onclick="openAllSignups()">Open All Sign-up Pages</button>
+</div>
+
+<!-- Boilerplate -->
+<div class="boilerplate">
+  <h2>Quick-Copy Form Fields</h2>
+  <p class="hint">Click any field to copy to clipboard. Paste into sign-up forms.</p>
+  <div class="copy-grid">
+    <div class="copy-item" data-copy="Sage&#39;s Compass">
+      <div><div class="copy-label">Business Name</div><div class="copy-value">Sage's Compass</div></div>
+      <button class="copy-btn">Copy</button>
+    </div>
+    <div class="copy-item" data-copy="https://sagescompass.com">
+      <div><div class="copy-label">Website URL</div><div class="copy-value">https://sagescompass.com</div></div>
+      <button class="copy-btn">Copy</button>
+    </div>
+    <div class="copy-item" data-copy="hello@sagescompass.com">
+      <div><div class="copy-label">Email</div><div class="copy-value">hello@sagescompass.com</div></div>
+      <button class="copy-btn">Copy</button>
+    </div>
+    <div class="copy-item" data-copy="Sage&#39;s Compass is a homeschool curriculum discovery platform that helps families find the right curriculum based on their educational philosophy, learning style, and values. We guide parents through the overwhelming world of homeschool options with personalized recommendations.">
+      <div><div class="copy-label">Site Description</div><div class="copy-value">Sage's Compass is a homeschool curriculum discovery platform...</div></div>
+      <button class="copy-btn">Copy</button>
+    </div>
+    <div class="copy-item" data-copy="We feature curriculum recommendations on our platform (sagescompass.com) where homeschool families discover curricula matched to their educational philosophy. When a family is matched with your curriculum, we link directly to your store. We also share recommendations through our content and community channels.">
+      <div><div class="copy-label">Promotion Method</div><div class="copy-value">We feature curriculum recommendations on our platform...</div></div>
+      <button class="copy-btn">Copy</button>
+    </div>
+    <div class="copy-item" data-copy="Homeschool, Education, Curriculum, Family, Parenting">
+      <div><div class="copy-label">Niche / Categories</div><div class="copy-value">Homeschool, Education, Curriculum, Family, Parenting</div></div>
+      <button class="copy-btn">Copy</button>
+    </div>
+    <div class="copy-item password-item" data-copy-fn="getPassword" data-default-pw="WrenFrost34!">
+      <div>
+        <div class="copy-label">Password</div>
+        <div class="copy-value" id="password-display" style="font-family:'SF Mono','Fira Code',monospace;font-size:.85rem">Not set yet</div>
+      </div>
+      <div style="display:flex;gap:.35rem;align-items:center">
+        <button class="copy-btn" onclick="event.stopPropagation();togglePasswordVisibility()" id="toggle-pw-btn" style="display:none">Show</button>
+        <button class="copy-btn">Copy</button>
+      </div>
+    </div>
+  </div>
+  <div style="margin-top:.75rem">
+    <div id="pw-set-row" style="display:flex;gap:.5rem;align-items:center">
+      <input type="password" id="pw-input" placeholder="Set a password for all affiliate sign-ups..."
+        style="flex:1;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);padding:.45rem .7rem;font-size:.85rem;font-family:'SF Mono','Fira Code',monospace"
+        oninput="updatePassword(this.value)" />
+      <button class="copy-btn" onclick="togglePwInput()" id="pw-vis-toggle">Show</button>
+    </div>
+  </div>
+</div>
+
+<!-- Filters -->
+<div class="filters">
+  <button class="filter-btn active" onclick="filterCards('all', this)">All</button>
+  <button class="filter-btn" onclick="filterCards('todo', this)">To Do</button>
+  <button class="filter-btn" onclick="filterCards('done', this)">Done</button>
+  <button class="filter-btn" onclick="filterCards('web', this)">Web Forms</button>
+  <button class="filter-btn" onclick="filterCards('network', this)">Networks</button>
+  <button class="filter-btn" onclick="filterCards('email', this)">Email</button>
+  <button class="filter-btn" onclick="filterCards('other', this)">Non-Traditional</button>
+</div>
+
+<div id="cards-container"></div>
+
+<!-- Export Modal -->
+<div class="modal-overlay" id="export-modal">
+  <div class="modal">
+    <h2>JSON Patch — Affiliate URL Updates</h2>
+    <p style="color:var(--muted);font-size:.85rem;margin-bottom:1rem">
+      Copy this JSON and use it to update <code>all-curricula.json</code>. Each entry maps a curriculum name + publisher to the new affiliate tracking URL.
+    </p>
+    <pre id="export-json"></pre>
+    <div class="modal-actions">
+      <button class="btn btn-outline" onclick="closeExportModal()">Close</button>
+      <button class="btn btn-green" id="copy-export-btn" onclick="copyExport()">Copy JSON</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const STORAGE_KEY = 'sagescompass_affiliate_reg_v2';
+
+// Each program maps to specific curricula in all-curricula.json via publisher name
+const programs = [
+  // --- WEB FORM SIGN-UPS ---
+  {
+    id: 'allaboutlearning',
+    name: 'All About Learning Press',
+    type: 'web',
+    url: 'https://www.allaboutlearningpress.net/',
+    commission: '15% per sale',
+    cookie: '180-day cookie',
+    hint: 'Most generous program. Free to join, includes banners + training materials.',
+    publisher: 'All About Learning Press',
+    curricula: ['All About Reading', 'All About Spelling'],
+  },
+  {
+    id: 'logicofenglish',
+    name: 'Logic of English',
+    type: 'web',
+    url: 'https://logicofenglish.idevaffiliate.com/home',
+    commission: 'Disclosed on approval',
+    cookie: '30-day cookie',
+    hint: 'iDevAffiliate platform.',
+    publisher: 'Logic of English',
+    curricula: ['Logic of English Foundations'],
+  },
+  {
+    id: 'sonlight',
+    name: 'Sonlight',
+    type: 'web',
+    url: 'https://affiliate.sonlight.com/home',
+    commission: '6% per sale',
+    cookie: '90-day cookie',
+    hint: '$50 payout threshold, monthly PayPal.',
+    publisher: 'Sonlight Curriculum',
+    curricula: ['Sonlight Language Arts', 'Sonlight Science', 'Sonlight History', 'Sonlight'],
+  },
+  {
+    id: 'memoriapress',
+    name: 'Memoria Press',
+    type: 'web',
+    url: 'https://id.memoriapress.com/',
+    commission: 'TBD',
+    cookie: '',
+    hint: '',
+    publisher: 'Memoria Press',
+    curricula: ['Memoria Press Language Arts'],
+  },
+  {
+    id: 'iew',
+    name: 'IEW (Institute for Excellence in Writing)',
+    type: 'web',
+    url: 'https://iew.com/affiliates',
+    commission: 'Disclosed on approval',
+    cookie: '',
+    hint: '',
+    publisher: 'Institute for Excellence in Writing',
+    curricula: ['IEW Structure and Style'],
+  },
+  {
+    id: 'bookshark',
+    name: 'BookShark',
+    type: 'web',
+    url: 'https://affiliate.bookshark.com/home',
+    commission: '6% per sale',
+    cookie: '90-day cookie',
+    hint: 'Secular Sonlight spinoff. Same terms. $50 payout, monthly PayPal.',
+    publisher: 'BookShark',
+    curricula: ['BookShark Science', 'BookShark History', 'BookShark', 'BookShark Language Arts'],
+  },
+  {
+    id: 'rightstart',
+    name: 'RightStart Mathematics',
+    type: 'web',
+    url: 'https://rightstartmath.idevaffiliate.com/signup.php',
+    commission: 'TBD',
+    cookie: 'Monthly payouts',
+    hint: 'iDevAffiliate. Must post about RightStart at least once/month.',
+    publisher: 'Activities for Learning, Inc.',
+    curricula: ['RightStart Mathematics'],
+  },
+  {
+    id: 'aop',
+    name: 'Alpha Omega Publications (Horizons)',
+    type: 'web',
+    url: 'https://www.aop.com/partners',
+    commission: '4% per sale',
+    cookie: '10-day cookie',
+    hint: 'Via Awin. Covers Horizons, Monarch, LIFEPAC, Switched-On Schoolhouse.',
+    publisher: 'Alpha Omega Publications',
+    curricula: ['Horizons Math'],
+  },
+  {
+    id: 'pandiapress',
+    name: 'Pandia Press',
+    type: 'web',
+    url: 'https://pandiapress.com/pages/become-affiliate',
+    commission: '10% per sale',
+    cookie: '30-day cookie',
+    hint: 'PayPal quarterly. Covers RSO + History Quest.',
+    publisher: 'Pandia Press',
+    curricula: ['Real Science Odyssey', 'History Quest'],
+  },
+  {
+    id: 'apologia',
+    name: 'Apologia Science',
+    type: 'web',
+    url: 'https://www.apologia.com/become-an-affiliate/',
+    commission: '10% + 10% off code',
+    cookie: '',
+    hint: 'Excludes lab equipment/live classes. Monthly PayPal on 15th.',
+    publisher: 'Apologia Educational Ministries',
+    curricula: ['Apologia Science'],
+  },
+  {
+    id: 'beautifulfeet',
+    name: 'Beautiful Feet Books',
+    type: 'web',
+    url: 'https://bfbooks.tapfiliate.com/',
+    commission: '10% per sale',
+    cookie: '45-day cookie',
+    hint: 'Tapfiliate. Bi-annual PayPal (Jun/Dec). Bonus tiers at 5+/10+/15+ conv/mo.',
+    publisher: 'Beautiful Feet Books',
+    curricula: ['Beautiful Feet Books'],
+  },
+  {
+    id: 'notgrass',
+    name: 'Notgrass History',
+    type: 'web',
+    url: 'https://notgrass.com/affiliate/index.php',
+    commission: '12% per sale',
+    cookie: '',
+    hint: 'Application reviewed for mission alignment.',
+    publisher: 'Notgrass Company',
+    curricula: ['Notgrass History'],
+  },
+  {
+    id: 'simplycm',
+    name: 'Simply Charlotte Mason',
+    type: 'web',
+    url: 'https://simplycharlottemason.com/affiliate-program/',
+    commission: '5% / 10% after $5K',
+    cookie: '60-day cookie',
+    hint: 'Free to join. Tiered.',
+    publisher: 'Simply Charlotte Mason',
+    curricula: ['Simply Charlotte Mason History'],
+  },
+  {
+    id: 'beyondthepage',
+    name: 'Moving Beyond the Page',
+    type: 'web',
+    url: 'https://www.beyondthepage.com/affiliate/overview.aspx',
+    commission: '5% for 1 year',
+    cookie: '1 year per customer',
+    hint: '5% on ALL purchases by referred customer for 1 full year.',
+    publisher: 'Moving Beyond the Page',
+    curricula: ['Moving Beyond the Page Social Studies', 'Moving Beyond the Page'],
+  },
+  {
+    id: 'masterbooks',
+    name: 'Master Books',
+    type: 'web',
+    url: 'https://www.masterbooks.com/affiliate/account/welcome/',
+    commission: '8-10% first, 2% after',
+    cookie: '60-day cookie',
+    hint: 'Invitation-only. Up to 5 orders per customer. $50 min payout.',
+    publisher: 'Master Books / New Leaf Publishing',
+    curricula: ['Master Books'],
+  },
+  {
+    id: 'dailywonder',
+    name: 'Daily Wonder',
+    type: 'web',
+    url: 'https://www.dailywonderhomelearning.com/affiliate-program.html',
+    commission: '25% + 10% off code',
+    cookie: '',
+    hint: 'Highest rate in space. Affiliates provide 10% off coupon.',
+    publisher: 'Daily Wonder Home Learning',
+    curricula: ['Daily Wonder'],
+  },
+  {
+    id: 'earthschooling',
+    name: 'Earth Schooling',
+    type: 'web',
+    url: 'https://earthschooling.info/thebearthinstitute/affiliate-area/',
+    commission: 'TBD',
+    cookie: '',
+    hint: 'Details behind login.',
+    publisher: 'The BEarth Institute',
+    curricula: ['Earthschooling'],
+  },
+  {
+    id: 'esingaporemath',
+    name: 'E-Singapore Math',
+    type: 'web',
+    url: 'https://esingaporemath.com/affiliate-program',
+    commission: '$15/subscription',
+    cookie: '',
+    hint: 'E-Singapore Math (online), NOT SingaporeMath.com (books).',
+    publisher: null,
+    curricula: [],
+  },
+
+  // --- AFFILIATE NETWORKS ---
+  {
+    id: 'calvert',
+    name: 'Calvert Homeschool',
+    type: 'network',
+    url: 'https://www.awin.com/us',
+    commission: '4% per sale',
+    cookie: '30-day cookie',
+    hint: 'Awin network, merchant #53081. Sign up for Awin first.',
+    publisher: 'Calvert Education',
+    curricula: ['Calvert Homeschool'],
+  },
+
+  // --- EMAIL OUTREACH ---
+  {
+    id: 'brightideas',
+    name: 'Bright Ideas Press (Mystery of History)',
+    type: 'email',
+    url: 'https://brightideaspress.com',
+    email: null,
+    commission: '30% per sale',
+    cookie: '',
+    hint: 'Highest commission (30%!). No public sign-up — reach out via site.',
+    publisher: 'Bright Ideas Press',
+    curricula: ['The Mystery of History'],
+  },
+  {
+    id: 'welltrainedmind',
+    name: 'Well-Trained Mind Press',
+    type: 'email',
+    email: 'support@welltrainedmind.com',
+    url: 'https://support.welltrainedmind.com',
+    commission: 'TBD',
+    cookie: '',
+    hint: 'Support article suggests program exists.',
+    publisher: 'Well-Trained Mind Press',
+    curricula: ['Story of the World'],
+  },
+  {
+    id: 'commonsensepress',
+    name: 'Common Sense Press (LLATL)',
+    type: 'email',
+    email: 'info@commonsensepress.com',
+    url: null,
+    commission: 'TBD',
+    cookie: '',
+    hint: 'Bloggers use affiliate links — likely has a program via 3rd-party network.',
+    publisher: 'Common Sense Press',
+    curricula: ['Learning Language Arts Through Literature'],
+  },
+  {
+    id: 'gatherround',
+    name: "Gather 'Round Homeschool",
+    type: 'email',
+    email: 'support@gatherroundhomeschool.com',
+    url: null,
+    commission: 'TBD',
+    cookie: '',
+    hint: 'Multiple bloggers disclose affiliate links. No public page found.',
+    publisher: "Gather 'Round Homeschool",
+    curricula: ["Gather 'Round Homeschool"],
+  },
+
+  // --- NON-TRADITIONAL ---
+  {
+    id: 'bravewriter',
+    name: 'Brave Writer',
+    type: 'other',
+    url: 'https://blog.bravewriter.com/2023/04/24/new-refer-a-friend/',
+    commission: '$10 store credit/referral',
+    cookie: '',
+    hint: 'Refer-a-Friend only (not cash). Refersion platform.',
+    publisher: 'Brave Writer',
+    curricula: ['Brave Writer'],
+  },
+  {
+    id: 'timberdoodle',
+    name: 'Timberdoodle',
+    type: 'other',
+    url: 'https://timberdoodle.com/blogs/td/join-our-blog-team',
+    commission: 'Product comp (not cash)',
+    cookie: '',
+    hint: 'Influencer/blog team. Must have established blog or YouTube.',
+    publisher: 'Timberdoodle Co.',
+    curricula: ['Timberdoodle'],
+  },
+];
+
+const emailTemplate = (name) => `Hi there,
+
+My name is [YOUR NAME] and I run Sage's Compass (https://sagescompass.com), a homeschool curriculum discovery platform that helps families find the right curriculum based on their educational philosophy, learning style, and values.
+
+We'd love to join your affiliate program. ${name} is one of the curricula we recommend to families, and we'd like to formalize our partnership so we can properly link and track referrals.
+
+Could you share details on how to sign up for your affiliate program, including any application links and commission structure?
+
+A bit about us:
+- Platform: https://sagescompass.com
+- We match homeschool families with curricula based on their philosophy preferences
+- Families who discover ${name} through our platform are highly qualified — they've been matched based on genuine alignment
+- Contact: hello@sagescompass.com
+
+Looking forward to partnering with you!
+
+Best,
+[YOUR NAME]
+Sage's Compass`;
+
+// --- Password ---
+
+const DEFAULT_PW = 'WrenFrost34!';
+function getPassword() {
+  return localStorage.getItem(STORAGE_KEY + '_pw') || DEFAULT_PW;
+}
+function updatePassword(val) {
+  localStorage.setItem(STORAGE_KEY + '_pw', val);
+  renderPasswordDisplay();
+}
+function renderPasswordDisplay() {
+  const pw = getPassword();
+  const display = document.getElementById('password-display');
+  const toggleBtn = document.getElementById('toggle-pw-btn');
+  const input = document.getElementById('pw-input');
+  if (!pw) {
+    display.textContent = 'Not set yet';
+    toggleBtn.style.display = 'none';
+  } else {
+    display.textContent = passwordVisible ? pw : '\u2022'.repeat(pw.length);
+    toggleBtn.style.display = '';
+    toggleBtn.textContent = passwordVisible ? 'Hide' : 'Show';
+  }
+  if (input && !input.matches(':focus')) input.value = pw;
+}
+let passwordVisible = false;
+function togglePasswordVisibility() {
+  passwordVisible = !passwordVisible;
+  renderPasswordDisplay();
+}
+function togglePwInput() {
+  const input = document.getElementById('pw-input');
+  const btn = document.getElementById('pw-vis-toggle');
+  if (input.type === 'password') { input.type = 'text'; btn.textContent = 'Hide'; }
+  else { input.type = 'password'; btn.textContent = 'Show'; }
+}
+
+// --- State ---
+
+function getState() {
+  try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); } catch { return {}; }
+}
+function saveState(state) { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
+
+function toggleDone(id) {
+  const s = getState(); if (!s[id]) s[id] = {};
+  s[id].done = !s[id].done; saveState(s); renderCards();
+}
+function saveAffLink(id, val) {
+  const s = getState(); if (!s[id]) s[id] = {};
+  s[id].affLink = val; saveState(s); updateLinkCount();
+}
+function saveNote(id, val) {
+  const s = getState(); if (!s[id]) s[id] = {};
+  s[id].note = val; saveState(s);
+}
+
+function copyText(el, text) {
+  navigator.clipboard.writeText(text);
+  // Find the last .copy-btn (the "Copy" one, not "Show")
+  const btns = el.querySelectorAll('.copy-btn');
+  const btn = btns[btns.length - 1];
+  if (btn) { const o = btn.textContent; btn.textContent = 'Copied!'; btn.classList.add('copied'); setTimeout(() => { btn.textContent = o; btn.classList.remove('copied'); }, 1200); }
+}
+
+// Wire up all copy-items via data attributes (avoids inline quote escaping issues)
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.copy-item[data-copy]').forEach(el => {
+    el.addEventListener('click', () => copyText(el, el.dataset.copy));
+  });
+  document.querySelectorAll('.copy-item[data-copy-fn]').forEach(el => {
+    el.addEventListener('click', () => {
+      const fn = window[el.dataset.copyFn];
+      if (fn) copyText(el, fn());
+    });
+  });
+});
+
+function copyEmail(id, name) {
+  navigator.clipboard.writeText(emailTemplate(name));
+  const btn = document.getElementById('copy-email-' + id);
+  if (btn) { btn.textContent = 'Copied!'; btn.classList.add('copied'); setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 1200); }
+}
+
+function openAllSignups() {
+  const s = getState();
+  const pending = programs.filter(p => !s[p.id]?.done && (p.url || (p.email && p.email.includes('@'))));
+  if (pending.length === 0) { alert('All programs are marked done!'); return; }
+  if (!confirm(`Open ${pending.length} sign-up pages in new tabs?`)) return;
+  pending.forEach(p => {
+    if (p.type === 'email' && p.email && p.email.includes('@')) {
+      window.open(`mailto:${p.email}?subject=Affiliate%20Partnership%20Inquiry%20%E2%80%93%20Sage%E2%80%99s%20Compass&body=${encodeURIComponent(emailTemplate(p.name))}`, '_blank');
+    } else if (p.url) {
+      window.open(p.url, '_blank');
+    }
+  });
+}
+
+// --- Export ---
+
+function buildExportData() {
+  const s = getState();
+  const patches = [];
+  programs.forEach(p => {
+    const link = s[p.id]?.affLink;
+    if (!link || !p.publisher || p.curricula.length === 0) return;
+    p.curricula.forEach(cName => {
+      patches.push({ curriculum_name: cName, publisher: p.publisher, affiliate_url: link });
+    });
+  });
+  return patches;
+}
+
+function showExportModal() {
+  const data = buildExportData();
+  document.getElementById('export-json').textContent = JSON.stringify(data, null, 2);
+  document.getElementById('export-modal').classList.add('show');
+}
+function closeExportModal() { document.getElementById('export-modal').classList.remove('show'); }
+function copyExport() {
+  const text = document.getElementById('export-json').textContent;
+  navigator.clipboard.writeText(text);
+  const btn = document.getElementById('copy-export-btn');
+  btn.textContent = 'Copied!'; setTimeout(() => { btn.textContent = 'Copy JSON'; }, 1200);
+}
+
+function updateLinkCount() {
+  const s = getState();
+  const count = programs.filter(p => s[p.id]?.affLink).length;
+  document.getElementById('link-count').textContent = count;
+}
+
+// --- Filters & Render ---
+
+let currentFilter = 'all';
+function filterCards(f, el) {
+  currentFilter = f;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+  renderCards();
+}
+
+function renderCards() {
+  const state = getState();
+  const container = document.getElementById('cards-container');
+  container.innerHTML = '';
+
+  const typeLabels = {
+    web: ['Web Form Sign-ups', 'badge-web'],
+    network: ['Affiliate Network (Awin)', 'badge-network'],
+    email: ['Email Outreach Required', 'badge-email'],
+    other: ['Non-Traditional Programs', 'badge-other'],
+  };
+
+  let totalCount = 0, doneCount = 0;
+  const groups = {};
+  programs.forEach(p => {
+    if (!groups[p.type]) groups[p.type] = [];
+    groups[p.type].push(p);
+    totalCount++;
+    if (state[p.id]?.done) doneCount++;
+  });
+
+  document.getElementById('done-count').textContent = doneCount;
+  document.getElementById('total-count').textContent = totalCount;
+  document.getElementById('progress-fill').style.width = totalCount ? ((doneCount / totalCount) * 100) + '%' : '0%';
+  updateLinkCount();
+
+  const order = ['web', 'network', 'email', 'other'];
+  let num = 0;
+
+  order.forEach(type => {
+    if (!groups[type]) return;
+    let items = groups[type];
+    if (currentFilter === 'todo') items = items.filter(p => !state[p.id]?.done);
+    else if (currentFilter === 'done') items = items.filter(p => state[p.id]?.done);
+    else if (!['all','todo','done'].includes(currentFilter)) items = items.filter(p => p.type === currentFilter);
+    if (!items.length) return;
+
+    const [label, badge] = typeLabels[type];
+    const hdr = document.createElement('div');
+    hdr.className = 'section-header';
+    hdr.innerHTML = `<h2>${label}</h2><span class="section-badge ${badge}">${items.length}</span>`;
+    container.appendChild(hdr);
+
+    items.forEach(p => {
+      num++;
+      const isDone = state[p.id]?.done || false;
+      const savedLink = state[p.id]?.affLink || '';
+      const savedNote = state[p.id]?.note || '';
+
+      const card = document.createElement('div');
+      card.className = 'card' + (isDone ? ' done' : '');
+
+      const commHtml = p.commission ? `<span class="commission">${p.commission}</span>` : '';
+      const cookHtml = p.cookie ? ` &middot; ${p.cookie}` : '';
+
+      let actionBtn = '';
+      if (p.type === 'email' && p.email && p.email.includes('@')) {
+        actionBtn = `<a href="mailto:${p.email}?subject=Affiliate%20Partnership%20Inquiry%20%E2%80%93%20Sage%E2%80%99s%20Compass&body=${encodeURIComponent(emailTemplate(p.name))}" class="btn btn-primary">Email ↗</a>`;
+      } else if (p.url) {
+        actionBtn = `<a href="${p.url}" target="_blank" rel="noopener" class="btn btn-primary">Sign up ↗</a>`;
+      }
+
+      let tagsHtml = '';
+      if (p.curricula.length) {
+        tagsHtml = `<div class="curricula-tags">${p.curricula.map(c => `<span class="cur-tag">${c}</span>`).join('')}</div>`;
+      }
+
+      let emailSection = '';
+      if (p.type === 'email') {
+        const safeName = p.name.replace(/'/g, "\\'");
+        emailSection = `
+          <div class="email-toggle">
+            <button class="btn btn-outline" style="font-size:.78rem;padding:.3rem .6rem" onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display==='none'?'block':'none'">Toggle email template</button>
+            <div class="email-template" style="display:none">
+              <button class="copy-btn copy-email-btn" id="copy-email-${p.id}" onclick="event.stopPropagation();copyEmail('${p.id}','${safeName}')">Copy</button>
+              <pre>${emailTemplate(p.name)}</pre>
+            </div>
+          </div>`;
+      }
+
+      card.innerHTML = `
+        <div class="card-top">
+          <div class="card-left">
+            <div class="card-name"><span class="num">#${num}</span> ${p.name}</div>
+            <div class="card-meta">${commHtml}${cookHtml}</div>
+            ${p.hint ? `<div class="hint-text">${p.hint}</div>` : ''}
+            ${tagsHtml}
+          </div>
+          <div class="card-right">
+            ${actionBtn}
+            <label class="checkbox-wrapper">
+              <input type="checkbox" ${isDone ? 'checked' : ''} onchange="toggleDone('${p.id}')" />
+              <span class="checkbox-label">Done</span>
+            </label>
+          </div>
+        </div>
+        <div class="aff-link-row">
+          <label>Affiliate link:</label>
+          <input type="url" placeholder="Paste your affiliate tracking URL here..."
+            value="${savedLink.replace(/"/g, '&quot;')}"
+            class="${savedLink ? 'has-value' : ''}"
+            oninput="saveAffLink('${p.id}', this.value); this.classList.toggle('has-value', !!this.value)" />
+        </div>
+        ${emailSection}
+        <div class="card-notes">
+          <textarea placeholder="Notes (affiliate ID, login credentials, status, promo codes...)" oninput="saveNote('${p.id}', this.value)">${savedNote}</textarea>
+        </div>
+      `;
+      container.appendChild(card);
+    });
+  });
+}
+
+// Close modal on overlay click
+document.getElementById('export-modal').addEventListener('click', e => { if (e.target === e.currentTarget) closeExportModal(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeExportModal(); });
+
+renderCards();
+renderPasswordDisplay();
+</script>
+</body>
+</html>

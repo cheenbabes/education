@@ -1,0 +1,476 @@
+[
+  {
+    "philosophy": "adaptive",
+    "grade_band": "K-3",
+    "subject": "math",
+    "lesson_title": "Introduction to Fractions",
+    "worksheet": {
+      "sections": [
+        {
+          "type": "exercise",
+          "title": "Understanding Halves with a Pizza",
+          "instructions": "Imagine a pizza cut into 2 equal slices. If you eat 1 slice, what fraction of the pizza did you eat? Write your answer as a fraction and explain in one sentence.",
+          "lines": 3
+        },
+        {
+          "type": "exercise",
+          "title": "Understanding Quarters with a Pie",
+          "instructions": "A pie is cut into 4 equal slices. If you eat 3 slices, what fraction of the pie did you eat? Write your answer as a fraction and explain in one sentence.",
+          "lines": 3
+        },
+        {
+          "type": "drawing",
+          "title": "Draw and Color Halves",
+          "instructions": "Draw a circle to represent a cookie. Divide it into 2 equal parts and color 1 part to show 1/2.",
+          "drawing_space": true
+        },
+        {
+          "type": "drawing",
+          "title": "Draw and Color Quarters",
+          "instructions": "Draw a rectangle to represent a chocolate bar. Divide it into 4 equal parts and color 3 parts to show 3/4.",
+          "drawing_space": true
+        }
+      ]
+    },
+    "scores": {
+      "scores": {
+        "subject_specificity": 5,
+        "philosophy_alignment": 5,
+        "grade_appropriateness": 5,
+        "practicality": 5,
+        "value_density": 5
+      },
+      "overall_score": 5,
+      "critical_issues": [],
+      "strengths": [
+        "All tasks are directly focused on fractions with concrete, familiar examples.",
+        "Sections include both written and drawing activities, which supports adaptive learning by engaging multiple modalities.",
+        "All vocabulary and task complexity are well-matched to K-3 students.",
+        "Requires only pencil and paper for all tasks, fully practical for homeschool.",
+        "Four meaningful, age-appropriate, and cognitively engaging activities."
+      ],
+      "weaknesses": [
+        "Worksheet does not offer explicit differentiation or adaptive guidance for varied student readiness beyond the provided tasks."
+      ]
+    },
+    "gen_cost_usd": 0.0005476,
+    "elapsed_s": 8.29
+  },
+  {
+    "philosophy": "charlotte-mason",
+    "grade_band": "K-3",
+    "subject": "math",
+    "lesson_title": "Introduction to Fractions",
+    "worksheet": {
+      "sections": [
+        {
+          "type": "writing",
+          "title": "Understanding Halves and Quarters with Pizza",
+          "instructions": "Imagine you have a pizza. If you cut the pizza into 2 equal parts, each part is called a half. If you cut it into 4 equal parts, each part is called a quarter. Write down what fraction of the pizza you would eat if you ate one half or one quarter.",
+          "lines": 4
+        },
+        {
+          "type": "drawing",
+          "title": "Draw and Color Halves",
+          "instructions": "Draw a circle to represent a pizza. Divide the circle into 2 equal parts and color in one half. Write the fraction that shows how much you colored.",
+          "drawing_space": true,
+          "lines": 2
+        },
+        {
+          "type": "drawing",
+          "title": "Draw and Color Quarters",
+          "instructions": "Draw another circle to represent a pie. Divide the pie into 4 equal parts and color in one quarter. Write the fraction that shows how much you colored.",
+          "drawing_space": true,
+          "lines": 2
+        },
+        {
+          "type": "writing",
+          "title": "Explain Fractions in Your Own Words",
+          "instructions": "In your own words, explain what a fraction means when we say 1/2 or 1/4. Use the pizza or pie to help you.",
+          "lines": 5
+        }
+      ]
+    },
+    "scores": {
+      "scores": {
+        "subject_specificity": 5,
+        "philosophy_alignment": 4,
+        "grade_appropriateness": 5,
+        "practicality": 5,
+        "value_density": 5
+      },
+      "overall_score": 4.8,
+      "critical_issues": [],
+      "strengths": [
+        "Clear focus on fractions with concrete examples (pizza, pie)",
+        "Tasks include both narration (writing/explaining) and visual representation (drawing), aligning well with Charlotte Mason methods",
+        "Age-appropriate language and expectations for K-3 learners",
+        "Requires only common materials: paper, pencil, crayons",
+        "Multiple, meaningful tasks for deep engagement"
+      ],
+      "weaknesses": [
+        "Philosophy alignment could be slightly improved with explicit oral narration or copywork, which are signature Charlotte Mason practices"
+      ]
+    },
+    "gen_cost_usd": 0.000616,
+    "elapsed_s": 11.29
+  },
+  {
+    "philosophy": "classical",
+    "grade_band": "K-3",
+    "subject": "math",
+    "lesson_title": "Introduction to Fractions",
+    "worksheet": {
+      "sections": [
+        {
+          "type": "problem-solving",
+          "title": "Understanding Halves with a Pie",
+          "instructions": "Imagine you have a delicious apple pie. If you cut the pie into 2 equal parts, each part is called a half. Color one half of the pie to show 1/2.",
+          "lines": 0,
+          "drawing_space": true
+        },
+        {
+          "type": "problem-solving",
+          "title": "Understanding Quarters with a Pizza",
+          "instructions": "A pizza is cut into 4 equal slices. If you eat 1 slice, you have eaten one quarter of the pizza. Color one quarter of the pizza to show 1/4.",
+          "lines": 0,
+          "drawing_space": true
+        },
+        {
+          "type": "practice",
+          "title": "Color the Fraction",
+          "instructions": "Draw a circle. Divide it into 4 equal parts. Color 3 parts to show the fraction 3/4.",
+          "lines": 0,
+          "drawing_space": true
+        },
+        {
+          "type": "written-response",
+          "title": "Write and Explain",
+          "instructions": "Write the fraction that shows how much of the pie is left if you eat half of it. Explain in one or two sentences why it is that fraction.",
+          "lines": 4
+        }
+      ]
+    },
+    "scores": {
+      "scores": {
+        "subject_specificity": 5,
+        "philosophy_alignment": 4,
+        "grade_appropriateness": 5,
+        "practicality": 5,
+        "value_density": 5
+      },
+      "overall_score": 4.8,
+      "critical_issues": [],
+      "strengths": [
+        "Tasks use concrete, age-appropriate visual representations of fractions (pie, pizza, circles).",
+        "Clear and direct instructions support independent or guided work.",
+        "Tasks require both drawing and written explanation, engaging different modes of learning.",
+        "Requires only common materials (paper, crayons/pencil).",
+        "Each section targets a distinct fraction concept for this grade band."
+      ],
+      "weaknesses": [
+        "While the worksheet is hands-on and concrete, it could be more distinctively classical by including narration or oral explanation components."
+      ]
+    },
+    "gen_cost_usd": 0.0005844,
+    "elapsed_s": 9.43
+  },
+  {
+    "philosophy": "montessori-inspired",
+    "grade_band": "K-3",
+    "subject": "math",
+    "lesson_title": "Introduction to Fractions",
+    "worksheet": {
+      "sections": [
+        {
+          "type": "matching",
+          "title": "Understanding Halves and Quarters with Pizza",
+          "instructions": "Look at the pictures of pizzas divided into halves and quarters. Write the fraction that shows the shaded part under each pizza.",
+          "lines": 4,
+          "drawing_space": false
+        },
+        {
+          "type": "fill_in_the_blank",
+          "title": "Fraction Words and Numbers",
+          "instructions": "Fill in the blanks with the correct fraction for each description. For example, if a cake is cut into 4 equal slices and you eat 1 slice, write the fraction of the cake you ate.",
+          "lines": 4,
+          "drawing_space": false
+        },
+        {
+          "type": "drawing",
+          "title": "Draw and Color Fractions",
+          "instructions": "Draw a circle to represent a pie. Divide it into 2 equal parts and color 1 part to show 1/2. Then, draw another circle, divide it into 4 equal parts, and color 3 parts to show 3/4.",
+          "drawing_space": true
+        },
+        {
+          "type": "word_problem",
+          "title": "Fraction Baking Problems",
+          "instructions": "Read each problem and write the correct fraction answer.",
+          "lines": 3,
+          "drawing_space": false
+        }
+      ]
+    },
+    "scores": {
+      "scores": {
+        "subject_specificity": 5,
+        "philosophy_alignment": 4,
+        "grade_appropriateness": 5,
+        "practicality": 5,
+        "value_density": 5
+      },
+      "overall_score": 4.8,
+      "critical_issues": [],
+      "strengths": [
+        "All tasks are directly related to fractions, with clear math content.",
+        "Drawing and visual representation tasks align well with hands-on, Montessori-inspired learning.",
+        "Vocabulary and tasks are well suited for K-3 learners.",
+        "No special equipment beyond paper and pencil is required.",
+        "Multiple, meaningful sections foster engagement and conceptual understanding."
+      ],
+      "weaknesses": [
+        "While Montessori-inspired, the worksheet could be more distinctively Montessori by explicitly encouraging use of manipulatives (like fraction circles) or self-correction.",
+        "Matching and fill-in-the-blank are somewhat traditional; more open-ended or manipulative-based activities would boost philosophy alignment to a 5."
+      ]
+    },
+    "gen_cost_usd": 0.0005804,
+    "elapsed_s": 7.28
+  },
+  {
+    "philosophy": "place-nature-based",
+    "grade_band": "K-3",
+    "subject": "math",
+    "lesson_title": "Introduction to Fractions",
+    "worksheet": {
+      "sections": [
+        {
+          "type": "math",
+          "title": "Understanding Halves with a Pie",
+          "instructions": "Imagine you have a whole apple pie. If you cut it into 2 equal parts, each part is called a half. Write the fraction that shows one half and color one half of the pie below.",
+          "lines": 3,
+          "drawing_space": true
+        },
+        {
+          "type": "math",
+          "title": "Understanding Quarters with a Pizza",
+          "instructions": "A pizza is cut into 4 equal slices. Each slice is one quarter of the pizza. Write the fraction for one quarter and color one quarter of the pizza below.",
+          "lines": 3,
+          "drawing_space": true
+        },
+        {
+          "type": "math",
+          "title": "Draw and Color Fractions",
+          "instructions": "Draw a circle and divide it into 4 equal parts. Color 3 of the parts. Write the fraction that shows the colored part of the circle.",
+          "lines": 3,
+          "drawing_space": true
+        },
+        {
+          "type": "math",
+          "title": "Baking Fractions: Sharing Cookies",
+          "instructions": "You baked 8 cookies and want to share them equally with 4 friends. How many cookies does each friend get? Write the fraction of the cookies each friend gets.",
+          "lines": 4
+        }
+      ]
+    },
+    "scores": {
+      "scores": {
+        "subject_specificity": 5,
+        "philosophy_alignment": 4,
+        "grade_appropriateness": 5,
+        "practicality": 5,
+        "value_density": 5
+      },
+      "overall_score": 4.8,
+      "critical_issues": [],
+      "strengths": [
+        "All sections directly address fractions with concrete, familiar food examples.",
+        "Tasks are hands-on, using drawing and coloring, which fits the grade level.",
+        "Instructions are age-appropriate and clear.",
+        "Requires only basic materials (paper, pencil/crayons).",
+        "Includes multiple types of fraction representations (halves, quarters, sharing cookies)."
+      ],
+      "weaknesses": [
+        "While the use of natural and familiar foods (pie, pizza, cookies) is place-based, the worksheet could more explicitly engage nature (e.g., using leaves, rocks, or outdoor objects for fractions) to align even more closely with the place-nature-based philosophy."
+      ]
+    },
+    "gen_cost_usd": 0.0006000000000000001,
+    "elapsed_s": 7.37
+  },
+  {
+    "philosophy": "project-based-learning",
+    "grade_band": "K-3",
+    "subject": "math",
+    "lesson_title": "Introduction to Fractions",
+    "worksheet": {
+      "sections": [
+        {
+          "type": "activity",
+          "title": "Understanding Halves and Quarters with a Pizza",
+          "instructions": "Imagine a whole pizza. Draw lines to cut the pizza into 2 equal parts (halves). Then, draw lines to cut the pizza into 4 equal parts (quarters). Label each part as 1/2 or 1/4. Write how many parts you have and what fraction of the whole pizza each part represents.",
+          "lines": 6,
+          "drawing_space": true
+        },
+        {
+          "type": "problem-solving",
+          "title": "Baking Fractions: Sharing a Cake",
+          "instructions": "Emma bakes a cake and wants to share it equally with 3 friends. How many equal pieces should she cut the cake into? Write the fraction that each friend will get. Draw the cake and divide it into the correct number of pieces.",
+          "lines": 4,
+          "drawing_space": true
+        },
+        {
+          "type": "drawing",
+          "title": "Draw and Color Fractions",
+          "instructions": "Draw a circle and divide it into 8 equal parts. Color 3 parts to show the fraction 3/8. Write the fraction you colored below your drawing.",
+          "lines": 2,
+          "drawing_space": true
+        },
+        {
+          "type": "reflection",
+          "title": "Explain Fractions in Your Own Words",
+          "instructions": "Write a few sentences explaining what a fraction is and how you can use it when baking or sharing food.",
+          "lines": 5
+        }
+      ]
+    },
+    "scores": {
+      "scores": {
+        "subject_specificity": 5,
+        "philosophy_alignment": 5,
+        "grade_appropriateness": 5,
+        "practicality": 5,
+        "value_density": 5
+      },
+      "overall_score": 5,
+      "critical_issues": [],
+      "strengths": [
+        "All tasks are hands-on and context-rich, fully supporting project-based learning.",
+        "Clear focus on fractions using food and sharing scenarios relevant to K-3 students.",
+        "Every activity is approachable with only pencil and paper needed.",
+        "Tasks are varied: drawing, problem-solving, and reflection.",
+        "Worksheet is age-appropriate in both language and conceptual demand."
+      ],
+      "weaknesses": [
+        "Could extend project-based elements further with a real-life kitchen activity suggestion, but this is a minor point and does not detract from the overall design."
+      ]
+    },
+    "gen_cost_usd": 0.0006588,
+    "elapsed_s": 10.94
+  },
+  {
+    "philosophy": "unschooling",
+    "grade_band": "K-3",
+    "subject": "math",
+    "lesson_title": "Introduction to Fractions",
+    "worksheet": {
+      "sections": [
+        {
+          "type": "activity",
+          "title": "Cutting a Pizza into Halves and Quarters",
+          "instructions": "Imagine you have a pizza. Draw a circle to represent the pizza. Then draw lines to cut the pizza into 2 equal parts (halves). Next, draw lines to cut the same pizza into 4 equal parts (quarters). Label each part as 1/2 or 1/4.",
+          "lines": 0,
+          "drawing_space": true
+        },
+        {
+          "type": "question",
+          "title": "Identifying Fractions in Baking",
+          "instructions": "Emma is baking cookies and uses 1/2 cup of sugar and 1/4 cup of butter. Write the fractions that show how much sugar and butter she used. Which fraction is bigger: 1/2 or 1/4? Explain why.",
+          "lines": 4
+        },
+        {
+          "type": "drawing",
+          "title": "Draw and Color Fractions",
+          "instructions": "Draw a rectangle to represent a baking tray. Divide it into 4 equal parts. Color 1 part to show 1/4. Now, divide another rectangle into 2 equal parts and color 1 part to show 1/2.",
+          "lines": 0,
+          "drawing_space": true
+        },
+        {
+          "type": "reflection",
+          "title": "Real-Life Fraction Sharing",
+          "instructions": "Think about a cake or pie you have eaten. How would you share it equally with 3 friends? Draw your plan and write the fraction each friend would get.",
+          "lines": 5,
+          "drawing_space": true
+        }
+      ]
+    },
+    "scores": {
+      "scores": {
+        "subject_specificity": 5,
+        "philosophy_alignment": 4,
+        "grade_appropriateness": 5,
+        "practicality": 5,
+        "value_density": 5
+      },
+      "overall_score": 4.8,
+      "critical_issues": [],
+      "strengths": [
+        "All activities are directly related to fractions using real-life, relatable contexts.",
+        "Sections are open-ended, visual, and hands-on, which aligns well with unschooling principles.",
+        "Tasks are age-appropriate, both in language and mathematical complexity.",
+        "No special materials required\u2014just pencil, paper, and imagination.",
+        "Multiple, meaningful tasks encourage both conceptual understanding and real-world connections."
+      ],
+      "weaknesses": [
+        "While the worksheet is unschooling-friendly, it could include more opportunities for student-driven exploration or choice, which would further strengthen philosophy alignment."
+      ]
+    },
+    "gen_cost_usd": 0.0006924,
+    "elapsed_s": 9.56
+  },
+  {
+    "philosophy": "waldorf-adjacent",
+    "grade_band": "K-3",
+    "subject": "math",
+    "lesson_title": "Introduction to Fractions",
+    "worksheet": {
+      "sections": [
+        {
+          "type": "writing",
+          "title": "Understanding Halves with a Pizza",
+          "instructions": "Imagine you have a whole pizza. If you cut it into 2 equal slices, each slice is called a half. Write down the fraction that shows one slice of the pizza.",
+          "lines": 3
+        },
+        {
+          "type": "writing",
+          "title": "Understanding Quarters with a Pie",
+          "instructions": "Now, imagine a pie cut into 4 equal pieces. Each piece is called a quarter. Write the fraction that shows one piece of the pie.",
+          "lines": 3
+        },
+        {
+          "type": "drawing",
+          "title": "Draw and Color Halves",
+          "instructions": "Draw a big circle like a pizza. Divide it into 2 equal parts. Color one half to show the fraction 1/2.",
+          "drawing_space": true
+        },
+        {
+          "type": "drawing",
+          "title": "Draw and Color Quarters",
+          "instructions": "Draw another circle like a pie. Divide it into 4 equal parts. Color one quarter to show the fraction 1/4.",
+          "drawing_space": true
+        }
+      ]
+    },
+    "scores": {
+      "scores": {
+        "subject_specificity": 5,
+        "philosophy_alignment": 4,
+        "grade_appropriateness": 5,
+        "practicality": 5,
+        "value_density": 5
+      },
+      "overall_score": 4.8,
+      "critical_issues": [],
+      "strengths": [
+        "Clear use of concrete, relatable examples (pizza and pie) to teach fractions.",
+        "Incorporates both writing and drawing tasks, which suits the K-3 age band and Waldorf-adjacent philosophy.",
+        "All activities require only pencil, paper, and crayons/markers\u2014very practical.",
+        "Tasks are developmentally appropriate and provide good cognitive engagement."
+      ],
+      "weaknesses": [
+        "Could be more distinctively Waldorf by including a story or more artistic/narrative elements.",
+        "Instructions are clear but not deeply imaginative or holistic, which would further align with a Waldorf approach."
+      ]
+    },
+    "gen_cost_usd": 0.0005336,
+    "elapsed_s": 6.72
+  }
+]

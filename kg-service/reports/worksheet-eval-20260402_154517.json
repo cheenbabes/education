@@ -1,0 +1,1861 @@
+[
+  {
+    "philosophy": "adaptive",
+    "grade_band": "K-3",
+    "subject": "math",
+    "lesson_title": "Introduction to Fractions",
+    "worksheet": {
+      "sections": [
+        {
+          "type": "math_problem",
+          "title": "Understanding Halves with Pizza",
+          "instructions": "Imagine you have a pizza cut into 2 equal slices. If you eat 1 slice, what fraction of the pizza did you eat? Write the fraction and explain.",
+          "lines": 3
+        },
+        {
+          "type": "math_problem",
+          "title": "Understanding Quarters with Pie",
+          "instructions": "A pie is cut into 4 equal pieces. If you eat 3 pieces, what fraction of the pie did you eat? Write the fraction and draw the pie with the eaten parts shaded.",
+          "lines": 2,
+          "drawing_space": true
+        },
+        {
+          "type": "drawing",
+          "title": "Draw and Color Halves",
+          "instructions": "Draw a circle and divide it into 2 equal parts. Color in 1 part to show the fraction 1/2.",
+          "drawing_space": true
+        },
+        {
+          "type": "drawing",
+          "title": "Draw and Color Quarters",
+          "instructions": "Draw a rectangle and divide it into 4 equal parts. Color in 3 parts to show the fraction 3/4.",
+          "drawing_space": true
+        }
+      ]
+    },
+    "scores": {
+      "scores": {
+        "subject_specificity": 5,
+        "philosophy_alignment": 4,
+        "grade_appropriateness": 5,
+        "practicality": 5,
+        "value_density": 5
+      },
+      "overall_score": 4.8,
+      "critical_issues": [],
+      "strengths": [
+        "Real-world, relatable examples using pizza and pie make fractions concrete for young learners.",
+        "Drawing and shading tasks support visual and kinesthetic learning styles.",
+        "All tasks require only pencil and paper\u2014no special materials.",
+        "Tasks are well-calibrated for K-3, using simple language and appropriate complexity.",
+        "Multiple rich, engaging activities ensure cognitive engagement and reinforce concepts."
+      ],
+      "weaknesses": [
+        "Philosophy alignment is strong but could be improved by showing more adaptive features, such as differentiated prompts or options for varying ability levels."
+      ]
+    },
+    "gen_cost_usd": 0.0005491999999999999,
+    "elapsed_s": 7.43
+  },
+  {
+    "philosophy": "adaptive",
+    "grade_band": "K-3",
+    "subject": "science",
+    "lesson_title": "Animal Habitats and Adaptations",
+    "worksheet": {
+      "sections": [
+        {
+          "type": "writing",
+          "title": "Where Animals Live",
+          "instructions": "List one animal that lives in each of the following habitats: forest, ocean, desert, and grassland. Write a sentence explaining why that animal lives there.",
+          "lines": 8
+        },
+        {
+          "type": "matching",
+          "title": "Match the Animal to Its Habitat",
+          "instructions": "Draw a line to match each animal to the correct habitat.",
+          "lines": 8
+        },
+        {
+          "type": "short_answer",
+          "title": "How Animals Survive",
+          "instructions": "Choose two animals and describe one adaptation for each that helps it survive in its habitat.",
+          "lines": 6
+        },
+        {
+          "type": "drawing",
+          "title": "Animal Adaptations",
+          "instructions": "Draw an animal with a special adaptation like fur, fins, or camouflage. Label the adaptation and explain how it helps the animal survive.",
+          "drawing_space": true,
+          "lines": 4
+        }
+      ]
+    },
+    "scores": {
+      "scores": {
+        "subject_specificity": 5,
+        "philosophy_alignment": 4,
+        "grade_appropriateness": 5,
+        "practicality": 5,
+        "value_density": 5
+      },
+      "overall_score": 4.8,
+      "critical_issues": [],
+      "strengths": [
+        "All tasks are directly related to animal habitats and adaptations, showing strong subject specificity.",
+        "Activities are varied (writing, matching, drawing, short answer) and support adaptive learning.",
+        "Tasks are appropriately challenging for K-3, with simple instructions and open-ended questions.",
+        "No special materials or equipment required; all tasks can be completed with basic supplies.",
+        "Worksheet provides multiple, meaningful tasks with cognitive engagement and creativity."
+      ],
+      "weaknesses": [
+        "Philosophy alignment is strong but not maximally distinctive; could include a more explicit adaptive or choice-driven component."
+      ]
+    },
+    "gen_cost_usd": 0.000478,
+    "elapsed_s": 6.0
+  },
+  {
+    "philosophy": "adaptive",
+    "grade_band": "4-8",
+    "subject": "math",
+    "lesson_title": "Fractions, Decimals, and Percentages",
+    "worksheet": {
+      "sections": [
+        {
+          "type": "math",
+          "title": "Converting Fractions to Decimals",
+          "instructions": "Convert the following sports fractions to decimals by dividing the numerator by the denominator. Show your work.",
+          "lines": 6
+        },
+        {
+          "type": "math",
+          "title": "Batting Averages as Fractions and Decimals",
+          "instructions": "A baseball player has a batting average of 3 hits out of 10 at-bats. Write this fraction as a decimal. Then, convert the decimal back to a fraction.",
+          "lines": 4
+        },
+        {
+          "type": "math",
+          "title": "Field Goal Percentages",
+          "instructions": "A basketball player made 7 field goals out of 20 attempts. Write this as a fraction, convert it to a decimal, and then express it as a percentage.",
+          "lines": 5
+        },
+        {
+          "type": "math",
+          "title": "Add Fractions with Unlike Denominators",
+          "instructions": "Add the following fractions representing parts of a game: 1/4 (first quarter points) + 3/8 (second quarter points). Write your answer as a fraction and decimal.",
+          "lines": 5
+        }
+      ]
+    },
+    "scores": {
+      "scores": {
+        "subject_specificity": 5,
+        "philosophy_alignment": 4,
+        "grade_appropriateness": 5,
+        "practicality": 5,
+        "value_density": 5
+      },
+      "overall_score": 4.8,
+      "critical_issues": [],
+      "strengths": [
+        "All tasks are mathematically specific and directly related to fractions, decimals, and percentages.",
+        "Tasks use real-world sports examples, which promote engagement and adaptive learning.",
+        "Questions are well-matched to grades 4-8 in both complexity and vocabulary.",
+        "No special materials are needed, only pencil and paper.",
+        "There are four meaningful, cognitively engaging activities."
+      ],
+      "weaknesses": [
+        "While tasks are engaging and adaptive in topic, there could be more explicit scaffolding or differentiation options to fully embody an 'adaptive' philosophy."
+      ]
+    },
+    "gen_cost_usd": 0.0005448,
+    "elapsed_s": 7.08
+  },
+  {
+    "philosophy": "adaptive",
+    "grade_band": "4-8",
+    "subject": "science",
+    "lesson_title": "Ecosystems and Food Webs",
+    "worksheet": {
+      "sections": [
+        {
+          "type": "short_answer",
+          "title": "Producers, Consumers, and Decomposers",
+          "instructions": "List two examples of producers, two examples of consumers, and two examples of decomposers you might find in a forest ecosystem.",
+          "lines": 6
+        },
+        {
+          "type": "matching",
+          "title": "Match the Organism to Its Role",
+          "instructions": "Draw a line to match each organism to its correct role in the ecosystem.",
+          "lines": 6
+        },
+        {
+          "type": "drawing",
+          "title": "Build a Food Web",
+          "instructions": "Draw a simple food web showing how energy moves from plants to herbivores to carnivores. Include at least three organisms and label each as producer, consumer, or decomposer.",
+          "drawing_space": true
+        },
+        {
+          "type": "explanation",
+          "title": "Explain the Movement of Matter",
+          "instructions": "Write a few sentences explaining how matter moves through an ecosystem involving plants, animals, and decomposers.",
+          "lines": 5
+        }
+      ]
+    },
+    "scores": {
+      "scores": {
+        "subject_specificity": 5,
+        "philosophy_alignment": 5,
+        "grade_appropriateness": 5,
+        "practicality": 5,
+        "value_density": 5
+      },
+      "overall_score": 5,
+      "critical_issues": [],
+      "strengths": [
+        "All sections are clearly tied to the science topic of ecosystems and food webs.",
+        "Tasks require both recall and higher-order thinking (e.g., drawing and explaining).",
+        "Activities (listing, matching, drawing, explanation) are well-suited for adaptive learning and differentiating by student level.",
+        "Worksheets can be completed with basic supplies (paper, pencil).",
+        "Appropriate complexity and engagement for grades 4-8."
+      ],
+      "weaknesses": []
+    },
+    "gen_cost_usd": 0.0005052,
+    "elapsed_s": 4.67
+  },
+  {
+    "philosophy": "charlotte-mason",
+    "grade_band": "K-3",
+    "subject": "math",
+    "lesson_title": "Introduction to Fractions",
+    "worksheet": {
+      "sections": [
+        {
+          "type": "exercise",
+          "title": "Understanding Halves with a Pizza",
+          "instructions": "Imagine a pizza cut into 2 equal slices. If you eat 1 slice, what fraction of the pizza have you eaten? Write the fraction and explain in your own words.",
+          "lines": 4,
+          "drawing_space": false
+        },
+        {
+          "type": "exercise",
+          "title": "Understanding Quarters with a Pie",
+          "instructions": "A pie is cut into 4 equal pieces. If you eat 3 pieces, what fraction of the pie did you eat? Write the fraction and describe it.",
+          "lines": 4,
+          "drawing_space": false
+        },
+        {
+          "type": "drawing",
+          "title": "Draw and Color Fractions",
+          "instructions": "Draw a circle. Divide it into 4 equal parts (quarters). Color 1 part to show the fraction 1/4.",
+          "lines": 0,
+          "drawing_space": true
+        },
+        {
+          "type": "drawing",
+          "title": "Draw Your Own Fraction",
+          "instructions": "Draw a shape (circle, square, or rectangle) and divide it into equal parts. Color in 2 parts and write the fraction that shows how much you colored.",
+          "lines": 0,
+          "drawing_space": true
+        }
+      ]
+    },
+    "scores": {
+      "scores": {
+        "subject_specificity": 5,
+        "philosophy_alignment": 4,
+        "grade_appropriateness": 5,
+        "practicality": 5,
+        "value_density": 5
+      },
+      "overall_score": 4.8,
+      "critical_issues": [],
+      "strengths": [
+        "All tasks are highly relevant to early math and fractions.",
+        "Exercises invite narration and drawing, which are strong fits for Charlotte Mason.",
+        "Vocabulary and complexity perfectly match K-3 learners.",
+        "All activities require only pencil and paper.",
+        "Multiple exercises give rich, meaningful practice."
+      ],
+      "weaknesses": [
+        "Drawing sections could be even more explicitly tied to narration or oral explanation to further match Charlotte Mason.",
+        "No direct copywork or living book references, which are sometimes hallmarks of Charlotte Mason lessons."
+      ]
+    },
+    "gen_cost_usd": 0.0005904,
+    "elapsed_s": 8.04
+  },
+  {
+    "philosophy": "charlotte-mason",
+    "grade_band": "K-3",
+    "subject": "science",
+    "lesson_title": "Animal Habitats and Adaptations",
+    "worksheet": {
+      "sections": [
+        {
+          "type": "writing",
+          "title": "Where Animals Live",
+          "instructions": "List the four different habitats we learned about: forests, oceans, deserts, and grasslands. Write one animal that lives in each habitat.",
+          "lines": 8
+        },
+        {
+          "type": "drawing",
+          "title": "Draw an Animal\u2019s Habitat",
+          "instructions": "Choose one habitat from the list (forest, ocean, desert, or grassland) and draw a picture of an animal living there, showing some features of the habitat.",
+          "drawing_space": true
+        },
+        {
+          "type": "writing",
+          "title": "How Animals Survive",
+          "instructions": "Write about two ways animals adapt to survive in their habitats. Use examples like fur, fins, or camouflage.",
+          "lines": 6
+        },
+        {
+          "type": "matching",
+          "title": "Match the Animal to Its Adaptation",
+          "instructions": "Draw a line or write the matching adaptation next to each animal.",
+          "lines": 8
+        }
+      ]
+    },
+    "scores": {
+      "scores": {
+        "subject_specificity": 5,
+        "philosophy_alignment": 4,
+        "grade_appropriateness": 5,
+        "practicality": 5,
+        "value_density": 5
+      },
+      "overall_score": 4.8,
+      "critical_issues": [],
+      "strengths": [
+        "Clear focus on animal habitats and adaptations, with specific science content.",
+        "Tasks encourage narration and observation, aligning well with Charlotte Mason principles.",
+        "All activities are age-appropriate and accessible for K-3 students.",
+        "Requires only basic materials (paper, pencil, crayons).",
+        "Includes a variety of task types (writing, drawing, matching) for cognitive engagement."
+      ],
+      "weaknesses": [
+        "Philosophy alignment is good but not perfect: could be stronger with explicit narration or copywork prompts typical of Charlotte Mason."
+      ]
+    },
+    "gen_cost_usd": 0.0004856,
+    "elapsed_s": 4.99
+  },
+  {
+    "philosophy": "charlotte-mason",
+    "grade_band": "4-8",
+    "subject": "math",
+    "lesson_title": "Fractions, Decimals, and Percentages",
+    "worksheet": {
+      "sections": [
+        {
+          "type": "math",
+          "title": "Converting Fractions to Decimals",
+          "instructions": "Convert each fraction into a decimal by dividing the numerator by the denominator. Show your work.",
+          "lines": 6,
+          "drawing_space": false
+        },
+        {
+          "type": "math",
+          "title": "Batting Averages as Fractions and Decimals",
+          "instructions": "A baseball player has a batting average of 3 hits out of 10 at-bats. Write this fraction as a decimal. Then, write the decimal as a percentage.",
+          "lines": 4,
+          "drawing_space": false
+        },
+        {
+          "type": "math",
+          "title": "Field Goal Percentages",
+          "instructions": "A basketball player makes 7 field goals out of 20 attempts. Convert this fraction to a decimal and then to a percentage.",
+          "lines": 4,
+          "drawing_space": false
+        },
+        {
+          "type": "math",
+          "title": "Adding Fractions with Unlike Denominators",
+          "instructions": "Add these fractions and write your answer as a fraction, decimal, and percentage:\n1) 1/4 + 2/5\n2) 3/8 + 1/6",
+          "lines": 6,
+          "drawing_space": false
+        }
+      ]
+    },
+    "scores": {
+      "scores": {
+        "subject_specificity": 5,
+        "philosophy_alignment": 3,
+        "grade_appropriateness": 5,
+        "practicality": 5,
+        "value_density": 5
+      },
+      "overall_score": 4.6,
+      "critical_issues": [],
+      "strengths": [
+        "Clear subject-specific math content focused on fractions, decimals, and percentages.",
+        "All tasks are practical and only require pencil and paper.",
+        "Rich, multi-step problems appropriate for grades 4-8.",
+        "Tasks are meaningful and varied, with real-world applications."
+      ],
+      "weaknesses": [
+        "Worksheet does not include narration, copywork, or other hallmarks of Charlotte Mason philosophy.",
+        "Section types are standard math practice problems, not distinctively Charlotte Mason."
+      ]
+    },
+    "gen_cost_usd": 0.0005796,
+    "elapsed_s": 6.28
+  },
+  {
+    "philosophy": "charlotte-mason",
+    "grade_band": "4-8",
+    "subject": "science",
+    "lesson_title": "Ecosystems and Food Webs",
+    "worksheet": {
+      "sections": [
+        {
+          "type": "writing",
+          "title": "Roles in an Ecosystem: Producers, Consumers, and Decomposers",
+          "instructions": "Below are three categories of organisms found in an ecosystem. Write the definition of each and list two examples from nature for each category.",
+          "lines": 9
+        },
+        {
+          "type": "matching",
+          "title": "Match the Organism to Its Role",
+          "instructions": "Draw a line to match each organism on the left with the correct role on the right.",
+          "lines": 6
+        },
+        {
+          "type": "drawing",
+          "title": "Build Your Own Food Web",
+          "instructions": "Draw a simple food web using the following organisms: grass, rabbit, fox, mushroom, and grasshopper. Show arrows to indicate the flow of energy from one organism to another.",
+          "drawing_space": true
+        },
+        {
+          "type": "short_answer",
+          "title": "Explain Energy Flow",
+          "instructions": "In 3-4 sentences, describe how energy moves through the food web you drew. Include the roles of producers, consumers, and decomposers.",
+          "lines": 5
+        }
+      ]
+    },
+    "scores": {
+      "scores": {
+        "subject_specificity": 5,
+        "philosophy_alignment": 4,
+        "grade_appropriateness": 5,
+        "practicality": 5,
+        "value_density": 5
+      },
+      "overall_score": 4.8,
+      "critical_issues": [],
+      "strengths": [
+        "Clear focus on ecosystems and food webs with specific organisms and roles.",
+        "Tasks require narration, explanation, and drawing, supporting Charlotte Mason philosophy.",
+        "Complexity and tasks match grades 4-8 well.",
+        "No special materials required\u2014pencil and paper suffice.",
+        "Multiple meaningful, varied tasks with cognitive engagement."
+      ],
+      "weaknesses": [
+        "Philosophy alignment could be strengthened with explicit narration or copywork prompts, which are core to Charlotte Mason."
+      ]
+    },
+    "gen_cost_usd": 0.0005304,
+    "elapsed_s": 5.83
+  },
+  {
+    "philosophy": "classical",
+    "grade_band": "K-3",
+    "subject": "math",
+    "lesson_title": "Introduction to Fractions",
+    "worksheet": {
+      "sections": [
+        {
+          "type": "exercise",
+          "title": "Understanding Halves and Quarters with a Pizza",
+          "instructions": "Imagine you have a pizza cut into 2 equal slices. If you eat 1 slice, what fraction of the pizza did you eat? Now imagine the pizza is cut into 4 equal slices. If you eat 1 slice, what fraction of the pizza did you eat? Write your answers below.",
+          "lines": 4
+        },
+        {
+          "type": "problem",
+          "title": "Fraction Word Problems",
+          "instructions": "Emma baked a pie and cut it into 4 equal pieces. She ate 1 piece. What fraction of the pie did she eat? If she gave 2 pieces to her friend, what fraction of the pie did her friend get? Write your answers as fractions.",
+          "lines": 4
+        },
+        {
+          "type": "drawing",
+          "title": "Draw and Color Fractions",
+          "instructions": "Draw a circle (like a pizza or pie) and divide it into 4 equal parts. Color in 1 part to show the fraction 1/4. Then, draw a rectangle (like a baking sheet) and divide it into 2 equal parts. Color in 1 part to show the fraction 1/2.",
+          "drawing_space": true
+        },
+        {
+          "type": "exercise",
+          "title": "Write the Fraction",
+          "instructions": "Look at your drawings. Write the fraction that shows the colored part of each shape. For example, if you colored 1 out of 4 parts, write 1/4.",
+          "lines": 2
+        }
+      ]
+    },
+    "scores": {
+      "scores": {
+        "subject_specificity": 5,
+        "philosophy_alignment": 4,
+        "grade_appropriateness": 5,
+        "practicality": 5,
+        "value_density": 5
+      },
+      "overall_score": 4.8,
+      "critical_issues": [],
+      "strengths": [
+        "All tasks are directly focused on fractions, using concrete and age-appropriate examples.",
+        "Tasks are suitable for K-3, with straightforward language and relatable scenarios.",
+        "No special materials required; only pencil and paper are needed.",
+        "Worksheet is composed of multiple, meaningful activities with a mix of visual, written, and practical engagement."
+      ],
+      "weaknesses": [
+        "Sections reflect classical philosophy through concrete practice and repetition, but could be enhanced with explicit integration of oral recitation or memory work typical of classical methods."
+      ]
+    },
+    "gen_cost_usd": 0.0006852,
+    "elapsed_s": 6.98
+  },
+  {
+    "philosophy": "classical",
+    "grade_band": "K-3",
+    "subject": "science",
+    "lesson_title": "Animal Habitats and Adaptations",
+    "worksheet": {
+      "sections": [
+        {
+          "type": "reading_comprehension",
+          "title": "Where Animals Live",
+          "instructions": "Read the short descriptions below about four habitats: forest, ocean, desert, and grassland. Then, answer the questions that follow.",
+          "lines": 5,
+          "drawing_space": false
+        },
+        {
+          "type": "short_answer",
+          "title": "Matching Animals to Habitats",
+          "instructions": "Match each animal to the habitat where it lives. Write the habitat name next to the animal.",
+          "lines": 6,
+          "drawing_space": false
+        },
+        {
+          "type": "critical_thinking",
+          "title": "Animal Adaptations",
+          "instructions": "Choose one animal from the list and explain how its adaptations help it survive in its habitat. Write your answer below.",
+          "lines": 8,
+          "drawing_space": false
+        },
+        {
+          "type": "drawing",
+          "title": "Draw an Animal in Its Habitat",
+          "instructions": "Draw a picture of your favorite animal living in its habitat. Include adaptations like fur, fins, or camouflage in your drawing.",
+          "drawing_space": true
+        }
+      ]
+    },
+    "scores": {
+      "scores": {
+        "subject_specificity": 5,
+        "philosophy_alignment": 3,
+        "grade_appropriateness": 5,
+        "practicality": 5,
+        "value_density": 5
+      },
+      "overall_score": 4.6,
+      "critical_issues": [],
+      "strengths": [
+        "All tasks are clearly science-focused with specific animal and habitat content.",
+        "Tasks are age-appropriate, varied, and encourage both comprehension and creativity.",
+        "No special equipment is needed beyond basic supplies.",
+        "Worksheet contains a mix of cognitive (reading, matching, explaining) and creative (drawing) tasks."
+      ],
+      "weaknesses": [
+        "Section types are solid but not distinctly classical in approach (e.g. lacks narration or recitation tasks typical of the classical philosophy)."
+      ]
+    },
+    "gen_cost_usd": 0.0005195999999999999,
+    "elapsed_s": 6.09
+  },
+  {
+    "philosophy": "classical",
+    "grade_band": "4-8",
+    "subject": "math",
+    "lesson_title": "Fractions, Decimals, and Percentages",
+    "worksheet": {
+      "sections": [
+        {
+          "type": "math",
+          "title": "Converting Fractions to Decimals",
+          "instructions": "Divide the numerator by the denominator to convert each fraction to a decimal. Show your division work.",
+          "lines": 6,
+          "drawing_space": false
+        },
+        {
+          "type": "math",
+          "title": "Converting Fractions to Decimals - Sports Stats",
+          "instructions": "Convert these sports statistics fractions to decimals. For example, a batting average of 3/10 means the player hits 0.3 of the time.",
+          "lines": 6,
+          "drawing_space": false
+        },
+        {
+          "type": "math",
+          "title": "Adding Fractions with Unlike Denominators",
+          "instructions": "Add these fractions representing parts of a game. Find a common denominator, add the fractions, and simplify your answer.",
+          "lines": 8,
+          "drawing_space": false
+        },
+        {
+          "type": "math",
+          "title": "Real-World Sports Percentages",
+          "instructions": "Convert the following decimals to percentages and explain what they mean in sports terms.",
+          "lines": 6,
+          "drawing_space": false
+        }
+      ]
+    },
+    "scores": {
+      "scores": {
+        "subject_specificity": 5,
+        "philosophy_alignment": 3,
+        "grade_appropriateness": 5,
+        "practicality": 5,
+        "value_density": 5
+      },
+      "overall_score": 4.6,
+      "critical_issues": [],
+      "strengths": [
+        "All sections are specific to math and the topic of fractions, decimals, and percentages.",
+        "Tasks are practical and require only pencil and paper.",
+        "Grade-appropriate content: division, addition of fractions, real-world applications.",
+        "Sufficient and varied tasks with real cognitive engagement."
+      ],
+      "weaknesses": [
+        "Section types are solid but not distinctively classical (e.g., no Socratic questioning, proofs, or explicit logical reasoning).",
+        "Contextualization is mostly sports-related; could be broader to align better with classical philosophy's focus on general reasoning."
+      ]
+    },
+    "gen_cost_usd": 0.0005304,
+    "elapsed_s": 5.95
+  },
+  {
+    "philosophy": "classical",
+    "grade_band": "4-8",
+    "subject": "science",
+    "lesson_title": "Ecosystems and Food Webs",
+    "worksheet": {
+      "sections": [
+        {
+          "type": "short_answer",
+          "title": "Roles in an Ecosystem",
+          "instructions": "List two examples of producers, two examples of consumers, and two examples of decomposers found in a forest ecosystem. Explain the role of each in one sentence.",
+          "lines": 9
+        },
+        {
+          "type": "matching",
+          "title": "Match the Organism to Its Role",
+          "instructions": "Draw a line to match each organism on the left with its correct role on the right.",
+          "lines": 6
+        },
+        {
+          "type": "diagram",
+          "title": "Build a Forest Food Web",
+          "instructions": "Draw a food web showing energy transfer from producers to herbivores to carnivores. Include at least 3 producers, 3 herbivores, and 2 carnivores commonly found in a forest ecosystem.",
+          "drawing_space": true
+        },
+        {
+          "type": "explanation",
+          "title": "Decomposers and Matter Movement",
+          "instructions": "Explain how decomposers help move matter back into the environment in a food web. Use the example of fungi or bacteria in your explanation.",
+          "lines": 5
+        }
+      ]
+    },
+    "scores": {
+      "scores": {
+        "subject_specificity": 5,
+        "philosophy_alignment": 4,
+        "grade_appropriateness": 5,
+        "practicality": 5,
+        "value_density": 5
+      },
+      "overall_score": 4.8,
+      "critical_issues": [],
+      "strengths": [
+        "Tasks are highly specific to ecosystems and food webs, referencing producers, consumers, decomposers, and food web diagrams.",
+        "Rich, meaningful work across multiple sections encourages explanation, recall, and synthesis.",
+        "All activities are pencil-and-paper based with no special materials required.",
+        "Complexity and vocabulary are well-suited for grades 4-8."
+      ],
+      "weaknesses": [
+        "While the worksheet is strong, the section types (short answer, matching, diagram, explanation) are generally appropriate for classical education but could be improved by more explicit inclusion of classical methods such as Socratic questioning, narration, or direct reference to primary texts."
+      ]
+    },
+    "gen_cost_usd": 0.0005404,
+    "elapsed_s": 6.37
+  },
+  {
+    "philosophy": "montessori-inspired",
+    "grade_band": "K-3",
+    "subject": "math",
+    "lesson_title": "Introduction to Fractions",
+    "worksheet": {
+      "sections": [
+        {
+          "type": "activity",
+          "title": "Understanding Halves with a Pizza",
+          "instructions": "Imagine a pizza cut into 2 equal slices. Color in 1 slice to show 1/2. Write the fraction that shows the colored part.",
+          "lines": 3,
+          "drawing_space": true
+        },
+        {
+          "type": "activity",
+          "title": "Understanding Quarters with a Pie",
+          "instructions": "A round pie is cut into 4 equal pieces. Color in 3 pieces to show 3/4. Write the fraction to show the part you colored.",
+          "lines": 3,
+          "drawing_space": true
+        },
+        {
+          "type": "problem",
+          "title": "Fraction Word Problem",
+          "instructions": "Emma baked a cake and cut it into 4 equal slices. She ate 1 slice. What fraction of the cake did Emma eat? Write the fraction and draw the cake to show your answer.",
+          "lines": 4,
+          "drawing_space": true
+        },
+        {
+          "type": "drawing",
+          "title": "Draw and Color Your Own Fraction",
+          "instructions": "Draw a circle and divide it into 4 equal parts. Color 2 parts to show the fraction 2/4. Write the fraction below your drawing.",
+          "lines": 2,
+          "drawing_space": true
+        }
+      ]
+    },
+    "scores": {
+      "scores": {
+        "subject_specificity": 5,
+        "philosophy_alignment": 4,
+        "grade_appropriateness": 5,
+        "practicality": 5,
+        "value_density": 5
+      },
+      "overall_score": 4.8,
+      "critical_issues": [],
+      "strengths": [
+        "Each section is clearly focused on fractions with concrete, relatable examples.",
+        "Instructions are clear and vocabulary is well-suited for K-3 learners.",
+        "All activities are hands-on and visual, supporting Montessori-inspired learning.",
+        "No special equipment is needed beyond basic art supplies.",
+        "Tasks are varied and provide multiple opportunities for engagement."
+      ],
+      "weaknesses": [
+        "Montessori philosophy often emphasizes using physical manipulatives; these are pictorial rather than tactile.",
+        "A slight improvement could be made by suggesting the use of real or cut-out objects."
+      ]
+    },
+    "gen_cost_usd": 0.0005996,
+    "elapsed_s": 8.07
+  },
+  {
+    "philosophy": "montessori-inspired",
+    "grade_band": "K-3",
+    "subject": "science",
+    "lesson_title": "Animal Habitats and Adaptations",
+    "worksheet": {
+      "sections": [
+        {
+          "type": "matching",
+          "title": "Match the Animal to Its Habitat",
+          "instructions": "Draw a line to match each animal with the habitat where it lives.",
+          "lines": 6,
+          "drawing_space": true
+        },
+        {
+          "type": "fill_in_the_blank",
+          "title": "Adaptations Help Animals Survive",
+          "instructions": "Fill in the blanks with the correct adaptation for each animal and explain how it helps them live in their habitat.",
+          "lines": 8
+        },
+        {
+          "type": "short_answer",
+          "title": "Compare Two Habitats",
+          "instructions": "Choose two habitats from forest, ocean, desert, or grassland. Write two ways these habitats are different and two ways animals have adapted to live there.",
+          "lines": 10
+        },
+        {
+          "type": "drawing",
+          "title": "Draw an Animal Adapted to Its Habitat",
+          "instructions": "Draw an animal you learned about and show one adaptation it has that helps it survive in its habitat. Label the adaptation.",
+          "drawing_space": true
+        }
+      ]
+    },
+    "scores": {
+      "scores": {
+        "subject_specificity": 5,
+        "philosophy_alignment": 4,
+        "grade_appropriateness": 4,
+        "practicality": 5,
+        "value_density": 5
+      },
+      "overall_score": 4.6,
+      "critical_issues": [],
+      "strengths": [
+        "Tasks are clearly science-focused, referencing animal habitats and adaptations.",
+        "Includes drawing and matching activities that are age-appropriate and encourage engagement.",
+        "Practical for home use with only pencil, paper, and drawing as needed.",
+        "Sections are varied and require genuine thinking, not rote responses."
+      ],
+      "weaknesses": [
+        "The fill-in-the-blank and short answer sections may be challenging for younger K-1 students without support.",
+        "Philosophy alignment is mostly solid (hands-on, choice, drawing), but could be even more Montessori-inspired with more open-ended exploration or real object work."
+      ]
+    },
+    "gen_cost_usd": 0.0005012,
+    "elapsed_s": 6.21
+  },
+  {
+    "philosophy": "montessori-inspired",
+    "grade_band": "4-8",
+    "subject": "math",
+    "lesson_title": "Fractions, Decimals, and Percentages",
+    "worksheet": {
+      "sections": [
+        {
+          "type": "math_problems",
+          "title": "Converting Fractions to Decimals",
+          "instructions": "Divide the numerator by the denominator to convert each fraction to a decimal. Write your answer rounded to three decimal places.",
+          "lines": 5
+        },
+        {
+          "type": "math_problems",
+          "title": "Add Fractions with Unlike Denominators",
+          "instructions": "Add the following fractions representing portions of a basketball game played. Simplify your answers if possible.",
+          "lines": 4
+        },
+        {
+          "type": "math_problems",
+          "title": "Real-World Fractions in Sports",
+          "instructions": "Calculate the batting average as a decimal for the following players. Batting average = hits \u00f7 at-bats.",
+          "lines": 4
+        },
+        {
+          "type": "math_problems",
+          "title": "Convert Decimals to Percentages",
+          "instructions": "Convert each decimal from the previous section into a percentage. Show your work.",
+          "lines": 4
+        }
+      ]
+    },
+    "scores": {
+      "scores": {
+        "subject_specificity": 5,
+        "philosophy_alignment": 3,
+        "grade_appropriateness": 5,
+        "practicality": 5,
+        "value_density": 5
+      },
+      "overall_score": 4.6,
+      "critical_issues": [],
+      "strengths": [
+        "All sections contain specific, grade-appropriate math content closely tied to fractions, decimals, and percentages.",
+        "Tasks are practical and require only pencil and paper.",
+        "Includes real-world applications (sports context) to engage learners.",
+        "Provides a variety of tasks, ensuring cognitive engagement and skill reinforcement."
+      ],
+      "weaknesses": [
+        "Section types are standard math practice problems; not distinctly Montessori-inspired (e.g., lacks hands-on, self-directed, or manipulative-based activities).",
+        "Philosophy alignment is acceptable but not strong\u2014worksheet could benefit from more open-ended, discovery-based, or manipulative-driven prompts characteristic of Montessori."
+      ]
+    },
+    "gen_cost_usd": 0.0004816,
+    "elapsed_s": 6.57
+  },
+  {
+    "philosophy": "montessori-inspired",
+    "grade_band": "4-8",
+    "subject": "science",
+    "lesson_title": "Ecosystems and Food Webs",
+    "worksheet": {
+      "sections": [
+        {
+          "type": "matching",
+          "title": "Producers, Consumers, and Decomposers",
+          "instructions": "Match each organism to its role in the ecosystem by drawing a line between the organism and the correct category.",
+          "lines": 8,
+          "drawing_space": true
+        },
+        {
+          "type": "fill_in_the_blank",
+          "title": "Role Identification",
+          "instructions": "Fill in the blanks with the correct terms: producer, consumer, or decomposer.",
+          "lines": 6
+        },
+        {
+          "type": "diagram",
+          "title": "Build a Food Web",
+          "instructions": "Draw a food web showing the energy flow starting from grass to grasshoppers, frogs, snakes, and hawks. Include arrows to show who eats whom.",
+          "drawing_space": true
+        },
+        {
+          "type": "short_answer",
+          "title": "Explain the Movement of Matter",
+          "instructions": "Describe how matter moves through an ecosystem involving plants, animals, and decomposers. Use examples from the food web you created.",
+          "lines": 5
+        }
+      ]
+    },
+    "scores": {
+      "scores": {
+        "subject_specificity": 5,
+        "philosophy_alignment": 4,
+        "grade_appropriateness": 5,
+        "practicality": 5,
+        "value_density": 5
+      },
+      "overall_score": 4.8,
+      "critical_issues": [],
+      "strengths": [
+        "Clear scientific vocabulary and tasks tied to ecosystems and food webs",
+        "Tasks encourage hands-on learning and independent thinking, aligning well with Montessori philosophy",
+        "Complexity matches 4-8 grade band, with scaffolded prompts and diagramming",
+        "No special materials required; pencil and paper are sufficient",
+        "Multiple, meaningful sections with real cognitive engagement"
+      ],
+      "weaknesses": [
+        "Sections are Montessori-inspired but could include more explicit self-correcting or concrete materials for even closer alignment",
+        "Diagram instructions could be more open-ended to allow more choice or discovery, in keeping with Montessori"
+      ]
+    },
+    "gen_cost_usd": 0.0005076,
+    "elapsed_s": 6.13
+  },
+  {
+    "philosophy": "place-nature-based",
+    "grade_band": "K-3",
+    "subject": "math",
+    "lesson_title": "Introduction to Fractions",
+    "worksheet": {
+      "sections": [
+        {
+          "type": "math",
+          "title": "Understanding Halves and Quarters with Pie",
+          "instructions": "Imagine a whole apple pie. If you cut it into 2 equal pieces, each piece is a half. If you cut it into 4 equal pieces, each piece is a quarter. Write the fraction that shows the shaded pieces in each pie below.",
+          "lines": 4,
+          "drawing_space": true
+        },
+        {
+          "type": "math",
+          "title": "Color the Fractions",
+          "instructions": "Draw a circle to represent a pizza. Divide it into 4 equal slices. Color in 1 slice to show 1/4. Then, divide another circle into 2 equal slices and color in 1 slice to show 1/2.",
+          "lines": 0,
+          "drawing_space": true
+        },
+        {
+          "type": "math",
+          "title": "Match the Fraction to the Picture",
+          "instructions": "Look at the pictures of pies below. Write the fraction that shows how much of each pie is shaded.",
+          "lines": 3,
+          "drawing_space": true
+        },
+        {
+          "type": "math",
+          "title": "Baking Fractions Story Problem",
+          "instructions": "Emma baked a pie and cut it into 4 equal pieces. She ate 1 piece. What fraction of the pie did Emma eat? What fraction is left?",
+          "lines": 3,
+          "drawing_space": false
+        }
+      ]
+    },
+    "scores": {
+      "scores": {
+        "subject_specificity": 5,
+        "philosophy_alignment": 4,
+        "grade_appropriateness": 5,
+        "practicality": 5,
+        "value_density": 5
+      },
+      "overall_score": 4.8,
+      "critical_issues": [],
+      "strengths": [
+        "All tasks directly address fractions with concrete, familiar examples (pie, pizza).",
+        "Drawing and coloring activities support hands-on, visual learning.",
+        "Instructions and complexity are well-suited for K-3 students.",
+        "No special equipment is required\u2014just paper, pencil, and coloring tools.",
+        "Every section is specific to the math content of fractions."
+      ],
+      "weaknesses": [
+        "Philosophy alignment could be further enhanced by including more explicit place- or nature-based context (e.g., using natural objects or outdoor-based fraction tasks)."
+      ]
+    },
+    "gen_cost_usd": 0.0006368,
+    "elapsed_s": 6.95
+  },
+  {
+    "philosophy": "place-nature-based",
+    "grade_band": "K-3",
+    "subject": "science",
+    "lesson_title": "Animal Habitats and Adaptations",
+    "worksheet": {
+      "sections": [
+        {
+          "type": "fill-in-the-blank",
+          "title": "Where Animals Live",
+          "instructions": "Fill in the blanks with the correct habitat for each animal listed below.",
+          "lines": 6,
+          "drawing_space": false
+        },
+        {
+          "type": "matching",
+          "title": "Match Animals to Their Habitats",
+          "instructions": "Draw a line to match each animal on the left to its correct habitat on the right.",
+          "lines": 8,
+          "drawing_space": true
+        },
+        {
+          "type": "short-answer",
+          "title": "How Animals Survive",
+          "instructions": "Answer these questions about how animals adapt to their habitats. Use words like fur, fins, camouflage, or claws in your answers.",
+          "lines": 8,
+          "drawing_space": false
+        },
+        {
+          "type": "drawing",
+          "title": "Draw an Animal in Its Habitat",
+          "instructions": "Choose your favorite animal from the forest, ocean, desert, or grassland. Draw the animal in its habitat and show one way it has adapted to survive there.",
+          "drawing_space": true
+        }
+      ]
+    },
+    "scores": {
+      "scores": {
+        "subject_specificity": 5,
+        "philosophy_alignment": 4,
+        "grade_appropriateness": 5,
+        "practicality": 5,
+        "value_density": 5
+      },
+      "overall_score": 4.8,
+      "critical_issues": [],
+      "strengths": [
+        "All sections are directly related to science, specifically animal habitats and adaptations.",
+        "Tasks are hands-on and encourage observation and connection to nature, aligning well with place-nature-based philosophy.",
+        "Vocabulary and task complexity are well-suited to K-3 students.",
+        "All tasks require only basic materials (paper, pencil, coloring tools).",
+        "Worksheet includes a variety of engaging, meaningful activities."
+      ],
+      "weaknesses": [
+        "Philosophy alignment is strong but could be further enhanced by explicitly connecting activities to local or outdoor exploration."
+      ]
+    },
+    "gen_cost_usd": 0.0005176,
+    "elapsed_s": 5.77
+  },
+  {
+    "philosophy": "place-nature-based",
+    "grade_band": "4-8",
+    "subject": "math",
+    "lesson_title": "Fractions, Decimals, and Percentages",
+    "worksheet": {
+      "sections": [
+        {
+          "type": "math",
+          "title": "Converting Fractions to Decimals",
+          "instructions": "Divide the numerator by the denominator to convert each fraction to a decimal. Show your work.",
+          "lines": 6
+        },
+        {
+          "type": "math",
+          "title": "Batting Averages as Fractions and Decimals",
+          "instructions": "Convert the following batting averages (fractions) to decimals. Then, write them as percentages.",
+          "lines": 8
+        },
+        {
+          "type": "math",
+          "title": "Field Goal Percentages: Fractions, Decimals, and Percentages",
+          "instructions": "A basketball player made 15 out of 20 field goal attempts. Write this as a fraction, convert to a decimal, then to a percentage.",
+          "lines": 4,
+          "drawing_space": false
+        },
+        {
+          "type": "math",
+          "title": "Adding Fractions with Unlike Denominators",
+          "instructions": "Add the following fractions that represent sports stats and write your answers as decimals and percentages.",
+          "lines": 6
+        }
+      ]
+    },
+    "scores": {
+      "scores": {
+        "subject_specificity": 5,
+        "philosophy_alignment": 2,
+        "grade_appropriateness": 5,
+        "practicality": 5,
+        "value_density": 5
+      },
+      "overall_score": 4.4,
+      "critical_issues": [],
+      "strengths": [
+        "All sections are math-specific, focusing on real-world applications (sports stats) of fractions, decimals, and percentages.",
+        "Tasks are well-matched to grades 4-8 in complexity and content.",
+        "Worksheet is fully practical with no special resources needed.",
+        "Includes multiple rich, cognitively engaging tasks."
+      ],
+      "weaknesses": [
+        "Sections do not reflect a distinctive place-nature-based philosophy\u2014no integration of outdoor or nature contexts, and all real-world references are sports-related rather than nature- or place-based.",
+        "Misses an opportunity to connect math concepts to local place, plants, animals, or nature observations."
+      ]
+    },
+    "gen_cost_usd": 0.0005044,
+    "elapsed_s": 5.82
+  },
+  {
+    "philosophy": "place-nature-based",
+    "grade_band": "4-8",
+    "subject": "science",
+    "lesson_title": "Ecosystems and Food Webs",
+    "worksheet": {
+      "sections": [
+        {
+          "type": "short_answer",
+          "title": "Producers, Consumers, and Decomposers",
+          "instructions": "Identify each organism below as a producer, consumer, or decomposer. Write your answer next to each organism.",
+          "lines": 6,
+          "drawing_space": false
+        },
+        {
+          "type": "fill_in_the_blank",
+          "title": "Roles in the Ecosystem",
+          "instructions": "Fill in the blanks with the correct terms: producer, herbivore, carnivore, decomposer.",
+          "lines": 5,
+          "drawing_space": false
+        },
+        {
+          "type": "drawing",
+          "title": "Build Your Own Food Web",
+          "instructions": "Draw a food web showing how energy moves from plants to herbivores, then to carnivores and decomposers. Include at least 3 producers, 3 consumers, and 2 decomposers from a forest ecosystem.",
+          "drawing_space": true
+        },
+        {
+          "type": "explanation",
+          "title": "Explain Energy Flow",
+          "instructions": "In 3-4 sentences, describe how energy moves through an ecosystem from producers to decomposers. Use examples from your food web drawing.",
+          "lines": 4,
+          "drawing_space": false
+        }
+      ]
+    },
+    "scores": {
+      "scores": {
+        "subject_specificity": 5,
+        "philosophy_alignment": 4,
+        "grade_appropriateness": 5,
+        "practicality": 5,
+        "value_density": 5
+      },
+      "overall_score": 4.8,
+      "critical_issues": [],
+      "strengths": [
+        "Tasks are highly specific to ecosystems and food webs (named roles, drawing a forest food web).",
+        "All activities are practical with just pencil and paper.",
+        "Tasks require higher-order thinking and synthesis (drawing and explanation).",
+        "Grade-appropriate complexity and vocabulary.",
+        "Drawing task directly supports place- and nature-based learning."
+      ],
+      "weaknesses": [
+        "Philosophy alignment could be strengthened by more explicit local or outdoor observation, but current tasks are still strongly supportive."
+      ]
+    },
+    "gen_cost_usd": 0.0005704,
+    "elapsed_s": 10.33
+  },
+  {
+    "philosophy": "project-based-learning",
+    "grade_band": "K-3",
+    "subject": "math",
+    "lesson_title": "Introduction to Fractions",
+    "worksheet": {
+      "sections": [
+        {
+          "type": "writing",
+          "title": "Understanding Halves with Pizza",
+          "instructions": "Imagine you have one whole pizza. If you cut it into 2 equal slices, each slice is called a half. Write down the fraction that shows one slice of the pizza and explain why it is called a half.",
+          "lines": 4
+        },
+        {
+          "type": "drawing",
+          "title": "Draw and Color Halves",
+          "instructions": "Draw a large circle to represent a pizza. Divide the pizza into 2 equal parts (halves). Color one of the halves to show the fraction 1/2.",
+          "drawing_space": true
+        },
+        {
+          "type": "writing",
+          "title": "Understanding Quarters with Pie",
+          "instructions": "Now think about a pie cut into 4 equal slices. Each slice is called a quarter. Write down the fraction that shows one slice of the pie and explain why it is called a quarter.",
+          "lines": 4
+        },
+        {
+          "type": "drawing",
+          "title": "Draw and Color Quarters",
+          "instructions": "Draw another large circle to represent a pie. Divide the pie into 4 equal parts (quarters). Color two of the quarters to show the fraction 2/4.",
+          "drawing_space": true
+        }
+      ]
+    },
+    "scores": {
+      "scores": {
+        "subject_specificity": 5,
+        "philosophy_alignment": 4,
+        "grade_appropriateness": 5,
+        "practicality": 5,
+        "value_density": 5
+      },
+      "overall_score": 4.8,
+      "critical_issues": [],
+      "strengths": [
+        "Clear and concrete use of fractions with relevant real-world examples (pizza, pie).",
+        "Tasks are hands-on (drawing, coloring) and invite explanation, supporting project-based learning.",
+        "All instructions and materials are age-appropriate for K-3.",
+        "Requires only basic supplies (paper, pencil, coloring tools).",
+        "Multiple rich and meaningful activities for cognitive engagement."
+      ],
+      "weaknesses": [
+        "Writing and drawing tasks are well-aligned but could be further enhanced with a small collaborative or experimental component for stronger project-based learning alignment."
+      ]
+    },
+    "gen_cost_usd": 0.0005788,
+    "elapsed_s": 7.41
+  },
+  {
+    "philosophy": "project-based-learning",
+    "grade_band": "K-3",
+    "subject": "science",
+    "lesson_title": "Animal Habitats and Adaptations",
+    "worksheet": {
+      "sections": [
+        {
+          "type": "writing",
+          "title": "Where Animals Live",
+          "instructions": "List two animals that live in each of the following habitats: forest, ocean, desert, and grassland. Write one sentence about why each animal lives there.",
+          "lines": 12
+        },
+        {
+          "type": "drawing",
+          "title": "Draw an Animal's Habitat",
+          "instructions": "Choose your favorite animal from any habitat. Draw a picture of the animal in its natural home, showing plants, water, or other features it needs.",
+          "drawing_space": true
+        },
+        {
+          "type": "writing",
+          "title": "How Animals Survive",
+          "instructions": "Write about two special features animals have to help them survive in their habitat. For example, how does fur help in a forest or how fins help in the ocean?",
+          "lines": 8
+        },
+        {
+          "type": "project",
+          "title": "Animal Adaptation Match",
+          "instructions": "Match the animal to its adaptation and habitat. Write the animal name, its special adaptation, and where it lives.",
+          "lines": 8
+        }
+      ]
+    },
+    "scores": {
+      "scores": {
+        "subject_specificity": 5,
+        "philosophy_alignment": 4,
+        "grade_appropriateness": 5,
+        "practicality": 5,
+        "value_density": 5
+      },
+      "overall_score": 4.8,
+      "critical_issues": [],
+      "strengths": [
+        "All sections are clearly science-focused, naming habitats and adaptations.",
+        "Tasks include writing, drawing, and matching\u2014engaging for K-3.",
+        "Requires only basic materials: paper, pencil, coloring tools.",
+        "Project-based and creative thinking are well integrated.",
+        "Substantial and varied work for the student."
+      ],
+      "weaknesses": [
+        "The worksheet leans more toward structured prompts than full open-ended projects; could include more hands-on/experiment elements for even stronger project-based alignment."
+      ]
+    },
+    "gen_cost_usd": 0.000514,
+    "elapsed_s": 5.85
+  },
+  {
+    "philosophy": "project-based-learning",
+    "grade_band": "4-8",
+    "subject": "math",
+    "lesson_title": "Fractions, Decimals, and Percentages",
+    "worksheet": {
+      "sections": [
+        {
+          "type": "math_problems",
+          "title": "Converting Fractions to Decimals",
+          "instructions": "Divide the numerator by the denominator to convert each fraction into a decimal. Show your work.",
+          "lines": 6
+        },
+        {
+          "type": "math_problems",
+          "title": "Adding Fractions with Unlike Denominators",
+          "instructions": "Add the following fractions related to sports statistics. Find a common denominator first, then add. Simplify your answers if possible.",
+          "lines": 6
+        },
+        {
+          "type": "math_problems",
+          "title": "Sports Statistics: Batting Averages and Field Goal Percentages",
+          "instructions": "A baseball player has a batting average of 3/10. Convert this fraction to a decimal and a percentage. A basketball player made 7 out of 20 field goals. Write this as a fraction, convert it to a decimal, then to a percentage.",
+          "lines": 6
+        },
+        {
+          "type": "project",
+          "title": "Create Your Own Sports Stats Problem",
+          "instructions": "Using your favorite sport, write a problem involving fractions, decimals, or percentages based on a player\u2019s stats. Then solve your problem.",
+          "lines": 8,
+          "drawing_space": true
+        }
+      ]
+    },
+    "scores": {
+      "scores": {
+        "subject_specificity": 5,
+        "philosophy_alignment": 4,
+        "grade_appropriateness": 5,
+        "practicality": 5,
+        "value_density": 5
+      },
+      "overall_score": 4.8,
+      "critical_issues": [],
+      "strengths": [
+        "All sections are strongly math-specific, using real-world (sports) contexts.",
+        "Project-based section supports philosophy with student-generated content and problem-solving.",
+        "Tasks are suitable for grades 4-8 in complexity and style.",
+        "No special equipment required; all can be done with pencil and paper.",
+        "Rich variety of tasks: conversion, problem creation, application, and computation."
+      ],
+      "weaknesses": [
+        "Philosophy alignment is good but could be strengthened with more extended or collaborative project elements."
+      ]
+    },
+    "gen_cost_usd": 0.0005664,
+    "elapsed_s": 5.76
+  },
+  {
+    "philosophy": "project-based-learning",
+    "grade_band": "4-8",
+    "subject": "science",
+    "lesson_title": "Ecosystems and Food Webs",
+    "worksheet": {
+      "sections": [
+        {
+          "type": "short_answer",
+          "title": "Producers, Consumers, and Decomposers",
+          "instructions": "List three examples of producers, consumers, and decomposers you might find in a forest ecosystem. Explain the role each group plays in the ecosystem.",
+          "lines": 9
+        },
+        {
+          "type": "diagram",
+          "title": "Label the Roles in the Ecosystem",
+          "instructions": "Below is a simple drawing of an ecosystem with a tree, a rabbit, a fox, and mushrooms. Label each organism as a producer, consumer (herbivore or carnivore), or decomposer.",
+          "drawing_space": true,
+          "lines": 0
+        },
+        {
+          "type": "project",
+          "title": "Build Your Own Food Web",
+          "instructions": "Draw a food web using at least five different organisms from a pond ecosystem (include plants, herbivores, carnivores, and decomposers). Use arrows to show the flow of energy from one organism to another and write a sentence explaining one energy transfer in your web.",
+          "drawing_space": true,
+          "lines": 3
+        }
+      ]
+    },
+    "scores": {
+      "scores": {
+        "subject_specificity": 5,
+        "philosophy_alignment": 5,
+        "grade_appropriateness": 5,
+        "practicality": 5,
+        "value_density": 5
+      },
+      "overall_score": 5,
+      "critical_issues": [],
+      "strengths": [
+        "Highly specific to ecosystems and food webs with named roles and organisms.",
+        "Section types (diagram, project, short answer) strongly support project-based learning.",
+        "Tasks are well-matched to grades 4-8 in complexity and expectations.",
+        "No special equipment required; all tasks are practical for home.",
+        "Three substantial, cognitively rich activities."
+      ],
+      "weaknesses": [
+        "Could include optional extension or real-life observation for added depth, but not required."
+      ]
+    },
+    "gen_cost_usd": 0.0005187999999999999,
+    "elapsed_s": 5.48
+  },
+  {
+    "philosophy": "unschooling",
+    "grade_band": "K-3",
+    "subject": "math",
+    "lesson_title": "Introduction to Fractions",
+    "worksheet": {
+      "sections": [
+        {
+          "type": "activity",
+          "title": "Understanding Halves and Quarters with a Pizza",
+          "instructions": "Imagine you have a pizza. If you cut it into 2 equal slices, each slice is called a half. Now, if you cut the same pizza into 4 equal slices, each slice is called a quarter. Write down how many halves and quarters make up the whole pizza.",
+          "lines": 4
+        },
+        {
+          "type": "problem-solving",
+          "title": "Baking Fractions in a Pie",
+          "instructions": "You baked a pie and cut it into 4 equal pieces. You ate 1 piece. What fraction of the pie did you eat? What fraction is left? Write your answers as fractions.",
+          "lines": 3
+        },
+        {
+          "type": "drawing",
+          "title": "Draw and Color Fractions",
+          "instructions": "Draw a circle (like a pizza) and divide it into 2 equal parts. Color 1 part to show 1/2. Then, draw another circle and divide it into 4 equal parts. Color 3 parts to show 3/4.",
+          "drawing_space": true
+        }
+      ]
+    },
+    "scores": {
+      "scores": {
+        "subject_specificity": 5,
+        "philosophy_alignment": 4,
+        "grade_appropriateness": 5,
+        "practicality": 5,
+        "value_density": 5
+      },
+      "overall_score": 4.8,
+      "critical_issues": [],
+      "strengths": [
+        "All tasks are clearly math-focused and centered on fractions.",
+        "Uses familiar, concrete examples (pizza, pie) to introduce concepts.",
+        "Tasks are hands-on and encourage exploration, matching unschooling ideals.",
+        "No special equipment required\u2014just paper and drawing materials.",
+        "Each section offers meaningful engagement through writing, problem-solving, and drawing."
+      ],
+      "weaknesses": [
+        "Tasks are somewhat structured rather than completely open-ended, which may be slightly less aligned with unschooling ideals.",
+        "Could offer more free-form or student-led discovery to better embody unschooling philosophy."
+      ]
+    },
+    "gen_cost_usd": 0.0005308,
+    "elapsed_s": 6.11
+  },
+  {
+    "philosophy": "unschooling",
+    "grade_band": "K-3",
+    "subject": "science",
+    "lesson_title": "Animal Habitats and Adaptations",
+    "worksheet": {
+      "sections": [
+        {
+          "type": "writing",
+          "title": "Where Animals Live",
+          "instructions": "List four different animal habitats and name one animal you might find in each habitat. Write a sentence about why that animal lives there.",
+          "lines": 8
+        },
+        {
+          "type": "drawing",
+          "title": "Draw an Animal in Its Habitat",
+          "instructions": "Choose one habitat from the list (forest, ocean, desert, or grassland) and draw an animal that lives there. Include details that show how the animal fits into its environment.",
+          "drawing_space": true
+        },
+        {
+          "type": "matching",
+          "title": "Match Animals with Their Adaptations",
+          "instructions": "Draw lines to match each animal with the adaptation that helps it survive in its habitat.",
+          "lines": 6
+        },
+        {
+          "type": "writing",
+          "title": "How Animals Survive",
+          "instructions": "Describe how one animal uses its fur, fins, or camouflage to survive in its habitat. Write at least three sentences.",
+          "lines": 6
+        }
+      ]
+    },
+    "scores": {
+      "scores": {
+        "subject_specificity": 5,
+        "philosophy_alignment": 4,
+        "grade_appropriateness": 5,
+        "practicality": 5,
+        "value_density": 5
+      },
+      "overall_score": 4.8,
+      "critical_issues": [],
+      "strengths": [
+        "Tasks are directly related to animal habitats and adaptations, demonstrating strong subject specificity.",
+        "All sections are accessible with just pencil and paper, making it highly practical.",
+        "Activities are age-appropriate, offering a good mix of writing, drawing, and matching for K-3 students.",
+        "Rich, meaningful tasks encourage both cognitive engagement and creativity.",
+        "Open-ended writing and drawing tasks align well with unschooling by allowing student choice and exploration."
+      ],
+      "weaknesses": [
+        "While the worksheet is strong, the structure is still somewhat traditional (prompts and matching); unschooling might favor even more open-ended or student-driven activities.",
+        "The matching section, while appropriate, is less open-ended and could be seen as slightly less aligned with unschooling philosophy."
+      ]
+    },
+    "gen_cost_usd": 0.0004964,
+    "elapsed_s": 5.63
+  },
+  {
+    "philosophy": "unschooling",
+    "grade_band": "4-8",
+    "subject": "math",
+    "lesson_title": "Fractions, Decimals, and Percentages",
+    "worksheet": {
+      "sections": [
+        {
+          "type": "math",
+          "title": "Convert Fractions to Decimals",
+          "instructions": "Divide the numerator by the denominator to convert each fraction related to sports statistics into a decimal. Show your division work.",
+          "lines": 6
+        },
+        {
+          "type": "math",
+          "title": "Sports Batting Averages as Fractions and Decimals",
+          "instructions": "Convert these batting averages from fractions to decimals. For example, if a batter has 3 hits out of 10 at-bats, write it as a fraction and then convert to decimal.",
+          "lines": 6
+        },
+        {
+          "type": "math",
+          "title": "Add Fractions with Different Denominators",
+          "instructions": "A basketball player made 3/4 of his free throws in the first half and 2/3 in the second half. Add these fractions to find his total free throw success rate for the game. Simplify your answer.",
+          "lines": 6
+        },
+        {
+          "type": "math",
+          "title": "Convert Decimals to Percentages",
+          "instructions": "Convert the decimal answers from the previous sections into percentages to understand the player's performance.",
+          "lines": 5
+        }
+      ]
+    },
+    "scores": {
+      "scores": {
+        "subject_specificity": 5,
+        "philosophy_alignment": 3,
+        "grade_appropriateness": 5,
+        "practicality": 5,
+        "value_density": 5
+      },
+      "overall_score": 4.6,
+      "critical_issues": [],
+      "strengths": [
+        "Highly relevant and specific math tasks focused on fractions, decimals, and percentages.",
+        "Tasks are age-appropriate and span a suitable range of complexity for grades 4-8.",
+        "Practical for home use\u2014no special supplies needed.",
+        "Rich, meaningful activities with real-world context (sports statistics)."
+      ],
+      "weaknesses": [
+        "Section types are standard math worksheet format and do not actively embrace unschooling philosophy (student-driven, open-ended exploration, or real-life application beyond context).",
+        "Could further enhance unschooling alignment by encouraging student choice, investigation, or connection to personal interests."
+      ]
+    },
+    "gen_cost_usd": 0.0005424,
+    "elapsed_s": 6.5
+  },
+  {
+    "philosophy": "unschooling",
+    "grade_band": "4-8",
+    "subject": "science",
+    "lesson_title": "Ecosystems and Food Webs",
+    "worksheet": {
+      "sections": [
+        {
+          "type": "writing",
+          "title": "Producers, Consumers, and Decomposers",
+          "instructions": "List three examples of producers, three examples of consumers, and two examples of decomposers you might find in a forest ecosystem. Explain the role each plays in the ecosystem.",
+          "lines": 12
+        },
+        {
+          "type": "drawing",
+          "title": "Draw a Simple Food Chain",
+          "instructions": "Draw a food chain that starts with a producer plant, followed by a herbivore that eats the plant, and then a carnivore that eats the herbivore. Label each organism and their role (producer, consumer).",
+          "drawing_space": true
+        },
+        {
+          "type": "writing",
+          "title": "Building a Food Web",
+          "instructions": "Using the organisms from your food chain, list other animals or plants that could be connected to create a food web. Describe who eats whom and how energy flows in the web.",
+          "lines": 10
+        },
+        {
+          "type": "writing",
+          "title": "The Role of Decomposers in Matter Movement",
+          "instructions": "Explain how decomposers help recycle matter in the ecosystem. Describe what happens to dead plants and animals and how decomposers contribute to soil health.",
+          "lines": 8
+        }
+      ]
+    },
+    "scores": {
+      "scores": {
+        "subject_specificity": 5,
+        "philosophy_alignment": 4,
+        "grade_appropriateness": 5,
+        "practicality": 5,
+        "value_density": 5
+      },
+      "overall_score": 4.8,
+      "critical_issues": [],
+      "strengths": [
+        "Tasks require specific science knowledge (producers, consumers, decomposers, food chains/webs).",
+        "Open-ended writing and drawing sections support student exploration and creativity, which is compatible with unschooling.",
+        "No special materials required\u2014just pencil and paper.",
+        "Multiple, varied tasks demand higher-order thinking and synthesis.",
+        "Content is well-matched to grades 4-8."
+      ],
+      "weaknesses": [
+        "While the worksheet is open-ended and exploratory, it could be even more child-led (e.g., prompts for personal observation or self-chosen examples) to fully embody unschooling philosophy."
+      ]
+    },
+    "gen_cost_usd": 0.0005796,
+    "elapsed_s": 6.91
+  },
+  {
+    "philosophy": "waldorf-adjacent",
+    "grade_band": "K-3",
+    "subject": "math",
+    "lesson_title": "Introduction to Fractions",
+    "worksheet": {
+      "sections": [
+        {
+          "type": "math",
+          "title": "Understanding Halves and Quarters with a Pie",
+          "instructions": "Imagine you have a whole pie. Draw a circle to represent the pie and divide it into 2 equal parts to show halves. Then, divide the same circle into 4 equal parts to show quarters. Label each part with the fraction it represents.",
+          "lines": 0,
+          "drawing_space": true
+        },
+        {
+          "type": "math",
+          "title": "Color the Fractions",
+          "instructions": "Below are three pies. Color 1/2 of the first pie, 1/4 of the second pie, and 3/4 of the third pie. Make sure to divide the pies equally before coloring.",
+          "lines": 0,
+          "drawing_space": true
+        },
+        {
+          "type": "math",
+          "title": "Baking with Fractions",
+          "instructions": "You need 1/2 cup of sugar and 1/4 cup of milk for a recipe. If you have a measuring cup divided into 4 equal parts, how many parts will you fill for sugar and milk? Write your answers:",
+          "lines": 3
+        },
+        {
+          "type": "math",
+          "title": "Fraction Story Problem",
+          "instructions": "Emma baked a pizza and cut it into 4 equal slices. She ate 1 slice. What fraction of the pizza did Emma eat? What fraction is left? Draw a picture to show your answer.",
+          "lines": 2,
+          "drawing_space": true
+        }
+      ]
+    },
+    "scores": {
+      "scores": {
+        "subject_specificity": 5,
+        "philosophy_alignment": 4,
+        "grade_appropriateness": 5,
+        "practicality": 5,
+        "value_density": 5
+      },
+      "overall_score": 4.8,
+      "critical_issues": [],
+      "strengths": [
+        "Tasks are highly specific to fractions and relate to real-life scenarios (baking, pizza).",
+        "Activities are hands-on and visual, supporting experiential and artistic learning as in Waldorf.",
+        "Complexity and vocabulary are well-suited for K-3 learners.",
+        "No special equipment is needed; pencil, paper, and coloring tools suffice.",
+        "Four distinct, meaningful tasks provide rich cognitive and creative engagement."
+      ],
+      "weaknesses": [
+        "Philosophy alignment is strong, but could be enhanced by more story/narrative or imaginative elements in keeping with the full Waldorf approach."
+      ]
+    },
+    "gen_cost_usd": 0.0006663999999999999,
+    "elapsed_s": 7.57
+  },
+  {
+    "philosophy": "waldorf-adjacent",
+    "grade_band": "K-3",
+    "subject": "science",
+    "lesson_title": "Animal Habitats and Adaptations",
+    "worksheet": {
+      "sections": [
+        {
+          "type": "writing",
+          "title": "Where Animals Live",
+          "instructions": "Write the name of one animal that lives in each of these habitats: Forest, Ocean, Desert, and Grassland. Then, describe one special thing about where it lives.",
+          "lines": 8
+        },
+        {
+          "type": "drawing",
+          "title": "Animal Homes",
+          "instructions": "Draw a picture of an animal in its habitat. Choose one habitat: forest, ocean, desert, or grassland. Show what the animal\u2019s home looks like.",
+          "drawing_space": true
+        },
+        {
+          "type": "writing",
+          "title": "How Animals Survive",
+          "instructions": "Choose one animal that lives in the desert and one that lives in the ocean. Write how each animal\u2019s body helps it live in its habitat (for example, fur, fins, or camouflage).",
+          "lines": 6
+        },
+        {
+          "type": "observation",
+          "title": "Match the Adaptation",
+          "instructions": "Look at the list of animals and their adaptations below. Draw a line to match each animal to the adaptation that helps it survive.",
+          "lines": 8
+        }
+      ]
+    },
+    "scores": {
+      "scores": {
+        "subject_specificity": 4,
+        "philosophy_alignment": 4,
+        "grade_appropriateness": 5,
+        "practicality": 5,
+        "value_density": 5
+      },
+      "overall_score": 4.6,
+      "critical_issues": [],
+      "strengths": [
+        "Tasks directly relate to animal habitats and adaptations, with specific prompts for named animals and their features.",
+        "Includes both writing and drawing, aligning with Waldorf-adjacent emphasis on art and observation.",
+        "Grade-appropriate prompts and vocabulary for K-3 students.",
+        "All tasks can be completed with pencil, paper, and drawing space\u2014no special materials needed.",
+        "Multiple sections offer varied and meaningful engagement."
+      ],
+      "weaknesses": [
+        "Some prompts (e.g., drawing an animal in its habitat) are slightly generic and could be more explicitly tied to science content.",
+        "Philosophy alignment is strong but not fully distinctive\u2014could include more narrative or imaginative elements typical of Waldorf."
+      ]
+    },
+    "gen_cost_usd": 0.0005376,
+    "elapsed_s": 6.26
+  },
+  {
+    "philosophy": "waldorf-adjacent",
+    "grade_band": "4-8",
+    "subject": "math",
+    "lesson_title": "Fractions, Decimals, and Percentages",
+    "worksheet": {
+      "sections": [
+        {
+          "type": "math",
+          "title": "Converting Fractions to Decimals",
+          "instructions": "Convert each sports fraction to a decimal by dividing the numerator by the denominator. For example, 3/4 means 3 divided by 4.",
+          "lines": 6,
+          "drawing_space": false
+        },
+        {
+          "type": "math",
+          "title": "Batting Averages as Fractions and Decimals",
+          "instructions": "A baseball player's batting average is the number of hits divided by the number of at-bats. Convert these fractions to decimals.",
+          "lines": 6,
+          "drawing_space": false
+        },
+        {
+          "type": "math",
+          "title": "Field Goal Percentages",
+          "instructions": "A basketball player made 18 field goals out of 30 attempts. Write this as a fraction, convert it to a decimal, then convert it to a percentage.",
+          "lines": 5,
+          "drawing_space": false
+        },
+        {
+          "type": "math",
+          "title": "Adding Fractions with Unlike Denominators",
+          "instructions": "Add the following sports statistics fractions and simplify your answers.",
+          "lines": 6,
+          "drawing_space": false
+        }
+      ]
+    },
+    "scores": {
+      "scores": {
+        "subject_specificity": 5,
+        "philosophy_alignment": 3,
+        "grade_appropriateness": 5,
+        "practicality": 5,
+        "value_density": 5
+      },
+      "overall_score": 4.6,
+      "critical_issues": [],
+      "strengths": [
+        "All sections are clearly math-focused and specifically deal with fractions, decimals, and percentages.",
+        "Sports-related context offers real-world relevance and potential engagement.",
+        "Tasks are grade-appropriate for upper elementary to middle school students.",
+        "No special materials required\u2014just pencil and paper.",
+        "Multiple rich, meaningful math tasks provided."
+      ],
+      "weaknesses": [
+        "Sections are standard math worksheet style without distinctive Waldorf-adjacent elements like artistic, narrative, or movement-based activities.",
+        "No drawing or creative component, which is often valued in Waldorf-inspired approaches."
+      ]
+    },
+    "gen_cost_usd": 0.0005468,
+    "elapsed_s": 7.66
+  },
+  {
+    "philosophy": "waldorf-adjacent",
+    "grade_band": "4-8",
+    "subject": "science",
+    "lesson_title": "Ecosystems and Food Webs",
+    "worksheet": {
+      "sections": [
+        {
+          "type": "writing",
+          "title": "Roles in the Ecosystem: Producers, Consumers, and Decomposers",
+          "instructions": "List three examples of producers, consumers, and decomposers you might find in a forest ecosystem. Then, write one sentence explaining the role each group plays in nature.",
+          "lines": 9
+        },
+        {
+          "type": "drawing",
+          "title": "Draw a Producer",
+          "instructions": "Draw a detailed picture of a green plant (producer) that could live in a forest. Label parts like leaves and roots to show how it makes food using sunlight.",
+          "drawing_space": true
+        },
+        {
+          "type": "diagram",
+          "title": "Build a Food Web",
+          "instructions": "Using the animals and plants listed below, draw arrows to show who eats whom in this forest ecosystem. Start with the sun shining on plants and end with decomposers breaking down dead matter.\n\nOrganisms: Oak Tree, Rabbit, Hawk, Mushroom, Grasshopper, Fox, Earthworm",
+          "drawing_space": true
+        },
+        {
+          "type": "writing",
+          "title": "Describe Energy Flow",
+          "instructions": "Write a short paragraph describing how energy moves through the food web you created, from the producer to the top consumer and then to the decomposers.",
+          "lines": 5
+        }
+      ]
+    },
+    "scores": {
+      "scores": {
+        "subject_specificity": 5,
+        "philosophy_alignment": 5,
+        "grade_appropriateness": 5,
+        "practicality": 5,
+        "value_density": 5
+      },
+      "overall_score": 5,
+      "critical_issues": [],
+      "strengths": [
+        "Content is highly specific to ecosystems and food webs with named organisms.",
+        "Section types (writing, drawing, diagram) are well-aligned with Waldorf-adjacent philosophies emphasizing creativity, observation, and integration of art and science.",
+        "Tasks are developmentally appropriate for grades 4-8, requiring observation, synthesis, and explanation.",
+        "No special equipment is required; all activities can be completed with pencil and paper.",
+        "Multiple rich, meaningful tasks ensure high cognitive engagement."
+      ],
+      "weaknesses": [
+        "Some students may require additional scaffolding to complete the food web diagram if they are unfamiliar with the organisms listed.",
+        "The worksheet could be enhanced by prompting further reflection or connection to the student's local environment."
+      ]
+    },
+    "gen_cost_usd": 0.0005952,
+    "elapsed_s": 5.58
+  }
+]

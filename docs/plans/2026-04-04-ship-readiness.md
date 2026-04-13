@@ -4,7 +4,7 @@
 
 **Goal:** Complete the 8 remaining items needed to ship — feature-flag worksheets, fix pricing, rebuild about page structure, wire Resend emails, fix explore page colors/font, add floating feedback button, and verify test purchase flow.
 
-**Architecture:** Feature flag uses PostHog (UI) + `NEXT_PUBLIC_WORKSHEETS_ENABLED` env var (API/server) so worksheets can be toggled without deploy when ready. All other items are independent page/component changes. Feedback form saves to new `Feedback` DB model and sends admin notification via Resend.
+__Architecture:__ Feature flag uses PostHog (UI) + `NEXT_PUBLIC_WORKSHEETS_ENABLED` env var (API/server) so worksheets can be toggled without deploy when ready. All other items are independent page/component changes. Feedback form saves to new `Feedback` DB model and sends admin notification via Resend.
 
 **Tech Stack:** Next.js 14, PostHog, Resend, Prisma, Clerk, Three.js (explore), Tailwind + inline styles.
 
@@ -26,12 +26,14 @@
 ## Task 1: Worksheet Feature Flag
 
 **Context:** Hide ALL worksheet functionality until ready to ship. Two-layer approach:
-- **UI layer:** `NEXT_PUBLIC_WORKSHEETS_ENABLED=false` env var — client components check this to hide/show
+
+- __UI layer:__ `NEXT_PUBLIC_WORKSHEETS_ENABLED=false` env var — client components check this to hide/show
 - **API layer:** same env var read server-side — returns 404 if worksheets disabled
 
 When ready to launch: set `NEXT_PUBLIC_WORKSHEETS_ENABLED=true` in Railway → redeploy → worksheets appear. No PostHog dashboard changes needed (simpler than dual-system).
 
 **Files:**
+
 - Create: `web/src/lib/featureFlags.ts`
 - Modify: `web/src/app/api/worksheets/route.ts`
 - Modify: `web/src/app/api/worksheets/standard/route.ts`
@@ -46,6 +48,7 @@ When ready to launch: set `NEXT_PUBLIC_WORKSHEETS_ENABLED=true` in Railway → r
 - Modify: `web/.env` (add flag)
 
 **Step 1: Create feature flags helper**
+
 ```typescript
 // web/src/lib/featureFlags.ts
 export const WORKSHEETS_ENABLED =
@@ -53,13 +56,15 @@ export const WORKSHEETS_ENABLED =
 ```
 
 **Step 2: Add env var to web/.env**
-```
+
+```sh
 NEXT_PUBLIC_WORKSHEETS_ENABLED=false
 ```
 
 **Step 3: Block all 4 worksheet API routes**
 
 In each of these routes, add at the very top of the handler, after auth check:
+
 ```typescript
 import { WORKSHEETS_ENABLED } from "@/lib/featureFlags";
 
@@ -70,6 +75,7 @@ if (!WORKSHEETS_ENABLED) {
 ```
 
 Routes to update:
+
 - `web/src/app/api/worksheets/route.ts` (GET handler)
 - `web/src/app/api/worksheets/standard/route.ts` (GET + POST handlers)
 - `web/src/app/api/worksheets/standard/[id]/pdf/route.ts` (GET handler)
@@ -78,6 +84,7 @@ Routes to update:
 **Step 4: Hide worksheet UI in lesson detail page**
 
 In `web/src/app/lessons/[id]/page.tsx`, wrap the entire `{/* ── Worksheets ── */}` section:
+
 ```tsx
 import { WORKSHEETS_ENABLED } from "@/lib/featureFlags";
 
@@ -92,6 +99,7 @@ import { WORKSHEETS_ENABLED } from "@/lib/featureFlags";
 **Step 5: Hide worksheets tab + CTA in lessons list**
 
 In `web/src/app/lessons/page.tsx`:
+
 - Remove the "Worksheets" tab button from the status tabs row (it's added to the flex gap 1 tabs)
 - Remove the worksheets `activeTab === "worksheets"` conditional block
 - Remove the worksheets data fetch from the `Promise.all`
@@ -101,16 +109,19 @@ In `web/src/app/lessons/page.tsx`:
 **Step 6: Hide worksheet strip in dashboard**
 
 In `web/src/app/dashboard/page.tsx`, wrap the recent worksheets section:
+
 ```tsx
 {WORKSHEETS_ENABLED && worksheets.length > 0 && (
   // recent worksheets strip
 )}
 ```
+
 Also hide `worksheetsUsed`/`worksheetsLimit` from the usage snapshot bar.
 
 **Step 7: Hide worksheet references in account page**
 
 In `web/src/app/account/page.tsx`, wrap the worksheets usage bar:
+
 ```tsx
 {WORKSHEETS_ENABLED && tierData.tier !== "compass" && (
   <UsageBar used={tierData.worksheetsUsed} limit={tierData.worksheetsLimit} label="Worksheets this month" />
@@ -124,17 +135,21 @@ In `web/src/app/page.tsx`, find the feature deep-dive section with worksheet con
 **Step 9: Remove worksheet counts from pricing**
 
 In `web/src/components/pricing-section.tsx`, remove these features from both Homestead and Schoolhouse:
+
 - "5 worksheets per month" (Homestead)
 - "15 worksheets per month" (Schoolhouse)
-Also remove the footer note: `"Worksheets available on Homestead and Schoolhouse plans."`
+   Also remove the footer note: `"Worksheets available on Homestead and Schoolhouse plans."`
 
 **Step 10: Build check**
+
 ```bash
 cd ~/github/edu-app/web && npm run build
 ```
+
 Expected: `✓ Compiled successfully`
 
 **Step 11: Commit**
+
 ```bash
 git add -A
 git commit -m "feat: feature-flag all worksheet UI and API routes
@@ -158,12 +173,14 @@ Set NEXT_PUBLIC_WORKSHEETS_ENABLED=true in Railway to enable."
 **Context:** Remove "Private community access" (doesn't exist). Make tiers feel stacked — Schoolhouse should feel premium because it has MORE of everything, not different things.
 
 **Files:**
+
 - Modify: `web/src/components/pricing-section.tsx`
 
 **Step 1: Update Homestead features**
 
 Current Homestead features (remove community access, add clarity):
-```
+
+```md
 - 30 lessons per month
 - Up to 4 children with full profiles
 - Full curriculum matching (70+ curricula)
@@ -173,8 +190,9 @@ Current Homestead features (remove community access, add clarity):
 **Step 2: Update Schoolhouse features**
 
 Make it clearly "everything Homestead has + more":
-```
-- 60 lessons per month — double the capacity
+
+```hs
+- 100 lessons per month — double the capacity
 - Up to 8 children with full profiles
 - Full curriculum matching (70+ curricula)
 - State standards tracking, all 50 states
@@ -184,6 +202,7 @@ Make it clearly "everything Homestead has + more":
 **Step 3: Verify Co-op plan copy is unchanged**
 
 **Step 4: Build check + commit**
+
 ```bash
 cd ~/github/edu-app/web && npm run build
 git add web/src/components/pricing-section.tsx
@@ -197,10 +216,12 @@ git commit -m "fix(pricing): remove private community access, clarify tier stack
 **Context:** Current page has 3 fake team members. Rebuild with 2 real founders + family photos. Photos drop into `public/team/` as: `founder.jpg`, `cofounder.jpg`, `family-1.jpg`, `family-2.jpg`, `family-3.jpg`. Copy uses `[PLACEHOLDER]` markers so user can fill in.
 
 **Files:**
+
 - Modify: `web/src/app/about/page.tsx`
 - Create dir: `web/public/team/` (add a `.gitkeep`)
 
 **Step 1: Create the team photos directory**
+
 ```bash
 mkdir -p ~/github/edu-app/web/public/team
 touch ~/github/edu-app/web/public/team/.gitkeep
@@ -330,6 +351,7 @@ export default function AboutPage() {
 The `Image` component with `onError` will silently fail. Add a fallback background color so the layout doesn't break before photos are added.
 
 **Step 4: Build check + commit**
+
 ```bash
 cd ~/github/edu-app/web && npm run build
 git add web/src/app/about/page.tsx web/public/team/.gitkeep
@@ -343,6 +365,7 @@ git commit -m "feat(about): rebuild with 2-founder layout, family photos, placeh
 **Context:** Contact form already uses Resend via direct API fetch. Welcome email needs to fire from the Clerk `user.created` webhook. API key + domain setup is pending (user will provide) — build the template + wiring now, key goes in Railway later.
 
 **Files:**
+
 - Create: `web/src/lib/email.ts` (shared Resend helper)
 - Modify: `web/src/app/api/webhooks/clerk/route.ts` (send welcome on user.created)
 - Modify: `web/src/app/api/contact/route.ts` (update from address)
@@ -452,6 +475,7 @@ export async function sendContactNotification(name: string, email: string, subje
 **Step 2: Wire welcome email to Clerk webhook**
 
 In `web/src/app/api/webhooks/clerk/route.ts`, in the `user.created` handler block:
+
 ```typescript
 import { sendWelcomeEmail } from "@/lib/email";
 
@@ -475,6 +499,7 @@ import { sendWelcomeEmail } from "@/lib/email";
 **Step 3: Update contact form API to use shared helper**
 
 In `web/src/app/api/contact/route.ts`, replace the direct Resend fetch with the shared helper:
+
 ```typescript
 import { sendContactNotification } from "@/lib/email";
 // Replace the fetch block with:
@@ -482,13 +507,15 @@ await sendContactNotification(name, email, subject, message);
 ```
 
 **Step 4: Add env vars to .env (placeholder)**
-```
+
+```sh
 RESEND_API_KEY=re_placeholder_replace_with_real_key
 RESEND_FROM_EMAIL=hello@sagescompass.com
 RESEND_ADMIN_EMAIL=hello@sagescompass.com
 ```
 
 **Step 5: Build check + commit**
+
 ```bash
 cd ~/github/edu-app/web && npm run build
 git add web/src/lib/email.ts web/src/app/api/webhooks/clerk/route.ts web/src/app/api/contact/route.ts
@@ -505,9 +532,10 @@ git commit -m "feat(email): welcome email + contact notification via Resend shar
 
 ## Task 5: Explore Page — Electric Pulsing Colors
 
-**Context:** The pulsing animation for the user's primary/secondary philosophy in the star map is in `PhilosophyStar.tsx`. The pulse glow color is based on the philosophy's color from `PHILOSOPHY_COLORS` scoring. Need to find where matched philosophy nodes get their highlight color and make it more saturated/electric — same color family, just more vibrant.
+__Context:__ The pulsing animation for the user's primary/secondary philosophy in the star map is in `PhilosophyStar.tsx`. The pulse glow color is based on the philosophy's color from `PHILOSOPHY_COLORS` scoring. Need to find where matched philosophy nodes get their highlight color and make it more saturated/electric — same color family, just more vibrant.
 
 **Files:**
+
 - Read: `web/src/components/explore/PhilosophyStar.tsx` (full file)
 - Read: `web/src/lib/compass/scoring.ts` (PHILOSOPHY_COLORS map)
 - Modify: `web/src/components/explore/PhilosophyStar.tsx`
@@ -521,6 +549,7 @@ Look for where the matched/pulsing philosophy gets its color set in the Three.js
 In `web/src/lib/compass/scoring.ts`, find `PHILOSOPHY_COLORS`. These are muted watercolor colors (designed for text). For the electric pulse we want saturated versions.
 
 Create a `PHILOSOPHY_COLORS_ELECTRIC` map alongside the existing one — same hues but pushed to full saturation:
+
 ```typescript
 // In scoring.ts, add alongside PHILOSOPHY_COLORS:
 export const PHILOSOPHY_COLORS_ELECTRIC: Record<string, string> = {
@@ -540,6 +569,7 @@ export const PHILOSOPHY_COLORS_ELECTRIC: Record<string, string> = {
 Find where `isPrimary` and `isSecondary` props are used to determine pulse intensity. Use `PHILOSOPHY_COLORS_ELECTRIC[philosophyId]` for the glow color instead of the muted `PHILOSOPHY_COLORS` version. The pulse should already be more visible — just making the color pop.
 
 **Step 4: Build check + commit**
+
 ```bash
 cd ~/github/edu-app/web && npm run build
 git add web/src/components/explore/PhilosophyStar.tsx web/src/lib/compass/scoring.ts
@@ -553,6 +583,7 @@ git commit -m "feat(explore): electric pulse colors for primary/secondary philos
 **Context:** "Don't see your curriculum? Suggest one →" link at bottom of explore page is hard to read on dark blue background. Make it lighter and slightly bigger.
 
 **Files:**
+
 - Modify: `web/src/app/explore/page.tsx` (around lines 260-273)
 
 **Step 1: Read the current suggest curriculum section**
@@ -562,6 +593,7 @@ Find the exact JSX and current styles.
 **Step 2: Update the link style**
 
 Change the text color from whatever muted color it currently is to a lighter/more visible version, and bump font size from ~0.8rem to ~0.95rem:
+
 ```tsx
 // Find and update the suggest curriculum link:
 <Link
@@ -580,6 +612,7 @@ Change the text color from whatever muted color it currently is to a lighter/mor
 ```
 
 **Step 3: Build check + commit**
+
 ```bash
 cd ~/github/edu-app/web && npm run build
 git add web/src/app/explore/page.tsx
@@ -593,6 +626,7 @@ git commit -m "fix(explore): larger, lighter font for suggest curriculum link"
 **Context:** Floating bottom-right button on all authenticated pages. Clicking opens a modal with pre-filled user info. Submission saves to DB and sends Resend notification. Requires new Prisma model.
 
 **Files:**
+
 - Modify: `web/prisma/schema.prisma` (add Feedback model)
 - Create: `web/src/app/api/feedback/route.ts`
 - Create: `web/src/components/FeedbackButton.tsx`
@@ -616,6 +650,7 @@ model Feedback {
 ```
 
 Run migration:
+
 ```bash
 cd ~/github/edu-app/web && npx prisma migrate dev --name add_feedback
 ```
@@ -802,6 +837,7 @@ export function FeedbackButton() {
 **Step 4: Add FeedbackButton to layout**
 
 In `web/src/app/layout.tsx`, add inside `<PHProvider>`:
+
 ```tsx
 import { FeedbackButton } from "@/components/FeedbackButton";
 
@@ -814,6 +850,7 @@ import { FeedbackButton } from "@/components/FeedbackButton";
 In `web/src/middleware.ts`, the API routes are already excluded from the public route matcher (the `if (!isPublicRoute(req))` check doesn't apply to api routes that require auth). The `/api/feedback` route uses `auth()` which will handle unauthenticated requests. No middleware change needed.
 
 **Step 6: Build check + commit**
+
 ```bash
 cd ~/github/edu-app/web && npm run build
 git add web/prisma/schema.prisma web/prisma/migrations/ web/src/app/api/feedback/route.ts web/src/components/FeedbackButton.tsx web/src/app/layout.tsx
@@ -844,7 +881,7 @@ git commit -m "feat(feedback): floating feedback button + in-app form
 8. Navigate to Account page — confirm tier display correct
 9. Go to `/pricing` again — confirm "Active" shows on Homestead plan
 
-**If anything fails:** Note which step and debug the webhook handler. Common issues: webhook secret mismatch (check `CLERK_WEBHOOK_SECRET` in .env), plan key slug mismatch (check `PLAN_TO_TIER` map in webhook route).
+__If anything fails:__ Note which step and debug the webhook handler. Common issues: webhook secret mismatch (check `CLERK_WEBHOOK_SECRET` in .env), plan key slug mismatch (check `PLAN_TO_TIER` map in webhook route).
 
 ---
 
@@ -853,6 +890,7 @@ git commit -m "feat(feedback): floating feedback button + in-app form
 Tasks 1, 2, 3, 5, 6, 7 can mostly run in parallel (different files). Task 4 (email) touches webhook route which doesn't conflict with others.
 
 **Parallel groups:**
+
 - Group A: Task 1 (feature flag) + Task 2 (pricing)
 - Group B: Task 3 (about page) + Task 6 (explore font)
 - Group C: Task 4 (Resend emails)
