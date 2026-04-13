@@ -7,6 +7,8 @@ __pycache__/
 *.pyc
 kg-service/db/
 kg-service/extracted/
+kg-service/handoffs/
 web/src/generated/
+web/test-results/
 .DS_Store
 Mason-Vol4-Ourselves.pdf

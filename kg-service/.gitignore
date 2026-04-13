@@ -2,6 +2,8 @@ db.lock
 db.wal
 .kg_build_hash
 extracted/
+handoffs/
+data/clusters/embeddings_*.npy
 # NOTE: db and data/standards/*.json are committed — pre-built data for deploy
 __pycache__/
 *.pyc
