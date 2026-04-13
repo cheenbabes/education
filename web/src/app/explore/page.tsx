@@ -1,6 +1,7 @@
 "use client";
 
 import { Suspense, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useUser } from "@clerk/nextjs";
 import { useSearchParams } from "next/navigation";
 import dynamic from "next/dynamic";
 import { GraphData, CurriculumPlacement } from "@/components/explore/types";
@@ -32,6 +33,7 @@ export default function ExplorePage() {
 
 function ExplorePageInner() {
   const searchParams = useSearchParams();
+  const { isLoaded, isSignedIn } = useUser();
   const embedMode = searchParams.get("embed") === "true";
   const [data, setData] = useState<GraphData | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -91,20 +93,43 @@ function ExplorePageInner() {
   );
 
   useEffect(() => {
-    fetch("/api/explore/graph")
+    const controller = new AbortController();
+
+    fetch("/api/explore/graph", { signal: controller.signal })
       .then((res) => {
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         return res.json();
       })
       .then(setData)
-      .catch((err) => setError(err.message));
+      .catch((err: unknown) => {
+        if (err instanceof Error && err.name === "AbortError") return;
+        setError(err instanceof Error ? err.message : "Unknown error");
+      });
 
-    // Fetch archetype silently — fails gracefully if not logged in
-    fetch("/api/user/archetype")
-      .then((r) => r.ok ? r.json() : null)
-      .then((d) => { if (d?.topPhilosophyIds) setArchetypePhilosophyIds(d.topPhilosophyIds); })
-      .catch(() => {});
+    return () => controller.abort();
   }, []);
+
+  useEffect(() => {
+    if (!isLoaded) return;
+    if (!isSignedIn) {
+      setArchetypePhilosophyIds([]);
+      return;
+    }
+
+    const controller = new AbortController();
+
+    // Avoid calling the authenticated endpoint until Clerk has resolved the session.
+    fetch("/api/user/archetype", { signal: controller.signal })
+      .then((r) => r.ok ? r.json() : null)
+      .then((d) => {
+        setArchetypePhilosophyIds(d?.topPhilosophyIds ?? []);
+      })
+      .catch((err: unknown) => {
+        if (err instanceof Error && err.name === "AbortError") return;
+      });
+
+    return () => controller.abort();
+  }, [isLoaded, isSignedIn]);
 
   const handleClosePanel = useCallback(() => {
     setFocusedNode(null);
