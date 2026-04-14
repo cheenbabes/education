@@ -189,3 +189,16 @@ and rewrites:
 - The repo still contains worksheet routes and pipeline code.
 - The web side currently feature-gates worksheet availability.
 - Future work can tune the clustering outputs or worksheet generation quality without rebuilding the entire pipeline from scratch.
+
+## When This Work Resumes
+
+Before doing any production worksheet rollout work:
+
+1. Rebase `feature/worksheets-cutover-launch` onto the latest `main`.
+2. Rerun the targeted web worksheet tests:
+   `npm test -- --runInBand src/__tests__/api/user-tier-route.test.ts src/__tests__/api/lesson-standard-worksheets-route.test.ts src/__tests__/api/standard-worksheet-pdf-route.test.ts`
+3. If those pass, continue with the remote rollout sequence:
+   - run the Prisma migration for `StandardWorksheetAccess`
+   - replace/import remote `StandardWorksheet` from `kg-service/data/standard_worksheets_insert.sql`
+   - verify remote counts
+   - flip the worksheet feature flag

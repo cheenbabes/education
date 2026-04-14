@@ -139,6 +139,13 @@ Positioning to avoid for now:
 4. Verify remote counts: 1,764 total rows, 588 distinct cluster keys, and 588 rows for each worksheet type.
 5. Flip the worksheet feature flag after the data checks pass.
 
+### Resume Sequence When This Branch Is Revived Later
+
+1. Rebase `feature/worksheets-cutover-launch` onto the latest `main`.
+2. Rerun the targeted worksheet tests before any production rollout work:
+   `npm test -- --runInBand src/__tests__/api/user-tier-route.test.ts src/__tests__/api/lesson-standard-worksheets-route.test.ts src/__tests__/api/standard-worksheet-pdf-route.test.ts`
+3. Only after the branch is current and those tests pass, do the production rollout: migration, worksheet import, count verification, and feature-flag flip.
+
 ### First Improvements After Launch
 
 1. Re-cluster and clean up Social Studies first.
