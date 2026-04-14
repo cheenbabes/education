@@ -2,6 +2,8 @@
 
 This document captures the current state of the unlaunched worksheet system and the standards clustering pipeline so a future agent can continue the work directly from the repo.
 
+For the product/launch readout on whether the current corpus is actually sufficient, see `docs/worksheets-launch-assessment.md`.
+
 ## Current State
 
 - Worksheets are not launched yet on the web app.
