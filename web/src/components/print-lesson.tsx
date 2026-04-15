@@ -142,23 +142,6 @@ export function PrintLesson({ lesson }: { lesson: LessonPlan }) {
       <button onClick={handlePrint} style={btnStyle}>
         Print / PDF
       </button>
-      <button
-        onClick={() => {
-          const blob = new Blob(
-            [JSON.stringify(lesson, null, 2)],
-            { type: "application/json" }
-          );
-          const url = URL.createObjectURL(blob);
-          const a = document.createElement("a");
-          a.href = url;
-          a.download = `${lesson.title.replace(/[^a-zA-Z0-9 ]/g, "").replace(/\s+/g, "-").toLowerCase()}.json`;
-          a.click();
-          URL.revokeObjectURL(url);
-        }}
-        style={btnStyle}
-      >
-        Download JSON
-      </button>
     </div>
   );
 }
