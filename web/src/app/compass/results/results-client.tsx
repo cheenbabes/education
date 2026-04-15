@@ -400,7 +400,7 @@ function ResultsPageInner() {
               Discover your teaching archetype
             </p>
             <p style={{ fontSize: "0.85rem", color: "var(--text-secondary)", maxWidth: "400px", margin: "0 auto" }}>
-              Take the free Sage&apos;s Compass assessment to find out which of 8 teaching archetypes fits your homeschool style.
+              Take the free Sage&apos;s Compass assessment to find out which of 8 teaching archetypes fits your teaching style.
             </p>
             <Link
               href="/compass/quiz"
