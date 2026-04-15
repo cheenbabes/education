@@ -404,7 +404,7 @@ function QuizPageInner() {
             <div className="text-center space-y-3">
               <div className="flex items-end justify-center">
                 <img
-                  src={compassResult.archetype.imagePath}
+                  src={compassResult.archetype.resultsImagePath}
                   alt={compassResult.archetype.name}
                   className="object-contain"
                   style={{ height: "200px", width: "auto" }}
@@ -645,7 +645,7 @@ function QuizPageInner() {
             <div className="text-center space-y-3">
               <div className="flex items-end justify-center">
                 <img
-                  src={compassResult.archetype.imagePath}
+                  src={compassResult.archetype.resultsImagePath}
                   alt={compassResult.archetype.name}
                   className="object-contain"
                   style={{ height: "200px", width: "auto" }}

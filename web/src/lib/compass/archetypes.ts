@@ -9,6 +9,8 @@ export interface Archetype {
   icon: string;
   /** Watercolor character illustration path */
   imagePath: string;
+  /** Right-facing variant for results page (avatar faces toward tool) */
+  resultsImagePath: string;
   /** Watercolor tool/object illustration path */
   toolPath: string;
   /** CSS hex color for this archetype */
@@ -36,6 +38,7 @@ export const ARCHETYPES: Archetype[] = [
     name: "The Guide",
     icon: "🔭",
     imagePath: "/archetypes/guide.png",
+    resultsImagePath: "/archetypes/results/guide.png",
     toolPath: "/archetypes/tools/spyglass.png",
     color: "#5B5E8A",
     description:
@@ -63,6 +66,7 @@ export const ARCHETYPES: Archetype[] = [
     name: "The Explorer",
     icon: "\uD83C\uDF0D",
     imagePath: "/archetypes/explorer.png",
+    resultsImagePath: "/archetypes/results/explorer.png",
     toolPath: "/archetypes/tools/map.png",
     color: "#3D7E95",
     description:
@@ -90,6 +94,7 @@ export const ARCHETYPES: Archetype[] = [
     name: "The Cultivator",
     icon: "\uD83C\uDF31",
     imagePath: "/archetypes/cultivator.png",
+    resultsImagePath: "/archetypes/results/cultivator.png",
     toolPath: "/archetypes/tools/watering-can.png",
     color: "#7D6B9E",
     description:
@@ -117,6 +122,7 @@ export const ARCHETYPES: Archetype[] = [
     name: "The Naturalist",
     icon: "\uD83C\uDF3F",
     imagePath: "/archetypes/naturalist.png",
+    resultsImagePath: "/archetypes/results/naturalist.png",
     toolPath: "/archetypes/tools/fern.png",
     color: "#6BA07A",
     description:
@@ -144,6 +150,7 @@ export const ARCHETYPES: Archetype[] = [
     name: "The Storyteller",
     icon: "\uD83D\uDCD6",
     imagePath: "/archetypes/storyteller.png",
+    resultsImagePath: "/archetypes/results/storyteller.png",
     toolPath: "/archetypes/tools/book.png",
     color: "#B07A8A",
     description:
@@ -171,6 +178,7 @@ export const ARCHETYPES: Archetype[] = [
     name: "The Architect",
     icon: "🔨",
     imagePath: "/archetypes/architect.png",
+    resultsImagePath: "/archetypes/results/architect.png",
     toolPath: "/archetypes/tools/hammer.png",
     color: "#5A7FA0",
     description:
@@ -198,6 +206,7 @@ export const ARCHETYPES: Archetype[] = [
     name: "The Free Spirit",
     icon: "\uD83E\uDD8B",
     imagePath: "/archetypes/free-spirit.png",
+    resultsImagePath: "/archetypes/results/free-spirit.png",
     toolPath: "/archetypes/tools/butterfly.png",
     color: "#C07A42",
     description:
@@ -225,6 +234,7 @@ export const ARCHETYPES: Archetype[] = [
     name: "The Weaver",
     icon: "\uD83E\uDDF6",
     imagePath: "/archetypes/weaver.png",
+    resultsImagePath: "/archetypes/results/weaver.png",
     toolPath: "/archetypes/tools/yarn.png",
     color: "#7c2946",
     description:

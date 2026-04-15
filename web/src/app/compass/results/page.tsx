@@ -14,6 +14,7 @@ import {
 } from "@/lib/compass/scoring";
 import { ARCHETYPES } from "@/lib/compass/archetypes";
 import { getComboText } from "@/lib/compass/combo-text";
+import { ShareButtons } from "@/components/share-buttons";
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
 
 interface MatchResult {
@@ -167,7 +168,21 @@ function ResultsPageInner() {
   const [matchLoading, setMatchLoading] = useState(false);
   const [matchError, setMatchError] = useState<string | null>(null);
 
-  const rawData = loadingDb ? null : (sessionResult || dbResult || DEMO_RESULT);
+  // Support shared view via ?a=archetypeId&s=secondaryId
+  const sharedArchetypeId = searchParams.get("a");
+  const sharedSecondaryId = searchParams.get("s");
+  const sharedData = sharedArchetypeId && ARCHETYPES.find((a) => a.id === sharedArchetypeId)
+    ? {
+        archetype: sharedArchetypeId,
+        secondaryArchetype: sharedSecondaryId || null,
+        dimensions: { structure: 50, modality: 50, subjectApproach: 50, direction: 50, social: 50 },
+        philosophies: {},
+        part2Preferences: {},
+      }
+    : null;
+  const isSharedView = !sessionResult && !dbResult && !!sharedData;
+
+  const rawData = loadingDb ? null : (sessionResult || dbResult || sharedData || DEMO_RESULT);
   const data = rawData ? {
     ...rawData,
     dimensions: (rawData as Record<string, unknown>).dimensions || (rawData as Record<string, unknown>).dimensionScores,
@@ -249,19 +264,21 @@ function ResultsPageInner() {
       <div className="max-w-3xl space-y-6">
         <div className="flex items-center justify-between">
           <h1 className="font-cormorant-sc text-2xl font-semibold" style={{ color: "var(--ink)" }}>
-            Your Education Compass
+            {isSharedView ? "Sage\u2019s Compass" : "Your Education Compass"}
           </h1>
-          <Link
-            href="/compass/quiz"
-            className="text-sm hover:underline"
-            style={{ color: "var(--text-secondary)" }}
-          >
-            Retake assessment
-          </Link>
+          {!isSharedView && (
+            <Link
+              href="/compass/quiz"
+              className="text-sm hover:underline"
+              style={{ color: "var(--text-secondary)" }}
+            >
+              Retake assessment
+            </Link>
+          )}
         </div>
 
         {/* Part 2 nudge — shown when viewing a Part 1-only result */}
-        {isPartialResult && (
+        {isPartialResult && !isSharedView && (
           <div style={{
             background: "rgba(196,152,61,0.08)",
             border: "1px solid rgba(196,152,61,0.3)",
@@ -306,7 +323,7 @@ function ResultsPageInner() {
             {/* Primary character + secondary tool side by side */}
             <div className="flex items-end justify-center overflow-hidden px-4">
               <Image
-                src={archetype.imagePath}
+                src={archetype.resultsImagePath}
                 alt={archetype.name}
                 width={220}
                 height={220}
@@ -352,8 +369,58 @@ function ResultsPageInner() {
               </p>
             </div>
           )}
+
+          <ShareButtons
+            archetypeId={archetype.id}
+            archetypeName={archetype.name}
+            secondaryId={secondaryArchetype?.id ?? null}
+            secondaryName={secondaryArchetype?.name ?? null}
+            shareText={
+              secondaryArchetype
+                ? getComboText(archetype.id, secondaryArchetype.id).shareText
+                : archetype.description.split(".")[0] + "."
+            }
+            archetypeColor={archetype.color}
+          />
         </div>
 
+        {/* Shared-view CTA */}
+        {isSharedView && (
+          <div
+            className="rounded-xl p-6 text-center space-y-3"
+            style={{
+              background: "rgba(255,255,255,0.72)",
+              backdropFilter: "blur(12px)",
+              WebkitBackdropFilter: "blur(12px)",
+              border: "1px solid rgba(255,255,255,0.5)",
+              borderRadius: "12px",
+            }}
+          >
+            <p style={{ fontSize: "0.95rem", color: "var(--ink)", fontWeight: 600 }}>
+              Discover your teaching archetype
+            </p>
+            <p style={{ fontSize: "0.85rem", color: "var(--text-secondary)", maxWidth: "400px", margin: "0 auto" }}>
+              Take the free Sage&apos;s Compass assessment to find out which of 8 teaching archetypes fits your homeschool style.
+            </p>
+            <Link
+              href="/compass/quiz"
+              style={{
+                display: "inline-block",
+                background: "var(--night)",
+                color: "var(--parchment)",
+                borderRadius: "10px",
+                padding: "0.65rem 1.5rem",
+                fontSize: "0.9rem",
+                fontWeight: 600,
+                textDecoration: "none",
+              }}
+            >
+              Take the Free Quiz &rarr;
+            </Link>
+          </div>
+        )}
+
+        {!isSharedView && <>
         {/* Dimension bars */}
         <div
           className="rounded-xl p-4 space-y-5"
@@ -917,6 +984,7 @@ function ResultsPageInner() {
         </div>
           </>
         )}
+        </>}
       </div>
     </Shell>
   );

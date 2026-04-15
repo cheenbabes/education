@@ -29,7 +29,7 @@ const FOUNDERS = [
   {
     name: "Eugene Baibourine",
     title: "Co-Founder & Engineering",
-    blurb: "[Eugene\u2019s bio coming soon]",
+    blurb: "Eugene has spent over a decade as a software engineer, building products for companies ranging from scrappy startups to tech giants. He has a passion for creating tools that solve real problems and empower users, and has been deeply involved in the education space for years, both as a parent and through various projects.\n\nEugene is driven by the belief that technology can be a powerful force for good in education, but only when it is designed with empathy and a deep understanding of the needs of educators and families. He is committed to building tools that are not only effective but also intuitive and enjoyable to use.",
   },
 ];
 
@@ -45,7 +45,7 @@ const FAMILY_PHOTOS = [
 export default function AboutPage() {
   return (
     <Shell hue="home">
-      <div style={{ maxWidth: "900px", margin: "0 auto", padding: "3rem 0 5rem" }}>
+      <div style={{ maxWidth: "900px", margin: "0 auto", padding: "3rem 1rem 5rem" }}>
 
         {/* ── Mission header ── */}
         <div style={{ textAlign: "center", marginBottom: "3rem" }}>
