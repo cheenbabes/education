@@ -166,6 +166,12 @@ export default function DashboardPage() {
     })
     .slice(0, 5);
 
+  // Unscheduled: lessons with no calendar entries and no completions
+  const unscheduled = lessons
+    .filter((l) => l.calendarEntries.length === 0 && l.completions.length === 0)
+    .sort((a, b) => b.createdAt.localeCompare(a.createdAt))
+    .slice(0, 5);
+
   // Recent completions: lessons that have at least one completion, most recent first
   const recentCompletions = lessons
     .flatMap((l) =>
@@ -506,6 +512,50 @@ export default function DashboardPage() {
             ))}
           </div>
         </div>
+
+        {/* Unscheduled lessons — created but no date assigned */}
+        {unscheduled.length > 0 && (
+          <div>
+            <h2 className="font-cormorant-sc text-xl text-gray-900 mb-3">Unscheduled Lessons</h2>
+            <div
+              style={{
+                background: "rgba(255,255,255,0.72)",
+                backdropFilter: "blur(12px)",
+                border: "1px solid rgba(255,255,255,0.5)",
+                borderRadius: "12px",
+                overflow: "hidden",
+              }}
+            >
+              {unscheduled.map((lesson, idx) => (
+                <Link
+                  href={`/lessons/${lesson.id}`}
+                  key={lesson.id}
+                  className="p-4 flex items-center justify-between hover:bg-white/40 transition-colors"
+                  style={{ display: "flex", textDecoration: "none", ...(idx > 0 ? { borderTop: "1px solid rgba(0,0,0,0.06)" } : {}) }}
+                >
+                  <div>
+                    <p className="font-medium text-gray-900">{lesson.title}</p>
+                    <div className="flex gap-2 mt-1">
+                      {lesson.subjects.map((s) => (
+                        <span key={s} style={{ ...frostPill, color: "#6E6E9E" }}>
+                          {s}
+                        </span>
+                      ))}
+                      {lesson.lessonChildren.map((lc) => (
+                        <span key={lc.child.name} style={frostPill}>
+                          {lc.child.name}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                  <span className="text-sm text-gray-400 whitespace-nowrap ml-4">
+                    Created {lesson.createdAt.split("T")[0]}
+                  </span>
+                </Link>
+              ))}
+            </div>
+          </div>
+        )}
 
         {/* Needs attention — past due, not completed */}
         {missed.length > 0 && (
