@@ -730,7 +730,7 @@ export default function LessonsPage() {
 
         {/* CTA */}
         <div className="flex justify-end pt-2">
-          {tierData && tierData.lessonsUsed >= tierData.lessonsLimit ? (
+          {tierData && tierData.lessonsLimit >= 0 && tierData.lessonsUsed >= tierData.lessonsLimit ? (
             <div style={{ textAlign: "right" }}>
               <p style={{ fontSize: "0.78rem", color: "#767676", marginBottom: "0.35rem" }}>
                 {tierData.lessonsUsed}/{tierData.lessonsLimit} lessons this month

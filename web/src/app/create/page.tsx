@@ -501,14 +501,14 @@ function GeneratePage() {
                   gap: "0.35rem",
                   background: "rgba(255,255,255,0.68)",
                   backdropFilter: "blur(10px)",
-                  border: `1px solid ${lessonsUsed >= lessonsLimit ? "rgba(220,38,38,0.3)" : lessonsUsed >= lessonsLimit - 1 ? "rgba(196,152,61,0.3)" : "rgba(255,255,255,0.45)"}`,
+                  border: `1px solid ${lessonsLimit >= 0 && lessonsUsed >= lessonsLimit ? "rgba(220,38,38,0.3)" : lessonsLimit >= 0 && lessonsUsed >= lessonsLimit - 1 ? "rgba(196,152,61,0.3)" : "rgba(255,255,255,0.45)"}`,
                   borderRadius: "6px",
                   fontSize: "0.75rem",
                   padding: "0.3rem 0.7rem",
                   fontWeight: 500,
-                  color: lessonsUsed >= lessonsLimit ? "#DC2626" : lessonsUsed >= lessonsLimit - 1 ? "#B08A2E" : "#5A5A5A",
+                  color: lessonsLimit >= 0 && lessonsUsed >= lessonsLimit ? "#DC2626" : lessonsLimit >= 0 && lessonsUsed >= lessonsLimit - 1 ? "#B08A2E" : "#5A5A5A",
                 }}>
-                  {lessonsUsed} of {lessonsLimit} free lessons used this month
+                  {lessonsLimit >= 0 ? `${lessonsUsed} of ${lessonsLimit} free lessons used this month` : `${lessonsUsed} lessons created this month`}
                 </div>
               )}
             </div>
@@ -780,7 +780,7 @@ function GeneratePage() {
               color: "var(--ink)",
               marginBottom: "0.5rem",
             }}>
-              {"You've used all "}{lessonsLimit}{" lessons this month"}
+              {"You've used all "}{lessonsLimit >= 0 ? lessonsLimit : ""}{" lessons this month"}
             </h2>
             {resetsAt && (
               <p style={{ fontSize: "0.85rem", color: "#5A5A5A", marginBottom: "1.25rem" }}>

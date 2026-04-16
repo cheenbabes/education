@@ -100,13 +100,14 @@ const TIER_CONFIG: Record<string, { label: string; color: string; bg: string; bo
 };
 
 function UsageBar({ used, limit, label }: { used: number; limit: number; label: string }) {
-  const pct = limit > 0 ? Math.min((used / limit) * 100, 100) : 0;
-  const color = pct >= 90 ? "#C07A42" : pct >= 60 ? "#C4983D" : "#5A947A";
+  const unlimited = limit < 0;
+  const pct = unlimited ? 0 : limit > 0 ? Math.min((used / limit) * 100, 100) : 0;
+  const color = unlimited ? "#5A947A" : pct >= 90 ? "#C07A42" : pct >= 60 ? "#C4983D" : "#5A947A";
   return (
     <div style={{ marginBottom: "0.75rem" }}>
       <div style={{ display: "flex", justifyContent: "space-between", fontSize: "0.78rem", color: "var(--text-secondary)", marginBottom: "0.3rem" }}>
         <span>{label}</span>
-        <span style={{ fontWeight: 600, color: pct >= 90 ? "#C07A42" : "var(--ink)" }}>{used} / {limit}</span>
+        <span style={{ fontWeight: 600, color: unlimited ? "var(--ink)" : pct >= 90 ? "#C07A42" : "var(--ink)" }}>{used}{unlimited ? "" : ` / ${limit}`}</span>
       </div>
       <div style={{ height: "5px", borderRadius: "3px", background: "rgba(0,0,0,0.07)" }}>
         <div style={{ height: "100%", borderRadius: "3px", width: `${pct}%`, background: color, transition: "width 0.3s" }} />
@@ -217,7 +218,7 @@ export default function AccountPage() {
   const resetsAt = tierData?.resetsAt
     ? new Date(tierData.resetsAt).toLocaleDateString("en-US", { month: "long", day: "numeric" })
     : null;
-  const atChildLimit = !!tierData && tierData.childrenCount >= tierData.childrenLimit;
+  const atChildLimit = !!tierData && tierData.childrenLimit >= 0 && tierData.childrenCount >= tierData.childrenLimit;
 
   return (
     <Shell hue="children">

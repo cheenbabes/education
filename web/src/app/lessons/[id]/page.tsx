@@ -376,7 +376,7 @@ export default function LessonDetailPage() {
   };
 
   const generateWorksheet = async (childId: string | null, childName: string, grade: string) => {
-    if (worksheetTierData && worksheetTierData.worksheetsUsed >= worksheetTierData.worksheetsLimit) {
+    if (worksheetTierData && worksheetTierData.worksheetsLimit >= 0 && worksheetTierData.worksheetsUsed >= worksheetTierData.worksheetsLimit) {
       setWorksheetError(`You've used all ${worksheetTierData.worksheetsLimit} worksheets this month. Upgrade or wait until next month.`);
       return;
     }
@@ -1128,7 +1128,7 @@ export default function LessonDetailPage() {
             {/* Remaining worksheet count for paid users */}
             {worksheetTierData && userTier !== "compass" && !worksheetError && (
               <p style={{ fontSize: "0.72rem", color: "#999", marginTop: "0.4rem" }}>
-                {worksheetTierData.worksheetsUsed}/{worksheetTierData.worksheetsLimit} worksheets this month
+                {worksheetTierData.worksheetsUsed}{worksheetTierData.worksheetsLimit >= 0 ? `/${worksheetTierData.worksheetsLimit}` : ""} worksheets this month
               </p>
             )}
 

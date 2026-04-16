@@ -133,8 +133,8 @@ export default function DashboardPage() {
   }, []);
 
   const today = new Date().toISOString().split("T")[0];
-  const atChildLimit = !!tierData && tierData.childrenCount >= tierData.childrenLimit;
-  const atLessonLimit = !!tierData && tierData.lessonsUsed >= tierData.lessonsLimit;
+  const atChildLimit = !!tierData && tierData.childrenLimit >= 0 && tierData.childrenCount >= tierData.childrenLimit;
+  const atLessonLimit = !!tierData && tierData.lessonsLimit >= 0 && tierData.lessonsUsed >= tierData.lessonsLimit;
 
   // Upcoming: lessons with calendar entries in the future (or today) that have no completions
   const upcoming = lessons
@@ -289,31 +289,43 @@ export default function DashboardPage() {
               {/* Lessons bar */}
               <div style={{ flex: "1", minWidth: "120px" }}>
                 <p style={{ fontSize: "0.62rem", fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: "#999", marginBottom: "0.3rem" }}>Lessons</p>
-                <div style={{ background: "rgba(0,0,0,0.06)", borderRadius: "4px", height: "5px", overflow: "hidden", marginBottom: "0.25rem" }}>
-                  <div style={{
-                    height: "100%", borderRadius: "4px",
-                    width: `${Math.min(100, (tierData.lessonsUsed / (tierData.lessonsLimit || 1)) * 100)}%`,
-                    background: tierData.lessonsUsed / tierData.lessonsLimit >= 0.9 ? "#B04040"
-                      : tierData.lessonsUsed / tierData.lessonsLimit >= 0.6 ? "#C4983D"
-                      : "#4a8b6e",
-                  }} />
-                </div>
-                <p style={{ fontSize: "0.7rem", color: "#5A5A5A" }}>{tierData.lessonsUsed} / {tierData.lessonsLimit}</p>
+                {tierData.lessonsLimit >= 0 ? (
+                  <>
+                    <div style={{ background: "rgba(0,0,0,0.06)", borderRadius: "4px", height: "5px", overflow: "hidden", marginBottom: "0.25rem" }}>
+                      <div style={{
+                        height: "100%", borderRadius: "4px",
+                        width: `${Math.min(100, (tierData.lessonsUsed / (tierData.lessonsLimit || 1)) * 100)}%`,
+                        background: tierData.lessonsUsed / tierData.lessonsLimit >= 0.9 ? "#B04040"
+                          : tierData.lessonsUsed / tierData.lessonsLimit >= 0.6 ? "#C4983D"
+                          : "#4a8b6e",
+                      }} />
+                    </div>
+                    <p style={{ fontSize: "0.7rem", color: "#5A5A5A" }}>{tierData.lessonsUsed} / {tierData.lessonsLimit}</p>
+                  </>
+                ) : (
+                  <p style={{ fontSize: "0.7rem", color: "#5A5A5A" }}>{tierData.lessonsUsed} created</p>
+                )}
               </div>
               {/* Worksheets bar (paid only, feature-flagged) */}
               {worksheetsEnabled && tierData.tier !== "compass" && (
                 <div style={{ flex: "1", minWidth: "120px" }}>
                   <p style={{ fontSize: "0.62rem", fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: "#999", marginBottom: "0.3rem" }}>Worksheets</p>
-                  <div style={{ background: "rgba(0,0,0,0.06)", borderRadius: "4px", height: "5px", overflow: "hidden", marginBottom: "0.25rem" }}>
-                    <div style={{
-                      height: "100%", borderRadius: "4px",
-                      width: `${Math.min(100, (tierData.worksheetsUsed / (tierData.worksheetsLimit || 1)) * 100)}%`,
-                      background: tierData.worksheetsUsed / tierData.worksheetsLimit >= 0.9 ? "#B04040"
-                        : tierData.worksheetsUsed / tierData.worksheetsLimit >= 0.6 ? "#C4983D"
-                        : "#4a8b6e",
-                    }} />
-                  </div>
-                  <p style={{ fontSize: "0.7rem", color: "#5A5A5A" }}>{tierData.worksheetsUsed} / {tierData.worksheetsLimit}</p>
+                  {tierData.worksheetsLimit >= 0 ? (
+                    <>
+                      <div style={{ background: "rgba(0,0,0,0.06)", borderRadius: "4px", height: "5px", overflow: "hidden", marginBottom: "0.25rem" }}>
+                        <div style={{
+                          height: "100%", borderRadius: "4px",
+                          width: `${Math.min(100, (tierData.worksheetsUsed / (tierData.worksheetsLimit || 1)) * 100)}%`,
+                          background: tierData.worksheetsUsed / tierData.worksheetsLimit >= 0.9 ? "#B04040"
+                            : tierData.worksheetsUsed / tierData.worksheetsLimit >= 0.6 ? "#C4983D"
+                            : "#4a8b6e",
+                        }} />
+                      </div>
+                      <p style={{ fontSize: "0.7rem", color: "#5A5A5A" }}>{tierData.worksheetsUsed} / {tierData.worksheetsLimit}</p>
+                    </>
+                  ) : (
+                    <p style={{ fontSize: "0.7rem", color: "#5A5A5A" }}>{tierData.worksheetsUsed} created</p>
+                  )}
                 </div>
               )}
               {/* Tier badge + reset */}
@@ -417,7 +429,7 @@ export default function DashboardPage() {
               }}
             >
               <span style={{ fontSize: "0.8rem", color: "#767676" }}>
-                {tierData!.childrenCount}/{tierData!.childrenLimit} children
+                {tierData!.childrenCount}{tierData!.childrenLimit >= 0 ? `/${tierData!.childrenLimit}` : ""} children
               </span>
               <a href={UPGRADE_URL} style={{
                 fontSize: "0.78rem", fontWeight: 600, color: "#9a7530", textDecoration: "none",
