@@ -55,6 +55,8 @@ model User {
   password      String?
   image         String?
   state         String?   // US state abbreviation for standards
+  role          String    @default("user")  // "user" | "admin"
+  tierOverride  String?                     // null = use Clerk billing; or tier name e.g. "unlimited"
 
   accounts       Account[]
   sessions       Session[]

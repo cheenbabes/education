@@ -36,11 +36,11 @@ export async function GET() {
   return NextResponse.json({
     tier,
     lessonsUsed,
-    lessonsLimit: limits.lessons,
+    lessonsLimit: Number.isFinite(limits.lessons) ? limits.lessons : -1,
     worksheetsUsed,
-    worksheetsLimit: limits.worksheets,
+    worksheetsLimit: Number.isFinite(limits.worksheets) ? limits.worksheets : -1,
     childrenCount,
-    childrenLimit: limits.children,
+    childrenLimit: Number.isFinite(limits.children) ? limits.children : -1,
     resetsAt: resetsAt.toISOString(),
   });
 }

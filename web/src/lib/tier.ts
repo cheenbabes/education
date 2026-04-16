@@ -1,15 +1,22 @@
 /**
  * Tier configuration and helpers.
  *
- * Clerk is the source of truth for billing state. We read the user's
- * subscription from Clerk and map plan slugs to tier names + limits.
+ * Tier resolution order:
+ * 1. DB tierOverride on User (admin, enterprise, etc.)
+ * 2. Clerk billing subscription (paying customers)
+ * 3. Fallback → "compass" (free)
  *
  * ── Adding a new plan ──
  * 1. Create the plan in Clerk Dashboard (e.g. slug "academy_monthly")
  * 2. Add one entry to TIERS below — that's it.
+ *
+ * ── Adding an enterprise/custom tier ──
+ * 1. Add one entry to TIERS below (e.g. acme_academy)
+ * 2. Set tierOverride on the user in the DB
  */
 
 import { clerkClient } from "@clerk/nextjs/server";
+import { prisma } from "@/lib/prisma";
 import { logger } from "@/lib/logger";
 
 // ── Tier config (single source of truth) ─────────────────────────────────────
@@ -18,6 +25,9 @@ export const TIERS = {
   compass:     { clerkSlugs: [] as string[],              lessons: 3,   worksheets: 0,  children: 0  },
   homestead:   { clerkSlugs: ["homestead_monthly"],       lessons: 30,  worksheets: 5,  children: 4  },
   schoolhouse: { clerkSlugs: ["schoolhouse_monthly"],     lessons: 100, worksheets: 15, children: 8  },
+  unlimited:   { clerkSlugs: [] as string[],              lessons: Infinity, worksheets: Infinity, children: Infinity },
+  // Enterprise tiers — add per customer:
+  // acme_academy: { clerkSlugs: [] as string[], lessons: 500, worksheets: 100, children: 50 },
 } as const;
 
 export type Tier = keyof typeof TIERS;
@@ -38,6 +48,16 @@ export async function getTier(userId: string): Promise<{
   periodStart: Date | null;
   periodEnd: Date | null;
 }> {
+  // Layer 1: DB-level tier override (admin, enterprise, etc.)
+  const user = await prisma.user.findUnique({
+    where: { id: userId },
+    select: { tierOverride: true },
+  });
+  if (user?.tierOverride && user.tierOverride in TIERS) {
+    return { tier: user.tierOverride as Tier, periodStart: null, periodEnd: null };
+  }
+
+  // Layer 2: Clerk billing (source of truth for paying customers)
   try {
     const client = await clerkClient();
     const sub = await client.billing.getUserBillingSubscription(userId);

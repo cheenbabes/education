@@ -3,12 +3,13 @@
 import { useEffect, useState } from "react";
 import { UPGRADE_URL } from "@/lib/upgradeUrl";
 
-type Tier = "compass" | "homestead" | "schoolhouse";
+type Tier = "compass" | "homestead" | "schoolhouse" | "unlimited";
 
 const TIER_ORDER: Record<Tier, number> = {
   compass: 0,
   homestead: 1,
   schoolhouse: 2,
+  unlimited: 3,
 };
 
 interface TierGateProps {
