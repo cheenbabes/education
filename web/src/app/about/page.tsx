@@ -24,12 +24,12 @@ const FOUNDERS = [
   {
     name: "Audarya Baibourine",
     title: "Co-Founder & Education Director",
-    blurb: "Audarya has over 14 years of teaching experience across Montessori and Waldorf schools. She founded and directed a nature-based micro-school in North Carolina, where she taught for five years. She has also homeschooled her own children and currently teaches them, along with other students, in a learning pod.\n\nShe holds a master\u2019s degree in Foundations of Education, with a focus on evidence-based alternative teaching practices, and is currently pursuing her Doctorate in Education.\n\nHer dream is to help communities and parents find the teaching pathway that fits them and their students. She believes there is no single \u201Cright\u201D way to teach\u200A\u2014\u200Aand that leaning into your strengths, and your students\u2019 propensities, is the key to great learning.",
+    blurb: "Over 14 years, Audarya has taught in Montessori and Waldorf classrooms, founded and directed a nature-based micro-school in North Carolina, homeschooled her own kids, and now runs a learning pod for them along with other students.\n\nShe holds a master\u2019s degree in Foundations of Education, with a focus on evidence-based alternative teaching practices, and is currently pursuing her Doctorate in Education.\n\nHer dream is to help communities and parents find the teaching pathway that fits them and their students. She believes there is no single \u201Cright\u201D way to teach\u200A\u2014\u200Aand that leaning into your strengths, and your students\u2019 propensities, is the key to great learning.",
   },
   {
     name: "Eugene Baibourine",
     title: "Co-Founder & Engineering",
-    blurb: "Eugene has spent over a decade as a software engineer, building products for companies ranging from scrappy startups to tech giants. He has a passion for creating tools that solve real problems and empower users, and has been deeply involved in the education space for years, both as a parent and through various projects.\n\nEugene is driven by the belief that technology can be a powerful force for good in education, but only when it is designed with empathy and a deep understanding of the needs of educators and families. He is committed to building tools that are not only effective but also intuitive and enjoyable to use.",
+    blurb: "Eugene has spent over a decade as a software engineer, building products for companies ranging from scrappy startups to tech giants. He loves creating tools that solve real problems, and has worked in and around education for years — both as a parent and through side projects with Audarya.\n\nHe believes technology can be a powerful force for good in education, but only when it's designed with empathy and a real understanding of what educators and families actually need. His goal is to build tools that are effective, intuitive, and genuinely enjoyable to use.",
   },
 ];
 
