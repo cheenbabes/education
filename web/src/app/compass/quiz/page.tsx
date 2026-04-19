@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { SignInButton, SignUpButton, useUser } from "@clerk/nextjs";
 import { Shell } from "@/components/shell";
 import { PART1_QUESTIONS, PART2_QUESTIONS, Part2Question } from "@/lib/compass/questions";
+import { getCompassSessionId } from "@/lib/compassSession";
 
 // Enriches raw answer indices with question text and selected answer text
 // so stored results are human-readable without needing to re-import question data
@@ -185,6 +186,7 @@ function QuizPageInner() {
               philosophyBlend: result.philosophies,
               part2Preferences: {},
               quizAnswers: buildRichAnswers(newAnswers, {}),
+              sessionId: getCompassSessionId(),
             }),
           }).catch(() => {});
         }
@@ -242,6 +244,7 @@ function QuizPageInner() {
             philosophyBlend: compassResult.philosophies,
             part2Preferences: part2Answers,
             quizAnswers: buildRichAnswers(part1Answers, part2Answers),
+            sessionId: getCompassSessionId(),
           }),
         }).catch(() => { /* silent — results page still works from sessionStorage */ });
       }

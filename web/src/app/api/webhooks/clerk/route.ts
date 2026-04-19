@@ -64,6 +64,15 @@ export async function POST(req: Request) {
         log.info({ userId, email }, "synced user email");
 
         if (type === "user.created") {
+          // Backfill anonymous compass submissions that match by email
+          const backfilled = await prisma.compassResult.updateMany({
+            where: { accountId: null, email },
+            data: { accountId: userId },
+          });
+          if (backfilled.count > 0) {
+            log.info({ userId, email, count: backfilled.count }, "backfilled compass results by email");
+          }
+
           await sendWelcomeEmail(email, firstName).catch(err => log.error({ err, email }, "welcome email failed"));
         }
       }

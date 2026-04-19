@@ -11,15 +11,43 @@ export async function CompassTab({ range }: { range: Range }) {
   return (
     <div className="space-y-8">
       <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
-        <KpiCard label="Total quiz takers" value={k.totalQuizzes.toLocaleString()} />
-        <KpiCard label="Quiz → account conversion" value={`${k.conversionPct}%`} />
-        <KpiCard label="Top archetype" value={k.topArchetype} />
         <KpiCard
-          label="Funnel"
-          value={`${data.funnel.converted} / ${data.funnel.total}`}
-          sub={`${data.funnel.unconverted} did not create account`}
+          label="Total submissions"
+          value={k.totalSubmissions.toLocaleString()}
+          sub={`${k.uniqueSessions} unique browsers`}
+        />
+        <KpiCard
+          label="Anonymous"
+          value={k.anon.toLocaleString()}
+          sub="no account yet"
+        />
+        <KpiCard
+          label="With email"
+          value={k.withEmail.toLocaleString()}
+          sub={`${k.emailCapturePct}% of submissions`}
+        />
+        <KpiCard
+          label="Account conversion"
+          value={`${k.accountConversionPct}%`}
+          sub={`${k.withAccount} signed up`}
         />
       </div>
+
+      <Section title="Funnel">
+        <div className="flex flex-col gap-2 text-sm">
+          <FunnelStep label="Quiz submissions" value={k.totalSubmissions} pct={100} />
+          <FunnelStep
+            label="Gave email"
+            value={k.withEmail}
+            pct={k.totalSubmissions > 0 ? (k.withEmail / k.totalSubmissions) * 100 : 0}
+          />
+          <FunnelStep
+            label="Created account"
+            value={k.withAccount}
+            pct={k.totalSubmissions > 0 ? (k.withAccount / k.totalSubmissions) * 100 : 0}
+          />
+        </div>
+      </Section>
 
       <Section title="Quiz completions per day">
         <DailyLineChart data={data.daily} color="#9333ea" />
@@ -28,6 +56,22 @@ export async function CompassTab({ range }: { range: Range }) {
       <Section title="Archetype distribution">
         <SimpleBarChart data={data.archetypes} color="#9333ea" />
       </Section>
+    </div>
+  );
+}
+
+function FunnelStep({ label, value, pct }: { label: string; value: number; pct: number }) {
+  return (
+    <div>
+      <div className="mb-1 flex justify-between">
+        <span>{label}</span>
+        <span className="tabular-nums text-neutral-600">
+          {value.toLocaleString()} · {pct.toFixed(0)}%
+        </span>
+      </div>
+      <div className="h-2 w-full rounded bg-neutral-100">
+        <div className="h-2 rounded bg-purple-600" style={{ width: `${pct}%` }} />
+      </div>
     </div>
   );
 }

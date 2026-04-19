@@ -206,7 +206,8 @@ model CalendarEntry {
 
 model CompassResult {
   id               String   @id @default(uuid())
-  email            String
+  email            String?  // optional — anon users may not provide one
+  sessionId        String?  // client-minted UUID for anon correlation + later backfill
   archetype        String
   secondaryArchetype String?
   dimensionScores  Json     // {structure: 72, modality: 35, ...}
@@ -221,6 +222,7 @@ model CompassResult {
   createdAt DateTime @default(now())
 
   @@index([email])
+  @@index([sessionId])
   @@index([accountId])
 }
 

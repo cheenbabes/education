@@ -41,6 +41,25 @@ function PostHogIdentify() {
   return null;
 }
 
+// On login, claim any anonymous compass submissions from this browser's sessionId.
+// Runs once per mount; server is idempotent.
+function CompassSessionLinker() {
+  const { user } = useUser();
+
+  useEffect(() => {
+    if (!user) return;
+    const sessionId = typeof window !== "undefined" ? localStorage.getItem("compass_session_id") : null;
+    if (!sessionId) return;
+    fetch("/api/compass/link-session", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ sessionId }),
+    }).catch(() => {});
+  }, [user]);
+
+  return null;
+}
+
 export function PHProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     if (process.env.NEXT_PUBLIC_POSTHOG_KEY) {
@@ -59,6 +78,7 @@ export function PHProvider({ children }: { children: React.ReactNode }) {
         <PostHogPageView />
       </Suspense>
       <PostHogIdentify />
+      <CompassSessionLinker />
       {children}
     </PostHogProvider>
   );

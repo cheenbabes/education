@@ -4,20 +4,20 @@ import { auth } from "@clerk/nextjs/server";
 import { getOrCreateUser } from "@/lib/getOrCreateUser";
 
 // POST /api/compass/submit — save compass quiz results
+// Anonymous submissions allowed: accountId is null, sessionId correlates for later backfill.
 export async function POST(req: NextRequest) {
   const { userId } = await auth();
-  if (!userId) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
-
   const body = await req.json();
+
   const {
     archetype,
     secondaryArchetype,
     dimensionScores,
     philosophyBlend,
     part2Preferences,
-    quizAnswers, // { part1: {q1: 2, ...}, part2: {p2_subjects: [...], ...} }
+    quizAnswers,
+    sessionId, // client-minted UUID for anon correlation
+    email: bodyEmail, // optional, if provided by anon user
   } = body;
 
   if (!archetype || !dimensionScores || !philosophyBlend) {
@@ -27,18 +27,19 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  await getOrCreateUser(userId);
+  if (userId) await getOrCreateUser(userId);
 
   const result = await prisma.compassResult.create({
     data: {
-      email: userId, // placeholder — Clerk manages email
+      email: bodyEmail ?? null,
+      sessionId: sessionId ?? null,
       archetype,
       secondaryArchetype: secondaryArchetype || null,
       dimensionScores,
       philosophyBlend,
       part2Preferences: part2Preferences ?? {},
       quizAnswers: quizAnswers ?? {},
-      accountId: userId,
+      accountId: userId ?? null,
     },
   });
 

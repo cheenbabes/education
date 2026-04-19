@@ -5,8 +5,12 @@
  */
 
 const mockUpsert = jest.fn().mockResolvedValue({});
+const mockCompassUpdateMany = jest.fn().mockResolvedValue({ count: 0 });
 jest.mock("@/lib/prisma", () => ({
-  prisma: { user: { upsert: (...args: unknown[]) => mockUpsert(...args) } },
+  prisma: {
+    user: { upsert: (...args: unknown[]) => mockUpsert(...args) },
+    compassResult: { updateMany: (...args: unknown[]) => mockCompassUpdateMany(...args) },
+  },
 }));
 
 const mockSendWelcomeEmail = jest.fn().mockResolvedValue(undefined);

@@ -10,8 +10,13 @@ export async function loadCompass(range: Range) {
   const where = start ? `WHERE "createdAt" >= $1` : ``;
 
   const [totals, archetypes, daily] = await Promise.all([
-    prisma.$queryRawUnsafe<{ total: bigint; converted: bigint }[]>(
-      `SELECT COUNT(*)::bigint AS total, COUNT("accountId")::bigint AS converted
+    prisma.$queryRawUnsafe<
+      { total: bigint; with_email: bigint; with_account: bigint; unique_sessions: bigint }[]
+    >(
+      `SELECT COUNT(*)::bigint AS total,
+              COUNT("email")::bigint AS with_email,
+              COUNT("accountId")::bigint AS with_account,
+              COUNT(DISTINCT "sessionId")::bigint AS unique_sessions
          FROM "CompassResult" ${where}`,
       ...args,
     ),
@@ -28,19 +33,27 @@ export async function loadCompass(range: Range) {
     ),
   ]);
 
-  const t = totals[0] ?? { total: BigInt(0), converted: BigInt(0) };
+  const t = totals[0] ?? { total: BigInt(0), with_email: BigInt(0), with_account: BigInt(0), unique_sessions: BigInt(0) };
   const total = Number(t.total);
-  const converted = Number(t.converted);
+  const withEmail = Number(t.with_email);
+  const withAccount = Number(t.with_account);
+  const uniqueSessions = Number(t.unique_sessions);
   const topArchetype = archetypes[0]?.archetype ?? "—";
+
+  const anon = total - withAccount;
 
   return {
     kpis: {
-      totalQuizzes: total,
-      conversionPct: total > 0 ? Math.round((converted / total) * 100) : 0,
+      totalSubmissions: total,
+      uniqueSessions,
+      withEmail,
+      withAccount,
+      anon,
+      emailCapturePct: total > 0 ? Math.round((withEmail / total) * 100) : 0,
+      accountConversionPct: total > 0 ? Math.round((withAccount / total) * 100) : 0,
       topArchetype,
     },
     archetypes: archetypes.map((r) => ({ label: r.archetype, value: Number(r.count) })),
     daily: daily.map((r) => ({ day: toIso(r.day), value: Number(r.value) })),
-    funnel: { total, converted, unconverted: total - converted },
   };
 }
