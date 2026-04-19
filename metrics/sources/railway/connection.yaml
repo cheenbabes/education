@@ -1,0 +1,12 @@
+# Default = local docker-compose Postgres (non-secret dev creds).
+# To point at Railway prod, set EVIDENCE_SOURCE__railway__host / ...user / ...password / ...port
+# in metrics/.env (takes precedence over these defaults).
+name: railway
+type: postgres
+options:
+  host: localhost
+  port: 5433
+  database: eduapp
+  user: eduapp
+  password: eduapp_dev
+  ssl: false
