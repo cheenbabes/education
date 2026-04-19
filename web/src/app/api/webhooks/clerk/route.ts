@@ -69,9 +69,10 @@ export async function POST(req: Request) {
             where: { accountId: null, email },
             data: { accountId: userId },
           });
-          if (backfilled.count > 0) {
-            log.info({ userId, email, count: backfilled.count }, "backfilled compass results by email");
-          }
+          log.info(
+            { userId, email, count: backfilled.count },
+            "compass backfill by email",
+          );
 
           await sendWelcomeEmail(email, firstName).catch(err => log.error({ err, email }, "welcome email failed"));
         }
