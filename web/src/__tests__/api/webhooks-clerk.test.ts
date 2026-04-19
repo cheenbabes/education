@@ -85,6 +85,44 @@ describe("user.created", () => {
     expect(mockSendWelcomeEmail).toHaveBeenCalledWith("jane@test.com", "Jane");
   });
 
+  it("backfills anonymous compass submissions matching the new user's email", async () => {
+    mockCompassUpdateMany.mockResolvedValueOnce({ count: 2 });
+    const payload = {
+      type: "user.created",
+      data: {
+        id: "user_abc",
+        first_name: "Sam",
+        email_addresses: [{ id: "email_1", email_address: "sam@test.com" }],
+        primary_email_address_id: "email_1",
+      },
+    };
+    mockVerify.mockReturnValue(payload);
+
+    const res = await POST(makeRequest(payload));
+    expect(res.status).toBe(200);
+    expect(mockCompassUpdateMany).toHaveBeenCalledWith({
+      where: { accountId: null, email: "sam@test.com" },
+      data: { accountId: "user_abc" },
+    });
+  });
+
+  it("does NOT backfill compass results on user.updated (only on created)", async () => {
+    const payload = {
+      type: "user.updated",
+      data: {
+        id: "user_xyz",
+        first_name: "Pat",
+        email_addresses: [{ id: "email_1", email_address: "pat@test.com" }],
+        primary_email_address_id: "email_1",
+      },
+    };
+    mockVerify.mockReturnValue(payload);
+
+    const res = await POST(makeRequest(payload));
+    expect(res.status).toBe(200);
+    expect(mockCompassUpdateMany).not.toHaveBeenCalled();
+  });
+
   it("handles missing email gracefully", async () => {
     const payload = {
       type: "user.created",
