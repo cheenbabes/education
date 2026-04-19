@@ -123,6 +123,7 @@ export default function AccountPage() {
   const [archetypeData, setArchetypeData] = useState<ArchetypeData | null>(null);
   const [children, setChildren] = useState<ChildProfile[]>([]);
   const [state, setState] = useState("MI");
+  const [isAdmin, setIsAdmin] = useState(false);
   const [loading, setLoading] = useState(true);
   const [savingState, setSavingState] = useState(false);
   const [editing, setEditing] = useState<string | null>(null);
@@ -143,6 +144,7 @@ export default function AccountPage() {
       setTierData(tier);
       if (archetype) setArchetypeData(archetype);
       if (user.state) setState(user.state);
+      if (user.role === "admin") setIsAdmin(true);
       setChildren(kids.map((c: ChildProfile & { dateOfBirth: string }) => ({
         ...c,
         dateOfBirth: c.dateOfBirth.split("T")[0],
@@ -228,6 +230,27 @@ export default function AccountPage() {
           <p style={{ fontSize: "0.8rem", color: "var(--text-tertiary)", marginTop: "0.25rem" }}>
             To update your name, email, or avatar — use the profile icon in the top navigation.
           </p>
+          {isAdmin && (
+            <Link
+              href="/admin/metrics"
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "0.35rem",
+                marginTop: "0.6rem",
+                padding: "0.35rem 0.7rem",
+                fontSize: "0.75rem",
+                fontWeight: 600,
+                letterSpacing: "0.04em",
+                color: "#fff",
+                background: "#0B2E4A",
+                borderRadius: "6px",
+                textDecoration: "none",
+              }}
+            >
+              Admin · Metrics →
+            </Link>
+          )}
         </div>
 
         {/* ── Section 0: Your Archetype ─────────────────────────────────── */}
