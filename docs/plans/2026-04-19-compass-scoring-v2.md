@@ -259,6 +259,8 @@ Open `/admin/metrics` → Compass tab. Expected: the "Archetype distribution by 
 
 ### Task 7: Clean up transient analysis scripts
 
+> **Status:** N/A — the five analysis scripts were untracked working-tree artifacts. They were `rm`-ed locally but no commit was required. This task is kept in the plan for historical reference.
+
 The three scripts used to produce these insights should NOT be committed to the repo long-term — they read a private DB URL and were one-off tools.
 
 **Files:**

@@ -66,6 +66,12 @@ export const COSINE_WEIGHT = 0.5;
 /** Weight of dimension proximity in archetype scoring. Must sum to 1 with COSINE_WEIGHT. */
 export const DIMENSION_WEIGHT = 0.5;
 
+if (Math.abs(COSINE_WEIGHT + DIMENSION_WEIGHT - 1) > 1e-10) {
+  throw new Error(
+    `Invalid scoring weights: COSINE_WEIGHT + DIMENSION_WEIGHT must equal 1 (got ${COSINE_WEIGHT + DIMENSION_WEIGHT})`,
+  );
+}
+
 /**
  * Calculate dimension scores from Part 1 answers.
  * Raw scores range from negative (left pole) to positive (right pole).
