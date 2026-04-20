@@ -29,7 +29,11 @@ export type AnalyticsEvent =
   // Acquisition / onboarding
   | "signup_completed"
   | "homepage_primary_cta_clicked"
-  | "child_added";
+  | "child_added"
+  // Pricing discoverability
+  | "nav_pricing_clicked"
+  | "nav_upgrade_clicked"
+  | "paywall_cta_clicked";
 
 type EventProps = Record<string, string | number | boolean | null | undefined | string[]>;
 

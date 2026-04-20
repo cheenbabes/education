@@ -826,7 +826,8 @@ function GeneratePage() {
               </p>
             )}
             <a
-              href="/compass"
+              href="/pricing"
+              onClick={() => track("paywall_cta_clicked", { source: "lesson_limit_overlay", tier, lessons_used: lessonsUsed, lessons_limit: lessonsLimit })}
               style={{
                 display: "block",
                 width: "100%",
@@ -842,7 +843,7 @@ function GeneratePage() {
                 boxSizing: "border-box",
               }}
             >
-              Upgrade to Homestead — $21.99/mo
+              See plans
             </a>
             <button
               onClick={() => setShowLimitOverlay(false)}

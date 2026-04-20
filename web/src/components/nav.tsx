@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, useRef, useEffect } from "react";
 import { UserButton, SignInButton, useUser } from "@clerk/nextjs";
+import { track } from "@/lib/analytics";
 
 const plannerItems = [
   { href: "/dashboard", label: "Dashboard" },
@@ -19,6 +20,38 @@ const publicNavItems = [
   { href: "/contact",    label: "Contact"    },
 ];
 
+const TIER_CACHE_KEY = "nav_tier_cache_v1";
+
+/**
+ * Read tier for the signed-in user. Uses a localStorage cache for instant
+ * render (avoids button flash on every navigation) and refreshes in the
+ * background. Returns `null` while we genuinely don't know the tier yet.
+ */
+function useUserTier(isSignedIn: boolean | undefined) {
+  const [tier, setTier] = useState<string | null>(() => {
+    if (typeof window === "undefined") return null;
+    try { return localStorage.getItem(TIER_CACHE_KEY); } catch { return null; }
+  });
+
+  useEffect(() => {
+    if (!isSignedIn) {
+      setTier(null);
+      try { localStorage.removeItem(TIER_CACHE_KEY); } catch { /* ignore */ }
+      return;
+    }
+    fetch("/api/user/tier")
+      .then((r) => r.ok ? r.json() : null)
+      .then((data) => {
+        if (!data?.tier) return;
+        setTier(data.tier);
+        try { localStorage.setItem(TIER_CACHE_KEY, data.tier); } catch { /* ignore */ }
+      })
+      .catch(() => { /* keep cached value */ });
+  }, [isSignedIn]);
+
+  return tier;
+}
+
 
 export function Nav() {
   const pathname = usePathname();
@@ -26,8 +59,13 @@ export function Nav() {
   const [plannerOpen, setPlannerOpen] = useState(false);
   const plannerRef = useRef<HTMLDivElement>(null);
   const { isSignedIn } = useUser();
+  const tier = useUserTier(isSignedIn);
 
   const plannerActive = plannerItems.some((i) => pathname.startsWith(i.href));
+  // Pricing shown to signed-out users; signed-in free-tier users get the
+  // gold "Upgrade" CTA instead. Paid tiers see neither.
+  const showPricingLink = isSignedIn === false;
+  const showUpgradeCta = isSignedIn === true && tier === "compass";
 
   // Close planner dropdown on outside click
   useEffect(() => {
@@ -145,7 +183,35 @@ export function Nav() {
               </Link>
             ))}
 
+            {showPricingLink && (
+              <Link
+                href="/pricing"
+                onClick={() => track("nav_pricing_clicked", { placement: "desktop" })}
+                className="px-2.5 py-1.5 rounded-lg text-sm transition-colors shrink-0"
+                style={navLinkStyle(pathname.startsWith("/pricing"))}
+              >
+                Pricing
+              </Link>
+            )}
+
             <SocialIcons />
+
+            {showUpgradeCta && (
+              <Link
+                href="/pricing"
+                onClick={() => track("nav_upgrade_clicked", { placement: "desktop", tier })}
+                className="px-3 py-1.5 rounded-lg text-sm transition-opacity shrink-0 ml-2 hover:opacity-90"
+                style={{
+                  background: "rgba(212,175,55,0.9)",
+                  color: "var(--night)",
+                  fontWeight: 600,
+                  border: "1px solid rgba(196,152,61,0.5)",
+                  textDecoration: "none",
+                }}
+              >
+                Upgrade →
+              </Link>
+            )}
 
             <div className="ml-2 shrink-0">
               {isSignedIn ? (
@@ -205,6 +271,33 @@ export function Nav() {
               {item.label}
             </Link>
           ))}
+          {showPricingLink && (
+            <Link
+              href="/pricing"
+              onClick={() => { track("nav_pricing_clicked", { placement: "mobile" }); setMobileOpen(false); }}
+              className="block px-3 py-2 rounded-lg text-sm"
+              style={navLinkStyle(pathname.startsWith("/pricing"))}
+            >
+              Pricing
+            </Link>
+          )}
+          {showUpgradeCta && (
+            <Link
+              href="/pricing"
+              onClick={() => { track("nav_upgrade_clicked", { placement: "mobile", tier }); setMobileOpen(false); }}
+              className="block px-3 py-2 rounded-lg text-sm text-center"
+              style={{
+                background: "rgba(212,175,55,0.9)",
+                color: "var(--night)",
+                fontWeight: 600,
+                border: "1px solid rgba(196,152,61,0.5)",
+                marginTop: "0.25rem",
+                textDecoration: "none",
+              }}
+            >
+              Upgrade →
+            </Link>
+          )}
           <div className="px-3 py-2 flex items-center justify-between">
             {isSignedIn ? <UserButton /> : (
               <SignInButton mode="redirect">
