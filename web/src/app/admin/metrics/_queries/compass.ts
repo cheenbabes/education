@@ -9,7 +9,7 @@ export async function loadCompass(range: Range) {
   const args = start ? [start] : [];
   const where = start ? `WHERE "createdAt" >= $1` : ``;
 
-  const [totals, archetypes, daily] = await Promise.all([
+  const [totals, archetypes, daily, byVersion] = await Promise.all([
     prisma.$queryRawUnsafe<
       { total: bigint; with_email: bigint; with_account: bigint; unique_sessions: bigint }[]
     >(
@@ -31,6 +31,13 @@ export async function loadCompass(range: Range) {
          FROM "CompassResult" ${where} GROUP BY 1 ORDER BY 1`,
       ...args,
     ),
+    prisma.$queryRawUnsafe<{ scoringVersion: string; archetype: string; count: bigint }[]>(
+      `SELECT "scoringVersion", archetype, COUNT(*)::bigint AS count
+         FROM "CompassResult" ${where}
+         GROUP BY "scoringVersion", archetype
+         ORDER BY "scoringVersion", count DESC`,
+      ...args,
+    ),
   ]);
 
   const t = totals[0] ?? { total: BigInt(0), with_email: BigInt(0), with_account: BigInt(0), unique_sessions: BigInt(0) };
@@ -41,6 +48,18 @@ export async function loadCompass(range: Range) {
   const topArchetype = archetypes[0]?.archetype ?? "—";
 
   const anon = total - withAccount;
+
+  const archetypesByVersion = byVersion.reduce((acc, r) => {
+    const v = r.scoringVersion ?? "v1";
+    (acc[v] ||= []).push({ label: r.archetype, value: Number(r.count) });
+    return acc;
+  }, {} as Record<string, { label: string; value: number }[]>);
+
+  const sortedArchetypesByVersion = Object.fromEntries(
+    Object.entries(archetypesByVersion).sort(([a], [b]) =>
+      a.localeCompare(b, undefined, { numeric: true })
+    )
+  );
 
   return {
     kpis: {
@@ -55,5 +74,6 @@ export async function loadCompass(range: Range) {
     },
     archetypes: archetypes.map((r) => ({ label: r.archetype, value: Number(r.count) })),
     daily: daily.map((r) => ({ day: toIso(r.day), value: Number(r.value) })),
+    archetypesByVersion: sortedArchetypesByVersion,
   };
 }

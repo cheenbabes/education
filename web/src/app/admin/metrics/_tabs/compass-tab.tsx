@@ -56,6 +56,24 @@ export async function CompassTab({ range }: { range: Range }) {
       <Section title="Archetype distribution">
         <SimpleBarChart data={data.archetypes} color="#9333ea" />
       </Section>
+
+      {Object.keys(data.archetypesByVersion).length > 1 && (
+        <Section title="Archetype distribution by scoring version">
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+            {(() => {
+              const VERSION_COLORS: Record<string, string> = { v1: "#9333ea", v2: "#6366f1" };
+              return Object.entries(data.archetypesByVersion).map(([version, rows]) => (
+                <div key={version}>
+                  <h3 className="mb-2 text-xs uppercase text-neutral-500">
+                    {version} — {rows.reduce((s, r) => s + r.value, 0)} submissions
+                  </h3>
+                  <SimpleBarChart data={rows} color={VERSION_COLORS[version] ?? "#9333ea"} />
+                </div>
+              ));
+            })()}
+          </div>
+        </Section>
+      )}
     </div>
   );
 }

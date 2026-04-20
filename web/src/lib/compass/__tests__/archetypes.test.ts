@@ -2,7 +2,7 @@
  * Tests that every archetype is reachable through quiz answers.
  * 8 archetypes, each driven by a primary philosophy signal.
  */
-import { scoreCompass } from "../scoring";
+import { scoreCompass, SCORING_VERSION, COSINE_WEIGHT, DIMENSION_WEIGHT } from "../scoring";
 import { ARCHETYPES } from "../archetypes";
 import { PART1_QUESTIONS } from "../questions";
 
@@ -147,5 +147,17 @@ describe("Archetype distribution", () => {
     for (const a of ARCHETYPES) {
       expect(reached).toContain(a.id);
     }
+  });
+});
+
+describe("scoring v2 calibration", () => {
+  it("exports v2 as the current scoring version", () => {
+    expect(SCORING_VERSION).toBe("v2");
+  });
+
+  it("weights cosine and dimension equally (0.5/0.5)", () => {
+    expect(COSINE_WEIGHT).toBe(0.5);
+    expect(DIMENSION_WEIGHT).toBe(0.5);
+    expect(COSINE_WEIGHT + DIMENSION_WEIGHT).toBeCloseTo(1.0, 5);
   });
 });

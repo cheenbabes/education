@@ -214,6 +214,7 @@ model CompassResult {
   philosophyBlend  Json     // {montessori: 0.45, waldorf: 0.20, ...}
   part2Preferences Json     // {subjects, prep_level, budget, ...}
   quizAnswers      Json?    // {part1: {q1: 2, q2: 0, ...}, part2: {p2_subjects: [...], ...}}
+  scoringVersion   String   @default("v1")
   accountId        String?
 
   account          User?    @relation(fields: [accountId], references: [id], onDelete: SetNull)
@@ -224,6 +225,7 @@ model CompassResult {
   @@index([email])
   @@index([sessionId])
   @@index([accountId])
+  @@index([scoringVersion])
 }
 
 model Curriculum {
