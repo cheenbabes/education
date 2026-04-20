@@ -90,7 +90,7 @@ function GeneratePage() {
   const [selectedChildren, setSelectedChildren] = useState<string[]>([]);
   const [interest, setInterest] = useState(searchParams.get("interest") || "");
   const [selectedSubjects, setSelectedSubjects] = useState<string[]>([]);
-  const [philosophy, setPhilosophy] = useState("");
+  const [philosophy, setPhilosophy] = useState(searchParams.get("philosophy") || "");
   const [multiSubject, setMultiSubject] = useState(false);
   const [generating, setGenerating] = useState(false);
   const [topicError, setTopicError] = useState<string | null>(null);
