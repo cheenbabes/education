@@ -483,11 +483,11 @@ function GeneratePage() {
                 maxLength={200}
                 className="border border-gray-300 rounded px-3 py-2 text-sm w-full text-gray-900 bg-white/70 focus:outline-none focus:ring-2"
                 style={{ focusRingColor: "#6E6E9E" } as React.CSSProperties}
-                placeholder="e.g., dinosaurs, fire trucks, trees, outer space, cooking..."
+                placeholder="e.g., how volcanoes erupt"
               />
               <div className="flex items-start justify-between gap-2">
                 <p className="text-xs text-gray-500">
-                  This will be the theme of the lesson. Follow your child&apos;s curiosity!
+                  Lessons work best with <span className="font-medium text-gray-700">one specific idea</span>, not a list of topics. Pick the single thing your child is most curious about right now.
                 </p>
                 <p className="text-xs text-gray-400 shrink-0">{interest.length}/200</p>
               </div>
