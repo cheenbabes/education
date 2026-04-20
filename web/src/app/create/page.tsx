@@ -5,7 +5,10 @@ import { Shell } from "@/components/shell";
 import { SUBJECTS, PHILOSOPHIES, GRADES, US_STATES } from "@/lib/types";
 import { useState, useEffect, useRef, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
+import { useUser } from "@clerk/nextjs";
 import { track } from "@/lib/analytics";
+
+const PENDING_FORM_KEY = "create_pending_form";
 
 
 interface ChildData {
@@ -85,6 +88,11 @@ function detectSubjectsFromStandards(codes: string[]): string[] {
 function GeneratePage() {
   const searchParams = useSearchParams();
   const router = useRouter();
+  const { isSignedIn, isLoaded: userLoaded } = useUser();
+  const isAnon = userLoaded && !isSignedIn;
+  const resuming = searchParams.get("resume") === "true";
+  const [showSignupModal, setShowSignupModal] = useState(false);
+  const resumeTriggeredRef = useRef(false);
   const [children, setChildren] = useState<ChildData[]>([]);
   const [loadingChildren, setLoadingChildren] = useState(true);
   const [selectedChildren, setSelectedChildren] = useState<string[]>([]);
@@ -163,6 +171,26 @@ function GeneratePage() {
   };
 
   useEffect(() => {
+    if (!userLoaded) return;
+
+    // Anonymous user: skip the authenticated endpoints (they 401). Treat the
+    // user as a compass-tier-equivalent — grade/state selectors, no children.
+    if (!isSignedIn) {
+      setTier("compass");
+      setLessonsUsed(0);
+      setLessonsLimit(3);
+      setChildren([]);
+      setLoadingChildren(false);
+      track("lesson_create_viewed", {
+        tier: "compass",
+        is_anonymous: true,
+        prefill_standards_count: standardsParam ? standardsParam.split(",").filter(Boolean).length : 0,
+        prefill_interest: !!searchParams.get("interest"),
+        prefill_philosophy: !!searchParams.get("philosophy"),
+      });
+      return;
+    }
+
     Promise.all([
       fetch("/api/children").then((r) => r.json()),
       fetch("/api/user").then((r) => r.json()),
@@ -180,21 +208,22 @@ function GeneratePage() {
       if (tierData.resetsAt) setResetsAt(tierData.resetsAt);
       if (archetypeData) {
         setArchetypePhilosophyIds(archetypeData.topPhilosophyIds ?? []);
-
       }
       setLoadingChildren(false);
       track("lesson_create_viewed", {
         tier: tierData.tier,
+        is_anonymous: false,
         lessons_used: tierData.lessonsUsed,
         lessons_limit: tierData.lessonsLimit,
         children_count: Array.isArray(childrenData) ? childrenData.length : 0,
         has_archetype: !!(archetypeData && archetypeData.archetype),
         prefill_standards_count: standardsParam ? standardsParam.split(",").filter(Boolean).length : 0,
         prefill_interest: !!searchParams.get("interest"),
+        prefill_philosophy: !!searchParams.get("philosophy"),
       });
     });
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [userLoaded, isSignedIn]);
 
   const getAge = (dob: string) => {
     const birth = new Date(dob);
@@ -235,7 +264,55 @@ function GeneratePage() {
     "Finalizing...",
   ];
 
+  // Restore pending form state after signup and auto-trigger generation.
+  useEffect(() => {
+    if (!resuming || !userLoaded || !isSignedIn || resumeTriggeredRef.current) return;
+    let pending: Record<string, unknown> | null = null;
+    try {
+      const raw = localStorage.getItem(PENDING_FORM_KEY);
+      if (raw) pending = JSON.parse(raw);
+    } catch { /* ignore */ }
+    if (!pending) return;
+    resumeTriggeredRef.current = true;
+    try { localStorage.removeItem(PENDING_FORM_KEY); } catch { /* ignore */ }
+
+    if (typeof pending.interest === "string") setInterest(pending.interest);
+    if (Array.isArray(pending.selectedSubjects)) setSelectedSubjects(pending.selectedSubjects as string[]);
+    if (typeof pending.philosophy === "string") setPhilosophy(pending.philosophy);
+    if (typeof pending.freeGrade === "string") setFreeGrade(pending.freeGrade);
+    if (typeof pending.freeState === "string") setFreeState(pending.freeState);
+    if (typeof pending.multiSubject === "boolean") setMultiSubject(pending.multiSubject);
+
+    // Defer to next tick so the state updates above commit before handleGenerate
+    // reads them via closures.
+    setTimeout(() => {
+      void handleGenerate();
+    }, 0);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [resuming, userLoaded, isSignedIn]);
+
   const handleGenerate = async () => {
+    // Anonymous user hit Create Lesson → save form state and prompt signup
+    if (isAnon) {
+      try {
+        localStorage.setItem(PENDING_FORM_KEY, JSON.stringify({
+          interest,
+          selectedSubjects,
+          philosophy,
+          freeGrade,
+          freeState,
+          multiSubject,
+        }));
+      } catch { /* ignore */ }
+      track("create_gate_shown", {
+        philosophy,
+        subjects_count: selectedSubjects.length,
+        interest_length: interest.length,
+      });
+      setShowSignupModal(true);
+      return;
+    }
+
     if (generatingRef.current) return; // prevent double-trigger
     generatingRef.current = true;
     setGenerating(true);
@@ -858,6 +935,92 @@ function GeneratePage() {
               }}
             >
               Dismiss
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Anon signup gate overlay — shown when an anonymous user clicks Create Lesson */}
+      {showSignupModal && (
+        <div style={{
+          position: "fixed",
+          inset: 0,
+          zIndex: 100,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          background: "rgba(249,246,239,0.6)",
+          backdropFilter: "blur(8px)",
+          WebkitBackdropFilter: "blur(8px)",
+        }}>
+          <div
+            className="frost-card"
+            style={{
+              maxWidth: "440px",
+              width: "90%",
+              padding: "2.25rem 1.75rem",
+              textAlign: "center",
+              background: "rgba(255,255,255,0.9)",
+              backdropFilter: "blur(16px)",
+              border: "1px solid rgba(255,255,255,0.6)",
+              borderRadius: "14px",
+              boxShadow: "0 12px 40px rgba(0,0,0,0.12)",
+            }}
+          >
+            <p style={{ fontSize: "0.68rem", fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: "var(--accent-primary)", margin: "0 0 0.4rem" }}>
+              One more step
+            </p>
+            <h2 className="font-cormorant-sc" style={{
+              fontSize: "1.45rem",
+              fontWeight: 700,
+              color: "var(--ink)",
+              margin: "0 0 0.6rem",
+              lineHeight: 1.3,
+            }}>
+              Sign up free to create your lesson
+            </h2>
+            <p style={{ fontSize: "0.85rem", color: "var(--text-secondary)", margin: "0 0 1.5rem", lineHeight: 1.55 }}>
+              3 free lessons every month. No credit card required. Your selections are saved — you&rsquo;ll come right back here after signup and the lesson will generate automatically.
+            </p>
+            <a
+              href="/sign-up?redirect_url=/create?resume=true"
+              onClick={() => track("create_gate_signup_clicked", { philosophy, subjects_count: selectedSubjects.length })}
+              style={{
+                display: "block",
+                width: "100%",
+                textAlign: "center",
+                padding: "0.75rem",
+                borderRadius: "10px",
+                background: "var(--night)",
+                color: "var(--parchment)",
+                fontSize: "0.9rem",
+                fontWeight: 600,
+                textDecoration: "none",
+                letterSpacing: "0.02em",
+                boxSizing: "border-box",
+              }}
+            >
+              Sign up free — takes 15 seconds
+            </a>
+            <div style={{ fontSize: "0.75rem", color: "var(--text-tertiary)", marginTop: "0.75rem" }}>
+              Already have an account?{" "}
+              <a href="/sign-in?redirect_url=/create?resume=true" style={{ color: "var(--accent-primary)", textDecoration: "none" }}>
+                Sign in
+              </a>
+            </div>
+            <button
+              onClick={() => setShowSignupModal(false)}
+              style={{
+                display: "inline-block",
+                marginTop: "0.6rem",
+                fontSize: "0.74rem",
+                color: "#999",
+                background: "none",
+                border: "none",
+                cursor: "pointer",
+              }}
+            >
+              Not now
             </button>
           </div>
         </div>

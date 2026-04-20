@@ -4,9 +4,10 @@ import { isLegacySiteHost, SITE_HOSTNAME } from "@/lib/site";
 
 const isPublicRoute = createRouteMatcher([
   "/",
-  "/compass(.*)",
+  "/compass(.*)",          // includes /compass/sample/[philosophy]
   "/archetypes(.*)",
   "/explore(.*)",
+  "/create",               // anon can reach the form; server still gates lesson creation
   "/about",
   "/contact",
   "/api/contact",

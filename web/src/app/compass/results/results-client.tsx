@@ -17,6 +17,9 @@ import { getComboText } from "@/lib/compass/combo-text";
 import { ShareButtons } from "@/components/share-buttons";
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
 import { track } from "@/lib/analytics";
+import { SAMPLE_LESSONS } from "@/lib/compass/sample-lessons";
+import { BLEND_KEY_TO_PHILOSOPHY_ID } from "@/lib/archetype-utils";
+import type { PhilosophyId } from "@/lib/types";
 
 interface MatchResult {
   curriculum: {
@@ -275,6 +278,14 @@ function ResultsPageInner() {
 
   const top3 = philosophyData.slice(0, 3);
 
+  // Resolve the user's top philosophy to a sample-lesson id (hyphenated form,
+  // matching PHILOSOPHIES.id and /create?philosophy= query param).
+  const topBlendKey = Object.entries(philosophies)
+    .sort(([, a], [, b]) => (b as number) - (a as number))
+    .map(([key]) => key)[0];
+  const topPhilosophyId = (topBlendKey ? BLEND_KEY_TO_PHILOSOPHY_ID[topBlendKey] : "charlotte-mason") as PhilosophyId;
+  const sampleLesson = SAMPLE_LESSONS[topPhilosophyId];
+
   return (
     <Shell hue="results">
       <div className="max-w-3xl space-y-6">
@@ -400,6 +411,85 @@ function ResultsPageInner() {
           />
         </div>
 
+        {/* Primary CTA — sample lesson matched to the user's top philosophy */}
+        {!isSharedView && !isPartialResult && sampleLesson && (
+          <div
+            style={{
+              background: "linear-gradient(135deg, rgba(176,122,138,0.12), rgba(110,110,158,0.1))",
+              border: "1px solid rgba(176,122,138,0.25)",
+              borderRadius: "16px",
+              padding: "1.15rem 1.1rem",
+              display: "flex",
+              flexDirection: "column",
+              gap: "0.6rem",
+              position: "relative",
+              overflow: "hidden",
+            }}
+          >
+            <p
+              style={{
+                fontSize: "0.65rem",
+                fontWeight: 700,
+                letterSpacing: "0.14em",
+                textTransform: "uppercase",
+                color: "#82284b",
+                margin: 0,
+              }}
+            >
+              A lesson you&rsquo;d love, based on your results
+            </p>
+            <h3
+              className="font-cormorant-sc"
+              style={{
+                fontSize: "1.2rem",
+                fontWeight: 700,
+                color: "var(--ink)",
+                margin: 0,
+                lineHeight: 1.3,
+                letterSpacing: "0.02em",
+              }}
+            >
+              {sampleLesson.title}
+            </h3>
+            <div
+              style={{
+                background: "rgba(255,255,255,0.6)",
+                borderRadius: "10px",
+                padding: "0.5rem 0.65rem",
+                border: "1px dashed rgba(0,0,0,0.08)",
+                fontSize: "0.72rem",
+                color: "var(--text-secondary)",
+              }}
+            >
+              <strong style={{ color: "#82284b" }}>{sampleLesson.philosophyLabel}</strong> ·{" "}
+              {sampleLesson.grade === "K" ? "Kindergarten" : `Grade ${sampleLesson.grade}`} · {sampleLesson.subject} · {sampleLesson.duration}
+            </div>
+            <Link
+              href={`/compass/sample/${sampleLesson.philosophyId}`}
+              onClick={() => track("compass_sample_cta_clicked", { philosophy_id: sampleLesson.philosophyId, source: "results_primary_cta" })}
+              style={{
+                background: "var(--night)",
+                color: "var(--parchment)",
+                borderRadius: "12px",
+                padding: "0.75rem 1rem",
+                fontSize: "0.88rem",
+                fontWeight: 600,
+                textDecoration: "none",
+                textAlign: "center",
+                display: "inline-flex",
+                justifyContent: "center",
+                alignItems: "center",
+                gap: "0.35rem",
+              }}
+            >
+              Open the sample lesson &rarr;
+            </Link>
+            <p style={{ fontSize: "0.7rem", color: "var(--text-tertiary)", textAlign: "center", margin: 0, fontStyle: "italic" }}>
+              Then create one for your own child
+            </p>
+          </div>
+        )}
+
         {/* Shared-view CTA */}
         {isSharedView && (
           <div
@@ -437,6 +527,35 @@ function ResultsPageInner() {
         )}
 
         {!isSharedView && <>
+        <details
+          style={{
+            background: "rgba(255,255,255,0.55)",
+            border: "1px solid rgba(0,0,0,0.06)",
+            borderRadius: "12px",
+          }}
+        >
+          <summary
+            style={{
+              padding: "0.9rem 1rem",
+              cursor: "pointer",
+              listStyle: "none",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              gap: "0.5rem",
+            }}
+          >
+            <div style={{ display: "flex", flexDirection: "column", gap: "0.1rem" }}>
+              <span style={{ fontSize: "0.88rem", fontWeight: 600, color: "var(--ink)" }}>
+                Why {archetype.name}?
+              </span>
+              <span style={{ fontSize: "0.7rem", color: "var(--text-tertiary)" }}>
+                Dimension breakdown · philosophy blend
+              </span>
+            </div>
+            <span style={{ fontSize: "0.9rem", color: "var(--text-tertiary)" }}>⌄</span>
+          </summary>
+          <div style={{ padding: "0.25rem 1rem 1rem", display: "flex", flexDirection: "column", gap: "1rem" }}>
         {/* Dimension bars */}
         <div
           className="rounded-xl p-4 space-y-5"
@@ -589,7 +708,7 @@ function ResultsPageInner() {
           </p>
         </div>
 
-        {/* Archetype-specific app pitch */}
+        {/* Archetype-specific app pitch (now inside the accordion) */}
         <div
           className="rounded-xl p-6 space-y-3"
           style={{ background: "var(--night)", borderRadius: "10px" }}
@@ -606,20 +725,9 @@ function ResultsPageInner() {
           >
             {archetype.appPitch.body}
           </p>
-          <Link
-            href="/create"
-            onClick={() => track("compass_results_create_clicked", { source: "app_pitch", archetype: archetype.id })}
-            className="inline-block text-sm font-medium hover:opacity-90 transition-opacity"
-            style={{
-              background: "var(--parchment)",
-              color: "var(--night)",
-              borderRadius: "10px",
-              padding: "0.6rem 1.4rem",
-            }}
-          >
-            {archetype.appPitch.cta} &rarr;
-          </Link>
         </div>
+          </div>
+        </details>
 
         {/* Gate curriculum section on Part 2 completion */}
         {isPartialResult ? (
@@ -716,14 +824,48 @@ function ResultsPageInner() {
           </div>
         )}
 
-        {/* Curriculum Recommendations */}
-        <div className="space-y-4">
-          <h3
-            className="font-cormorant-sc text-lg font-semibold"
-            style={{ color: "var(--ink)" }}
+        {/* Curriculum Recommendations — collapsed into an accordion */}
+        <details
+          style={{
+            background: "rgba(255,255,255,0.55)",
+            border: "1px solid rgba(0,0,0,0.06)",
+            borderRadius: "12px",
+          }}
+        >
+          <summary
+            style={{
+              padding: "0.9rem 1rem",
+              cursor: "pointer",
+              listStyle: "none",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              gap: "0.5rem",
+            }}
           >
-            Curriculum Recommendations
-          </h3>
+            <div style={{ display: "flex", flexDirection: "column", gap: "0.1rem" }}>
+              <span style={{ fontSize: "0.88rem", fontWeight: 600, color: "var(--ink)" }}>
+                {(() => {
+                  const count = matchOutput
+                    ? Object.values(matchOutput.bySubject).reduce((n, arr) => n + arr.length, 0)
+                    : 0;
+                  return count > 0 ? `Your ${count} curriculum matches` : "Your curriculum matches";
+                })()}
+              </span>
+              <span style={{ fontSize: "0.7rem", color: "var(--text-tertiary)" }}>
+                {(() => {
+                  if (!matchOutput) return "Matched to your philosophy and practical needs";
+                  const topNames = Object.values(matchOutput.bySubject)
+                    .flat()
+                    .slice(0, 3)
+                    .map((m) => m.curriculum.name);
+                  return topNames.length > 0 ? `${topNames.join(" · ")}${topNames.length >= 3 ? " + more" : ""}` : "Matched to your philosophy and practical needs";
+                })()}
+              </span>
+            </div>
+            <span style={{ fontSize: "0.9rem", color: "var(--text-tertiary)" }}>⌄</span>
+          </summary>
+          <div className="space-y-4" style={{ padding: "0.5rem 1rem 1rem" }}>
 
           {matchLoading && (
             <div
@@ -937,7 +1079,8 @@ function ResultsPageInner() {
                 </div>
               </div>
             ))}
-        </div>
+          </div>
+        </details>
 
         {/* Browse all */}
         <div className="text-center">
@@ -972,34 +1115,7 @@ function ResultsPageInner() {
           </Link>
         </p>
 
-        {/* Bottom CTA */}
-        <div
-          className="rounded-xl p-4 text-center space-y-2"
-          style={{
-            background: "rgba(255,255,255,0.72)",
-            backdropFilter: "blur(12px)",
-            WebkitBackdropFilter: "blur(12px)",
-            border: "1px solid rgba(255,255,255,0.5)",
-            borderRadius: "12px",
-          }}
-        >
-          <p className="text-sm" style={{ color: "var(--text-secondary)" }}>
-            Ready to start building lessons that match your {archetype.name.replace(/^The\s+/i, "")} style?
-          </p>
-          <Link
-            href="/create"
-            onClick={() => track("compass_results_create_clicked", { source: "bottom_cta", archetype: archetype.id })}
-            className="inline-block text-sm font-medium hover:opacity-90 transition-opacity"
-            style={{
-              background: "var(--night)",
-              color: "var(--parchment)",
-              borderRadius: "10px",
-              padding: "0.6rem 1.4rem",
-            }}
-          >
-            {archetype.appPitch.cta} &rarr;
-          </Link>
-        </div>
+        {/* Bottom CTA removed — primary CTA is now the sample-lesson card at the top */}
           </>
         )}
         </>}

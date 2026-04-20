@@ -3,9 +3,10 @@ import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 const isPublicRoute = createRouteMatcher([
   "/",
   "/pricing(.*)",
-  "/compass(.*)",
+  "/compass(.*)",          // includes /compass/sample/[philosophy]
   "/archetypes(.*)",
   "/explore(.*)",
+  "/create",               // anon can reach the form; server still gates lesson creation
   "/about",
   "/contact",
   "/privacy",

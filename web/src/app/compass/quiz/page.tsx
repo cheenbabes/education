@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useMemo, useCallback, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { SignInButton, SignUpButton, useUser } from "@clerk/nextjs";
+import { useUser } from "@clerk/nextjs";
 import { Shell } from "@/components/shell";
 import { PART1_QUESTIONS, PART2_QUESTIONS, Part2Question } from "@/lib/compass/questions";
 import { getCompassSessionId } from "@/lib/compassSession";
@@ -53,12 +53,7 @@ import {
 } from "@/lib/compass/scoring";
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
 
-type QuizPhase =
-  | "part1"
-  | "compass-reveal"
-  | "part2"
-  | "teaser"
-  | "email-gate";
+type QuizPhase = "part1" | "compass-reveal" | "part2";
 
 export default function QuizPage() {
   return (
@@ -151,13 +146,14 @@ function QuizPageInner() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Gate impression: the moment an anonymous user sees the compass-reveal screen,
-  // which contains the "Create Free Account to Continue" wall.
+  // Compass-reveal impression: fires when the user reaches the archetype reveal
+  // between Part 1 and Part 2. No longer a signup gate — everyone continues freely.
   useEffect(() => {
-    if (phase === "compass-reveal" && isSignedIn === false && compassResult) {
-      track("compass_gate_shown", {
+    if (phase === "compass-reveal" && compassResult) {
+      track("compass_reveal_shown", {
         archetype: compassResult.archetype.id,
         secondary_archetype: compassResult.secondaryArchetype?.id || null,
+        signed_in: !!isSignedIn,
       });
     }
   }, [phase, isSignedIn, compassResult]);
@@ -583,97 +579,26 @@ function QuizPageInner() {
             )}
 
             <div className="text-center space-y-3">
-              {isSignedIn ? (
-                <>
-                  <button
-                    onClick={() => {
-                      setPhase("part2");
-                      setCurrentP2(0);
-                    }}
-                    style={{
-                      background: "#0B2E4A",
-                      color: "#F9F6EF",
-                      borderRadius: "10px",
-                      padding: "0.6rem 1.4rem",
-                      fontSize: "0.85rem",
-                      border: "none",
-                      cursor: "pointer",
-                    }}
-                  >
-                    Continue to Curriculum Matching
-                  </button>
-                  <p className="text-xs mt-2" style={{ color: "var(--text-secondary)" }}>
-                    {visiblePart2Questions.length} quick questions about your
-                    practical needs
-                  </p>
-                </>
-              ) : (
-                <div
-                  style={{
-                    background: "rgba(255,255,255,0.85)",
-                    backdropFilter: "blur(18px)",
-                    border: "1px solid rgba(255,255,255,0.6)",
-                    borderRadius: "12px",
-                    padding: "1.25rem",
-                  }}
-                  className="space-y-4 max-w-md mx-auto"
-                >
-                  <p className="text-center text-gray-700">
-                    Create a free account to continue — unlock your full dimension breakdown,
-                    philosophy blend, and personalized curriculum recommendations.
-                  </p>
-                  <div className="space-y-2">
-                    <SignUpButton mode="redirect" forceRedirectUrl="/compass/quiz?resume=true">
-                      <button
-                        onClick={() => {
-                          track("compass_gate_signup_clicked", {
-                            source: "compass_reveal",
-                            archetype: compassResult?.archetype.id,
-                          });
-                          // Save quiz state so we can resume after auth
-                          sessionStorage.setItem("compass_part1_answers", JSON.stringify(part1Answers));
-                        }}
-                        className="w-full transition-colors"
-                        style={{
-                          background: "#0B2E4A",
-                          color: "#F9F6EF",
-                          borderRadius: "10px",
-                          padding: "0.6rem 1.4rem",
-                          fontSize: "0.85rem",
-                          border: "none",
-                          cursor: "pointer",
-                        }}
-                      >
-                        Create Free Account to Continue
-                      </button>
-                    </SignUpButton>
-                    <SignInButton mode="redirect" forceRedirectUrl="/compass/quiz?resume=true">
-                      <button
-                        onClick={() => {
-                          track("compass_gate_signin_clicked", {
-                            source: "compass_reveal",
-                            archetype: compassResult?.archetype.id,
-                          });
-                          // Save quiz state so we can resume after auth
-                          sessionStorage.setItem("compass_part1_answers", JSON.stringify(part1Answers));
-                        }}
-                        className="w-full transition-colors"
-                        style={{
-                          background: "transparent",
-                          color: "#5A5A5A",
-                          borderRadius: "10px",
-                          padding: "0.5rem 1.4rem",
-                          fontSize: "0.8rem",
-                          border: "1px solid rgba(0,0,0,0.15)",
-                          cursor: "pointer",
-                        }}
-                      >
-                        Already have an account? Sign in
-                      </button>
-                    </SignInButton>
-                  </div>
-                </div>
-              )}
+              <button
+                onClick={() => {
+                  setPhase("part2");
+                  setCurrentP2(0);
+                }}
+                style={{
+                  background: "#0B2E4A",
+                  color: "#F9F6EF",
+                  borderRadius: "10px",
+                  padding: "0.6rem 1.4rem",
+                  fontSize: "0.85rem",
+                  border: "none",
+                  cursor: "pointer",
+                }}
+              >
+                Continue to Part 2 &rarr;
+              </button>
+              <p className="text-xs mt-2" style={{ color: "var(--text-secondary)" }}>
+                {visiblePart2Questions.length} quick questions about your practical needs · no signup required
+              </p>
             </div>
           </div>
         )}
@@ -695,129 +620,7 @@ function QuizPageInner() {
           />
         )}
 
-        {/* ===== TEASER + EMAIL GATE ===== */}
-        {phase === "teaser" && compassResult && (
-          <div className="space-y-8 animate-fadeIn">
-            <div className="text-center space-y-3">
-              <div className="flex items-end justify-center">
-                <img
-                  src={compassResult.archetype.resultsImagePath}
-                  alt={compassResult.archetype.name}
-                  className="object-contain"
-                  style={{ height: "200px", width: "auto" }}
-                />
-                {compassResult.secondaryArchetype && (
-                  <img
-                    src={compassResult.secondaryArchetype.toolPath}
-                    alt={compassResult.secondaryArchetype.name}
-                    className="object-contain opacity-70"
-                    style={{ height: "110px", width: "auto", marginLeft: "-12px" }}
-                  />
-                )}
-              </div>
-              <h2 className="font-cormorant-sc text-2xl text-gray-900">
-                You&apos;re {compassResult.archetype.name}
-              </h2>
-              {compassResult.secondaryArchetype && (
-                <p className="text-sm text-gray-500">
-                  with {compassResult.secondaryArchetype.name} tendencies
-                </p>
-              )}
-              <p className="text-gray-600">
-                {compassResult.archetype.description.split(".")[0]}.
-              </p>
-            </div>
-
-            <div
-              style={{
-                background: "rgba(255,255,255,0.85)",
-                backdropFilter: "blur(18px)",
-                border: "1px solid rgba(255,255,255,0.6)",
-                borderRadius: "12px",
-                padding: "1.25rem",
-              }}
-              className="space-y-4"
-            >
-              <p className="text-center text-gray-700">
-                Sign in to unlock your full Education Compass —
-                detailed dimension breakdown, philosophy blend, and
-                personalized curriculum recommendations.
-              </p>
-              <div className="space-y-2">
-                <SignUpButton mode="redirect" forceRedirectUrl="/compass/quiz?resume=true">
-                  <button
-                    onClick={() => {
-                      track("compass_gate_signup_clicked", {
-                        source: "teaser",
-                        archetype: compassResult?.archetype.id,
-                      });
-                      if (compassResult) {
-                        sessionStorage.setItem(
-                          "compass_result",
-                          JSON.stringify({
-                            archetype: compassResult.archetype.id,
-                            secondaryArchetype: compassResult.secondaryArchetype?.id || null,
-                            dimensions: compassResult.dimensions,
-                            philosophies: compassResult.philosophies,
-                            structureFlowSplit: compassResult.structureFlowSplit,
-                            part2Preferences: part2Answers,
-                          })
-                        );
-                      }
-                    }}
-                    className="w-full transition-colors"
-                    style={{
-                      background: "#0B2E4A",
-                      color: "#F9F6EF",
-                      borderRadius: "10px",
-                      padding: "0.6rem 1.4rem",
-                      fontSize: "0.85rem",
-                      border: "none",
-                      cursor: "pointer",
-                    }}
-                  >
-                    Create Account to See Full Results
-                  </button>
-                </SignUpButton>
-                <SignInButton mode="redirect" forceRedirectUrl="/compass/quiz?resume=true">
-                  <button
-                    onClick={() => {
-                      track("compass_gate_signin_clicked", {
-                        source: "teaser",
-                        archetype: compassResult?.archetype.id,
-                      });
-                      if (compassResult) {
-                        sessionStorage.setItem(
-                          "compass_result",
-                          JSON.stringify({
-                            archetype: compassResult.archetype.id,
-                            secondaryArchetype: compassResult.secondaryArchetype?.id || null,
-                            dimensions: compassResult.dimensions,
-                            philosophies: compassResult.philosophies,
-                            structureFlowSplit: compassResult.structureFlowSplit,
-                            part2Preferences: part2Answers,
-                          })
-                        );
-                      }
-                    }}
-                    className="w-full transition-colors"
-                    style={{
-                      background: "transparent",
-                      color: "#5A5A5A",
-                      borderRadius: "10px",
-                      padding: "0.5rem 1.4rem",
-                      fontSize: "0.8rem",
-                      border: "1px solid rgba(0,0,0,0.15)",
-                      cursor: "pointer",
-                    }}
-                  >
-                    Already have an account? Sign in
-                  </button>
-                </SignInButton>
-              </div>
-            </div>
-          </div>
-        )}
+        {/* teaser + email-gate phases removed — no more signup gate in the quiz */}
       </div>
 
       <style jsx>{`
