@@ -462,7 +462,7 @@ function ResultsPageInner() {
               }}
             >
               <strong style={{ color: "#82284b" }}>{sampleLesson.philosophyLabel}</strong> ·{" "}
-              {sampleLesson.grade === "K" ? "Kindergarten" : `Grade ${sampleLesson.grade}`} · {sampleLesson.subject} · {sampleLesson.duration}
+              {sampleLesson.grade === "K" ? "Kindergarten" : `Grade ${sampleLesson.grade}`} · {sampleLesson.subject}
             </div>
             <Link
               href={`/compass/sample/${sampleLesson.philosophyId}`}
