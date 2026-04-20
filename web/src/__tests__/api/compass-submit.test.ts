@@ -17,6 +17,7 @@ jest.mock("@/lib/getOrCreateUser", () => ({
 }));
 
 import { POST } from "@/app/api/compass/submit/route";
+import { SCORING_VERSION } from "@/lib/compass/scoring";
 
 function makeRequest(body: object) {
   return new Request("http://localhost/api/compass/submit", {
@@ -49,6 +50,7 @@ describe("POST /api/compass/submit", () => {
         sessionId: "sess-anon",
         email: null,
         archetype: "the-guide",
+        scoringVersion: SCORING_VERSION,
       }),
     });
   });

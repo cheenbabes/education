@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs/server";
 import { getOrCreateUser } from "@/lib/getOrCreateUser";
 import { routeLogger } from "@/lib/logger";
+import { SCORING_VERSION } from "@/lib/compass/scoring";
 
 // POST /api/compass/submit — save compass quiz results
 // Anonymous submissions allowed: accountId is null, sessionId correlates for later backfill.
@@ -41,6 +42,7 @@ export async function POST(req: NextRequest) {
       part2Preferences: part2Preferences ?? {},
       quizAnswers: quizAnswers ?? {},
       accountId: userId ?? null,
+      scoringVersion: SCORING_VERSION,
     },
   });
 
@@ -53,6 +55,7 @@ export async function POST(req: NextRequest) {
       sessionId: sessionId ?? null,
       archetype,
       part2Complete: Object.keys(part2Preferences ?? {}).length > 0,
+      scoringVersion: SCORING_VERSION,
     },
     "compass submission saved",
   );
