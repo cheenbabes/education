@@ -16,6 +16,7 @@ import { ARCHETYPES } from "@/lib/compass/archetypes";
 import { getComboText } from "@/lib/compass/combo-text";
 import { ShareButtons } from "@/components/share-buttons";
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
+import { track } from "@/lib/analytics";
 
 interface MatchResult {
   curriculum: {
@@ -223,6 +224,21 @@ function ResultsPageInner() {
     const part2Done = data &&
       Object.keys(((data as Record<string, unknown>).part2Preferences as Record<string, unknown>) ?? {}).length > 0;
     if (part2Done) fetchMatches();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [!!data]);
+
+  // Fire a single results_viewed event once we have data to render.
+  useEffect(() => {
+    if (!data) return;
+    const d = data as Record<string, unknown>;
+    const part2Done =
+      Object.keys((d.part2Preferences as Record<string, unknown>) ?? {}).length > 0;
+    track("compass_results_viewed", {
+      archetype: d.archetype as string | undefined,
+      secondary_archetype: (d.secondaryArchetype as string | undefined) || null,
+      is_partial: !part2Done,
+      is_shared_view: isSharedView,
+    });
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [!!data]);
 
@@ -592,6 +608,7 @@ function ResultsPageInner() {
           </p>
           <Link
             href="/create"
+            onClick={() => track("compass_results_create_clicked", { source: "app_pitch", archetype: archetype.id })}
             className="inline-block text-sm font-medium hover:opacity-90 transition-opacity"
             style={{
               background: "var(--parchment)",
@@ -971,6 +988,7 @@ function ResultsPageInner() {
           </p>
           <Link
             href="/create"
+            onClick={() => track("compass_results_create_clicked", { source: "bottom_cta", archetype: archetype.id })}
             className="inline-block text-sm font-medium hover:opacity-90 transition-opacity"
             style={{
               background: "var(--night)",

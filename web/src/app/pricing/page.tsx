@@ -6,6 +6,7 @@ import { PricingSection } from "@/components/pricing-section";
 import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import { CheckoutButton } from "@clerk/react/experimental";
+import { track } from "@/lib/analytics";
 
 type PlanKey = "homestead" | "schoolhouse";
 
@@ -38,6 +39,10 @@ export default function PricingPage() {
   const router = useRouter();
   const [success, setSuccess] = useState<PlanKey | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
+
+  useEffect(() => {
+    track("pricing_viewed", { signed_in: !!isSignedIn });
+  }, [isSignedIn]);
 
   // Detect when Clerk's checkout drawer closes (e.g. user clicks backdrop)
   // by watching for its removal from the DOM
@@ -110,11 +115,18 @@ export default function PricingPage() {
             renderCheckout={isSignedIn ? (planKey, isAnnual) => {
               const featured = planKey === "homestead";
               return (
-                <div onClick={handleCheckoutClick}>
+                <div onClick={() => {
+                  track("checkout_started", { plan: planKey, period: isAnnual ? "annual" : "month" });
+                  handleCheckoutClick();
+                }}>
                   <CheckoutButton
                     planId={PLAN_IDS[planKey]}
                     planPeriod={isAnnual ? "annual" : "month"}
-                    onSubscriptionComplete={() => { setDrawerOpen(false); setSuccess(planKey); }}
+                    onSubscriptionComplete={() => {
+                      track("checkout_completed", { plan: planKey, period: isAnnual ? "annual" : "month" });
+                      setDrawerOpen(false);
+                      setSuccess(planKey);
+                    }}
                   >
                     <button
                       style={{

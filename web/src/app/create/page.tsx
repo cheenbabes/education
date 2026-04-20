@@ -5,6 +5,7 @@ import { Shell } from "@/components/shell";
 import { SUBJECTS, PHILOSOPHIES, GRADES, US_STATES } from "@/lib/types";
 import { useState, useEffect, useRef, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
+import { track } from "@/lib/analytics";
 
 
 interface ChildData {
@@ -182,7 +183,17 @@ function GeneratePage() {
 
       }
       setLoadingChildren(false);
+      track("lesson_create_viewed", {
+        tier: tierData.tier,
+        lessons_used: tierData.lessonsUsed,
+        lessons_limit: tierData.lessonsLimit,
+        children_count: Array.isArray(childrenData) ? childrenData.length : 0,
+        has_archetype: !!(archetypeData && archetypeData.archetype),
+        prefill_standards_count: standardsParam ? standardsParam.split(",").filter(Boolean).length : 0,
+        prefill_interest: !!searchParams.get("interest"),
+      });
     });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const getAge = (dob: string) => {
@@ -230,11 +241,24 @@ function GeneratePage() {
     setGenerating(true);
     setError(null);
 
+    track("lesson_create_started", {
+      tier,
+      philosophy,
+      subjects: selectedSubjects,
+      subjects_count: selectedSubjects.length,
+      multi_subject_optimize: multiSubject,
+      children_selected: isCompass ? 0 : selectedChildren.length,
+      required_standards_count: requiredStandards.length,
+      has_archetype_match: archetypePhilosophyIds.includes(philosophy),
+      interest_length: interest.length,
+    });
+
     // content check first
     const check = await fetch("/api/lessons/check-topic", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ interest }) })
     const checkData = await check.json()
     if (!checkData.safe) {
       setTopicError("This topic isn't appropriate for a children's lesson. Please choose a different subject.")
+      track("lesson_create_failed", { reason: "unsafe_topic", tier });
       generatingRef.current = false;
       setGenerating(false);
       return
@@ -286,6 +310,7 @@ function GeneratePage() {
       if (!res.ok) {
         const data = await res.json().catch(() => null);
         if (res.status === 429 && data?.error === "monthly_limit") {
+          track("paywall_hit", { source: "lesson_create_generate", tier, lessons_used: lessonsUsed, lessons_limit: lessonsLimit });
           setShowLimitOverlay(true);
           return;
         }
@@ -316,6 +341,7 @@ function GeneratePage() {
         }),
       });
       if (saveRes.status === 429) {
+        track("paywall_hit", { source: "lesson_create_save", tier, lessons_used: lessonsUsed, lessons_limit: lessonsLimit });
         setShowLimitOverlay(true);
         return;
       }
@@ -326,8 +352,20 @@ function GeneratePage() {
           : "Saving the lesson failed. Please try again.");
       }
       const saveData = await saveRes.json();
+      track("lesson_create_succeeded", {
+        tier,
+        philosophy,
+        subjects_count: selectedSubjects.length,
+        elapsed_seconds: Math.floor((Date.now() - startTime) / 1000),
+        lesson_id: saveData.id,
+      });
       router.push(`/lessons/${saveData.id}`);
     } catch (e) {
+      track("lesson_create_failed", {
+        reason: "exception",
+        tier,
+        message: e instanceof Error ? e.message : "unknown",
+      });
       setError(e instanceof Error ? e.message : "Unknown error");
     } finally {
       clearInterval(timer);

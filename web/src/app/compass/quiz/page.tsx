@@ -6,6 +6,7 @@ import { SignInButton, SignUpButton, useUser } from "@clerk/nextjs";
 import { Shell } from "@/components/shell";
 import { PART1_QUESTIONS, PART2_QUESTIONS, Part2Question } from "@/lib/compass/questions";
 import { getCompassSessionId } from "@/lib/compassSession";
+import { track } from "@/lib/analytics";
 
 // Enriches raw answer indices with question text and selected answer text
 // so stored results are human-readable without needing to re-import question data
@@ -139,6 +140,40 @@ function QuizPageInner() {
 
   const totalPart1 = PART1_QUESTIONS.length;
 
+  // Fire quiz-started once per mount, tagging resume/skip entries so we can
+  // separate fresh quiz attempts from post-auth continuations.
+  useEffect(() => {
+    track("compass_quiz_started", {
+      signed_in: !!isSignedIn,
+      resuming,
+      skip_to_p2: skipToP2,
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // Gate impression: the moment an anonymous user sees the compass-reveal screen,
+  // which contains the "Create Free Account to Continue" wall.
+  useEffect(() => {
+    if (phase === "compass-reveal" && isSignedIn === false && compassResult) {
+      track("compass_gate_shown", {
+        archetype: compassResult.archetype.id,
+        secondary_archetype: compassResult.secondaryArchetype?.id || null,
+      });
+    }
+  }, [phase, isSignedIn, compassResult]);
+
+  // Part 2 start: covers the "Continue to Curriculum Matching" button,
+  // the skipToP2=true URL path, and the resume-after-auth path.
+  useEffect(() => {
+    if (phase === "part2" && compassResult) {
+      track("compass_part2_started", {
+        archetype: compassResult.archetype.id,
+        source: skipToP2 ? "skip_to_p2" : resuming ? "resume" : "direct",
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [phase, compassResult]);
+
   // Filter Part 2 questions based on conditional logic
   const visiblePart2Questions = useMemo(() => {
     return PART2_QUESTIONS.filter((q) => {
@@ -173,6 +208,11 @@ function QuizPageInner() {
           setCompassResult(result);
           setPhase("compass-reveal");
           window.scrollTo({ top: 0, behavior: "smooth" });
+          track("compass_part1_completed", {
+            signed_in: !!isSignedIn,
+            archetype: result.archetype.id,
+            secondary_archetype: result.secondaryArchetype?.id || null,
+          });
           // Save Part 1 result immediately — if user doesn't complete Part 2,
           // their archetype is still persisted. Part 2 completion creates a newer
           // record with preferences, which GET /api/user/archetype returns instead.
@@ -193,7 +233,7 @@ function QuizPageInner() {
         setAnimating(false);
       }, 400);
     },
-    [animating, currentQ, part1Answers, totalPart1]
+    [animating, currentQ, part1Answers, totalPart1, isSignedIn]
   );
 
   const handlePart2Answer = useCallback(
@@ -220,6 +260,11 @@ function QuizPageInner() {
     } else {
       // Part 2 complete — save everything to database and go to results
       if (compassResult) {
+        track("compass_part2_completed", {
+          archetype: compassResult.archetype.id,
+          secondary_archetype: compassResult.secondaryArchetype?.id || null,
+          questions_answered: Object.keys(part2Answers).length,
+        });
         // Save to sessionStorage for the results page
         sessionStorage.setItem(
           "compass_result",
@@ -581,6 +626,10 @@ function QuizPageInner() {
                     <SignUpButton mode="redirect" forceRedirectUrl="/compass/quiz?resume=true">
                       <button
                         onClick={() => {
+                          track("compass_gate_signup_clicked", {
+                            source: "compass_reveal",
+                            archetype: compassResult?.archetype.id,
+                          });
                           // Save quiz state so we can resume after auth
                           sessionStorage.setItem("compass_part1_answers", JSON.stringify(part1Answers));
                         }}
@@ -601,6 +650,10 @@ function QuizPageInner() {
                     <SignInButton mode="redirect" forceRedirectUrl="/compass/quiz?resume=true">
                       <button
                         onClick={() => {
+                          track("compass_gate_signin_clicked", {
+                            source: "compass_reveal",
+                            archetype: compassResult?.archetype.id,
+                          });
                           // Save quiz state so we can resume after auth
                           sessionStorage.setItem("compass_part1_answers", JSON.stringify(part1Answers));
                         }}
@@ -694,6 +747,10 @@ function QuizPageInner() {
                 <SignUpButton mode="redirect" forceRedirectUrl="/compass/quiz?resume=true">
                   <button
                     onClick={() => {
+                      track("compass_gate_signup_clicked", {
+                        source: "teaser",
+                        archetype: compassResult?.archetype.id,
+                      });
                       if (compassResult) {
                         sessionStorage.setItem(
                           "compass_result",
@@ -725,6 +782,10 @@ function QuizPageInner() {
                 <SignInButton mode="redirect" forceRedirectUrl="/compass/quiz?resume=true">
                   <button
                     onClick={() => {
+                      track("compass_gate_signin_clicked", {
+                        source: "teaser",
+                        archetype: compassResult?.archetype.id,
+                      });
                       if (compassResult) {
                         sessionStorage.setItem(
                           "compass_result",
