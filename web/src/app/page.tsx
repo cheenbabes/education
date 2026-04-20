@@ -5,6 +5,7 @@ import { Nav } from "@/components/nav";
 import { ARCHETYPES } from "@/lib/compass/archetypes";
 import { PricingSection } from "@/components/pricing-section";
 import { ArchetypeRingResponsive } from "@/components/archetype-ring-responsive";
+import { TrackedLink } from "@/components/tracked-link";
 
 export const metadata: Metadata = {
   title: "The Sage's Compass — Homeschool Curriculum for Your Family",
@@ -71,14 +72,20 @@ export default function Home() {
             </p>
 
             <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
-              <Link href="/compass" className="btn-night" style={{
-                fontSize: "1rem",
-                padding: "0.85rem 2rem",
-                borderRadius: "12px",
-                textAlign: "center",
-              }}>
+              <TrackedLink
+                href="/compass"
+                event="homepage_primary_cta_clicked"
+                eventProps={{ position: "hero" }}
+                className="btn-night"
+                style={{
+                  fontSize: "1rem",
+                  padding: "0.85rem 2rem",
+                  borderRadius: "12px",
+                  textAlign: "center",
+                }}
+              >
                 Take the Compass Assessment — It&apos;s Free
-              </Link>
+              </TrackedLink>
               <p style={{ fontSize: "0.78rem", color: "var(--text-tertiary)", textAlign: "center" }}>
                 No credit card required · 5 minutes · Discover your archetype
               </p>
@@ -224,9 +231,15 @@ export default function Home() {
         </div>
 
         <div style={{ textAlign: "center", marginTop: "2rem" }}>
-          <Link href="/compass" className="btn-night" style={{ fontSize: "0.95rem", padding: "0.75rem 2rem", borderRadius: "12px" }}>
+          <TrackedLink
+            href="/compass"
+            event="homepage_primary_cta_clicked"
+            eventProps={{ position: "archetype_ring" }}
+            className="btn-night"
+            style={{ fontSize: "0.95rem", padding: "0.75rem 2rem", borderRadius: "12px" }}
+          >
             Discover My Archetype — Free, 5 Minutes
-          </Link>
+          </TrackedLink>
         </div>
       </section>
 
@@ -712,9 +725,15 @@ export default function Home() {
           <p className="font-cormorant" style={{ fontSize: "1.15rem", fontStyle: "italic", color: "var(--text-secondary)", marginBottom: "2rem", lineHeight: 1.6 }}>
             Take the free Compass Assessment. Find your teaching archetype. Create your first lesson in two minutes.
           </p>
-          <Link href="/compass" className="btn-night" style={{ fontSize: "1.05rem", padding: "0.9rem 2.5rem", borderRadius: "12px" }}>
+          <TrackedLink
+            href="/compass"
+            event="homepage_primary_cta_clicked"
+            eventProps={{ position: "final" }}
+            className="btn-night"
+            style={{ fontSize: "1.05rem", padding: "0.9rem 2.5rem", borderRadius: "12px" }}
+          >
             Take the Compass Assessment — It&apos;s Free
-          </Link>
+          </TrackedLink>
           <p style={{ fontSize: "0.78rem", color: "var(--text-tertiary)", marginTop: "0.75rem" }}>
             5 minutes · No credit card · Discover your archetype
           </p>

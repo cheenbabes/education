@@ -15,16 +15,21 @@ export type AnalyticsEvent =
   | "compass_part2_completed"
   | "compass_results_viewed"
   | "compass_results_create_clicked"
-  // Lesson creation
+  // Lesson creation + engagement
   | "lesson_create_viewed"
   | "lesson_create_started"
   | "lesson_create_succeeded"
   | "lesson_create_failed"
+  | "lesson_completion_recorded"
   | "paywall_hit"
   // Monetization
   | "pricing_viewed"
   | "checkout_started"
-  | "checkout_completed";
+  | "checkout_completed"
+  // Acquisition / onboarding
+  | "signup_completed"
+  | "homepage_primary_cta_clicked"
+  | "child_added";
 
 type EventProps = Record<string, string | number | boolean | null | undefined | string[]>;
 

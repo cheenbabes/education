@@ -7,6 +7,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { UPGRADE_URL } from "@/lib/upgradeUrl";
 import { useFeatureFlagEnabled } from "posthog-js/react";
+import { track } from "@/lib/analytics";
 
 interface ChildProfile {
   id: string;
@@ -185,6 +186,11 @@ export default function AccountPage() {
           return;
         }
         const created = await res.json();
+        track("child_added", {
+          grade_level: created.gradeLevel,
+          standards_opt_in: !!created.standardsOptIn,
+          total_children_after: children.length + 1,
+        });
         setChildren((prev) => [...prev, { ...created, dateOfBirth: created.dateOfBirth.split("T")[0] }]);
         setShowAdd(false);
       }

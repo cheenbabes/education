@@ -13,6 +13,7 @@ import { renderVisual } from "@/lib/worksheetSvg";
 import { WorksheetMafsVisual } from "@/components/WorksheetMafsVisual";
 import { UPGRADE_URL } from "@/lib/upgradeUrl";
 import { useFeatureFlagEnabled } from "posthog-js/react";
+import { track } from "@/lib/analytics";
 
 interface LessonDetail {
   id: string;
@@ -356,6 +357,11 @@ export default function LessonDetailPage() {
       });
       const completion = await res.json();
       const child = lesson.lessonChildren.find((lc) => lc.child.id === childId)?.child;
+      track("lesson_completion_recorded", {
+        lesson_id: lesson.id,
+        star_rating: completion.starRating,
+        has_notes: !!(completion.notes && completion.notes.length > 0),
+      });
       setLesson((prev) =>
         prev
           ? {

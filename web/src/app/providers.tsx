@@ -6,6 +6,7 @@ import { useEffect, Suspense } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
 import { usePostHog } from "posthog-js/react";
 import { useUser } from "@clerk/nextjs";
+import { track } from "@/lib/analytics";
 
 // Tracks pageviews on client-side navigation (required for Next.js App Router)
 function PostHogPageView() {
@@ -33,6 +34,21 @@ function PostHogIdentify() {
         email: user.primaryEmailAddress?.emailAddress,
         name: user.fullName ?? undefined,
       });
+      // Fire signup_completed once per account, only for freshly-created
+      // users (within the last 10 minutes). Combine Clerk's createdAt with a
+      // localStorage marker so repeat logins on a second device don't re-fire.
+      try {
+        const created = user.createdAt ? new Date(user.createdAt).getTime() : 0;
+        const fresh = created > 0 && Date.now() - created < 10 * 60 * 1000;
+        const key = `ph_signup_seen_${user.id}`;
+        if (fresh && !localStorage.getItem(key)) {
+          localStorage.setItem(key, "1");
+          track("signup_completed", {
+            user_id: user.id,
+            has_email: !!user.primaryEmailAddress?.emailAddress,
+          });
+        }
+      } catch { /* ignore storage errors */ }
     } else if (!user && ph) {
       ph.reset();
     }
