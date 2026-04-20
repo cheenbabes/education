@@ -58,6 +58,14 @@ const ALL_PHILOSOPHIES: PhilosophyKey[] = [
   "adaptive",
 ];
 
+/** Bump when scoring logic changes. Stored on every CompassResult row. */
+export const SCORING_VERSION = "v2" as const;
+
+/** Weight of philosophy cosine similarity in archetype scoring. Must sum to 1 with DIMENSION_WEIGHT. */
+export const COSINE_WEIGHT = 0.5;
+/** Weight of dimension proximity in archetype scoring. Must sum to 1 with COSINE_WEIGHT. */
+export const DIMENSION_WEIGHT = 0.5;
+
 /**
  * Calculate dimension scores from Part 1 answers.
  * Raw scores range from negative (left pole) to positive (right pole).
@@ -237,7 +245,7 @@ export function determineArchetype(
   const scored: Array<{ archetype: Archetype; score: number }> = [];
 
   for (const archetype of ARCHETYPES) {
-    // --- Philosophy similarity (primary, weight = 0.8) ---
+    // --- Philosophy similarity (weight from COSINE_WEIGHT) ---
     let dotProduct = 0;
     let magA = 0;
     let magB = 0;
@@ -255,7 +263,7 @@ export function determineArchetype(
         ? dotProduct / (Math.sqrt(magA) * Math.sqrt(magB))
         : 0;
 
-    // --- Dimension proximity (secondary, weight = 0.2) ---
+    // --- Dimension proximity (weight from DIMENSION_WEIGHT) ---
     let dimScore = 0;
     let dimCount = 0;
     for (const [dim, targetVal] of Object.entries(archetype.dimensionTendencies)) {
@@ -267,7 +275,7 @@ export function determineArchetype(
     const dimSim = dimCount > 0 ? dimScore / dimCount : 0.5;
 
     // --- Combined score ---
-    let finalScore = cosineSim * 0.8 + dimSim * 0.2;
+    let finalScore = cosineSim * COSINE_WEIGHT + dimSim * DIMENSION_WEIGHT;
 
     // Weaver penalty: only let Weaver win if user is truly adaptive
     if (archetype.id === "the-weaver" && !isTrulyAdaptive) {
