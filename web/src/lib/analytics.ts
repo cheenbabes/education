@@ -14,6 +14,9 @@ export type AnalyticsEvent =
   | "compass_results_viewed"
   | "compass_sample_lesson_viewed"
   | "compass_sample_cta_clicked"
+  // Compass persistence (server-emitted from /api/compass/submit; distinct_id = sessionId for anon)
+  | "compass_submit_persisted"
+  | "compass_submit_failed"
   // Lesson creation + engagement
   | "lesson_create_viewed"
   | "lesson_create_started"

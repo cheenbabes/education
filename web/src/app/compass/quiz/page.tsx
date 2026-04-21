@@ -224,7 +224,18 @@ function QuizPageInner() {
               quizAnswers: buildRichAnswers(newAnswers, {}),
               sessionId: getCompassSessionId(),
             }),
-          }).catch(() => {});
+          })
+            .then((res) => {
+              if (!res.ok) {
+                track("compass_submit_failed", { step: "part1", status: res.status });
+              }
+            })
+            .catch((err) => {
+              track("compass_submit_failed", {
+                step: "part1",
+                reason: err instanceof Error ? err.message : "network_error",
+              });
+            });
         }
         setAnimating(false);
       }, 400);
@@ -274,7 +285,9 @@ function QuizPageInner() {
           })
         );
 
-        // Save to database (fire and forget)
+        // Save to database — results page still works from sessionStorage if
+        // this fails, but we emit compass_submit_failed so we don't lose sight
+        // of persistence problems in prod.
         fetch("/api/compass/submit", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -287,7 +300,18 @@ function QuizPageInner() {
             quizAnswers: buildRichAnswers(part1Answers, part2Answers),
             sessionId: getCompassSessionId(),
           }),
-        }).catch(() => { /* silent — results page still works from sessionStorage */ });
+        })
+          .then((res) => {
+            if (!res.ok) {
+              track("compass_submit_failed", { step: "part2", status: res.status });
+            }
+          })
+          .catch((err) => {
+            track("compass_submit_failed", {
+              step: "part2",
+              reason: err instanceof Error ? err.message : "network_error",
+            });
+          });
       }
       router.push("/compass/results");
     }

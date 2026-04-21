@@ -4,6 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 import { sendWelcomeEmail } from "@/lib/email";
 import { routeLogger } from "@/lib/logger";
+import { captureServerEvent } from "@/lib/posthog-server";
 
 const log = routeLogger("POST /api/webhooks/clerk");
 
@@ -73,6 +74,19 @@ export async function POST(req: Request) {
             { userId, email, count: backfilled.count },
             "compass backfill by email",
           );
+
+          // Emit signup_completed server-side. Previously this fired only
+          // client-side when a freshly-created Clerk user (<10min old) landed
+          // on an app page with PostHogIdentify mounted — ~70% of signups
+          // never fired because users often don't return in that window.
+          // Firing here from the webhook guarantees one event per Clerk user
+          // creation, with distinct_id = Clerk userId so anon-compass events
+          // stitch to the identified person automatically.
+          captureServerEvent(userId, "signup_completed", {
+            user_id: userId,
+            has_email: !!email,
+            source: "clerk_webhook",
+          });
 
           await sendWelcomeEmail(email, firstName).catch(err => log.error({ err, email }, "welcome email failed"));
         }
