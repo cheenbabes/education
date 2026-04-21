@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import { Shell } from "@/components/shell";
 import { SAMPLE_LESSONS } from "@/lib/compass/sample-lessons";
 import { PHILOSOPHIES, type PhilosophyId } from "@/lib/types";
 import { SampleLessonViewTracker, SampleLessonCta } from "./sample-lesson-tracking";
@@ -22,70 +23,39 @@ export function generateMetadata({ params }: Params): Metadata {
   };
 }
 
+const pillBase: React.CSSProperties = {
+  fontSize: "0.72rem",
+  padding: "0.22rem 0.6rem",
+  borderRadius: "6px",
+  fontWeight: 500,
+};
+
 export default function SampleLessonPage({ params }: Params) {
   if (!VALID_IDS.has(params.philosophy as PhilosophyId)) notFound();
   const lesson = SAMPLE_LESSONS[params.philosophy as PhilosophyId];
+  const totalMin = lesson.sections.reduce((n, s) => n + (s.duration_minutes ?? 0), 0);
 
   return (
-    <div
-      className="watercolor-page hue-results"
-      style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}
-    >
-      {/* Minimal in-page header (the Shell chrome is skipped for focus) */}
-      <header
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          padding: "0.75rem 1rem",
-          borderBottom: "1px solid rgba(0,0,0,0.06)",
-          background: "rgba(249,246,239,0.82)",
-          backdropFilter: "blur(10px)",
-        }}
-      >
+    <Shell hue="results">
+      {/* Keep the reading column ~3xl wide for comfortable line length on desktop
+          while the Shell <main> provides the responsive side padding. */}
+      <div className="mx-auto max-w-3xl space-y-6">
+        <SampleLessonViewTracker philosophyId={lesson.philosophyId} />
+
         <Link
           href="/compass/results"
-          style={{
-            color: "var(--accent-primary)",
-            fontSize: "0.82rem",
-            fontWeight: 500,
-            textDecoration: "none",
-          }}
+          className="inline-flex items-center text-sm hover:underline"
+          style={{ color: "var(--accent-primary)" }}
         >
           ‹ Back to results
         </Link>
-        <span
-          className="font-cormorant-sc"
-          style={{
-            fontSize: "0.82rem",
-            color: "var(--night)",
-            letterSpacing: "0.06em",
-          }}
-        >
-          The Sage&rsquo;s Compass
-        </span>
-      </header>
 
-      <main
-        style={{
-          maxWidth: "560px",
-          width: "100%",
-          margin: "0 auto",
-          padding: "1rem 1rem 0",
-          display: "flex",
-          flexDirection: "column",
-          gap: "0.9rem",
-          flex: 1,
-        }}
-      >
-        <SampleLessonViewTracker philosophyId={lesson.philosophyId} />
-
-        <div style={{ display: "flex", flexDirection: "column", gap: "0.35rem", padding: "0.25rem 0 0.5rem" }}>
+        <header className="space-y-2">
           <p
             style={{
-              fontSize: "0.68rem",
+              fontSize: "0.7rem",
               fontWeight: 700,
-              letterSpacing: "0.12em",
+              letterSpacing: "0.14em",
               textTransform: "uppercase",
               color: "var(--accent-primary)",
               margin: 0,
@@ -96,27 +66,25 @@ export default function SampleLessonPage({ params }: Params) {
           <h1
             className="font-cormorant-sc"
             style={{
-              fontSize: "1.7rem",
+              fontSize: "clamp(1.7rem, 3.5vw, 2.4rem)",
               fontWeight: 700,
               color: "var(--ink)",
-              margin: "0.1rem 0 0.4rem",
-              lineHeight: 1.2,
+              margin: 0,
+              lineHeight: 1.15,
               letterSpacing: "0.02em",
             }}
           >
             {lesson.title}
           </h1>
           {lesson.teaser && (
-            <p style={{ fontSize: "0.88rem", color: "var(--text-secondary)", margin: "0 0 0.4rem", lineHeight: 1.55 }}>
+            <p style={{ fontSize: "0.95rem", color: "var(--text-secondary)", margin: 0, lineHeight: 1.55, maxWidth: "52ch" }}>
               {lesson.teaser}
             </p>
           )}
-          <div style={{ display: "flex", gap: "0.35rem", flexWrap: "wrap" }}>
+          <div className="flex flex-wrap gap-1.5 pt-1">
             <span
               style={{
-                fontSize: "0.68rem",
-                padding: "0.2rem 0.55rem",
-                borderRadius: "5px",
+                ...pillBase,
                 background: "rgba(176,122,138,0.15)",
                 color: "#82284b",
                 border: "1px solid rgba(176,122,138,0.3)",
@@ -128,40 +96,31 @@ export default function SampleLessonPage({ params }: Params) {
             </span>
             <span
               style={{
-                fontSize: "0.68rem",
-                padding: "0.2rem 0.55rem",
-                borderRadius: "5px",
+                ...pillBase,
                 background: "rgba(255,255,255,0.7)",
                 color: "var(--text-tertiary)",
                 border: "1px solid rgba(0,0,0,0.06)",
-                fontWeight: 500,
               }}
             >
               {lesson.grade === "K" ? "Kindergarten" : `Grade ${lesson.grade}`} · {lesson.subject}
             </span>
             <span
               style={{
-                fontSize: "0.68rem",
-                padding: "0.2rem 0.55rem",
-                borderRadius: "5px",
+                ...pillBase,
                 background: "rgba(255,255,255,0.7)",
                 color: "var(--text-tertiary)",
                 border: "1px solid rgba(0,0,0,0.06)",
-                fontWeight: 500,
               }}
             >
-              {(() => {
-                const total = lesson.sections.reduce((n, s) => n + (s.duration_minutes ?? 0), 0);
-                return total > 0 ? `~${total} min` : "~45 min";
-              })()}
+              ~{totalMin > 0 ? totalMin : 45} min
             </span>
           </div>
           {lesson.theme && (
-            <p style={{ fontSize: "0.78rem", color: "var(--text-tertiary)", margin: "0.2rem 0 0", fontStyle: "italic" }}>
+            <p style={{ fontSize: "0.82rem", color: "var(--text-tertiary)", margin: "0.25rem 0 0", fontStyle: "italic" }}>
               Theme: {lesson.theme}
             </p>
           )}
-        </div>
+        </header>
 
         <LessonSectionsDisplay
           sections={lesson.sections}
@@ -170,14 +129,14 @@ export default function SampleLessonPage({ params }: Params) {
         />
 
         {lesson.standards && lesson.standards.length > 0 && (
-          <div style={{ display: "flex", gap: "0.3rem", flexWrap: "wrap", padding: "0.3rem 0 0.5rem" }}>
+          <div className="flex flex-wrap gap-1.5 pt-1">
             {lesson.standards.map((code) => (
               <span
                 key={code}
                 style={{
                   fontFamily: "monospace",
-                  fontSize: "0.65rem",
-                  padding: "0.18rem 0.45rem",
+                  fontSize: "0.68rem",
+                  padding: "0.18rem 0.5rem",
                   background: "rgba(110,110,158,0.1)",
                   color: "var(--accent-primary)",
                   borderRadius: "4px",
@@ -191,7 +150,7 @@ export default function SampleLessonPage({ params }: Params) {
         )}
 
         <SampleLessonCta philosophyId={lesson.philosophyId} />
-      </main>
-    </div>
+      </div>
+    </Shell>
   );
 }

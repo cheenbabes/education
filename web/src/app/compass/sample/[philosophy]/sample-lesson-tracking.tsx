@@ -15,26 +15,26 @@ export function SampleLessonViewTracker({ philosophyId }: { philosophyId: string
 }
 
 /**
- * Sticky bottom CTA. Fires compass_sample_cta_clicked and navigates to
- * /create with the philosophy pre-filled.
+ * Bottom CTA for the sample lesson. Fires compass_sample_cta_clicked and
+ * navigates to /create with the philosophy pre-filled. Rendered inline at
+ * the end of the lesson content — plays well at both mobile and desktop
+ * widths without stickiness quirks.
  */
 export function SampleLessonCta({ philosophyId }: { philosophyId: string }) {
   const href = `/create?philosophy=${encodeURIComponent(philosophyId)}`;
   return (
     <div
       style={{
-        position: "sticky",
-        bottom: 0,
-        marginLeft: "-1rem",
-        marginRight: "-1rem",
-        padding: "0.75rem 1rem 1.25rem",
-        background: "linear-gradient(to top, var(--parchment) 75%, rgba(249,246,239,0.5))",
-        backdropFilter: "blur(6px)",
-        WebkitBackdropFilter: "blur(6px)",
+        marginTop: "1rem",
+        padding: "1rem 1.1rem 1.1rem",
+        background: "rgba(255,255,255,0.72)",
+        border: "1px solid rgba(255,255,255,0.5)",
+        borderRadius: "14px",
+        backdropFilter: "blur(12px)",
         display: "flex",
         flexDirection: "column",
-        gap: "0.35rem",
-        borderTop: "1px solid rgba(0,0,0,0.06)",
+        gap: "0.4rem",
+        textAlign: "center",
       }}
     >
       <a
@@ -45,7 +45,7 @@ export function SampleLessonCta({ philosophyId }: { philosophyId: string }) {
           color: "#F9F6EF",
           borderRadius: "12px",
           padding: "0.85rem 1rem",
-          fontSize: "0.9rem",
+          fontSize: "0.95rem",
           fontWeight: 600,
           textDecoration: "none",
           textAlign: "center",
@@ -57,7 +57,7 @@ export function SampleLessonCta({ philosophyId }: { philosophyId: string }) {
       >
         Create one for your own child →
       </a>
-      <p style={{ fontSize: "0.68rem", color: "var(--text-tertiary)", textAlign: "center", margin: 0 }}>
+      <p style={{ fontSize: "0.75rem", color: "var(--text-tertiary)", margin: 0 }}>
         Pre-filled with your philosophy · 3 free lessons per month
       </p>
     </div>
