@@ -19,6 +19,11 @@ class Settings(BaseSettings):
     openai_enrichment_model: str = "gpt-4.1-mini"  # used for standards plain-language rewriting (bulk, simpler task)
     openai_generation_model: str = "gpt-5.2"
     openai_validation_model: str = "gpt-4.1-mini"
+    openai_moderation_model: str = "omni-moderation-latest"  # fast + free pre-filter before gpt-4.1-mini
+
+    # Kill-switch for the moderations pre-filter on /check-topic. Defaults on;
+    # set MODERATIONS_PREFILTER_ENABLED=0 in .env to fall back to the LLM-only path.
+    moderations_prefilter_enabled: bool = True
 
     # Paths
     docs_root: Path = Path(__file__).resolve().parent.parent / "docs" / "philosophy-references"
