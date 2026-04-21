@@ -324,14 +324,17 @@ function GeneratePage() {
   };
 
   // "Free-form mode" = show grade/state dropdowns instead of the children
-  // picker. True for:
-  //  - compass (free) tier — always
-  //  - any user with zero children registered — they can't pick something
-  //    that doesn't exist
-  //  - while tier is still resolving (tier === null) — prevents a flash of
-  //    the disabled "No children added yet" UI during the post-signup race
-  // Paid users with ≥1 child still see the children picker.
-  const useFreeFormMode = tier === null || tier === "compass" || children.length === 0;
+  // picker. True for compass (free) tier or while tier is still resolving
+  // (tier === null) — the latter prevents the post-signup flash of the
+  // "No children added yet" UI during the Clerk session-propagation race.
+  //
+  // Paid users with children see the children picker (so lessons get
+  // attached to the right child for standards + progress tracking).
+  // Paid users with ZERO children see the existing "Add a child first"
+  // nudge — we deliberately don't let them create untracked lessons.
+  // Follow-up: inline add-a-child affordance on /create so they don't
+  // have to leave the page.
+  const useFreeFormMode = tier === null || tier === "compass";
   const canGenerate =
     !generating &&
     (useFreeFormMode || selectedChildren.length > 0) &&
