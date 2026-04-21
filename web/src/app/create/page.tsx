@@ -98,9 +98,27 @@ function GeneratePage() {
   const [children, setChildren] = useState<ChildData[]>([]);
   const [loadingChildren, setLoadingChildren] = useState(true);
   const [selectedChildren, setSelectedChildren] = useState<string[]>([]);
-  const [interest, setInterest] = useState(searchParams.get("interest") || "");
-  const [selectedSubjects, setSelectedSubjects] = useState<string[]>([]);
-  const [philosophy, setPhilosophy] = useState(searchParams.get("philosophy") || "");
+  const philosophyParam = searchParams.get("philosophy") || "";
+  const interestParam = searchParams.get("interest") || "";
+  const subjectParam = searchParams.get("subject") || "";
+  const [interest, setInterest] = useState(interestParam);
+  const [selectedSubjects, setSelectedSubjects] = useState<string[]>(() =>
+    subjectParam ? [subjectParam] : []
+  );
+  const [philosophy, setPhilosophy] = useState(philosophyParam);
+
+  // Re-sync state from URL params after mount. useState initializers only
+  // run once, and in some routing scenarios (e.g. a full-page navigation
+  // from an <a> tag on /compass/sample) the Suspense-wrapped page can
+  // first render before search params are resolved. This effect guarantees
+  // the preselection kicks in as soon as the params are available,
+  // without clobbering a value the user has already changed.
+  useEffect(() => {
+    if (philosophyParam && !philosophy) setPhilosophy(philosophyParam);
+    if (interestParam && !interest) setInterest(interestParam);
+    if (subjectParam && selectedSubjects.length === 0) setSelectedSubjects([subjectParam]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [philosophyParam, interestParam, subjectParam]);
   const [multiSubject, setMultiSubject] = useState(false);
   const [generating, setGenerating] = useState(false);
   const [topicError, setTopicError] = useState<string | null>(null);

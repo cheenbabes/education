@@ -149,7 +149,7 @@ export default function SampleLessonPage({ params }: Params) {
           </div>
         )}
 
-        <SampleLessonCta philosophyId={lesson.philosophyId} />
+        <SampleLessonCta philosophyId={lesson.philosophyId} subject={lesson.subject} />
       </div>
     </Shell>
   );

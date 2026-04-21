@@ -20,8 +20,10 @@ export function SampleLessonViewTracker({ philosophyId }: { philosophyId: string
  * the end of the lesson content — plays well at both mobile and desktop
  * widths without stickiness quirks.
  */
-export function SampleLessonCta({ philosophyId }: { philosophyId: string }) {
-  const href = `/create?philosophy=${encodeURIComponent(philosophyId)}`;
+export function SampleLessonCta({ philosophyId, subject }: { philosophyId: string; subject?: string }) {
+  const params = new URLSearchParams({ philosophy: philosophyId });
+  if (subject) params.set("subject", subject);
+  const href = `/create?${params.toString()}`;
   return (
     <div
       style={{
@@ -39,7 +41,7 @@ export function SampleLessonCta({ philosophyId }: { philosophyId: string }) {
     >
       <a
         href={href}
-        onClick={() => track("compass_sample_cta_clicked", { philosophy_id: philosophyId })}
+        onClick={() => track("compass_sample_cta_clicked", { philosophy_id: philosophyId, subject: subject ?? null })}
         style={{
           background: "#0B2E4A",
           color: "#F9F6EF",
