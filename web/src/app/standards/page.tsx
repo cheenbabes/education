@@ -4,6 +4,8 @@ import { Shell } from "@/components/shell";
 import { useState, useEffect, useRef, useCallback } from "react";
 import Link from "next/link";
 import { CompassStandards } from "./compass-standards";
+import { frostCardStyle } from "@/components/dashboard-cards";
+import { subjectTone } from "@/lib/standards-ui";
 
 interface Standard {
   code: string;
@@ -43,26 +45,8 @@ interface StandardsData {
   subjects: SubjectProgress[];
 }
 
-const frostCard: React.CSSProperties = {
-  background: "rgba(255,255,255,0.72)",
-  backdropFilter: "blur(12px)",
-  border: "1px solid rgba(255,255,255,0.5)",
-  borderRadius: "12px",
-  padding: "1.25rem",
-  boxShadow: "0 2px 10px rgba(0,0,0,0.04)",
-};
-
-const frostPillBase: React.CSSProperties = {
-  background: "rgba(255,255,255,0.68)",
-  backdropFilter: "blur(10px)",
-  border: "1px solid rgba(255,255,255,0.45)",
-  borderRadius: "6px",
-  fontSize: "0.7rem",
-  padding: "0.25rem 0.6rem",
-  fontWeight: 500,
-  display: "inline-flex",
-  alignItems: "center",
-};
+// Use the shared hybrid recipe so /standards matches the rest of the product.
+const frostCard = frostCardStyle;
 
 const MAX_SELECTED_STANDARDS = 7;
 
@@ -265,14 +249,25 @@ function StandardsContent() {
 
   return (
     <>
-      <div className="space-y-6">
-        {/* Header */}
-        <div className="flex items-center justify-between flex-wrap gap-3">
-          <div>
-            <h1 className="font-cormorant-sc text-3xl" style={{ color: "#0B2E4A" }}>Standards Progress</h1>
+      <div className="space-y-6" style={{ maxWidth: "1100px", margin: "0 auto", padding: "1.5rem 1.5rem 4rem" }}>
+        {/* Hero */}
+        <div className="flex items-start justify-between flex-wrap gap-3">
+          <div style={{ flex: 1, minWidth: "260px" }}>
+            <h1
+              className="font-cormorant-sc"
+              style={{
+                fontSize: "1.75rem",
+                fontWeight: 700,
+                color: "#1f2328",
+                letterSpacing: "0.02em",
+                margin: 0,
+              }}
+            >
+              Track progress &amp; seed lessons
+            </h1>
             {data && (
-              <p style={{ fontSize: "0.875rem", color: "#5A5A5A", marginTop: "0.25rem" }}>
-                {data.state} — Grade {data.gradeLevel} — {totalCovered} of {totalStandards} objectives covered
+              <p style={{ fontSize: "0.88rem", color: "#5A5A5A", margin: "0.3rem 0 0", lineHeight: 1.5 }}>
+                {data.state} · Grade {data.gradeLevel} · <strong style={{ color: "#1f2328" }}>{totalCovered}</strong> of {totalStandards} objectives covered for <strong style={{ color: "#1f2328" }}>{data.childName}</strong>
               </p>
             )}
           </div>
@@ -319,69 +314,66 @@ function StandardsContent() {
           </div>
         </div>
 
-        {/* Search bar */}
+        {/* Search bar — clean, matches compass /standards */}
         {!loadingStandards && progress.length > 0 && (
-          <div>
-            <div style={{ position: "relative" }}>
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search standards — try natural language like &quot;fractions&quot; or &quot;reading comprehension&quot;..."
+          <div style={{ position: "relative" }}>
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Search standards — try &ldquo;fractions&rdquo;, &ldquo;animal habitats&rdquo;, or &ldquo;civil war&rdquo;…"
+              style={{
+                background: "#fff",
+                border: "1px solid rgba(0,0,0,0.08)",
+                borderRadius: "10px",
+                padding: "0.65rem 0.8rem",
+                paddingRight: searching ? "2.5rem" : "0.8rem",
+                fontSize: "0.85rem",
+                color: "#1f2328",
+                width: "100%",
+                outline: "none",
+              }}
+            />
+            {searching && (
+              <span
                 style={{
-                  background: "rgba(255,255,255,0.72)",
-                  backdropFilter: "blur(12px)",
-                  border: "1px solid rgba(255,255,255,0.5)",
-                  borderRadius: "8px",
-                  padding: "0.45rem 0.75rem",
-                  paddingRight: searching ? "2.5rem" : "0.75rem",
-                  fontSize: "0.8rem",
-                  color: "#0B2E4A",
-                  width: "100%",
-                  outline: "none",
+                  position: "absolute",
+                  right: "0.8rem",
+                  top: "50%",
+                  transform: "translateY(-50%)",
+                  display: "inline-flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  width: "0.9rem",
+                  height: "0.9rem",
                 }}
-              />
-              {searching && (
+              >
                 <span
                   style={{
-                    position: "absolute",
-                    right: "0.75rem",
-                    top: "50%",
-                    transform: "translateY(-50%)",
-                    width: "0.9rem",
-                    height: "0.9rem",
+                    width: "100%",
+                    height: "100%",
                     border: "2px solid rgba(11,46,74,0.2)",
                     borderTopColor: "#0B2E4A",
                     borderRadius: "50%",
-                    animation: "spin 0.6s linear infinite",
+                    animation: "spin 0.7s linear infinite",
                     display: "inline-block",
                   }}
                 />
-              )}
-            </div>
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: "0.35rem",
-                marginTop: "0.35rem",
-                paddingLeft: "0.2rem",
-              }}
-            >
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#C4983D" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M12 2a7 7 0 0 1 7 7c0 2.38-1.19 4.47-3 5.74V17a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1v-2.26C6.19 13.47 5 11.38 5 9a7 7 0 0 1 7-7z" />
-                <line x1="9" y1="21" x2="15" y2="21" />
-                <line x1="10" y1="24" x2="14" y2="24" />
-              </svg>
-              <span style={{ fontSize: "0.65rem", color: "#C4983D", fontWeight: 500, letterSpacing: "0.02em" }}>
-                Search understands synonyms and related concepts
               </span>
-              {searchQuery.trim() && searchMode === "fallback" && !searching && (
-                <span style={{ fontSize: "0.6rem", color: "#767676", marginLeft: "0.25rem" }}>
-                  (using basic matching)
-                </span>
-              )}
-            </div>
+            )}
+            {searchQuery.trim() && searchMode === "fallback" && !searching && (
+              <span
+                style={{
+                  display: "block",
+                  fontSize: "0.68rem",
+                  color: "#767676",
+                  marginTop: "0.35rem",
+                  paddingLeft: "0.2rem",
+                }}
+              >
+                Showing basic keyword matches while semantic search recovers.
+              </span>
+            )}
           </div>
         )}
 
@@ -395,19 +387,20 @@ function StandardsContent() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
               {progress.map((sp) => {
                 const pct = sp.total > 0 ? Math.round((sp.covered / sp.total) * 100) : 0;
+                const tone = subjectTone(sp.subject);
                 return (
                   <div key={sp.subject} style={frostCard}>
-                    <p style={{ fontSize: "0.875rem", fontWeight: 500, color: "#0B2E4A" }}>{sp.subject}</p>
-                    <p style={{ fontSize: "1.5rem", fontWeight: 700, color: "#6E6E9E", marginTop: "0.25rem" }}>{pct}%</p>
-                    <p style={{ fontSize: "0.75rem", color: "#767676" }}>
+                    <p style={{ fontSize: "0.85rem", fontWeight: 600, color: tone.color, letterSpacing: "0.01em" }}>{sp.subject}</p>
+                    <p className="font-cormorant-sc" style={{ fontSize: "1.65rem", fontWeight: 700, color: "#1f2328", marginTop: "0.15rem", letterSpacing: "0.02em" }}>{pct}%</p>
+                    <p style={{ fontSize: "0.72rem", color: "#767676", marginTop: "0.1rem" }}>
                       {sp.covered} of {sp.total} objectives
                     </p>
-                    <div style={{ marginTop: "0.5rem", background: "rgba(0,0,0,0.08)", borderRadius: "9999px", height: "0.5rem" }}>
+                    <div style={{ marginTop: "0.55rem", background: tone.bg, borderRadius: "9999px", height: "0.4rem", overflow: "hidden" }}>
                       <div
                         style={{
-                          background: "#6E6E9E",
+                          background: tone.color,
                           borderRadius: "9999px",
-                          height: "0.5rem",
+                          height: "100%",
                           width: `${pct}%`,
                           transition: "width 0.3s ease",
                         }}
@@ -535,37 +528,39 @@ function StandardsContent() {
                               <div
                                 key={std.code}
                                 style={{
-                                  padding: "0.75rem 1.25rem",
+                                  padding: "0.7rem 1rem",
                                   display: "flex",
                                   alignItems: "flex-start",
-                                  gap: "0.75rem",
+                                  gap: "0.7rem",
                                   borderBottom: "1px solid rgba(0,0,0,0.04)",
                                   background: selectedStandards.has(std.code)
-                                    ? "rgba(196,152,61,0.08)"
+                                    ? "rgba(130,40,75,0.06)"
                                     : std.covered
-                                      ? "rgba(122,158,138,0.1)"
+                                      ? "rgba(122,158,138,0.08)"
                                       : "transparent",
+                                  transition: "background 0.12s",
                                 }}
                               >
-                                {/* Selection checkbox */}
+                                {/* Selection checkbox — burgundy matches compass */}
                                 <button
                                   type="button"
                                   onClick={() => toggleStandard(std.code)}
+                                  aria-label={selectedStandards.has(std.code) ? `Deselect ${std.code}` : `Select ${std.code}`}
                                   style={{
-                                    marginTop: "0.125rem",
-                                    width: "1.25rem",
-                                    height: "1.25rem",
+                                    marginTop: "0.2rem",
+                                    width: "1.1rem",
+                                    height: "1.1rem",
                                     borderRadius: "4px",
                                     border: selectedStandards.has(std.code)
-                                      ? "2px solid #C4983D"
-                                      : "1.5px solid rgba(0,0,0,0.2)",
-                                    background: selectedStandards.has(std.code) ? "#C4983D" : "transparent",
+                                      ? "1.5px solid #82284b"
+                                      : "1.5px solid rgba(0,0,0,0.22)",
+                                    background: selectedStandards.has(std.code) ? "#82284b" : "#fff",
                                     display: "flex",
                                     alignItems: "center",
                                     justifyContent: "center",
                                     flexShrink: 0,
                                     color: "#fff",
-                                    fontSize: "0.7rem",
+                                    fontSize: "0.65rem",
                                     cursor: "pointer",
                                     padding: 0,
                                   }}
@@ -573,50 +568,67 @@ function StandardsContent() {
                                   {selectedStandards.has(std.code) && <span>&#10003;</span>}
                                 </button>
 
-                                {/* Coverage indicator */}
-                                {std.covered && (
-                                  <div
-                                    style={{
-                                      marginTop: "0.25rem",
-                                      width: "0.75rem",
-                                      height: "0.75rem",
-                                      borderRadius: "50%",
-                                      background: "#7A9E8A",
-                                      display: "flex",
-                                      alignItems: "center",
-                                      justifyContent: "center",
-                                      flexShrink: 0,
-                                      color: "#fff",
-                                      fontSize: "0.5rem",
-                                    }}
-                                  >
-                                    <span>&#10003;</span>
-                                  </div>
-                                )}
-
-                                <div style={{ flex: 1 }}>
-                                  <div className="flex items-center gap-2 flex-wrap">
-                                    <span
-                                      style={{
-                                        fontFamily: "monospace",
-                                        fontSize: "0.7rem",
-                                        color: "#767676",
-                                      }}
-                                    >
-                                      {std.code}
-                                    </span>
+                                <div style={{ flex: 1, minWidth: 0 }}>
+                                  <div className="flex items-center gap-2 flex-wrap" style={{ gap: "0.4rem" }}>
+                                    {(() => {
+                                      const tone = subjectTone(ds.subject);
+                                      return (
+                                        <span
+                                          style={{
+                                            fontFamily: "Menlo, 'SF Mono', monospace",
+                                            fontSize: "0.66rem",
+                                            fontWeight: 600,
+                                            padding: "0.15rem 0.45rem",
+                                            borderRadius: "4px",
+                                            whiteSpace: "nowrap",
+                                            background: tone.bg,
+                                            color: tone.color,
+                                          }}
+                                        >
+                                          {std.code}
+                                        </span>
+                                      );
+                                    })()}
+                                    {std.covered && (
+                                      <span
+                                        style={{
+                                          display: "inline-flex",
+                                          alignItems: "center",
+                                          gap: "0.25rem",
+                                          fontSize: "0.62rem",
+                                          fontWeight: 600,
+                                          padding: "0.15rem 0.45rem",
+                                          borderRadius: "4px",
+                                          background: "rgba(122,158,138,0.18)",
+                                          color: "#5A947A",
+                                          whiteSpace: "nowrap",
+                                        }}
+                                      >
+                                        ✓ Covered
+                                      </span>
+                                    )}
                                     {std.score !== undefined && (
-                                      <span style={{ ...frostPillBase, color: "#C4983D", background: "rgba(196,152,61,0.1)", border: "1px solid rgba(196,152,61,0.25)", fontSize: "0.6rem" }}>
+                                      <span
+                                        style={{
+                                          fontSize: "0.6rem",
+                                          fontWeight: 600,
+                                          padding: "0.15rem 0.45rem",
+                                          borderRadius: "4px",
+                                          background: "rgba(212,175,55,0.14)",
+                                          color: "#B08A2E",
+                                          whiteSpace: "nowrap",
+                                        }}
+                                      >
                                         {Math.round(std.score * 100)}% match
                                       </span>
                                     )}
                                     {std.covered && std.lessonTitle && (
-                                      <span style={{ ...frostPillBase, color: "#5A947A", background: "rgba(122,158,138,0.15)", border: "1px solid rgba(122,158,138,0.3)", fontSize: "0.65rem" }}>
-                                        via: {std.lessonTitle}
+                                      <span style={{ fontSize: "0.66rem", color: "#767676", fontStyle: "italic" }}>
+                                        via {std.lessonTitle}
                                       </span>
                                     )}
                                   </div>
-                                  <p style={{ fontSize: "0.875rem", color: "#5A5A5A", marginTop: "0.125rem" }}>{std.description}</p>
+                                  <p style={{ fontSize: "0.85rem", color: "#1f2328", marginTop: "0.2rem", lineHeight: 1.45 }}>{std.description}</p>
                                 </div>
                               </div>
                             ))}
@@ -651,32 +663,46 @@ function StandardsContent() {
         )}
       </div>
 
-      {/* Floating action bar */}
+      {/* Floating action bar — gradient tray matching /compass standards */}
       {selectedStandards.size > 0 && (
         <div
           style={{
             position: "fixed",
-            bottom: 0,
-            left: 0,
-            right: 0,
-            background: "rgba(255,255,255,0.82)",
-            backdropFilter: "blur(16px)",
-            WebkitBackdropFilter: "blur(16px)",
-            borderTop: "1px solid rgba(255,255,255,0.5)",
-            padding: "0.75rem 1.5rem",
+            bottom: "1rem",
+            left: "50%",
+            transform: "translateX(-50%)",
+            maxWidth: "min(calc(100% - 2rem), 960px)",
+            width: "calc(100% - 2rem)",
+            background: "linear-gradient(135deg, rgba(11,46,74,0.96), rgba(110,110,158,0.96))",
+            color: "#F9F6EF",
+            borderRadius: "12px",
+            padding: "0.85rem 1rem",
             display: "flex",
             alignItems: "center",
-            justifyContent: "center",
-            gap: "1rem",
+            justifyContent: "space-between",
+            gap: "0.8rem",
+            flexWrap: "wrap",
             zIndex: 50,
-            boxShadow: "0 -2px 16px rgba(0,0,0,0.06)",
+            boxShadow: "0 8px 24px rgba(11,46,74,0.25)",
           }}
         >
-          {showMaxWarning && (
-            <p style={{ fontSize: "0.75rem", color: "#C4983D", fontWeight: 500 }}>
-              Maximum {MAX_SELECTED_STANDARDS} standards allowed
-            </p>
-          )}
+          <div style={{ fontSize: "0.82rem", fontWeight: 500, flex: 1, minWidth: "200px" }}>
+            <span className="font-cormorant-sc" style={{ fontSize: "1.05rem", fontWeight: 700, letterSpacing: "0.02em" }}>
+              {selectedStandards.size} standard{selectedStandards.size === 1 ? "" : "s"} selected
+            </span>
+            <span
+              style={{
+                fontSize: "0.7rem",
+                color: "rgba(255,255,255,0.78)",
+                display: "block",
+                marginTop: "0.1rem",
+              }}
+            >
+              {showMaxWarning
+                ? `Max ${MAX_SELECTED_STANDARDS} — clear some to add more.`
+                : `One lesson will cover all ${selectedStandards.size}${data?.childName ? ` for ${data.childName}` : ""}.`}
+            </span>
+          </div>
           <button
             type="button"
             onClick={() => {
@@ -684,12 +710,14 @@ function StandardsContent() {
               setShowMaxWarning(false);
             }}
             style={{
-              fontSize: "0.8rem",
-              color: "#767676",
+              fontSize: "0.72rem",
+              color: "rgba(255,255,255,0.75)",
               background: "transparent",
-              border: "none",
+              border: "1px solid rgba(255,255,255,0.2)",
               cursor: "pointer",
-              padding: "0.4rem 0.6rem",
+              padding: "0.4rem 0.75rem",
+              borderRadius: "7px",
+              fontFamily: "inherit",
             }}
           >
             Clear
@@ -711,16 +739,17 @@ function StandardsContent() {
               sessionStorage.setItem("standardDescriptions", JSON.stringify(descMap));
             }}
             style={{
-              background: "#0B2E4A",
-              color: "#F9F6EF",
-              borderRadius: "10px",
-              padding: "0.6rem 1.4rem",
-              fontSize: "0.85rem",
-              fontWeight: 500,
+              background: "#F9F6EF",
+              color: "#0B2E4A",
+              borderRadius: "8px",
+              padding: "0.5rem 1rem",
+              fontSize: "0.82rem",
+              fontWeight: 600,
               textDecoration: "none",
               display: "inline-flex",
               alignItems: "center",
               gap: "0.4rem",
+              whiteSpace: "nowrap",
             }}
           >
             Create lesson covering {selectedStandards.size} standard{selectedStandards.size !== 1 ? "s" : ""} &rarr;

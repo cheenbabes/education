@@ -418,28 +418,15 @@ export default function AccountPage() {
                 backdropFilter: "blur(12px)",
                 WebkitBackdropFilter: "blur(12px)",
                 border: "1px solid rgba(255,255,255,0.55)",
-                borderRadius: "14px",
-                padding: "1.75rem 1.75rem 1.5rem",
-                boxShadow: "0 4px 18px rgba(11,46,74,0.06)",
+                borderLeft: "3px solid #82284b",
+                borderRadius: "0 14px 14px 0",
+                padding: "1.5rem 1.75rem",
+                boxShadow: "0 3px 14px rgba(11,46,74,0.06)",
                 display: "flex",
                 flexDirection: "column",
                 gap: "1.1rem",
-                overflow: "hidden",
-                position: "relative",
               }}
             >
-              {/* Accent ribbon — left edge, matches the Philosophy/Compass brand bar */}
-              <div
-                style={{
-                  position: "absolute",
-                  top: 0,
-                  left: 0,
-                  bottom: 0,
-                  width: "4px",
-                  background: "linear-gradient(180deg, #82284b 0%, #6E6E9E 55%, #C4983D 100%)",
-                }}
-              />
-
               <div style={{ display: "flex", alignItems: "flex-start", gap: "0.85rem" }}>
                 <div
                   style={{
