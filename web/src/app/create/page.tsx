@@ -196,6 +196,39 @@ function GeneratePage() {
     return isNaN(n) ? 5 : n + 5;
   };
 
+  // Debounced topic-safety check: fires 900ms after the user stops typing
+  // the interest. Gives immediate red-error feedback for unsafe topics
+  // without waiting for the user to click Create Lesson. The server call
+  // in handleGenerate still runs as a belt-and-suspenders safety check.
+  useEffect(() => {
+    const trimmed = interest.trim();
+    // Skip obviously too-short inputs; the moderation model benefits from
+    // context and a one-word fragment often mis-classifies.
+    if (trimmed.length < 4) return;
+    const controller = new AbortController();
+    const timer = setTimeout(async () => {
+      try {
+        const res = await fetch("/api/lessons/check-topic", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ interest: trimmed }),
+          signal: controller.signal,
+        });
+        if (!res.ok) return;
+        const data = await res.json();
+        if (!data.safe) {
+          setTopicError("This topic isn't appropriate for a children's lesson. Please choose a different subject.");
+        } else {
+          setTopicError(null);
+        }
+      } catch { /* aborted or network error — ignore */ }
+    }, 900);
+    return () => {
+      clearTimeout(timer);
+      controller.abort();
+    };
+  }, [interest]);
+
   useEffect(() => {
     if (!userLoaded) return;
 
