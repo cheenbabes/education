@@ -4,13 +4,13 @@ import { routeLogger } from "@/lib/logger";
 
 const KG_SERVICE_URL = process.env.KG_SERVICE_URL || "http://localhost:8000";
 
+// POST /api/lessons/check-topic — content-safety check for a lesson interest.
+// Public: anon users on /create also need to be gated on unsafe topics before
+// they ever see the signup modal. Pure moderation proxy — no user data leaves
+// the server. Returns {safe: boolean, reason?: string}.
 export async function POST(req: NextRequest) {
   const { userId } = await auth();
-  if (!userId) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
-
-  const log = routeLogger("POST /api/lessons/check-topic", userId);
+  const log = routeLogger("POST /api/lessons/check-topic", userId ?? "anon");
 
   const { interest } = await req.json();
 

@@ -312,6 +312,25 @@ function GeneratePage() {
   }, [resuming, userLoaded, isSignedIn]);
 
   const handleGenerate = async () => {
+    // Content safety first — fires for both anon and signed-in users so an
+    // unsafe topic is blocked before the signup modal ever opens.
+    setTopicError(null);
+    try {
+      const check = await fetch("/api/lessons/check-topic", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ interest }),
+      });
+      const checkData = await check.json();
+      if (!checkData.safe) {
+        setTopicError("This topic isn't appropriate for a children's lesson. Please choose a different subject.");
+        track("lesson_create_failed", { reason: "unsafe_topic", tier, is_anonymous: isAnon });
+        return;
+      }
+    } catch {
+      // Network failure: fail open (matches the server-side fail-open behavior).
+    }
+
     // Anonymous user hit Create Lesson → save form state and prompt signup
     if (isAnon) {
       try {
@@ -349,18 +368,6 @@ function GeneratePage() {
       has_archetype_match: archetypePhilosophyIds.includes(philosophy),
       interest_length: interest.length,
     });
-
-    // content check first
-    const check = await fetch("/api/lessons/check-topic", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ interest }) })
-    const checkData = await check.json()
-    if (!checkData.safe) {
-      setTopicError("This topic isn't appropriate for a children's lesson. Please choose a different subject.")
-      track("lesson_create_failed", { reason: "unsafe_topic", tier });
-      generatingRef.current = false;
-      setGenerating(false);
-      return
-    }
-    setTopicError(null)
 
     setGeneratingStep(0);
     setElapsedSeconds(0);
