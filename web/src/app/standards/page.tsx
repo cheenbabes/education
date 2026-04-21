@@ -2,6 +2,7 @@
 
 import { Shell } from "@/components/shell";
 import { useState, useEffect, useRef, useCallback } from "react";
+import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { CompassStandards } from "./compass-standards";
 import { frostCardStyle } from "@/components/dashboard-cards";
@@ -83,6 +84,8 @@ export default function StandardsPage() {
 }
 
 function StandardsContent() {
+  const searchParams = useSearchParams();
+  const urlChildId = searchParams.get("child") || "";
   const [children, setChildren] = useState<ChildData[]>([]);
   const [selectedChild, setSelectedChild] = useState<string>("");
   const [data, setData] = useState<StandardsData | null>(null);
@@ -172,17 +175,22 @@ function StandardsContent() {
     setCollapsedSections((prev) => ({ ...prev, [subject]: !prev[subject] }));
   };
 
-  // Load children
+  // Load children — honor ?child= from the URL (dashboard "View progress" links
+  // pass it) so we land on the right kid instead of whichever one happens to
+  // be first in the opted-in list.
   useEffect(() => {
     fetch("/api/children")
       .then((r) => r.json())
       .then((kids) => {
         setChildren(kids);
-        const optedIn = kids.find((c: ChildData) => c.standardsOptIn);
+        const fromUrl = urlChildId
+          ? kids.find((c: ChildData) => c.id === urlChildId && c.standardsOptIn)
+          : null;
+        const optedIn = fromUrl || kids.find((c: ChildData) => c.standardsOptIn);
         if (optedIn) setSelectedChild(optedIn.id);
         setLoading(false);
       });
-  }, []);
+  }, [urlChildId]);
 
   // Load standards when child changes
   useEffect(() => {
