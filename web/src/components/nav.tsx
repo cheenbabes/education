@@ -200,16 +200,16 @@ export function Nav() {
               <Link
                 href="/pricing"
                 onClick={() => track("nav_upgrade_clicked", { placement: "desktop", tier })}
-                className="px-3 py-1.5 rounded-lg text-sm transition-opacity shrink-0 ml-2 hover:opacity-90"
+                className="px-2.5 py-1.5 rounded-lg text-sm transition-colors shrink-0 ml-1 hover:bg-black/[0.04]"
                 style={{
-                  background: "rgba(212,175,55,0.9)",
-                  color: "var(--night)",
-                  fontWeight: 600,
-                  border: "1px solid rgba(196,152,61,0.5)",
+                  color: "#B08A2E",
+                  fontWeight: 500,
                   textDecoration: "none",
+                  whiteSpace: "nowrap",
                 }}
+                title="Upgrade for more lessons and children"
               >
-                Upgrade →
+                Upgrade
               </Link>
             )}
 
@@ -285,17 +285,14 @@ export function Nav() {
             <Link
               href="/pricing"
               onClick={() => { track("nav_upgrade_clicked", { placement: "mobile", tier }); setMobileOpen(false); }}
-              className="block px-3 py-2 rounded-lg text-sm text-center"
+              className="block px-3 py-2 rounded-lg text-sm"
               style={{
-                background: "rgba(212,175,55,0.9)",
-                color: "var(--night)",
-                fontWeight: 600,
-                border: "1px solid rgba(196,152,61,0.5)",
-                marginTop: "0.25rem",
+                color: "#B08A2E",
+                fontWeight: 500,
                 textDecoration: "none",
               }}
             >
-              Upgrade →
+              Upgrade
             </Link>
           )}
           <div className="px-3 py-2 flex items-center justify-between">
