@@ -186,78 +186,6 @@ function ChevronToggle({ open, label }: { open: boolean; onClick?: () => void; l
   );
 }
 
-/* ---------- Structured instructions ---------- */
-
-function StructuredInstructions({ text }: { text: string }) {
-  // Break long instruction text into paragraphs separated by double newlines,
-  // or numbered/bulleted steps. If the text has numbered steps (1. 2. 3.),
-  // render them as distinct styled blocks.
-  const lines = text.split(/\n+/).filter((l) => l.trim());
-
-  if (lines.length <= 1) {
-    return <p style={{ fontSize: "0.875rem", color: "#5A5A5A", lineHeight: 1.7 }}>{text}</p>;
-  }
-
-  // Detect numbered steps
-  const hasNumberedSteps = lines.some((l) => /^\d+[\.\)]\s/.test(l.trim()));
-
-  if (hasNumberedSteps) {
-    return (
-      <div className="space-y-2">
-        {lines.map((line, i) => {
-          const stepMatch = line.trim().match(/^(\d+)[\.\)]\s*(.*)/);
-          if (stepMatch) {
-            return (
-              <div
-                key={i}
-                style={{
-                  display: "flex",
-                  gap: "0.75rem",
-                  alignItems: "flex-start",
-                }}
-              >
-                <span
-                  style={{
-                    ...frostPillBase,
-                    background: "rgba(11,46,74,0.06)",
-                    border: "1px solid rgba(11,46,74,0.12)",
-                    color: "#0B2E4A",
-                    fontSize: "0.65rem",
-                    fontWeight: 700,
-                    minWidth: "1.5rem",
-                    justifyContent: "center",
-                    flexShrink: 0,
-                    marginTop: "0.15rem",
-                  }}
-                >
-                  {stepMatch[1]}
-                </span>
-                <p style={{ fontSize: "0.875rem", color: "#5A5A5A", lineHeight: 1.7, flex: 1 }}>{stepMatch[2]}</p>
-              </div>
-            );
-          }
-          return (
-            <p key={i} style={{ fontSize: "0.875rem", color: "#5A5A5A", lineHeight: 1.7 }}>
-              {line}
-            </p>
-          );
-        })}
-      </div>
-    );
-  }
-
-  // Paragraph mode
-  return (
-    <div className="space-y-2">
-      {lines.map((line, i) => (
-        <p key={i} style={{ fontSize: "0.875rem", color: "#5A5A5A", lineHeight: 1.7 }}>
-          {line}
-        </p>
-      ))}
-    </div>
-  );
-}
-
 /* ---------- Main page ---------- */
 
 export default function LessonDetailPage() {
@@ -288,7 +216,6 @@ export default function LessonDetailPage() {
   const [materialsOpen, setMaterialsOpen] = useState(true);
   const [assessmentOpen, setAssessmentOpen] = useState(true);
   const [nextLessonOpen, setNextLessonOpen] = useState(true);
-  const [sectionOpenMap, setSectionOpenMap] = useState<Record<number, boolean>>({});
   const [scheduleDate, setScheduleDate] = useState("");
   const [scheduling, setScheduling] = useState(false);
   const mafsRefs = useRef<Record<string, Record<number, string>>>({});
@@ -311,11 +238,6 @@ export default function LessonDetailPage() {
       setScheduling(false);
     }
   };
-
-  const toggleSection = (idx: number) => {
-    setSectionOpenMap((prev) => ({ ...prev, [idx]: !(prev[idx] ?? true) }));
-  };
-  const isSectionOpen = (idx: number) => sectionOpenMap[idx] ?? true;
 
   useEffect(() => {
     fetch(`/api/lessons/${lessonId}`)
