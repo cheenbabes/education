@@ -20,6 +20,7 @@ export type AnalyticsEvent =
   | "lesson_create_succeeded"
   | "lesson_create_failed"
   | "lesson_completion_recorded"
+  | "lesson_create_tier_fetch_failed"
   | "create_gate_shown"
   | "create_gate_signup_clicked"
   | "paywall_hit"

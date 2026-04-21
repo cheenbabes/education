@@ -12,6 +12,7 @@ const VALID_IDS = new Set(PHILOSOPHIES.map((p) => p.id));
 
 interface Params {
   params: { philosophy: string };
+  searchParams?: { secondary?: string; subject?: string };
 }
 
 export function generateMetadata({ params }: Params): Metadata {
@@ -30,7 +31,7 @@ const pillBase: React.CSSProperties = {
   fontWeight: 500,
 };
 
-export default function SampleLessonPage({ params }: Params) {
+export default function SampleLessonPage({ params, searchParams }: Params) {
   if (!VALID_IDS.has(params.philosophy as PhilosophyId)) notFound();
   const lesson = SAMPLE_LESSONS[params.philosophy as PhilosophyId];
   const totalMin = lesson.sections.reduce((n, s) => n + (s.duration_minutes ?? 0), 0);
@@ -149,7 +150,11 @@ export default function SampleLessonPage({ params }: Params) {
           </div>
         )}
 
-        <SampleLessonCta philosophyId={lesson.philosophyId} subject={lesson.subject} />
+        <SampleLessonCta
+          philosophyId={lesson.philosophyId}
+          secondary={searchParams?.secondary}
+          subject={searchParams?.subject ?? lesson.subject}
+        />
       </div>
     </Shell>
   );

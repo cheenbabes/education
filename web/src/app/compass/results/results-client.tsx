@@ -280,11 +280,21 @@ function ResultsPageInner() {
 
   // Resolve the user's top philosophy to a sample-lesson id (hyphenated form,
   // matching PHILOSOPHIES.id and /create?philosophy= query param).
-  const topBlendKey = Object.entries(philosophies)
+  const sortedBlendKeys = Object.entries(philosophies)
     .sort(([, a], [, b]) => (b as number) - (a as number))
-    .map(([key]) => key)[0];
+    .map(([key]) => key);
+  const topBlendKey = sortedBlendKeys[0];
+  const secondaryBlendKey = sortedBlendKeys[1];
   const topPhilosophyId = (topBlendKey ? BLEND_KEY_TO_PHILOSOPHY_ID[topBlendKey] : "charlotte-mason") as PhilosophyId;
+  const secondaryPhilosophyId = secondaryBlendKey ? BLEND_KEY_TO_PHILOSOPHY_ID[secondaryBlendKey] : undefined;
   const sampleLesson = SAMPLE_LESSONS[topPhilosophyId];
+  const sampleCtaHref = (() => {
+    const p = new URLSearchParams();
+    if (secondaryPhilosophyId) p.set("secondary", secondaryPhilosophyId);
+    if (sampleLesson?.subject) p.set("subject", sampleLesson.subject);
+    const qs = p.toString();
+    return `/compass/sample/${topPhilosophyId}${qs ? `?${qs}` : ""}`;
+  })();
 
   return (
     <Shell hue="results">
@@ -477,8 +487,8 @@ function ResultsPageInner() {
               {sampleLesson.grade === "K" ? "Kindergarten" : `Grade ${sampleLesson.grade}`} · {sampleLesson.subject}
             </div>
             <Link
-              href={`/compass/sample/${sampleLesson.philosophyId}`}
-              onClick={() => track("compass_sample_cta_clicked", { philosophy_id: sampleLesson.philosophyId, source: "results_primary_cta" })}
+              href={sampleCtaHref}
+              onClick={() => track("compass_sample_cta_clicked", { philosophy_id: sampleLesson.philosophyId, secondary: secondaryPhilosophyId ?? null, source: "results_primary_cta" })}
               style={{
                 background: "var(--night)",
                 color: "var(--parchment)",

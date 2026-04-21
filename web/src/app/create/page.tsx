@@ -99,6 +99,7 @@ function GeneratePage() {
   const [loadingChildren, setLoadingChildren] = useState(true);
   const [selectedChildren, setSelectedChildren] = useState<string[]>([]);
   const philosophyParam = searchParams.get("philosophy") || "";
+  const secondaryParam = searchParams.get("secondary") || "";
   const interestParam = searchParams.get("interest") || "";
   const subjectParam = searchParams.get("subject") || "";
   const [interest, setInterest] = useState(interestParam);
@@ -133,7 +134,12 @@ function GeneratePage() {
   const [freeGrade, setFreeGrade] = useState("K");
   const [freeState, setFreeState] = useState("");
   const [showLimitOverlay, setShowLimitOverlay] = useState(false);
-  const [archetypePhilosophyIds, setArchetypePhilosophyIds] = useState<string[]>([]);
+  // Seed from URL params so the ✦ highlight renders on first paint without
+  // waiting for an API round-trip. The mount effects below may append to or
+  // replace this list (but never clobber a non-empty seed with an empty one).
+  const [archetypePhilosophyIds, setArchetypePhilosophyIds] = useState<string[]>(() =>
+    [philosophyParam, secondaryParam].filter(Boolean)
+  );
   const generatingRef = useRef(false);
 
   // Standards from query param
@@ -230,21 +236,36 @@ function GeneratePage() {
       return;
     }
 
+    // Resilient fetches — one failing endpoint shouldn't zero out the page.
+    // Each call resolves to null on failure, and tier defaults to "compass"
+    // (the same fallback the server uses) if we can't read it. This kills
+    // the post-signup race where Clerk hasn't propagated the session cookie
+    // yet and /api/user/tier 401s for a few hundred ms.
+    const jsonOrNull = (r: Response) => (r.ok ? r.json() : null);
+    const safeFetch = (url: string) =>
+      fetch(url).then(jsonOrNull).catch(() => null);
+
     Promise.all([
-      fetch("/api/children").then((r) => r.json()),
-      fetch("/api/user").then((r) => r.json()),
-      fetch("/api/user/tier").then((r) => r.json()),
-      fetch("/api/user/archetype").then((r) => r.json()),
+      safeFetch("/api/children"),
+      safeFetch("/api/user"),
+      safeFetch("/api/user/tier"),
+      safeFetch("/api/user/archetype"),
     ]).then(([childrenData, userData, tierData, archetypeData]) => {
-      setChildren(childrenData);
-      if (userData.state) {
+      setChildren(Array.isArray(childrenData) ? childrenData : []);
+      if (userData?.state) {
         setUserState(userData.state);
         setFreeState((prev) => prev || userData.state);
       }
-      setTier(tierData.tier);
-      setLessonsUsed(tierData.lessonsUsed);
-      setLessonsLimit(tierData.lessonsLimit);
-      if (tierData.resetsAt) setResetsAt(tierData.resetsAt);
+
+      const resolvedTier = tierData?.tier ?? "compass";
+      setTier(resolvedTier);
+      setLessonsUsed(tierData?.lessonsUsed ?? 0);
+      setLessonsLimit(tierData?.lessonsLimit ?? 3);
+      if (tierData?.resetsAt) setResetsAt(tierData.resetsAt);
+      if (!tierData) {
+        track("lesson_create_tier_fetch_failed", {});
+      }
+
       if (archetypeData?.topPhilosophyIds?.length) {
         setArchetypePhilosophyIds(archetypeData.topPhilosophyIds);
       } else {
@@ -255,7 +276,7 @@ function GeneratePage() {
         const sessionId = getCompassSessionId();
         if (sessionId) {
           fetch(`/api/compass/by-session?sessionId=${encodeURIComponent(sessionId)}`)
-            .then((r) => (r.ok ? r.json() : null))
+            .then(jsonOrNull)
             .then((data) => {
               if (data?.topPhilosophyIds?.length) {
                 setArchetypePhilosophyIds(data.topPhilosophyIds);
@@ -266,10 +287,11 @@ function GeneratePage() {
       }
       setLoadingChildren(false);
       track("lesson_create_viewed", {
-        tier: tierData.tier,
+        tier: resolvedTier,
         is_anonymous: false,
-        lessons_used: tierData.lessonsUsed,
-        lessons_limit: tierData.lessonsLimit,
+        tier_fetch_ok: !!tierData,
+        lessons_used: tierData?.lessonsUsed ?? 0,
+        lessons_limit: tierData?.lessonsLimit ?? 3,
         children_count: Array.isArray(childrenData) ? childrenData.length : 0,
         has_archetype: !!(archetypeData && archetypeData.archetype),
         prefill_standards_count: standardsParam ? standardsParam.split(",").filter(Boolean).length : 0,
@@ -301,10 +323,18 @@ function GeneratePage() {
     );
   };
 
-  const isCompass = tier === "compass";
+  // "Free-form mode" = show grade/state dropdowns instead of the children
+  // picker. True for:
+  //  - compass (free) tier — always
+  //  - any user with zero children registered — they can't pick something
+  //    that doesn't exist
+  //  - while tier is still resolving (tier === null) — prevents a flash of
+  //    the disabled "No children added yet" UI during the post-signup race
+  // Paid users with ≥1 child still see the children picker.
+  const useFreeFormMode = tier === null || tier === "compass" || children.length === 0;
   const canGenerate =
     !generating &&
-    (isCompass || selectedChildren.length > 0) &&
+    (useFreeFormMode || selectedChildren.length > 0) &&
     interest.trim().length > 0 &&
     selectedSubjects.length > 0 &&
     philosophy.length > 0;
@@ -407,7 +437,7 @@ function GeneratePage() {
       subjects: selectedSubjects,
       subjects_count: selectedSubjects.length,
       multi_subject_optimize: multiSubject,
-      children_selected: isCompass ? 0 : selectedChildren.length,
+      children_selected: useFreeFormMode ? 0 : selectedChildren.length,
       required_standards_count: requiredStandards.length,
       has_archetype_match: archetypePhilosophyIds.includes(philosophy),
       interest_length: interest.length,
@@ -425,7 +455,7 @@ function GeneratePage() {
       setGeneratingStep((prev) => Math.min(prev + 1, GENERATION_STEPS.length - 1));
     }, 2500);
 
-    const childPayload = isCompass
+    const childPayload = useFreeFormMode
       ? [{ id: "free-tier-student", name: "Student", grade: freeGrade, age: gradeToAge(freeGrade), standards_opt_in: !!(freeState || userState) }]
       : selectedChildren.map((id) => {
           const child = children.find((c) => c.id === id)!;
@@ -448,7 +478,7 @@ function GeneratePage() {
           interest,
           subjects: selectedSubjects,
           philosophy,
-          state: isCompass ? (freeState || userState) : userState,
+          state: useFreeFormMode ? (freeState || userState) : userState,
           multi_subject_optimize: multiSubject,
           past_lesson_hashes: [],
           required_standards: requiredStandards.length > 0 ? requiredStandards : undefined,
@@ -482,7 +512,7 @@ function GeneratePage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           lesson: data.lesson,
-          childIds: isCompass ? [] : selectedChildren,
+          childIds: useFreeFormMode ? [] : selectedChildren,
           scheduledDate: null,
           subjectNames: selectedSubjects,
           generationCostUsd: data.generation_cost_usd ?? null,
@@ -534,7 +564,7 @@ function GeneratePage() {
           <div style={frostCard} className="space-y-6">
             {/* Step 1: Select children or grade */}
             <div className="space-y-3">
-              {isCompass ? (
+              {useFreeFormMode ? (
                 <>
                   <div style={{ display: "flex", gap: "1.25rem", flexWrap: "wrap", alignItems: "flex-end" }}>
                     {/* Grade dropdown */}
@@ -680,7 +710,7 @@ function GeneratePage() {
               {topicError && (
                 <p className="text-xs" style={{ color: "#DC2626" }}>{topicError}</p>
               )}
-              {isCompass && tier !== null && (
+              {useFreeFormMode && tier !== null && (
                 <div style={{
                   display: "inline-flex",
                   alignItems: "center",
