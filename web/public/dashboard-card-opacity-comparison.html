@@ -1,0 +1,849 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta name="robots" content="noindex" />
+<title>Dashboard card opacity — side-by-side</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+SC:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --parchment: #F9F6EF;
+    --ink: #1f2328;
+    --night: #0B2E4A;
+    --accent-primary: #6E6E9E;
+    --accent-secondary: #82284b;
+    --accent-tertiary: #C4983D;
+    --accent-gold: #D4AF37;
+    --text-secondary: #5A5A5A;
+    --text-tertiary: #767676;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: 'Inter', sans-serif;
+    color: var(--ink);
+    /* Dashboard hue background: watercolor lavender */
+    background:
+      radial-gradient(ellipse 900px 600px at 0% 0%, rgba(130,40,75,0.1), transparent 60%),
+      radial-gradient(ellipse 800px 600px at 100% 30%, rgba(110,110,158,0.15), transparent 55%),
+      radial-gradient(ellipse 1000px 800px at 50% 100%, rgba(196,152,61,0.08), transparent 55%),
+      #e8d9ec;
+    min-height: 100vh;
+    line-height: 1.5;
+  }
+
+  .page { max-width: 1720px; margin: 0 auto; padding: 2rem 1.25rem 5rem; }
+
+  h1.hero {
+    font-family: 'Cormorant SC', serif;
+    font-weight: 700;
+    font-size: 1.8rem;
+    margin: 0 0 0.4rem;
+    letter-spacing: 0.04em;
+    text-align: center;
+  }
+  .subtitle {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    max-width: 820px;
+    margin: 0 auto 2rem;
+    text-align: center;
+    line-height: 1.6;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+  @media (max-width: 1500px) { .grid { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 1000px) { .grid { grid-template-columns: 1fr; } }
+
+  .col {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .col-head {
+    background: rgba(255,255,255,0.6);
+    border: 1px solid rgba(0,0,0,0.05);
+    border-radius: 10px;
+    padding: 0.85rem 1rem;
+  }
+  .col-head h2 {
+    font-family: 'Cormorant SC', serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+    margin: 0 0 0.2rem;
+    letter-spacing: 0.03em;
+  }
+  .col-head .rec {
+    display: inline-block;
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent-secondary);
+    padding: 0.1rem 0.35rem;
+    background: rgba(130,40,75,0.08);
+    border: 1px solid rgba(130,40,75,0.2);
+    border-radius: 3px;
+    margin-left: 0.4rem;
+    vertical-align: 1px;
+  }
+  .col-head p {
+    margin: 0;
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    line-height: 1.55;
+  }
+  .col-head code {
+    background: rgba(0,0,0,0.05);
+    padding: 0.05rem 0.3rem;
+    border-radius: 3px;
+    font-size: 0.75rem;
+  }
+
+  /* App frame so the dashboard content reads as live */
+  .app {
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1px solid rgba(11,46,74,0.08);
+    box-shadow: 0 10px 32px rgba(11,46,74,0.08);
+  }
+  .app-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+    background: var(--parchment);
+  }
+  .app-header .wordmark {
+    font-family: 'Cormorant SC', serif;
+    font-size: 0.85rem;
+    letter-spacing: 0.05em;
+    color: var(--night);
+  }
+  .app-header .nav-row { display: inline-flex; gap: 0.3rem; font-size: 0.72rem; }
+  .app-header .nav-row a {
+    padding: 0.3rem 0.55rem;
+    border-radius: 5px;
+    color: var(--text-secondary);
+    text-decoration: none;
+  }
+  .app-header .nav-row a.active {
+    color: var(--night);
+    background: rgba(110,110,158,0.12);
+    font-weight: 600;
+  }
+  .app-header .upgrade-tiny {
+    font-size: 0.7rem;
+    color: #B08A2E;
+    font-weight: 600;
+    margin-left: 0.35rem;
+  }
+
+  .app-body {
+    /* replicate dashboard hue */
+    background:
+      radial-gradient(ellipse 700px 500px at 0% 0%, rgba(130,40,75,0.08), transparent 55%),
+      radial-gradient(ellipse 600px 500px at 100% 30%, rgba(110,110,158,0.12), transparent 55%),
+      #e8d9ec;
+    padding: 1.1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+  }
+
+  /* ───── Card variants ───── */
+
+  /* A "lifted" frost card — the target recipe for Option 1 */
+  .lift {
+    background: rgba(255,255,255,0.78);
+    border: 1px solid rgba(255,255,255,0.55);
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+    padding: 1rem 1.1rem;
+  }
+
+  /* The "original" quota hero gradient */
+  .quota-gradient {
+    background: linear-gradient(135deg, rgba(11,46,74,0.05), rgba(110,110,158,0.08));
+    border: 1px solid rgba(11,46,74,0.12);
+    border-radius: 14px;
+    padding: 1rem 1.1rem;
+  }
+  /* Quota hero lifted */
+  .quota-lifted {
+    background: rgba(255,255,255,0.82);
+    border: 1px solid rgba(255,255,255,0.55);
+    border-radius: 14px;
+    padding: 1rem 1.1rem;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+  }
+
+  /* Archetype tinted */
+  .arch-tinted {
+    background: rgba(130,40,75,0.05);
+    border: 1px solid rgba(130,40,75,0.12);
+    border-radius: 10px;
+    padding: 0.7rem 0.9rem;
+  }
+  /* Archetype lifted */
+  .arch-lifted {
+    background: rgba(255,255,255,0.78);
+    border: 1px solid rgba(255,255,255,0.55);
+    border-radius: 10px;
+    padding: 0.7rem 0.9rem;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+  }
+
+  /* Lessons card white (default) */
+  .lessons-white {
+    background: rgba(255,255,255,0.78);
+    border: 1px solid rgba(255,255,255,0.55);
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+    padding: 0.95rem 1rem;
+  }
+  /* Lessons card softened — Option 2 */
+  .lessons-soft {
+    background: rgba(255,255,255,0.48);
+    border: 1px solid rgba(255,255,255,0.45);
+    border-radius: 12px;
+    padding: 0.95rem 1rem;
+  }
+
+  /* Upsell card dashed default */
+  .upsell-dashed {
+    background: rgba(11,46,74,0.03);
+    border: 1px dashed rgba(11,46,74,0.18);
+    border-radius: 12px;
+    padding: 1rem 1.1rem;
+  }
+  /* Upsell card lifted */
+  .upsell-lifted {
+    background: rgba(255,255,255,0.78);
+    border: 1px solid rgba(255,255,255,0.55);
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+    padding: 1rem 1.1rem;
+  }
+
+  /* ── Option 3 "hybrid" variants ──
+     Each card keeps its own color character (tint, gradient, dashed) but
+     lands on a uniform middle-ground opacity ~0.62 and shares one shadow.
+     This gives peer-presence like Option 1 with atmospheric tint like Option 2. */
+  .hybrid-shadow { box-shadow: 0 3px 14px rgba(11,46,74,0.06); }
+
+  .quota-hybrid {
+    background: linear-gradient(135deg, rgba(11,46,74,0.1), rgba(110,110,158,0.14));
+    border: 1px solid rgba(11,46,74,0.14);
+    border-radius: 14px;
+    padding: 1rem 1.1rem;
+  }
+  .arch-hybrid {
+    background: rgba(130,40,75,0.09);
+    border: 1px solid rgba(130,40,75,0.18);
+    border-radius: 10px;
+    padding: 0.7rem 0.9rem;
+  }
+  .lessons-hybrid {
+    background: rgba(255,255,255,0.62);
+    border: 1px solid rgba(255,255,255,0.55);
+    border-radius: 12px;
+    padding: 0.95rem 1rem;
+  }
+  .upsell-hybrid {
+    background: rgba(11,46,74,0.06);
+    border: 1px dashed rgba(11,46,74,0.24);
+    border-radius: 12px;
+    padding: 1rem 1.1rem;
+  }
+
+  /* ───── Content styling ───── */
+
+  .quota-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  .eyebrow {
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: var(--accent-primary);
+    text-transform: uppercase;
+  }
+  .big-num {
+    font-family: 'Cormorant SC', serif;
+    font-size: 1.55rem;
+    font-weight: 700;
+    color: var(--ink);
+    letter-spacing: 0.02em;
+    margin-top: 0.1rem;
+  }
+  .dim { color: var(--text-tertiary); font-weight: 500; }
+  .sub-note { font-size: 0.76rem; color: var(--text-secondary); margin-top: 0.15rem; }
+  .dots { display: inline-flex; gap: 0.3rem; margin-top: 0.4rem; }
+  .dot {
+    width: 11px; height: 11px;
+    border-radius: 50%;
+    border: 1px solid rgba(130,40,75,0.35);
+    background: rgba(130,40,75,0.12);
+  }
+  .dot.filled { background: var(--accent-secondary); border-color: var(--accent-secondary); }
+  .cta-primary {
+    background: var(--night);
+    color: var(--parchment);
+    font-size: 0.78rem;
+    font-weight: 600;
+    padding: 0.55rem 1rem;
+    border-radius: 9px;
+    text-decoration: none;
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+  }
+
+  .arch-row {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    flex-wrap: wrap;
+  }
+  .avatar {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background:
+      url("/archetypes/architect.png") 50% 10% / 180% auto no-repeat,
+      radial-gradient(circle at 30% 30%, rgba(90,127,160,0.2), rgba(90,127,160,0.05) 70%);
+    border: 1px solid rgba(90,127,160,0.2);
+    flex-shrink: 0;
+    box-shadow: 0 2px 8px rgba(90,127,160,0.15);
+  }
+  .arch-text { flex: 1; min-width: 200px; }
+  .arch-label {
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent-secondary);
+  }
+  .arch-name {
+    font-family: 'Cormorant SC', serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--ink);
+    letter-spacing: 0.02em;
+  }
+  .arch-sub { font-size: 0.72rem; color: var(--text-secondary); }
+  .arch-link {
+    font-size: 0.72rem;
+    color: var(--accent-primary);
+    text-decoration: none;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  .lessons-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    margin-bottom: 0.6rem;
+  }
+  .lessons-head .title {
+    font-family: 'Cormorant SC', serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    color: var(--ink);
+  }
+  .lessons-head .meta {
+    font-size: 0.68rem;
+    color: var(--text-tertiary);
+  }
+  .row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0;
+    font-size: 0.8rem;
+    border-bottom: 1px dashed rgba(0,0,0,0.08);
+  }
+  .row:last-child { border-bottom: none; padding-bottom: 0; }
+  .row .ttl { font-weight: 600; }
+  .row .sub { font-size: 0.68rem; color: var(--text-tertiary); margin-top: 0.1rem; }
+  .row .actions { display: inline-flex; gap: 0.3rem; align-items: center; flex-shrink: 0; }
+  .link-chip {
+    font-size: 0.7rem;
+    color: var(--night);
+    text-decoration: none;
+    font-weight: 600;
+    padding: 0.15rem 0.4rem;
+    border-radius: 4px;
+    background: rgba(11,46,74,0.06);
+  }
+  .chip-upgrade {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-size: 0.58rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.2rem 0.5rem;
+    border-radius: 5px;
+    background: rgba(196,152,61,0.12);
+    color: #B08A2E;
+    border: 1px solid rgba(196,152,61,0.35);
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  .lessons-foot {
+    text-align: center;
+    margin-top: 0.6rem;
+    padding-top: 0.5rem;
+    border-top: 1px dashed rgba(0,0,0,0.08);
+  }
+  .lessons-foot a {
+    font-size: 0.76rem;
+    color: var(--accent-primary);
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  .upsell-title {
+    font-family: 'Cormorant SC', serif;
+    font-size: 0.92rem;
+    font-weight: 700;
+    color: var(--night);
+    letter-spacing: 0.04em;
+    margin: 0 0 0.5rem;
+  }
+  .unlock-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.55rem;
+    font-size: 0.78rem;
+    padding: 0.2rem 0;
+  }
+  .check {
+    width: 18px; height: 18px; border-radius: 50%;
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(212,175,55,0.2);
+    color: #B08A2E;
+    font-weight: 700;
+    font-size: 0.68rem;
+    margin-top: 1px;
+  }
+  .unlock-row b { font-weight: 600; color: var(--ink); }
+  .unlock-row .explain { display: block; color: var(--text-secondary); font-size: 0.72rem; margin-top: 0.1rem; }
+  .cta-row { display: flex; gap: 0.5rem; margin-top: 0.75rem; }
+  .cta-row a {
+    flex: 1;
+    text-align: center;
+    font-size: 0.76rem;
+    font-weight: 600;
+    padding: 0.5rem;
+    border-radius: 8px;
+    text-decoration: none;
+  }
+  .cta-row .primary { background: var(--night); color: var(--parchment); }
+  .cta-row .secondary {
+    color: var(--night);
+    background: transparent;
+    border: 1px solid rgba(11,46,74,0.2);
+  }
+
+  /* Arrow callouts */
+  .callout {
+    background: rgba(255,255,255,0.7);
+    border: 1px solid rgba(130,40,75,0.2);
+    border-radius: 8px;
+    padding: 0.45rem 0.7rem;
+    font-size: 0.72rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+    margin-top: 0.25rem;
+  }
+  .callout strong { color: var(--accent-secondary); }
+  .callout code {
+    background: rgba(0,0,0,0.05);
+    padding: 0.02rem 0.25rem;
+    border-radius: 3px;
+    font-size: 0.7rem;
+  }
+
+  .picker {
+    margin-top: 2.5rem;
+    text-align: center;
+    padding: 1.5rem;
+    background: rgba(255,255,255,0.6);
+    border-radius: 12px;
+    border: 1px solid rgba(0,0,0,0.06);
+    max-width: 760px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .picker h3 {
+    font-family: 'Cormorant SC', serif;
+    margin: 0 0 0.5rem;
+    font-size: 1.1rem;
+  }
+  .picker p {
+    margin: 0.3rem auto 0;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    max-width: 560px;
+    line-height: 1.55;
+  }
+</style>
+</head>
+<body>
+<main class="page">
+
+  <h1 class="hero">Dashboard card opacity — side-by-side</h1>
+  <p class="subtitle">
+    Same four cards in the same hue, two different opacity treatments. Scroll each one and look for which card your eye lands on first — that should be the quota hero (the one with the Create CTA).
+  </p>
+
+  <div class="grid">
+
+    <!-- ========== OPTION 1 ========== -->
+    <div class="col">
+      <div class="col-head">
+        <h2>Option 1 · Lift the others<span class="rec">Recommended</span></h2>
+        <p>Quota hero, archetype strip, and upsell card all promote to the same <code>rgba(255,255,255,0.78)</code> frost recipe as Lessons. All four cards become visual peers; the dark-blue Create CTA pops because it's on white.</p>
+      </div>
+
+      <div class="app">
+        <div class="app-header">
+          <span class="wordmark">Sage's Compass</span>
+          <div class="nav-row">
+            <a href="#">Create</a>
+            <a href="#" class="active">Planner</a>
+            <a href="#">Account</a>
+            <span class="upgrade-tiny">Upgrade</span>
+          </div>
+        </div>
+
+        <div class="app-body">
+
+          <!-- Quota hero - LIFTED -->
+          <div class="quota-lifted">
+            <div class="quota-head">
+              <div>
+                <span class="eyebrow">This month</span>
+                <div class="big-num">1<span class="dim"> of 3</span> lessons created</div>
+                <div class="sub-note">You have 2 free lessons left — resets Apr 30.</div>
+                <div class="dots"><span class="dot filled"></span><span class="dot"></span><span class="dot"></span></div>
+              </div>
+              <a href="#" class="cta-primary">+ Create lesson</a>
+            </div>
+          </div>
+
+          <!-- Archetype strip - LIFTED -->
+          <div class="arch-lifted">
+            <div class="arch-row">
+              <div class="avatar" role="img" aria-label="The Architect"></div>
+              <div class="arch-text">
+                <div class="arch-label">Your archetype</div>
+                <div class="arch-name">The Architect</div>
+                <div class="arch-sub">Classical · Project Based Learning</div>
+              </div>
+              <a href="#" class="arch-link">View results →</a>
+            </div>
+          </div>
+
+          <!-- Lessons - WHITE (no change) -->
+          <div class="lessons-white">
+            <div class="lessons-head">
+              <span class="title">Your lessons</span>
+              <span class="meta">1 this month · 1 total</span>
+            </div>
+            <div class="row">
+              <div style="flex:1;">
+                <div class="ttl">Pressed Petals, Measured Patterns</div>
+                <div class="sub">Charlotte Mason · Grade 4 · Math · today</div>
+              </div>
+              <div class="actions">
+                <a href="#" class="link-chip">Open</a>
+                <a href="#" class="chip-upgrade">🔒 schedule</a>
+              </div>
+            </div>
+            <div class="lessons-foot">
+              <a href="#">Browse standards to seed your next lesson →</a>
+            </div>
+          </div>
+
+          <!-- Upsell - LIFTED -->
+          <div class="upsell-lifted">
+            <h4 class="upsell-title">What Homestead adds</h4>
+            <div class="unlock-row">
+              <span class="check">✓</span>
+              <div>
+                <b>Add up to 4 children</b>
+                <span class="explain">Attach each lesson to a specific child and track progress.</span>
+              </div>
+            </div>
+            <div class="unlock-row">
+              <span class="check">✓</span>
+              <div>
+                <b>Schedule lessons to your week</b>
+                <span class="explain">Drag any lesson onto a day. See what's next at a glance.</span>
+              </div>
+            </div>
+            <div class="unlock-row">
+              <span class="check">✓</span>
+              <div>
+                <b>10× more lessons + a coverage heatmap</b>
+                <span class="explain">30 lessons/mo and a standards heatmap per child.</span>
+              </div>
+            </div>
+            <div class="cta-row">
+              <a href="#" class="primary">See plans</a>
+              <a href="#" class="secondary">Create another lesson first</a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="callout">
+        <strong>What changed:</strong> quota hero → white frost; archetype → white frost; upsell → white frost (dashed border removed in favor of boxed shadow). Lessons is unchanged.
+      </div>
+    </div>
+
+    <!-- ========== OPTION 2 ========== -->
+    <div class="col">
+      <div class="col-head">
+        <h2>Option 2 · Soften Lessons</h2>
+        <p>Drop Lessons to <code>rgba(255,255,255,0.48)</code>. It recedes to peer with the tinted quota hero, archetype strip, and upsell — the page reads more uniformly muted. Quota hero stays focal via color + the Create CTA.</p>
+      </div>
+
+      <div class="app">
+        <div class="app-header">
+          <span class="wordmark">Sage's Compass</span>
+          <div class="nav-row">
+            <a href="#">Create</a>
+            <a href="#" class="active">Planner</a>
+            <a href="#">Account</a>
+            <span class="upgrade-tiny">Upgrade</span>
+          </div>
+        </div>
+
+        <div class="app-body">
+
+          <!-- Quota hero - ORIGINAL gradient -->
+          <div class="quota-gradient">
+            <div class="quota-head">
+              <div>
+                <span class="eyebrow">This month</span>
+                <div class="big-num">1<span class="dim"> of 3</span> lessons created</div>
+                <div class="sub-note">You have 2 free lessons left — resets Apr 30.</div>
+                <div class="dots"><span class="dot filled"></span><span class="dot"></span><span class="dot"></span></div>
+              </div>
+              <a href="#" class="cta-primary">+ Create lesson</a>
+            </div>
+          </div>
+
+          <!-- Archetype - ORIGINAL tinted -->
+          <div class="arch-tinted">
+            <div class="arch-row">
+              <div class="avatar" role="img" aria-label="The Architect"></div>
+              <div class="arch-text">
+                <div class="arch-label">Your archetype</div>
+                <div class="arch-name">The Architect</div>
+                <div class="arch-sub">Classical · Project Based Learning</div>
+              </div>
+              <a href="#" class="arch-link">View results →</a>
+            </div>
+          </div>
+
+          <!-- Lessons - SOFTENED -->
+          <div class="lessons-soft">
+            <div class="lessons-head">
+              <span class="title">Your lessons</span>
+              <span class="meta">1 this month · 1 total</span>
+            </div>
+            <div class="row">
+              <div style="flex:1;">
+                <div class="ttl">Pressed Petals, Measured Patterns</div>
+                <div class="sub">Charlotte Mason · Grade 4 · Math · today</div>
+              </div>
+              <div class="actions">
+                <a href="#" class="link-chip">Open</a>
+                <a href="#" class="chip-upgrade">🔒 schedule</a>
+              </div>
+            </div>
+            <div class="lessons-foot">
+              <a href="#">Browse standards to seed your next lesson →</a>
+            </div>
+          </div>
+
+          <!-- Upsell - ORIGINAL dashed -->
+          <div class="upsell-dashed">
+            <h4 class="upsell-title">What Homestead adds</h4>
+            <div class="unlock-row">
+              <span class="check">✓</span>
+              <div>
+                <b>Add up to 4 children</b>
+                <span class="explain">Attach each lesson to a specific child and track progress.</span>
+              </div>
+            </div>
+            <div class="unlock-row">
+              <span class="check">✓</span>
+              <div>
+                <b>Schedule lessons to your week</b>
+                <span class="explain">Drag any lesson onto a day. See what's next at a glance.</span>
+              </div>
+            </div>
+            <div class="unlock-row">
+              <span class="check">✓</span>
+              <div>
+                <b>10× more lessons + a coverage heatmap</b>
+                <span class="explain">30 lessons/mo and a standards heatmap per child.</span>
+              </div>
+            </div>
+            <div class="cta-row">
+              <a href="#" class="primary">See plans</a>
+              <a href="#" class="secondary">Create another lesson first</a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="callout">
+        <strong>What changed:</strong> Lessons card drops from <code>0.78</code> to <code>0.48</code> opacity; everything else stays exactly as it is today.
+      </div>
+    </div>
+
+    <!-- ========== OPTION 3 ========== -->
+    <div class="col">
+      <div class="col-head">
+        <h2>Option 3 · Hybrid<span class="rec">Middle ground</span></h2>
+        <p>Every card keeps its own color character (burgundy, night-blue gradient, dashed upsell) but all meet on a uniform <code>~0.62</code>-ish opacity + a single shared <code>0 3px 14px</code> soft shadow. Lessons softens; others deepen; hue still reads through every card; no card dominates.</p>
+      </div>
+
+      <div class="app">
+        <div class="app-header">
+          <span class="wordmark">Sage's Compass</span>
+          <div class="nav-row">
+            <a href="#">Create</a>
+            <a href="#" class="active">Planner</a>
+            <a href="#">Account</a>
+            <span class="upgrade-tiny">Upgrade</span>
+          </div>
+        </div>
+
+        <div class="app-body">
+
+          <!-- Quota - HYBRID (deeper gradient, shared shadow) -->
+          <div class="quota-hybrid hybrid-shadow">
+            <div class="quota-head">
+              <div>
+                <span class="eyebrow">This month</span>
+                <div class="big-num">1<span class="dim"> of 3</span> lessons created</div>
+                <div class="sub-note">You have 2 free lessons left — resets Apr 30.</div>
+                <div class="dots"><span class="dot filled"></span><span class="dot"></span><span class="dot"></span></div>
+              </div>
+              <a href="#" class="cta-primary">+ Create lesson</a>
+            </div>
+          </div>
+
+          <!-- Archetype - HYBRID (deeper burgundy tint, shared shadow) -->
+          <div class="arch-hybrid hybrid-shadow">
+            <div class="arch-row">
+              <div class="avatar" role="img" aria-label="The Architect"></div>
+              <div class="arch-text">
+                <div class="arch-label">Your archetype</div>
+                <div class="arch-name">The Architect</div>
+                <div class="arch-sub">Classical · Project Based Learning</div>
+              </div>
+              <a href="#" class="arch-link">View results →</a>
+            </div>
+          </div>
+
+          <!-- Lessons - HYBRID (softened to 0.62, shared shadow) -->
+          <div class="lessons-hybrid hybrid-shadow">
+            <div class="lessons-head">
+              <span class="title">Your lessons</span>
+              <span class="meta">1 this month · 1 total</span>
+            </div>
+            <div class="row">
+              <div style="flex:1;">
+                <div class="ttl">Pressed Petals, Measured Patterns</div>
+                <div class="sub">Charlotte Mason · Grade 4 · Math · today</div>
+              </div>
+              <div class="actions">
+                <a href="#" class="link-chip">Open</a>
+                <a href="#" class="chip-upgrade">🔒 schedule</a>
+              </div>
+            </div>
+            <div class="lessons-foot">
+              <a href="#">Browse standards to seed your next lesson →</a>
+            </div>
+          </div>
+
+          <!-- Upsell - HYBRID (slightly deeper tint + shadow, keeps dashed) -->
+          <div class="upsell-hybrid hybrid-shadow">
+            <h4 class="upsell-title">What Homestead adds</h4>
+            <div class="unlock-row">
+              <span class="check">✓</span>
+              <div>
+                <b>Add up to 4 children</b>
+                <span class="explain">Attach each lesson to a specific child and track progress.</span>
+              </div>
+            </div>
+            <div class="unlock-row">
+              <span class="check">✓</span>
+              <div>
+                <b>Schedule lessons to your week</b>
+                <span class="explain">Drag any lesson onto a day. See what's next at a glance.</span>
+              </div>
+            </div>
+            <div class="unlock-row">
+              <span class="check">✓</span>
+              <div>
+                <b>10× more lessons + a coverage heatmap</b>
+                <span class="explain">30 lessons/mo and a standards heatmap per child.</span>
+              </div>
+            </div>
+            <div class="cta-row">
+              <a href="#" class="primary">See plans</a>
+              <a href="#" class="secondary">Create another lesson first</a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="callout">
+        <strong>What changed:</strong> every card boosted ~0.03–0.04 in opacity, Lessons softened to <code>0.62</code>, all four share the same <code>0 3px 14px rgba(11,46,74,0.06)</code> shadow for coherence. Identity colors preserved.
+      </div>
+    </div>
+
+  </div>
+
+  <div class="picker">
+    <h3>Reply with <strong>1</strong>, <strong>2</strong>, or <strong>3</strong> and I'll ship it.</h3>
+    <p>Option 1 is bold peers in white. Option 2 keeps today's soft cards and fades Lessons back. Option 3 is the hybrid — every card lifts to roughly the same presence, each keeps its own tint/border character, and one shared soft shadow ties them together.</p>
+  </div>
+
+</main>
+</body>
+</html>

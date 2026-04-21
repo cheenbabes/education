@@ -2,14 +2,17 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState, useRef, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { UserButton, SignInButton, useUser } from "@clerk/nextjs";
 import { track } from "@/lib/analytics";
 
-const plannerItems = [
-  { href: "/dashboard", label: "Dashboard" },
-  { href: "/lessons",   label: "Lessons"   },
+// Flat nav — the old "Planner" dropdown (Dashboard · Lessons · Standards) added
+// friction without hiding complexity. /lessons now redirects into /dashboard
+// (now labeled "Home"), and Standards is first-class.
+const signedInNavItems = [
+  { href: "/dashboard", label: "Home"      },
   { href: "/standards", label: "Standards" },
+  { href: "/account",   label: "Account"   },
 ];
 
 const publicNavItems = [
@@ -56,27 +59,13 @@ function useUserTier(isSignedIn: boolean | undefined) {
 export function Nav() {
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [plannerOpen, setPlannerOpen] = useState(false);
-  const plannerRef = useRef<HTMLDivElement>(null);
   const { isSignedIn } = useUser();
   const tier = useUserTier(isSignedIn);
 
-  const plannerActive = plannerItems.some((i) => pathname.startsWith(i.href));
   // Pricing shown to signed-out users; signed-in free-tier users get the
   // gold "Upgrade" CTA instead. Paid tiers see neither.
   const showPricingLink = isSignedIn === false;
   const showUpgradeCta = isSignedIn === true && tier === "compass";
-
-  // Close planner dropdown on outside click
-  useEffect(() => {
-    function handleClick(e: MouseEvent) {
-      if (plannerRef.current && !plannerRef.current.contains(e.target as Node)) {
-        setPlannerOpen(false);
-      }
-    }
-    document.addEventListener("mousedown", handleClick);
-    return () => document.removeEventListener("mousedown", handleClick);
-  }, []);
 
   const navLinkStyle = (active: boolean): React.CSSProperties => ({
     color: active ? 'var(--night)' : 'var(--text-secondary)',
@@ -108,69 +97,19 @@ export function Nav() {
 
             {isSignedIn && (
               <>
-                {/* Create */}
+                {/* Create — funnel primary, left-anchored */}
                 <Link href="/create" className="px-2.5 py-1.5 rounded-lg text-sm transition-colors shrink-0"
                   style={navLinkStyle(pathname.startsWith('/create'))}>
                   Create
                 </Link>
 
-                {/* Planner dropdown */}
-                <div ref={plannerRef} style={{ position: 'relative' }}>
-                  <button
-                    onClick={() => setPlannerOpen((v) => !v)}
+                {signedInNavItems.map((item) => (
+                  <Link key={item.href} href={item.href}
                     className="px-2.5 py-1.5 rounded-lg text-sm transition-colors shrink-0"
-                    style={{
-                      ...navLinkStyle(plannerActive),
-                      border: 'none',
-                      cursor: 'pointer',
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      gap: '0.25rem',
-                      fontFamily: 'inherit',
-                    }}
-                  >
-                    Planner
-                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                      strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
-                      style={{ opacity: 0.5, transition: 'transform 0.15s', transform: plannerOpen ? 'rotate(180deg)' : 'none' }}>
-                      <polyline points="6 9 12 15 18 9" />
-                    </svg>
-                  </button>
-
-                  {plannerOpen && (
-                    <div style={{
-                      position: 'absolute', top: 'calc(100% + 6px)', left: '50%',
-                      transform: 'translateX(-50%)',
-                      background: 'rgba(249,246,239,0.97)',
-                      backdropFilter: 'blur(16px)',
-                      WebkitBackdropFilter: 'blur(16px)',
-                      border: '1px solid rgba(0,0,0,0.08)',
-                      borderRadius: '12px',
-                      boxShadow: '0 8px 24px rgba(0,0,0,0.1)',
-                      padding: '0.4rem',
-                      minWidth: '160px',
-                      zIndex: 100,
-                    }}>
-                      {plannerItems.map((item) => {
-                        const active = pathname.startsWith(item.href);
-                        return (
-                          <Link key={item.href} href={item.href}
-                            onClick={() => setPlannerOpen(false)}
-                            className="block px-3 py-2 rounded-lg text-sm transition-colors"
-                            style={navLinkStyle(active)}>
-                            {item.label}
-                          </Link>
-                        );
-                      })}
-                    </div>
-                  )}
-                </div>
-
-                {/* Account */}
-                <Link href="/account" className="px-2.5 py-1.5 rounded-lg text-sm transition-colors shrink-0"
-                  style={navLinkStyle(pathname.startsWith('/account'))}>
-                  Account
-                </Link>
+                    style={navLinkStyle(pathname.startsWith(item.href))}>
+                    {item.label}
+                  </Link>
+                ))}
               </>
             )}
 
@@ -246,22 +185,13 @@ export function Nav() {
               <Link href="/create" onClick={() => setMobileOpen(false)}
                 className="block px-3 py-2 rounded-lg text-sm"
                 style={navLinkStyle(pathname.startsWith('/create'))}>Create</Link>
-              {/* Planner group */}
-              <div style={{ paddingLeft: '0.75rem' }}>
-                <p style={{ fontSize: '0.65rem', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--text-tertiary)', padding: '0.5rem 0.75rem 0.25rem' }}>
-                  Planner
-                </p>
-                {plannerItems.map((item) => (
-                  <Link key={item.href} href={item.href} onClick={() => setMobileOpen(false)}
-                    className="block px-3 py-2 rounded-lg text-sm"
-                    style={navLinkStyle(pathname.startsWith(item.href))}>
-                    {item.label}
-                  </Link>
-                ))}
-              </div>
-              <Link href="/account" onClick={() => setMobileOpen(false)}
-                className="block px-3 py-2 rounded-lg text-sm"
-                style={navLinkStyle(pathname.startsWith('/account'))}>Account</Link>
+              {signedInNavItems.map((item) => (
+                <Link key={item.href} href={item.href} onClick={() => setMobileOpen(false)}
+                  className="block px-3 py-2 rounded-lg text-sm"
+                  style={navLinkStyle(pathname.startsWith(item.href))}>
+                  {item.label}
+                </Link>
+              ))}
             </>
           )}
           {publicNavItems.map((item) => (

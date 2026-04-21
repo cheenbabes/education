@@ -2,9 +2,15 @@
 
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
 import { track } from "@/lib/analytics";
 import { ARCHETYPES } from "@/lib/compass/archetypes";
+
+type LibraryTab = "recent" | "all" | "favorites";
+
+function parseTab(raw: string | null): LibraryTab {
+  return raw === "all" || raw === "favorites" ? raw : "recent";
+}
 
 interface LessonData {
   id: string;
@@ -12,6 +18,8 @@ interface LessonData {
   subjects: string[];
   philosophy?: string | null;
   gradeLevel?: string | null;
+  interest?: string | null;
+  favorite?: boolean;
   createdAt: string;
   lessonChildren?: { child: { name: string } }[];
 }
@@ -83,10 +91,15 @@ function prettyPhilosophy(id: string): string {
 
 export function CompassDashboard({ tierData }: CompassDashboardProps) {
   const searchParams = useSearchParams();
+  const router = useRouter();
   const archetypeOverride = searchParams.get("archetype") || "";
+  const initialTab = parseTab(searchParams.get("tab"));
+  const initialQuery = searchParams.get("q") || "";
   const [archetype, setArchetype] = useState<ArchetypeData | null>(null);
   const [lessons, setLessons] = useState<LessonData[]>([]);
   const [loading, setLoading] = useState(true);
+  const [tab, setTab] = useState<LibraryTab>(initialTab);
+  const [query, setQuery] = useState(initialQuery);
 
   useEffect(() => {
     const jsonOrNull = (r: Response) => (r.ok ? r.json() : null);
@@ -113,10 +126,40 @@ export function CompassDashboard({ tierData }: CompassDashboardProps) {
     return lessons.filter((l) => new Date(l.createdAt).getTime() >= periodStart).length;
   }, [lessons, tierData.resetsAt]);
 
-  const recentLessons = useMemo(
-    () => lessons.slice().sort((a, b) => b.createdAt.localeCompare(a.createdAt)).slice(0, 5),
+  const sortedLessons = useMemo(
+    () => lessons.slice().sort((a, b) => b.createdAt.localeCompare(a.createdAt)),
     [lessons]
   );
+  const favoritesCount = useMemo(() => lessons.filter((l) => l.favorite).length, [lessons]);
+
+  const filteredLessons = useMemo(() => {
+    let rows = sortedLessons;
+    if (tab === "favorites") rows = rows.filter((l) => l.favorite);
+    const q = query.trim().toLowerCase();
+    if (q) {
+      rows = rows.filter((l) => {
+        const hay = [l.title, l.interest, l.philosophy, l.subjects?.join(" ")]
+          .filter(Boolean)
+          .join(" ")
+          .toLowerCase();
+        return hay.includes(q);
+      });
+    }
+    return tab === "recent" ? rows.slice(0, 5) : rows;
+  }, [sortedLessons, tab, query]);
+
+  const updateUrl = (nextTab: LibraryTab, nextQuery: string) => {
+    const params = new URLSearchParams(Array.from(searchParams.entries()));
+    if (nextTab === "recent") params.delete("tab"); else params.set("tab", nextTab);
+    if (nextQuery.trim()) params.set("q", nextQuery.trim()); else params.delete("q");
+    const qs = params.toString();
+    router.replace(qs ? `/dashboard?${qs}` : "/dashboard", { scroll: false });
+  };
+
+  const changeTab = (next: LibraryTab) => {
+    setTab(next);
+    updateUrl(next, query);
+  };
 
   useEffect(() => {
     if (loading) return;
@@ -141,8 +184,8 @@ export function CompassDashboard({ tierData }: CompassDashboardProps) {
       {/* ── QUOTA HERO ── */}
       <div
         style={{
-          background: "linear-gradient(135deg, rgba(11,46,74,0.05), rgba(110,110,158,0.08))",
-          border: "1px solid rgba(11,46,74,0.12)",
+          background: "linear-gradient(135deg, rgba(11,46,74,0.10), rgba(110,110,158,0.14))",
+          border: "1px solid rgba(11,46,74,0.14)",
           borderRadius: "14px",
           padding: "1.1rem 1.2rem",
           display: "flex",
@@ -150,6 +193,7 @@ export function CompassDashboard({ tierData }: CompassDashboardProps) {
           justifyContent: "space-between",
           gap: "1rem",
           flexWrap: "wrap",
+          boxShadow: "0 3px 14px rgba(11,46,74,0.06)",
         }}
       >
         <div style={{ display: "flex", flexDirection: "column", gap: "0.15rem" }}>
@@ -261,10 +305,11 @@ export function CompassDashboard({ tierData }: CompassDashboardProps) {
             alignItems: "center",
             gap: "0.85rem",
             padding: "0.7rem 0.9rem",
-            background: "rgba(130,40,75,0.05)",
-            border: "1px solid rgba(130,40,75,0.12)",
+            background: "rgba(130,40,75,0.09)",
+            border: "1px solid rgba(130,40,75,0.18)",
             borderRadius: "10px",
             flexWrap: "wrap",
+            boxShadow: "0 3px 14px rgba(11,46,74,0.06)",
           }}
         >
           {(() => {
@@ -352,10 +397,11 @@ export function CompassDashboard({ tierData }: CompassDashboardProps) {
             alignItems: "center",
             gap: "0.85rem",
             padding: "0.7rem 0.9rem",
-            background: "rgba(110,110,158,0.05)",
-            border: "1px solid rgba(110,110,158,0.15)",
+            background: "rgba(110,110,158,0.09)",
+            border: "1px solid rgba(110,110,158,0.22)",
             borderRadius: "10px",
             flexWrap: "wrap",
+            boxShadow: "0 3px 14px rgba(11,46,74,0.06)",
           }}
         >
           <div style={{ flex: 1, fontSize: "0.85rem", color: TEXT_SECONDARY }}>
@@ -383,11 +429,11 @@ export function CompassDashboard({ tierData }: CompassDashboardProps) {
       {/* ── LESSON LIBRARY ── */}
       <div
         style={{
-          background: "rgba(255,255,255,0.78)",
+          background: "rgba(255,255,255,0.62)",
           border: "1px solid rgba(255,255,255,0.55)",
           borderRadius: "12px",
           padding: "0.95rem 1rem",
-          boxShadow: "0 2px 10px rgba(0,0,0,0.03)",
+          boxShadow: "0 3px 14px rgba(11,46,74,0.06)",
         }}
       >
         <div
@@ -419,11 +465,113 @@ export function CompassDashboard({ tierData }: CompassDashboardProps) {
           </span>
         </div>
 
+        {/* Tabs — only when the library has enough content to warrant filtering */}
+        {!loading && lessons.length > 3 && (
+          <div
+            style={{
+              display: "flex",
+              gap: "0.3rem",
+              marginBottom: "0.6rem",
+              paddingBottom: "0.5rem",
+              borderBottom: "1px solid rgba(0,0,0,0.06)",
+              flexWrap: "wrap",
+            }}
+          >
+            {([
+              { id: "recent", label: "Recent", count: Math.min(5, lessons.length) },
+              { id: "all", label: "All", count: lessons.length },
+              { id: "favorites", label: "Favorites", count: favoritesCount },
+            ] as Array<{ id: LibraryTab; label: string; count: number }>).map((t) => {
+              const active = tab === t.id;
+              return (
+                <button
+                  key={t.id}
+                  type="button"
+                  onClick={() => changeTab(t.id)}
+                  style={{
+                    fontSize: "0.75rem",
+                    padding: "0.3rem 0.65rem",
+                    borderRadius: "6px",
+                    background: active ? NIGHT : "transparent",
+                    color: active ? PARCHMENT : TEXT_SECONDARY,
+                    border: "1px solid " + (active ? NIGHT : "transparent"),
+                    cursor: "pointer",
+                    fontWeight: active ? 600 : 500,
+                    fontFamily: "inherit",
+                  }}
+                >
+                  {t.label}
+                  <span style={{ opacity: 0.65, marginLeft: "0.25rem", fontWeight: 400 }}>{t.count}</span>
+                </button>
+              );
+            })}
+          </div>
+        )}
+
+        {/* Inline search — shown alongside tabs when there are >3 lessons */}
+        {!loading && lessons.length > 3 && (
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "0.5rem",
+              background: "#fff",
+              border: "1px solid rgba(0,0,0,0.08)",
+              borderRadius: "8px",
+              padding: "0.4rem 0.7rem",
+              marginBottom: "0.65rem",
+            }}
+          >
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke={TEXT_TERTIARY} strokeWidth="2">
+              <circle cx="11" cy="11" r="8" />
+              <line x1="21" y1="21" x2="16.65" y2="16.65" />
+            </svg>
+            <input
+              type="text"
+              value={query}
+              onChange={(e) => {
+                setQuery(e.target.value);
+                updateUrl(tab, e.target.value);
+              }}
+              placeholder="Search your lessons by title, interest, or subject…"
+              style={{
+                flex: 1,
+                border: "none",
+                outline: "none",
+                fontSize: "0.78rem",
+                background: "transparent",
+                color: "#1f2328",
+                fontFamily: "inherit",
+              }}
+            />
+            {query && (
+              <button
+                type="button"
+                onClick={() => {
+                  setQuery("");
+                  updateUrl(tab, "");
+                }}
+                style={{
+                  fontSize: "0.66rem",
+                  color: TEXT_TERTIARY,
+                  background: "transparent",
+                  border: "none",
+                  cursor: "pointer",
+                  padding: "0.1rem 0.3rem",
+                }}
+                aria-label="Clear search"
+              >
+                ✕
+              </button>
+            )}
+          </div>
+        )}
+
         {loading ? (
           <div style={{ padding: "1rem", textAlign: "center", fontSize: "0.8rem", color: TEXT_TERTIARY }}>
             Loading…
           </div>
-        ) : recentLessons.length === 0 ? (
+        ) : filteredLessons.length === 0 && lessons.length === 0 ? (
           <div style={{ padding: "0.5rem 0 0.25rem", textAlign: "center" }}>
             <p className="font-cormorant-sc" style={{ fontSize: "0.95rem", color: NIGHT, marginBottom: "0.4rem" }}>
               No lessons yet.
@@ -447,7 +595,11 @@ export function CompassDashboard({ tierData }: CompassDashboardProps) {
             </Link>
           </div>
         ) : (
-          recentLessons.map((lesson, idx) => (
+          filteredLessons.length === 0 ? (
+            <div style={{ padding: "1rem", textAlign: "center", fontSize: "0.82rem", color: TEXT_SECONDARY }}>
+              No lessons match {query.trim() ? `“${query.trim()}”` : "this filter"}.
+            </div>
+          ) : filteredLessons.map((lesson, idx) => (
             <div
               key={lesson.id}
               style={{
@@ -457,7 +609,7 @@ export function CompassDashboard({ tierData }: CompassDashboardProps) {
                 padding: "0.55rem 0",
                 fontSize: "0.82rem",
                 color: "#1f2328",
-                borderBottom: idx < recentLessons.length - 1 ? "1px dashed rgba(0,0,0,0.08)" : "none",
+                borderBottom: idx < filteredLessons.length - 1 ? "1px dashed rgba(0,0,0,0.08)" : "none",
                 gap: "0.5rem",
               }}
             >
@@ -518,7 +670,7 @@ export function CompassDashboard({ tierData }: CompassDashboardProps) {
           ))
         )}
 
-        {!loading && recentLessons.length > 0 && (
+        {!loading && lessons.length > 0 && (
           <div
             style={{
               textAlign: "center",
@@ -545,10 +697,11 @@ export function CompassDashboard({ tierData }: CompassDashboardProps) {
       {/* ── UNLOCK CARD ── */}
       <div
         style={{
-          background: "rgba(11,46,74,0.03)",
-          border: "1px dashed rgba(11,46,74,0.18)",
+          background: "rgba(11,46,74,0.06)",
+          border: "1px dashed rgba(11,46,74,0.24)",
           borderRadius: "12px",
           padding: "1rem 1.1rem",
+          boxShadow: "0 3px 14px rgba(11,46,74,0.06)",
         }}
       >
         <div

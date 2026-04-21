@@ -1,0 +1,658 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta name="robots" content="noindex" />
+<title>Home (Option 2) — Dashboard + Lessons merged</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+SC:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --parchment: #F9F6EF;
+    --ink: #1f2328;
+    --night: #0B2E4A;
+    --accent-primary: #6E6E9E;
+    --accent-secondary: #82284b;
+    --accent-tertiary: #C4983D;
+    --text-secondary: #5A5A5A;
+    --text-tertiary: #767676;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: 'Inter', sans-serif;
+    color: var(--ink);
+    background:
+      radial-gradient(ellipse 900px 600px at 0% 0%, rgba(130,40,75,0.08), transparent 60%),
+      radial-gradient(ellipse 800px 600px at 100% 30%, rgba(110,110,158,0.12), transparent 55%),
+      #efe4f0;
+    min-height: 100vh;
+    line-height: 1.5;
+  }
+  .page { max-width: 1700px; margin: 0 auto; padding: 2.5rem 1.25rem 5rem; }
+
+  h1.hero {
+    font-family: 'Cormorant SC', serif;
+    font-weight: 700;
+    font-size: 1.9rem;
+    margin: 0 0 0.4rem;
+    letter-spacing: 0.04em;
+    text-align: center;
+  }
+  .subtitle {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    max-width: 840px;
+    margin: 0 auto 2rem;
+    text-align: center;
+    line-height: 1.6;
+  }
+
+  .diff-call {
+    max-width: 960px;
+    margin: 0 auto 2rem;
+    padding: 1rem 1.25rem;
+    background: rgba(255,255,255,0.65);
+    border-left: 3px solid var(--accent-primary);
+    border-radius: 10px;
+    font-size: 0.87rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+  .diff-call strong { color: var(--ink); }
+  .diff-call ul { margin: 0.4rem 0 0; padding-left: 1.1rem; }
+  .diff-call li { margin-top: 0.15rem; }
+
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.75rem;
+  }
+  @media (max-width: 1200px) { .grid { grid-template-columns: 1fr; } }
+
+  .col-head {
+    background: rgba(255,255,255,0.6);
+    border: 1px solid rgba(0,0,0,0.05);
+    border-radius: 10px;
+    padding: 0.85rem 1rem;
+    margin-bottom: 0.75rem;
+  }
+  .col-head h2 {
+    font-family: 'Cormorant SC', serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+    margin: 0 0 0.2rem;
+    letter-spacing: 0.03em;
+  }
+  .col-head .tag {
+    display: inline-block;
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    padding: 0.1rem 0.4rem;
+    border-radius: 3px;
+    margin-left: 0.4rem;
+    vertical-align: 1px;
+  }
+  .tag.now { background: rgba(118,118,118,0.12); color: #4a4a4a; border: 1px solid rgba(118,118,118,0.3); }
+  .tag.next { background: rgba(130,40,75,0.08); color: var(--accent-secondary); border: 1px solid rgba(130,40,75,0.25); }
+  .col-head p {
+    margin: 0;
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+    line-height: 1.55;
+  }
+
+  /* App frame */
+  .app {
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1px solid rgba(11,46,74,0.08);
+    box-shadow: 0 10px 32px rgba(11,46,74,0.08);
+  }
+  .app-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+    background: var(--parchment);
+  }
+  .app-header .wordmark {
+    font-family: 'Cormorant SC', serif;
+    font-size: 0.85rem;
+    letter-spacing: 0.05em;
+    color: var(--night);
+  }
+  .nav-row { display: inline-flex; gap: 0.25rem; font-size: 0.72rem; align-items: center; }
+  .nav-row a {
+    padding: 0.3rem 0.55rem;
+    border-radius: 5px;
+    color: var(--text-secondary);
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  .nav-row a.active { color: var(--night); background: rgba(110,110,158,0.12); font-weight: 600; }
+  .nav-row .dropdown-trigger { position: relative; }
+  .nav-row .dropdown-trigger::after { content: " ⌄"; color: var(--text-tertiary); font-size: 0.7rem; }
+  .nav-row .upgrade-tiny {
+    font-size: 0.7rem;
+    color: #B08A2E;
+    font-weight: 600;
+    margin-left: 0.35rem;
+  }
+  .nav-row .primary {
+    background: var(--night);
+    color: var(--parchment);
+    font-weight: 600;
+  }
+
+  .app-body {
+    background:
+      radial-gradient(ellipse 700px 500px at 0% 0%, rgba(130,40,75,0.08), transparent 55%),
+      radial-gradient(ellipse 600px 500px at 100% 30%, rgba(110,110,158,0.12), transparent 55%),
+      #e8d9ec;
+    padding: 1.1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+  }
+
+  /* Card recipes (Option 3 hybrid — the one we just shipped) */
+  .shared-shadow { box-shadow: 0 3px 14px rgba(11,46,74,0.06); }
+  .quota-card {
+    background: linear-gradient(135deg, rgba(11,46,74,0.10), rgba(110,110,158,0.14));
+    border: 1px solid rgba(11,46,74,0.14);
+    border-radius: 14px;
+    padding: 1rem 1.1rem;
+  }
+  .arch-card {
+    background: rgba(130,40,75,0.09);
+    border: 1px solid rgba(130,40,75,0.18);
+    border-radius: 10px;
+    padding: 0.7rem 0.9rem;
+  }
+  .lessons-card {
+    background: rgba(255,255,255,0.62);
+    border: 1px solid rgba(255,255,255,0.55);
+    border-radius: 12px;
+    padding: 0.95rem 1rem;
+  }
+  .upsell-card {
+    background: rgba(11,46,74,0.06);
+    border: 1px dashed rgba(11,46,74,0.24);
+    border-radius: 12px;
+    padding: 1rem 1.1rem;
+  }
+
+  .quota-head { display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+  .eyebrow { font-size: 0.6rem; font-weight: 700; letter-spacing: 0.12em; color: var(--accent-primary); text-transform: uppercase; }
+  .big-num { font-family: 'Cormorant SC', serif; font-size: 1.5rem; font-weight: 700; color: var(--ink); letter-spacing: 0.02em; margin-top: 0.1rem; }
+  .dim { color: var(--text-tertiary); font-weight: 500; }
+  .sub-note { font-size: 0.76rem; color: var(--text-secondary); margin-top: 0.15rem; }
+  .dots { display: inline-flex; gap: 0.3rem; margin-top: 0.4rem; }
+  .dot { width: 11px; height: 11px; border-radius: 50%; border: 1px solid rgba(130,40,75,0.35); background: rgba(130,40,75,0.12); }
+  .dot.filled { background: var(--accent-secondary); border-color: var(--accent-secondary); }
+  .cta-primary {
+    background: var(--night); color: var(--parchment);
+    font-size: 0.78rem; font-weight: 600;
+    padding: 0.55rem 1rem; border-radius: 9px;
+    text-decoration: none; white-space: nowrap;
+  }
+
+  .arch-row { display: flex; align-items: center; gap: 0.85rem; flex-wrap: wrap; }
+  .avatar {
+    width: 54px; height: 54px; border-radius: 50%;
+    background:
+      url("/archetypes/architect.png") 50% 10% / 180% auto no-repeat,
+      radial-gradient(circle at 30% 30%, rgba(90,127,160,0.2), rgba(90,127,160,0.05) 70%);
+    border: 1px solid rgba(90,127,160,0.2);
+    flex-shrink: 0;
+    box-shadow: 0 2px 8px rgba(90,127,160,0.15);
+  }
+  .arch-text { flex: 1; min-width: 180px; }
+  .arch-label { font-size: 0.6rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent-secondary); }
+  .arch-name { font-family: 'Cormorant SC', serif; font-size: 0.95rem; font-weight: 700; color: var(--ink); letter-spacing: 0.02em; }
+  .arch-sub { font-size: 0.72rem; color: var(--text-secondary); }
+  .arch-link { font-size: 0.72rem; color: var(--accent-primary); text-decoration: none; font-weight: 600; white-space: nowrap; }
+
+  /* Lesson library inner */
+  .lib-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.6rem;
+    margin-bottom: 0.6rem;
+    flex-wrap: wrap;
+  }
+  .lib-title {
+    font-family: 'Cormorant SC', serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    color: var(--ink);
+  }
+  .lib-meta { font-size: 0.7rem; color: var(--text-tertiary); }
+
+  .lib-tabs {
+    display: flex;
+    gap: 0.3rem;
+    margin-bottom: 0.6rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+  }
+  .lib-tabs .tab {
+    font-size: 0.75rem;
+    padding: 0.3rem 0.65rem;
+    border-radius: 6px;
+    background: transparent;
+    color: var(--text-secondary);
+    border: 1px solid transparent;
+    cursor: pointer;
+    font-weight: 500;
+    text-decoration: none;
+  }
+  .lib-tabs .tab.active {
+    background: var(--night);
+    color: var(--parchment);
+    font-weight: 600;
+  }
+  .lib-tabs .tab .count {
+    opacity: 0.6;
+    margin-left: 0.25rem;
+    font-weight: 400;
+  }
+  .lib-tabs .tab.active .count { opacity: 0.85; color: var(--parchment); }
+
+  .lib-search {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: #fff;
+    border: 1px solid rgba(0,0,0,0.08);
+    border-radius: 8px;
+    padding: 0.4rem 0.7rem;
+    font-size: 0.78rem;
+    color: var(--text-tertiary);
+    margin-bottom: 0.6rem;
+  }
+  .lib-search .filters { margin-left: auto; display: inline-flex; gap: 0.3rem; }
+  .lib-search .filter-pill {
+    font-size: 0.66rem;
+    padding: 0.2rem 0.5rem;
+    border-radius: 5px;
+    background: rgba(255,255,255,0.6);
+    border: 1px solid rgba(0,0,0,0.08);
+    color: var(--text-secondary);
+  }
+  .lib-search .filter-pill.active {
+    background: rgba(110,110,158,0.1);
+    border-color: rgba(110,110,158,0.25);
+    color: var(--accent-primary);
+    font-weight: 600;
+  }
+
+  .row {
+    display: flex; justify-content: space-between; align-items: center;
+    gap: 0.5rem; padding: 0.55rem 0;
+    font-size: 0.82rem;
+    border-bottom: 1px dashed rgba(0,0,0,0.08);
+  }
+  .row:last-child { border-bottom: none; padding-bottom: 0; }
+  .row .ttl { font-weight: 600; display: inline-flex; align-items: center; gap: 0.35rem; }
+  .row .fav { color: var(--accent-tertiary); font-size: 0.85rem; }
+  .row .sub { font-size: 0.68rem; color: var(--text-tertiary); margin-top: 0.1rem; }
+  .row .actions { display: inline-flex; gap: 0.3rem; align-items: center; flex-shrink: 0; }
+  .link-chip {
+    font-size: 0.7rem; color: var(--night);
+    text-decoration: none; font-weight: 600;
+    padding: 0.15rem 0.4rem; border-radius: 4px;
+    background: rgba(11,46,74,0.06);
+  }
+  .chip-upgrade {
+    display: inline-flex; align-items: center; gap: 0.3rem;
+    font-size: 0.58rem; font-weight: 700;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 0.2rem 0.5rem; border-radius: 5px;
+    background: rgba(196,152,61,0.12); color: #B08A2E;
+    border: 1px solid rgba(196,152,61,0.35);
+    text-decoration: none; white-space: nowrap;
+  }
+  .lib-foot {
+    text-align: center;
+    margin-top: 0.7rem; padding-top: 0.55rem;
+    border-top: 1px dashed rgba(0,0,0,0.08);
+  }
+  .lib-foot a {
+    font-size: 0.75rem; color: var(--accent-primary);
+    font-weight: 600; text-decoration: none;
+  }
+
+  .upsell-title {
+    font-family: 'Cormorant SC', serif;
+    font-size: 0.92rem; font-weight: 700;
+    color: var(--night); letter-spacing: 0.04em;
+    margin: 0 0 0.5rem;
+  }
+  .unlock-row {
+    display: flex; align-items: flex-start;
+    gap: 0.55rem; font-size: 0.78rem;
+    padding: 0.2rem 0;
+  }
+  .check {
+    width: 18px; height: 18px; border-radius: 50%;
+    flex-shrink: 0; display: inline-flex;
+    align-items: center; justify-content: center;
+    background: rgba(212,175,55,0.2); color: #B08A2E;
+    font-weight: 700; font-size: 0.68rem;
+    margin-top: 1px;
+  }
+  .unlock-row b { font-weight: 600; color: var(--ink); }
+  .unlock-row .explain { display: block; color: var(--text-secondary); font-size: 0.72rem; margin-top: 0.1rem; }
+  .cta-row { display: flex; gap: 0.5rem; margin-top: 0.75rem; }
+  .cta-row a {
+    flex: 1; text-align: center;
+    font-size: 0.76rem; font-weight: 600;
+    padding: 0.5rem; border-radius: 8px;
+    text-decoration: none;
+  }
+  .cta-row .primary { background: var(--night); color: var(--parchment); }
+  .cta-row .secondary {
+    color: var(--night); background: transparent;
+    border: 1px solid rgba(11,46,74,0.2);
+  }
+
+  .callout {
+    background: rgba(255,255,255,0.7);
+    border: 1px solid rgba(130,40,75,0.2);
+    border-radius: 8px;
+    padding: 0.55rem 0.75rem;
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    margin-top: 0.6rem;
+    line-height: 1.55;
+  }
+  .callout strong { color: var(--accent-secondary); }
+
+  .pm-note {
+    max-width: 920px;
+    margin: 3rem auto 0;
+    padding: 1.25rem 1.5rem;
+    background: rgba(255,255,255,0.7);
+    border-left: 3px solid var(--accent-tertiary);
+    border-radius: 10px;
+    font-size: 0.92rem;
+    color: var(--text-secondary);
+    line-height: 1.7;
+  }
+  .pm-note strong { color: var(--ink); }
+  .pm-note ul { margin: 0.5rem 0 0; padding-left: 1.1rem; }
+  .pm-note li { margin-top: 0.25rem; }
+</style>
+</head>
+<body>
+<main class="page">
+
+  <h1 class="hero">Home (Option 2) — what the merge looks like</h1>
+  <p class="subtitle">
+    Lessons moves into Home as the main content card — with tabs (Recent / All / Favorites), an inline search, and the same rows you'd get on today's /lessons page. Nothing is lost; navigation is clearer.
+  </p>
+
+  <div class="diff-call">
+    <strong>What moved where:</strong>
+    <ul>
+      <li><code>/lessons</code> full table &rarr; becomes the <strong>Lessons card</strong> inside <code>/home</code> — grows to fill the main vertical slot</li>
+      <li>Tabs replace the current "Your lessons" header — <strong>Recent · All · Favorites · Completed</strong></li>
+      <li>Inline search + filter pills (philosophy, subject, child) live above the rows, not above the page</li>
+      <li>Standards sits in nav — one click when you want to seed a new lesson</li>
+      <li>Quota hero, archetype strip, and "What Homestead adds" unchanged</li>
+    </ul>
+  </div>
+
+  <div class="grid">
+
+    <!-- ===== TODAY ===== -->
+    <div>
+      <div class="col-head">
+        <h2>Today · Dashboard + separate Lessons page<span class="tag now">Now</span></h2>
+        <p>Nav has a "Planner" dropdown with Dashboard, Lessons, Standards. Dashboard surfaces the 5 most recent lessons as a small card; <code>/lessons</code> is a separate page with the full library.</p>
+      </div>
+
+      <div class="app">
+        <div class="app-header">
+          <span class="wordmark">Sage's Compass</span>
+          <div class="nav-row">
+            <a href="#">Create</a>
+            <a href="#" class="active dropdown-trigger">Planner</a>
+            <a href="#">Account</a>
+            <a href="#">Compass</a>
+            <a href="#">Archetypes</a>
+            <span class="upgrade-tiny">Upgrade</span>
+          </div>
+        </div>
+
+        <div class="app-body">
+
+          <div class="quota-card shared-shadow">
+            <div class="quota-head">
+              <div>
+                <span class="eyebrow">This month</span>
+                <div class="big-num">1<span class="dim"> of 3</span> lessons created</div>
+                <div class="sub-note">You have 2 free lessons left — resets Apr 30.</div>
+                <div class="dots"><span class="dot filled"></span><span class="dot"></span><span class="dot"></span></div>
+              </div>
+              <a href="#" class="cta-primary">+ Create lesson</a>
+            </div>
+          </div>
+
+          <div class="arch-card shared-shadow">
+            <div class="arch-row">
+              <div class="avatar" role="img" aria-label="The Architect"></div>
+              <div class="arch-text">
+                <div class="arch-label">Your archetype</div>
+                <div class="arch-name">The Architect</div>
+                <div class="arch-sub">Classical · Project Based Learning</div>
+              </div>
+              <a href="#" class="arch-link">View results →</a>
+            </div>
+          </div>
+
+          <div class="lessons-card shared-shadow">
+            <div class="lib-head">
+              <span class="lib-title">Your lessons</span>
+              <span class="lib-meta">1 this month · 1 total</span>
+            </div>
+            <div class="row">
+              <div style="flex:1;">
+                <div class="ttl">Pressed Petals, Measured Patterns</div>
+                <div class="sub">Charlotte Mason · Grade 4 · Math · today</div>
+              </div>
+              <div class="actions">
+                <a href="#" class="link-chip">Open</a>
+                <a href="#" class="chip-upgrade">🔒 schedule</a>
+              </div>
+            </div>
+            <div class="lib-foot">
+              <a href="#">Browse standards to seed your next lesson →</a>
+            </div>
+          </div>
+
+          <div class="upsell-card shared-shadow">
+            <h4 class="upsell-title">What Homestead adds</h4>
+            <div class="unlock-row">
+              <span class="check">✓</span>
+              <div>
+                <b>Add up to 4 children</b>
+                <span class="explain">Attach each lesson to a specific child and track progress.</span>
+              </div>
+            </div>
+            <div class="unlock-row">
+              <span class="check">✓</span>
+              <div>
+                <b>Schedule lessons to your week</b>
+                <span class="explain">Drag any lesson onto a day. See what's next at a glance.</span>
+              </div>
+            </div>
+            <div class="unlock-row">
+              <span class="check">✓</span>
+              <div>
+                <b>10× more lessons + a coverage heatmap</b>
+                <span class="explain">30 lessons/mo and a standards heatmap per child.</span>
+              </div>
+            </div>
+            <div class="cta-row">
+              <a href="#" class="primary">See plans</a>
+              <a href="#" class="secondary">Create another lesson first</a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="callout">
+        <strong>Problem:</strong> a user with 20 lessons sees "1 of 20" in the card, has to click "View all" to get filters. Two pages do overlapping work.
+      </div>
+    </div>
+
+    <!-- ===== NEW HOME ===== -->
+    <div>
+      <div class="col-head">
+        <h2>Option 2 · Home consolidates both<span class="tag next">Proposed</span></h2>
+        <p>Nav flattens: Create · Home (active) · Standards · Compass · Archetypes · Account. The Lessons card grows to include tabs, search, and filters — one place for all your lesson work.</p>
+      </div>
+
+      <div class="app">
+        <div class="app-header">
+          <span class="wordmark">Sage's Compass</span>
+          <div class="nav-row">
+            <a href="#" class="primary">+ Create</a>
+            <a href="#" class="active">Home</a>
+            <a href="#">Standards</a>
+            <a href="#">Compass</a>
+            <a href="#">Archetypes</a>
+            <a href="#">Account</a>
+            <span class="upgrade-tiny">Upgrade</span>
+          </div>
+        </div>
+
+        <div class="app-body">
+
+          <div class="quota-card shared-shadow">
+            <div class="quota-head">
+              <div>
+                <span class="eyebrow">This month</span>
+                <div class="big-num">1<span class="dim"> of 3</span> lessons created</div>
+                <div class="sub-note">You have 2 free lessons left — resets Apr 30.</div>
+                <div class="dots"><span class="dot filled"></span><span class="dot"></span><span class="dot"></span></div>
+              </div>
+              <a href="#" class="cta-primary">+ Create lesson</a>
+            </div>
+          </div>
+
+          <div class="arch-card shared-shadow">
+            <div class="arch-row">
+              <div class="avatar" role="img" aria-label="The Architect"></div>
+              <div class="arch-text">
+                <div class="arch-label">Your archetype</div>
+                <div class="arch-name">The Architect</div>
+                <div class="arch-sub">Classical · Project Based Learning</div>
+              </div>
+              <a href="#" class="arch-link">View results →</a>
+            </div>
+          </div>
+
+          <!-- The enhanced lessons library -->
+          <div class="lessons-card shared-shadow">
+            <div class="lib-head">
+              <span class="lib-title">Your lessons</span>
+              <span class="lib-meta">1 this month · 1 total</span>
+            </div>
+
+            <div class="lib-tabs">
+              <a href="#" class="tab active">Recent</a>
+              <a href="#" class="tab">All <span class="count">1</span></a>
+              <a href="#" class="tab">Favorites <span class="count">0</span></a>
+              <a href="#" class="tab">Completed <span class="count">0</span></a>
+            </div>
+
+            <div class="lib-search">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <span>Search your lessons…</span>
+              <span class="filters">
+                <span class="filter-pill">All subjects</span>
+                <span class="filter-pill active">Charlotte Mason</span>
+              </span>
+            </div>
+
+            <div class="row">
+              <div style="flex:1;">
+                <div class="ttl">Pressed Petals, Measured Patterns <span class="fav">★</span></div>
+                <div class="sub">Charlotte Mason · Grade 4 · Math · today</div>
+              </div>
+              <div class="actions">
+                <a href="#" class="link-chip">Open</a>
+                <a href="#" class="chip-upgrade">🔒 schedule</a>
+              </div>
+            </div>
+
+            <div class="lib-foot">
+              <a href="#">Browse standards to seed your next lesson →</a>
+            </div>
+          </div>
+
+          <div class="upsell-card shared-shadow">
+            <h4 class="upsell-title">What Homestead adds</h4>
+            <div class="unlock-row">
+              <span class="check">✓</span>
+              <div>
+                <b>Add up to 4 children</b>
+                <span class="explain">Attach each lesson to a specific child and track progress.</span>
+              </div>
+            </div>
+            <div class="unlock-row">
+              <span class="check">✓</span>
+              <div>
+                <b>Schedule lessons to your week</b>
+                <span class="explain">Drag any lesson onto a day. See what's next at a glance.</span>
+              </div>
+            </div>
+            <div class="unlock-row">
+              <span class="check">✓</span>
+              <div>
+                <b>10× more lessons + a coverage heatmap</b>
+                <span class="explain">30 lessons/mo and a standards heatmap per child.</span>
+              </div>
+            </div>
+            <div class="cta-row">
+              <a href="#" class="primary">See plans</a>
+              <a href="#" class="secondary">Create another lesson first</a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="callout">
+        <strong>What changed:</strong> tabs + inline search/filter inside the Lessons card; nav flattened; <code>/lessons</code> redirects here; everything else is identical. Paid users get the same structure plus a calendar and children cards below.
+      </div>
+    </div>
+
+  </div>
+
+  <div class="pm-note">
+    <strong>Why this works for both tiers:</strong>
+    <ul>
+      <li><strong>Compass (free) tier:</strong> 1–3 lessons is a small list — tabs and search are quiet but present, no clutter.</li>
+      <li><strong>Homestead+:</strong> 20–50 lessons — the tabs / search / filters earn their keep. The calendar and per-child stats slot in below the lessons card (not mocked; same as today).</li>
+      <li><strong>Redirect plan:</strong> old <code>/lessons</code> → 301 to <code>/home</code>. Old <code>/lessons?favorite=true</code> → <code>/home?tab=favorites</code>. Query params preserve deep links.</li>
+      <li><strong>One-time cost:</strong> move the lesson-list component out of <code>/lessons/page.tsx</code> into a <code>&lt;LessonLibrary&gt;</code> component that renders inside both the Home page and any future surfaces. Maybe half a day of work.</li>
+    </ul>
+    Reply <strong>go</strong> to ship this, or tell me what to tweak.
+  </div>
+
+</main>
+</body>
+</html>
