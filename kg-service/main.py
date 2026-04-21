@@ -5,14 +5,18 @@ from pathlib import Path
 from contextlib import asynccontextmanager
 
 # Load .env from the kg-service directory into os.environ before any other imports
-# so that all SDK clients (OpenAI, Anthropic) can find their API keys.
+# so that all SDK clients (OpenAI, Anthropic) can find their API keys. Values in
+# the .env file take precedence over any pre-existing process-env values — this
+# matters locally where a parent shell may have a stale "dummy" placeholder
+# exported from a previous dev setup.
 _env_file = Path(__file__).resolve().parent / ".env"
 if _env_file.exists():
     for _line in _env_file.read_text().splitlines():
         _line = _line.strip()
         if _line and not _line.startswith("#") and "=" in _line:
             _key, _, _val = _line.partition("=")
-            os.environ.setdefault(_key.strip(), _val.strip())
+            _val = _val.strip().strip('"').strip("'")
+            os.environ[_key.strip()] = _val
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
