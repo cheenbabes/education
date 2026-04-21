@@ -37,9 +37,9 @@ export default function SampleLessonPage({ params }: Params) {
 
   return (
     <Shell hue="results">
-      {/* Keep the reading column ~3xl wide for comfortable line length on desktop
-          while the Shell <main> provides the responsive side padding. */}
-      <div className="mx-auto max-w-3xl space-y-6">
+      {/* Match /lessons/[id]'s content width so the sample page reads the same
+          as a real lesson. Shell <main> handles responsive side padding. */}
+      <div className="mx-auto max-w-6xl space-y-6">
         <SampleLessonViewTracker philosophyId={lesson.philosophyId} />
 
         <Link
