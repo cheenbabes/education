@@ -94,6 +94,7 @@ function GeneratePage() {
   const resuming = searchParams.get("resume") === "true";
   const [showSignupModal, setShowSignupModal] = useState(false);
   const resumeTriggeredRef = useRef(false);
+  const [shouldAutoSubmit, setShouldAutoSubmit] = useState(false);
   const [children, setChildren] = useState<ChildData[]>([]);
   const [loadingChildren, setLoadingChildren] = useState(true);
   const [selectedChildren, setSelectedChildren] = useState<string[]>([]);
@@ -226,8 +227,24 @@ function GeneratePage() {
       setLessonsUsed(tierData.lessonsUsed);
       setLessonsLimit(tierData.lessonsLimit);
       if (tierData.resetsAt) setResetsAt(tierData.resetsAt);
-      if (archetypeData) {
-        setArchetypePhilosophyIds(archetypeData.topPhilosophyIds ?? []);
+      if (archetypeData?.topPhilosophyIds?.length) {
+        setArchetypePhilosophyIds(archetypeData.topPhilosophyIds);
+      } else {
+        // Post-signup race: the anon CompassResult was tagged with a
+        // browser sessionId and gets claimed by /api/compass/link-session,
+        // but that can land after /api/user/archetype returns. Fall back
+        // to the session-keyed lookup so the ✦ highlight still shows.
+        const sessionId = getCompassSessionId();
+        if (sessionId) {
+          fetch(`/api/compass/by-session?sessionId=${encodeURIComponent(sessionId)}`)
+            .then((r) => (r.ok ? r.json() : null))
+            .then((data) => {
+              if (data?.topPhilosophyIds?.length) {
+                setArchetypePhilosophyIds(data.topPhilosophyIds);
+              }
+            })
+            .catch(() => { /* silent */ });
+        }
       }
       setLoadingChildren(false);
       track("lesson_create_viewed", {
@@ -284,7 +301,9 @@ function GeneratePage() {
     "Finalizing...",
   ];
 
-  // Restore pending form state after signup and auto-trigger generation.
+  // Restore pending form state after signup. The auto-submit fires in a
+  // separate effect once the restored state has committed, so handleGenerate
+  // reads the latest values via its closure (not the stale initial ones).
   useEffect(() => {
     if (!resuming || !userLoaded || !isSignedIn || resumeTriggeredRef.current) return;
     let pending: Record<string, unknown> | null = null;
@@ -302,14 +321,21 @@ function GeneratePage() {
     if (typeof pending.freeGrade === "string") setFreeGrade(pending.freeGrade);
     if (typeof pending.freeState === "string") setFreeState(pending.freeState);
     if (typeof pending.multiSubject === "boolean") setMultiSubject(pending.multiSubject);
-
-    // Defer to next tick so the state updates above commit before handleGenerate
-    // reads them via closures.
-    setTimeout(() => {
-      void handleGenerate();
-    }, 0);
+    setShouldAutoSubmit(true);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [resuming, userLoaded, isSignedIn]);
+
+  // Fire the pending auto-submit once the restored form fields have
+  // actually landed in state (i.e. on the first render where canGenerate
+  // is true). This avoids the stale-closure bug where handleGenerate saw
+  // an empty interest field and the topic check reported "No topic provided".
+  useEffect(() => {
+    if (!shouldAutoSubmit) return;
+    if (!canGenerate) return;
+    setShouldAutoSubmit(false);
+    void handleGenerate();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [shouldAutoSubmit, canGenerate]);
 
   const handleGenerate = async () => {
     // Content safety first — fires for both anon and signed-in users so an
