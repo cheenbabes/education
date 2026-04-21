@@ -23,13 +23,17 @@ function PostHogPageView() {
   return null;
 }
 
-// Identifies the logged-in Clerk user in PostHog
+// Identifies the logged-in Clerk user in PostHog. Only acts once Clerk has
+// finished loading — otherwise the transient `user === undefined` that Clerk
+// yields during hydration would trigger ph.reset() on every page load and
+// destroy the anonymous distinct_id, breaking anon → identified funnel stitching.
 function PostHogIdentify() {
-  const { user } = useUser();
+  const { isLoaded, isSignedIn, user } = useUser();
   const ph = usePostHog();
 
   useEffect(() => {
-    if (user && ph) {
+    if (!isLoaded || !ph) return;
+    if (isSignedIn && user) {
       ph.identify(user.id, {
         email: user.primaryEmailAddress?.emailAddress,
         name: user.fullName ?? undefined,
@@ -49,10 +53,10 @@ function PostHogIdentify() {
           });
         }
       } catch { /* ignore storage errors */ }
-    } else if (!user && ph) {
+    } else {
       ph.reset();
     }
-  }, [user, ph]);
+  }, [isLoaded, isSignedIn, user, ph]);
 
   return null;
 }

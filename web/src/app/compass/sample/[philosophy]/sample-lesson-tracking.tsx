@@ -50,7 +50,7 @@ export function SampleLessonCta({
     >
       <a
         href={href}
-        onClick={() => track("compass_sample_cta_clicked", { philosophy_id: philosophyId, secondary: secondary ?? null, subject: subject ?? null })}
+        onClick={() => track("compass_sample_cta_clicked", { philosophy_id: philosophyId, secondary: secondary ?? null, subject: subject ?? null, source: "sample_page_bottom_cta" })}
         style={{
           background: "#0B2E4A",
           color: "#F9F6EF",
