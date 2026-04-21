@@ -1,7 +1,6 @@
 "use client";
 
 import { Shell } from "@/components/shell";
-import { TierGate } from "@/components/tier-gate";
 import { GRADES, US_STATES } from "@/lib/types";
 import { useState, useEffect } from "react";
 import Link from "next/link";
@@ -412,7 +411,175 @@ export default function AccountPage() {
             Your Family
           </p>
 
-          <TierGate requiredTier="homestead" pageName="Family Profiles" description="Add child profiles to enable per-child differentiation, standards tracking, and calendar scheduling">
+          {tier === "compass" ? (
+            <div
+              style={{
+                background: "rgba(255,255,255,0.72)",
+                backdropFilter: "blur(12px)",
+                WebkitBackdropFilter: "blur(12px)",
+                border: "1px solid rgba(255,255,255,0.55)",
+                borderRadius: "14px",
+                padding: "1.75rem 1.75rem 1.5rem",
+                boxShadow: "0 4px 18px rgba(11,46,74,0.06)",
+                display: "flex",
+                flexDirection: "column",
+                gap: "1.1rem",
+                overflow: "hidden",
+                position: "relative",
+              }}
+            >
+              {/* Accent ribbon — left edge, matches the Philosophy/Compass brand bar */}
+              <div
+                style={{
+                  position: "absolute",
+                  top: 0,
+                  left: 0,
+                  bottom: 0,
+                  width: "4px",
+                  background: "linear-gradient(180deg, #82284b 0%, #6E6E9E 55%, #C4983D 100%)",
+                }}
+              />
+
+              <div style={{ display: "flex", alignItems: "flex-start", gap: "0.85rem" }}>
+                <div
+                  style={{
+                    width: "40px",
+                    height: "40px",
+                    borderRadius: "10px",
+                    background: "rgba(130,40,75,0.08)",
+                    border: "1px solid rgba(130,40,75,0.2)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    flexShrink: 0,
+                  }}
+                >
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#82284b" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                  </svg>
+                </div>
+                <div style={{ flex: 1 }}>
+                  <h2
+                    className="font-cormorant-sc"
+                    style={{
+                      fontSize: "1.35rem",
+                      fontWeight: 700,
+                      color: "var(--ink)",
+                      letterSpacing: "0.03em",
+                      margin: "0 0 0.25rem",
+                    }}
+                  >
+                    Lessons tuned to each of your kids
+                  </h2>
+                  <p style={{ fontSize: "0.88rem", color: "var(--text-secondary)", lineHeight: 1.55, margin: 0 }}>
+                    Every generated lesson adapts to the child it&apos;s for.
+                    Tell us who they are — <strong style={{ color: "var(--ink)" }}>gifted</strong>, <strong style={{ color: "var(--ink)" }}>ADHD</strong>,
+                    {" "}<strong style={{ color: "var(--ink)" }}>dyslexic</strong>, advanced in math but behind in reading, loves hands-on — and Sage&apos;s Compass tunes the plan, pacing, and differentiation notes to fit.
+                  </p>
+                </div>
+              </div>
+
+              {/* Feature list */}
+              <div style={{ display: "flex", flexDirection: "column", gap: "0.55rem" }}>
+                {[
+                  {
+                    title: "Per-child learning notes",
+                    body: "Write a few lines about how your child learns — neurotype, strengths, accommodations — and every lesson honors them.",
+                  },
+                  {
+                    title: "State standards tracking",
+                    body: "See exactly which standards each child has covered and where the gaps are — no more guessing.",
+                  },
+                  {
+                    title: "Calendar scheduling",
+                    body: "Drop lessons onto specific days for specific kids. See each child's week at a glance.",
+                  },
+                  {
+                    title: "30 lessons per month (10× free)",
+                    body: "Enough for a full homeschool week for multiple children, every week.",
+                  },
+                ].map((b) => (
+                  <div
+                    key={b.title}
+                    style={{
+                      display: "flex",
+                      alignItems: "flex-start",
+                      gap: "0.6rem",
+                      fontSize: "0.82rem",
+                      lineHeight: 1.5,
+                    }}
+                  >
+                    <span
+                      style={{
+                        width: "20px",
+                        height: "20px",
+                        borderRadius: "50%",
+                        flexShrink: 0,
+                        display: "inline-flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        background: "rgba(212,175,55,0.18)",
+                        color: "#B08A2E",
+                        fontWeight: 700,
+                        fontSize: "0.72rem",
+                        marginTop: "1px",
+                      }}
+                    >
+                      ✓
+                    </span>
+                    <div>
+                      <span style={{ fontWeight: 600, color: "var(--ink)" }}>{b.title}</span>
+                      <span style={{ color: "var(--text-secondary)", display: "block", fontSize: "0.78rem", marginTop: "0.1rem" }}>
+                        {b.body}
+                      </span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* CTA */}
+              <div style={{ display: "flex", gap: "0.6rem", flexWrap: "wrap", marginTop: "0.3rem" }}>
+                <Link
+                  href={UPGRADE_URL}
+                  style={{
+                    flex: "1 1 auto",
+                    textAlign: "center",
+                    background: "var(--night)",
+                    color: "var(--parchment)",
+                    fontSize: "0.9rem",
+                    fontWeight: 600,
+                    padding: "0.7rem 1rem",
+                    borderRadius: "10px",
+                    textDecoration: "none",
+                    letterSpacing: "0.02em",
+                  }}
+                >
+                  Upgrade to Homestead — $21.99/mo
+                </Link>
+                <Link
+                  href="/pricing"
+                  style={{
+                    flex: "0 0 auto",
+                    fontSize: "0.82rem",
+                    fontWeight: 600,
+                    padding: "0.7rem 1rem",
+                    borderRadius: "10px",
+                    textDecoration: "none",
+                    color: "var(--night)",
+                    background: "transparent",
+                    border: "1px solid rgba(11,46,74,0.2)",
+                  }}
+                >
+                  Compare plans
+                </Link>
+              </div>
+
+              <p style={{ fontSize: "0.72rem", color: "var(--text-tertiary)", textAlign: "center", margin: 0 }}>
+                Already upgraded? <a href="/sign-in" style={{ color: "var(--accent-primary)", textDecoration: "none", fontWeight: 500 }}>Sign out and back in</a>
+              </p>
+            </div>
+          ) : (
             <div className="space-y-3">
               {children.map((child) => (
                 <div key={child.id} style={frostCard} className="flex items-center justify-between">
@@ -541,7 +708,7 @@ export default function AccountPage() {
                 </button>
               )}
             </div>
-          </TierGate>
+          )}
         </div>
       </div>
     </Shell>

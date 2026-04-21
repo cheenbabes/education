@@ -4,6 +4,9 @@ db.wal
 extracted/
 handoffs/
 data/clusters/embeddings_*.npy
+# Standards-search embeddings — lazily rebuilt per (state, grade) on first
+# query, cached here. ~14MB+ so we keep them out of git; KG re-embeds on cache miss.
+data/embeddings/
 # NOTE: db and data/standards/*.json are committed — pre-built data for deploy
 __pycache__/
 *.pyc

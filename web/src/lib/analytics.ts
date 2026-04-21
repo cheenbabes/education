@@ -35,7 +35,17 @@ export type AnalyticsEvent =
   // Pricing discoverability
   | "nav_pricing_clicked"
   | "nav_upgrade_clicked"
-  | "paywall_cta_clicked";
+  | "paywall_cta_clicked"
+  // Free-tier dashboard + standards (D-B / S-B)
+  | "dashboard_viewed"
+  | "dashboard_quota_exhausted_viewed"
+  | "dashboard_create_clicked"
+  | "dashboard_upgrade_clicked"
+  | "standards_viewed"
+  | "standards_search_performed"
+  | "standards_seed_clicked"
+  | "standards_combined_lesson_clicked"
+  | "standards_upgrade_clicked";
 
 // Historical events — no longer emitted after the results-redesign ship,
 // but retained here as comments so funnel queries can reference them:

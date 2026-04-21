@@ -9,6 +9,23 @@ export interface Archetype {
   icon: string;
   /** Watercolor character illustration path */
   imagePath: string;
+  /**
+   * Per-archetype avatar framing for circle crops (e.g. dashboard strip).
+   * Each image is a tall watercolor portrait; the face sits at a different Y
+   * on each one. These knobs let designers tune framing without touching
+   * layout code.
+   *
+   *  - `x`: CSS background-position X value (e.g. "50%", "40%", "60%"). Lower
+   *    values shift the frame LEFT (showing more of the image's right side);
+   *    higher values shift the frame RIGHT (showing more of the image's left
+   *    side). Defaults to "50%" (center).
+   *  - `y`: CSS background-position Y value (e.g. "10%", "-5%", "20%"). Lower
+   *    values show more of the image's top; higher values shift the frame
+   *    down. Defaults to "10%".
+   *  - `scale`: CSS background-size value (e.g. "180%", "220%"). Higher = more
+   *    zoom on the face. Defaults to "180%".
+   */
+  avatarFocus?: { x?: string; y?: string; scale?: string };
   /** Right-facing variant for results page (avatar faces toward tool) */
   resultsImagePath: string;
   /** Watercolor tool/object illustration path */
@@ -38,6 +55,7 @@ export const ARCHETYPES: Archetype[] = [
     name: "The Guide",
     icon: "🔭",
     imagePath: "/archetypes/guide.png",
+    avatarFocus: { x: "20%", y: "10%", scale: "180%" },
     resultsImagePath: "/archetypes/results/guide.png?v=2",
     toolPath: "/archetypes/tools/spyglass.png",
     color: "#5B5E8A",
@@ -66,6 +84,7 @@ export const ARCHETYPES: Archetype[] = [
     name: "The Explorer",
     icon: "\uD83C\uDF0D",
     imagePath: "/archetypes/explorer.png",
+    avatarFocus: { x: "60%", y: "5%", scale: "180%" },
     resultsImagePath: "/archetypes/results/explorer.png?v=2",
     toolPath: "/archetypes/tools/map.png",
     color: "#3D7E95",
@@ -94,6 +113,7 @@ export const ARCHETYPES: Archetype[] = [
     name: "The Cultivator",
     icon: "\uD83C\uDF31",
     imagePath: "/archetypes/cultivator.png",
+    avatarFocus: { x: "30%", y: "2%", scale: "180%" },
     resultsImagePath: "/archetypes/results/cultivator.png?v=2",
     toolPath: "/archetypes/tools/watering-can.png",
     color: "#7D6B9E",
@@ -122,6 +142,7 @@ export const ARCHETYPES: Archetype[] = [
     name: "The Naturalist",
     icon: "\uD83C\uDF3F",
     imagePath: "/archetypes/naturalist.png",
+    avatarFocus: { x: "50%", y: "2%", scale: "180%" },
     resultsImagePath: "/archetypes/results/naturalist.png?v=2",
     toolPath: "/archetypes/tools/fern.png",
     color: "#6BA07A",
@@ -150,6 +171,7 @@ export const ARCHETYPES: Archetype[] = [
     name: "The Storyteller",
     icon: "\uD83D\uDCD6",
     imagePath: "/archetypes/storyteller.png",
+    avatarFocus: { x: "50%", y: "10%", scale: "180%" },
     resultsImagePath: "/archetypes/results/storyteller.png?v=2",
     toolPath: "/archetypes/tools/book.png",
     color: "#B07A8A",
@@ -178,6 +200,7 @@ export const ARCHETYPES: Archetype[] = [
     name: "The Architect",
     icon: "🔨",
     imagePath: "/archetypes/architect.png",
+    avatarFocus: { x: "10%", y: "1%", scale: "180%" },
     resultsImagePath: "/archetypes/results/architect.png?v=2",
     toolPath: "/archetypes/tools/hammer.png",
     color: "#5A7FA0",
@@ -206,6 +229,7 @@ export const ARCHETYPES: Archetype[] = [
     name: "The Free Spirit",
     icon: "\uD83E\uDD8B",
     imagePath: "/archetypes/free-spirit.png",
+    avatarFocus: { x: "55%", y: "10%", scale: "180%" },
     resultsImagePath: "/archetypes/results/free-spirit.png?v=2",
     toolPath: "/archetypes/tools/butterfly.png",
     color: "#C07A42",
@@ -234,6 +258,7 @@ export const ARCHETYPES: Archetype[] = [
     name: "The Weaver",
     icon: "\uD83E\uDDF6",
     imagePath: "/archetypes/weaver.png",
+    avatarFocus: { x: "60%", y: "30%", scale: "180%" },
     resultsImagePath: "/archetypes/results/weaver.png?v=2",
     toolPath: "/archetypes/tools/yarn.png",
     color: "#7c2946",

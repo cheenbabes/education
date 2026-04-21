@@ -1,12 +1,12 @@
 "use client";
 
 import { Shell } from "@/components/shell";
-import { TierGate } from "@/components/tier-gate";
 import Link from "next/link";
 import { useState, useEffect, useMemo } from "react";
 import { UPGRADE_URL } from "@/lib/upgradeUrl";
 import { printWorksheet } from "@/lib/printWorksheet";
 import { useFeatureFlagEnabled } from "posthog-js/react";
+import { CompassDashboard } from "./compass-dashboard";
 
 interface Child {
   id: string;
@@ -263,9 +263,16 @@ export default function DashboardPage() {
     );
   }
 
+  if (tierData && tierData.tier === "compass") {
+    return (
+      <Shell hue="dashboard" fullWidth>
+        <CompassDashboard tierData={tierData} />
+      </Shell>
+    );
+  }
+
   return (
     <Shell hue="dashboard" fullWidth>
-      <TierGate requiredTier="homestead" pageName="Dashboard" description="See your children's progress, upcoming lessons, and track your teaching journey">
       <div className="space-y-6" style={{ maxWidth: "1100px", margin: "0 auto", padding: "2rem 1.5rem" }}>
         <div className="flex items-center justify-between">
           <h1 className="font-cormorant-sc text-3xl text-gray-900">Dashboard</h1>
@@ -948,7 +955,6 @@ export default function DashboardPage() {
           </div>
         </div>
       </div>
-      </TierGate>
     </Shell>
   );
 }

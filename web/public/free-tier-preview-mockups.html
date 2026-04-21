@@ -1,0 +1,1095 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Free-tier previews · polished /dashboard and /standards</title>
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta name="robots" content="noindex" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+SC:wght@500;600;700&family=Cormorant:ital,wght@0,400;0,500;1,400;1,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --parchment: #F9F6EF;
+    --ink: #1f2328;
+    --night: #0B2E4A;
+    --accent-primary: #6E6E9E;
+    --accent-secondary: #82284b;
+    --accent-tertiary: #C4983D;
+    --accent-gold: #D4AF37;
+    --text-secondary: #5A5A5A;
+    --text-tertiary: #767676;
+    --math: #2563EB;
+    --ela: #7C3AED;
+    --science: #059669;
+    --social: #D97706;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter', sans-serif;
+    color: var(--ink);
+    background:
+      radial-gradient(ellipse 800px 600px at 10% 0%, rgba(130,40,75,0.07), transparent 60%),
+      radial-gradient(ellipse 900px 700px at 90% 10%, rgba(110,110,158,0.1), transparent 55%),
+      radial-gradient(ellipse 900px 800px at 50% 100%, rgba(196,152,61,0.07), transparent 55%),
+      var(--parchment);
+    min-height: 100vh;
+    line-height: 1.5;
+  }
+  .page { max-width: 1180px; margin: 0 auto; padding: 2.5rem 1.25rem 5rem; }
+
+  h1.hero {
+    font-family: 'Cormorant SC', serif;
+    font-weight: 700;
+    font-size: 2.1rem;
+    margin: 0 0 0.5rem;
+    color: var(--ink);
+    letter-spacing: 0.04em;
+  }
+  .subtitle {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    max-width: 780px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+  .hero-wrap { text-align: center; margin-bottom: 2rem; }
+  .toc {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin: 1.25rem auto 2.5rem;
+  }
+  .toc a {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--night);
+    background: rgba(255,255,255,0.65);
+    border: 1px solid rgba(0,0,0,0.08);
+    padding: 0.4rem 0.8rem;
+    border-radius: 8px;
+    text-decoration: none;
+  }
+  .toc a:hover { background: rgba(255,255,255,0.95); }
+
+  section.block { margin-top: 3.75rem; scroll-margin-top: 1rem; }
+  .block-head { margin-bottom: 1.25rem; max-width: 820px; }
+  .block-head .tag {
+    display: inline-block;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent-primary);
+    margin-bottom: 0.35rem;
+  }
+  .block-head h2 {
+    font-family: 'Cormorant SC', serif;
+    font-weight: 700;
+    font-size: 1.75rem;
+    margin: 0 0 0.4rem;
+    color: var(--ink);
+    letter-spacing: 0.02em;
+  }
+  .block-head p {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    margin: 0;
+    max-width: 760px;
+    line-height: 1.6;
+  }
+
+  .rec-box {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 1.25rem 1.5rem;
+    border-radius: 12px;
+    background: rgba(255,255,255,0.55);
+    border-left: 3px solid var(--accent-secondary);
+    font-size: 0.92rem;
+    color: var(--text-secondary);
+    line-height: 1.7;
+  }
+  .rec-box strong { color: var(--ink); }
+  .rec-box ul { margin: 0.5rem 0 0; padding-left: 1.1rem; }
+  .rec-box li { margin-top: 0.35rem; }
+
+  /* Two-column layout: annotations on the left, preview on the right */
+  .mock-wrap {
+    display: grid;
+    grid-template-columns: 360px 1fr;
+    gap: 2rem;
+    align-items: start;
+    margin-top: 1rem;
+  }
+  @media (max-width: 1000px) { .mock-wrap { grid-template-columns: 1fr; } }
+
+  .annot h3 {
+    font-family: 'Cormorant SC', serif;
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin: 0 0 0.5rem;
+    color: var(--ink);
+    letter-spacing: 0.03em;
+  }
+  .annot h4 {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent-primary);
+    margin: 1rem 0 0.35rem;
+  }
+  .annot p {
+    font-size: 0.84rem;
+    color: var(--text-secondary);
+    margin: 0.25rem 0;
+    line-height: 1.55;
+  }
+  .annot ul { margin: 0.3rem 0 0.2rem; padding-left: 1rem; font-size: 0.82rem; color: var(--text-secondary); line-height: 1.55; }
+  .annot li { margin-top: 0.15rem; }
+  .annot .why {
+    background: rgba(130,40,75,0.06);
+    border: 1px solid rgba(130,40,75,0.15);
+    border-radius: 8px;
+    padding: 0.6rem 0.75rem;
+    font-size: 0.8rem;
+    color: var(--ink);
+    line-height: 1.55;
+    margin-top: 0.6rem;
+  }
+  .annot .why strong { color: var(--accent-secondary); }
+
+  /* ── app shell ── */
+  .app {
+    background:
+      radial-gradient(ellipse at top, rgba(110,110,158,0.08), transparent 60%),
+      var(--parchment);
+    border: 1px solid rgba(0,0,0,0.08);
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 6px 22px rgba(11,46,74,0.1);
+    display: flex;
+    flex-direction: column;
+    min-height: 560px;
+  }
+  .app-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+    background: rgba(249,246,239,0.85);
+  }
+  .app-header .wordmark {
+    font-family: 'Cormorant SC', serif;
+    font-size: 0.9rem;
+    letter-spacing: 0.06em;
+    color: var(--night);
+  }
+  .app-header .nav-row { display: inline-flex; gap: 0.3rem; font-size: 0.76rem; align-items: center; }
+  .app-header .nav-row a {
+    padding: 0.3rem 0.6rem;
+    border-radius: 6px;
+    color: var(--text-secondary);
+    text-decoration: none;
+  }
+  .app-header .nav-row a.active {
+    color: var(--night);
+    background: rgba(110,110,158,0.12);
+    font-weight: 600;
+  }
+  .app-header .upgrade-tiny {
+    font-size: 0.72rem;
+    color: #B08A2E;
+    font-weight: 600;
+    margin-left: 0.5rem;
+    padding: 0.3rem 0.55rem;
+    border-radius: 6px;
+  }
+  .app-body {
+    padding: 1.1rem 1.1rem 1.4rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+  }
+
+  /* ── frost cards ── */
+  .frost {
+    background: rgba(255,255,255,0.78);
+    border: 1px solid rgba(255,255,255,0.55);
+    border-radius: 12px;
+    padding: 0.95rem 1rem;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+  }
+  .frost h4 {
+    font-family: 'Cormorant SC', serif;
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: var(--ink);
+    margin: 0 0 0.6rem;
+    letter-spacing: 0.04em;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+  }
+  .frost h4 .h4-sub {
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 0.7rem;
+    color: var(--text-tertiary);
+    letter-spacing: 0.02em;
+    text-transform: none;
+  }
+
+  .chip-upgrade {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.2rem 0.5rem;
+    border-radius: 5px;
+    background: rgba(196,152,61,0.12);
+    color: #B08A2E;
+    border: 1px solid rgba(196,152,61,0.35);
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  .chip-upgrade:hover { background: rgba(196,152,61,0.2); }
+  .chip-ghost {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.2rem 0.5rem;
+    border-radius: 5px;
+    background: rgba(0,0,0,0.04);
+    color: var(--text-tertiary);
+    border: 1px solid rgba(0,0,0,0.08);
+  }
+  .lock-icon {
+    display: inline-block;
+    width: 9px; height: 10px;
+    background: currentColor;
+    -webkit-mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M17 11h-1V7a4 4 0 10-8 0v4H7a2 2 0 00-2 2v7a2 2 0 002 2h10a2 2 0 002-2v-7a2 2 0 00-2-2zm-7-4a2 2 0 114 0v4h-4V7z'/></svg>") center/contain no-repeat;
+            mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M17 11h-1V7a4 4 0 10-8 0v4H7a2 2 0 00-2 2v7a2 2 0 002 2h10a2 2 0 002-2v-7a2 2 0 00-2-2zm-7-4a2 2 0 114 0v4h-4V7z'/></svg>") center/contain no-repeat;
+  }
+
+  /* ── DASHBOARD bits ── */
+
+  /* Hero counter for monthly quota */
+  .quota-hero {
+    background: linear-gradient(135deg, rgba(11,46,74,0.05), rgba(110,110,158,0.08));
+    border: 1px solid rgba(11,46,74,0.12);
+    border-radius: 14px;
+    padding: 1.1rem 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+  .quota-hero .left {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+  .quota-hero .label {
+    font-size: 0.66rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: var(--accent-primary);
+    text-transform: uppercase;
+  }
+  .quota-hero .big {
+    font-family: 'Cormorant SC', serif;
+    font-size: 1.65rem;
+    font-weight: 700;
+    color: var(--ink);
+    letter-spacing: 0.02em;
+  }
+  .quota-hero .big .dim { color: var(--text-tertiary); font-weight: 500; }
+  .quota-hero .sub {
+    font-size: 0.78rem;
+    color: var(--text-secondary);
+  }
+  .quota-hero .cta-primary {
+    background: var(--night);
+    color: var(--parchment);
+    font-size: 0.82rem;
+    font-weight: 600;
+    padding: 0.6rem 1.1rem;
+    border-radius: 9px;
+    text-decoration: none;
+    letter-spacing: 0.02em;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+  }
+  .quota-dots {
+    display: inline-flex;
+    gap: 0.3rem;
+    margin-top: 0.4rem;
+  }
+  .quota-dot {
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    background: rgba(130,40,75,0.15);
+    border: 1px solid rgba(130,40,75,0.35);
+  }
+  .quota-dot.filled {
+    background: var(--accent-secondary);
+    border-color: var(--accent-secondary);
+  }
+
+  /* archetype strip (reinforce quiz identity) */
+  .archetype-strip {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    padding: 0.7rem 0.9rem;
+    background: rgba(130,40,75,0.05);
+    border: 1px solid rgba(130,40,75,0.12);
+    border-radius: 10px;
+  }
+  .archetype-strip .icon {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #82284b, #b54a74);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-family: 'Cormorant SC', serif;
+    font-size: 1rem;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  .archetype-strip .text { flex: 1; }
+  .archetype-strip .label {
+    font-size: 0.64rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent-secondary);
+  }
+  .archetype-strip .name {
+    font-family: 'Cormorant SC', serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--ink);
+    letter-spacing: 0.02em;
+  }
+  .archetype-strip .thin { font-size: 0.74rem; color: var(--text-secondary); }
+  .archetype-strip a {
+    font-size: 0.74rem;
+    color: var(--accent-primary);
+    text-decoration: none;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  /* Lesson list */
+  .lesson-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.55rem 0;
+    font-size: 0.82rem;
+    color: var(--ink);
+    border-bottom: 1px dashed rgba(0,0,0,0.08);
+    gap: 0.5rem;
+  }
+  .lesson-row:last-child { border-bottom: none; padding-bottom: 0.15rem; }
+  .lesson-row .ttl { font-weight: 600; }
+  .lesson-row .sub { font-size: 0.7rem; color: var(--text-tertiary); margin-top: 0.15rem; }
+  .lesson-row .actions { display: inline-flex; gap: 0.3rem; align-items: center; flex-shrink: 0; }
+  .lesson-row .actions a.link {
+    font-size: 0.72rem;
+    color: var(--night);
+    text-decoration: none;
+    font-weight: 600;
+    padding: 0.15rem 0.4rem;
+    border-radius: 4px;
+    background: rgba(11,46,74,0.06);
+  }
+
+  /* unlock preview card */
+  .unlock-card {
+    background: rgba(11,46,74,0.03);
+    border: 1px dashed rgba(11,46,74,0.18);
+    border-radius: 12px;
+    padding: 1rem 1.1rem;
+  }
+  .unlock-card h4 {
+    font-family: 'Cormorant SC', serif;
+    font-size: 0.95rem;
+    color: var(--night);
+    margin: 0 0 0.5rem;
+    letter-spacing: 0.04em;
+    font-weight: 700;
+  }
+  .unlock-card .tease-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+  }
+  .unlock-tease {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6rem;
+    font-size: 0.8rem;
+    color: var(--ink);
+    line-height: 1.45;
+  }
+  .unlock-tease .check {
+    width: 18px; height: 18px; border-radius: 50%;
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(212,175,55,0.15);
+    color: #B08A2E;
+    font-weight: 700;
+    font-size: 0.72rem;
+    margin-top: 1px;
+  }
+  .unlock-tease b { font-weight: 600; color: var(--ink); }
+  .unlock-tease .explain { color: var(--text-secondary); font-size: 0.76rem; margin-top: 0.1rem; display: block; }
+  .unlock-card .cta-row {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.8rem;
+  }
+  .unlock-card .cta-row a {
+    flex: 1;
+    text-align: center;
+    font-size: 0.78rem;
+    font-weight: 600;
+    padding: 0.5rem 0.5rem;
+    border-radius: 8px;
+    text-decoration: none;
+  }
+  .unlock-card .cta-row .primary {
+    background: var(--night);
+    color: var(--parchment);
+  }
+  .unlock-card .cta-row .secondary {
+    color: var(--night);
+    background: transparent;
+    border: 1px solid rgba(11,46,74,0.2);
+  }
+
+  /* ── STANDARDS bits ── */
+  .search-bar {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    background: #fff;
+    border: 1px solid rgba(0,0,0,0.08);
+    border-radius: 10px;
+    padding: 0.65rem 0.8rem;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+  }
+  .search-bar .entered { color: var(--ink); font-weight: 500; }
+  .search-bar svg { flex-shrink: 0; color: var(--text-tertiary); }
+  .search-bar .ai {
+    margin-left: auto;
+    font-size: 0.58rem;
+    color: var(--accent-tertiary);
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    padding: 0.1rem 0.35rem;
+    border: 1px solid rgba(196,152,61,0.4);
+    border-radius: 4px;
+  }
+  .filters-row {
+    display: flex;
+    gap: 0.35rem;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .filter {
+    font-size: 0.7rem;
+    padding: 0.25rem 0.55rem;
+    border-radius: 6px;
+    background: rgba(255,255,255,0.68);
+    border: 1px solid rgba(0,0,0,0.08);
+    color: var(--text-secondary);
+  }
+  .filter.active {
+    background: var(--night);
+    color: var(--parchment);
+    border-color: var(--night);
+    font-weight: 600;
+  }
+
+  .std-row {
+    display: flex;
+    gap: 0.6rem;
+    padding: 0.65rem 0.8rem;
+    border-radius: 9px;
+    background: rgba(255,255,255,0.72);
+    border: 1px solid rgba(0,0,0,0.05);
+    font-size: 0.78rem;
+    align-items: flex-start;
+    transition: background 0.15s;
+  }
+  .std-row:hover { background: rgba(255,255,255,0.92); }
+  .std-row.selected {
+    background: rgba(130,40,75,0.05);
+    border-color: rgba(130,40,75,0.25);
+  }
+  .std-check {
+    width: 16px; height: 16px;
+    border: 1.5px solid rgba(0,0,0,0.2);
+    border-radius: 4px;
+    flex-shrink: 0;
+    margin-top: 2px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.6rem;
+    color: transparent;
+    background: #fff;
+  }
+  .std-row.selected .std-check {
+    background: var(--accent-secondary);
+    border-color: var(--accent-secondary);
+    color: #fff;
+  }
+  .std-code {
+    font-family: 'Menlo', 'SF Mono', monospace;
+    font-size: 0.68rem;
+    font-weight: 600;
+    padding: 0.15rem 0.45rem;
+    border-radius: 4px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .std-code.math { background: rgba(37,99,235,0.1); color: var(--math); }
+  .std-code.ela { background: rgba(124,58,237,0.1); color: var(--ela); }
+  .std-code.science { background: rgba(5,150,105,0.1); color: var(--science); }
+  .std-code.social { background: rgba(217,119,6,0.1); color: var(--social); }
+  .std-row .desc { flex: 1; color: var(--ink); line-height: 1.45; font-size: 0.78rem; }
+  .std-row .desc .domain { font-size: 0.68rem; color: var(--text-tertiary); margin-top: 0.15rem; }
+  .std-row .mini-btn {
+    font-size: 0.7rem;
+    padding: 0.3rem 0.65rem;
+    border-radius: 6px;
+    background: var(--night);
+    color: var(--parchment);
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    text-decoration: none;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .std-row .mini-btn:hover { background: #143f60; }
+
+  /* Selection tray (sticky-ish at bottom of standards list) */
+  .selection-tray {
+    position: sticky;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(11,46,74,0.95), rgba(110,110,158,0.95));
+    color: var(--parchment);
+    border-radius: 12px;
+    padding: 0.85rem 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.6rem;
+    box-shadow: 0 6px 18px rgba(11,46,74,0.25);
+  }
+  .selection-tray .count {
+    font-size: 0.82rem;
+    font-weight: 500;
+  }
+  .selection-tray .count strong {
+    font-family: 'Cormorant SC', serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+  }
+  .selection-tray .hint {
+    font-size: 0.72rem;
+    color: rgba(255,255,255,0.75);
+    display: block;
+    margin-top: 0.1rem;
+  }
+  .selection-tray a.go {
+    background: var(--parchment);
+    color: var(--night);
+    font-size: 0.82rem;
+    font-weight: 600;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  /* Standards hero pitch */
+  .std-hero {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    padding-bottom: 0.25rem;
+  }
+  .std-hero h3 {
+    font-family: 'Cormorant SC', serif;
+    font-weight: 700;
+    font-size: 1.25rem;
+    margin: 0;
+    color: var(--ink);
+    letter-spacing: 0.03em;
+  }
+  .std-hero p {
+    margin: 0;
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+  }
+  .philosophy-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--accent-secondary);
+    background: rgba(130,40,75,0.08);
+    border: 1px solid rgba(130,40,75,0.2);
+    padding: 0.25rem 0.55rem;
+    border-radius: 20px;
+    margin-top: 0.25rem;
+    align-self: flex-start;
+  }
+  .philosophy-pill .diamond { color: var(--accent-gold); font-size: 0.85rem; line-height: 0.7; }
+
+  /* Coverage card (gated paid) — subtle, not aspirationally-loaded */
+  .coverage-teaser {
+    background: rgba(255,255,255,0.55);
+    border: 1px dashed rgba(11,46,74,0.2);
+    border-radius: 10px;
+    padding: 0.85rem 0.95rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .coverage-teaser .left { flex: 1; }
+  .coverage-teaser .title {
+    font-family: 'Cormorant SC', serif;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--ink);
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-bottom: 0.15rem;
+  }
+  .coverage-teaser .body {
+    font-size: 0.76rem;
+    color: var(--text-secondary);
+    line-height: 1.45;
+  }
+
+  /* final note */
+  .final-note {
+    max-width: 900px;
+    margin: 4rem auto 0;
+    padding: 1.25rem 1.5rem;
+    border-left: 3px solid var(--accent-tertiary);
+    background: rgba(255,255,255,0.45);
+    border-radius: 8px;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+  .final-note strong { color: var(--ink); }
+</style>
+</head>
+<body>
+<main class="page">
+
+  <div class="hero-wrap">
+    <h1 class="hero">Free-tier previews · polished /dashboard & /standards</h1>
+    <p class="subtitle">
+      Narrowed to the two recommended options (D-B and S-B) and pushed further. Both pages now funnel hard toward one thing — creating lessons — because the cap is what converts. Paid features are still visible but stay on the paid side.
+    </p>
+    <nav class="toc">
+      <a href="#strategy">Why this works</a>
+      <a href="#standards">Standards (S-B)</a>
+      <a href="#dashboard">Dashboard (D-B)</a>
+      <a href="#decisions">Open questions resolved</a>
+    </nav>
+  </div>
+
+  <!-- STRATEGY -->
+  <section id="strategy" class="block">
+    <div class="block-head">
+      <span class="tag">Thesis</span>
+      <h2>The whole free tier is a lesson-creation funnel</h2>
+    </div>
+    <div class="rec-box">
+      <p style="margin:0;"><strong>One loop to rule them all:</strong> every path a free user takes should terminate at <code>/create</code>. Browse standards → seed a lesson. Read a sample → seed a lesson. Land on dashboard → seed another lesson. Three lessons per month isn't a cap we apologize for — it's the trigger for paid conversion. When they hit it, they've already felt the quality of our generated lessons and seen two other rooms (progress, scheduling) they'd unlock.</p>
+      <p style="margin-top:0.55rem;"><strong>Rules both pages follow:</strong></p>
+      <ul>
+        <li><strong>Always unlock:</strong> search, browse, read, and <em>turn anything into a lesson</em>.</li>
+        <li><strong>Always gated:</strong> anything that attaches to a child, writes state over time (scheduling, completions, progress history), or assumes children exist.</li>
+        <li><strong>Never show bleak emptiness.</strong> If a card would read "0 children" or "Nothing yet" on free tier, we replace it with a lesson-creation prompt or an unlock preview. The free user literally cannot add a child — so we don't tease the shape of something they can't fill.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ======================================================= -->
+  <!-- STANDARDS (S-B) — now first, it's the stronger conversion path -->
+  <!-- ======================================================= -->
+  <section id="standards" class="block">
+    <div class="block-head">
+      <span class="tag">Mockup · /standards · option S-B (finessed)</span>
+      <h2>Standards as a lesson-seed surface</h2>
+      <p>Browsing a state standard should feel like opening a pantry full of ingredients — everything is one click away from a finished lesson. Multi-select lets users stack standards into a single lesson. "Track for child" stays gated because that's where the paid value actually lives.</p>
+    </div>
+
+    <div class="mock-wrap">
+
+      <!-- Annotations -->
+      <aside class="annot">
+        <h3>What's different from before</h3>
+        <p>Pushed further along the "browse → create" axis, and tightened the conversion angle so standards feels inseparable from <code>/create</code>.</p>
+
+        <h4>Key changes</h4>
+        <ul>
+          <li>Hero reframes the page as a <b>tool</b>, not a reference: "Turn any standard into a lesson."</li>
+          <li>Philosophy pill up top so users see their quiz result echoed back — "Lessons match your <em>Charlotte Mason</em> style."</li>
+          <li>Multi-select with a sticky bottom tray: <b>pick N standards → one lesson covers them all</b>.</li>
+          <li>Every row's primary CTA goes to <code>/create?standards=…</code>. This already works today.</li>
+          <li>Paid "track per child" collapsed into a single footer teaser — no lock icons screaming throughout.</li>
+          <li>Removed "SEO win" rhetoric — per your call, <code>/standards</code> gets <code>noindex</code>.</li>
+        </ul>
+
+        <div class="why">
+          <strong>Why this drives paid conversion:</strong> standards is the page homeschool parents come back to weekly (state compliance is the chore). If we make every visit end in a generated lesson they love, they'll burn through 3 lessons/mo fast — and by then they've seen exactly what tracking would add.
+        </div>
+
+        <h4>Still gated</h4>
+        <ul>
+          <li>"Track per child" button on each standard (needs a child).</li>
+          <li>Per-child coverage heatmap (needs children + history).</li>
+          <li>"Auto-mark as covered" on lesson completion.</li>
+        </ul>
+      </aside>
+
+      <!-- App preview -->
+      <div class="app">
+        <div class="app-header">
+          <span class="wordmark">The Sage's Compass</span>
+          <div class="nav-row">
+            <a href="#">Lessons</a>
+            <a href="#" class="active">Standards</a>
+            <a href="#">Dashboard</a>
+            <span class="upgrade-tiny">Upgrade</span>
+          </div>
+        </div>
+        <div class="app-body">
+
+          <div class="std-hero">
+            <h3>Turn any standard into a lesson</h3>
+            <p>Search K–12 standards by state or framework. Pick one or stack several — we'll write a single lesson that covers them all, matched to your teaching style.</p>
+            <span class="philosophy-pill"><span class="diamond">✦</span> Your style: Charlotte Mason</span>
+          </div>
+
+          <div class="search-bar">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <span class="entered">fractions · grade 3</span>
+            <span class="ai">AI SEARCH</span>
+          </div>
+          <div class="filters-row">
+            <span class="filter active">Grade 3</span>
+            <span class="filter active">Math</span>
+            <span class="filter">Michigan</span>
+            <span class="filter">CCSS</span>
+            <span class="filter">+ more</span>
+          </div>
+
+          <!-- 6 standards, 3 selected -->
+          <div class="std-row selected">
+            <span class="std-check">✓</span>
+            <span class="std-code math">3.NF.A.1</span>
+            <div class="desc">
+              Understand a fraction 1/b as the quantity formed by 1 part when a whole is partitioned into b equal parts.
+              <div class="domain">Fractions · Grade 3</div>
+            </div>
+            <a href="/create?standards=3.NF.A.1" class="mini-btn">Create →</a>
+          </div>
+          <div class="std-row selected">
+            <span class="std-check">✓</span>
+            <span class="std-code math">3.NF.A.2</span>
+            <div class="desc">
+              Understand a fraction as a number on the number line; represent fractions on a number line diagram.
+              <div class="domain">Fractions · Grade 3</div>
+            </div>
+            <a href="/create?standards=3.NF.A.2" class="mini-btn">Create →</a>
+          </div>
+          <div class="std-row selected">
+            <span class="std-check">✓</span>
+            <span class="std-code math">3.NF.A.3</span>
+            <div class="desc">
+              Explain equivalence of fractions in special cases, and compare fractions by reasoning about their size.
+              <div class="domain">Fractions · Grade 3</div>
+            </div>
+            <a href="/create?standards=3.NF.A.3" class="mini-btn">Create →</a>
+          </div>
+          <div class="std-row">
+            <span class="std-check"></span>
+            <span class="std-code math">3.NF.A.3b</span>
+            <div class="desc">
+              Recognize and generate simple equivalent fractions, and explain why the fractions are equivalent.
+              <div class="domain">Fractions · Grade 3</div>
+            </div>
+            <a href="/create?standards=3.NF.A.3b" class="mini-btn">Create →</a>
+          </div>
+          <div class="std-row">
+            <span class="std-check"></span>
+            <span class="std-code math">3.MD.A.1</span>
+            <div class="desc">
+              Tell and write time to the nearest minute and measure time intervals in minutes.
+              <div class="domain">Measurement &amp; Data · Grade 3</div>
+            </div>
+            <a href="/create?standards=3.MD.A.1" class="mini-btn">Create →</a>
+          </div>
+          <div class="std-row">
+            <span class="std-check"></span>
+            <span class="std-code math">3.OA.A.3</span>
+            <div class="desc">
+              Use multiplication and division within 100 to solve word problems in equal-groups and array situations.
+              <div class="domain">Operations &amp; Algebraic Thinking · Grade 3</div>
+            </div>
+            <a href="/create?standards=3.OA.A.3" class="mini-btn">Create →</a>
+          </div>
+
+          <!-- Sticky-ish selection tray -->
+          <div class="selection-tray">
+            <div class="count">
+              <strong>3 standards selected</strong>
+              <span class="hint">One lesson will cover all three — Charlotte-Mason style.</span>
+            </div>
+            <a href="/create?standards=3.NF.A.1,3.NF.A.2,3.NF.A.3" class="go">Create combined lesson →</a>
+          </div>
+
+          <!-- Paid teaser, understated -->
+          <div class="coverage-teaser">
+            <div class="left">
+              <div class="title">
+                Track per-child coverage <span class="chip-upgrade">Homestead</span>
+              </div>
+              <div class="body">On Homestead, every lesson you create auto-marks the standards it covers — see gaps and progress at a glance.</div>
+            </div>
+            <a href="/pricing" style="font-size:0.75rem; color:var(--night); font-weight:600; text-decoration:none; white-space:nowrap;">See plans →</a>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================================================= -->
+  <!-- DASHBOARD (D-B) — now polished to remove bleak zeros -->
+  <!-- ======================================================= -->
+  <section id="dashboard" class="block">
+    <div class="block-head">
+      <span class="tag">Mockup · /dashboard · option D-B (finessed)</span>
+      <h2>Dashboard is the user's lesson library, not a progress cockpit</h2>
+      <p>Free users can't add a child, so we don't pretend the cockpit is there-but-locked. The hero is their monthly quota and a big "Create another" button. Below that: their actual lessons (the data they have), their archetype (to reinforce they're in the right place), and one card showing what Homestead adds.</p>
+    </div>
+
+    <div class="mock-wrap">
+
+      <!-- Annotations -->
+      <aside class="annot">
+        <h3>What's different from before</h3>
+        <p>Your feedback: "0 children / 0 completed" looks bleak, and we can't add kids at free tier anyway. Solved by rebuilding around <b>what the free user actually has and can do</b>.</p>
+
+        <h4>Key changes</h4>
+        <ul>
+          <li>Hero row replaced with a <b>quota counter + big "Create lesson"</b> CTA. Makes the cap visible every visit.</li>
+          <li>No empty calendar. No "0 children" stat. No dashed preview of per-child progress.</li>
+          <li>Archetype strip reminds the user of their quiz result and links back to sample lessons — reinforces identity.</li>
+          <li>Lessons list shows <em>their</em> lessons with real actions (re-open, print, share). "Schedule" is a chip on each row — honest ask where the value would land.</li>
+          <li>Single "What Homestead adds" card with three concrete benefits. Replaces three locked-blur cards that each nagged separately.</li>
+        </ul>
+
+        <div class="why">
+          <strong>Why this converts:</strong> every visit reminds the user how many of their 3 lessons are left. Once the counter hits 0 of 3, the same page pivots (not mocked here) to an upgrade-hero. The dashboard becomes a habit loop: land → see quota → create.
+        </div>
+
+        <h4>Still gated</h4>
+        <ul>
+          <li>"Schedule" chip on any lesson row (scheduling is Homestead).</li>
+          <li>Adding children. The page never suggests it's possible on free — only the unlock card offers it.</li>
+          <li>Completion tracking, marking lessons done, progress history.</li>
+        </ul>
+      </aside>
+
+      <!-- App preview -->
+      <div class="app">
+        <div class="app-header">
+          <span class="wordmark">The Sage's Compass</span>
+          <div class="nav-row">
+            <a href="#">Lessons</a>
+            <a href="#">Standards</a>
+            <a href="#" class="active">Dashboard</a>
+            <span class="upgrade-tiny">Upgrade</span>
+          </div>
+        </div>
+        <div class="app-body">
+
+          <!-- QUOTA HERO -->
+          <div class="quota-hero">
+            <div class="left">
+              <span class="label">This month</span>
+              <div class="big">2<span class="dim"> of 3</span> lessons created</div>
+              <div class="sub">You have 1 free lesson left — resets May&nbsp;1.</div>
+              <div class="quota-dots">
+                <span class="quota-dot filled"></span>
+                <span class="quota-dot filled"></span>
+                <span class="quota-dot"></span>
+              </div>
+            </div>
+            <a href="/create" class="cta-primary">+ Create lesson</a>
+          </div>
+
+          <!-- ARCHETYPE STRIP -->
+          <div class="archetype-strip">
+            <div class="icon">CM</div>
+            <div class="text">
+              <div class="label">Your archetype</div>
+              <div class="name">The Living-Book Naturalist</div>
+              <div class="thin">Charlotte Mason · Place-Based · secondary</div>
+            </div>
+            <a href="/compass/results">View results →</a>
+          </div>
+
+          <!-- LESSON LIBRARY -->
+          <div class="frost">
+            <h4>Your lessons <span class="h4-sub">2 this month · 8 total</span></h4>
+
+            <div class="lesson-row">
+              <div style="flex:1;">
+                <div class="ttl">The Water Cycle</div>
+                <div class="sub">Charlotte Mason · Grade 3 · Science · 3 days ago</div>
+              </div>
+              <div class="actions">
+                <a href="#" class="link">Open</a>
+                <a href="#" class="chip-upgrade"><span class="lock-icon"></span>schedule</a>
+              </div>
+            </div>
+
+            <div class="lesson-row">
+              <div style="flex:1;">
+                <div class="ttl">Backyard Foraging Journal</div>
+                <div class="sub">Place-Based · Grade 3 · Social Studies · 1 week ago</div>
+              </div>
+              <div class="actions">
+                <a href="#" class="link">Open</a>
+                <a href="#" class="chip-upgrade"><span class="lock-icon"></span>schedule</a>
+              </div>
+            </div>
+
+            <div class="lesson-row">
+              <div style="flex:1;">
+                <div class="ttl">Narration of <em>The Secret Garden</em></div>
+                <div class="sub">Charlotte Mason · Grade 3 · ELA · 2 weeks ago</div>
+              </div>
+              <div class="actions">
+                <a href="#" class="link">Open</a>
+                <a href="#" class="chip-upgrade"><span class="lock-icon"></span>schedule</a>
+              </div>
+            </div>
+
+            <div style="text-align:center; margin-top:0.7rem; padding-top:0.6rem; border-top:1px dashed rgba(0,0,0,0.08);">
+              <a href="/standards" style="font-size:0.78rem; color:var(--accent-primary); font-weight:600; text-decoration:none;">
+                Browse standards to seed your next lesson →
+              </a>
+            </div>
+          </div>
+
+          <!-- UNLOCK CARD (single, not three separate locked-blur teases) -->
+          <div class="unlock-card">
+            <h4>What Homestead adds</h4>
+            <div class="tease-list">
+              <div class="unlock-tease">
+                <span class="check">✓</span>
+                <div>
+                  <b>Add up to 4 children</b>
+                  <span class="explain">Attach each lesson to a specific child and track their progress across every standard.</span>
+                </div>
+              </div>
+              <div class="unlock-tease">
+                <span class="check">✓</span>
+                <div>
+                  <b>Schedule lessons to your week</b>
+                  <span class="explain">Drag any lesson onto a day. See what's next for each kid at a glance.</span>
+                </div>
+              </div>
+              <div class="unlock-tease">
+                <span class="check">✓</span>
+                <div>
+                  <b>Unlimited lessons &amp; coverage heatmap</b>
+                  <span class="explain">No monthly cap, plus a state-standards heatmap showing exactly what each child has covered.</span>
+                </div>
+              </div>
+            </div>
+            <div class="cta-row">
+              <a href="/pricing" class="primary">See plans</a>
+              <a href="/create" class="secondary">Create another lesson first</a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- OPEN QUESTIONS RESOLVED -->
+  <section id="decisions" class="block">
+    <div class="block-head">
+      <span class="tag">Resolved</span>
+      <h2>Decisions from the open-questions list</h2>
+    </div>
+    <div class="rec-box">
+      <ul style="margin:0; padding-left:1.1rem;">
+        <li><strong>SEO indexing of /standards → no.</strong> Added <code>&lt;meta name="robots" content="noindex"&gt;</code> guidance. Catalog stays private-by-default; product moat + lesson generation is the pitch, not a scrape-bait standards mirror.</li>
+        <li><strong>Sample-child pattern → skip.</strong> Too easy to read as fake. The free tier already has a stronger narrative (your real lessons + your archetype + a cap) and doesn't need a simulated teacher.</li>
+        <li><strong>"0 children / 0 completed" bleak row → removed.</strong> Replaced with the monthly-quota hero. The word "children" only appears once on the dashboard — in the "What Homestead adds" card, framed positively.</li>
+      </ul>
+    </div>
+  </section>
+
+  <div class="final-note">
+    <strong>If these land, next up to build:</strong>
+    <ul style="margin:0.5rem 0 0; padding-left:1.1rem;">
+      <li>Wire <code>/standards</code> to be reachable on the free tier (TierGate → public view with gated action chips).</li>
+      <li>Pre-fill <code>/create?standards=…</code> query param support (already supported — verify multi-standard encoding).</li>
+      <li>Wire <code>/dashboard</code> similarly — render quota, lesson library, archetype strip; hide the child picker and calendar for compass tier.</li>
+      <li>Add <code>robots</code> noindex meta to <code>/standards</code> route segment.</li>
+      <li>Instrument events: <code>standards_viewed</code>, <code>standard_seed_clicked</code>, <code>standard_combined_lesson_clicked</code>, <code>dashboard_viewed</code>, <code>dashboard_quota_exhausted_viewed</code>.</li>
+    </ul>
+  </div>
+
+</main>
+</body>
+</html>

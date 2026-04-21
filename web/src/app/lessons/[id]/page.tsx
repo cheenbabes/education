@@ -559,6 +559,60 @@ export default function LessonDetailPage() {
             >
               Completion
             </h3>
+            {userTier === "compass" && (
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  gap: "0.75rem",
+                  padding: "0.75rem 0.9rem",
+                  background: "rgba(110,110,158,0.06)",
+                  border: "1px solid rgba(110,110,158,0.3)",
+                  borderRadius: "10px",
+                  flexWrap: "wrap",
+                }}
+              >
+                <div style={{ display: "flex", alignItems: "center", gap: "0.55rem", flex: 1, minWidth: "200px" }}>
+                  <svg
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="var(--accent-primary)"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    style={{ flexShrink: 0 }}
+                  >
+                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                  </svg>
+                  <p style={{ fontSize: "0.82rem", color: "#5A5A5A", lineHeight: 1.45, margin: 0 }}>
+                    Track each child&apos;s completion, rating, and notes with <strong style={{ color: "var(--ink)" }}>Homestead</strong>.
+                  </p>
+                </div>
+                <Link
+                  href={UPGRADE_URL}
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: "0.35rem",
+                    fontSize: "0.75rem",
+                    padding: "0.35rem 0.75rem",
+                    borderRadius: "8px",
+                    border: "1px solid rgba(110,110,158,0.3)",
+                    color: "var(--accent-primary)",
+                    background: "rgba(255,255,255,0.7)",
+                    textDecoration: "none",
+                    fontWeight: 500,
+                    whiteSpace: "nowrap",
+                  }}
+                >
+                  Upgrade to Homestead →
+                </Link>
+              </div>
+            )}
             {children.map((child) => {
               const completion = lesson.completions.find((c) => c.childId === child.id);
               if (completion) {

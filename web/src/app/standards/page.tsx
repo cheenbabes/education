@@ -1,9 +1,9 @@
 "use client";
 
 import { Shell } from "@/components/shell";
-import { TierGate } from "@/components/tier-gate";
 import { useState, useEffect, useRef, useCallback } from "react";
 import Link from "next/link";
+import { CompassStandards } from "./compass-standards";
 
 interface Standard {
   code: string;
@@ -67,11 +67,33 @@ const frostPillBase: React.CSSProperties = {
 const MAX_SELECTED_STANDARDS = 7;
 
 export default function StandardsPage() {
+  const [tier, setTier] = useState<string | null>(null);
+  const [tierLoaded, setTierLoaded] = useState(false);
+
+  useEffect(() => {
+    fetch("/api/user/tier")
+      .then((r) => (r.ok ? r.json() : null))
+      .then((data) => {
+        setTier(data?.tier ?? "compass");
+        setTierLoaded(true);
+      })
+      .catch(() => {
+        setTier("compass");
+        setTierLoaded(true);
+      });
+  }, []);
+
   return (
     <Shell hue="standards">
-      <TierGate requiredTier="homestead" pageName="Standards" description="Track which standards each child has covered and identify gaps">
+      {!tierLoaded ? (
+        <div style={{ display: "flex", justifyContent: "center", padding: "3rem 1rem" }}>
+          <p style={{ color: "#5A5A5A" }}>Loading…</p>
+        </div>
+      ) : tier === "compass" ? (
+        <CompassStandards />
+      ) : (
         <StandardsContent />
-      </TierGate>
+      )}
     </Shell>
   );
 }

@@ -8,6 +8,7 @@ from typing import Optional
 
 from kg.query import get_standards, get_all_standards_for_grade, lookup_standards_by_codes
 from kg.search import score_standards
+from kg.embeddings import semantic_rank
 
 router = APIRouter()
 
@@ -148,7 +149,12 @@ async def search_standards(body: SearchRequest):
         for row in rows:
             flat.append({**row, "subject": subject_name})
 
-    scored = score_standards(body.query, flat)
+    # Prefer semantic (embedding) ranking — handles conversational queries
+    # like "my kid is struggling with reading aloud" that the keyword scorer
+    # misses. Falls back to keyword if embeddings are unavailable or empty.
+    scored = semantic_rank(body.query, flat, body.state, body.grade)
+    if not scored:
+        scored = score_standards(body.query, flat)
 
     results = [
         SearchResultItem(
