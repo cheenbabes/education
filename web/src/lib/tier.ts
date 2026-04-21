@@ -97,11 +97,19 @@ export function getUsagePeriodStart(tier: Tier, periodStart: Date | null): Date 
   return new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), 1));
 }
 
-/** When the current usage window resets. */
+/** When the current usage window resets.
+ *
+ * Clerk can return a stale `periodEnd` in the past for tier-override accounts
+ * or mid-renewal states; guard so callers never see a reset date that's
+ * already elapsed — fall back to the first of next calendar month in UTC.
+ */
 export function getUsageResetsAt(tier: Tier, periodEnd: Date | null): Date {
-  if (tier !== "compass" && periodEnd) return periodEnd;
   const now = new Date();
-  return new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth() + 1, 1));
+  const nextMonthStart = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth() + 1, 1));
+  if (tier === "compass") return nextMonthStart;
+  if (!periodEnd) return nextMonthStart;
+  if (periodEnd.getTime() <= now.getTime()) return nextMonthStart;
+  return periodEnd;
 }
 
 // ── Export slug lookup for tests ─────────────────────────────────────────────

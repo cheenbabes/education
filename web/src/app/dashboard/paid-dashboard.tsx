@@ -114,12 +114,27 @@ function formatRelative(iso: string): string {
 }
 
 function formatResetDate(iso: string | undefined): string {
-  if (!iso) return "next month";
-  try {
-    return new Date(iso).toLocaleDateString("en-US", { month: "short", day: "numeric" });
-  } catch {
-    return "next month";
-  }
+  const target = nextValidResetDate(iso);
+  if (!target) return "next month";
+  return target.toLocaleDateString("en-US", { month: "short", day: "numeric" });
+}
+
+/**
+ * Returns a Date safely in the future for "next reset" copy. Falls back to
+ * the first of next calendar month if `iso` is missing, unparseable, or in
+ * the past (which happens when Clerk returns a stale periodEnd for tier-
+ * override accounts or accounts that haven't renewed yet).
+ */
+function nextValidResetDate(iso: string | undefined): Date | null {
+  const firstOfNextMonth = () => {
+    const now = new Date();
+    return new Date(now.getFullYear(), now.getMonth() + 1, 1);
+  };
+  if (!iso) return firstOfNextMonth();
+  const parsed = new Date(iso);
+  if (isNaN(parsed.getTime())) return firstOfNextMonth();
+  if (parsed.getTime() <= Date.now()) return firstOfNextMonth();
+  return parsed;
 }
 
 function prettyArchetype(slug: string): string {

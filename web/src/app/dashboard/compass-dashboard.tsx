@@ -66,12 +66,20 @@ function formatRelative(iso: string): string {
   return m === 1 ? "1 month ago" : `${m} months ago`;
 }
 
-function formatResetDate(iso: string): string {
-  try {
-    return new Date(iso).toLocaleDateString("en-US", { month: "short", day: "numeric" });
-  } catch {
-    return "next month";
-  }
+function formatResetDate(iso: string | undefined): string {
+  const firstOfNextMonth = () => {
+    const now = new Date();
+    return new Date(now.getFullYear(), now.getMonth() + 1, 1);
+  };
+  // Guard against stale Clerk billing data: if the ISO is missing, unparseable,
+  // or in the past (can happen on tier-override accounts or mid-renewal), fall
+  // back to the first of next calendar month so we never show a past reset date.
+  const parsed = iso ? new Date(iso) : null;
+  const target =
+    parsed && !isNaN(parsed.getTime()) && parsed.getTime() > Date.now()
+      ? parsed
+      : firstOfNextMonth();
+  return target.toLocaleDateString("en-US", { month: "short", day: "numeric" });
 }
 
 function prettyArchetype(slug: string): string {
