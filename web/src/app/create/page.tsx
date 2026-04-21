@@ -813,8 +813,14 @@ function GeneratePage() {
                         <p className={`text-sm font-medium ${isSelected ? "text-[#F9F6EF]" : "text-gray-900"}`}>
                           {p.label}
                         </p>
-                        {isMatch && !isSelected && (
-                          <span style={{ fontSize: "0.6rem", color: "#82284b", fontWeight: 600 }}>✦</span>
+                        {isMatch && (
+                          <span style={{
+                            fontSize: "0.6rem",
+                            // On the dark-blue selected row, use the warm gold accent
+                            // so the ✦ stays visible; on a light row, keep it burgundy.
+                            color: isSelected ? "#D4AF37" : "#82284b",
+                            fontWeight: 600,
+                          }}>✦</span>
                         )}
                       </div>
                       <p className={`text-xs ${isSelected ? "text-[#F9F6EF]/70" : "text-gray-500"}`}>
