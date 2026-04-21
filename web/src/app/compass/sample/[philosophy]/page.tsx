@@ -4,6 +4,8 @@ import Link from "next/link";
 import { SAMPLE_LESSONS } from "@/lib/compass/sample-lessons";
 import { PHILOSOPHIES, type PhilosophyId } from "@/lib/types";
 import { SampleLessonViewTracker, SampleLessonCta } from "./sample-lesson-tracking";
+import { LessonSectionsDisplay } from "@/components/lesson-sections-display";
+import { PHILOSOPHY_COLORS, resolvePhilosophyKey } from "@/lib/compass/scoring";
 
 const VALID_IDS = new Set(PHILOSOPHIES.map((p) => p.id));
 
@@ -149,7 +151,7 @@ export default function SampleLessonPage({ params }: Params) {
               }}
             >
               {(() => {
-                const total = lesson.sections.reduce((n, s) => n + (s.durationMinutes ?? 0), 0);
+                const total = lesson.sections.reduce((n, s) => n + (s.duration_minutes ?? 0), 0);
                 return total > 0 ? `~${total} min` : "~45 min";
               })()}
             </span>
@@ -161,80 +163,11 @@ export default function SampleLessonPage({ params }: Params) {
           )}
         </div>
 
-        {lesson.sections.map((section, idx) => (
-          <div
-            key={idx}
-            style={{
-              background: "rgba(255,255,255,0.78)",
-              borderRadius: "12px",
-              padding: "0.95rem 1rem",
-              borderLeft: "3px solid #82284b",
-              display: "flex",
-              flexDirection: "column",
-              gap: "0.4rem",
-            }}
-          >
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: "0.5rem" }}>
-              <p
-                style={{
-                  fontSize: "0.6rem",
-                  fontWeight: 700,
-                  letterSpacing: "0.12em",
-                  textTransform: "uppercase",
-                  color: "#82284b",
-                  margin: 0,
-                }}
-              >
-                {section.type}
-              </p>
-              {section.durationMinutes !== undefined && (
-                <span style={{ fontSize: "0.65rem", color: "var(--text-tertiary)" }}>
-                  {section.durationMinutes} min
-                </span>
-              )}
-            </div>
-            <h3
-              className="font-cormorant-sc"
-              style={{
-                fontSize: "1.05rem",
-                fontWeight: 600,
-                color: "var(--ink)",
-                margin: 0,
-                lineHeight: 1.3,
-              }}
-            >
-              {section.title}
-            </h3>
-            {section.instructions.split(/\n\n+/).map((para, pIdx) => (
-              <p
-                key={pIdx}
-                style={{
-                  fontSize: "0.82rem",
-                  color: "var(--text-secondary)",
-                  margin: 0,
-                  lineHeight: 1.6,
-                  whiteSpace: "pre-wrap",
-                }}
-              >
-                {para}
-              </p>
-            ))}
-            {section.tips && section.tips.length > 0 && (
-              <div style={{ marginTop: "0.3rem", padding: "0.5rem 0.6rem", background: "rgba(196,152,61,0.08)", borderRadius: "8px" }}>
-                {section.tips.map((tip, tIdx) => (
-                  <p key={tIdx} style={{ fontSize: "0.74rem", color: "var(--text-secondary)", margin: tIdx > 0 ? "0.3rem 0 0" : 0, lineHeight: 1.5 }}>
-                    <span style={{ color: "#C4983D", fontWeight: 700, marginRight: "0.3rem" }}>Tip:</span>{tip}
-                  </p>
-                ))}
-              </div>
-            )}
-            {section.philosophyConnection && (
-              <p style={{ fontSize: "0.7rem", color: "var(--text-tertiary)", margin: "0.25rem 0 0", fontStyle: "italic", lineHeight: 1.5 }}>
-                {section.philosophyConnection}
-              </p>
-            )}
-          </div>
-        ))}
+        <LessonSectionsDisplay
+          sections={lesson.sections}
+          philosophyColor={PHILOSOPHY_COLORS[resolvePhilosophyKey(lesson.philosophyId)] ?? "#6E6E9E"}
+          initialAllOpen
+        />
 
         {lesson.standards && lesson.standards.length > 0 && (
           <div style={{ display: "flex", gap: "0.3rem", flexWrap: "wrap", padding: "0.3rem 0 0.5rem" }}>

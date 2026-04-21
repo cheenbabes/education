@@ -14,6 +14,7 @@ import { WorksheetMafsVisual } from "@/components/WorksheetMafsVisual";
 import { UPGRADE_URL } from "@/lib/upgradeUrl";
 import { useFeatureFlagEnabled } from "posthog-js/react";
 import { track } from "@/lib/analytics";
+import { LessonSectionsDisplay } from "@/components/lesson-sections-display";
 
 interface LessonDetail {
   id: string;
@@ -863,7 +864,9 @@ export default function LessonDetailPage() {
             </div>
           )}
 
-          {/* Lesson Sections — each individually collapsible, expanded by default */}
+          {/* Lesson Sections — rendered via the shared component so that the
+              Compass sample page (/compass/sample/[philosophy]) stays
+              visually identical to the live lesson detail. */}
           {lessonSections.length > 0 && (
             <div>
               <h3
@@ -872,109 +875,11 @@ export default function LessonDetailPage() {
               >
                 Lesson Plan
               </h3>
-              <div className="space-y-4">
-                {lessonSections.map((section, i) => {
-                  const ioConfig: Record<string, { color: string; bg: string; icon: string }> = {
-                    outdoor: { color: "#3D7E5A", bg: "rgba(61,126,90,0.12)", icon: "\uD83C\uDF3F" },
-                    indoor:  { color: "#5A7FA0", bg: "rgba(90,127,160,0.12)", icon: "\uD83C\uDFE0" },
-                    both:    { color: "#7D6B9E", bg: "rgba(125,107,158,0.12)", icon: "\u2728" },
-                  };
-                  const io = ioConfig[section.indoor_outdoor] || ioConfig.both;
-                  const open = isSectionOpen(i);
-
-                  return (
-                    <div key={i} style={{ ...frostCard, borderLeft: `3px solid ${io.color}30` }}>
-                      <div
-                        className="flex items-center justify-between"
-                        style={{ cursor: "pointer" }}
-                        onClick={() => toggleSection(i)}
-                      >
-                        <div className="flex items-center gap-2">
-                          <ChevronToggle open={open} />
-                          <h4
-                            className="font-cormorant-sc"
-                            style={{ fontSize: "0.85rem", letterSpacing: "0.04em", color: "#0B2E4A", margin: 0 }}
-                          >
-                            {section.title}
-                          </h4>
-                        </div>
-                        <div className="flex gap-1.5">
-                          <span style={{ ...frostPillBase, color: "#5A5A5A" }}>
-                            {section.duration_minutes} min
-                          </span>
-                          <span style={{
-                            ...frostPillBase,
-                            color: io.color,
-                            background: io.bg,
-                            border: `1px solid ${io.color}25`,
-                          }}>
-                            {io.icon} {section.indoor_outdoor}
-                          </span>
-                        </div>
-                      </div>
-
-                      {open && (
-                        <div style={{ marginTop: "0.75rem" }}>
-                          <StructuredInstructions text={section.instructions} />
-
-                          {/* Philosophy Connection block */}
-                          {section.philosophy_connection && (
-                            <div
-                              style={{
-                                borderLeft: `3px solid ${philoColor}40`,
-                                borderRadius: "0 8px 8px 0",
-                                padding: "0.6rem 1rem",
-                                marginTop: "0.75rem",
-                                fontSize: "0.8rem",
-                                color: "#767676",
-                                fontStyle: "italic",
-                                background: `${philoColor}08`,
-                              }}
-                            >
-                              {section.philosophy_connection}
-                            </div>
-                          )}
-
-                          {/* Tips */}
-                          {section.tips?.length > 0 && (
-                            <div style={{
-                              marginTop: "0.75rem",
-                              padding: "0.6rem 0.75rem",
-                              background: "rgba(196,152,61,0.06)",
-                              borderRadius: "8px",
-                              borderLeft: "3px solid rgba(196,152,61,0.3)",
-                            }}>
-                              <p style={{ fontSize: "0.68rem", fontWeight: 600, color: "#B08A2E", textTransform: "uppercase", letterSpacing: "0.05em", marginBottom: "0.35rem" }}>Tips</p>
-                              <div className="space-y-1">
-                                {section.tips.map((tip, j) => (
-                                  <p key={j} style={{ fontSize: "0.8rem", color: "#5A5A5A", lineHeight: 1.5 }}>{tip}</p>
-                                ))}
-                              </div>
-                            </div>
-                          )}
-
-                          {section.extensions?.length > 0 && (
-                            <div style={{
-                              marginTop: "0.5rem",
-                              padding: "0.6rem 0.75rem",
-                              background: "rgba(90,127,160,0.06)",
-                              borderRadius: "8px",
-                              borderLeft: "3px solid rgba(90,127,160,0.3)",
-                            }}>
-                              <p style={{ fontSize: "0.68rem", fontWeight: 600, color: "#5A7FA0", textTransform: "uppercase", letterSpacing: "0.05em", marginBottom: "0.35rem" }}>Extensions</p>
-                              <ul style={{ listStyle: "disc", paddingLeft: "1.25rem" }} className="space-y-0.5">
-                                {section.extensions.map((ext, j) => (
-                                  <li key={j} style={{ fontSize: "0.8rem", color: "#5A5A5A", lineHeight: 1.5 }}>{ext}</li>
-                                ))}
-                              </ul>
-                            </div>
-                          )}
-                        </div>
-                      )}
-                    </div>
-                  );
-                })}
-              </div>
+              <LessonSectionsDisplay
+                sections={lessonSections}
+                philosophyColor={philoColor}
+                initialAllOpen
+              />
             </div>
           )}
 
