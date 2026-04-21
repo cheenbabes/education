@@ -41,23 +41,26 @@ export interface SampleLesson {
   cleanupNotes?: string;
 }
 
+// Per-lesson teaser blurbs. Each describes what the child actually does in
+// this specific sample, so the reader has a concrete reason to tap through.
+// Authored alongside the lesson; update when sample content is refreshed.
 const TEASERS: Record<PhilosophyId, string> = {
-  "charlotte-mason":
-    "A complete Charlotte Mason lesson — picture study, a living book, narration, and mapwork. No signup, no generation wait.",
   "classical":
-    "A complete Classical lesson — recitation, close reading, vocabulary work, and your child's own composition. No signup, no generation wait.",
+    "Recite a flower poem together, study vocabulary and theme, observe a real flower outdoors, then write and present an original poem.",
   "montessori-inspired":
-    "A complete Montessori-inspired lesson — hands-on materials, concrete-to-abstract sequencing, and child-led observation. No signup, no generation wait.",
-  "waldorf-adjacent":
-    "A complete Waldorf-inspired lesson — story, rhythm, main-lesson book work, and artistic expression. No signup, no generation wait.",
-  "project-based-learning":
-    "A complete project-based lesson — real-world inquiry, student-driven investigation, and a tangible product. No signup, no generation wait.",
+    "Set up a nature-detective kit, observe the backyard, sort living and nonliving with classification cards, then build a food-web model.",
   "place-nature-based":
-    "A complete place-based lesson — outdoor observation, local ecology, and hands-on field work. No signup, no generation wait.",
+    "Take a foraging walk to find edible and useful plants, map what you see, and talk through fairness and seasonal use together.",
+  "project-based-learning":
+    "Accept a museum request to research mythical creatures, walk the landscape they'd come from, then build a field guide with maps and evidence.",
   "unschooling":
-    "A complete unschooling-style lesson — following your child's curiosity with everyday materials and open-ended exploration. No signup, no generation wait.",
+    "Mix two mini sourdough starters, watch the yeast come alive over the day, compare the jars, and decide what to bake.",
   "adaptive":
-    "A complete adaptive lesson — blends the approaches that fit the subject and your child's way of learning. No signup, no generation wait.",
+    "Find circles in famous mosaics, design your own poster, calculate its areas, test the idea outside with chalk, then write a short artist statement.",
+  "charlotte-mason":
+    "Study three artworks from three cultures, narrate what you see, locate each on the world map, then write a museum label with your own question.",
+  "waldorf-adjacent":
+    "Open with a counting verse, hear a short weaving story, make a paper weave to see rows and columns, then record the pattern in a main-lesson book.",
 };
 
 const RAW_SAMPLE_LESSONS: Record<PhilosophyId, Omit<SampleLesson, "teaser">> = {
