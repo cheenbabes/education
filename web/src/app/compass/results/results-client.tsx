@@ -451,6 +451,18 @@ function ResultsPageInner() {
             >
               {sampleLesson.title}
             </h3>
+            {sampleLesson.teaser && (
+              <p
+                style={{
+                  fontSize: "0.82rem",
+                  color: "var(--text-secondary)",
+                  margin: 0,
+                  lineHeight: 1.55,
+                }}
+              >
+                {sampleLesson.teaser}
+              </p>
+            )}
             <div
               style={{
                 background: "rgba(255,255,255,0.6)",

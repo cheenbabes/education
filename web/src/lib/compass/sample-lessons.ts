@@ -32,12 +32,35 @@ export interface SampleLesson {
   /** Primary subject label for the subtitle pill */
   subject: string;
   subjects?: string[];
+  /** Short marketing blurb shown on the /compass/results primary CTA and
+   *  above the lesson title on /compass/sample/[philosophy]. Hooks the
+   *  reader by naming the activities they'll see inside. */
+  teaser?: string;
   sections: SampleLessonSection[];
   standards?: string[];
   cleanupNotes?: string;
 }
 
-export const SAMPLE_LESSONS: Record<PhilosophyId, SampleLesson> = {
+const TEASERS: Record<PhilosophyId, string> = {
+  "charlotte-mason":
+    "A complete Charlotte Mason lesson — picture study, a living book, narration, and mapwork. No signup, no generation wait.",
+  "classical":
+    "A complete Classical lesson — recitation, close reading, vocabulary work, and your child's own composition. No signup, no generation wait.",
+  "montessori-inspired":
+    "A complete Montessori-inspired lesson — hands-on materials, concrete-to-abstract sequencing, and child-led observation. No signup, no generation wait.",
+  "waldorf-adjacent":
+    "A complete Waldorf-inspired lesson — story, rhythm, main-lesson book work, and artistic expression. No signup, no generation wait.",
+  "project-based-learning":
+    "A complete project-based lesson — real-world inquiry, student-driven investigation, and a tangible product. No signup, no generation wait.",
+  "place-nature-based":
+    "A complete place-based lesson — outdoor observation, local ecology, and hands-on field work. No signup, no generation wait.",
+  "unschooling":
+    "A complete unschooling-style lesson — following your child's curiosity with everyday materials and open-ended exploration. No signup, no generation wait.",
+  "adaptive":
+    "A complete adaptive lesson — blends the approaches that fit the subject and your child's way of learning. No signup, no generation wait.",
+};
+
+const RAW_SAMPLE_LESSONS: Record<PhilosophyId, Omit<SampleLesson, "teaser">> = {
   "classical": {
     "sourceLessonId": "cmo7qxau6002eccgsthscdr5c",
     "philosophyId": "classical",
@@ -623,6 +646,15 @@ export const SAMPLE_LESSONS: Record<PhilosophyId, SampleLesson> = {
     "cleanupNotes": "Save the paper weave to display (a fridge ‘textile gallery’ helps motivation). Collect paper scraps into a small bag for future collage or weaving. If you used outdoor counters, make a quick game of ‘find and return’ to gather all stones/acorns before coming inside."
   }
 };
+
+// Merge per-philosophy teaser blurbs into the raw lesson data so the schema
+// stays one source-of-truth while marketing copy is authored separately.
+export const SAMPLE_LESSONS: Record<PhilosophyId, SampleLesson> = Object.fromEntries(
+  (Object.keys(RAW_SAMPLE_LESSONS) as PhilosophyId[]).map((id) => [
+    id,
+    { ...RAW_SAMPLE_LESSONS[id], teaser: TEASERS[id] },
+  ]),
+) as Record<PhilosophyId, SampleLesson>;
 
 /**
  * Resolve the user's CompassResult.philosophyBlend (keyed by PhilosophyKey —

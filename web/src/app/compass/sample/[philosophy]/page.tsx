@@ -104,6 +104,11 @@ export default function SampleLessonPage({ params }: Params) {
           >
             {lesson.title}
           </h1>
+          {lesson.teaser && (
+            <p style={{ fontSize: "0.88rem", color: "var(--text-secondary)", margin: "0 0 0.4rem", lineHeight: 1.55 }}>
+              {lesson.teaser}
+            </p>
+          )}
           <div style={{ display: "flex", gap: "0.35rem", flexWrap: "wrap" }}>
             <span
               style={{
