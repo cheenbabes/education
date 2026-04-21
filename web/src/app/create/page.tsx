@@ -7,6 +7,7 @@ import { useState, useEffect, useRef, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { useUser } from "@clerk/nextjs";
 import { track } from "@/lib/analytics";
+import { getCompassSessionId } from "@/lib/compassSession";
 
 const PENDING_FORM_KEY = "create_pending_form";
 
@@ -175,15 +176,34 @@ function GeneratePage() {
 
     // Anonymous user: skip the authenticated endpoints (they 401). Treat the
     // user as a compass-tier-equivalent — grade/state selectors, no children.
+    // If they have an anon CompassResult in this browser, pull archetype
+    // philosophies so the "✦ matches your archetype" highlight still works
+    // and the transition post-signup is seamless.
     if (!isSignedIn) {
       setTier("compass");
       setLessonsUsed(0);
       setLessonsLimit(3);
       setChildren([]);
       setLoadingChildren(false);
+
+      let anonHasArchetype = false;
+      const sessionId = getCompassSessionId();
+      if (sessionId) {
+        fetch(`/api/compass/by-session?sessionId=${encodeURIComponent(sessionId)}`)
+          .then((r) => (r.ok ? r.json() : null))
+          .then((data) => {
+            if (data?.topPhilosophyIds) {
+              setArchetypePhilosophyIds(data.topPhilosophyIds);
+              anonHasArchetype = true;
+            }
+          })
+          .catch(() => { /* silent */ });
+      }
+
       track("lesson_create_viewed", {
         tier: "compass",
         is_anonymous: true,
+        has_anon_archetype: anonHasArchetype,
         prefill_standards_count: standardsParam ? standardsParam.split(",").filter(Boolean).length : 0,
         prefill_interest: !!searchParams.get("interest"),
         prefill_philosophy: !!searchParams.get("philosophy"),
