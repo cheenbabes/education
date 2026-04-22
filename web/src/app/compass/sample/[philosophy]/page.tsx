@@ -5,6 +5,7 @@ import { Shell } from "@/components/shell";
 import { SAMPLE_LESSONS } from "@/lib/compass/sample-lessons";
 import { PHILOSOPHIES, type PhilosophyId } from "@/lib/types";
 import { SampleLessonViewTracker, SampleLessonCta } from "./sample-lesson-tracking";
+import { SampleStickyCta } from "./sample-sticky-cta";
 import { LessonSectionsDisplay } from "@/components/lesson-sections-display";
 import { PHILOSOPHY_COLORS, resolvePhilosophyKey } from "@/lib/compass/scoring";
 
@@ -126,7 +127,7 @@ export default function SampleLessonPage({ params, searchParams }: Params) {
         <LessonSectionsDisplay
           sections={lesson.sections}
           philosophyColor={PHILOSOPHY_COLORS[resolvePhilosophyKey(lesson.philosophyId)] ?? "#6E6E9E"}
-          initialAllOpen
+          initialOpenFirstOnly
         />
 
         {lesson.standards && lesson.standards.length > 0 && (
@@ -155,7 +156,16 @@ export default function SampleLessonPage({ params, searchParams }: Params) {
           secondary={searchParams?.secondary}
           subject={searchParams?.subject ?? lesson.subject}
         />
+
+        {/* Spacer so the sticky bar never covers the bottom CTA at rest */}
+        <div style={{ height: "4.5rem" }} aria-hidden />
       </div>
+
+      <SampleStickyCta
+        philosophyId={lesson.philosophyId}
+        secondary={searchParams?.secondary}
+        subject={searchParams?.subject ?? lesson.subject}
+      />
     </Shell>
   );
 }

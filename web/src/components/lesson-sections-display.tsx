@@ -29,6 +29,12 @@ interface LessonSectionsDisplayProps {
   philosophyColor: string;
   /** Defaults to all sections open on first render. */
   initialAllOpen?: boolean;
+  /**
+   * When true, only the first section is open on mount and a "Show all N
+   * sections" toggle is rendered below the list. Overrides `initialAllOpen`.
+   * Used by the sample lesson page to shorten the scroll before the CTA.
+   */
+  initialOpenFirstOnly?: boolean;
 }
 
 const frostCard: React.CSSProperties = {
@@ -148,14 +154,22 @@ export function LessonSectionsDisplay({
   sections,
   philosophyColor,
   initialAllOpen = true,
+  initialOpenFirstOnly = false,
 }: LessonSectionsDisplayProps) {
   const [openStates, setOpenStates] = useState<Record<number, boolean>>(() => {
+    if (initialOpenFirstOnly) return { 0: true };
     if (!initialAllOpen) return {};
     return Object.fromEntries(sections.map((_, i) => [i, true]));
   });
 
   const toggle = (i: number) =>
     setOpenStates((prev) => ({ ...prev, [i]: !prev[i] }));
+
+  const allOpen = sections.every((_, i) => openStates[i]);
+  const showExpandAll = initialOpenFirstOnly && sections.length > 1 && !allOpen;
+
+  const expandAll = () =>
+    setOpenStates(Object.fromEntries(sections.map((_, i) => [i, true])));
 
   return (
     <div className="space-y-4">
@@ -289,6 +303,31 @@ export function LessonSectionsDisplay({
           </div>
         );
       })}
+      {showExpandAll && (
+        <button
+          type="button"
+          onClick={expandAll}
+          style={{
+            display: "flex",
+            width: "100%",
+            justifyContent: "center",
+            alignItems: "center",
+            gap: "0.4rem",
+            padding: "0.7rem 0.9rem",
+            background: "transparent",
+            border: "1px dashed rgba(110,110,158,0.4)",
+            borderRadius: "10px",
+            color: "#6E6E9E",
+            fontSize: "0.82rem",
+            fontWeight: 500,
+            cursor: "pointer",
+            fontFamily: "inherit",
+          }}
+        >
+          Show all {sections.length} sections
+          <span style={{ fontSize: "0.75em" }}>▾</span>
+        </button>
+      )}
     </div>
   );
 }

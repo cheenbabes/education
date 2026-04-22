@@ -1,7 +1,13 @@
 "use client";
 
 import { useEffect } from "react";
+import { useFeatureFlagVariantKey } from "posthog-js/react";
 import { track } from "@/lib/analytics";
+import {
+  SAMPLE_CTA_COPY,
+  SAMPLE_CTA_FLAG_KEY,
+  resolveSampleCtaVariant,
+} from "@/lib/compass/sample-cta-copy";
 
 /**
  * Fires compass_sample_lesson_viewed once on mount. Rendered as a zero-height
@@ -19,6 +25,11 @@ export function SampleLessonViewTracker({ philosophyId }: { philosophyId: string
  * navigates to /create with the philosophy pre-filled. Rendered inline at
  * the end of the lesson content — plays well at both mobile and desktop
  * widths without stickiness quirks.
+ *
+ * Copy is driven by the `sample_cta_copy` multivariate feature flag; the
+ * variant is attached to every click as `copy_variant` for funnel
+ * segmentation. The resolver falls back to the control copy if the flag
+ * hasn't loaded yet (e.g. SSR, adblock) so the page always renders.
  */
 export function SampleLessonCta({
   philosophyId,
@@ -29,6 +40,10 @@ export function SampleLessonCta({
   secondary?: string;
   subject?: string;
 }) {
+  const variantRaw = useFeatureFlagVariantKey(SAMPLE_CTA_FLAG_KEY);
+  const variant = resolveSampleCtaVariant(variantRaw);
+  const copy = SAMPLE_CTA_COPY[variant];
+
   const params = new URLSearchParams({ philosophy: philosophyId });
   if (secondary) params.set("secondary", secondary);
   if (subject) params.set("subject", subject);
@@ -50,7 +65,15 @@ export function SampleLessonCta({
     >
       <a
         href={href}
-        onClick={() => track("compass_sample_cta_clicked", { philosophy_id: philosophyId, secondary: secondary ?? null, subject: subject ?? null, source: "sample_page_bottom_cta" })}
+        onClick={() =>
+          track("compass_sample_cta_clicked", {
+            philosophy_id: philosophyId,
+            secondary: secondary ?? null,
+            subject: subject ?? null,
+            source: "sample_page_bottom_cta",
+            copy_variant: variant,
+          })
+        }
         style={{
           background: "#0B2E4A",
           color: "#F9F6EF",
@@ -66,10 +89,10 @@ export function SampleLessonCta({
           gap: "0.35rem",
         }}
       >
-        Create one for your own child →
+        {copy.button}
       </a>
       <p style={{ fontSize: "0.75rem", color: "var(--text-tertiary)", margin: 0 }}>
-        Pre-filled with your philosophy · 3 free lessons per month
+        {copy.sub}
       </p>
     </div>
   );
