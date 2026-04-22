@@ -566,19 +566,21 @@ function GeneratePage() {
           : "Saving the lesson failed. Please try again.");
       }
       const saveData = await saveRes.json();
-      track("lesson_create_succeeded", {
-        tier,
-        philosophy,
-        subjects_count: selectedSubjects.length,
-        elapsed_seconds: Math.floor((Date.now() - startTime) / 1000),
-        lesson_id: saveData.id,
-      });
+      // lesson_create_succeeded is emitted server-side from /api/lessons/route.ts
+      // after the DB row is committed. The client-side fire was racing with
+      // router.push and losing ~60% of events, and keeping it alongside the
+      // server event caused 2x inflation.
       router.push(`/lessons/${saveData.id}`);
     } catch (e) {
+      // Client-side failure capture — complements the server-side
+      // lesson_create_failed fired from /api/lessons on DB errors. This
+      // catches pre-save failures (network/HTTP errors, 429 monthly_limit
+      // throws, JSON parse errors) that never reach the server handler.
       track("lesson_create_failed", {
         reason: "exception",
         tier,
         message: e instanceof Error ? e.message : "unknown",
+        source: "create_page_client",
       });
       setError(e instanceof Error ? e.message : "Unknown error");
     } finally {
