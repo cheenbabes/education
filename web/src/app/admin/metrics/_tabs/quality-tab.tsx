@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { loadQuality } from "../_queries/quality";
 import { KpiCard } from "../_components/kpi-card";
 import { StackedBarChart } from "../_components/stacked-bar-chart";
@@ -45,10 +46,50 @@ export async function QualityTab({ range }: { range: Range }) {
           columns={[
             { key: "when", label: "Date" },
             { key: "stars", label: "★", align: "right" },
-            { key: "lesson", label: "Lesson" },
+            {
+              key: "lesson",
+              label: "Lesson",
+              render: (row) => (
+                <Link
+                  href={`/lessons/${row.id}`}
+                  target="_blank"
+                  rel="noopener"
+                  className="text-blue-600 hover:underline"
+                >
+                  {row.lesson}
+                </Link>
+              ),
+            },
             { key: "notes", label: "Notes" },
           ]}
           emptyLabel="No low-rated completions in range."
+        />
+      </Section>
+
+      <Section title="Content-hash collisions (same lesson JSON produced ≥2x)">
+        <DataTable
+          rows={data.collisions}
+          columns={[
+            { key: "hash", label: "Hash" },
+            { key: "count", label: "Copies", align: "right" },
+            { key: "first", label: "First seen" },
+            { key: "last", label: "Last seen" },
+            {
+              key: "id",
+              label: "",
+              render: (row) => (
+                <Link
+                  href={`/lessons/${row.id}`}
+                  target="_blank"
+                  rel="noopener"
+                  className="text-blue-600 hover:underline"
+                >
+                  sample →
+                </Link>
+              ),
+            },
+          ]}
+          emptyLabel="No contentHash collisions in range."
         />
       </Section>
     </div>

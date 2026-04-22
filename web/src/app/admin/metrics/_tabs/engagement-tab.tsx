@@ -17,6 +17,24 @@ export async function EngagementTab({ range }: { range: Range }) {
         <KpiCard label="% lessons scheduled" value={`${k.scheduledRate}%`} />
       </div>
 
+      <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
+        <KpiCard
+          label="Signup → 1st lesson"
+          value={k.timeToFirstLesson}
+          sub={`p90 ${k.timeToFirstLessonP90} · n=${k.timeToFirstLessonN}`}
+        />
+        <KpiCard
+          label="Lesson → 1st completion"
+          value={k.timeToFirstCompletion}
+          sub={`n=${k.timeToFirstCompletionN}`}
+        />
+        <KpiCard
+          label="Activation rate"
+          value={`${k.activationRate}%`}
+          sub={`${k.activatedUsers}/${k.oneLessonUsers} users ≥2 lessons`}
+        />
+      </div>
+
       <Section title="Lessons completed per day">
         <DailyLineChart data={data.dailyCompletions} color="#16a34a" />
       </Section>

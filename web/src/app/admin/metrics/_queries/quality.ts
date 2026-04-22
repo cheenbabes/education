@@ -8,7 +8,7 @@ export async function loadQuality(range: Range) {
   const start = rangeStart(range);
   const args = start ? [start] : [];
 
-  const [feedbackDaily, feedbackTotals, lowRated, recentFeedback, dedup] = await Promise.all([
+  const [feedbackDaily, feedbackTotals, lowRated, recentFeedback, dedup, collisions] = await Promise.all([
     prisma.$queryRawUnsafe<{ day: Date; category: string; count: bigint }[]>(
       `SELECT date_trunc('day', "createdAt")::date AS day, category, COUNT(*)::bigint AS count
          FROM "Feedback" ${start ? `WHERE "createdAt" >= $1` : ``}
@@ -22,9 +22,9 @@ export async function loadQuality(range: Range) {
       ...args,
     ),
     prisma.$queryRawUnsafe<
-      { lesson_title: string; child_id: string; stars: number; notes: string | null; completed_at: Date }[]
+      { lesson_id: string; lesson_title: string; child_id: string; stars: number; notes: string | null; completed_at: Date }[]
     >(
-      `SELECT l.title AS lesson_title, c."childId" AS child_id, c."starRating" AS stars, c.notes, c."completedAt" AS completed_at
+      `SELECT l.id AS lesson_id, l.title AS lesson_title, c."childId" AS child_id, c."starRating" AS stars, c.notes, c."completedAt" AS completed_at
          FROM "Completion" c JOIN "Lesson" l ON l.id = c."lessonId"
          WHERE c."starRating" <= 2 ${start ? `AND c."completedAt" >= $1` : ``}
          ORDER BY c."completedAt" DESC LIMIT 20`,
@@ -39,6 +39,23 @@ export async function loadQuality(range: Range) {
     prisma.$queryRawUnsafe<{ total: bigint; distinct_hashes: bigint }[]>(
       `SELECT COUNT(*)::bigint AS total, COUNT(DISTINCT "contentHash")::bigint AS distinct_hashes
          FROM "Lesson" ${start ? `WHERE "createdAt" >= $1` : ``}`,
+      ...args,
+    ),
+    // contentHash collisions — same JSON produced twice. Almost always an
+    // accidental retry or a stuck prompt. Surfaces the top colliding hashes
+    // with a sample lesson id so admin can inspect.
+    prisma.$queryRawUnsafe<{ hash: string; n: bigint; sample_id: string; first_seen: Date; last_seen: Date }[]>(
+      `SELECT "contentHash" AS hash,
+              COUNT(*)::bigint AS n,
+              (array_agg(id ORDER BY "createdAt"))[1] AS sample_id,
+              MIN("createdAt") AS first_seen,
+              MAX("createdAt") AS last_seen
+         FROM "Lesson"
+         ${start ? `WHERE "createdAt" >= $1` : ``}
+         GROUP BY "contentHash"
+         HAVING COUNT(*) > 1
+         ORDER BY n DESC, MAX("createdAt") DESC
+         LIMIT 10`,
       ...args,
     ),
   ]);
@@ -69,6 +86,7 @@ export async function loadQuality(range: Range) {
     },
     feedbackByDay: Array.from(byDay.values()).sort((a, b) => a.day.localeCompare(b.day)),
     lowRated: lowRated.map((r) => ({
+      id: r.lesson_id,
       lesson: r.lesson_title,
       stars: r.stars,
       notes: r.notes ?? "—",
@@ -79,6 +97,13 @@ export async function loadQuality(range: Range) {
       category: r.category,
       message: r.message.slice(0, 120) + (r.message.length > 120 ? "…" : ""),
       when: toIso(r.created_at),
+    })),
+    collisions: collisions.map((r) => ({
+      hash: r.hash.slice(0, 12),
+      count: Number(r.n),
+      id: r.sample_id,
+      first: toIso(r.first_seen),
+      last: toIso(r.last_seen),
     })),
   };
 }

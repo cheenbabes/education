@@ -1,9 +1,24 @@
-export function DataTable<T extends Record<string, string | number | null>>({
+import type { ReactNode } from "react";
+
+type Cell = string | number | boolean | null;
+
+interface Column<T> {
+  key: keyof T;
+  label: string;
+  align?: "left" | "right";
+  format?: (v: T[keyof T]) => string;
+  /** Custom React renderer for the cell. Overrides `format` when present. */
+  render?: (row: T) => ReactNode;
+  /** Optional max width so long seed/interest strings don't blow out the layout. */
+  maxWidth?: string;
+}
+
+export function DataTable<T extends Record<string, Cell>>({
   columns,
   rows,
   emptyLabel = "No data",
 }: {
-  columns: { key: keyof T; label: string; align?: "left" | "right"; format?: (v: T[keyof T]) => string }[];
+  columns: Column<T>[];
   rows: T[];
   emptyLabel?: string;
 }) {
@@ -26,14 +41,24 @@ export function DataTable<T extends Record<string, string | number | null>>({
           {rows.map((r, i) => (
             <tr key={i} className="border-b border-neutral-100 last:border-b-0">
               {columns.map((c) => {
-                const v = r[c.key];
-                const display = c.format ? c.format(v) : v ?? "—";
+                const content = c.render
+                  ? c.render(r)
+                  : (() => {
+                      const v = r[c.key];
+                      if (c.format) return c.format(v);
+                      return v === null || v === undefined ? "—" : String(v);
+                    })();
+                const style: React.CSSProperties = c.maxWidth
+                  ? { maxWidth: c.maxWidth, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }
+                  : {};
                 return (
                   <td
                     key={String(c.key)}
-                    className={`py-2 tabular-nums ${c.align === "right" ? "text-right" : "text-left"}`}
+                    className={`py-2 pr-3 tabular-nums ${c.align === "right" ? "text-right" : "text-left"}`}
+                    style={style}
+                    title={c.maxWidth && typeof r[c.key] === "string" ? String(r[c.key]) : undefined}
                   >
-                    {display}
+                    {content}
                   </td>
                 );
               })}

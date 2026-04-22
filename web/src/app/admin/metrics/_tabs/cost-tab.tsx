@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { loadCost } from "../_queries/cost";
 import { KpiCard } from "../_components/kpi-card";
 import { StackedBarChart } from "../_components/stacked-bar-chart";
@@ -5,6 +6,7 @@ import { DataTable } from "../_components/data-table";
 import type { Range } from "../_lib/range";
 
 const usd = (n: number) => `$${n.toFixed(2)}`;
+const usd3 = (n: number) => `$${n.toFixed(3)}`;
 
 export async function CostTab({ range }: { range: Range }) {
   const data = await loadCost(range);
@@ -38,6 +40,34 @@ export async function CostTab({ range }: { range: Range }) {
             { key: "worksheets", label: "Worksheets", align: "right" },
             { key: "total", label: "Total", align: "right", format: (v) => usd(Number(v)) },
           ]}
+        />
+      </Section>
+
+      <Section title="Top 10 most expensive individual lessons (in range)">
+        <DataTable
+          rows={data.expensiveLessons}
+          columns={[
+            { key: "when", label: "Date" },
+            { key: "email", label: "User", maxWidth: "22ch" },
+            { key: "philosophy", label: "Philosophy" },
+            { key: "seed", label: "Seed (interest)", maxWidth: "34ch" },
+            { key: "cost", label: "Cost", align: "right", format: (v) => usd3(Number(v)) },
+            {
+              key: "id",
+              label: "",
+              render: (row) => (
+                <Link
+                  href={`/lessons/${row.id}`}
+                  target="_blank"
+                  rel="noopener"
+                  className="text-blue-600 hover:underline"
+                >
+                  view →
+                </Link>
+              ),
+            },
+          ]}
+          emptyLabel="No lessons with recorded cost in range."
         />
       </Section>
     </div>

@@ -3,11 +3,12 @@ import { RANGES, type Range, rangeLabel } from "../_lib/range";
 
 export const TABS = [
   { id: "growth", label: "Growth" },
-  { id: "cost", label: "Cost" },
+  { id: "lessons", label: "Lessons" },
   { id: "engagement", label: "Engagement" },
   { id: "compass", label: "Compass" },
   { id: "mix", label: "Product mix" },
   { id: "quality", label: "Quality" },
+  { id: "cost", label: "Cost" },
 ] as const;
 
 export type TabId = (typeof TABS)[number]["id"];

@@ -72,6 +72,21 @@ export async function loadCost(range: Range) {
     ...args,
   );
 
+  // Top N most expensive individual lessons in range — for outlier inspection.
+  // These are commonly either very long prompts, retries, or kg-service hiccups
+  // that drove up token usage.
+  const expensiveLessons = await prisma.$queryRawUnsafe<
+    { id: string; when: Date; email: string | null; philosophy: string; interest: string | null; cost: number }[]
+  >(
+    `SELECT l.id, l."createdAt" AS "when", u.email, l.philosophy, l.interest,
+            l."generationCostUsd"::float AS cost
+       FROM "Lesson" l LEFT JOIN "User" u ON u.id = l."userId"
+       WHERE l."generationCostUsd" IS NOT NULL ${start ? `AND l."createdAt" >= $1` : ``}
+       ORDER BY l."generationCostUsd" DESC
+       LIMIT 10`,
+    ...args,
+  );
+
   const lessonAgg = agg.find((a) => a.kind === "lesson") ?? { total: 0, cnt: BigInt(0) };
   const wsAgg = agg.find((a) => a.kind === "worksheet") ?? { total: 0, cnt: BigInt(0) };
   const lessonCount = Number(lessonAgg.cnt);
@@ -96,6 +111,14 @@ export async function loadCost(range: Range) {
       lessons: Number(r.lesson_count),
       worksheets: Number(r.worksheet_count),
       total: r.total_cost,
+    })),
+    expensiveLessons: expensiveLessons.map((r) => ({
+      id: r.id,
+      when: toIso(r.when),
+      email: r.email ?? "—",
+      philosophy: r.philosophy,
+      seed: r.interest ?? "—",
+      cost: r.cost,
     })),
   };
 }
