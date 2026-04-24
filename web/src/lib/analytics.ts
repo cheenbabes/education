@@ -14,6 +14,11 @@ export type AnalyticsEvent =
   | "compass_results_viewed"
   | "compass_sample_lesson_viewed"
   | "compass_sample_cta_clicked"
+  | "compass_curriculum_cta_clicked"
+  // Sample-lessons gallery (anon-friendly conversion page)
+  | "lessons_gallery_viewed"
+  | "lessons_gallery_card_clicked"
+  | "lessons_gallery_create_clicked"
   // Compass persistence (server-emitted from /api/compass/submit; distinct_id = sessionId for anon)
   | "compass_submit_persisted"
   | "compass_submit_failed"

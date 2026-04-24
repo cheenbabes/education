@@ -95,12 +95,12 @@ export function Nav() {
           {/* Desktop nav */}
           <div className="hidden lg:flex items-center" style={{ gap: "2px" }}>
 
-            {isSignedIn && (
+            {isSignedIn ? (
               <>
-                {/* Create — funnel primary, left-anchored */}
+                {/* Create a Lesson — funnel primary for signed-in users */}
                 <Link href="/create" className="px-2.5 py-1.5 rounded-lg text-sm transition-colors shrink-0"
                   style={navLinkStyle(pathname.startsWith('/create'))}>
-                  Create
+                  Create a Lesson
                 </Link>
 
                 {signedInNavItems.map((item) => (
@@ -111,6 +111,14 @@ export function Nav() {
                   </Link>
                 ))}
               </>
+            ) : (
+              /* Anon sees Create a Lesson too — but it lands on the public sample
+                 gallery, which then funnels into /create with a soft signup gate
+                 on submit. */
+              <Link href="/compass/lessons" className="px-2.5 py-1.5 rounded-lg text-sm transition-colors shrink-0"
+                style={navLinkStyle(pathname.startsWith('/compass/lessons') || pathname.startsWith('/create'))}>
+                Create a Lesson
+              </Link>
             )}
 
             {/* Public items */}
@@ -180,11 +188,11 @@ export function Nav() {
       {/* Mobile menu */}
       {mobileOpen && (
         <div className="lg:hidden px-4 py-2 space-y-0.5" style={{ borderTop: '1px solid rgba(0,0,0,0.06)' }}>
-          {isSignedIn && (
+          {isSignedIn ? (
             <>
               <Link href="/create" onClick={() => setMobileOpen(false)}
                 className="block px-3 py-2 rounded-lg text-sm"
-                style={navLinkStyle(pathname.startsWith('/create'))}>Create</Link>
+                style={navLinkStyle(pathname.startsWith('/create'))}>Create a Lesson</Link>
               {signedInNavItems.map((item) => (
                 <Link key={item.href} href={item.href} onClick={() => setMobileOpen(false)}
                   className="block px-3 py-2 rounded-lg text-sm"
@@ -193,6 +201,12 @@ export function Nav() {
                 </Link>
               ))}
             </>
+          ) : (
+            <Link href="/compass/lessons" onClick={() => setMobileOpen(false)}
+              className="block px-3 py-2 rounded-lg text-sm"
+              style={navLinkStyle(pathname.startsWith('/compass/lessons') || pathname.startsWith('/create'))}>
+              Create a Lesson
+            </Link>
           )}
           {publicNavItems.map((item) => (
             <Link key={item.href} href={item.href} onClick={() => setMobileOpen(false)}

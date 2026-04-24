@@ -17,9 +17,6 @@ import { getComboText } from "@/lib/compass/combo-text";
 import { ShareButtons } from "@/components/share-buttons";
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
 import { track } from "@/lib/analytics";
-import { SAMPLE_LESSONS } from "@/lib/compass/sample-lessons";
-import { BLEND_KEY_TO_PHILOSOPHY_ID } from "@/lib/archetype-utils";
-import type { PhilosophyId } from "@/lib/types";
 
 interface MatchResult {
   curriculum: {
@@ -278,23 +275,13 @@ function ResultsPageInner() {
 
   const top3 = philosophyData.slice(0, 3);
 
-  // Resolve the user's top philosophy to a sample-lesson id (hyphenated form,
-  // matching PHILOSOPHIES.id and /create?philosophy= query param).
+  // Top philosophy (used as a tracking property when users click the redesigned
+  // CTAs — gives funnel queries a way to segment by archetype-blend top slot).
   const sortedBlendKeys = Object.entries(philosophies)
     .sort(([, a], [, b]) => (b as number) - (a as number))
     .map(([key]) => key);
-  const topBlendKey = sortedBlendKeys[0];
-  const secondaryBlendKey = sortedBlendKeys[1];
-  const topPhilosophyId = (topBlendKey ? BLEND_KEY_TO_PHILOSOPHY_ID[topBlendKey] : "charlotte-mason") as PhilosophyId;
-  const secondaryPhilosophyId = secondaryBlendKey ? BLEND_KEY_TO_PHILOSOPHY_ID[secondaryBlendKey] : undefined;
-  const sampleLesson = SAMPLE_LESSONS[topPhilosophyId];
-  const sampleCtaHref = (() => {
-    const p = new URLSearchParams();
-    if (secondaryPhilosophyId) p.set("secondary", secondaryPhilosophyId);
-    if (sampleLesson?.subject) p.set("subject", sampleLesson.subject);
-    const qs = p.toString();
-    return `/compass/sample/${topPhilosophyId}${qs ? `?${qs}` : ""}`;
-  })();
+  const topBlendKey = sortedBlendKeys[0] ?? null;
+  const secondaryBlendKey = sortedBlendKeys[1] ?? null;
 
   return (
     <Shell hue="results">
@@ -345,7 +332,10 @@ function ResultsPageInner() {
           </div>
         )}
 
-        {/* Archetype — frost card with character image */}
+        {/* Archetype — frost card with character image. Floats a small vertical
+            share strip in the top-right corner; embeds the "Why X?" details
+            accordion at the bottom so the dimension/philosophy breakdown lives
+            with the archetype rather than as a sibling card. */}
         <div
           className="rounded-xl p-6 space-y-4"
           style={{
@@ -354,8 +344,33 @@ function ResultsPageInner() {
             WebkitBackdropFilter: "blur(12px)",
             border: "1px solid rgba(255,255,255,0.5)",
             borderRadius: "12px",
+            position: "relative",
           }}
         >
+          {/* Floating vertical share strip, top-right */}
+          <div
+            style={{
+              position: "absolute",
+              top: "0.85rem",
+              right: "0.85rem",
+              zIndex: 2,
+            }}
+          >
+            <ShareButtons
+              archetypeId={archetype.id}
+              archetypeName={archetype.name}
+              secondaryId={secondaryArchetype?.id ?? null}
+              secondaryName={secondaryArchetype?.name ?? null}
+              shareText={
+                secondaryArchetype
+                  ? getComboText(archetype.id, secondaryArchetype.id).shareText
+                  : archetype.description.split(".")[0] + "."
+              }
+              archetypeColor={archetype.color}
+              variant="vertical"
+            />
+          </div>
+
           <div className="text-center space-y-3">
             {/* Primary character + secondary tool side by side */}
             <div className="flex items-end justify-center overflow-hidden px-4">
@@ -407,108 +422,269 @@ function ResultsPageInner() {
             </div>
           )}
 
-          <ShareButtons
-            archetypeId={archetype.id}
-            archetypeName={archetype.name}
-            secondaryId={secondaryArchetype?.id ?? null}
-            secondaryName={secondaryArchetype?.name ?? null}
-            shareText={
-              secondaryArchetype
-                ? getComboText(archetype.id, secondaryArchetype.id).shareText
-                : archetype.description.split(".")[0] + "."
-            }
-            archetypeColor={archetype.color}
-          />
-        </div>
-
-        {/* Primary CTA — sample lesson matched to the user's top philosophy */}
-        {!isSharedView && !isPartialResult && sampleLesson && (
-          <div
-            style={{
-              background: "linear-gradient(135deg, rgba(176,122,138,0.12), rgba(110,110,158,0.1))",
-              border: "1px solid rgba(176,122,138,0.25)",
-              borderRadius: "16px",
-              padding: "1.15rem 1.1rem",
-              display: "flex",
-              flexDirection: "column",
-              gap: "0.6rem",
-              position: "relative",
-              overflow: "hidden",
-            }}
-          >
-            <p
+          {/* "Why X?" accordion, embedded inside the archetype card */}
+          {!isSharedView && (
+            <details
               style={{
-                fontSize: "0.65rem",
-                fontWeight: 700,
-                letterSpacing: "0.14em",
-                textTransform: "uppercase",
-                color: "#82284b",
-                margin: 0,
+                background: "rgba(255,255,255,0.55)",
+                border: "1px solid rgba(0,0,0,0.06)",
+                borderRadius: "12px",
               }}
             >
-              A lesson you&rsquo;d love, based on your results
-            </p>
-            <h3
-              className="font-cormorant-sc"
-              style={{
-                fontSize: "1.2rem",
-                fontWeight: 700,
-                color: "var(--ink)",
-                margin: 0,
-                lineHeight: 1.3,
-                letterSpacing: "0.02em",
-              }}
-            >
-              {sampleLesson.title}
-            </h3>
-            {sampleLesson.teaser && (
-              <p
+              <summary
                 style={{
-                  fontSize: "0.82rem",
-                  color: "var(--text-secondary)",
-                  margin: 0,
-                  lineHeight: 1.55,
+                  padding: "0.9rem 1rem",
+                  cursor: "pointer",
+                  listStyle: "none",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  gap: "0.5rem",
                 }}
               >
-                {sampleLesson.teaser}
-              </p>
-            )}
-            <div
-              style={{
-                background: "rgba(255,255,255,0.6)",
-                borderRadius: "10px",
-                padding: "0.5rem 0.65rem",
-                border: "1px dashed rgba(0,0,0,0.08)",
-                fontSize: "0.72rem",
-                color: "var(--text-secondary)",
-              }}
-            >
-              <strong style={{ color: "#82284b" }}>{sampleLesson.philosophyLabel}</strong> ·{" "}
-              {sampleLesson.grade === "K" ? "Kindergarten" : `Grade ${sampleLesson.grade}`} · {sampleLesson.subject}
-            </div>
+                <div style={{ display: "flex", flexDirection: "column", gap: "0.1rem" }}>
+                  <span style={{ fontSize: "0.88rem", fontWeight: 600, color: "var(--ink)" }}>
+                    Why {archetype.name}?
+                  </span>
+                  <span style={{ fontSize: "0.7rem", color: "var(--text-tertiary)" }}>
+                    Dimension breakdown · philosophy blend
+                  </span>
+                </div>
+                <span style={{ fontSize: "0.9rem", color: "var(--text-tertiary)" }}>⌄</span>
+              </summary>
+              <div style={{ padding: "0.25rem 1rem 1rem", display: "flex", flexDirection: "column", gap: "1rem" }}>
+                {/* Dimension bars */}
+                <div
+                  className="rounded-xl p-4 space-y-5"
+                  style={{
+                    background: "rgba(255,255,255,0.72)",
+                    backdropFilter: "blur(12px)",
+                    WebkitBackdropFilter: "blur(12px)",
+                    border: "1px solid rgba(255,255,255,0.5)",
+                    borderRadius: "12px",
+                  }}
+                >
+                  <h3 className="font-cormorant-sc font-semibold" style={{ color: "var(--ink)" }}>
+                    Your Five Dimensions
+                  </h3>
+                  {(
+                    Object.keys(DIMENSION_LABELS) as Array<keyof typeof DIMENSION_LABELS>
+                  ).map((dim) => (
+                    <div key={dim} className="space-y-1.5">
+                      <div className="flex justify-between text-sm">
+                        <span style={{ color: "var(--text-secondary)" }}>
+                          {DIMENSION_LABELS[dim].left}
+                        </span>
+                        <span className="font-medium" style={{ color: "var(--ink)" }}>
+                          {DIMENSION_LABELS[dim].name}
+                        </span>
+                        <span style={{ color: "var(--text-secondary)" }}>
+                          {DIMENSION_LABELS[dim].right}
+                        </span>
+                      </div>
+                      <div
+                        className="relative h-3 rounded-full"
+                        style={{ background: "rgba(0,0,0,0.06)" }}
+                      >
+                        <div
+                          className="absolute top-1/2 -translate-y-1/2 w-4 h-4 rounded-full border-2 border-white shadow transition-all duration-700 ease-out"
+                          style={{
+                            left: `calc(${dimensions[dim]}% - 8px)`,
+                            background: "var(--accent-primary)",
+                          }}
+                        />
+                        <div
+                          className="h-full rounded-full transition-all duration-700 ease-out"
+                          style={{
+                            width: `${dimensions[dim]}%`,
+                            background: "var(--accent-primary-dim)",
+                          }}
+                        />
+                      </div>
+                      {dim === "structure" && structureSplit?.hasSplit && structureSplit.message && (
+                        <p className="text-xs italic" style={{ color: "#d97706" }}>
+                          {structureSplit.message}
+                        </p>
+                      )}
+                    </div>
+                  ))}
+                </div>
+
+                {/* Philosophy blend */}
+                <div
+                  className="rounded-xl p-4 space-y-4"
+                  style={{
+                    background: "rgba(255,255,255,0.72)",
+                    backdropFilter: "blur(12px)",
+                    WebkitBackdropFilter: "blur(12px)",
+                    border: "1px solid rgba(255,255,255,0.5)",
+                    borderRadius: "12px",
+                  }}
+                >
+                  <h3 className="font-cormorant-sc font-semibold" style={{ color: "var(--ink)" }}>
+                    Your Philosophy Blend
+                  </h3>
+                  <div className="flex flex-col sm:flex-row items-center gap-6">
+                    <div className="w-48 h-48 flex-shrink-0">
+                      <ResponsiveContainer width="100%" height="100%">
+                        <PieChart>
+                          <Pie
+                            data={philosophyData}
+                            cx="50%"
+                            cy="50%"
+                            innerRadius={35}
+                            outerRadius={70}
+                            dataKey="value"
+                            stroke="none"
+                          >
+                            {philosophyData.map((entry, idx) => (
+                              <Cell key={idx} fill={entry.color} />
+                            ))}
+                          </Pie>
+                          <Tooltip
+                            formatter={(value) => `${value}%`}
+                            contentStyle={{ borderRadius: "8px", border: "1px solid rgba(0,0,0,0.08)", fontSize: "12px" }}
+                          />
+                        </PieChart>
+                      </ResponsiveContainer>
+                    </div>
+                    <div className="space-y-2 flex-1">
+                      {top3.map((item, idx) => (
+                        <div key={idx} className="flex items-center gap-2">
+                          {/* Frost pill for top philosophies */}
+                          <span
+                            className="flex items-center gap-1.5 px-2 py-1 text-xs font-medium"
+                            style={{
+                              background: "rgba(255,255,255,0.68)",
+                              backdropFilter: "blur(10px)",
+                              WebkitBackdropFilter: "blur(10px)",
+                              border: "1px solid rgba(255,255,255,0.45)",
+                              borderRadius: "6px",
+                              color: item.color,
+                            }}
+                          >
+                            <span
+                              className="w-2 h-2 rounded-full flex-shrink-0"
+                              style={{ backgroundColor: item.color }}
+                            />
+                            {item.name}
+                          </span>
+                          <span className="text-sm" style={{ color: "var(--text-secondary)" }}>
+                            {item.value}%
+                          </span>
+                        </div>
+                      ))}
+                      {philosophyData.length > 3 && (
+                        <div
+                          className="space-y-1 pt-1 mt-1"
+                          style={{ borderTop: "1px solid rgba(0,0,0,0.06)" }}
+                        >
+                          {philosophyData.slice(3).map((item, idx) => (
+                            <div key={idx} className="flex items-center gap-2">
+                              <span
+                                className="w-2 h-2 rounded-full flex-shrink-0"
+                                style={{ backgroundColor: item.color }}
+                              />
+                              <span className="text-xs" style={{ color: "var(--text-secondary)" }}>
+                                {item.name}
+                              </span>
+                              <span className="text-xs" style={{ color: "var(--text-tertiary)" }}>
+                                {item.value}%
+                              </span>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                  <p
+                    className="text-xs text-center italic font-cormorant"
+                    style={{ color: "var(--text-tertiary)" }}
+                  >
+                    Most educators are a blend — your compass reflects your natural tendencies, not a rigid category.
+                  </p>
+                </div>
+
+                {/* Archetype-specific app pitch */}
+                <div
+                  className="rounded-xl p-6 space-y-3"
+                  style={{ background: "var(--night)", borderRadius: "10px" }}
+                >
+                  <h3
+                    className="font-cormorant-sc text-lg font-semibold"
+                    style={{ color: "var(--parchment)" }}
+                  >
+                    {archetype.appPitch.headline}
+                  </h3>
+                  <p
+                    className="text-sm leading-relaxed"
+                    style={{ color: "rgba(249,246,239,0.75)" }}
+                  >
+                    {archetype.appPitch.body}
+                  </p>
+                </div>
+              </div>
+            </details>
+          )}
+        </div>
+
+        {/* Primary + secondary CTAs — replace the old single sample-lesson card.
+            Primary lands on the public 8-lesson gallery (anon-friendly conversion
+            page), secondary opens the curriculum browser. Both keep firing the
+            existing funnel events so historical dashboards still resolve. */}
+        {!isSharedView && !isPartialResult && (
+          <div className="space-y-2.5">
             <Link
-              href={sampleCtaHref}
-              onClick={() => track("compass_sample_cta_clicked", { philosophy_id: sampleLesson.philosophyId, secondary: secondaryPhilosophyId ?? null, source: "results_primary_cta" })}
+              href="/compass/lessons"
+              onClick={() =>
+                track("compass_sample_cta_clicked", {
+                  source: "results_primary_button",
+                  top_blend_key: topBlendKey ?? null,
+                  secondary_blend_key: secondaryBlendKey ?? null,
+                })
+              }
               style={{
                 background: "var(--night)",
                 color: "var(--parchment)",
-                borderRadius: "12px",
-                padding: "0.75rem 1rem",
-                fontSize: "0.88rem",
+                borderRadius: "14px",
+                padding: "1.05rem 1.25rem",
+                fontSize: "1rem",
                 fontWeight: 600,
                 textDecoration: "none",
                 textAlign: "center",
-                display: "inline-flex",
-                justifyContent: "center",
-                alignItems: "center",
-                gap: "0.35rem",
+                display: "block",
+                lineHeight: 1.2,
               }}
             >
-              Open the sample lesson &rarr;
+              Lessons for your teaching style &rarr;
             </Link>
-            <p style={{ fontSize: "0.7rem", color: "var(--text-tertiary)", textAlign: "center", margin: 0, fontStyle: "italic" }}>
-              Then create one for your own child
-            </p>
+            <Link
+              href="/curriculum"
+              onClick={() =>
+                track("compass_curriculum_cta_clicked", {
+                  source: "results_secondary_button",
+                  top_blend_key: topBlendKey ?? null,
+                  secondary_blend_key: secondaryBlendKey ?? null,
+                })
+              }
+              style={{
+                background: "rgba(255,255,255,0.72)",
+                color: "var(--ink)",
+                border: "1px solid rgba(0,0,0,0.08)",
+                borderRadius: "14px",
+                padding: "1.05rem 1.25rem",
+                fontSize: "1rem",
+                fontWeight: 600,
+                textDecoration: "none",
+                textAlign: "center",
+                display: "block",
+                lineHeight: 1.2,
+                backdropFilter: "blur(12px)",
+                WebkitBackdropFilter: "blur(12px)",
+              }}
+            >
+              Match With Curricula &rarr;
+            </Link>
           </div>
         )}
 
@@ -549,208 +725,6 @@ function ResultsPageInner() {
         )}
 
         {!isSharedView && <>
-        <details
-          style={{
-            background: "rgba(255,255,255,0.55)",
-            border: "1px solid rgba(0,0,0,0.06)",
-            borderRadius: "12px",
-          }}
-        >
-          <summary
-            style={{
-              padding: "0.9rem 1rem",
-              cursor: "pointer",
-              listStyle: "none",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-              gap: "0.5rem",
-            }}
-          >
-            <div style={{ display: "flex", flexDirection: "column", gap: "0.1rem" }}>
-              <span style={{ fontSize: "0.88rem", fontWeight: 600, color: "var(--ink)" }}>
-                Why {archetype.name}?
-              </span>
-              <span style={{ fontSize: "0.7rem", color: "var(--text-tertiary)" }}>
-                Dimension breakdown · philosophy blend
-              </span>
-            </div>
-            <span style={{ fontSize: "0.9rem", color: "var(--text-tertiary)" }}>⌄</span>
-          </summary>
-          <div style={{ padding: "0.25rem 1rem 1rem", display: "flex", flexDirection: "column", gap: "1rem" }}>
-        {/* Dimension bars */}
-        <div
-          className="rounded-xl p-4 space-y-5"
-          style={{
-            background: "rgba(255,255,255,0.72)",
-            backdropFilter: "blur(12px)",
-            WebkitBackdropFilter: "blur(12px)",
-            border: "1px solid rgba(255,255,255,0.5)",
-            borderRadius: "12px",
-          }}
-        >
-          <h3 className="font-cormorant-sc font-semibold" style={{ color: "var(--ink)" }}>
-            Your Five Dimensions
-          </h3>
-          {(
-            Object.keys(DIMENSION_LABELS) as Array<keyof typeof DIMENSION_LABELS>
-          ).map((dim) => (
-            <div key={dim} className="space-y-1.5">
-              <div className="flex justify-between text-sm">
-                <span style={{ color: "var(--text-secondary)" }}>
-                  {DIMENSION_LABELS[dim].left}
-                </span>
-                <span className="font-medium" style={{ color: "var(--ink)" }}>
-                  {DIMENSION_LABELS[dim].name}
-                </span>
-                <span style={{ color: "var(--text-secondary)" }}>
-                  {DIMENSION_LABELS[dim].right}
-                </span>
-              </div>
-              <div
-                className="relative h-3 rounded-full"
-                style={{ background: "rgba(0,0,0,0.06)" }}
-              >
-                <div
-                  className="absolute top-1/2 -translate-y-1/2 w-4 h-4 rounded-full border-2 border-white shadow transition-all duration-700 ease-out"
-                  style={{
-                    left: `calc(${dimensions[dim]}% - 8px)`,
-                    background: "var(--accent-primary)",
-                  }}
-                />
-                <div
-                  className="h-full rounded-full transition-all duration-700 ease-out"
-                  style={{
-                    width: `${dimensions[dim]}%`,
-                    background: "var(--accent-primary-dim)",
-                  }}
-                />
-              </div>
-              {dim === "structure" && structureSplit?.hasSplit && structureSplit.message && (
-                <p className="text-xs italic" style={{ color: "#d97706" }}>
-                  {structureSplit.message}
-                </p>
-              )}
-            </div>
-          ))}
-        </div>
-
-        {/* Philosophy blend */}
-        <div
-          className="rounded-xl p-4 space-y-4"
-          style={{
-            background: "rgba(255,255,255,0.72)",
-            backdropFilter: "blur(12px)",
-            WebkitBackdropFilter: "blur(12px)",
-            border: "1px solid rgba(255,255,255,0.5)",
-            borderRadius: "12px",
-          }}
-        >
-          <h3 className="font-cormorant-sc font-semibold" style={{ color: "var(--ink)" }}>
-            Your Philosophy Blend
-          </h3>
-          <div className="flex flex-col sm:flex-row items-center gap-6">
-            <div className="w-48 h-48 flex-shrink-0">
-              <ResponsiveContainer width="100%" height="100%">
-                <PieChart>
-                  <Pie
-                    data={philosophyData}
-                    cx="50%"
-                    cy="50%"
-                    innerRadius={35}
-                    outerRadius={70}
-                    dataKey="value"
-                    stroke="none"
-                  >
-                    {philosophyData.map((entry, idx) => (
-                      <Cell key={idx} fill={entry.color} />
-                    ))}
-                  </Pie>
-                  <Tooltip
-                    formatter={(value) => `${value}%`}
-                    contentStyle={{ borderRadius: "8px", border: "1px solid rgba(0,0,0,0.08)", fontSize: "12px" }}
-                  />
-                </PieChart>
-              </ResponsiveContainer>
-            </div>
-            <div className="space-y-2 flex-1">
-              {top3.map((item, idx) => (
-                <div key={idx} className="flex items-center gap-2">
-                  {/* Frost pill for top philosophies */}
-                  <span
-                    className="flex items-center gap-1.5 px-2 py-1 text-xs font-medium"
-                    style={{
-                      background: "rgba(255,255,255,0.68)",
-                      backdropFilter: "blur(10px)",
-                      WebkitBackdropFilter: "blur(10px)",
-                      border: "1px solid rgba(255,255,255,0.45)",
-                      borderRadius: "6px",
-                      color: item.color,
-                    }}
-                  >
-                    <span
-                      className="w-2 h-2 rounded-full flex-shrink-0"
-                      style={{ backgroundColor: item.color }}
-                    />
-                    {item.name}
-                  </span>
-                  <span className="text-sm" style={{ color: "var(--text-secondary)" }}>
-                    {item.value}%
-                  </span>
-                </div>
-              ))}
-              {philosophyData.length > 3 && (
-                <div
-                  className="space-y-1 pt-1 mt-1"
-                  style={{ borderTop: "1px solid rgba(0,0,0,0.06)" }}
-                >
-                  {philosophyData.slice(3).map((item, idx) => (
-                    <div key={idx} className="flex items-center gap-2">
-                      <span
-                        className="w-2 h-2 rounded-full flex-shrink-0"
-                        style={{ backgroundColor: item.color }}
-                      />
-                      <span className="text-xs" style={{ color: "var(--text-secondary)" }}>
-                        {item.name}
-                      </span>
-                      <span className="text-xs" style={{ color: "var(--text-tertiary)" }}>
-                        {item.value}%
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-          </div>
-          <p
-            className="text-xs text-center italic font-cormorant"
-            style={{ color: "var(--text-tertiary)" }}
-          >
-            Most educators are a blend — your compass reflects your natural tendencies, not a rigid category.
-          </p>
-        </div>
-
-        {/* Archetype-specific app pitch (now inside the accordion) */}
-        <div
-          className="rounded-xl p-6 space-y-3"
-          style={{ background: "var(--night)", borderRadius: "10px" }}
-        >
-          <h3
-            className="font-cormorant-sc text-lg font-semibold"
-            style={{ color: "var(--parchment)" }}
-          >
-            {archetype.appPitch.headline}
-          </h3>
-          <p
-            className="text-sm leading-relaxed"
-            style={{ color: "rgba(249,246,239,0.75)" }}
-          >
-            {archetype.appPitch.body}
-          </p>
-        </div>
-          </div>
-        </details>
-
         {/* Gate curriculum section on Part 2 completion */}
         {isPartialResult ? (
           <div style={{
@@ -799,54 +773,9 @@ function ResultsPageInner() {
           Below are curriculum recommendations for your foundational subjects. Many published curricula lean toward classical structure — we&apos;ve found the best matches for your philosophy.
         </p>
 
-        {/* Warnings */}
-        {matchOutput?.warnings && matchOutput.warnings.length > 0 && (
-          <div className="space-y-3">
-            {matchOutput.warnings.map((w, idx) => (
-              <div
-                key={idx}
-                style={{
-                  background: "rgba(255,255,255,0.88)",
-                  backdropFilter: "blur(24px)",
-                  WebkitBackdropFilter: "blur(24px)",
-                  borderRadius: "12px",
-                  borderTop: "3px solid #D97706",
-                  borderRight: "1px solid rgba(217,119,6,0.15)",
-                  borderBottom: "1px solid rgba(217,119,6,0.15)",
-                  borderLeft: "1px solid rgba(217,119,6,0.15)",
-                  padding: "1rem 1.25rem",
-                  fontSize: "0.85rem",
-                  color: "var(--ink)",
-                  boxShadow: "0 4px 16px rgba(217,119,6,0.1), 0 1px 4px rgba(0,0,0,0.06)",
-                }}
-              >
-                {w.message}
-              </div>
-            ))}
-          </div>
-        )}
-
-        {/* Fallback banner */}
-        {matchOutput?.fallbackBanner && (
-          <div style={{
-            background: "rgba(255,255,255,0.88)",
-            backdropFilter: "blur(24px)",
-            WebkitBackdropFilter: "blur(24px)",
-            borderRadius: "12px",
-            borderTop: "3px solid #D97706",
-            borderRight: "1px solid rgba(217,119,6,0.15)",
-            borderBottom: "1px solid rgba(217,119,6,0.15)",
-            borderLeft: "1px solid rgba(217,119,6,0.15)",
-            padding: "1rem 1.25rem",
-            fontSize: "0.85rem",
-            color: "var(--ink)",
-            boxShadow: "0 4px 16px rgba(217,119,6,0.1), 0 1px 4px rgba(0,0,0,0.06)",
-          }}>
-            {matchOutput.fallbackBanner}
-          </div>
-        )}
-
-        {/* Curriculum Recommendations — collapsed into an accordion */}
+        {/* Curriculum Recommendations — collapsed into an accordion. Warnings
+            and the fallback banner now live INSIDE the accordion (above the
+            results) so they no longer compete with the page-level CTAs. */}
         <details
           style={{
             background: "rgba(255,255,255,0.55)",
@@ -888,6 +817,53 @@ function ResultsPageInner() {
             <span style={{ fontSize: "0.9rem", color: "var(--text-tertiary)" }}>⌄</span>
           </summary>
           <div className="space-y-4" style={{ padding: "0.5rem 1rem 1rem" }}>
+
+          {/* Warnings (moved inside accordion) */}
+          {matchOutput?.warnings && matchOutput.warnings.length > 0 && (
+            <div className="space-y-3">
+              {matchOutput.warnings.map((w, idx) => (
+                <div
+                  key={idx}
+                  style={{
+                    background: "rgba(255,255,255,0.88)",
+                    backdropFilter: "blur(24px)",
+                    WebkitBackdropFilter: "blur(24px)",
+                    borderRadius: "12px",
+                    borderTop: "3px solid #D97706",
+                    borderRight: "1px solid rgba(217,119,6,0.15)",
+                    borderBottom: "1px solid rgba(217,119,6,0.15)",
+                    borderLeft: "1px solid rgba(217,119,6,0.15)",
+                    padding: "1rem 1.25rem",
+                    fontSize: "0.85rem",
+                    color: "var(--ink)",
+                    boxShadow: "0 4px 16px rgba(217,119,6,0.1), 0 1px 4px rgba(0,0,0,0.06)",
+                  }}
+                >
+                  {w.message}
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* Fallback banner (moved inside accordion) */}
+          {matchOutput?.fallbackBanner && (
+            <div style={{
+              background: "rgba(255,255,255,0.88)",
+              backdropFilter: "blur(24px)",
+              WebkitBackdropFilter: "blur(24px)",
+              borderRadius: "12px",
+              borderTop: "3px solid #D97706",
+              borderRight: "1px solid rgba(217,119,6,0.15)",
+              borderBottom: "1px solid rgba(217,119,6,0.15)",
+              borderLeft: "1px solid rgba(217,119,6,0.15)",
+              padding: "1rem 1.25rem",
+              fontSize: "0.85rem",
+              color: "var(--ink)",
+              boxShadow: "0 4px 16px rgba(217,119,6,0.1), 0 1px 4px rgba(0,0,0,0.06)",
+            }}>
+              {matchOutput.fallbackBanner}
+            </div>
+          )}
 
           {matchLoading && (
             <div
@@ -1103,24 +1079,6 @@ function ResultsPageInner() {
             ))}
           </div>
         </details>
-
-        {/* Browse all */}
-        <div className="text-center">
-          <Link
-            href="/curriculum"
-            className="inline-block text-sm font-medium hover:opacity-90 transition-opacity"
-            style={{
-              background: "rgba(255,255,255,0.72)",
-              backdropFilter: "blur(12px)",
-              border: "1px solid rgba(255,255,255,0.5)",
-              borderRadius: "10px",
-              padding: "0.6rem 1.4rem",
-              color: "var(--ink)",
-            }}
-          >
-            Browse all curriculum matches &rarr;
-          </Link>
-        </div>
 
         {/* Suggest a curriculum */}
         <p className="text-center">
