@@ -551,7 +551,7 @@ function CurriculumPageInner() {
             className="inline-block text-sm font-medium hover:opacity-90 transition-opacity"
             style={{ background: "var(--night)", color: "var(--parchment)", borderRadius: "10px", padding: "0.6rem 1.4rem" }}
           >
-            Create Adaptive Lessons &rarr;
+            Create a Lesson &rarr;
           </Link>
         </div>
       </div>

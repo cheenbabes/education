@@ -476,7 +476,7 @@ export function PaidDashboard({ tierData }: PaidDashboardProps) {
               whiteSpace: "nowrap",
             }}
           >
-            + Create lesson
+            + Create a Lesson
           </Link>
         )}
       </div>
@@ -723,7 +723,7 @@ export function PaidDashboard({ tierData }: PaidDashboardProps) {
                   textDecoration: "none",
                 }}
               >
-                + Create lesson
+                + Create a Lesson
               </Link>
             )}
           </div>

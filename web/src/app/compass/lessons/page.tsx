@@ -74,8 +74,9 @@ export default function SampleLessonsGalleryPage() {
               margin: "0 auto",
             }}
           >
-            Eight sample lessons — one per teaching philosophy — written for real
-            homeschoolers. Read one in full, then create your own for your child.
+            Curious what a lesson in your teaching style actually looks like?
+            See a complete, classroom-ready example for each of the eight
+            philosophies — then build one of your own.
           </p>
 
           <div className="pt-2">
@@ -96,7 +97,7 @@ export default function SampleLessonsGalleryPage() {
                 textDecoration: "none",
               }}
             >
-              Create your own lesson &rarr;
+              Create a Lesson &rarr;
             </Link>
             <p
               style={{
@@ -235,73 +236,99 @@ export default function SampleLessonsGalleryPage() {
               </Link>
             );
           })}
-        </section>
 
-        {/* Bottom CTA */}
-        <section
-          className="text-center space-y-3"
-          style={{
-            background: "rgba(255,255,255,0.55)",
-            border: "1px solid rgba(255,255,255,0.5)",
-            borderRadius: "16px",
-            padding: "1.75rem 1.5rem",
-          }}
-        >
-          <h2
-            className="font-cormorant-sc"
+          {/* 9th tile — the build-your-own card. Matches the lesson-card style
+              so the grid reads as one unified set of options rather than a
+              section break + standalone CTA. Tracking event is its own name so
+              we can tell card-level conversion apart from the hero button. */}
+          <Link
+            href="/create"
+            data-track="lessons_gallery_create_card_clicked"
+            data-source="grid_card"
+            className="group block transition-transform hover:-translate-y-0.5"
             style={{
-              fontSize: "1.4rem",
-              fontWeight: 700,
-              color: "var(--ink)",
-              margin: 0,
+              background: "var(--night)",
+              border: "1px solid rgba(255,255,255,0.4)",
+              borderRadius: "14px",
+              padding: "1.1rem 1.15rem",
+              textDecoration: "none",
+              color: "var(--parchment)",
+              display: "flex",
+              flexDirection: "column",
+              gap: "0.55rem",
+              height: "100%",
+              boxShadow: "0 1px 3px rgba(0,0,0,0.06)",
             }}
           >
-            Ready to build one for your own child?
-          </h2>
-          <p
-            style={{
-              fontSize: "0.9rem",
-              color: "var(--text-secondary)",
-              maxWidth: "520px",
-              margin: "0 auto",
-              lineHeight: 1.55,
-            }}
-          >
-            Pick the subject, philosophy, and your child&rsquo;s grade. We&rsquo;ll
-            generate a complete lesson plan in about 90 seconds.
-          </p>
-          <div className="pt-1">
-            <Link
-              href="/create"
-              data-track="lessons_gallery_create_clicked"
-              data-source="bottom"
+            <div
               style={{
                 display: "inline-flex",
                 alignItems: "center",
                 gap: "0.4rem",
-                background: "var(--night)",
-                color: "var(--parchment)",
-                borderRadius: "12px",
-                padding: "0.75rem 1.5rem",
-                fontSize: "0.95rem",
-                fontWeight: 600,
-                textDecoration: "none",
+                fontSize: "0.66rem",
+                fontWeight: 700,
+                letterSpacing: "0.12em",
+                textTransform: "uppercase",
+                color: "rgba(249,246,239,0.7)",
               }}
             >
-              Create your own lesson &rarr;
-            </Link>
-          </div>
+              <span
+                style={{
+                  width: "8px",
+                  height: "8px",
+                  borderRadius: "999px",
+                  background: "rgba(249,246,239,0.7)",
+                  flexShrink: 0,
+                }}
+              />
+              Your turn
+            </div>
 
-          <p style={{ fontSize: "0.78rem", color: "var(--text-tertiary)", margin: 0 }}>
-            Haven&rsquo;t found your style yet?{" "}
-            <Link
-              href="/compass/quiz"
-              style={{ color: "var(--accent-primary)", textDecoration: "underline" }}
+            <h2
+              className="font-cormorant-sc"
+              style={{
+                fontSize: "1.1rem",
+                fontWeight: 700,
+                color: "var(--parchment)",
+                margin: 0,
+                lineHeight: 1.25,
+                letterSpacing: "0.02em",
+              }}
             >
-              Take the free Sage&rsquo;s Compass quiz
-            </Link>
-            .
-          </p>
+              Create a Lesson
+            </h2>
+
+            <p
+              style={{
+                fontSize: "0.82rem",
+                lineHeight: 1.5,
+                color: "rgba(249,246,239,0.78)",
+                margin: 0,
+              }}
+            >
+              Pick a subject and grade. We&rsquo;ll write the full plan in
+              about 90 seconds.
+            </p>
+
+            <div
+              style={{
+                marginTop: "auto",
+                paddingTop: "0.5rem",
+                borderTop: "1px solid rgba(255,255,255,0.15)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "flex-end",
+                fontSize: "0.72rem",
+              }}
+            >
+              <span
+                className="transition-transform group-hover:translate-x-0.5"
+                style={{ color: "var(--parchment)", fontWeight: 600 }}
+              >
+                Start &rarr;
+              </span>
+            </div>
+          </Link>
         </section>
       </div>
     </Shell>

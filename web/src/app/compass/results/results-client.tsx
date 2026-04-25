@@ -628,64 +628,34 @@ function ResultsPageInner() {
           )}
         </div>
 
-        {/* Primary + secondary CTAs — replace the old single sample-lesson card.
-            Primary lands on the public 8-lesson gallery (anon-friendly conversion
-            page), secondary opens the curriculum browser. Both keep firing the
-            existing funnel events so historical dashboards still resolve. */}
+        {/* Primary CTA — public 8-lesson gallery (anon-friendly conversion page).
+            The "Match with curricula" follow-up now lives at the bottom of the
+            curriculum accordion below, so we don't double-stack two big buttons. */}
         {!isSharedView && !isPartialResult && (
-          <div className="space-y-2.5">
-            <Link
-              href="/compass/lessons"
-              onClick={() =>
-                track("compass_sample_cta_clicked", {
-                  source: "results_primary_button",
-                  top_blend_key: topBlendKey ?? null,
-                  secondary_blend_key: secondaryBlendKey ?? null,
-                })
-              }
-              style={{
-                background: "var(--night)",
-                color: "var(--parchment)",
-                borderRadius: "14px",
-                padding: "1.05rem 1.25rem",
-                fontSize: "1rem",
-                fontWeight: 600,
-                textDecoration: "none",
-                textAlign: "center",
-                display: "block",
-                lineHeight: 1.2,
-              }}
-            >
-              Lessons for your teaching style &rarr;
-            </Link>
-            <Link
-              href="/curriculum"
-              onClick={() =>
-                track("compass_curriculum_cta_clicked", {
-                  source: "results_secondary_button",
-                  top_blend_key: topBlendKey ?? null,
-                  secondary_blend_key: secondaryBlendKey ?? null,
-                })
-              }
-              style={{
-                background: "rgba(255,255,255,0.72)",
-                color: "var(--ink)",
-                border: "1px solid rgba(0,0,0,0.08)",
-                borderRadius: "14px",
-                padding: "1.05rem 1.25rem",
-                fontSize: "1rem",
-                fontWeight: 600,
-                textDecoration: "none",
-                textAlign: "center",
-                display: "block",
-                lineHeight: 1.2,
-                backdropFilter: "blur(12px)",
-                WebkitBackdropFilter: "blur(12px)",
-              }}
-            >
-              Match With Curricula &rarr;
-            </Link>
-          </div>
+          <Link
+            href="/compass/lessons"
+            onClick={() =>
+              track("compass_sample_cta_clicked", {
+                source: "results_primary_button",
+                top_blend_key: topBlendKey ?? null,
+                secondary_blend_key: secondaryBlendKey ?? null,
+              })
+            }
+            style={{
+              background: "var(--night)",
+              color: "var(--parchment)",
+              borderRadius: "14px",
+              padding: "1.05rem 1.25rem",
+              fontSize: "1rem",
+              fontWeight: 600,
+              textDecoration: "none",
+              textAlign: "center",
+              display: "block",
+              lineHeight: 1.2,
+            }}
+          >
+            Lessons for your teaching style &rarr;
+          </Link>
         )}
 
         {/* Shared-view CTA */}
@@ -1077,6 +1047,41 @@ function ResultsPageInner() {
                 </div>
               </div>
             ))}
+
+          {/* See-all entry into the full curriculum browser. Lives inside the
+              accordion so it only renders when the user has actually opened
+              the curriculum panel. No signup wall — /curriculum is public. */}
+          {matchOutput && Object.keys(matchOutput.bySubject).length > 0 && (
+            <div className="pt-2">
+              <Link
+                href="/curriculum"
+                onClick={() =>
+                  track("compass_see_all_curricula_clicked", {
+                    source: "results_curriculum_accordion",
+                    top_blend_key: topBlendKey ?? null,
+                    secondary_blend_key: secondaryBlendKey ?? null,
+                  })
+                }
+                style={{
+                  background: "rgba(255,255,255,0.72)",
+                  color: "var(--ink)",
+                  border: "1px solid rgba(0,0,0,0.08)",
+                  borderRadius: "12px",
+                  padding: "0.85rem 1.1rem",
+                  fontSize: "0.9rem",
+                  fontWeight: 600,
+                  textDecoration: "none",
+                  textAlign: "center",
+                  display: "block",
+                  lineHeight: 1.2,
+                  backdropFilter: "blur(12px)",
+                  WebkitBackdropFilter: "blur(12px)",
+                }}
+              >
+                See all curricula matches &rarr;
+              </Link>
+            </div>
+          )}
           </div>
         </details>
 

@@ -740,7 +740,7 @@ export default function Home() {
           <p style={{ fontSize: "0.75rem", color: "var(--text-tertiary)", marginTop: "0.5rem" }}>
             Already know your philosophy?{" "}
             <Link href="/create" style={{ color: "var(--accent-primary)" }}>
-              Jump straight to lesson generation →
+              Create a Lesson →
             </Link>
           </p>
         </div>

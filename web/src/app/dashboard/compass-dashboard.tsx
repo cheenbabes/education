@@ -287,7 +287,7 @@ export function CompassDashboard({ tierData }: CompassDashboardProps) {
               gap: "0.35rem",
             }}
           >
-            + Create lesson
+            + Create a Lesson
           </Link>
         )}
       </div>
@@ -599,7 +599,7 @@ export function CompassDashboard({ tierData }: CompassDashboardProps) {
                 textDecoration: "none",
               }}
             >
-              + Create first lesson
+              + Create a Lesson
             </Link>
           </div>
         ) : (
@@ -819,7 +819,7 @@ export function CompassDashboard({ tierData }: CompassDashboardProps) {
               border: "1px solid rgba(11,46,74,0.2)",
             }}
           >
-            Create another lesson first
+            Create a Lesson
           </Link>
         </div>
       </div>

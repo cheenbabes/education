@@ -747,7 +747,7 @@ export default function LessonsPage() {
           ) : (
             <Link href="/create">
               <button style={{ background: "#0B2E4A", color: "#F9F6EF", borderRadius: "10px", padding: "0.6rem 1.4rem", border: "none", cursor: "pointer" }} className="text-sm font-medium">
-                + Create Lesson
+                + Create a Lesson
               </button>
             </Link>
           )}

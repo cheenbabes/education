@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useMemo, useCallback, Suspense } from "react";
+import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useUser } from "@clerk/nextjs";
 import { Shell } from "@/components/shell";
@@ -602,27 +603,84 @@ function QuizPageInner() {
               </div>
             )}
 
-            <div className="text-center space-y-3">
-              <button
-                onClick={() => {
-                  setPhase("part2");
-                  setCurrentP2(0);
-                }}
-                style={{
-                  background: "#0B2E4A",
-                  color: "#F9F6EF",
-                  borderRadius: "10px",
-                  padding: "0.6rem 1.4rem",
-                  fontSize: "0.85rem",
-                  border: "none",
-                  cursor: "pointer",
-                }}
+            {/* Two distinct paths off the reveal page — the old single "Continue
+                to Part 2 →" forced everyone through the curricula match flow even
+                if they were here for inspiration. Now: a sample-lesson option for
+                browsers, and an explicit curricula-matching option for buyers. */}
+            <div className="space-y-3">
+              <div
+                className="grid gap-2.5"
+                style={{ gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))" }}
               >
-                Continue to Part 2 &rarr;
-              </button>
-              <p className="text-xs mt-2" style={{ color: "var(--text-secondary)" }}>
-                {visiblePart2Questions.length} quick questions about your practical needs · no signup required
-              </p>
+                <Link
+                  href="/compass/lessons"
+                  onClick={() =>
+                    track("compass_reveal_lessons_clicked", {
+                      archetype: compassResult?.archetype?.id ?? null,
+                      secondary: compassResult?.secondaryArchetype?.id ?? null,
+                    })
+                  }
+                  style={{
+                    background: "rgba(255,255,255,0.72)",
+                    color: "var(--ink)",
+                    border: "1px solid rgba(0,0,0,0.08)",
+                    borderRadius: "12px",
+                    padding: "0.95rem 1.1rem",
+                    fontSize: "0.9rem",
+                    fontWeight: 600,
+                    textDecoration: "none",
+                    textAlign: "center",
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    gap: "0.2rem",
+                    backdropFilter: "blur(10px)",
+                    WebkitBackdropFilter: "blur(10px)",
+                  }}
+                >
+                  <span>View Sample Lessons &rarr;</span>
+                  <span
+                    style={{
+                      fontSize: "0.72rem",
+                      fontWeight: 400,
+                      color: "var(--text-tertiary)",
+                    }}
+                  >
+                    See what your style looks like
+                  </span>
+                </Link>
+
+                <button
+                  onClick={() => {
+                    track("compass_reveal_curricula_clicked", {
+                      archetype: compassResult?.archetype?.id ?? null,
+                      secondary: compassResult?.secondaryArchetype?.id ?? null,
+                      visible_questions: visiblePart2Questions.length,
+                    });
+                    setPhase("part2");
+                    setCurrentP2(0);
+                  }}
+                  style={{
+                    background: "#0B2E4A",
+                    color: "#F9F6EF",
+                    borderRadius: "12px",
+                    padding: "0.95rem 1.1rem",
+                    fontSize: "0.9rem",
+                    fontWeight: 600,
+                    border: "none",
+                    cursor: "pointer",
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    gap: "0.2rem",
+                  }}
+                >
+                  <span>Match Me With Curricula &rarr;</span>
+                  <span style={{ fontSize: "0.72rem", fontWeight: 400, color: "rgba(249,246,239,0.7)" }}>
+                    {visiblePart2Questions.length} quick questions · no signup
+                  </span>
+                </button>
+              </div>
             </div>
           </div>
         )}

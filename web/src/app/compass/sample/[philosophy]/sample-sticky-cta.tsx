@@ -1,23 +1,18 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useFeatureFlagVariantKey } from "posthog-js/react";
 import { track } from "@/lib/analytics";
-import {
-  SAMPLE_CTA_COPY,
-  SAMPLE_CTA_FLAG_KEY,
-  resolveSampleCtaVariant,
-} from "@/lib/compass/sample-cta-copy";
+import { SAMPLE_CTA_COPY } from "@/lib/compass/sample-cta-copy";
 
 /**
  * Persistent bottom-of-viewport CTA bar for the sample lesson page. Appears
  * once the user scrolls past the header (~220px) so it doesn't obscure the
  * title on first paint, then stays visible as they read.
  *
- * Copy is driven by the `sample_cta_copy` feature flag (multivariate) so the
- * sticky bar stays in sync with the bottom CTA card — one user sees one
- * variant everywhere. The resolved variant is attached to every click event
- * as `copy_variant` so funnels can segment.
+ * Copy is now a single canonical variant (the prior `sample_cta_copy`
+ * multivariate experiment has shipped its winner — see
+ * `lib/compass/sample-cta-copy.ts`). The sticky bar and bottom card share
+ * the same text so users see one consistent action.
  */
 export function SampleStickyCta({
   philosophyId,
@@ -28,9 +23,7 @@ export function SampleStickyCta({
   secondary?: string;
   subject?: string;
 }) {
-  const variantRaw = useFeatureFlagVariantKey(SAMPLE_CTA_FLAG_KEY);
-  const variant = resolveSampleCtaVariant(variantRaw);
-  const copy = SAMPLE_CTA_COPY[variant];
+  const copy = SAMPLE_CTA_COPY;
 
   const [visible, setVisible] = useState(false);
 
@@ -53,7 +46,6 @@ export function SampleStickyCta({
       secondary: secondary ?? null,
       subject: subject ?? null,
       source: "sample_sticky_bar",
-      copy_variant: variant,
     });
   };
 

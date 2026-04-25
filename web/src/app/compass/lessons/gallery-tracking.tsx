@@ -6,6 +6,7 @@ import { track, type AnalyticsEvent } from "@/lib/analytics";
 const ALLOWED_EVENTS: ReadonlySet<AnalyticsEvent> = new Set<AnalyticsEvent>([
   "lessons_gallery_card_clicked",
   "lessons_gallery_create_clicked",
+  "lessons_gallery_create_card_clicked",
 ]);
 
 /**

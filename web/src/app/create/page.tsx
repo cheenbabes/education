@@ -741,7 +741,14 @@ function GeneratePage() {
               />
               <div className="flex items-start justify-between gap-2">
                 <p className="text-xs text-gray-500">
-                  Lessons work best with <span className="font-medium text-gray-700">one specific idea</span>, not a list of topics. Pick the single thing your child is most curious about right now.
+                  Lessons work best with <span className="font-medium text-gray-700">one specific idea</span>, not a list of topics. Pick the single thing your child is most curious about right now.{" "}
+                  <Link
+                    href="/compass/lessons"
+                    onClick={() => track("create_view_samples_clicked", { source: "create_lesson_seed_helper" })}
+                    style={{ color: "var(--accent-primary)", textDecoration: "underline", fontWeight: 500 }}
+                  >
+                    View sample lessons
+                  </Link>
                 </p>
                 <p className="text-xs text-gray-400 shrink-0">{interest.length}/200</p>
               </div>
