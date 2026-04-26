@@ -410,29 +410,13 @@ function ResultsPageInner() {
           </div>
 
           {/* Description paragraph. When there's a secondary archetype, its
-              tool sits inline-left of the paragraph so the icon visually
-              leads INTO the description — pairing the secondary identity
-              with the prose that explains the blend. On narrow viewports
-              we still keep the icon + text in a flex row (icon stays small)
-              rather than stacking, so the visual association doesn't break. */}
-          <div
-            className={
-              secondaryArchetype
-                ? "flex items-start gap-3 mx-auto"
-                : "mx-auto"
-            }
-            style={{ maxWidth: "520px" }}
-          >
-            {secondaryArchetype && (
-              <Image
-                src={secondaryArchetype.toolPath}
-                alt={secondaryArchetype.name}
-                width={72}
-                height={72}
-                className="object-contain shrink-0"
-                style={{ height: "auto", maxHeight: "72px", width: "auto", marginTop: "0.15rem" }}
-              />
-            )}
+              tool floats at the start of the paragraph so the prose wraps
+              around the icon — like a leading drop-cap rather than its own
+              column. The text fills the line beside the tool and continues
+              below it once the float clears, keeping the secondary identity
+              visually attached to the description without taking dedicated
+              vertical space. */}
+          <div className="mx-auto" style={{ maxWidth: "520px" }}>
             <p
               className="font-cormorant"
               style={{
@@ -444,6 +428,25 @@ function ResultsPageInner() {
                 textAlign: secondaryArchetype ? "left" : "center",
               }}
             >
+              {secondaryArchetype && (
+                <Image
+                  src={secondaryArchetype.toolPath}
+                  alt={secondaryArchetype.name}
+                  width={52}
+                  height={52}
+                  className="object-contain"
+                  style={{
+                    float: "left",
+                    height: "auto",
+                    maxHeight: "52px",
+                    width: "auto",
+                    marginRight: "0.5rem",
+                    marginTop: "0.1rem",
+                    marginBottom: "0.1rem",
+                    shapeOutside: "margin-box",
+                  }}
+                />
+              )}
               {archetype.description}
             </p>
           </div>
