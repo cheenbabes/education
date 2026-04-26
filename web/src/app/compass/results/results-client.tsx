@@ -429,29 +429,51 @@ function ResultsPageInner() {
               }}
             >
               {secondaryArchetype && (
-                <Image
-                  src={secondaryArchetype.toolPath}
-                  alt={secondaryArchetype.name}
-                  width={68}
-                  height={68}
-                  className="object-contain"
+                // Drop-cap: floats the secondary tool icon at the start of
+                // the paragraph so text wraps around its rectangle. No
+                // border — just whitespace via the wrapper's right margin.
+                //
+                // Tool PNGs are 755×722 with the visible art occupying
+                // only the middle band (e.g., the watering can content is
+                // 715×365). To make the icon as large as possible, we
+                // render the image MUCH bigger than the wrapper and crop
+                // to the wrapper via overflow:hidden. With the image
+                // centered on its canvas (which it always is, since
+                // content is roughly canvas-centered), this puts the
+                // visible art smack in the middle of the box.
+                <span
                   style={{
                     float: "left",
-                    height: "auto",
-                    maxHeight: "68px",
-                    width: "auto",
-                    marginRight: 0,
-                    marginTop: 0,
-                    marginBottom: 0,
-                    // Shape from the alpha channel — text wraps around the
-                    // actual silhouette instead of the PNG's 755×722 bounding
-                    // box, which is mostly transparent. shapeMargin is the
-                    // ONLY gap controller now (no marginRight needed) so the
-                    // text snugs right up against the visible art.
-                    shapeOutside: `url(${secondaryArchetype.toolPath})`,
-                    shapeMargin: "0.2rem",
+                    display: "block",
+                    width: "96px",
+                    height: "96px",
+                    marginRight: "0.9rem",
+                    marginTop: "0.3rem",
+                    marginBottom: "0.1rem",
+                    overflow: "hidden",
+                    position: "relative",
                   }}
-                />
+                  aria-hidden="true"
+                >
+                  <Image
+                    src={secondaryArchetype.toolPath}
+                    alt={secondaryArchetype.name}
+                    width={200}
+                    height={200}
+                    style={{
+                      position: "absolute",
+                      // Render canvas at ~200px (≈2× the wrapper); the
+                      // visible content's bbox sits in the middle ~half
+                      // of the canvas, so this fills the wrapper without
+                      // cropping the art. Centered on both axes.
+                      width: "200px",
+                      height: "auto",
+                      top: "50%",
+                      left: "50%",
+                      transform: "translate(-50%, -50%)",
+                    }}
+                  />
+                </span>
               )}
               {archetype.description}
             </p>
