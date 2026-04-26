@@ -99,6 +99,13 @@ const PREP_STYLES: Record<string, { color: string }> = {
   heavy: { color: "#dc2626" },
 };
 
+const PREP_LABELS: Record<string, string> = {
+  "open-and-go": "Open and go",
+  light: "Light prep",
+  moderate: "Moderate prep",
+  heavy: "Heavy prep",
+};
+
 function formatSubjectList(subjects: string[]): string {
   const labels = subjects.map((s) => SUBJECT_LABELS[s] ?? s);
   if (labels.length <= 2) return labels.join(" & ");
@@ -188,6 +195,10 @@ function CurriculumPageInner() {
   const [matchOutput, setMatchOutput] = useState<MatchOutput | null>(null);
   const [matchLoading, setMatchLoading] = useState(false);
   const [activeSubject, setActiveSubject] = useState<string | null>(null);
+  // Per-subject visible count for the close-fit bucket. Default 5; "Show more"
+  // bumps by 5. Reset on new match so changing filters doesn't strand the user
+  // mid-pagination.
+  const [partialCounts, setPartialCounts] = useState<Record<string, number>>({});
 
   const rawData = loadingDb ? null : (sessionResult || dbResult);
   const data = rawData
@@ -221,6 +232,7 @@ function CurriculumPageInner() {
     if (!data) return;
     setMatchLoading(true);
     setActiveSubject(null);
+    setPartialCounts({});
     try {
       const normalizedPhilosophies: Record<string, number> = {};
       for (const [key, value] of Object.entries(philosophies)) {
@@ -231,9 +243,10 @@ function CurriculumPageInner() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           philosophyBlend: normalizedPhilosophies,
-          // /curriculum is the "see more" surface — show up to 12 per subject
-          // (vs. the 3 the compass results page uses).
-          topN: 12,
+          // /curriculum is the "see more" surface. Pull a generous slate so
+          // we can bucket Strong/Good matches (always shown) separately from
+          // Close Fit matches (paginated 5-at-a-time client-side).
+          topN: 25,
           part2Preferences: {
             subjects,
             prepLevel,
@@ -381,7 +394,7 @@ function CurriculumPageInner() {
               </span>
             </span>
             <span className="text-xs" style={{ color: "var(--text-tertiary)" }}>
-              {filtersOpen ? "Hide" : "Show"}
+              {filtersOpen ? "Collapse" : "Expand"}
             </span>
           </button>
 
@@ -538,21 +551,94 @@ function CurriculumPageInner() {
           </div>
         )}
 
-        {/* Curriculum cards by subject */}
+        {/* Bucketed by fit. Aligned (strong + good) always shown in full; partials
+            paginated 5-at-a-time and rendered muted so the eye lands on the top
+            picks first. */}
         {matchOutput &&
           visibleSubjects.map((subject) => {
             const results = matchOutput.bySubject[subject];
             if (!results) return null;
+
+            const aligned = results.filter((r) => r.fitLabel !== "partial");
+            const partials = results.filter((r) => r.fitLabel === "partial");
+            const partialVisible = partialCounts[subject] ?? 5;
+            const visiblePartials = partials.slice(0, partialVisible);
+            const remaining = partials.length - partialVisible;
+
             return (
               <div key={subject} className="space-y-3">
                 <h3 className="font-cormorant-sc font-semibold" style={{ color: "var(--text-secondary)" }}>
                   {SUBJECT_LABELS[subject] || subject}
                 </h3>
-                <div className="space-y-2">
-                  {results.map((match, idx) => (
-                    <CurriculumCard key={match.curriculum.id} match={match} rank={idx + 1} />
-                  ))}
-                </div>
+
+                {aligned.length > 0 && (
+                  <div className="space-y-2">
+                    {aligned.map((match, idx) => (
+                      <CurriculumCard
+                        key={match.curriculum.id}
+                        match={match}
+                        isTopOfBucket={idx === 0}
+                        emphasis="primary"
+                      />
+                    ))}
+                  </div>
+                )}
+
+                {aligned.length > 0 && partials.length > 0 && (
+                  <div className="flex items-center gap-3 pt-3 pb-1">
+                    <div style={{ flex: 1, height: 1, background: "rgba(0,0,0,0.08)" }} />
+                    <span
+                      className="text-xs uppercase"
+                      style={{ color: "var(--text-tertiary)", letterSpacing: "0.08em" }}
+                    >
+                      Other options · partial fit
+                    </span>
+                    <div style={{ flex: 1, height: 1, background: "rgba(0,0,0,0.08)" }} />
+                  </div>
+                )}
+
+                {partials.length > 0 && (
+                  <>
+                    {aligned.length === 0 && (
+                      <p
+                        className="text-xs italic"
+                        style={{ color: "var(--text-tertiary)", lineHeight: 1.6 }}
+                      >
+                        No strongly aligned curricula matched these filters. The
+                        options below partially fit your philosophy &mdash; consider
+                        them as supplements or for a single skill area.
+                      </p>
+                    )}
+                    <div className="space-y-2">
+                      {visiblePartials.map((match) => (
+                        <CurriculumCard
+                          key={match.curriculum.id}
+                          match={match}
+                          emphasis="muted"
+                        />
+                      ))}
+                    </div>
+                    {remaining > 0 && (
+                      <button
+                        onClick={() =>
+                          setPartialCounts((prev) => ({
+                            ...prev,
+                            [subject]: partialVisible + 5,
+                          }))
+                        }
+                        className="w-full py-2.5 rounded-lg text-xs font-medium transition-opacity hover:opacity-80"
+                        style={{
+                          background: "rgba(0,0,0,0.04)",
+                          color: "var(--text-secondary)",
+                          border: "1px dashed rgba(0,0,0,0.14)",
+                        }}
+                      >
+                        Show {Math.min(5, remaining)} more
+                        {remaining > 5 ? ` · ${remaining} remaining` : ""}
+                      </button>
+                    )}
+                  </>
+                )}
               </div>
             );
           })}
@@ -615,36 +701,74 @@ function FilterSelect({
   );
 }
 
-function CurriculumCard({ match, rank }: { match: MatchResult; rank: number }) {
+function CurriculumCard({
+  match,
+  isTopOfBucket = false,
+  emphasis = "primary",
+}: {
+  match: MatchResult;
+  isTopOfBucket?: boolean;
+  emphasis?: "primary" | "muted";
+}) {
   const c = match.curriculum;
   const fit = FIT_STYLES[match.fitLabel] || FIT_STYLES.partial;
   const prepStyle = PREP_STYLES[c.prepLevel] || { color: "#6b7280" };
+  const isMuted = emphasis === "muted";
+
+  // Each card gets exactly one badge. The top of an aligned bucket combines
+  // "Top match" with the fit qualifier; everything else just shows its fit.
+  const accentColor = match.fitLabel === "strong" ? "#059669" : "#2563eb";
+  const topBadgeBg = match.fitLabel === "strong" ? "bg-emerald-100" : "bg-blue-100";
+  const topBadgeText = match.fitLabel === "strong" ? "text-emerald-800" : "text-blue-800";
+  const topBadgeLabel =
+    match.fitLabel === "strong" ? "Top match · strong fit" : "Top match · good fit";
+
+  const containerStyle: React.CSSProperties = isTopOfBucket
+    ? {
+        background: "rgba(255,255,255,0.85)",
+        borderTop: `1px solid ${accentColor}33`,
+        borderRight: `1px solid ${accentColor}33`,
+        borderBottom: `1px solid ${accentColor}33`,
+        borderLeft: `3px solid ${accentColor}`,
+      }
+    : isMuted
+    ? {
+        background: "rgba(255,255,255,0.55)",
+        border: "1px solid rgba(255,255,255,0.4)",
+      }
+    : {
+        background: "rgba(255,255,255,0.78)",
+        border: "1px solid rgba(255,255,255,0.5)",
+      };
 
   return (
     <div
       className="p-4"
       style={{
-        background: "rgba(255,255,255,0.72)",
         backdropFilter: "blur(12px)",
         WebkitBackdropFilter: "blur(12px)",
-        border: "1px solid rgba(255,255,255,0.5)",
         borderRadius: "12px",
+        opacity: isMuted ? 0.92 : 1,
+        ...containerStyle,
       }}
     >
       <div className="flex items-start justify-between gap-3">
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 flex-wrap">
             <h5 className="font-medium text-sm" style={{ color: "var(--ink)" }}>
-              {rank}. {c.name}
+              {c.name}
             </h5>
-            {rank === 1 && (
-              <span className="text-xs px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 font-medium">
-                Best Fit
+            {isTopOfBucket ? (
+              <span
+                className={`text-xs px-2 py-0.5 rounded font-medium ${topBadgeBg} ${topBadgeText}`}
+              >
+                {topBadgeLabel}
+              </span>
+            ) : (
+              <span className={`text-xs px-2 py-0.5 rounded ${fit.bg} ${fit.text}`}>
+                {fit.label}
               </span>
             )}
-            <span className={`text-xs px-2 py-0.5 rounded ${fit.bg} ${fit.text}`}>
-              {fit.label}
-            </span>
           </div>
           <p className="text-xs mt-0.5" style={{ color: "var(--text-secondary)" }}>
             {c.publisher}
@@ -665,15 +789,14 @@ function CurriculumCard({ match, rank }: { match: MatchResult; rank: number }) {
           </span>
         )}
         <span
-          className="text-xs px-2 py-0.5 rounded cursor-help"
+          className="text-xs px-2 py-0.5 rounded"
           style={{
             backgroundColor: `${prepStyle.color}15`,
             color: prepStyle.color,
             border: `1px solid ${prepStyle.color}30`,
           }}
-          title="Prep level is based on community reviews and publisher descriptions."
         >
-          {c.prepLevel}
+          {PREP_LABELS[c.prepLevel] ?? c.prepLevel}
         </span>
         <span
           className="text-xs px-2 py-0.5 rounded"
