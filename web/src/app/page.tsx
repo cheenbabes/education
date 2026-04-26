@@ -221,9 +221,11 @@ export default function Home() {
                 ] as { id: PhilosophyId; label: string }[]).map(({ id, label }) => {
                   const color = PHILOSOPHY_COLORS[resolvePhilosophyKey(id)] ?? "#6E6E9E";
                   return (
-                    <Link
+                    <TrackedLink
                       key={id}
                       href={`/compass/sample/${id}`}
+                      event="homepage_sample_card_clicked"
+                      eventProps={{ position: "hero_mini_grid", philosophy_id: id }}
                       className="hero-mini-chip"
                       style={{
                         background: "rgba(255,255,255,0.85)",
@@ -232,7 +234,7 @@ export default function Home() {
                       }}
                     >
                       {label}
-                    </Link>
+                    </TrackedLink>
                   );
                 })}
               </div>
@@ -244,9 +246,14 @@ export default function Home() {
                 lineHeight: 1.4,
               }}>
                 Eight philosophies. Eight real samples.<br />
-                <Link href="/compass/lessons" style={{ color: "var(--accent-primary)", fontWeight: 500, textDecoration: "none" }}>
+                <TrackedLink
+                  href="/compass/lessons"
+                  event="homepage_sample_gallery_clicked"
+                  eventProps={{ position: "hero_mini_grid" }}
+                  style={{ color: "var(--accent-primary)", fontWeight: 500, textDecoration: "none" }}
+                >
                   Open the gallery →
-                </Link>
+                </TrackedLink>
               </p>
             </div>
           </div>
@@ -328,17 +335,21 @@ export default function Home() {
 
         {/* Bridge into How It Works (replaces standalone Compass CTA) */}
         <div style={{ textAlign: "center", marginTop: "2rem" }}>
-          <Link href="#how-it-works" style={{
-            fontSize: "0.92rem",
-            color: "var(--accent-primary)",
-            textDecoration: "none",
-            display: "inline-flex",
-            alignItems: "center",
-            gap: "0.4rem",
-            fontWeight: 500,
-          }}>
+          <TrackedLink
+            href="#how-it-works"
+            event="homepage_bridge_link_clicked"
+            eventProps={{ position: "eight_ways" }}
+            style={{
+              fontSize: "0.92rem",
+              color: "var(--accent-primary)",
+              textDecoration: "none",
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "0.4rem",
+              fontWeight: 500,
+            }}>
             See how your style becomes a lesson ↓
-          </Link>
+          </TrackedLink>
         </div>
       </section>
 
@@ -815,9 +826,11 @@ export default function Home() {
               const lesson = SAMPLE_LESSONS[id];
               const color = PHILOSOPHY_COLORS[resolvePhilosophyKey(lesson.philosophyId)] ?? "#6E6E9E";
               return (
-                <Link
+                <TrackedLink
                   key={id}
                   href={`/compass/sample/${id}`}
+                  event="homepage_sample_card_clicked"
+                  eventProps={{ position: "samples_strip", philosophy_id: id }}
                   className="home-sample-card"
                   style={{
                     background: "rgba(255,255,255,0.78)",
@@ -841,14 +854,16 @@ export default function Home() {
                   <span style={{ fontSize: "0.7rem", color: "var(--text-tertiary)", marginTop: "auto" }}>
                     {lesson.grade === "K" ? "Kindergarten" : `Grade ${lesson.grade}`} · {lesson.subject}
                   </span>
-                </Link>
+                </TrackedLink>
               );
             })}
           </div>
 
           <div style={{ textAlign: "center", marginTop: "2.25rem" }}>
-            <Link
+            <TrackedLink
               href="/compass/lessons"
+              event="homepage_sample_gallery_clicked"
+              eventProps={{ position: "samples_strip" }}
               style={{
                 fontSize: "0.92rem",
                 color: "var(--accent-primary)",
@@ -858,7 +873,7 @@ export default function Home() {
               }}
             >
               Open the gallery →
-            </Link>
+            </TrackedLink>
             <TrackedLink
               href="/create"
               event="homepage_primary_cta_clicked"
@@ -963,9 +978,14 @@ export default function Home() {
             </TrackedLink>
           </p>
           <p style={{ fontSize: "0.75rem", color: "var(--text-tertiary)", marginTop: "0.45rem" }}>
-            <Link href="/compass/lessons" style={{ color: "var(--accent-primary)", textDecoration: "none" }}>
+            <TrackedLink
+              href="/compass/lessons"
+              event="homepage_sample_gallery_clicked"
+              eventProps={{ position: "final" }}
+              style={{ color: "var(--accent-primary)", textDecoration: "none" }}
+            >
               Browse sample lessons →
-            </Link>
+            </TrackedLink>
           </p>
         </div>
       </section>

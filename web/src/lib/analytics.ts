@@ -46,6 +46,9 @@ export type AnalyticsEvent =
   | "signup_completed"
   | "homepage_primary_cta_clicked"
   | "homepage_compass_secondary_cta_clicked"
+  | "homepage_sample_card_clicked"
+  | "homepage_sample_gallery_clicked"
+  | "homepage_bridge_link_clicked"
   | "child_added"
   // Pricing discoverability
   | "nav_pricing_clicked"
