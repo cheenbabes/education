@@ -109,7 +109,7 @@ const PREP_BONUS = 0.10;
 const SETTING_BONUS = 0.05;
 const INTEGRATED_BONUS = 0.08;
 
-const TOP_N = 3;
+const DEFAULT_TOP_N = 3;
 
 const PHILOSOPHY_NAMES: Record<string, string> = {
   montessori: "Montessori",
@@ -338,6 +338,7 @@ export function matchCurricula(
   preferences: Part2Preferences,
   curricula: CurriculumRecord[],
   debug = false,
+  topN: number = DEFAULT_TOP_N,
 ): MatchOutput {
   const warnings: MatchWarning[] = [];
 
@@ -480,7 +481,7 @@ export function matchCurricula(
   // Sort and trim to top N per subject
   for (const subj of Object.keys(bySubject)) {
     bySubject[subj].sort((a, b) => b.totalScore - a.totalScore);
-    bySubject[subj] = bySubject[subj].slice(0, TOP_N);
+    bySubject[subj] = bySubject[subj].slice(0, topN);
   }
 
   if (debug) {
@@ -552,7 +553,7 @@ export function matchCurricula(
 
         if (fallbackBySubject[subj]?.length > 0) {
           fallbackBySubject[subj].sort((a, b) => b.totalScore - a.totalScore);
-          bySubject[subj] = fallbackBySubject[subj].slice(0, TOP_N);
+          bySubject[subj] = fallbackBySubject[subj].slice(0, topN);
           fallbackBanner = banner;
         }
       }

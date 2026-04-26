@@ -231,6 +231,9 @@ function CurriculumPageInner() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           philosophyBlend: normalizedPhilosophies,
+          // /curriculum is the "see more" surface — show up to 12 per subject
+          // (vs. the 3 the compass results page uses).
+          topN: 12,
           part2Preferences: {
             subjects,
             prepLevel,
@@ -331,6 +334,38 @@ function CurriculumPageInner() {
             </div>
           </div>
         )}
+
+        {/* Top CTA: prominent path into lesson generation. Curriculum browsing
+            is the "research" mode — Create a Lesson is the "do something"
+            action, so it lives above the fold. */}
+        <div
+          className="rounded-xl p-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3"
+          style={frost}
+        >
+          <div className="space-y-1">
+            <p
+              className="font-cormorant-sc font-semibold"
+              style={{ fontSize: "1.05rem", color: "var(--ink)", letterSpacing: "0.01em" }}
+            >
+              Skip the curriculum search — generate lessons for your style
+            </p>
+            <p className="text-sm" style={{ color: "var(--text-secondary)" }}>
+              Sage&apos;s Compass builds standards-aligned lessons matched to your teaching philosophy.
+            </p>
+          </div>
+          <Link
+            href="/create"
+            className="inline-block text-sm font-medium hover:opacity-90 transition-opacity whitespace-nowrap text-center"
+            style={{
+              background: "var(--night)",
+              color: "var(--parchment)",
+              borderRadius: "10px",
+              padding: "0.7rem 1.4rem",
+            }}
+          >
+            Create a Lesson &rarr;
+          </Link>
+        </div>
 
         {/* Filters panel */}
         <div className="rounded-xl" style={frost}>
@@ -541,19 +576,6 @@ function CurriculumPageInner() {
           </Link>
         </p>
 
-        {/* Bottom CTA */}
-        <div className="rounded-xl p-4 text-center space-y-2" style={frost}>
-          <p className="text-sm" style={{ color: "var(--text-secondary)" }}>
-            Ready to start building lessons?
-          </p>
-          <Link
-            href="/create"
-            className="inline-block text-sm font-medium hover:opacity-90 transition-opacity"
-            style={{ background: "var(--night)", color: "var(--parchment)", borderRadius: "10px", padding: "0.6rem 1.4rem" }}
-          >
-            Create a Lesson &rarr;
-          </Link>
-        </div>
       </div>
     </Shell>
   );

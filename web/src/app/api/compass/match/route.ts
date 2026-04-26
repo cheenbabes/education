@@ -10,7 +10,13 @@ import {
 // POST /api/compass/match — run curriculum matching algorithm
 export async function POST(req: NextRequest) {
   const body = await req.json();
-  const { compassResultId, philosophyBlend, part2Preferences, debug } = body;
+  const { compassResultId, philosophyBlend, part2Preferences, debug, topN } = body;
+  // Optional cap on matches per subject. Defaults inside matchCurricula() to 3
+  // so the compass results page stays compact; /curriculum can ask for more.
+  const safeTopN =
+    typeof topN === "number" && Number.isFinite(topN) && topN > 0
+      ? Math.min(Math.floor(topN), 50)
+      : undefined;
 
   let blend: PhilosophyBlend;
   let prefs: Part2Preferences;
@@ -59,7 +65,7 @@ export async function POST(req: NextRequest) {
     notes: c.notes,
   }));
 
-  const matchOutput = matchCurricula(blend, prefs, curricula, !!debug);
+  const matchOutput = matchCurricula(blend, prefs, curricula, !!debug, safeTopN);
 
   return NextResponse.json(matchOutput);
 }
