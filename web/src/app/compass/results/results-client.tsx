@@ -426,54 +426,32 @@ function ResultsPageInner() {
                 color: "var(--text-secondary)",
                 margin: 0,
                 textAlign: secondaryArchetype ? "left" : "center",
+                // flow-root contains the floated drop-cap so it can't bleed
+                // into the next block when the description is shorter than
+                // the icon's height (e.g. tall hammer/butterfly icons).
+                display: secondaryArchetype ? "flow-root" : "block",
               }}
             >
               {secondaryArchetype && (
-                // Drop-cap: floats the secondary tool icon at the start of
-                // the paragraph so text wraps around its rectangle. No
-                // border — just whitespace via the wrapper's right margin.
-                //
-                // Tool PNGs are 755×722 with the visible art occupying
-                // only the middle band (e.g., the watering can content is
-                // 715×365). To make the icon as large as possible, we
-                // render the image MUCH bigger than the wrapper and crop
-                // to the wrapper via overflow:hidden. With the image
-                // centered on its canvas (which it always is, since
-                // content is roughly canvas-centered), this puts the
-                // visible art smack in the middle of the box.
-                <span
+                <Image
+                  src={secondaryArchetype.toolPath.replace("/tools/", "/tools/cropped/")}
+                  alt={secondaryArchetype.name}
+                  width={120}
+                  height={120}
+                  // The `compass-dropcap-img` class in globals.css applies
+                  // height/width !important to escape the mobile img reset
+                  // (`img { height: auto !important }`) which would
+                  // otherwise force this back to its natural dimensions.
+                  className="compass-dropcap-img"
                   style={{
                     float: "left",
-                    display: "block",
-                    width: "96px",
-                    height: "96px",
-                    marginRight: "0.9rem",
-                    marginTop: "0.3rem",
-                    marginBottom: "0.1rem",
-                    overflow: "hidden",
-                    position: "relative",
+                    marginRight: "12px",
+                    marginTop: "4px",
+                    marginBottom: "4px",
+                    objectFit: "contain",
                   }}
                   aria-hidden="true"
-                >
-                  <Image
-                    src={secondaryArchetype.toolPath}
-                    alt={secondaryArchetype.name}
-                    width={200}
-                    height={200}
-                    style={{
-                      position: "absolute",
-                      // Render canvas at ~200px (≈2× the wrapper); the
-                      // visible content's bbox sits in the middle ~half
-                      // of the canvas, so this fills the wrapper without
-                      // cropping the art. Centered on both axes.
-                      width: "200px",
-                      height: "auto",
-                      top: "50%",
-                      left: "50%",
-                      transform: "translate(-50%, -50%)",
-                    }}
-                  />
-                </span>
+                />
               )}
               {archetype.description}
             </p>

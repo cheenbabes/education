@@ -501,6 +501,13 @@
     max-width: 100% !important;
     height: auto !important;
   }
+  /* Drop-cap escape hatch: opt out of the mobile img reset so the
+     compass results page can render fixed-height drop-caps. */
+  img.compass-dropcap-img {
+    height: 88px !important;
+    width: auto !important;
+    max-width: 108px !important;
+  }
   iframe {
     max-width: 100%;
   }
