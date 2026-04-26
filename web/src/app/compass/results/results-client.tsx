@@ -372,7 +372,12 @@ function ResultsPageInner() {
           </div>
 
           <div className="text-center space-y-3">
-            {/* Primary character + secondary tool side by side */}
+            {/* Primary archetype illustration. The secondary tool used to sit
+                beside this image (architect + watering can in one row), but
+                users couldn't tell which icon represented the secondary
+                tendency. We now place the secondary tool below the
+                "with X tendencies" label so the visual / textual association
+                is unambiguous. */}
             <div className="flex items-end justify-center overflow-hidden px-4">
               <Image
                 src={archetype.resultsImagePath}
@@ -382,16 +387,6 @@ function ResultsPageInner() {
                 className="object-contain max-w-[55vw] sm:max-w-none"
                 style={{ height: "auto", maxHeight: "220px", width: "auto" }}
               />
-              {secondaryArchetype && (
-                <Image
-                  src={secondaryArchetype.toolPath}
-                  alt={secondaryArchetype.name}
-                  width={120}
-                  height={120}
-                  className="object-contain opacity-70 max-w-[25vw] sm:max-w-none"
-                  style={{ height: "auto", maxHeight: "120px", width: "auto", marginLeft: "-12px" }}
-                />
-              )}
             </div>
 
             <h2
@@ -401,9 +396,22 @@ function ResultsPageInner() {
               You&apos;re {archetype.name}
             </h2>
             {secondaryArchetype && (
-              <p className="text-sm font-medium" style={{ color: secondaryArchetype.color }}>
-                with {secondaryArchetype.name} tendencies
-              </p>
+              <>
+                <p
+                  className="text-sm font-semibold"
+                  style={{ color: secondaryArchetype.color, marginTop: "0.15rem" }}
+                >
+                  with {secondaryArchetype.name} tendencies
+                </p>
+                <Image
+                  src={secondaryArchetype.toolPath}
+                  alt={secondaryArchetype.name}
+                  width={88}
+                  height={88}
+                  className="object-contain mx-auto"
+                  style={{ height: "auto", maxHeight: "88px", width: "auto", marginTop: "0.25rem" }}
+                />
+              </>
             )}
           </div>
 
