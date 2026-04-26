@@ -640,9 +640,8 @@ function QuizPageInner() {
                     })
                   }
                   style={{
-                    background: "rgba(255,255,255,0.72)",
-                    color: "var(--ink)",
-                    border: "1px solid rgba(0,0,0,0.08)",
+                    background: "#0B2E4A",
+                    color: "#F9F6EF",
                     borderRadius: "12px",
                     padding: "0.95rem 1.1rem",
                     fontSize: "0.9rem",
@@ -653,18 +652,10 @@ function QuizPageInner() {
                     flexDirection: "column",
                     alignItems: "center",
                     gap: "0.2rem",
-                    backdropFilter: "blur(10px)",
-                    WebkitBackdropFilter: "blur(10px)",
                   }}
                 >
                   <span>View Sample Lessons &rarr;</span>
-                  <span
-                    style={{
-                      fontSize: "0.72rem",
-                      fontWeight: 400,
-                      color: "var(--text-tertiary)",
-                    }}
-                  >
+                  <span style={{ fontSize: "0.72rem", fontWeight: 400, color: "rgba(249,246,239,0.7)" }}>
                     See what your style looks like
                   </span>
                 </Link>
@@ -680,22 +671,24 @@ function QuizPageInner() {
                     setCurrentP2(0);
                   }}
                   style={{
-                    background: "#0B2E4A",
-                    color: "#F9F6EF",
+                    background: "rgba(255,255,255,0.72)",
+                    color: "var(--ink)",
+                    border: "1px solid rgba(0,0,0,0.08)",
                     borderRadius: "12px",
                     padding: "0.95rem 1.1rem",
                     fontSize: "0.9rem",
                     fontWeight: 600,
-                    border: "none",
                     cursor: "pointer",
                     display: "flex",
                     flexDirection: "column",
                     alignItems: "center",
                     gap: "0.2rem",
+                    backdropFilter: "blur(10px)",
+                    WebkitBackdropFilter: "blur(10px)",
                   }}
                 >
                   <span>Match Me With Curricula &rarr;</span>
-                  <span style={{ fontSize: "0.72rem", fontWeight: 400, color: "rgba(249,246,239,0.7)" }}>
+                  <span style={{ fontSize: "0.72rem", fontWeight: 400, color: "var(--text-tertiary)" }}>
                     {visiblePart2Questions.length} quick questions · no signup
                   </span>
                 </button>
