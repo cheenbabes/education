@@ -432,24 +432,24 @@ function ResultsPageInner() {
                 <Image
                   src={secondaryArchetype.toolPath}
                   alt={secondaryArchetype.name}
-                  width={88}
-                  height={88}
+                  width={68}
+                  height={68}
                   className="object-contain"
                   style={{
                     float: "left",
                     height: "auto",
-                    maxHeight: "88px",
+                    maxHeight: "68px",
                     width: "auto",
-                    marginRight: "0.15rem",
+                    marginRight: 0,
                     marginTop: 0,
                     marginBottom: 0,
                     // Shape from the alpha channel — text wraps around the
-                    // actual watering-can silhouette instead of the PNG's
-                    // rectangular bounding box (which has lots of transparent
-                    // padding). shapeMargin adds a small breathing gap so
-                    // letters don't kiss the icon's edge.
+                    // actual silhouette instead of the PNG's 755×722 bounding
+                    // box, which is mostly transparent. shapeMargin is the
+                    // ONLY gap controller now (no marginRight needed) so the
+                    // text snugs right up against the visible art.
                     shapeOutside: `url(${secondaryArchetype.toolPath})`,
-                    shapeMargin: "0.4rem",
+                    shapeMargin: "0.2rem",
                   }}
                 />
               )}
