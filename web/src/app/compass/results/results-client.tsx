@@ -432,18 +432,24 @@ function ResultsPageInner() {
                 <Image
                   src={secondaryArchetype.toolPath}
                   alt={secondaryArchetype.name}
-                  width={52}
-                  height={52}
+                  width={88}
+                  height={88}
                   className="object-contain"
                   style={{
                     float: "left",
                     height: "auto",
-                    maxHeight: "52px",
+                    maxHeight: "88px",
                     width: "auto",
-                    marginRight: "0.5rem",
-                    marginTop: "0.1rem",
-                    marginBottom: "0.1rem",
-                    shapeOutside: "margin-box",
+                    marginRight: "0.15rem",
+                    marginTop: 0,
+                    marginBottom: 0,
+                    // Shape from the alpha channel — text wraps around the
+                    // actual watering-can silhouette instead of the PNG's
+                    // rectangular bounding box (which has lots of transparent
+                    // padding). shapeMargin adds a small breathing gap so
+                    // letters don't kiss the icon's edge.
+                    shapeOutside: `url(${secondaryArchetype.toolPath})`,
+                    shapeMargin: "0.4rem",
                   }}
                 />
               )}
