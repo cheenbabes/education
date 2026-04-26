@@ -1,0 +1,1288 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Homepage iteration: mobile, hero balance, archetype section · Sage's Compass</title>
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+SC:wght@500;600;700&family=Cormorant:ital,wght@0,400;0,500;1,400;1,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --parchment: #F9F6EF;
+    --ink: #1f2328;
+    --night: #0B2E4A;
+    --accent-primary: #6E6E9E;
+    --accent-secondary: #82284b;
+    --accent-tertiary: #C4983D;
+    --text-secondary: #5A5A5A;
+    --text-tertiary: #767676;
+    --cm-color: #B07A8A;
+    --sage: #5A947A;
+    /* Archetype palette (mirrors site) */
+    --c-guide: #4F4FA1;
+    --c-explorer: #5A8FB2;
+    --c-cultivator: #7D6B9E;
+    --c-naturalist: #5A947A;
+    --c-storyteller: #B07A8A;
+    --c-architect: #5A7FA0;
+    --c-freespirit: #C4983D;
+    --c-weaver: #7E2B49;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: 'Inter', sans-serif;
+    color: var(--ink);
+    background:
+      radial-gradient(ellipse 800px 600px at 10% 0%, rgba(130,40,75,0.06), transparent 60%),
+      radial-gradient(ellipse 900px 700px at 90% 10%, rgba(110,110,158,0.08), transparent 55%),
+      #EFEAE0;
+    line-height: 1.5;
+  }
+  .font-cormorant { font-family: 'Cormorant', serif; }
+  .font-cormorant-sc { font-family: 'Cormorant SC', serif; letter-spacing: 0.03em; }
+
+  /* ── Page header ─────────────────────────────────────────────── */
+  .page-header {
+    text-align: center;
+    padding: 3rem 1.5rem 1rem;
+    max-width: 880px;
+    margin: 0 auto;
+  }
+  .page-header h1 {
+    font-family: 'Cormorant SC', serif;
+    font-weight: 700;
+    font-size: clamp(1.8rem, 3vw, 2.4rem);
+    margin: 0 0 0.5rem;
+    letter-spacing: 0.03em;
+    color: var(--ink);
+  }
+  .page-header .lede {
+    color: var(--text-secondary);
+    font-size: 1rem;
+    max-width: 60ch;
+    margin: 0 auto 1.25rem;
+  }
+  .baseline {
+    display: inline-block;
+    padding: 0.4rem 0.95rem;
+    background: rgba(130,40,75,0.1);
+    color: var(--accent-secondary);
+    border-radius: 999px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+  }
+
+  /* ── Surface section ─────────────────────────────────────────── */
+  .surface {
+    max-width: 1700px;
+    margin: 3.5rem auto 0;
+    padding: 0 1.5rem;
+  }
+  .surface-header {
+    max-width: 880px;
+    margin: 0 auto 1.75rem;
+    text-align: center;
+  }
+  .surface-header .surface-num {
+    display: inline-block;
+    padding: 0.25rem 0.7rem;
+    background: rgba(11,46,74,0.08);
+    border-radius: 999px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--night);
+    margin-bottom: 0.65rem;
+  }
+  .surface-header h2 {
+    font-family: 'Cormorant SC', serif;
+    font-size: 1.55rem;
+    margin: 0 0 0.5rem;
+    color: var(--ink);
+    letter-spacing: 0.03em;
+  }
+  .surface-header p {
+    color: var(--text-secondary);
+    font-size: 0.92rem;
+    max-width: 60ch;
+    margin: 0 auto;
+  }
+
+  /* ── Variant grid ────────────────────────────────────────────── */
+  .grid {
+    display: grid;
+    gap: 1.75rem;
+  }
+  .grid.mobile-grid {
+    grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+    max-width: 1300px;
+    margin: 0 auto;
+  }
+  .grid.full-grid {
+    grid-template-columns: 1fr;
+  }
+  .grid.full-grid > .card { max-width: 1300px; margin: 0 auto; width: 100%; }
+  .card { display: flex; flex-direction: column; gap: 0.75rem; }
+  .card-header {
+    display: flex;
+    align-items: baseline;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+  }
+  .card-header h3 {
+    font-family: 'Cormorant SC', serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin: 0;
+    color: var(--ink);
+    letter-spacing: 0.02em;
+  }
+  .variant-id {
+    font-size: 0.65rem;
+    font-weight: 700;
+    padding: 0.18rem 0.55rem;
+    border-radius: 5px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .variant-current { background: rgba(0,0,0,0.08); color: var(--text-tertiary); }
+  .variant-a { background: rgba(130,40,75,0.12); color: var(--accent-secondary); }
+  .variant-b { background: rgba(110,110,158,0.15); color: var(--accent-primary); }
+  .variant-c { background: rgba(196,152,61,0.15); color: #8a6a1f; }
+  .card-desc {
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+    margin: 0 0 0.25rem;
+    line-height: 1.5;
+  }
+
+  /* ── Frames ──────────────────────────────────────────────────── */
+  .frame {
+    background:
+      radial-gradient(ellipse 400px 300px at 10% 0%, rgba(130,40,75,0.05), transparent 60%),
+      radial-gradient(ellipse 400px 300px at 90% 0%, rgba(110,110,158,0.06), transparent 55%),
+      var(--parchment);
+    border-radius: 14px;
+    border: 1px solid rgba(0,0,0,0.08);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05), 0 8px 24px rgba(0,0,0,0.07);
+    overflow: hidden;
+    position: relative;
+  }
+  .frame.mobile-frame {
+    width: 100%;
+    max-width: 360px;
+    margin: 0 auto;
+    height: 720px;
+    overflow-y: auto;
+    border-radius: 22px;
+  }
+  .frame.full-frame {
+    padding: 1.75rem 1.75rem 2rem;
+    min-height: 380px;
+  }
+  .frame-pad { padding: 1.4rem 1.1rem 1.4rem; }
+  .frame::-webkit-scrollbar { width: 5px; }
+  .frame::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.1); border-radius: 3px; }
+
+  .nav-stub {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 0.65rem 1rem;
+    background: rgba(255,255,255,0.7);
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+    font-family: 'Cormorant SC', serif;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--night);
+  }
+
+  /* ── Hero copy / buttons ─────────────────────────────────────── */
+  .kicker {
+    font-size: 0.55rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent-primary);
+    margin: 0 0 0.5rem;
+  }
+  .h1 {
+    font-family: 'Cormorant SC', serif;
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: 0.03em;
+    color: var(--ink);
+    margin: 0 0 0.7rem;
+  }
+  .h1.mobile { font-size: 1.4rem; }
+  .h1.full { font-size: 1.85rem; }
+  .sub {
+    font-family: 'Cormorant', serif;
+    font-style: italic;
+    color: var(--text-secondary);
+    line-height: 1.55;
+    margin: 0 0 1rem;
+  }
+  .sub.mobile { font-size: 0.92rem; }
+  .sub.full { font-size: 1rem; }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    text-decoration: none;
+    font-weight: 600;
+    cursor: pointer;
+    border: 0;
+    font-family: inherit;
+  }
+  .btn-night {
+    background: var(--night);
+    color: var(--parchment);
+    border-radius: 10px;
+    padding: 0.7rem 1.1rem;
+    font-size: 0.82rem;
+    width: 100%;
+  }
+  .btn-night.lg {
+    padding: 0.85rem 1.4rem;
+    font-size: 0.9rem;
+    border-radius: 12px;
+  }
+  .btn-microcopy {
+    font-size: 0.65rem;
+    color: var(--text-tertiary);
+    margin: 0.45rem 0 0;
+    text-align: center;
+  }
+  .compass-link {
+    display: block;
+    text-align: center;
+    font-size: 0.72rem;
+    color: var(--text-tertiary);
+    margin-top: 0.6rem;
+  }
+  .compass-link a {
+    color: var(--accent-primary);
+    font-weight: 500;
+    text-decoration: none;
+  }
+
+  /* ── Lesson sample (in‑page mock) ────────────────────────────── */
+  .lesson-card {
+    background: rgba(255,255,255,0.78);
+    border: 1px solid rgba(255,255,255,0.55);
+    border-radius: 12px;
+    padding: 0.85rem 0.95rem 1rem;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 8px 22px rgba(0,0,0,0.06);
+    backdrop-filter: blur(8px);
+  }
+  .lesson-card .lc-kicker {
+    font-size: 0.55rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent-secondary);
+    margin: 0 0 0.4rem;
+  }
+  .lesson-card .lc-title {
+    font-family: 'Cormorant SC', serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--ink);
+    letter-spacing: 0.02em;
+    margin: 0 0 0.4rem;
+  }
+  .lesson-card .lc-pills {
+    display: flex; gap: 0.3rem; flex-wrap: wrap; margin-bottom: 0.5rem;
+  }
+  .lc-pill {
+    font-size: 0.55rem;
+    padding: 0.15rem 0.4rem;
+    border-radius: 4px;
+    font-weight: 600;
+  }
+  .lc-pill.cm { background: rgba(176,122,138,0.15); color: var(--cm-color); border: 1px solid rgba(176,122,138,0.3); }
+  .lc-pill.mont { background: rgba(125,107,158,0.15); color: var(--c-cultivator); border: 1px solid rgba(125,107,158,0.3); }
+  .lc-pill.classical { background: rgba(91,94,138,0.15); color: #5B5E8A; border: 1px solid rgba(91,94,138,0.3); }
+  .lc-pill.pbl { background: rgba(90,127,160,0.15); color: var(--c-architect); border: 1px solid rgba(90,127,160,0.3); }
+  .lc-pill.meta { background: rgba(255,255,255,0.7); color: var(--text-tertiary); border: 1px solid rgba(0,0,0,0.06); }
+  .lc-section {
+    background: rgba(255,255,255,0.7);
+    border-radius: 7px;
+    padding: 0.4rem 0.55rem;
+    margin-bottom: 0.3rem;
+  }
+  .lc-section .kk {
+    font-size: 0.5rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--cm-color);
+    margin-bottom: 0.1rem;
+  }
+  .lc-section .body {
+    font-size: 0.62rem;
+    color: var(--text-secondary);
+    line-height: 1.4;
+  }
+  .lc-section.mont .kk { color: var(--c-cultivator); }
+  .lc-section.classical .kk { color: #5B5E8A; }
+  .lc-section.pbl .kk { color: var(--c-architect); }
+  .lc-standards {
+    font-size: 0.55rem;
+    color: var(--accent-primary);
+    background: rgba(110,110,158,0.08);
+    border-radius: 5px;
+    padding: 0.22rem 0.4rem;
+    margin-top: 0.3rem;
+  }
+
+  /* ── Ring stub (decorative) ──────────────────────────────────── */
+  .ring-stub {
+    aspect-ratio: 1;
+    width: 100%;
+    max-width: 240px;
+    margin: 0 auto;
+    border-radius: 50%;
+    background:
+      conic-gradient(from 0deg,
+        var(--c-storyteller) 0 12.5%,
+        var(--c-cultivator) 12.5% 25%,
+        #5B5E8A 25% 37.5%,
+        var(--c-freespirit) 37.5% 50%,
+        var(--c-naturalist) 50% 62.5%,
+        var(--c-explorer) 62.5% 75%,
+        var(--c-architect) 75% 87.5%,
+        var(--c-weaver) 87.5% 100%);
+    opacity: 0.85;
+    position: relative;
+    box-shadow: inset 0 0 0 18px var(--parchment), 0 6px 24px rgba(0,0,0,0.08);
+  }
+  .ring-stub::after {
+    content: "";
+    position: absolute;
+    width: 28px; height: 28px;
+    background: radial-gradient(circle, var(--accent-tertiary) 30%, transparent 70%);
+    border-radius: 50%;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  .ring-stub.sm { max-width: 150px; }
+  .ring-stub.xs { max-width: 100px; box-shadow: inset 0 0 0 10px var(--parchment), 0 4px 14px rgba(0,0,0,0.07); }
+  .ring-caption {
+    text-align: center;
+    font-family: 'Cormorant', serif;
+    font-style: italic;
+    font-size: 0.68rem;
+    color: var(--text-tertiary);
+    margin-top: 0.5rem;
+  }
+
+  /* Decorative archetype peek (3 small portraits in row) */
+  .arch-peek {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    margin: 0.4rem 0 0.85rem;
+  }
+  .arch-peek .p {
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    border: 2px solid;
+    background: rgba(255,255,255,0.6);
+  }
+
+  /* ── Desktop hero grid ───────────────────────────────────────── */
+  .desk-hero {
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: 2.25rem;
+    align-items: start;
+  }
+  .desk-hero.balanced { align-items: center; }
+  .desk-hero-3 {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1.5rem;
+    align-items: start;
+  }
+
+  /* ── Why Lessons section ─────────────────────────────────────── */
+  .why-head {
+    text-align: center;
+    margin-bottom: 1.4rem;
+  }
+  .why-head .kk {
+    font-size: 0.55rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent-primary);
+    margin: 0 0 0.35rem;
+  }
+  .why-head h3 {
+    font-family: 'Cormorant SC', serif;
+    font-size: 1.45rem;
+    font-weight: 700;
+    color: var(--ink);
+    margin: 0 0 0.45rem;
+    letter-spacing: 0.03em;
+  }
+  .why-head p {
+    font-family: 'Cormorant', serif;
+    font-style: italic;
+    font-size: 0.92rem;
+    color: var(--text-secondary);
+    max-width: 56ch;
+    margin: 0 auto;
+    line-height: 1.55;
+  }
+
+  /* Variant A: 8-archetype cards with lesson lines */
+  .arch8 {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    gap: 0.55rem;
+    margin: 1rem 0;
+  }
+  @media (max-width: 1100px) { .arch8 { grid-template-columns: repeat(4, 1fr); } }
+  @media (max-width: 540px) { .arch8 { grid-template-columns: repeat(2, 1fr); } }
+  .arch-card {
+    background: rgba(255,255,255,0.78);
+    border-radius: 12px;
+    padding: 0.65rem 0.5rem 0.7rem;
+    border-bottom: 3px solid;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+  .arch-card .head-circle {
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.5);
+    margin: 0 auto;
+    border: 2px solid;
+  }
+  .arch-card .name {
+    font-family: 'Cormorant SC', serif;
+    font-size: 0.62rem;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+  }
+  .arch-card .your {
+    font-size: 0.5rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-tertiary);
+    margin-top: 0.2rem;
+  }
+  .arch-card .lesson-line {
+    font-size: 0.55rem;
+    color: var(--text-secondary);
+    line-height: 1.35;
+  }
+
+  /* Variant B: One topic, multiple lessons */
+  .topic-banner {
+    background: rgba(11,46,74,0.04);
+    border: 1px solid rgba(11,46,74,0.1);
+    border-radius: 10px;
+    padding: 0.7rem 1rem;
+    text-align: center;
+    margin: 0 auto 1.2rem;
+    max-width: 460px;
+  }
+  .topic-banner .kk {
+    font-size: 0.55rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent-primary);
+    margin-bottom: 0.2rem;
+  }
+  .topic-banner .topic-name {
+    font-family: 'Cormorant SC', serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--ink);
+  }
+  .topic-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.85rem;
+    margin-bottom: 1rem;
+  }
+  @media (max-width: 900px) { .topic-grid { grid-template-columns: repeat(2, 1fr); } }
+  .mini-lesson {
+    background: rgba(255,255,255,0.78);
+    border: 1px solid rgba(255,255,255,0.55);
+    border-radius: 10px;
+    border-top: 3px solid;
+    padding: 0.7rem 0.8rem 0.85rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+  }
+  .mini-lesson .phil {
+    font-size: 0.55rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .mini-lesson .activity {
+    font-family: 'Cormorant', serif;
+    font-size: 0.78rem;
+    color: var(--ink);
+    line-height: 1.4;
+  }
+  .mini-lesson .meta {
+    font-size: 0.55rem;
+    color: var(--text-tertiary);
+    margin-top: auto;
+  }
+
+  /* Variant C: hybrid — 8 cards (smaller) + 3-up lesson preview */
+  .arch8-tight {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    gap: 0.4rem;
+    margin: 0.85rem 0 1rem;
+  }
+  @media (max-width: 900px) { .arch8-tight { grid-template-columns: repeat(4, 1fr); } }
+  .arch-pill {
+    background: rgba(255,255,255,0.78);
+    border-radius: 8px;
+    padding: 0.35rem 0.4rem 0.45rem;
+    border-top: 3px solid;
+    text-align: center;
+    font-family: 'Cormorant SC', serif;
+    font-size: 0.58rem;
+    font-weight: 600;
+    color: var(--ink);
+    letter-spacing: 0.02em;
+  }
+  .arch-pill .dot {
+    display: block;
+    width: 18px; height: 18px;
+    border-radius: 50%;
+    margin: 0 auto 0.2rem;
+    border: 2px solid;
+    background: rgba(255,255,255,0.5);
+  }
+  .three-up {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.85rem;
+  }
+  @media (max-width: 900px) { .three-up { grid-template-columns: 1fr; } }
+
+  /* ── Diff annotations ────────────────────────────────────────── */
+  .diff-list {
+    list-style: none;
+    padding: 0;
+    margin: 0.5rem 0 0;
+    font-size: 0.78rem;
+  }
+  .diff-list li {
+    padding: 0.3rem 0.55rem 0.3rem 1.5rem;
+    border-radius: 5px;
+    margin-bottom: 0.25rem;
+    color: var(--text-secondary);
+    position: relative;
+  }
+  .diff-list li::before {
+    position: absolute;
+    left: 0.45rem;
+    top: 0.3rem;
+    font-weight: 700;
+  }
+  .diff-list li.add { background: rgba(90,148,122,0.08); color: #2f5a44; }
+  .diff-list li.add::before { content: "+"; color: var(--sage); }
+  .diff-list li.remove { background: rgba(192,122,66,0.08); color: #7a4520; }
+  .diff-list li.remove::before { content: "−"; color: #C07A42; }
+  .diff-list li.change { background: rgba(110,110,158,0.08); color: #3a3a5e; }
+  .diff-list li.change::before { content: "~"; color: var(--accent-primary); }
+
+  /* Footer note */
+  .footer-note {
+    max-width: 880px;
+    margin: 4rem auto 3rem;
+    padding: 1.25rem 1.5rem;
+    background: rgba(11,46,74,0.04);
+    border-radius: 12px;
+    border: 1px solid rgba(11,46,74,0.08);
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+  .footer-note strong { color: var(--ink); }
+</style>
+</head>
+<body>
+
+<!-- Page header -->
+<header class="page-header">
+  <span class="baseline">Iteration round · 2026-04-26</span>
+  <h1 style="margin-top: 1rem;">Mobile hero · Desktop balance · Why-Lessons section</h1>
+  <p class="lede">
+    Three open issues in the rebuilt homepage. Each gets two or three layout options to react to before any code changes.
+  </p>
+</header>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!-- SURFACE 1: Mobile hero -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<section class="surface">
+  <div class="surface-header">
+    <span class="surface-num">Surface 1 · Mobile</span>
+    <h2>Above-the-fold mobile</h2>
+    <p>Right now the first phone viewport is text-heavy: kicker, big serif headline, four-line italic subhead, button, microcopy, Compass link. The ring (your strongest brand visual) doesn't show up until you scroll past all of that. Goal: make the first viewport beautiful and exciting, not just functional.</p>
+  </div>
+
+  <div class="grid mobile-grid">
+
+    <!-- ── Current ── -->
+    <div class="card">
+      <div class="card-header">
+        <h3>Current</h3>
+        <span class="variant-id variant-current">In production</span>
+      </div>
+      <p class="card-desc">Long subhead delays the visual moment. Ring is below the fold.</p>
+      <div class="frame mobile-frame">
+        <div class="nav-stub"><span>The Sage's Compass</span><span style="font-size: 0.85rem;">≡</span></div>
+        <div class="frame-pad">
+          <p class="kicker">Designed by a Master Educator. Built for the way you teach.</p>
+          <h3 class="h1 mobile">Lessons shaped to how you teach. And who you teach.</h3>
+          <p class="sub mobile">Type a topic, get a complete, standards-aligned lesson rooted in your philosophy — Montessori, Charlotte Mason, Classical, and more — in two minutes.</p>
+          <a href="#" class="btn btn-night">Create a Free Lesson</a>
+          <p class="btn-microcopy">No signup for your first lesson · Two minutes · Any philosophy</p>
+          <p class="compass-link">Want it matched to your style? <a href="#">Take the 5-min Compass →</a></p>
+          <div class="lesson-card" style="margin-top: 0.85rem;">
+            <p class="lc-kicker">A real lesson · Made in 2 minutes</p>
+            <div class="lc-title">The Life Cycle of a Butterfly</div>
+            <div class="lc-pills">
+              <span class="lc-pill cm">Charlotte Mason</span>
+              <span class="lc-pill meta">Grade 2 · Science</span>
+            </div>
+            <div class="lc-section">
+              <div class="kk">Nature Observation</div>
+              <div class="body">Find caterpillars or chrysalises outside. Sketch them in a nature journal.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Variant A: Visual-first (ring up top, tight copy) ── -->
+    <div class="card">
+      <div class="card-header">
+        <h3>Visual-first</h3>
+        <span class="variant-id variant-a">Variant A</span>
+      </div>
+      <p class="card-desc">Ring (small) shows immediately under the kicker. Punchier subhead. CTA still above fold.</p>
+      <div class="frame mobile-frame">
+        <div class="nav-stub"><span>The Sage's Compass</span><span style="font-size: 0.85rem;">≡</span></div>
+        <div class="frame-pad">
+          <p class="kicker" style="text-align:center;">Designed by a Master Educator</p>
+          <div class="ring-stub sm" style="margin: 0 auto 0.9rem;"></div>
+          <h3 class="h1 mobile" style="text-align:center;">Lessons shaped to how you teach. And who you teach.</h3>
+          <p class="sub mobile" style="text-align:center;">A complete lesson in two minutes — for any philosophy, any topic.</p>
+          <a href="#" class="btn btn-night">Create a Free Lesson</a>
+          <p class="btn-microcopy">No signup · Two minutes · Any philosophy</p>
+          <p class="compass-link">Want it matched to your style? <a href="#">Take the 5-min Compass →</a></p>
+          <div class="lesson-card" style="margin-top: 0.85rem;">
+            <p class="lc-kicker">A real lesson · 2 minutes</p>
+            <div class="lc-title">The Life Cycle of a Butterfly</div>
+            <div class="lc-pills">
+              <span class="lc-pill cm">Charlotte Mason</span>
+              <span class="lc-pill meta">Grade 2 · Science</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <ul class="diff-list">
+        <li class="add">Ring visible immediately — brand visual hits before scrolling</li>
+        <li class="change">Subhead trimmed from 4 lines to 1 punchy line</li>
+        <li class="change">Lesson sample condensed (no body sections on first paint)</li>
+      </ul>
+    </div>
+
+    <!-- ── Variant B: Decorative archetype peek + tight copy ── -->
+    <div class="card">
+      <div class="card-header">
+        <h3>Archetype peek</h3>
+        <span class="variant-id variant-b">Variant B</span>
+      </div>
+      <p class="card-desc">Three watercolor portraits as a decorative strip below the headline — invites curiosity without dominating. Lesson sample stays as proof.</p>
+      <div class="frame mobile-frame">
+        <div class="nav-stub"><span>The Sage's Compass</span><span style="font-size: 0.85rem;">≡</span></div>
+        <div class="frame-pad">
+          <p class="kicker">Designed by a Master Educator. Built for the way you teach.</p>
+          <h3 class="h1 mobile">Lessons shaped to how you teach.</h3>
+          <div class="arch-peek">
+            <div class="p" style="border-color: var(--c-storyteller); background: linear-gradient(135deg, rgba(176,122,138,0.4), rgba(255,255,255,0.6));"></div>
+            <div class="p" style="border-color: var(--c-naturalist); background: linear-gradient(135deg, rgba(90,148,122,0.4), rgba(255,255,255,0.6));"></div>
+            <div class="p" style="border-color: var(--c-cultivator); background: linear-gradient(135deg, rgba(125,107,158,0.4), rgba(255,255,255,0.6));"></div>
+            <div class="p" style="border-color: var(--c-explorer); background: linear-gradient(135deg, rgba(90,143,178,0.4), rgba(255,255,255,0.6));"></div>
+          </div>
+          <p class="sub mobile" style="text-align:center;">Eight teaching styles. One that's yours. Lessons in two minutes.</p>
+          <a href="#" class="btn btn-night">Create a Free Lesson</a>
+          <p class="btn-microcopy">No signup · Two minutes · Any philosophy</p>
+          <p class="compass-link">Want it matched to your style? <a href="#">Take the 5-min Compass →</a></p>
+          <div class="lesson-card" style="margin-top: 0.85rem;">
+            <p class="lc-kicker">A real lesson · 2 minutes</p>
+            <div class="lc-title">The Life Cycle of a Butterfly</div>
+            <div class="lc-pills">
+              <span class="lc-pill cm">Charlotte Mason</span>
+              <span class="lc-pill meta">Grade 2 · Science</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <ul class="diff-list">
+        <li class="add">Watercolor portraits add immediate visual texture, brand-distinctive</li>
+        <li class="change">Headline shortened to one line — more space for visuals</li>
+        <li class="change">Subhead reframed to one-liner that ties archetype + lesson</li>
+      </ul>
+    </div>
+
+    <!-- ── Variant C: Lesson preview as hero anchor ── -->
+    <div class="card">
+      <div class="card-header">
+        <h3>Lesson-as-anchor</h3>
+        <span class="variant-id variant-c">Variant C</span>
+      </div>
+      <p class="card-desc">Lesson sample becomes the hero artifact — moves above the CTA, floats between headline and action. Ring shows below the lesson.</p>
+      <div class="frame mobile-frame">
+        <div class="nav-stub"><span>The Sage's Compass</span><span style="font-size: 0.85rem;">≡</span></div>
+        <div class="frame-pad">
+          <p class="kicker">Designed by a Master Educator</p>
+          <h3 class="h1 mobile">Lessons shaped to how you teach.</h3>
+          <p class="sub mobile">Two minutes. Any philosophy. Any topic.</p>
+          <div class="lesson-card" style="margin: 0.4rem 0 0.95rem;">
+            <p class="lc-kicker">A real lesson · 2 minutes</p>
+            <div class="lc-title">The Life Cycle of a Butterfly</div>
+            <div class="lc-pills">
+              <span class="lc-pill cm">Charlotte Mason</span>
+              <span class="lc-pill meta">Grade 2 · Science</span>
+            </div>
+            <div class="lc-section">
+              <div class="kk">Nature Observation</div>
+              <div class="body">Find caterpillars outside. Sketch them in a nature journal.</div>
+            </div>
+          </div>
+          <a href="#" class="btn btn-night">Create a Free Lesson</a>
+          <p class="btn-microcopy">No signup · 2 minutes · Any philosophy</p>
+          <p class="compass-link">Want it matched to your style? <a href="#">Take the 5-min Compass →</a></p>
+          <div class="ring-stub sm" style="margin: 1rem auto 0;"></div>
+          <p class="ring-caption">Eight teaching archetypes. Which one are you?</p>
+        </div>
+      </div>
+      <ul class="diff-list">
+        <li class="add">Lesson sample IS the hero artifact — visual and product immediately</li>
+        <li class="change">Ring moves below CTA, framed as "what shapes your lessons"</li>
+        <li class="change">Headline + subhead aggressively trimmed</li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!-- SURFACE 2: Desktop hero balance -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<section class="surface">
+  <div class="surface-header">
+    <span class="surface-num">Surface 2 · Desktop</span>
+    <h2>Filling the lower-right empty space</h2>
+    <p>The current layout puts a tall lesson sample in the bottom-left and a relatively short ring on the right. The right column ends much higher than the left, creating dead space. Three options to balance it.</p>
+  </div>
+
+  <div class="grid full-grid">
+
+    <!-- Current -->
+    <div class="card">
+      <div class="card-header">
+        <h3>Current — unbalanced</h3>
+        <span class="variant-id variant-current">In production</span>
+      </div>
+      <p class="card-desc">Left column much taller than right. Empty space bottom-right where the user circled.</p>
+      <div class="frame full-frame">
+        <div class="desk-hero">
+          <div>
+            <p class="kicker">Designed by a Master Educator. Built for the Way You Teach.</p>
+            <h3 class="h1 full">Lessons shaped to how you teach. And who you teach.</h3>
+            <p class="sub full">Type a topic, get a complete, standards-aligned lesson rooted in your philosophy — in two minutes.</p>
+            <a href="#" class="btn btn-night lg" style="width:auto;">Create a Free Lesson</a>
+            <p class="btn-microcopy" style="text-align:left;">No signup · Two minutes · Any philosophy</p>
+            <p class="compass-link" style="text-align:left;">Want it matched to your style? <a href="#">Take the 5-min Compass →</a></p>
+            <div class="lesson-card" style="margin-top: 1rem; max-width: 420px;">
+              <p class="lc-kicker">A real lesson · Made in 2 minutes</p>
+              <div class="lc-title">The Life Cycle of a Butterfly</div>
+              <div class="lc-pills">
+                <span class="lc-pill cm">Charlotte Mason</span>
+                <span class="lc-pill meta">Grade 2 · Science</span>
+              </div>
+              <div class="lc-section">
+                <div class="kk">Nature Observation</div>
+                <div class="body">Find caterpillars or chrysalises outside. Sketch what you see in a nature journal.</div>
+              </div>
+              <div class="lc-section">
+                <div class="kk">Living Book</div>
+                <div class="body">Read aloud about metamorphosis. Have your students narrate it back.</div>
+              </div>
+              <div class="lc-standards">✓ NGSS-LS1.B · K-2 Life Science</div>
+            </div>
+          </div>
+          <div>
+            <div class="ring-stub"></div>
+            <p class="ring-caption">Which one are you?</p>
+            <div style="border: 2px dashed rgba(192,122,66,0.5); border-radius: 10px; padding: 1.25rem; margin-top: 1rem; font-size: 0.78rem; color: #C07A42; text-align: center; font-style: italic;">
+              Empty space — what user circled
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Variant A: Lesson sample as full-width strip BELOW hero grid -->
+    <div class="card">
+      <div class="card-header">
+        <h3>Lesson sample as horizontal strip</h3>
+        <span class="variant-id variant-a">Variant A · cleanest balance</span>
+      </div>
+      <p class="card-desc">Hero grid stays balanced (text + ring). Lesson sample becomes a wide horizontal artifact below. Reads "promise → proof."</p>
+      <div class="frame full-frame">
+        <div class="desk-hero balanced">
+          <div>
+            <p class="kicker">Designed by a Master Educator. Built for the Way You Teach.</p>
+            <h3 class="h1 full">Lessons shaped to how you teach. And who you teach.</h3>
+            <p class="sub full">Type a topic, get a complete, standards-aligned lesson rooted in your philosophy — in two minutes.</p>
+            <a href="#" class="btn btn-night lg" style="width:auto;">Create a Free Lesson</a>
+            <p class="btn-microcopy" style="text-align:left;">No signup · Two minutes · Any philosophy</p>
+            <p class="compass-link" style="text-align:left;">Want it matched to your style? <a href="#">Take the 5-min Compass →</a></p>
+          </div>
+          <div>
+            <div class="ring-stub"></div>
+            <p class="ring-caption">Eight teaching archetypes. Which is yours?</p>
+          </div>
+        </div>
+        <div class="lesson-card" style="margin-top: 1.5rem; display: grid; grid-template-columns: auto 1fr 1fr auto; gap: 1.25rem; align-items: center; padding: 1rem 1.25rem;">
+          <div>
+            <p class="lc-kicker" style="margin-bottom: 0.3rem;">A real lesson · 2 min</p>
+            <div class="lc-title" style="margin-bottom: 0.4rem;">The Life Cycle of a Butterfly</div>
+            <div class="lc-pills" style="margin-bottom: 0;">
+              <span class="lc-pill cm">Charlotte Mason</span>
+              <span class="lc-pill meta">Grade 2 · Science</span>
+            </div>
+          </div>
+          <div class="lc-section" style="margin: 0;">
+            <div class="kk">Nature Observation</div>
+            <div class="body">Find caterpillars or chrysalises outside. Sketch in a nature journal.</div>
+          </div>
+          <div class="lc-section" style="margin: 0;">
+            <div class="kk">Living Book</div>
+            <div class="body">Read aloud about metamorphosis. Have students narrate it back.</div>
+          </div>
+          <div class="lc-standards" style="white-space: nowrap; margin: 0;">✓ NGSS-LS1.B</div>
+        </div>
+      </div>
+      <ul class="diff-list">
+        <li class="add">Hero grid is now balanced — ring and copy align vertically</li>
+        <li class="add">Lesson artifact gets more breathing room as a full-width strip</li>
+        <li class="change">Mobile collapse is unchanged: text → ring → strip stack naturally</li>
+      </ul>
+    </div>
+
+    <!-- Variant B: Add complementary block below ring -->
+    <div class="card">
+      <div class="card-header">
+        <h3>Add a "see real lessons" block under the ring</h3>
+        <span class="variant-id variant-b">Variant B · keeps current layout</span>
+      </div>
+      <p class="card-desc">Lesson sample stays bottom-left. Right column gets a small "Browse 8 sample lessons" preview block (mini cards) to balance height.</p>
+      <div class="frame full-frame">
+        <div class="desk-hero">
+          <div>
+            <p class="kicker">Designed by a Master Educator. Built for the Way You Teach.</p>
+            <h3 class="h1 full">Lessons shaped to how you teach. And who you teach.</h3>
+            <p class="sub full">Type a topic, get a complete, standards-aligned lesson rooted in your philosophy — in two minutes.</p>
+            <a href="#" class="btn btn-night lg" style="width:auto;">Create a Free Lesson</a>
+            <p class="btn-microcopy" style="text-align:left;">No signup · Two minutes · Any philosophy</p>
+            <p class="compass-link" style="text-align:left;">Want it matched to your style? <a href="#">Take the 5-min Compass →</a></p>
+            <div class="lesson-card" style="margin-top: 1rem; max-width: 420px;">
+              <p class="lc-kicker">A real lesson · Made in 2 minutes</p>
+              <div class="lc-title">The Life Cycle of a Butterfly</div>
+              <div class="lc-pills">
+                <span class="lc-pill cm">Charlotte Mason</span>
+                <span class="lc-pill meta">Grade 2 · Science</span>
+              </div>
+              <div class="lc-section">
+                <div class="kk">Nature Observation</div>
+                <div class="body">Find caterpillars outside. Sketch in a nature journal.</div>
+              </div>
+              <div class="lc-standards">✓ NGSS-LS1.B</div>
+            </div>
+          </div>
+          <div>
+            <div class="ring-stub"></div>
+            <p class="ring-caption">Which one are you?</p>
+            <!-- Mini sample lessons preview block -->
+            <div style="margin-top: 1.25rem; padding: 0.85rem 1rem; background: rgba(255,255,255,0.7); border: 1px solid rgba(255,255,255,0.55); border-radius: 12px;">
+              <p style="font-size: 0.55rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent-primary); margin: 0 0 0.55rem;">Browse Real Lessons</p>
+              <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.35rem; margin-bottom: 0.55rem;">
+                <div style="background: rgba(255,255,255,0.8); border-top: 2px solid var(--cm-color); border-radius: 5px; padding: 0.3rem 0.35rem; font-size: 0.5rem; color: var(--cm-color); font-weight: 700; letter-spacing: 0.04em; text-align: center;">CM</div>
+                <div style="background: rgba(255,255,255,0.8); border-top: 2px solid var(--c-cultivator); border-radius: 5px; padding: 0.3rem 0.35rem; font-size: 0.5rem; color: var(--c-cultivator); font-weight: 700; letter-spacing: 0.04em; text-align: center;">Mont</div>
+                <div style="background: rgba(255,255,255,0.8); border-top: 2px solid #5B5E8A; border-radius: 5px; padding: 0.3rem 0.35rem; font-size: 0.5rem; color: #5B5E8A; font-weight: 700; letter-spacing: 0.04em; text-align: center;">Class</div>
+                <div style="background: rgba(255,255,255,0.8); border-top: 2px solid var(--c-architect); border-radius: 5px; padding: 0.3rem 0.35rem; font-size: 0.5rem; color: var(--c-architect); font-weight: 700; letter-spacing: 0.04em; text-align: center;">PBL</div>
+                <div style="background: rgba(255,255,255,0.8); border-top: 2px solid var(--c-freespirit); border-radius: 5px; padding: 0.3rem 0.35rem; font-size: 0.5rem; color: var(--c-freespirit); font-weight: 700; letter-spacing: 0.04em; text-align: center;">Wal</div>
+                <div style="background: rgba(255,255,255,0.8); border-top: 2px solid var(--sage); border-radius: 5px; padding: 0.3rem 0.35rem; font-size: 0.5rem; color: var(--sage); font-weight: 700; letter-spacing: 0.04em; text-align: center;">Nat</div>
+                <div style="background: rgba(255,255,255,0.8); border-top: 2px solid #C07A42; border-radius: 5px; padding: 0.3rem 0.35rem; font-size: 0.5rem; color: #C07A42; font-weight: 700; letter-spacing: 0.04em; text-align: center;">Uns</div>
+                <div style="background: rgba(255,255,255,0.8); border-top: 2px solid var(--accent-primary); border-radius: 5px; padding: 0.3rem 0.35rem; font-size: 0.5rem; color: var(--accent-primary); font-weight: 700; letter-spacing: 0.04em; text-align: center;">Adapt</div>
+              </div>
+              <p style="font-size: 0.62rem; color: var(--text-secondary); margin: 0; text-align: center; line-height: 1.4;">Eight philosophies. Eight real samples.<br><a href="#" style="color: var(--accent-primary); font-weight: 500; text-decoration: none;">Open the gallery →</a></p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <ul class="diff-list">
+        <li class="add">Right column heights aligned — no more empty space</li>
+        <li class="add">Surfaces the sample-lessons gallery early (not buried in the page)</li>
+        <li class="change">Means we have <em>two</em> samples teasers in the hero (one big card, one mini grid). Could feel redundant; tradeoff to weigh.</li>
+      </ul>
+    </div>
+
+    <!-- Variant C: 3-column hero -->
+    <div class="card">
+      <div class="card-header">
+        <h3>3-column: copy / ring / sample</h3>
+        <span class="variant-id variant-c">Variant C · most ambitious</span>
+      </div>
+      <p class="card-desc">Hero is a 3-column grid: text + CTA on the left, ring in the middle, lesson sample on the right. All three columns balanced height.</p>
+      <div class="frame full-frame">
+        <div class="desk-hero-3">
+          <div>
+            <p class="kicker">Designed by a Master Educator</p>
+            <h3 class="h1 full" style="font-size: 1.55rem;">Lessons shaped to how you teach. And who you teach.</h3>
+            <p class="sub full" style="font-size: 0.92rem;">A complete, philosophy-aligned lesson in two minutes — for any topic, any age.</p>
+            <a href="#" class="btn btn-night lg" style="width:auto; margin-top: 0.5rem;">Create a Free Lesson</a>
+            <p class="btn-microcopy" style="text-align:left;">No signup · Two minutes</p>
+            <p class="compass-link" style="text-align:left;"><a href="#">Take the 5-min Compass →</a></p>
+          </div>
+          <div style="display: flex; flex-direction: column; align-items: center; gap: 0.5rem; padding-top: 1rem;">
+            <div class="ring-stub"></div>
+            <p class="ring-caption" style="margin: 0;">Eight teaching archetypes</p>
+            <p style="font-size: 0.72rem; color: var(--text-tertiary); font-style: italic; font-family: 'Cormorant', serif; margin: 0;">Which one are you?</p>
+          </div>
+          <div>
+            <div class="lesson-card">
+              <p class="lc-kicker">A real lesson · 2 min</p>
+              <div class="lc-title">The Life Cycle of a Butterfly</div>
+              <div class="lc-pills">
+                <span class="lc-pill cm">Charlotte Mason</span>
+                <span class="lc-pill meta">Grade 2 · Science</span>
+              </div>
+              <div class="lc-section">
+                <div class="kk">Nature Observation</div>
+                <div class="body">Find caterpillars outside. Sketch them.</div>
+              </div>
+              <div class="lc-section">
+                <div class="kk">Living Book</div>
+                <div class="body">Read aloud. Have students narrate it back.</div>
+              </div>
+              <div class="lc-standards">✓ NGSS-LS1.B · K-2 Life Science</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <ul class="diff-list">
+        <li class="add">All three hero elements get equal weight in one row</li>
+        <li class="add">No empty space — columns naturally align in height</li>
+        <li class="change">Hero copy + CTA gets less width — headline and subhead need to be tighter</li>
+        <li class="change">Mobile collapse: stacks as text → ring → sample (good order)</li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!-- SURFACE 3: Why Lessons Feel Right -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<section class="surface">
+  <div class="surface-header">
+    <span class="surface-num">Surface 3</span>
+    <h2>"Why Lessons Feel Right" — alternate views</h2>
+    <p>Today: headline says lesson, subhead says lesson, but the cards are pure archetype. Reads as a hard switch back to quiz framing. These three variants tie archetype to lesson output more tightly.</p>
+  </div>
+
+  <div class="grid full-grid">
+
+    <!-- Current -->
+    <div class="card">
+      <div class="card-header">
+        <h3>Current</h3>
+        <span class="variant-id variant-current">In production</span>
+      </div>
+      <p class="card-desc">8 archetype cards with archetype-y hooks. The cards don't talk about lessons.</p>
+      <div class="frame full-frame">
+        <div class="why-head">
+          <p class="kk">Why Lessons Feel Right</p>
+          <h3>Lessons that match how you actually teach.</h3>
+          <p>There are eight teaching archetypes, and every lesson we create can match yours — pacing, voice, materials, what you assess, what you let unfold.</p>
+        </div>
+        <div class="arch8">
+          <div class="arch-card" style="border-bottom-color: var(--c-guide);">
+            <div class="head-circle" style="border-color: var(--c-guide);"></div>
+            <div class="name" style="color: var(--c-guide);">The Guide</div>
+            <div class="lesson-line" style="font-style: italic;">Clear direction, rigorous academics, measurable milestones</div>
+          </div>
+          <div class="arch-card" style="border-bottom-color: var(--c-explorer);">
+            <div class="head-circle" style="border-color: var(--c-explorer);"></div>
+            <div class="name" style="color: var(--c-explorer);">The Explorer</div>
+            <div class="lesson-line" style="font-style: italic;">The world is the classroom</div>
+          </div>
+          <div class="arch-card" style="border-bottom-color: var(--c-cultivator);">
+            <div class="head-circle" style="border-color: var(--c-cultivator);"></div>
+            <div class="name" style="color: var(--c-cultivator);">The Cultivator</div>
+            <div class="lesson-line" style="font-style: italic;">Prepare the environment, let the child choose</div>
+          </div>
+          <div class="arch-card" style="border-bottom-color: var(--c-naturalist);">
+            <div class="head-circle" style="border-color: var(--c-naturalist);"></div>
+            <div class="name" style="color: var(--c-naturalist);">The Naturalist</div>
+            <div class="lesson-line" style="font-style: italic;">Seasons, soil, sky teach better than textbooks</div>
+          </div>
+          <div class="arch-card" style="border-bottom-color: var(--c-storyteller);">
+            <div class="head-circle" style="border-color: var(--c-storyteller);"></div>
+            <div class="name" style="color: var(--c-storyteller);">The Storyteller</div>
+            <div class="lesson-line" style="font-style: italic;">Living books, narration, beautiful ideas</div>
+          </div>
+          <div class="arch-card" style="border-bottom-color: var(--c-architect);">
+            <div class="head-circle" style="border-color: var(--c-architect);"></div>
+            <div class="name" style="color: var(--c-architect);">The Architect</div>
+            <div class="lesson-line" style="font-style: italic;">Learning means building something real</div>
+          </div>
+          <div class="arch-card" style="border-bottom-color: var(--c-freespirit);">
+            <div class="head-circle" style="border-color: var(--c-freespirit);"></div>
+            <div class="name" style="color: var(--c-freespirit);">The Free Spirit</div>
+            <div class="lesson-line" style="font-style: italic;">Trust. Curiosity. Freedom.</div>
+          </div>
+          <div class="arch-card" style="border-bottom-color: var(--c-weaver);">
+            <div class="head-circle" style="border-color: var(--c-weaver);"></div>
+            <div class="name" style="color: var(--c-weaver);">The Weaver</div>
+            <div class="lesson-line" style="font-style: italic;">Adapting, blending, every tool</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Variant A: Lesson-first hooks on each card -->
+    <div class="card">
+      <div class="card-header">
+        <h3>Lesson-first hooks on each archetype card</h3>
+        <span class="variant-id variant-a">Variant A · least change</span>
+      </div>
+      <p class="card-desc">Same 8-card grid, but each card's hook describes <em>your lessons</em>, not the archetype's identity.</p>
+      <div class="frame full-frame">
+        <div class="why-head">
+          <p class="kk">Why Lessons Feel Right</p>
+          <h3>One topic. Eight kinds of lessons. The Compass picks yours.</h3>
+          <p>Tell us how you teach, and every lesson we create reflects it. Here's what your lessons feel like, by archetype.</p>
+        </div>
+        <div class="arch8">
+          <div class="arch-card" style="border-bottom-color: var(--c-guide);">
+            <div class="head-circle" style="border-color: var(--c-guide);"></div>
+            <div class="name" style="color: var(--c-guide);">The Guide</div>
+            <div class="your">Your lessons</div>
+            <div class="lesson-line">Sequenced, mastery-checked, with clear weekly milestones</div>
+          </div>
+          <div class="arch-card" style="border-bottom-color: var(--c-explorer);">
+            <div class="head-circle" style="border-color: var(--c-explorer);"></div>
+            <div class="name" style="color: var(--c-explorer);">The Explorer</div>
+            <div class="your">Your lessons</div>
+            <div class="lesson-line">Built around field trips, real-world tasks, learning by going</div>
+          </div>
+          <div class="arch-card" style="border-bottom-color: var(--c-cultivator);">
+            <div class="head-circle" style="border-color: var(--c-cultivator);"></div>
+            <div class="name" style="color: var(--c-cultivator);">The Cultivator</div>
+            <div class="your">Your lessons</div>
+            <div class="lesson-line">Prepared materials, child-led pace, concrete-to-abstract</div>
+          </div>
+          <div class="arch-card" style="border-bottom-color: var(--c-naturalist);">
+            <div class="head-circle" style="border-color: var(--c-naturalist);"></div>
+            <div class="name" style="color: var(--c-naturalist);">The Naturalist</div>
+            <div class="your">Your lessons</div>
+            <div class="lesson-line">Outdoor anchors, nature journals, seasonal flow</div>
+          </div>
+          <div class="arch-card" style="border-bottom-color: var(--c-storyteller);">
+            <div class="head-circle" style="border-color: var(--c-storyteller);"></div>
+            <div class="name" style="color: var(--c-storyteller);">The Storyteller</div>
+            <div class="your">Your lessons</div>
+            <div class="lesson-line">Living books, narration prompts, short, beautiful sessions</div>
+          </div>
+          <div class="arch-card" style="border-bottom-color: var(--c-architect);">
+            <div class="head-circle" style="border-color: var(--c-architect);"></div>
+            <div class="name" style="color: var(--c-architect);">The Architect</div>
+            <div class="your">Your lessons</div>
+            <div class="lesson-line">End in a build — model, prototype, or hands-on artifact</div>
+          </div>
+          <div class="arch-card" style="border-bottom-color: var(--c-freespirit);">
+            <div class="head-circle" style="border-color: var(--c-freespirit);"></div>
+            <div class="name" style="color: var(--c-freespirit);">The Free Spirit</div>
+            <div class="your">Your lessons</div>
+            <div class="lesson-line">Open invitations, choice-driven paths, no forced steps</div>
+          </div>
+          <div class="arch-card" style="border-bottom-color: var(--c-weaver);">
+            <div class="head-circle" style="border-color: var(--c-weaver);"></div>
+            <div class="name" style="color: var(--c-weaver);">The Weaver</div>
+            <div class="your">Your lessons</div>
+            <div class="lesson-line">Pull from every philosophy — adaptive to each topic</div>
+          </div>
+        </div>
+      </div>
+      <ul class="diff-list">
+        <li class="add">Every card now reads as a lesson preview, not an archetype identity</li>
+        <li class="change">Hooks rewritten — old: "Clear direction, rigorous academics" → new: "Sequenced, mastery-checked, with clear weekly milestones"</li>
+        <li class="change">Headline reframed: "One topic. Eight kinds of lessons."</li>
+        <li class="add">Smallest implementation cost — keeps existing 8-card grid structure intact</li>
+      </ul>
+    </div>
+
+    <!-- Variant B: Same topic, different lessons -->
+    <div class="card">
+      <div class="card-header">
+        <h3>Same topic, different lessons</h3>
+        <span class="variant-id variant-b">Variant b · most demonstrative</span>
+      </div>
+      <p class="card-desc">Pick one topic. Show how the lesson actually changes across four philosophies. The 8-archetype showcase moves to a small footer link.</p>
+      <div class="frame full-frame">
+        <div class="why-head">
+          <p class="kk">Why Lessons Feel Right</p>
+          <h3>Same topic. Eight kinds of lessons.</h3>
+          <p>The Compass figures out how you teach. Then every lesson — every topic, every grade — adapts to that. Here's the same lesson, four ways.</p>
+        </div>
+        <div class="topic-banner">
+          <div class="kk">Topic</div>
+          <div class="topic-name">Fractions · Grade 3</div>
+        </div>
+        <div class="topic-grid">
+          <div class="mini-lesson" style="border-top-color: var(--c-cultivator);">
+            <span class="phil" style="color: var(--c-cultivator);">Montessori</span>
+            <p class="activity">Fraction circles and bead chains. Concrete halves, then quarters, then eighths — child sets the pace.</p>
+            <span class="meta">Manipulatives · Self-paced</span>
+          </div>
+          <div class="mini-lesson" style="border-top-color: var(--cm-color);">
+            <span class="phil" style="color: var(--cm-color);">Charlotte Mason</span>
+            <p class="activity">Halve a recipe together. Read aloud a story about sharing. Narrate the math back in your own words.</p>
+            <span class="meta">Living books · Narration</span>
+          </div>
+          <div class="mini-lesson" style="border-top-color: #5B5E8A;">
+            <span class="phil" style="color: #5B5E8A;">Classical</span>
+            <p class="activity">Chant the fraction families. Solve word problems aloud. End with a memorized rule and three written examples.</p>
+            <span class="meta">Memory · Logic</span>
+          </div>
+          <div class="mini-lesson" style="border-top-color: var(--c-architect);">
+            <span class="phil" style="color: var(--c-architect);">Project-Based</span>
+            <p class="activity">Design a pizza menu with fractional toppings. Calculate costs. Pitch your menu at the end of the week.</p>
+            <span class="meta">Build · Pitch</span>
+          </div>
+        </div>
+        <div style="text-align: center; margin-top: 1rem;">
+          <p style="font-size: 0.78rem; color: var(--text-tertiary); margin: 0 0 0.5rem;">Plus four more: Waldorf · Nature · Unschooling · Adaptive</p>
+          <a href="#" style="font-size: 0.85rem; color: var(--accent-primary); text-decoration: none; font-weight: 500;">See all 8 styles, all on one topic →</a>
+        </div>
+      </div>
+      <ul class="diff-list">
+        <li class="add">Reader sees concrete <em>lesson</em> output, not abstract archetype identity</li>
+        <li class="add">Demonstrates the engine's adaptation — visceral proof of "every lesson tunes to you"</li>
+        <li class="change">8-card archetype grid moves elsewhere (Compass page) — page becomes lesson-led, not quiz-led</li>
+        <li class="remove">Some users may miss the "discover yourself" emotional pull of all 8 portraits</li>
+      </ul>
+    </div>
+
+    <!-- Variant C: Hybrid -->
+    <div class="card">
+      <div class="card-header">
+        <h3>Hybrid — small archetype row + 3 lesson previews</h3>
+        <span class="variant-id variant-c">Variant C · most flexible</span>
+      </div>
+      <p class="card-desc">Keep all 8 archetypes (smaller, as a label row), then below: 3 mini lesson previews showing the same topic adapted to three of them.</p>
+      <div class="frame full-frame">
+        <div class="why-head">
+          <p class="kk">Why Lessons Feel Right</p>
+          <h3>Eight teaching styles. One lesson tuned to yours.</h3>
+          <p>Every lesson reflects how <em>you</em> teach. Tell us your style, and we'll match it — pacing, voice, materials, what you assess, what you let unfold.</p>
+        </div>
+        <div class="arch8-tight">
+          <div class="arch-pill" style="border-top-color: var(--c-guide);"><span class="dot" style="border-color: var(--c-guide);"></span>Guide</div>
+          <div class="arch-pill" style="border-top-color: var(--c-explorer);"><span class="dot" style="border-color: var(--c-explorer);"></span>Explorer</div>
+          <div class="arch-pill" style="border-top-color: var(--c-cultivator);"><span class="dot" style="border-color: var(--c-cultivator);"></span>Cultivator</div>
+          <div class="arch-pill" style="border-top-color: var(--c-naturalist);"><span class="dot" style="border-color: var(--c-naturalist);"></span>Naturalist</div>
+          <div class="arch-pill" style="border-top-color: var(--c-storyteller);"><span class="dot" style="border-color: var(--c-storyteller);"></span>Storyteller</div>
+          <div class="arch-pill" style="border-top-color: var(--c-architect);"><span class="dot" style="border-color: var(--c-architect);"></span>Architect</div>
+          <div class="arch-pill" style="border-top-color: var(--c-freespirit);"><span class="dot" style="border-color: var(--c-freespirit);"></span>Free Spirit</div>
+          <div class="arch-pill" style="border-top-color: var(--c-weaver);"><span class="dot" style="border-color: var(--c-weaver);"></span>Weaver</div>
+        </div>
+        <div style="text-align: center; margin: 0.85rem 0 1.1rem;">
+          <p style="font-family: 'Cormorant', serif; font-style: italic; font-size: 0.92rem; color: var(--text-secondary); margin: 0;">Here's what fractions look like in three of them ↓</p>
+        </div>
+        <div class="three-up">
+          <div class="mini-lesson" style="border-top-color: var(--c-cultivator);">
+            <span class="phil" style="color: var(--c-cultivator);">Montessori</span>
+            <p class="activity">Fraction circles. Concrete halves, then quarters — child sets the pace.</p>
+            <span class="meta">Grade 3 · Math</span>
+          </div>
+          <div class="mini-lesson" style="border-top-color: var(--cm-color);">
+            <span class="phil" style="color: var(--cm-color);">Charlotte Mason</span>
+            <p class="activity">Halve a recipe together. Narrate the math back in your own words.</p>
+            <span class="meta">Grade 3 · Math</span>
+          </div>
+          <div class="mini-lesson" style="border-top-color: var(--c-architect);">
+            <span class="phil" style="color: var(--c-architect);">Project-Based</span>
+            <p class="activity">Design a pizza menu with fractional toppings. Pitch it at the end.</p>
+            <span class="meta">Grade 3 · Math</span>
+          </div>
+        </div>
+        <div style="text-align: center; margin-top: 1.25rem;">
+          <a href="#" style="font-size: 0.85rem; color: var(--accent-primary); text-decoration: none; font-weight: 500; margin-right: 1.25rem;">See all 8 archetypes →</a>
+          <a href="#" class="btn btn-night" style="display: inline-flex; padding: 0.55rem 1.1rem; font-size: 0.82rem; border-radius: 9px; width: auto;">Take the 5-min Compass</a>
+        </div>
+      </div>
+      <ul class="diff-list">
+        <li class="add">Keeps all 8 archetypes visible (as label pills) — preserves the "8 ways" brand pillar</li>
+        <li class="add">Adds 3 concrete lesson previews so the section is half identity, half lesson output</li>
+        <li class="add">Inline Compass CTA at the bottom of the section, contextually grounded</li>
+        <li class="change">Loses the watercolor archetype portraits in this section (they could move to a smaller "Meet the 8" page or appear elsewhere)</li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+<!-- Footer -->
+<div class="footer-note">
+  <p>
+    <strong>How to read this:</strong> each surface has 2-3 options. Pick a number per surface, or mix and match (e.g., mobile B + desktop A + why-lessons C).
+  </p>
+  <p style="margin-top: 0.6rem;">
+    <strong>Notes on tradeoffs:</strong>
+  </p>
+  <ul style="margin: 0.4rem 0 0 1.2rem; padding: 0; color: var(--text-secondary); font-size: 0.85rem;">
+    <li>Mobile <strong>A</strong> ships fastest (just CSS reorder); <strong>B</strong> needs the small portrait assets cropped; <strong>C</strong> is a structural rearrangement.</li>
+    <li>Desktop <strong>A</strong> is the cleanest visually but requires moving the lesson sample out of the hero left column; <strong>B</strong> doubles up sample teasers; <strong>C</strong> is a 3-col rebuild.</li>
+    <li>Why-Lessons <strong>A</strong> is a copy-only change (lowest risk); <strong>B</strong> is a content rebuild that requires authoring 4 lesson teasers; <strong>C</strong> is in between.</li>
+  </ul>
+  <p style="margin-top: 0.6rem; color: var(--text-tertiary); font-style: italic;">
+    All copy is illustrative. Once you point at a direction, I'll fold it into page.tsx.
+  </p>
+</div>
+
+</body>
+</html>

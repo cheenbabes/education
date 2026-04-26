@@ -1,0 +1,1221 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Homepage CTA rebalance · Sage's Compass</title>
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+SC:wght@500;600;700&family=Cormorant:ital,wght@0,400;0,500;1,400;1,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --parchment: #F9F6EF;
+    --ink: #1f2328;
+    --night: #0B2E4A;
+    --accent-primary: #6E6E9E;
+    --accent-secondary: #82284b;
+    --accent-tertiary: #C4983D;
+    --text-secondary: #5A5A5A;
+    --text-tertiary: #767676;
+    --cm-color: #B07A8A;
+    --sage: #5A947A;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: 'Inter', sans-serif;
+    color: var(--ink);
+    background:
+      radial-gradient(ellipse 800px 600px at 10% 0%, rgba(130,40,75,0.06), transparent 60%),
+      radial-gradient(ellipse 900px 700px at 90% 10%, rgba(110,110,158,0.08), transparent 55%),
+      #EFEAE0;
+    line-height: 1.5;
+  }
+  .font-cormorant { font-family: 'Cormorant', serif; }
+  .font-cormorant-sc { font-family: 'Cormorant SC', serif; letter-spacing: 0.03em; }
+
+  /* ── Page header ─────────────────────────────────────────────── */
+  .page-header {
+    text-align: center;
+    padding: 3rem 1.5rem 1rem;
+    max-width: 880px;
+    margin: 0 auto;
+  }
+  .page-header h1 {
+    font-family: 'Cormorant SC', serif;
+    font-weight: 700;
+    font-size: clamp(1.8rem, 3vw, 2.4rem);
+    margin: 0 0 0.5rem;
+    letter-spacing: 0.03em;
+    color: var(--ink);
+  }
+  .page-header .lede {
+    color: var(--text-secondary);
+    font-size: 1rem;
+    max-width: 60ch;
+    margin: 0 auto 1.25rem;
+  }
+  .baseline {
+    display: inline-block;
+    padding: 0.4rem 0.95rem;
+    background: rgba(130,40,75,0.1);
+    color: var(--accent-secondary);
+    border-radius: 999px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+  }
+
+  /* ── Summary block ───────────────────────────────────────────── */
+  .summary {
+    max-width: 1100px;
+    margin: 1.5rem auto 0;
+    padding: 1.5rem 1.75rem;
+    background: rgba(255,255,255,0.65);
+    border: 1px solid rgba(0,0,0,0.06);
+    border-radius: 14px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+  }
+  .summary h2 {
+    font-family: 'Cormorant SC', serif;
+    font-size: 1.1rem;
+    margin: 0 0 0.4rem;
+    letter-spacing: 0.04em;
+  }
+  .summary p, .summary li {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    line-height: 1.6;
+  }
+  .summary ul { margin: 0.5rem 0 0.5rem 1.2rem; padding: 0; }
+  .summary table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0.75rem 0 0.25rem;
+    font-size: 0.85rem;
+  }
+  .summary th, .summary td {
+    text-align: left;
+    padding: 0.45rem 0.6rem;
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+  }
+  .summary th {
+    color: var(--text-tertiary);
+    font-weight: 600;
+    font-size: 0.7rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .pill-count {
+    display: inline-block;
+    padding: 0.15rem 0.5rem;
+    border-radius: 5px;
+    font-weight: 600;
+    font-size: 0.75rem;
+  }
+  .pill-count.high { background: rgba(130,40,75,0.12); color: var(--accent-secondary); }
+  .pill-count.low  { background: rgba(110,110,158,0.12); color: var(--accent-primary); }
+  .pill-count.zero { background: rgba(196,152,61,0.15); color: #8a6a1f; }
+
+  /* ── Surface section ─────────────────────────────────────────── */
+  .surface {
+    max-width: 1600px;
+    margin: 3rem auto 0;
+    padding: 0 1.5rem;
+  }
+  .surface-header {
+    max-width: 880px;
+    margin: 0 auto 1.5rem;
+    text-align: center;
+  }
+  .surface-header .surface-num {
+    display: inline-block;
+    padding: 0.25rem 0.7rem;
+    background: rgba(11,46,74,0.08);
+    border-radius: 999px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--night);
+    margin-bottom: 0.65rem;
+  }
+  .surface-header h2 {
+    font-family: 'Cormorant SC', serif;
+    font-size: 1.5rem;
+    margin: 0 0 0.5rem;
+    color: var(--ink);
+    letter-spacing: 0.03em;
+  }
+  .surface-header p {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    max-width: 60ch;
+    margin: 0 auto;
+  }
+
+  /* ── Variant grid ────────────────────────────────────────────── */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+    gap: 1.75rem;
+  }
+  .card { display: flex; flex-direction: column; gap: 0.75rem; }
+  .card-header {
+    display: flex;
+    align-items: baseline;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+  }
+  .card-header h3 {
+    font-family: 'Cormorant SC', serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin: 0;
+    color: var(--ink);
+    letter-spacing: 0.02em;
+  }
+  .variant-id {
+    font-size: 0.65rem;
+    font-weight: 700;
+    padding: 0.18rem 0.55rem;
+    border-radius: 5px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .variant-current { background: rgba(0,0,0,0.08); color: var(--text-tertiary); }
+  .variant-a { background: rgba(130,40,75,0.12); color: var(--accent-secondary); }
+  .variant-b { background: rgba(110,110,158,0.15); color: var(--accent-primary); }
+  .variant-new { background: rgba(90,148,122,0.15); color: var(--sage); }
+  .card-desc {
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+    margin: 0 0 0.25rem;
+    line-height: 1.5;
+  }
+
+  /* ── Frame: simulates page slice ─────────────────────────────── */
+  .frame {
+    background:
+      radial-gradient(ellipse 400px 300px at 10% 0%, rgba(130,40,75,0.05), transparent 60%),
+      radial-gradient(ellipse 400px 300px at 90% 0%, rgba(110,110,158,0.06), transparent 55%),
+      var(--parchment);
+    border-radius: 14px;
+    border: 1px solid rgba(0,0,0,0.08);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05), 0 8px 24px rgba(0,0,0,0.07);
+    padding: 1.75rem 1.5rem;
+    overflow: hidden;
+    position: relative;
+  }
+  .frame.tall { min-height: 520px; }
+  .frame.short { min-height: 320px; }
+
+  /* ── Hero recreations ────────────────────────────────────────── */
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: 1.5rem;
+    align-items: center;
+  }
+  @media (max-width: 540px) {
+    .hero-grid { grid-template-columns: 1fr; }
+  }
+  .hero-kicker {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.6rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent-primary);
+    margin: 0 0 0.5rem;
+  }
+  .hero-h1 {
+    font-family: 'Cormorant SC', serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: 0.03em;
+    color: var(--ink);
+    margin: 0 0 0.65rem;
+  }
+  .hero-sub {
+    font-family: 'Cormorant', serif;
+    font-style: italic;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    line-height: 1.55;
+    margin: 0 0 1rem;
+  }
+  .built-row {
+    display: flex; flex-wrap: wrap; gap: 0.3rem; align-items: center;
+    margin-top: 0.85rem;
+  }
+  .built-row .label {
+    font-size: 0.55rem;
+    color: var(--text-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 600;
+  }
+  .built-chip {
+    font-size: 0.6rem;
+    padding: 0.18rem 0.45rem;
+    border-radius: 5px;
+    background: rgba(255,255,255,0.65);
+    border: 1px solid rgba(110,110,158,0.25);
+    color: var(--text-secondary);
+  }
+
+  /* ── Buttons ─────────────────────────────────────────────────── */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    text-decoration: none;
+    font-family: inherit;
+    font-weight: 600;
+    cursor: pointer;
+    border: 0;
+    transition: transform 0.05s;
+  }
+  .btn-night {
+    background: var(--night);
+    color: var(--parchment);
+    border-radius: 10px;
+    padding: 0.7rem 1.1rem;
+    font-size: 0.82rem;
+  }
+  .btn-night.lg {
+    padding: 0.85rem 1.4rem;
+    font-size: 0.9rem;
+    border-radius: 12px;
+  }
+  .btn-ghost {
+    background: rgba(255,255,255,0.7);
+    color: var(--ink);
+    border: 1.5px solid var(--night);
+    border-radius: 10px;
+    padding: 0.65rem 1rem;
+    font-size: 0.8rem;
+  }
+  .btn-ghost.lg {
+    padding: 0.8rem 1.3rem;
+    font-size: 0.88rem;
+    border-radius: 12px;
+  }
+  .btn-text {
+    color: var(--accent-primary);
+    font-size: 0.78rem;
+    text-decoration: none;
+    font-weight: 500;
+  }
+  .btn-microcopy {
+    font-size: 0.66rem;
+    color: var(--text-tertiary);
+    margin: 0.4rem 0 0;
+    text-align: center;
+  }
+  .cta-stack { display: flex; flex-direction: column; gap: 0.4rem; max-width: 320px; }
+  .cta-row { display: flex; gap: 0.55rem; flex-wrap: wrap; align-items: center; max-width: 360px; }
+  .cta-or {
+    font-size: 0.7rem;
+    color: var(--text-tertiary);
+    font-style: italic;
+    padding: 0 0.1rem;
+  }
+
+  /* ── Right-side hero visuals ─────────────────────────────────── */
+  .ring-stub {
+    aspect-ratio: 1;
+    width: 100%;
+    max-width: 240px;
+    margin: 0 auto;
+    border-radius: 50%;
+    background:
+      conic-gradient(from 0deg,
+        #B07A8A 0 12.5%,
+        #7D6B9E 12.5% 25%,
+        #5B5E8A 25% 37.5%,
+        #C4983D 37.5% 50%,
+        #5A947A 50% 62.5%,
+        #C07A42 62.5% 75%,
+        #5A7FA0 75% 87.5%,
+        #B07A8A 87.5% 100%);
+    opacity: 0.85;
+    position: relative;
+    box-shadow: inset 0 0 0 18px var(--parchment), 0 6px 24px rgba(0,0,0,0.08);
+  }
+  .ring-stub::after {
+    content: "8 archetypes";
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Cormorant SC', serif;
+    font-size: 0.78rem;
+    color: var(--text-tertiary);
+    letter-spacing: 0.05em;
+  }
+  .ring-caption {
+    text-align: center;
+    font-family: 'Cormorant', serif;
+    font-style: italic;
+    font-size: 0.72rem;
+    color: var(--text-tertiary);
+    margin-top: 0.6rem;
+  }
+
+  /* Lesson artifact mock card (right-side hero variant) */
+  .lesson-card {
+    background: rgba(255,255,255,0.78);
+    border: 1px solid rgba(255,255,255,0.55);
+    border-radius: 12px;
+    padding: 0.9rem 1rem;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05), 0 8px 24px rgba(0,0,0,0.08);
+    backdrop-filter: blur(8px);
+    max-width: 320px;
+    margin: 0 auto;
+  }
+  .lesson-card .lc-title {
+    font-family: 'Cormorant SC', serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--ink);
+    letter-spacing: 0.02em;
+    margin: 0 0 0.4rem;
+  }
+  .lesson-card .lc-pills {
+    display: flex; gap: 0.35rem; flex-wrap: wrap; margin-bottom: 0.5rem;
+  }
+  .lc-pill {
+    font-size: 0.55rem;
+    padding: 0.15rem 0.4rem;
+    border-radius: 4px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+  .lc-pill.cm { background: rgba(176,122,138,0.15); color: var(--cm-color); border: 1px solid rgba(176,122,138,0.3); }
+  .lc-pill.meta { background: rgba(255,255,255,0.7); color: var(--text-tertiary); border: 1px solid rgba(0,0,0,0.06); }
+  .lc-section {
+    background: rgba(255,255,255,0.7);
+    border-radius: 7px;
+    padding: 0.4rem 0.55rem;
+    margin-bottom: 0.3rem;
+  }
+  .lc-section .kicker {
+    font-size: 0.5rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--cm-color);
+    margin-bottom: 0.1rem;
+  }
+  .lc-section .body {
+    font-size: 0.62rem;
+    color: var(--text-secondary);
+    line-height: 1.4;
+  }
+  .lc-standards {
+    font-size: 0.55rem;
+    color: var(--accent-primary);
+    background: rgba(110,110,158,0.08);
+    border-radius: 5px;
+    padding: 0.22rem 0.4rem;
+    margin-top: 0.3rem;
+  }
+  .lc-caption {
+    text-align: center;
+    font-family: 'Cormorant', serif;
+    font-style: italic;
+    font-size: 0.7rem;
+    color: var(--text-tertiary);
+    margin: 0.6rem 0 0;
+  }
+
+  /* Mini animated flow (variant B for hero visual) */
+  .flow {
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+    max-width: 280px;
+    margin: 0 auto;
+  }
+  .flow-step {
+    background: rgba(255,255,255,0.78);
+    border: 1px solid rgba(255,255,255,0.55);
+    border-radius: 10px;
+    padding: 0.5rem 0.65rem;
+    font-size: 0.72rem;
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+  }
+  .flow-step .num {
+    width: 18px; height: 18px;
+    border-radius: 50%;
+    background: var(--night);
+    color: var(--parchment);
+    font-size: 0.6rem;
+    font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .flow-step .text { flex: 1; }
+  .flow-step .pill {
+    font-size: 0.55rem;
+    padding: 0.1rem 0.4rem;
+    border-radius: 4px;
+    background: rgba(176,122,138,0.15);
+    color: var(--cm-color);
+    font-weight: 600;
+  }
+  .flow-arrow {
+    font-size: 0.85rem;
+    color: var(--text-tertiary);
+    text-align: center;
+    line-height: 1;
+  }
+
+  /* ── Final CTA recreations ───────────────────────────────────── */
+  .final-cta {
+    text-align: center;
+    padding: 0.5rem 0.5rem 1rem;
+  }
+  .final-cta h2 {
+    font-family: 'Cormorant SC', serif;
+    font-size: 1.45rem;
+    line-height: 1.25;
+    color: var(--ink);
+    margin: 0 0 0.75rem;
+    letter-spacing: 0.04em;
+  }
+  .final-cta p {
+    font-family: 'Cormorant', serif;
+    font-style: italic;
+    font-size: 0.92rem;
+    color: var(--text-secondary);
+    margin: 0 0 1.1rem;
+    line-height: 1.55;
+  }
+  .final-cta .secondary-link {
+    display: block;
+    margin-top: 0.55rem;
+    font-size: 0.7rem;
+    color: var(--text-tertiary);
+  }
+  .final-cta .secondary-link a {
+    color: var(--accent-primary);
+    text-decoration: none;
+    font-weight: 500;
+  }
+
+  /* ── Sample lessons strip ────────────────────────────────────── */
+  .strip {
+    background: rgba(255,255,255,0.55);
+    border-top: 1px solid rgba(0,0,0,0.05);
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+    padding: 1.5rem 1.25rem;
+    border-radius: 12px;
+  }
+  .strip-head {
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+  .strip-head .kicker {
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--sage);
+    margin: 0 0 0.35rem;
+  }
+  .strip-head h3 {
+    font-family: 'Cormorant SC', serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin: 0 0 0.4rem;
+    color: var(--ink);
+    letter-spacing: 0.03em;
+  }
+  .strip-head p {
+    font-size: 0.78rem;
+    color: var(--text-secondary);
+    margin: 0;
+  }
+  .strip-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.55rem;
+    margin-bottom: 0.85rem;
+  }
+  @media (max-width: 540px) {
+    .strip-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  .strip-card {
+    background: rgba(255,255,255,0.78);
+    border: 1px solid rgba(255,255,255,0.5);
+    border-radius: 9px;
+    padding: 0.55rem 0.65rem;
+    border-top: 3px solid var(--cm-color);
+    cursor: pointer;
+  }
+  .strip-card.cm { border-top-color: #B07A8A; }
+  .strip-card.mont { border-top-color: #7D6B9E; }
+  .strip-card.classical { border-top-color: #5B5E8A; }
+  .strip-card.pbl { border-top-color: #5A7FA0; }
+  .strip-card.waldorf { border-top-color: #C4983D; }
+  .strip-card.nature { border-top-color: var(--sage); }
+  .strip-card.unschool { border-top-color: #C07A42; }
+  .strip-card.adaptive { border-top-color: var(--accent-primary); }
+  .strip-card .phil {
+    font-size: 0.55rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--cm-color);
+    margin-bottom: 0.2rem;
+  }
+  .strip-card.mont .phil { color: #7D6B9E; }
+  .strip-card.classical .phil { color: #5B5E8A; }
+  .strip-card.pbl .phil { color: #5A7FA0; }
+  .strip-card.waldorf .phil { color: #C4983D; }
+  .strip-card.nature .phil { color: var(--sage); }
+  .strip-card.unschool .phil { color: #C07A42; }
+  .strip-card.adaptive .phil { color: var(--accent-primary); }
+  .strip-card .topic {
+    font-family: 'Cormorant SC', serif;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--ink);
+    line-height: 1.2;
+  }
+  .strip-card .micro {
+    font-size: 0.55rem;
+    color: var(--text-tertiary);
+    margin-top: 0.25rem;
+  }
+  .strip-foot { text-align: center; }
+
+  /* ── How It Works variants ───────────────────────────────────── */
+  .hiw-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.85rem;
+  }
+  @media (max-width: 540px) {
+    .hiw-grid { grid-template-columns: 1fr; }
+  }
+  .hiw-card {
+    background: rgba(255,255,255,0.78);
+    border: 1px solid rgba(255,255,255,0.55);
+    border-radius: 11px;
+    padding: 0.85rem 0.85rem 0.95rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+  }
+  .hiw-num {
+    font-family: 'Cormorant SC', serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: rgba(110,110,158,0.25);
+    line-height: 1;
+  }
+  .hiw-card.optional { border-style: dashed; border-color: rgba(110,110,158,0.4); background: rgba(255,255,255,0.4); }
+  .hiw-card.optional .hiw-num { color: rgba(110,110,158,0.4); }
+  .hiw-card.optional .hiw-tag {
+    display: inline-block;
+    font-size: 0.55rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent-primary);
+    background: rgba(110,110,158,0.12);
+    padding: 0.15rem 0.45rem;
+    border-radius: 4px;
+    align-self: flex-start;
+    margin-top: -0.35rem;
+  }
+  .hiw-h {
+    font-family: 'Cormorant SC', serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--ink);
+    margin: 0;
+    letter-spacing: 0.02em;
+    line-height: 1.25;
+  }
+  .hiw-body {
+    font-size: 0.7rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+    margin: 0;
+  }
+
+  /* ── Diff annotations ────────────────────────────────────────── */
+  .diff-list {
+    list-style: none;
+    padding: 0;
+    margin: 0.5rem 0 0;
+    font-size: 0.78rem;
+  }
+  .diff-list li {
+    padding: 0.3rem 0.55rem 0.3rem 1.5rem;
+    border-radius: 5px;
+    margin-bottom: 0.25rem;
+    color: var(--text-secondary);
+    position: relative;
+  }
+  .diff-list li::before {
+    position: absolute;
+    left: 0.45rem;
+    top: 0.3rem;
+    font-weight: 700;
+  }
+  .diff-list li.add { background: rgba(90,148,122,0.08); color: #2f5a44; }
+  .diff-list li.add::before { content: "+"; color: var(--sage); }
+  .diff-list li.remove { background: rgba(192,122,66,0.08); color: #7a4520; }
+  .diff-list li.remove::before { content: "−"; color: #C07A42; }
+  .diff-list li.change { background: rgba(110,110,158,0.08); color: #3a3a5e; }
+  .diff-list li.change::before { content: "~"; color: var(--accent-primary); }
+
+  /* ── Footer ──────────────────────────────────────────────────── */
+  .footer-note {
+    max-width: 880px;
+    margin: 4rem auto 3rem;
+    padding: 1.25rem 1.5rem;
+    background: rgba(11,46,74,0.04);
+    border-radius: 12px;
+    border: 1px solid rgba(11,46,74,0.08);
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+  .footer-note strong { color: var(--ink); }
+</style>
+</head>
+<body>
+
+<!-- ─── Page header ─────────────────────────────────────────────── -->
+<header class="page-header">
+  <span class="baseline">Marketing &amp; product evaluation · 2026-04-26</span>
+  <h1 style="margin-top: 1rem;">Homepage CTA Rebalance</h1>
+  <p class="lede">
+    The homepage currently funnels visitors to the <em>Compass quiz</em>, but lessons are what convert.
+    These mockups show targeted changes to surface the lesson-creation path without losing the Compass differentiator.
+  </p>
+</header>
+
+<!-- ─── Summary block ───────────────────────────────────────────── -->
+<section class="summary">
+  <h2>The diagnosis in one paragraph</h2>
+  <p>
+    The hero headline promises <em>lessons that adapt</em>; the hero CTA asks visitors to take a 5-minute personality quiz
+    before any lesson is shown. That mismatch is repeated across the page: 5 Compass CTAs, only 2 buried Create CTAs.
+    For a parent ready to shop a lesson tool, the quiz reads as a gate, not a gift.
+  </p>
+
+  <h2 style="margin-top: 1.25rem;">CTA inventory today</h2>
+  <table>
+    <thead>
+      <tr><th>Destination</th><th>Count</th><th>Prominence</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>/compass (quiz)</td><td><span class="pill-count high">5</span></td><td>Hero, archetype section, final CTA, footer × 2 — all primary buttons</td></tr>
+      <tr><td>/create (lessons)</td><td><span class="pill-count low">2</span></td><td>One tiny text link under final CTA, one footer link — never a button</td></tr>
+      <tr><td>/explore</td><td><span class="pill-count low">2</span></td><td>Mid-page secondary, footer</td></tr>
+      <tr><td>Sample lessons (just built!)</td><td><span class="pill-count zero">0</span></td><td>Not surfaced on homepage at all</td></tr>
+    </tbody>
+  </table>
+
+  <h2 style="margin-top: 1.25rem;">What this mockup proposes</h2>
+  <ul>
+    <li><strong>Surface 1 — Hero CTAs:</strong> dual CTAs, with <em>Create a Free Lesson</em> as primary, Compass as a secondary "find your style" option.</li>
+    <li><strong>Surface 2 — Hero visual:</strong> swap the abstract archetype ring for a lesson artifact (the actual product) on first paint.</li>
+    <li><strong>Surface 3 — Final CTA:</strong> flip emphasis. Lesson creation is the primary action, Compass is the secondary path.</li>
+    <li><strong>Surface 4 — New sample-lessons strip:</strong> use the gallery you just built as a zero-signup value demo.</li>
+    <li><strong>Surface 5 — How It Works:</strong> reorder so creating a lesson is Step 1 and the Compass becomes an optional Step 0.</li>
+  </ul>
+  <p style="margin-top: 0.75rem; font-style: italic; color: var(--text-tertiary);">
+    All variants are static visual stand-ins. Final copy and exact widths can be tuned during implementation.
+  </p>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!-- SURFACE 1: Hero CTAs -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<section class="surface">
+  <div class="surface-header">
+    <span class="surface-num">Surface 1</span>
+    <h2>Hero CTAs</h2>
+    <p>The hero promises lessons but the action is a quiz. We want a path to the lesson on first click while keeping the Compass option visible.</p>
+  </div>
+
+  <div class="grid">
+
+    <!-- ── CURRENT ── -->
+    <div class="card">
+      <div class="card-header">
+        <h3>Current</h3>
+        <span class="variant-id variant-current">In production</span>
+      </div>
+      <p class="card-desc">Single Compass CTA. The "lessons" promise has no direct action.</p>
+      <div class="frame tall">
+        <div class="hero-grid">
+          <div>
+            <p class="hero-kicker">Designed by a Master Educator. Built for Your Teaching Style.</p>
+            <h2 class="hero-h1">Lessons that adapt to you and your students.</h2>
+            <p class="hero-sub">Discover your teaching archetype, explore curricula, create custom, standards-aligned lesson plans for any philosophy — Montessori, Charlotte Mason, Classical, and more — in two minutes.</p>
+            <div class="cta-stack">
+              <a href="#" class="btn btn-night lg">Take the Compass Assessment — It's Free</a>
+              <p class="btn-microcopy">No credit card · 5 minutes · Discover your archetype</p>
+            </div>
+            <a href="#" class="btn-text" style="display:inline-block; margin-top:0.6rem;">See how it works →</a>
+            <div class="built-row">
+              <span class="label">Built for</span>
+              <span class="built-chip">Homeschool Families</span>
+              <span class="built-chip">Micro Schools</span>
+              <span class="built-chip">Worldschoolers</span>
+            </div>
+          </div>
+          <div>
+            <div class="ring-stub"></div>
+            <p class="ring-caption">Which one are you?</p>
+          </div>
+        </div>
+      </div>
+      <ul class="diff-list">
+        <li class="change">Headline says "lessons" but only path forward is the quiz</li>
+        <li class="change">Visual on right is abstract — does not show the product</li>
+      </ul>
+    </div>
+
+    <!-- ── VARIANT A: Dual CTA, Create primary ── -->
+    <div class="card">
+      <div class="card-header">
+        <h3>Dual CTA — Create primary</h3>
+        <span class="variant-id variant-a">Variant A · recommended</span>
+      </div>
+      <p class="card-desc">Lesson is the primary action. Compass stays visible as a clear secondary option for users who want guidance first.</p>
+      <div class="frame tall">
+        <div class="hero-grid">
+          <div>
+            <p class="hero-kicker">Designed by a Master Educator. Built for Your Teaching Style.</p>
+            <h2 class="hero-h1">Lessons that adapt to you and your students.</h2>
+            <p class="hero-sub">Type a topic. Pick a subject. Get a complete, standards-aligned lesson rooted in your philosophy — Montessori, Charlotte Mason, Classical, and more — in two minutes.</p>
+            <div class="cta-row">
+              <a href="#" class="btn btn-night lg">Create a Free Lesson</a>
+              <span class="cta-or">or</span>
+              <a href="#" class="btn btn-ghost lg">Take the 5-min Compass</a>
+            </div>
+            <p class="btn-microcopy" style="text-align:left; max-width:360px;">No signup needed for your first lesson · Find your style with the Compass</p>
+            <div class="built-row">
+              <span class="label">Built for</span>
+              <span class="built-chip">Homeschool Families</span>
+              <span class="built-chip">Micro Schools</span>
+              <span class="built-chip">Worldschoolers</span>
+            </div>
+          </div>
+          <div>
+            <div class="ring-stub"></div>
+            <p class="ring-caption">Which one are you?</p>
+          </div>
+        </div>
+      </div>
+      <ul class="diff-list">
+        <li class="add">Lesson creation becomes the primary action — matches headline</li>
+        <li class="add">Compass is preserved as a clear, equally legible secondary path</li>
+        <li class="change">Subhead reframed to describe the product (topic → lesson) rather than the brand promise</li>
+      </ul>
+    </div>
+
+    <!-- ── VARIANT B: Lead-with-Create (Compass demoted to text) ── -->
+    <div class="card">
+      <div class="card-header">
+        <h3>Lead with Create — Compass as text</h3>
+        <span class="variant-id variant-b">Variant B · bolder</span>
+      </div>
+      <p class="card-desc">Maximum focus on the activation event. Compass remains discoverable but de-emphasized — fastest path to first lesson.</p>
+      <div class="frame tall">
+        <div class="hero-grid">
+          <div>
+            <p class="hero-kicker">Designed by a Master Educator. Built for Your Teaching Style.</p>
+            <h2 class="hero-h1">Your next lesson plan, ready in two minutes.</h2>
+            <p class="hero-sub">Type a topic. Pick a subject. We handle the philosophy, standards, and structure — for any of eight pedagogies, including Montessori, Charlotte Mason, and Classical.</p>
+            <div class="cta-stack">
+              <a href="#" class="btn btn-night lg">Create a Free Lesson</a>
+              <p class="btn-microcopy">No credit card · No signup · See a real lesson in 2 minutes</p>
+            </div>
+            <p style="font-size:0.78rem; color:var(--text-tertiary); margin:0.7rem 0 0;">
+              Not sure where to start? <a href="#" style="color:var(--accent-primary); font-weight:500; text-decoration:none;">Take the 5-min Compass to find your style →</a>
+            </p>
+            <div class="built-row">
+              <span class="label">Built for</span>
+              <span class="built-chip">Homeschool Families</span>
+              <span class="built-chip">Micro Schools</span>
+              <span class="built-chip">Worldschoolers</span>
+            </div>
+          </div>
+          <div>
+            <div class="ring-stub"></div>
+            <p class="ring-caption">Which one are you?</p>
+          </div>
+        </div>
+      </div>
+      <ul class="diff-list">
+        <li class="change">Headline reframed entirely around the conversion event ("ready in two minutes")</li>
+        <li class="add">Single, unambiguous primary CTA — no decision fatigue at first paint</li>
+        <li class="remove">Compass loses button real estate, becomes a guidance offer for hesitant users</li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!-- SURFACE 2: Hero visual -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<section class="surface">
+  <div class="surface-header">
+    <span class="surface-num">Surface 2</span>
+    <h2>Hero visual — show the product, not the brand</h2>
+    <p>The archetype ring is brand-defining but abstract. A lesson artifact on first paint communicates exactly what the user is buying.</p>
+  </div>
+
+  <div class="grid">
+
+    <!-- ── CURRENT ── -->
+    <div class="card">
+      <div class="card-header">
+        <h3>Current — Archetype ring</h3>
+        <span class="variant-id variant-current">In production</span>
+      </div>
+      <p class="card-desc">Beautiful, brand-distinctive, but abstract. Visitor doesn't see what they're getting.</p>
+      <div class="frame short">
+        <div style="display:flex; flex-direction:column; align-items:center;">
+          <div class="ring-stub"></div>
+          <p class="ring-caption">Which one are you?</p>
+        </div>
+      </div>
+      <ul class="diff-list">
+        <li class="change">Communicates philosophy rather than output</li>
+      </ul>
+    </div>
+
+    <!-- ── VARIANT A: Lesson artifact ── -->
+    <div class="card">
+      <div class="card-header">
+        <h3>Lesson artifact</h3>
+        <span class="variant-id variant-a">Variant A · recommended</span>
+      </div>
+      <p class="card-desc">Show a real, complete lesson — the actual product — on first paint.</p>
+      <div class="frame short">
+        <div class="lesson-card">
+          <div class="lc-title">The Life Cycle of a Butterfly</div>
+          <div class="lc-pills">
+            <span class="lc-pill cm">Charlotte Mason</span>
+            <span class="lc-pill meta">Grade 2 · Science</span>
+          </div>
+          <div class="lc-section">
+            <div class="kicker">Nature Observation</div>
+            <div class="body">Find caterpillars or chrysalises outside. Sketch what you see in a nature journal.</div>
+          </div>
+          <div class="lc-section">
+            <div class="kicker">Living Book</div>
+            <div class="body">Read aloud about metamorphosis. Have your child narrate it back in their own words.</div>
+          </div>
+          <div class="lc-standards">✓ NGSS-LS1.B · K-2 Life Science</div>
+        </div>
+        <p class="lc-caption">Created in 2 minutes — for your child, your philosophy</p>
+      </div>
+      <ul class="diff-list">
+        <li class="add">User immediately sees what the product produces</li>
+        <li class="add">"2 minutes" promise is reinforced by the artifact</li>
+        <li class="change">Archetype ring moves down to Section 3 ("Eight Ways to Teach") where it's contextually correct</li>
+      </ul>
+    </div>
+
+    <!-- ── VARIANT B: Mini flow animation ── -->
+    <div class="card">
+      <div class="card-header">
+        <h3>Mini flow — input to lesson</h3>
+        <span class="variant-id variant-b">Variant B · narrative</span>
+      </div>
+      <p class="card-desc">Show the entire promise in three steps. Communicates speed and personalization in one glance.</p>
+      <div class="frame short">
+        <div class="flow">
+          <div class="flow-step">
+            <span class="num">1</span>
+            <span class="text">Type a topic — <em style="color:var(--text-tertiary);">"frogs"</em></span>
+          </div>
+          <div class="flow-arrow">↓</div>
+          <div class="flow-step">
+            <span class="num">2</span>
+            <span class="text">Pick a philosophy</span>
+            <span class="pill">Charlotte Mason</span>
+          </div>
+          <div class="flow-arrow">↓</div>
+          <div class="flow-step" style="background: rgba(11,46,74,0.95); color: var(--parchment); border-color: var(--night);">
+            <span class="num" style="background: var(--parchment); color: var(--night);">3</span>
+            <span class="text" style="color:var(--parchment);"><strong>A complete lesson, ready to teach</strong></span>
+          </div>
+        </div>
+        <p class="lc-caption">Two minutes. No blank page.</p>
+      </div>
+      <ul class="diff-list">
+        <li class="add">Reduces cognitive load — entire value prop on one card</li>
+        <li class="change">Less product-fidelity than Variant A; more narrative</li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!-- SURFACE 3: Final CTA -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<section class="surface">
+  <div class="surface-header">
+    <span class="surface-num">Surface 3</span>
+    <h2>Final CTA — flip the emphasis</h2>
+    <p>Last chance to convert before footer. Currently 100% Compass with a tiny "Create a Lesson" footnote.</p>
+  </div>
+
+  <div class="grid">
+
+    <!-- ── CURRENT ── -->
+    <div class="card">
+      <div class="card-header">
+        <h3>Current</h3>
+        <span class="variant-id variant-current">In production</span>
+      </div>
+      <p class="card-desc">Compass is the only button. Lesson creation is a 0.75rem text afterthought.</p>
+      <div class="frame short">
+        <div class="final-cta">
+          <h2>You've been figuring this out on your own.<br/>You don't have to anymore.</h2>
+          <p>Take the free Compass Assessment. Find your teaching archetype. Create your first lesson in two minutes.</p>
+          <a href="#" class="btn btn-night lg">Take the Compass Assessment — It's Free</a>
+          <p class="btn-microcopy">5 minutes · No credit card · Discover your archetype</p>
+          <p class="secondary-link">Already know your philosophy? <a href="#">Create a Lesson →</a></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── VARIANT A: Flipped emphasis ── -->
+    <div class="card">
+      <div class="card-header">
+        <h3>Flipped emphasis</h3>
+        <span class="variant-id variant-a">Variant A · recommended</span>
+      </div>
+      <p class="card-desc">Lesson creation is now the primary CTA. Compass stays visible as an equally legible secondary action.</p>
+      <div class="frame short">
+        <div class="final-cta">
+          <h2>You've been figuring this out on your own.<br/>You don't have to anymore.</h2>
+          <p>Create a complete, philosophy-aligned lesson in two minutes — or take the Compass to find your teaching style first.</p>
+          <div class="cta-row" style="justify-content:center; margin: 0 auto;">
+            <a href="#" class="btn btn-night lg">Create a Free Lesson</a>
+            <span class="cta-or">or</span>
+            <a href="#" class="btn btn-ghost lg">Take the 5-min Compass</a>
+          </div>
+          <p class="btn-microcopy">No signup for your first lesson · Compass takes 5 minutes</p>
+        </div>
+      </div>
+      <ul class="diff-list">
+        <li class="add">Both paths are equally clickable; user picks based on intent, not desperation</li>
+        <li class="change">Subhead reframed to describe both options</li>
+        <li class="remove">"Already know your philosophy?" footnote framing is gone — Create is no longer the expert path</li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!-- SURFACE 4: NEW Sample lessons strip -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<section class="surface">
+  <div class="surface-header">
+    <span class="surface-num">Surface 4 · NEW</span>
+    <h2>Sample lessons strip</h2>
+    <p>You just built the public sample-lessons gallery (commit ae3fc88). It deserves homepage real estate as a zero-signup value demo. Slot it after "How It Works" and before the founder section.</p>
+  </div>
+
+  <div class="grid" style="grid-template-columns: 1fr;">
+
+    <!-- ── NEW SECTION ── -->
+    <div class="card">
+      <div class="card-header">
+        <h3>Browse a real lesson — no signup</h3>
+        <span class="variant-id variant-new">New section</span>
+      </div>
+      <p class="card-desc">Eight philosophies, eight real lessons. Lowest-friction "show me the goods" surface on the page.</p>
+      <div class="frame short">
+        <div class="strip">
+          <div class="strip-head">
+            <p class="kicker">See it before you sign up</p>
+            <h3>Eight philosophies. Eight real lessons.</h3>
+            <p>Browse a complete sample lesson for each pedagogy. No account needed.</p>
+          </div>
+          <div class="strip-grid">
+            <div class="strip-card cm">
+              <div class="phil">Charlotte Mason</div>
+              <div class="topic">Life Cycle of a Butterfly</div>
+              <div class="micro">Grade 2 · Science</div>
+            </div>
+            <div class="strip-card mont">
+              <div class="phil">Montessori</div>
+              <div class="topic">Fraction Circles</div>
+              <div class="micro">Grade 3 · Math</div>
+            </div>
+            <div class="strip-card classical">
+              <div class="phil">Classical</div>
+              <div class="topic">The Roman Republic</div>
+              <div class="micro">Grade 5 · History</div>
+            </div>
+            <div class="strip-card pbl">
+              <div class="phil">Project-Based</div>
+              <div class="topic">Design a Pizza Menu</div>
+              <div class="micro">Grade 3 · Math</div>
+            </div>
+            <div class="strip-card waldorf">
+              <div class="phil">Waldorf</div>
+              <div class="topic">Beeswax &amp; Form</div>
+              <div class="micro">Grade 1 · Handwork</div>
+            </div>
+            <div class="strip-card nature">
+              <div class="phil">Nature-Based</div>
+              <div class="topic">Soil &amp; Seasons</div>
+              <div class="micro">Grade 2 · Science</div>
+            </div>
+            <div class="strip-card unschool">
+              <div class="phil">Unschooling</div>
+              <div class="topic">A Child-Led Inquiry</div>
+              <div class="micro">Any age · Open</div>
+            </div>
+            <div class="strip-card adaptive">
+              <div class="phil">Adaptive</div>
+              <div class="topic">Animal Habitats</div>
+              <div class="micro">Multi-age · Science</div>
+            </div>
+          </div>
+          <div class="strip-foot">
+            <a href="#" class="btn btn-ghost">Open the gallery →</a>
+          </div>
+        </div>
+      </div>
+      <ul class="diff-list">
+        <li class="add">Cold-traffic users get to see real lessons before any commitment</li>
+        <li class="add">Reuses the gallery you already shipped — no new content to author</li>
+        <li class="add">Each card links to the existing /compass/sample/[philosophy] pages</li>
+        <li class="change">Position: between "How It Works" and the founder section. Replaces the standalone "kids-strip.png" decoration which carries no functional weight.</li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!-- SURFACE 5: How It Works reorder -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<section class="surface">
+  <div class="surface-header">
+    <span class="surface-num">Surface 5</span>
+    <h2>How It Works — make the Compass optional</h2>
+    <p>Numbered steps imply order. Step 01 today is "Discover your archetype" — that tells visitors the quiz is required. It isn't.</p>
+  </div>
+
+  <div class="grid">
+
+    <!-- ── CURRENT ── -->
+    <div class="card">
+      <div class="card-header">
+        <h3>Current — quiz first</h3>
+        <span class="variant-id variant-current">In production</span>
+      </div>
+      <p class="card-desc">Sequence implies the Compass is a prerequisite to creating a lesson.</p>
+      <div class="frame short">
+        <div class="hiw-grid">
+          <div class="hiw-card">
+            <div class="hiw-num">01</div>
+            <h4 class="hiw-h">Discover Your Teaching Archetype</h4>
+            <p class="hiw-body">20 questions reveal how you naturally approach education.</p>
+          </div>
+          <div class="hiw-card">
+            <div class="hiw-num">02</div>
+            <h4 class="hiw-h">Type a Topic. Pick a Subject. Hit Create.</h4>
+            <p class="hiw-body">Type anything. Select subject and grade. We handle philosophy, standards, structure.</p>
+          </div>
+          <div class="hiw-card">
+            <div class="hiw-num">03</div>
+            <h4 class="hiw-h">A Complete Lesson, Ready to Use</h4>
+            <p class="hiw-body">Activities, materials, and a narration prompt — ready to teach.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── VARIANT A: Create-first ── -->
+    <div class="card">
+      <div class="card-header">
+        <h3>Create-first, Compass optional</h3>
+        <span class="variant-id variant-a">Variant A · recommended</span>
+      </div>
+      <p class="card-desc">Reorders so the lesson is the spine. Compass becomes an explicit "optional helper" upstream of Step 1.</p>
+      <div class="frame short">
+        <div class="hiw-grid">
+          <div class="hiw-card">
+            <div class="hiw-num">01</div>
+            <h4 class="hiw-h">Type a Topic. Pick a Subject.</h4>
+            <p class="hiw-body">Type anything: "frogs," "the American Revolution," "fractions." Select subject, grade, philosophy.</p>
+          </div>
+          <div class="hiw-card">
+            <div class="hiw-num">02</div>
+            <h4 class="hiw-h">A Complete Lesson, Ready to Teach</h4>
+            <p class="hiw-body">Activities, materials, narration prompt — aligned to your state's standards. Two minutes, not two hours.</p>
+          </div>
+          <div class="hiw-card optional">
+            <div class="hiw-num">+</div>
+            <span class="hiw-tag">Optional</span>
+            <h4 class="hiw-h">Take the Compass to find your style</h4>
+            <p class="hiw-body">Not sure which philosophy fits you? 20 questions, 5 minutes — get a recommended starting point.</p>
+          </div>
+        </div>
+      </div>
+      <ul class="diff-list">
+        <li class="add">Spine is the conversion event; Compass is supplementary, not gating</li>
+        <li class="change">Visually demoting the Compass card (dashed border, "+", "Optional" tag) makes the hierarchy unambiguous</li>
+        <li class="add">Honest: this matches what /create actually requires today</li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!-- Footer note -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<div class="footer-note">
+  <p>
+    <strong>Tier 1 changes (highest leverage, lowest effort):</strong>
+    Surfaces 1A, 3A, and 4 — together they rebalance the funnel without touching the Compass brand or removing anything substantive.
+    Surfaces 2A and 5A are slightly more involved (visual asset + content reordering) but still self-contained.
+  </p>
+  <p style="margin-top: 0.6rem;">
+    <strong>Implementation order suggestion:</strong>
+    1) Hero CTAs (Surface 1A) — 30 minutes; 2) Final CTA (Surface 3A) — 15 minutes;
+    3) Sample lessons strip (Surface 4) — 1–2 hours, mostly reusing /compass/lessons data;
+    4) Hero visual swap (Surface 2A) — 1 hour;
+    5) How It Works reorder (Surface 5A) — 30 minutes.
+  </p>
+  <p style="margin-top: 0.6rem; color: var(--text-tertiary); font-style: italic;">
+    All copy in this mockup is illustrative — final wording is open for revision. The ICP signal worth keeping in mind:
+    Tier 1 is for warm prospects ready to convert; Tier 2/3 (testimonials, pricing teaser, third-party social proof) deserve their own mockup pass.
+  </p>
+</div>
+
+</body>
+</html>

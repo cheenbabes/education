@@ -428,11 +428,64 @@
   align-items: stretch;
 }
 
+.home-samples-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.75rem;
+}
+
+.home-sample-card {
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.home-sample-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 14px rgba(0,0,0,0.08) !important;
+}
+
 .home-hero-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 4rem;
+  align-items: start;
+}
+.hero-left,
+.hero-right {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+.hero-right {
+  align-items: stretch;
+}
+.hero-subhead-mobile {
+  display: none;
+}
+
+/* Mini sample-lessons grid in the hero right column */
+.hero-mini-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.4rem;
+}
+.hero-mini-chip {
+  display: flex;
   align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  padding: 0.45rem 0.3rem;
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  text-align: center;
+  border: 1px solid rgba(0,0,0,0.04);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  white-space: nowrap;
+  min-height: 38px;
+}
+.hero-mini-chip:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.06);
 }
 
 .home-feature-row {
@@ -462,6 +515,11 @@
   .home-archetype-grid {
     grid-template-columns: repeat(4, 1fr);
     gap: 0.5rem;
+  }
+
+  .home-samples-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.6rem;
   }
 
   .pricing-grid {
@@ -529,6 +587,11 @@
     gap: 0.45rem;
   }
 
+  .home-samples-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+  }
+
   .home-how-grid {
     grid-template-columns: 1fr;
     gap: 1.5rem;
@@ -536,7 +599,30 @@
 
   .home-hero-grid {
     grid-template-columns: 1fr;
-    gap: 2rem;
+    gap: 1.25rem;
+  }
+
+  /* Mobile reorder: lesson sample becomes the hero anchor (above CTA),
+     ring and mini-grid drop below. Uses display:contents to flatten the
+     left/right wrappers into the parent grid so individual elements can
+     be reordered with order: */
+  .hero-left,
+  .hero-right {
+    display: contents;
+  }
+  .hero-kicker         { order: 1; }
+  .hero-headline       { order: 2; }
+  .hero-subhead-desktop { display: none; }
+  .hero-subhead-mobile { display: block; order: 3; }
+  .hero-lesson-sample  { order: 4; }
+  .hero-cta-stack      { order: 5; }
+  .hero-ring           { order: 6; margin-top: 0.5rem; }
+  .hero-samples-mini   { order: 7; }
+
+  /* Mini-grid stays usable on mobile */
+  .hero-mini-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.45rem;
   }
 
   .home-feature-row {

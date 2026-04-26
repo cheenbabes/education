@@ -45,6 +45,7 @@ export type AnalyticsEvent =
   // Acquisition / onboarding
   | "signup_completed"
   | "homepage_primary_cta_clicked"
+  | "homepage_compass_secondary_cta_clicked"
   | "child_added"
   // Pricing discoverability
   | "nav_pricing_clicked"

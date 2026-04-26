@@ -6,11 +6,14 @@ import { ARCHETYPES } from "@/lib/compass/archetypes";
 import { PricingSection } from "@/components/pricing-section";
 import { ArchetypeRingResponsive } from "@/components/archetype-ring-responsive";
 import { TrackedLink } from "@/components/tracked-link";
+import { SAMPLE_LESSONS } from "@/lib/compass/sample-lessons";
+import { PHILOSOPHY_COLORS, resolvePhilosophyKey } from "@/lib/compass/scoring";
+import type { PhilosophyId } from "@/lib/types";
 
 export const metadata: Metadata = {
   title: "The Sage's Compass — Homeschool Curriculum for Your Family",
   description:
-    "Discover your teaching archetype and create personalized, standards-aligned lesson plans matched to your philosophy and your child's interests.",
+    "Discover your teaching archetype and create personalized, standards-aligned lesson plans matched to your philosophy and the kids you teach.",
 };
 
 // Archetype ring order: Weaver at top (12 o'clock), Storyteller upper-right, Guide upper-left (last)
@@ -36,11 +39,11 @@ export default function Home() {
 
       {/* ── Section 1: Hero ────────────────────────────────────────────── */}
       <section className="home-hero-section" style={{ padding: "5rem 1.5rem 4rem", maxWidth: "1100px", margin: "0 auto" }}>
-        <div className="home-hero-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "4rem", alignItems: "center" }}>
+        <div className="home-hero-grid">
 
-          {/* Left: copy */}
-          <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
-            <p style={{
+          {/* Left column — desktop: text + CTA stack + lesson sample */}
+          <div className="hero-left">
+            <p className="hero-kicker" style={{
               fontFamily: "'Inter', sans-serif",
               fontSize: "0.75rem",
               fontWeight: 600,
@@ -48,32 +51,98 @@ export default function Home() {
               textTransform: "uppercase",
               color: "var(--accent-primary)",
               whiteSpace: "normal",
+              margin: 0,
             }}>
-              Designed by a Master Educator. Built for Your Teaching Style.
+              Designed by a Master Educator. Built for the Way You Teach.
             </p>
 
-            <h1 className="font-cormorant-sc" style={{
+            <h1 className="hero-headline font-cormorant-sc" style={{
               fontSize: "clamp(2.2rem, 4vw, 3.4rem)",
               fontWeight: 700,
               lineHeight: 1.15,
               letterSpacing: "0.04em",
               color: "var(--ink)",
+              margin: 0,
             }}>
-              Lessons that adapt to you and your students.
+              Lessons shaped to how you teach. And who you teach.
             </h1>
 
-            <p className="font-cormorant" style={{
+            <p className="hero-subhead-desktop font-cormorant" style={{
               fontSize: "1.2rem",
               fontStyle: "italic",
               color: "var(--text-secondary)",
               lineHeight: 1.6,
+              margin: 0,
             }}>
-              Discover your teaching archetype, explore curricula, create custom, standards-aligned lesson plans for any philosophy — Montessori, Charlotte Mason, Classical, and more — in two minutes.
+              Type a topic, get a complete, standards-aligned lesson rooted in your philosophy — Montessori, Charlotte Mason, Classical, and more — in two minutes.
             </p>
 
-            <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
+            <p className="hero-subhead-mobile font-cormorant" style={{
+              fontSize: "1.05rem",
+              fontStyle: "italic",
+              color: "var(--text-secondary)",
+              lineHeight: 1.55,
+              margin: 0,
+            }}>
+              Two minutes. Any philosophy. Any topic.
+            </p>
+
+            {/* Lesson sample artifact — on desktop sits below CTA; on mobile reorders above CTA */}
+            <div className="hero-lesson-sample" style={{
+              background: "rgba(255,255,255,0.72)",
+              backdropFilter: "blur(12px)",
+              WebkitBackdropFilter: "blur(12px)",
+              border: "1px solid rgba(255,255,255,0.55)",
+              borderRadius: "12px",
+              padding: "0.95rem 1rem 1rem",
+              boxShadow: "0 1px 2px rgba(0,0,0,0.04), 0 8px 22px rgba(0,0,0,0.06)",
+            }}>
+              <div style={{
+                fontSize: "0.6rem",
+                fontWeight: 700,
+                letterSpacing: "0.12em",
+                textTransform: "uppercase",
+                color: "var(--accent-secondary)",
+                marginBottom: "0.45rem",
+              }}>
+                A real lesson · Made in 2 minutes
+              </div>
+              <div className="font-cormorant-sc" style={{ fontSize: "1.05rem", fontWeight: 700, color: "var(--ink)", letterSpacing: "0.02em", marginBottom: "0.5rem" }}>
+                The Life Cycle of a Butterfly
+              </div>
+              <div style={{ display: "flex", gap: "0.35rem", flexWrap: "wrap", marginBottom: "0.6rem" }}>
+                <span style={{ fontSize: "0.62rem", padding: "0.18rem 0.45rem", borderRadius: "5px", background: "rgba(176,122,138,0.15)", color: "#B07A8A", border: "1px solid rgba(176,122,138,0.3)", fontWeight: 600 }}>
+                  Charlotte Mason
+                </span>
+                <span style={{ fontSize: "0.62rem", padding: "0.18rem 0.45rem", borderRadius: "5px", background: "rgba(255,255,255,0.7)", color: "var(--text-tertiary)", border: "1px solid rgba(0,0,0,0.06)" }}>
+                  Grade 2 · Science
+                </span>
+              </div>
+              <div style={{ background: "rgba(255,255,255,0.7)", borderRadius: "8px", padding: "0.5rem 0.65rem", marginBottom: "0.3rem" }}>
+                <div style={{ fontSize: "0.55rem", fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "#B07A8A", marginBottom: "0.2rem" }}>
+                  Nature Observation
+                </div>
+                <div style={{ fontSize: "0.72rem", color: "var(--text-secondary)", lineHeight: 1.5 }}>
+                  Find caterpillars or chrysalises outside. Sketch what you see in a nature journal.
+                </div>
+              </div>
+              <div style={{ background: "rgba(255,255,255,0.7)", borderRadius: "8px", padding: "0.5rem 0.65rem", marginBottom: "0.45rem" }}>
+                <div style={{ fontSize: "0.55rem", fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "#B07A8A", marginBottom: "0.2rem" }}>
+                  Living Book
+                </div>
+                <div style={{ fontSize: "0.72rem", color: "var(--text-secondary)", lineHeight: 1.5 }}>
+                  Read aloud about metamorphosis. Have your students narrate it back in their own words.
+                </div>
+              </div>
+              <div style={{ fontSize: "0.65rem", color: "var(--accent-primary)", background: "rgba(110,110,158,0.08)", borderRadius: "5px", padding: "0.28rem 0.5rem" }}>
+                ✓ NGSS-LS1.B · K-2 Life Science
+              </div>
+            </div>
+
+            {/* CTA stack: button + microcopy + Compass secondary link */}
+            <div className="hero-cta-stack" style={{ display: "flex", flexDirection: "column", gap: "0.4rem" }}>
               <TrackedLink
-                href="/compass"
+                href="/create"
                 event="homepage_primary_cta_clicked"
                 eventProps={{ position: "hero" }}
                 className="btn-night"
@@ -84,62 +153,107 @@ export default function Home() {
                   textAlign: "center",
                 }}
               >
-                Take the Compass Assessment — It&apos;s Free
+                Create a Free Lesson
               </TrackedLink>
-              <p style={{ fontSize: "0.78rem", color: "var(--text-tertiary)", textAlign: "center" }}>
-                No credit card required · 5 minutes · Discover your archetype
+              <p style={{ fontSize: "0.78rem", color: "var(--text-tertiary)", textAlign: "center", margin: 0 }}>
+                No signup for your first lesson · Two minutes · Any philosophy
               </p>
-            </div>
-
-            <Link href="#how-it-works" style={{
-              fontSize: "0.88rem",
-              color: "var(--accent-primary)",
-              textDecoration: "none",
-              display: "inline-flex",
-              alignItems: "center",
-              gap: "0.25rem",
-            }}>
-              See how it works →
-            </Link>
-
-            <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", flexWrap: "wrap" }}>
-              <span style={{ fontSize: "0.7rem", color: "var(--text-tertiary)", fontWeight: 500, letterSpacing: "0.06em", textTransform: "uppercase" }}>Built for</span>
-              {[
-                { label: "Homeschool Families", color: "var(--accent-primary)" },
-                { label: "Micro Schools & Co-ops", color: "var(--accent-secondary)" },
-                { label: "Worldschooling Families", color: "var(--accent-tertiary)" },
-              ].map(({ label, color }) => (
-                <span key={label} style={{
-                  fontSize: "0.7rem",
-                  padding: "0.2rem 0.55rem",
-                  borderRadius: "6px",
-                  background: "rgba(255,255,255,0.65)",
-                  border: `1px solid ${color}40`,
-                  color: "var(--text-secondary)",
-                  fontWeight: 500,
-                }}>
-                  {label}
-                </span>
-              ))}
+              <p style={{ fontSize: "0.8rem", color: "var(--text-tertiary)", textAlign: "center", margin: "0.4rem 0 0" }}>
+                Want it matched to your style?{" "}
+                <TrackedLink
+                  href="/compass"
+                  event="homepage_compass_secondary_cta_clicked"
+                  eventProps={{ position: "hero" }}
+                  style={{ color: "var(--accent-primary)", fontWeight: 500, textDecoration: "none" }}
+                >
+                  Take the 5-min Compass →
+                </TrackedLink>
+              </p>
             </div>
           </div>
 
-          {/* Right: archetype ring — responsive size via client component */}
-          <div className="archetype-ring-container" style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "1rem" }}>
-            <ArchetypeRingResponsive archetypes={ringArchetypes} />
-            <p style={{
-              fontSize: "0.78rem",
-              color: "var(--text-tertiary)",
-              fontFamily: "'Cormorant', serif",
-              fontStyle: "italic",
+          {/* Right column — desktop: ring + caption + mini sample-lessons grid */}
+          <div className="hero-right">
+            <div className="hero-ring archetype-ring-container" style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "1rem" }}>
+              <ArchetypeRingResponsive archetypes={ringArchetypes} />
+              <p className="hero-ring-caption" style={{
+                fontSize: "0.78rem",
+                color: "var(--text-tertiary)",
+                fontFamily: "'Cormorant', serif",
+                fontStyle: "italic",
+                margin: 0,
+              }}>
+                Which one are you?
+              </p>
+            </div>
+
+            {/* Mini sample-lessons block — fills the lower-right and serves as another lesson entry point */}
+            <div className="hero-samples-mini" style={{
+              background: "rgba(255,255,255,0.7)",
+              border: "1px solid rgba(255,255,255,0.55)",
+              borderRadius: "12px",
+              padding: "0.9rem 1rem 1rem",
+              backdropFilter: "blur(8px)",
+              WebkitBackdropFilter: "blur(8px)",
+              boxShadow: "0 1px 2px rgba(0,0,0,0.04)",
             }}>
-              Which one are you?
-            </p>
+              <p style={{
+                fontSize: "0.6rem",
+                fontWeight: 700,
+                letterSpacing: "0.12em",
+                textTransform: "uppercase",
+                color: "var(--accent-primary)",
+                margin: "0 0 0.6rem",
+                textAlign: "center",
+              }}>
+                Browse Real Lessons
+              </p>
+              <div className="hero-mini-grid">
+                {([
+                  { id: "charlotte-mason",         label: "C. Mason"   },
+                  { id: "montessori-inspired",     label: "Montessori" },
+                  { id: "classical",               label: "Classical"  },
+                  { id: "project-based-learning",  label: "Project"    },
+                  { id: "waldorf-adjacent",        label: "Waldorf"    },
+                  { id: "place-nature-based",      label: "Nature"     },
+                  { id: "unschooling",             label: "Unschool"   },
+                  { id: "adaptive",                label: "Adaptive"   },
+                ] as { id: PhilosophyId; label: string }[]).map(({ id, label }) => {
+                  const color = PHILOSOPHY_COLORS[resolvePhilosophyKey(id)] ?? "#6E6E9E";
+                  return (
+                    <Link
+                      key={id}
+                      href={`/compass/sample/${id}`}
+                      className="hero-mini-chip"
+                      style={{
+                        background: "rgba(255,255,255,0.85)",
+                        borderTop: `2px solid ${color}`,
+                        color,
+                      }}
+                    >
+                      {label}
+                    </Link>
+                  );
+                })}
+              </div>
+              <p style={{
+                fontSize: "0.7rem",
+                color: "var(--text-secondary)",
+                margin: "0.7rem 0 0",
+                textAlign: "center",
+                lineHeight: 1.4,
+              }}>
+                Eight philosophies. Eight real samples.<br />
+                <Link href="/compass/lessons" style={{ color: "var(--accent-primary)", fontWeight: 500, textDecoration: "none" }}>
+                  Open the gallery →
+                </Link>
+              </p>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* ── Section 2: Stats bar ───────────────────────────────────────── */}
+      {/* ── Section 2: Stats bar (credibility opener for the lesson engine) ─── */}
       <section style={{
         borderTop: "1px solid rgba(0,0,0,0.06)",
         borderBottom: "1px solid rgba(0,0,0,0.06)",
@@ -168,17 +282,17 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── Section 3: Archetype showcase ─────────────────────────────── */}
+      {/* ── Section 3: Archetype showcase (reframed: feature of the lesson engine) ─── */}
       <section style={{ padding: "5rem 1.5rem", maxWidth: "1100px", margin: "0 auto" }}>
         <div style={{ textAlign: "center", marginBottom: "2.5rem" }}>
           <p style={{ fontSize: "0.7rem", fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: "var(--accent-primary)", marginBottom: "0.5rem" }}>
-            The Compass Assessment
+            Why Lessons Feel Right
           </p>
           <h2 className="font-cormorant-sc" style={{ fontSize: "2rem", fontWeight: 700, letterSpacing: "0.05em", color: "var(--ink)", marginBottom: "0.75rem" }}>
-            Eight Ways to Teach. One That&apos;s Yours.
+            Lessons that match how you actually teach.
           </h2>
-          <p className="font-cormorant" style={{ fontSize: "1.1rem", fontStyle: "italic", color: "var(--text-secondary)", maxWidth: "580px", margin: "0 auto", lineHeight: 1.6 }}>
-            After 14 years in classrooms, co-ops, and micro schools, I found that every educator falls into one of eight archetypes. Which one describes you?
+          <p className="font-cormorant" style={{ fontSize: "1.1rem", fontStyle: "italic", color: "var(--text-secondary)", maxWidth: "640px", margin: "0 auto", lineHeight: 1.6 }}>
+            There are eight teaching archetypes, and every lesson we create can match yours — pacing, voice, materials, what you assess, what you let unfold. The Compass figures out which is yours so the lessons fit on the first try.
           </p>
         </div>
 
@@ -212,34 +326,19 @@ export default function Home() {
           ))}
         </div>
 
-        {/* Pull quote + CTA */}
-        <div style={{
-          margin: "2.5rem auto 0",
-          maxWidth: "600px",
-          background: "rgba(255,255,255,0.6)",
-          backdropFilter: "blur(10px)",
-          border: "1px solid rgba(0,0,0,0.06)",
-          borderLeft: "4px solid var(--accent-secondary)",
-          borderRadius: "12px",
-          padding: "1.25rem 1.5rem",
-          textAlign: "center",
-        }}>
-          <p className="font-cormorant" style={{ fontSize: "1rem", fontStyle: "italic", color: "var(--ink)", lineHeight: 1.6, marginBottom: "0.5rem" }}>
-            &ldquo;Great education starts with knowing yourself as a teacher&rdquo;
-          </p>
-          <p style={{ fontSize: "0.78rem", color: "var(--text-tertiary)" }}>— Founder</p>
-        </div>
-
+        {/* Bridge into How It Works (replaces standalone Compass CTA) */}
         <div style={{ textAlign: "center", marginTop: "2rem" }}>
-          <TrackedLink
-            href="/compass"
-            event="homepage_primary_cta_clicked"
-            eventProps={{ position: "archetype_ring" }}
-            className="btn-night"
-            style={{ fontSize: "0.95rem", padding: "0.75rem 2rem", borderRadius: "12px" }}
-          >
-            Discover My Archetype — Free, 5 Minutes
-          </TrackedLink>
+          <Link href="#how-it-works" style={{
+            fontSize: "0.92rem",
+            color: "var(--accent-primary)",
+            textDecoration: "none",
+            display: "inline-flex",
+            alignItems: "center",
+            gap: "0.4rem",
+            fontWeight: 500,
+          }}>
+            See how your style becomes a lesson ↓
+          </Link>
         </div>
       </section>
 
@@ -288,7 +387,7 @@ export default function Home() {
                   <div className="wc-card wc-card-parchment" style={{ borderRadius: "10px", padding: "1rem", fontSize: "0.72rem" }}>
                     {/* Topic input */}
                     <div style={{ background: "rgba(255,255,255,0.7)", border: "1px solid rgba(0,0,0,0.08)", borderRadius: "8px", padding: "0.5rem 0.65rem", marginBottom: "0.5rem", color: "var(--text-tertiary)" }}>
-                      What is your child curious about today?
+                      What are they curious about today?
                     </div>
                     {/* Subject pills */}
                     <div style={{ display: "flex", gap: "0.35rem", marginBottom: "0.5rem" }}>
@@ -361,6 +460,30 @@ export default function Home() {
               </div>
             ))}
           </div>
+
+          {/* Primary CTA — entry point #2 (mid-page lesson conversion) */}
+          <div style={{ textAlign: "center", marginTop: "3rem" }}>
+            <TrackedLink
+              href="/create"
+              event="homepage_primary_cta_clicked"
+              eventProps={{ position: "how_it_works" }}
+              className="btn-night"
+              style={{ fontSize: "1rem", padding: "0.85rem 2rem", borderRadius: "12px" }}
+            >
+              Create Your First Lesson — Free
+            </TrackedLink>
+            <p style={{ fontSize: "0.78rem", color: "var(--text-tertiary)", marginTop: "0.6rem" }}>
+              Two minutes · No signup for your first lesson ·{" "}
+              <TrackedLink
+                href="/compass"
+                event="homepage_compass_secondary_cta_clicked"
+                eventProps={{ position: "how_it_works" }}
+                style={{ color: "var(--accent-primary)", fontWeight: 500, textDecoration: "none" }}
+              >
+                or take the Compass first →
+              </TrackedLink>
+            </p>
+          </div>
         </div>
       </section>
 
@@ -396,7 +519,7 @@ export default function Home() {
                   </div>
                   {[
                     { type: "Nature Observation", desc: "Go outside and look for caterpillars or chrysalises. Sketch what you find in your nature journal." },
-                    { type: "Living Book", desc: "Read aloud from a picture book about metamorphosis. Ask your child to narrate it back in their own words." },
+                    { type: "Living Book", desc: "Read aloud from a picture book about metamorphosis. Have your students narrate it back in their own words." },
                     { type: "Handwork", desc: "Create a watercolor lifecycle diagram — egg, caterpillar, chrysalis, butterfly." },
                   ].map(({ type, desc }) => (
                     <div key={type} style={{ background: "rgba(255,255,255,0.75)", borderRadius: "8px", padding: "0.6rem 0.75rem" }}>
@@ -481,9 +604,9 @@ export default function Home() {
 
                   {/* Results with checkboxes */}
                   {[
-                    { code: "2-LS4-1", desc: "Your child observes living things in different places and compares what she finds.", score: 95, checked: true },
-                    { code: "2-ESS2-1", desc: "Your child can compare different ways people try to stop wind or water from changing the land.", score: 88, checked: true },
-                    { code: "K-2-ETS1-2", desc: "Your child can draw or build a simple model to show how shape helps something do its job.", score: 72, checked: false },
+                    { code: "2-LS4-1", desc: "Students observe living things in different places and compare what they find.", score: 95, checked: true },
+                    { code: "2-ESS2-1", desc: "Students compare different ways people try to stop wind or water from changing the land.", score: 88, checked: true },
+                    { code: "K-2-ETS1-2", desc: "Students draw or build a simple model to show how shape helps something do its job.", score: 72, checked: false },
                   ].map(({ code, desc, score, checked }) => (
                     <div key={code} style={{ display: "flex", gap: "0.5rem", alignItems: "flex-start", background: checked ? "rgba(196,152,61,0.06)" : "rgba(255,255,255,0.6)", borderRadius: "8px", padding: "0.45rem 0.6rem", border: checked ? "1px solid rgba(196,152,61,0.2)" : "1px solid rgba(0,0,0,0.04)" }}>
                       <div style={{ width: "16px", height: "16px", borderRadius: "4px", border: checked ? "2px solid #C4983D" : "2px solid rgba(0,0,0,0.15)", background: checked ? "#C4983D" : "transparent", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, marginTop: "0.1rem" }}>
@@ -583,8 +706,8 @@ export default function Home() {
             {
               right: true,
               headline: "Explore the Universe of Educational Philosophy",
-              body: "The Explore map is a visual space for discovery. Find the curriculum that fits your family.",
-              note: "Paired with the Compass Assessment, it answers the question every new homeschool parent has: where do I even begin?",
+              body: "The Explore map is a visual space for discovery. Find the curriculum that fits your students.",
+              note: "Paired with the Compass Assessment, it answers the question every new educator has: where do I even begin?",
               visual: (
                 <div className="home-explore-card" style={{ position: "relative", borderRadius: "14px", overflow: "hidden", height: "400px", boxShadow: "0 8px 32px rgba(0,0,0,0.18)", border: "2px solid rgba(196,152,61,0.4)" }}>
                   <iframe
@@ -658,6 +781,97 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ── Section 5b: Sample Lessons strip ───────────────────────────── */}
+      <section style={{
+        padding: "4rem 1.5rem",
+        background: "rgba(255,255,255,0.4)",
+        borderTop: "1px solid rgba(0,0,0,0.05)",
+        borderBottom: "1px solid rgba(0,0,0,0.05)",
+      }}>
+        <div style={{ maxWidth: "1100px", margin: "0 auto" }}>
+          <div style={{ textAlign: "center", marginBottom: "2rem" }}>
+            <p style={{ fontSize: "0.7rem", fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: "var(--accent-primary)", marginBottom: "0.5rem" }}>
+              See It Before You Sign Up
+            </p>
+            <h2 className="font-cormorant-sc" style={{ fontSize: "2rem", fontWeight: 700, letterSpacing: "0.05em", color: "var(--ink)", marginBottom: "0.75rem" }}>
+              Eight Philosophies. Eight Real Lessons.
+            </h2>
+            <p className="font-cormorant" style={{ fontSize: "1.05rem", fontStyle: "italic", color: "var(--text-secondary)", maxWidth: "560px", margin: "0 auto", lineHeight: 1.6 }}>
+              Browse a complete sample lesson for each pedagogy. No account needed.
+            </p>
+          </div>
+
+          <div className="home-samples-grid">
+            {([
+              "charlotte-mason",
+              "classical",
+              "montessori-inspired",
+              "waldorf-adjacent",
+              "place-nature-based",
+              "project-based-learning",
+              "unschooling",
+              "adaptive",
+            ] as PhilosophyId[]).map((id) => {
+              const lesson = SAMPLE_LESSONS[id];
+              const color = PHILOSOPHY_COLORS[resolvePhilosophyKey(lesson.philosophyId)] ?? "#6E6E9E";
+              return (
+                <Link
+                  key={id}
+                  href={`/compass/sample/${id}`}
+                  className="home-sample-card"
+                  style={{
+                    background: "rgba(255,255,255,0.78)",
+                    border: "1px solid rgba(255,255,255,0.55)",
+                    borderTop: `3px solid ${color}`,
+                    borderRadius: "10px",
+                    padding: "0.85rem 0.95rem 1rem",
+                    textDecoration: "none",
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "0.35rem",
+                    boxShadow: "0 1px 2px rgba(0,0,0,0.04)",
+                  }}
+                >
+                  <span style={{ fontSize: "0.58rem", fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color }}>
+                    {lesson.philosophyLabel}
+                  </span>
+                  <span className="font-cormorant-sc" style={{ fontSize: "0.92rem", fontWeight: 700, color: "var(--ink)", letterSpacing: "0.02em", lineHeight: 1.25 }}>
+                    {lesson.title}
+                  </span>
+                  <span style={{ fontSize: "0.7rem", color: "var(--text-tertiary)", marginTop: "auto" }}>
+                    {lesson.grade === "K" ? "Kindergarten" : `Grade ${lesson.grade}`} · {lesson.subject}
+                  </span>
+                </Link>
+              );
+            })}
+          </div>
+
+          <div style={{ textAlign: "center", marginTop: "2.25rem" }}>
+            <Link
+              href="/compass/lessons"
+              style={{
+                fontSize: "0.92rem",
+                color: "var(--accent-primary)",
+                textDecoration: "none",
+                fontWeight: 500,
+                marginRight: "1.25rem",
+              }}
+            >
+              Open the gallery →
+            </Link>
+            <TrackedLink
+              href="/create"
+              event="homepage_primary_cta_clicked"
+              eventProps={{ position: "samples_strip" }}
+              className="btn-night"
+              style={{ fontSize: "0.9rem", padding: "0.65rem 1.4rem", borderRadius: "10px" }}
+            >
+              Create Your Own
+            </TrackedLink>
+          </div>
+        </div>
+      </section>
+
       {/* ── Section 6: Full-width image ─────────────────────────────────── */}
       <section style={{ padding: "2rem 0", display: "flex", justifyContent: "center", overflow: "hidden" }}>
         <img
@@ -715,7 +929,7 @@ export default function Home() {
         <PricingSection />
       </div>
 
-      {/* ── Section 9: Final CTA ───────────────────────────────────────── */}
+      {/* ── Section 9: Final CTA (lesson-primary) ──────────────────────── */}
       <section style={{ padding: "6rem 1.5rem", textAlign: "center" }}>
         <div style={{ maxWidth: "600px", margin: "0 auto" }}>
           <h2 className="font-cormorant-sc" style={{ fontSize: "2.2rem", fontWeight: 700, letterSpacing: "0.05em", color: "var(--ink)", lineHeight: 1.3, marginBottom: "1.25rem" }}>
@@ -723,24 +937,34 @@ export default function Home() {
             <br />You don&apos;t have to anymore.
           </h2>
           <p className="font-cormorant" style={{ fontSize: "1.15rem", fontStyle: "italic", color: "var(--text-secondary)", marginBottom: "2rem", lineHeight: 1.6 }}>
-            Take the free Compass Assessment. Find your teaching archetype. Create your first lesson in two minutes.
+            Type a topic. Get a complete, philosophy-aligned lesson in two minutes — and let the Compass shape it to match how you teach.
           </p>
           <TrackedLink
-            href="/compass"
+            href="/create"
             event="homepage_primary_cta_clicked"
             eventProps={{ position: "final" }}
             className="btn-night"
             style={{ fontSize: "1.05rem", padding: "0.9rem 2.5rem", borderRadius: "12px" }}
           >
-            Take the Compass Assessment — It&apos;s Free
+            Create Your First Lesson — Free
           </TrackedLink>
           <p style={{ fontSize: "0.78rem", color: "var(--text-tertiary)", marginTop: "0.75rem" }}>
-            5 minutes · No credit card · Discover your archetype
+            Two minutes · No signup for your first lesson · Any philosophy
           </p>
-          <p style={{ fontSize: "0.75rem", color: "var(--text-tertiary)", marginTop: "0.5rem" }}>
-            Already know your philosophy?{" "}
-            <Link href="/create" style={{ color: "var(--accent-primary)" }}>
-              Create a Lesson →
+          <p style={{ fontSize: "0.8rem", color: "var(--text-tertiary)", marginTop: "0.65rem" }}>
+            Want it matched to your style?{" "}
+            <TrackedLink
+              href="/compass"
+              event="homepage_compass_secondary_cta_clicked"
+              eventProps={{ position: "final" }}
+              style={{ color: "var(--accent-primary)", fontWeight: 500, textDecoration: "none" }}
+            >
+              Take the 5-min Compass →
+            </TrackedLink>
+          </p>
+          <p style={{ fontSize: "0.75rem", color: "var(--text-tertiary)", marginTop: "0.45rem" }}>
+            <Link href="/compass/lessons" style={{ color: "var(--accent-primary)", textDecoration: "none" }}>
+              Browse sample lessons →
             </Link>
           </p>
         </div>
@@ -754,7 +978,7 @@ export default function Home() {
               The Sage&apos;s Compass
             </div>
             <p style={{ fontSize: "0.82rem", color: "rgba(249,246,239,0.6)", lineHeight: 1.6, maxWidth: "260px" }}>
-              Custom curriculum for homeschool families — matched to your philosophy, your child&apos;s curiosity, and your state&apos;s standards.
+              Custom lessons for educators of every kind — matched to your philosophy, the kids you teach, and your state&apos;s standards.
             </p>
           </div>
           <div>
