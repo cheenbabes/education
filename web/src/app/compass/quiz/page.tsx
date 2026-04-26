@@ -117,7 +117,14 @@ function QuizPageInner() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [skipToP2]);
 
-  // Resume after auth: restore part1 answers, re-score, jump to compass-reveal
+  // Restore the reveal screen on mount when ?resume=true is in the URL.
+  // We use this for two flows:
+  //   1. Post-auth resume (legacy — gate removed but key kept for symmetry).
+  //   2. Browser back-button from /compass/lessons or /curriculum into the
+  //      reveal page. We replaceState `?resume=true` when entering reveal so
+  //      a back-nav lands here and the effect restores the prior screen.
+  // We intentionally do NOT remove sessionStorage after restore — the user
+  // may navigate to lessons + back multiple times.
   useEffect(() => {
     if (!resuming) return;
     try {
@@ -128,7 +135,6 @@ function QuizPageInner() {
         const result = scoreCompass(answers);
         setCompassResult(result);
         setPhase("compass-reveal");
-        sessionStorage.removeItem("compass_part1_answers");
       }
     } catch { /* ignore */ }
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -205,6 +211,19 @@ function QuizPageInner() {
           setCompassResult(result);
           setPhase("compass-reveal");
           window.scrollTo({ top: 0, behavior: "smooth" });
+
+          // Persist for back-button restore. The reveal page now has two
+          // outbound links (sample lessons + curricula). Without this, hitting
+          // browser-back from either lands on /compass/quiz with fresh state
+          // — i.e. Q1 — losing the user's place. We stash the answers in
+          // sessionStorage and rewrite the URL to ?resume=true so the existing
+          // resume effect restores the reveal screen on back-nav.
+          try {
+            sessionStorage.setItem("compass_part1_answers", JSON.stringify(newAnswers));
+            const next = `${window.location.pathname}?resume=true`;
+            window.history.replaceState(null, "", next);
+          } catch { /* ignore — restore just won't fire */ }
+
           track("compass_part1_completed", {
             signed_in: !!isSignedIn,
             archetype: result.archetype.id,
