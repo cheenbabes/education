@@ -12,6 +12,7 @@ const isPublicRoute = createRouteMatcher([
   "/privacy",
   "/terms",
   "/data-deletion",
+  "/curriculum(.*)",       // public: full curriculum browser linked from compass results
   "/curriculum-review",
   "/api/webhooks/(.*)",
   "/api/contact",
