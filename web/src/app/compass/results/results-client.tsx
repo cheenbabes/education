@@ -372,13 +372,17 @@ function ResultsPageInner() {
           </div>
 
           <div className="text-center space-y-3">
-            {/* Primary archetype illustration. The secondary tool used to sit
-                beside this image (architect + watering can in one row), but
-                users couldn't tell which icon represented the secondary
-                tendency. We now place the secondary tool below the
-                "with X tendencies" label so the visual / textual association
-                is unambiguous. */}
-            <div className="flex items-end justify-center overflow-hidden px-4">
+            {/* Primary archetype illustration. The share-icon strip is
+                absolutely-positioned in the top-right corner, so flex
+                `justify-center` centers the figure relative to the card —
+                but visually it reads as off-center because the share strip
+                pulls weight to the right. Mirror the share strip's footprint
+                with matching left padding so the figure sits in the optical
+                center of the visible content area. */}
+            <div
+              className="flex items-end justify-center overflow-hidden"
+              style={{ paddingLeft: "3.5rem", paddingRight: "3.5rem" }}
+            >
               <Image
                 src={archetype.resultsImagePath}
                 alt={archetype.name}
@@ -396,28 +400,53 @@ function ResultsPageInner() {
               You&apos;re {archetype.name}
             </h2>
             {secondaryArchetype && (
-              <>
-                <p
-                  className="text-sm font-semibold"
-                  style={{ color: secondaryArchetype.color, marginTop: "0.15rem" }}
-                >
-                  with {secondaryArchetype.name} tendencies
-                </p>
-                <Image
-                  src={secondaryArchetype.toolPath}
-                  alt={secondaryArchetype.name}
-                  width={88}
-                  height={88}
-                  className="object-contain mx-auto"
-                  style={{ height: "auto", maxHeight: "88px", width: "auto", marginTop: "0.25rem" }}
-                />
-              </>
+              <p
+                className="text-sm font-semibold"
+                style={{ color: secondaryArchetype.color, marginTop: "0.15rem" }}
+              >
+                with {secondaryArchetype.name} tendencies
+              </p>
             )}
           </div>
 
-          <p className="font-cormorant text-center mx-auto" style={{ fontSize: "1rem", fontStyle: "italic", lineHeight: 1.6, color: "var(--text-secondary)", maxWidth: "480px" }}>
-            {archetype.description}
-          </p>
+          {/* Description paragraph. When there's a secondary archetype, its
+              tool sits inline-left of the paragraph so the icon visually
+              leads INTO the description — pairing the secondary identity
+              with the prose that explains the blend. On narrow viewports
+              we still keep the icon + text in a flex row (icon stays small)
+              rather than stacking, so the visual association doesn't break. */}
+          <div
+            className={
+              secondaryArchetype
+                ? "flex items-start gap-3 mx-auto"
+                : "mx-auto"
+            }
+            style={{ maxWidth: "520px" }}
+          >
+            {secondaryArchetype && (
+              <Image
+                src={secondaryArchetype.toolPath}
+                alt={secondaryArchetype.name}
+                width={72}
+                height={72}
+                className="object-contain shrink-0"
+                style={{ height: "auto", maxHeight: "72px", width: "auto", marginTop: "0.15rem" }}
+              />
+            )}
+            <p
+              className="font-cormorant"
+              style={{
+                fontSize: "1rem",
+                fontStyle: "italic",
+                lineHeight: 1.6,
+                color: "var(--text-secondary)",
+                margin: 0,
+                textAlign: secondaryArchetype ? "left" : "center",
+              }}
+            >
+              {archetype.description}
+            </p>
+          </div>
 
           {secondaryArchetype && (
             <div className="pt-3" style={{ borderTop: "1px solid rgba(0,0,0,0.07)" }}>
