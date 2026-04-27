@@ -43,19 +43,6 @@ export default function Home() {
 
           {/* Left column — desktop: text + CTA stack + lesson sample */}
           <div className="hero-left">
-            <p className="hero-kicker" style={{
-              fontFamily: "'Inter', sans-serif",
-              fontSize: "0.75rem",
-              fontWeight: 600,
-              letterSpacing: "0.12em",
-              textTransform: "uppercase",
-              color: "var(--accent-primary)",
-              whiteSpace: "normal",
-              margin: 0,
-            }}>
-              Designed by a Master Educator. Built for the Way You Teach.
-            </p>
-
             <h1 className="hero-headline font-cormorant-sc" style={{
               fontSize: "clamp(2.2rem, 4vw, 3.4rem)",
               fontWeight: 700,
@@ -64,7 +51,7 @@ export default function Home() {
               color: "var(--ink)",
               margin: 0,
             }}>
-              Lessons shaped to how you teach. And who you teach.
+              Designed by a Master Educator. Built for the Way You Teach.
             </h1>
 
             <p className="hero-subhead-desktop font-cormorant" style={{
@@ -74,7 +61,7 @@ export default function Home() {
               lineHeight: 1.6,
               margin: 0,
             }}>
-              Type a topic, get a complete, standards-aligned lesson rooted in your philosophy — Montessori, Charlotte Mason, Classical, and more — in two minutes.
+              Create a lesson in two minutes. Any topic. Any philosophy.
             </p>
 
             <p className="hero-subhead-mobile font-cormorant" style={{
@@ -84,7 +71,7 @@ export default function Home() {
               lineHeight: 1.55,
               margin: 0,
             }}>
-              Two minutes. Any philosophy. Any topic.
+              Create a lesson in two minutes. Any topic. Any philosophy.
             </p>
 
             {/* Lesson sample artifact — on desktop sits below CTA; on mobile reorders above CTA */}
