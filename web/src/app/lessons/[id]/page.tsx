@@ -220,6 +220,13 @@ export default function LessonDetailPage() {
   const [scheduling, setScheduling] = useState(false);
   const mafsRefs = useRef<Record<string, Record<number, string>>>({});
 
+  // Default the date input to today (in the user's local timezone). Set in
+  // an effect rather than useState's initializer so SSR doesn't render a
+  // server-local date that mismatches the client.
+  useEffect(() => {
+    setScheduleDate(new Date().toLocaleDateString("en-CA"));
+  }, []);
+
   const handleSchedule = async () => {
     if (!lesson || !scheduleDate) return;
     setScheduling(true);
@@ -233,7 +240,7 @@ export default function LessonDetailPage() {
         ...prev,
         calendarEntries: [...prev.calendarEntries, { scheduledDate: scheduleDate + "T12:00:00" }],
       } : prev);
-      setScheduleDate("");
+      setScheduleDate(new Date().toLocaleDateString("en-CA"));
     } finally {
       setScheduling(false);
     }
