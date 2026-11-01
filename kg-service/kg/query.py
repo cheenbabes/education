@@ -18,7 +18,10 @@ def _get_db() -> kuzu.Database:
     if _db_instance is None:
         with _db_lock:
             if _db_instance is None:
-                _db_instance = kuzu.Database(str(settings.kuzu_db_path))
+                _db_instance = kuzu.Database(
+                    str(settings.kuzu_db_path),
+                    buffer_pool_size=settings.kuzu_buffer_pool_mb * 1024 * 1024,
+                )
     return _db_instance
 
 def _get_connection() -> kuzu.Connection:

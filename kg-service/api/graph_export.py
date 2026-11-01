@@ -1,15 +1,15 @@
 """Export full graph data for the constellation visualization."""
 
 from fastapi import APIRouter
-import kuzu
-from config import settings
+from kg.query import _get_connection
 
 router = APIRouter()
 
 @router.get("/graph-export")
 async def graph_export():
-    db = kuzu.Database(str(settings.kuzu_db_path), read_only=True)
-    conn = kuzu.Connection(db)
+    # Reuse the shared Database: opening a new one per request allocates
+    # a second buffer pool.
+    conn = _get_connection()
 
     # Philosophies
     r = conn.execute("MATCH (p:Philosophy) RETURN DISTINCT p.name, p.description")

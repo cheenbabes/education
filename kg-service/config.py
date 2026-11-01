@@ -28,6 +28,9 @@ class Settings(BaseSettings):
     # Paths
     docs_root: Path = Path(__file__).resolve().parent.parent / "docs" / "philosophy-references"
     kuzu_db_path: Path = Path(__file__).resolve().parent / "db"
+    # Kuzu's default buffer pool is 80% of the host's RAM, which on Railway
+    # means the service idles at ~1.5 GB. The whole db is ~75 MB on disk.
+    kuzu_buffer_pool_mb: int = 128
     extracted_path: Path = Path(__file__).resolve().parent / "extracted"
 
     model_config = {
